@@ -14,13 +14,40 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
+from django_registration.backends.one_step.views import RegistrationView
+
+from core.views import IndexTemplateView
+from profiles.forms import UserForm
+
+#https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("",
-        TemplateView.as_view(template_name="index.html"),
-        name="app",
-    ),
+    path("admin/", admin.site.urls),
+    path("accounts/register/",
+        RegistrationView.as_view(
+            form_class=UserForm,
+            success_url="/",
+            ), name="django_registration_register"),
+    path("accounts/", include("django_registration.backends.one_step.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("api/", include("profiles.api.urls")),
+    path("api/", include("papers.api.urls")),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/rest-auth/", include("rest_auth.urls")),
+    path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
+    # re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"), 
+
+    # path("",
+    #     TemplateView.as_view(template_name="index.html"),
+    #     name="app",
+    # ),
 ]
+
+from django.conf.urls.static import static
+from django.conf import settings
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
