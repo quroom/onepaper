@@ -1,5 +1,5 @@
 from django.db import models
-from profiles.models import Profile
+from django.contrib.auth.models import User
 
 
 class Paper(models.Model):
@@ -31,7 +31,7 @@ class Paper(models.Model):
         (STORE, '상가'),
         (LAND, '토지'),
     )
-    
+
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
     RENT = 1
     DEPOSIT_LOAN = 2
@@ -59,8 +59,10 @@ class Paper(models.Model):
     building_structure = models.CharField(max_length=100)
     building_type = models.CharField(max_length=100)
     building_area = models.SmallIntegerField(default=0, blank=True)
-
-    is_author_seller = models.NullBooleanField()
+    author = models.ForeignKey(User,
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL,
+                               related_name="author_papers")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=50)
@@ -69,24 +71,25 @@ class Paper(models.Model):
     address = models.CharField(max_length=250)
     realestate_type = models.PositiveSmallIntegerField(
         choices=ITEM_TYPE, default=ONE_ROOM)
-    security_deposit = models.BigIntegerField(default=0, blank=True)
-    down_payment = models.BigIntegerField(default=0, blank=True)
-    monthly_fee = models.PositiveIntegerField(default=0, blank=True)
-    maintenance_fee = models.PositiveIntegerField(default=0, blank=True)
+    security_deposit = models.BigIntegerField(null=True, blank=True)
+    down_payment = models.BigIntegerField(null=True, blank=True)
+    monthly_fee = models.PositiveIntegerField(null=True, blank=True)
+    maintenance_fee = models.PositiveIntegerField(null=True, blank=True)
     special_agreement = models.TextField(blank=True)
-    expert = models.ForeignKey(Profile,
+    expert = models.ForeignKey(User,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="experts_papers")
-    seller = models.ManyToManyField(Profile,
+    seller = models.ManyToManyField(User,
                                     related_name="sellers_papers")
-    buyer = models.ManyToManyField(Profile,
+    buyer = models.ManyToManyField(User,
                                    related_name="buyers_papers")
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
-        return self.title
+        return self.title + self.seller + self.buyer + self.created_at
+
 
 class PaperTemplate(Paper):
     pass

@@ -7,7 +7,10 @@ from ipware import get_client_ip
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,
+                                blank=True, null=True,
+                                on_delete=models.SET_NULL,
+                                unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150, blank=True)
@@ -21,13 +24,14 @@ class Profile(models.Model):
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
-    bio = models.CharField(max_length=240, blank=True)    
-    
+    bio = models.CharField(max_length=240, blank=True)
+
     def __str__(self):
         return self.user.username
 
+
 @receiver(user_logged_in, sender=User)
 def post_login(sender, user, request, **kwargs):
-    client_ip , is_routable = get_client_ip(request)
+    client_ip, is_routable = get_client_ip(request)
     user.profile.ip_address = client_ip
     user.profile.save()
