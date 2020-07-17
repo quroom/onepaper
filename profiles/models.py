@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from ipware import get_client_ip
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User,
                                 blank=True, null=True,
@@ -17,7 +16,6 @@ class Profile(models.Model):
     birthday = models.DateField(null=True, blank=True)
     mobile_number = PhoneNumberField(blank=True)
     address = models.CharField(max_length=200, blank=True)
-    signature = models.ImageField(null=True, blank=True)
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
     ip_address = models.GenericIPAddressField(null=True)
@@ -29,6 +27,17 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Expert(models.Model):
+    profile = models.OneToOneField(Profile,
+                                blank=True, null=True,
+                                on_delete=models.SET_NULL,
+                                related_name="expert"
+                                )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    register_number = models.CharField(max_length=45, blank=True)
+    shop_name = models.CharField(max_length=100, blank=True)
+    shop_address = models.CharField(max_length=200, blank=True)
 
 @receiver(user_logged_in, sender=User)
 def post_login(sender, user, request, **kwargs):

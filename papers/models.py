@@ -38,18 +38,18 @@ class Paper(models.Model):
     TRADE = 3
     EXCAHNGE = 4
     TRADE_TYPE = (
-        (TRADE, '매매'),
-        (DEPOSIT_LOAN, '전세'),
         (RENT, '월세'),
+        (DEPOSIT_LOAN, '전세'),
+        (TRADE, '매매'),
         (EXCAHNGE, '교환'),
     )
 
-    DONE = 1
-    DRAFT = 2
+    DRAFT = 1
+    DONE = 2
     HIDDEN = 3
     STATUS_TYPE = (
-        (DONE, '완료'),
         (DRAFT, '작성중'),
+        (DONE, '완료'),
         (HIDDEN, '숨김')
     )
 
@@ -59,6 +59,7 @@ class Paper(models.Model):
     building_structure = models.CharField(max_length=100)
     building_type = models.CharField(max_length=100)
     building_area = models.SmallIntegerField(default=0, blank=True)
+
     author = models.ForeignKey(User,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
@@ -79,17 +80,22 @@ class Paper(models.Model):
     expert = models.ForeignKey(User,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
-                               related_name="experts_papers")
-    seller = models.ManyToManyField(User,
-                                    related_name="sellers_papers")
-    buyer = models.ManyToManyField(User,
-                                   related_name="buyers_papers")
+                               related_name="expert_papers")
+    seller = models.ForeignKey(User,
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL,
+                               related_name="seller_papers")
+    buyer = models.ForeignKey(User,
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL,
+                              related_name="buyer_papers")                              
+    seller_signature = models.ImageField(null=True, blank=True)
+    buyer_signature = models.ImageField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
-        return self.title + self.seller + self.buyer + self.created_at
-
+        return self.title
 
 class PaperTemplate(Paper):
     pass
