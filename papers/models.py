@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from profiles.models import Profile
 
 class Paper(models.Model):
     ONE_ROOM = 1
@@ -77,25 +77,24 @@ class Paper(models.Model):
     monthly_fee = models.PositiveIntegerField(null=True, blank=True)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True)
     special_agreement = models.TextField(blank=True)
-    expert = models.ForeignKey(User,
+    expert = models.ForeignKey(Profile,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="expert_papers")
-    seller = models.ForeignKey(User,
+    seller = models.ForeignKey(Profile,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="seller_papers")
-    buyer = models.ForeignKey(User,
+    buyer = models.ForeignKey(Profile,
                               null=True, blank=True,
                               on_delete=models.SET_NULL,
-                              related_name="buyer_papers")                              
+                              related_name="buyer_papers")
+    expert_signature = models.ImageField(null=True, blank=True)
     seller_signature = models.ImageField(null=True, blank=True)
     buyer_signature = models.ImageField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
+    password = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title
-
-class PaperTemplate(Paper):
-    pass

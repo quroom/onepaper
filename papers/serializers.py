@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from profiles.serializers import ExpertSerializer, ProfileSerializer
+from profiles.serializers import ProfileSerializer
 from papers.models import Paper
 
 class PaperSerializer(serializers.ModelSerializer):
@@ -14,18 +14,18 @@ class PaperSerializer(serializers.ModelSerializer):
 
     def get_expert_profile(self, obj):
         if obj.expert != None:
-            return ExpertSerializer(obj.expert.profile.expert).data
+            return ProfileSerializer(obj.expert).data
         else:
             return None
 
     def get_buyer_profile(self, obj):
         if obj.buyer != None:
-            return ProfileSerializer(obj.buyer.profile).data
+            return ProfileSerializer(obj.buyer).data
         else:
             return None
 
     def get_seller_profile(self, obj):
         if obj.seller != None:
-            return ProfileSerializer(obj.seller.profile).data
+            return ProfileSerializer(obj.seller).data
         else:
             return None
