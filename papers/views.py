@@ -19,7 +19,7 @@ class PaperViewset(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         # queryset = Paper.objects.filter(expert__user=self.request.user)
-        # FIX: Call list function by kwargs like by expert , seller, buyer filter.
+        # FIX: Call list function by each user type like expert, seller, buyer filter.
         queryset = Paper.objects.filter(Q(author=self.request.user) | Q(expert__user=self.request.user) | Q(seller__user=self.request.user) | Q(buyer__user=self.request.user)).distinct()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
