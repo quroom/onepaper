@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import CustomUser
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -24,7 +24,7 @@ class ProfileViewSetTestCase(APITestCase):
     list_url = reverse("profile-list")
 
     def setUp(self):
-        self.user = User.objects.create_user(username="davinci",
+        self.user = CustomUser.objects.create_user(username="davinci",
                                              password="some_strong_password")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()

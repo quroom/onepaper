@@ -1,30 +1,30 @@
 from django.http import JsonResponse
 from rest_framework import serializers
-from profiles.models import Expert, Profile
-import re
+from profiles.models import CustomUser, Profile
 
-class ExpertSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
+    ip_address = serializers.IPAddressField(read_only=True)
+
     class Meta:
-        model = Expert
-        exclude = ["profile"]
+        model = CustomUser
+        fields = ['username', 'email', 'ip_address', 'average_response_time',
+                  'response_rate', 'contract_success_rate', 'bio', 'used_count',]
+        read_only_fields = ('username', 'ip_address', 'average_response_time',
+                  'response_rate', 'contract_success_rate', 'bio', 'used_count')
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
-    ip_address = serializers.IPAddressField(read_only=True)
-    average_response_time = serializers.FloatField(read_only=True)
-    response_rate = serializers.FloatField(read_only=True)
-    contract_success_rate = serializers.FloatField(read_only=True)
-    average_response_time = serializers.FloatField(read_only=True)
-    expert = serializers.SerializerMethodField()
-
+    user = serializers.SerializerMethodField()
     # signature = serializers.ImageField(read_only=True)
 
     class Meta:
         model = Profile
-        fields = "__all__"
+        fields = '__all__'
+        read_only_fields = ('used_count',)
 
-    def get_expert(self, obj):
-        try:
-            return ExpertSerializer(obj.expert).data
-        except Expert.DoesNotExist:
-            pass
+    def get_user(self, obj):
+        return CustomUserSerializer(obj.user).data
+
+class ProfileUnauthorizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['profile_name']

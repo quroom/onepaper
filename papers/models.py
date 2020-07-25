@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from profiles.models import Profile
+from profiles.models import CustomUser, Profile
 
 class Paper(models.Model):
     ONE_ROOM = 1
@@ -9,10 +8,12 @@ class Paper(models.Model):
     FOUR_ROOM = 4
     SHARE_HOUSE = 5
     OFFICE_TEL = 6
+
     APARTMENT = 20
     VILLA = 21
     HOUSE = 22
     COMMERCIAL_HOUSE = 23
+
     STORE = 40
     LAND = 41
     ITEM_TYPE = (
@@ -44,9 +45,9 @@ class Paper(models.Model):
         (EXCAHNGE, '교환'),
     )
 
-    DRAFT = 1
-    DONE = 2
-    HIDDEN = 3
+    DRAFT = 0
+    DONE = 1
+    HIDDEN = 2
     STATUS_TYPE = (
         (DRAFT, '작성중'),
         (DONE, '완료'),
@@ -60,7 +61,7 @@ class Paper(models.Model):
     building_type = models.CharField(max_length=100)
     building_area = models.SmallIntegerField(default=0, blank=True)
 
-    author = models.ForeignKey(User,
+    author = models.ForeignKey(CustomUser,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="author_papers")
@@ -72,10 +73,12 @@ class Paper(models.Model):
     address = models.CharField(max_length=250)
     realestate_type = models.PositiveSmallIntegerField(
         choices=ITEM_TYPE, default=ONE_ROOM)
-    security_deposit = models.BigIntegerField(null=True, blank=True)
     down_payment = models.BigIntegerField(null=True, blank=True)
-    monthly_fee = models.PositiveIntegerField(null=True, blank=True)
-    maintenance_fee = models.PositiveIntegerField(null=True, blank=True)
+    security_deposit = models.BigIntegerField()
+    monthly_fee = models.PositiveIntegerField()
+    maintenance_fee = models.PositiveIntegerField()
+    from_date = models.DateField()
+    to_date = models.DateField()
     special_agreement = models.TextField(blank=True)
     expert = models.ForeignKey(Profile,
                                null=True, blank=True,
@@ -89,12 +92,18 @@ class Paper(models.Model):
                               null=True, blank=True,
                               on_delete=models.SET_NULL,
                               related_name="buyer_papers")
-    expert_signature = models.ImageField(null=True, blank=True)
-    seller_signature = models.ImageField(null=True, blank=True)
-    buyer_signature = models.ImageField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.title
+
+class Signature(models.Model):
+    paper = models.OneToOneField(Paper,
+                                 on_delete=models.CASCADE,
+                                 related_name="paper_signatures")
+    profile = models.OneToOneField(Profile,
+                                on_delete=models.CASCADE,
+                                related_name="profile_signatues")
+    signature = models.ImageField()
