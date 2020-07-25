@@ -144,6 +144,8 @@ LOGOUT_REDIRECT_URL = "/"
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL = "profiles.CustomUser"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "uploads"
 
