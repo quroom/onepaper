@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from profiles.models import CustomUser, Profile
-
 from profiles.serializers import CustomUserSerializer, ProfileUnauthorizationSerializer, ExpertProfileSerializer, ProfileSerializer
 from profiles.permissions import IsOwner
 
@@ -55,4 +54,8 @@ class ProfileViewset(ModelViewSet):
             instance = self.get_object()
             if instance.user.is_expert == True:
                 return [IsAuthenticated(), ExpertProfileSerializer()]
+<<<<<<< HEAD
         return super(ProfileViewset).get_permissions()
+=======
+        return super(ProfileViewset).get_permissions()
+>>>>>>> 25086e5cdde857590ab26e0b81b4ef2a1c5830f5
