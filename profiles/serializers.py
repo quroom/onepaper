@@ -8,9 +8,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'ip_address', 'average_response_time',
-                  'response_rate', 'contract_success_rate', 'bio', 'used_count',]
+                  'response_rate', 'contract_success_rate', 'bio', 'used_count', 'is_expert']
         read_only_fields = ('username', 'ip_address', 'average_response_time',
-                  'response_rate', 'contract_success_rate', 'bio', 'used_count')
+                  'response_rate', 'contract_success_rate', 'bio', 'used_count', 'is_expert')
+
+class ExpertProfileSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        exclude = ['address']
+        read_only_fields = ('used_count',)
+
+    def get_user(self, obj):
+        return CustomUserSerializer(obj.user).data
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
@@ -18,7 +29,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        exclude = ['shop_name', 'shop_address', 'register_number']
         read_only_fields = ('used_count',)
 
     def get_user(self, obj):
