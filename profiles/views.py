@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from profiles.models import CustomUser, Profile
-from profiles.serializers import CustomUserSerializer, ProfileUnauthorizationSerializer, ProfileSerializer
+from profiles.serializers import CustomUserSerializer, ProfileUnauthorizationSerializer, ExpertProfileSerializer, ProfileSerializer
 from profiles.permissions import IsOwner
 
 class CustomUserViewset(ModelViewSet):
@@ -48,3 +48,10 @@ class ProfileViewset(ModelViewSet):
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    def get_permissions(self):
+        if self.action in ['create', 'retrieve', 'update', 'partial_update', 'destroy']:
+            instance = self.get_object()
+            if instance.user.is_expert == True:
+                return [IsAuthenticated(), ExpertProfileSerializer()]
+        return super(ProfileViewset).get_permissions()
