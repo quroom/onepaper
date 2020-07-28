@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     ip_address = models.GenericIPAddressField(null=True)
     #Null=Request expert. True=Expert. False=General User
-    is_expert = models.NullBooleanField(blank=True, default=False)
+    request_expert = models.BooleanField(blank=True, default=False)
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
@@ -22,7 +22,9 @@ class Profile(models.Model):
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name="profiles")
-    authorization_users = models.ManyToManyField(CustomUser, blank=True)
+    authorization_users = models.ManyToManyField(CustomUser,
+                                                 blank=True,
+                                                 related_name="auth_profiles")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_name = models.CharField(max_length=50, blank=False)
@@ -44,6 +46,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username + ":" + str(self.profile_name) + ""
 
+class ExpertAuth(models.Model):
+    user = models.OneToOneField(CustomUser,
+                                on_delete=models.CASCADE,
+                                related_name="expert_auth")
+    is_expert = models.BooleanField()
 
 @receiver(user_logged_in, sender=CustomUser)
 def post_login(sender, user, request, **kwargs):

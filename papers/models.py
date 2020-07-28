@@ -94,12 +94,14 @@ class Paper(models.Model):
                               related_name="buyer_papers")
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
-    password = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.title
 
 class Signature(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_paper_visible = models.BooleanField(default=True)
     paper = models.OneToOneField(Paper,
                                  on_delete=models.CASCADE,
                                  related_name="paper_signatures")

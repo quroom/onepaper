@@ -14,11 +14,22 @@ class PaperViewset(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         # FIX: Make destory function works well.
-        # instance = self.get_object()
-        # if instance.seller_signature == None\
-        #    and instance.buyer_signature == None:
-        #         self.perform_destroy(instance)
-        #         return Response(status=status.HTTP_204_NO_CONTENT)
+        instance = self.get_object()
+        expert_signatures = getattr(instance.expert, 'profile_signatures')
+        seller_signatures = getattr(instance.seller, 'profile_signatures')
+        buyer_signatures = getattr(instance.buyer, 'profile_signatures')
+
+        if expert_signatures == None and \
+            seller_signatures == None and \
+            buyer_signatures == None:
+                self.perform_destroy(instance)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            if expert_signatures.filter(paper=instance).count() == 0 and \
+                seller_signatures.filter(paper=instance).count() == 0 and \
+                buyer_signatures.filter(paper=instance).count() == 0:
+                    self.perform_destroy(instance)
+                    return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def list(self, request, *args, **kwargs):
@@ -37,6 +48,6 @@ class PaperViewset(ModelViewSet):
         return Response(serializer.data)
     
     def get_permissions(self):
-        if self.action == 'update' or self.action == "partial_update" or self.action == "destroy":
+        if self.action in ['update', "partial_update", "destroy"]:
             return [IsAuthenticated(), IsAuthor()]
         return super(PaperViewset, self).get_permissions()

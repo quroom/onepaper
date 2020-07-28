@@ -1,9 +1,17 @@
 from django.http import JsonResponse
 from rest_framework import serializers
-from profiles.models import CustomUser, Profile
+from profiles.models import CustomUser, ExpertAuth, Profile
 
 class CustomUserSerializer(serializers.ModelSerializer):
     ip_address = serializers.IPAddressField(read_only=True)
+    is_expert = serializers.SerializerMethodField()
+
+    def get_is_expert(self, obj):
+        expert_auth = getattr(obj, 'expert_auth', None)
+        if expert_auth is None:
+            return None
+        else:
+            return ExpertAuthSerializer(expert_auth).data
 
     class Meta:
         model = CustomUser
@@ -35,7 +43,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_user(self, obj):
         return CustomUserSerializer(obj.user).data
 
-class ProfileUnauthorizationSerializer(serializers.ModelSerializer):
+class ProfileNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['profile_name']
+        fields = ['id', 'profile_name']
+
+class ExpertAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExpertAuth
+        fields = '__all__'

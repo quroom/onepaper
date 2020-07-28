@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from profiles.models import CustomUser, Profile
-from profiles.serializers import CustomUserSerializer, ProfileUnauthorizationSerializer, ExpertProfileSerializer, ProfileSerializer
+from profiles.models import CustomUser, ExpertAuth, Profile
+from profiles.serializers import CustomUserSerializer, ExpertProfileSerializer, ProfileSerializer
 from profiles.permissions import IsOwner
 
 class CustomUserViewset(ModelViewSet):
@@ -20,10 +20,10 @@ class CustomUserViewset(ModelViewSet):
     def list(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-class ProfileViewset(ModelViewSet):
+class CurrentProfileViewset(ModelViewSet):
     queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+    serializer_class = ProfileSerializer
 
     # def destroy(self, request, *args, **kwargs):
     #     instance = self.get_object()
@@ -50,12 +50,16 @@ class ProfileViewset(ModelViewSet):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     def get_permissions(self):
-        if self.action in ['create', 'retrieve', 'update', 'partial_update', 'destroy']:
+        if self.action in ['retrieve', 'update', 'partial_update', 'destroy']:
             instance = self.get_object()
             if instance.user.is_expert == True:
                 return [IsAuthenticated(), ExpertProfileSerializer()]
-<<<<<<< HEAD
-        return super(ProfileViewset).get_permissions()
-=======
-        return super(ProfileViewset).get_permissions()
->>>>>>> 25086e5cdde857590ab26e0b81b4ef2a1c5830f5
+        return super(CurrentProfileViewset, self).get_permissions()
+
+class AuthedProfileList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        queryset = request.user.auth_profiles.all()
+        serializer = ProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
