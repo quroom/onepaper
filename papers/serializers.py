@@ -17,24 +17,20 @@ class PaperSerializer(serializers.ModelSerializer):
         user = kwargs['context']['request'].user
 
         super(PaperSerializer, self).__init__(*args, **kwargs)
-        self.fields['expert'].queryset = Expert.objects.filter(profile__authorization_users=user)
-        authorization_users = Profile.objects.filter(authorization_users=user)
-        self.fields['seller'].queryset = authorization_users
-        self.fields['buyer'].queryset = authorization_users
+        authorization_user_profiles = Profile.objects.filter(authorization_users=user)
+        self.fields['expert'].queryset = authorization_user_profiles.filter(expert__isnull=False)
+        self.fields['seller'].queryset = authorization_user_profiles
+        self.fields['buyer'].queryset = authorization_user_profiles
 
     def get_expert_profile(self, obj):
-        profile = getattr(obj.expert, 'profile', None)
-        if profile is None:
+        expert_auth_users = getattr(obj.expert, 'authorization_users', None)
+        if expert_auth_users is None:
             return None
         else:
-            expert_auth_users = getattr(profile, 'authorization_users', None)
-            if expert_auth_users is None:
-                return None
+            if obj.author in expert_auth_users.all():
+                return GeneralProfileSerializer(obj.expert).data
             else:
-                if obj.author in expert_auth_users.all():
-                    return GeneralProfileSerializer(obj.expert.profile).data
-                else:
-                    return ProfileNameSerializer(obj.expert.profile).data
+                return ProfileNameSerializer(obj.expert).data
 
     def get_buyer_profile(self, obj):        
         buyer_auth_users = getattr(obj.buyer, 'authorization_users', None)

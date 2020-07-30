@@ -80,7 +80,7 @@ class Paper(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     special_agreement = models.TextField(blank=True)
-    expert = models.ForeignKey(Expert,
+    expert = models.ForeignKey(Profile,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="expert_papers")
