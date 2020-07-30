@@ -1,5 +1,5 @@
 from django.db import models
-from profiles.models import CustomUser, Profile
+from profiles.models import CustomUser, Expert, Profile
 
 class Paper(models.Model):
     ONE_ROOM = 1
@@ -80,7 +80,7 @@ class Paper(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     special_agreement = models.TextField(blank=True)
-    expert = models.ForeignKey(Profile,
+    expert = models.ForeignKey(Expert,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="expert_papers")

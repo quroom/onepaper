@@ -1,10 +1,12 @@
+from django.core.exceptions import ValidationError
 from django.db.models import Q
-from rest_framework import status
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from papers.models import Paper
-from papers.serializers import PaperSerializer
+from papers.models import Paper, Signature
+from papers.serializers import PaperSerializer, SignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations
 
 class PaperViewset(ModelViewSet):
@@ -35,7 +37,7 @@ class PaperViewset(ModelViewSet):
     def list(self, request, *args, **kwargs):
         # queryset = Paper.objects.filter(expert__user=self.request.user)
         # FIX: Call list function by each user type like expert, seller, buyer filter.
-        queryset = Paper.objects.filter(Q(author=self.request.user) | Q(expert__user=self.request.user) | Q(seller__user=self.request.user) | Q(buyer__user=self.request.user)).distinct()
+        queryset = Paper.objects.filter(Q(author=self.request.user) | Q(expert__profile__user=self.request.user) | Q(seller__user=self.request.user) | Q(buyer__user=self.request.user)).distinct()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -51,3 +53,22 @@ class PaperViewset(ModelViewSet):
         if self.action in ['update', "partial_update", "destroy"]:
             return [IsAuthenticated(), IsAuthor()]
         return super(PaperViewset, self).get_permissions()
+
+class SignatureViewSet(generics.CreateAPIView):
+    queryset = Signature.objects.all()
+    serializer_class = SignatureSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        request_user = self.request.user
+        id = self.kwargs.get("id")
+        paper = get_object_or_404(Paper, id=id)
+
+        if getattr(paper.expert,'user') == request.user:
+            serializer.save(paper=paper, profile=paper.expert)
+        elif getattr(paper.seller,'user') == request.user:
+            serializer.save(paper=paper, profile=paper.seller)
+        elif getattr(paper.buyer,'user') == request.user:
+            serializer.save(paper=paper, profile=paper.buyer)
+        else:
+            raise ValidationError("You don't have authroization of this paper to fill signature")
