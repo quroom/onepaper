@@ -63,11 +63,11 @@ class SignatureCreateApiView(generics.CreateAPIView):
         request_user = self.request.user
         id = self.kwargs.get("id")
         paper = get_object_or_404(Paper, id=id)
-        if getattr(paper.expert,'user') == request.user:
+        if getattr(paper.expert,'user') == request_user:
             serializer.save(paper=paper, profile=paper.expert)
-        if getattr(paper.seller,'user') == request.user:
+        if getattr(paper.seller,'user') == request_user:
             serializer.save(paper=paper, profile=paper.seller)
-        if getattr(paper.buyer,'user') == request.user:
+        if getattr(paper.buyer,'user') == request_user:
             serializer.save(paper=paper, profile=paper.buyer)
         else:
             raise ValidationError("You don't have authroization of this paper to fill signature")
