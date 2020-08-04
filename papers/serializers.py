@@ -23,6 +23,24 @@ class PaperSerializer(serializers.ModelSerializer):
         self.fields['seller'].queryset = authorization_user_profiles
         self.fields['buyer'].queryset = authorization_user_profiles
 
+    def validate(self, data):
+        if data['expert'].user == data['seller'].user:
+            raise serializers.ValidationError({
+                "expert": "전문가와 매도(임대)인은 동일할 수 없습니다.",
+                "seller": "전문가와 매도(임대)인은 동일할 수 없습니다."
+            })
+        if data['expert'].user == data['buyer'].user:
+            raise serializers.ValidationError({
+                "expert": "전문가와 매수(임차)인은 동일할 수 없습니다.",
+                "seller": "전문가와 매수(임차)인은 동일할 수 없습니다."
+            })
+        if data['seller'].user == data['buyer'].user:
+            raise serializers.ValidationError({
+                "buyer": "매도(임대)인과 매수(임차)인은 동일할 수 없습니다.",
+                "seller": "매도(임대)인과 매수(임차)인은 동일할 수 없습니다."
+            })
+        return data
+
     def get_expert_profile(self, obj):
         expert_auth_users = getattr(obj.expert, 'authorization_users', None)
         if expert_auth_users is None:
