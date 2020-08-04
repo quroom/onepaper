@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from profiles.models import CustomUser, Expert, Profile
 
@@ -85,11 +86,11 @@ class Paper(models.Model):
                                on_delete=models.SET_NULL,
                                related_name="expert_papers")
     seller = models.ForeignKey(Profile,
-                               null=True, blank=True,
+                               null=True,
                                on_delete=models.SET_NULL,
                                related_name="seller_papers")
     buyer = models.ForeignKey(Profile,
-                              null=True, blank=True,
+                              null=True,
                               on_delete=models.SET_NULL,
                               related_name="buyer_papers")
     status = models.PositiveSmallIntegerField(
@@ -97,6 +98,17 @@ class Paper(models.Model):
 
     def __str__(self):
         return self.title
+
+    def full_clean(self):
+        expert_user = getattr(self.expert,'user')
+        seller_user = getattr(self.seller,'user')
+        buyer_user = getattr(self.buyer,'user')
+        if expert_user==seller_user or expert_user==buyer_user or seller_user==buyer_user:
+            raise ValidationError({
+                'expert':_('같은 회원은 입력될 수 없습니다.'),
+                'seller':_('같은 회원은 입력될 수 없습니다.'),
+                'buyer':_('같은 회원은 입력될 수 없습니다.'),
+            })
 
 class Signature(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
