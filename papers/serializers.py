@@ -5,6 +5,7 @@ from papers.models import Paper, Signature
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
+    status = serializers.IntegerField(read_only=True)
     expert_profile = serializers.SerializerMethodField()
     seller_profile = serializers.SerializerMethodField()    
     buyer_profile = serializers.SerializerMethodField()

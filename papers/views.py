@@ -10,7 +10,6 @@ from papers.models import Paper, Signature
 from papers.serializers import PaperSerializer, SignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsParticiations, IsProfileUser
 
-
 class HidePaperApiView(APIView):
     def post(self, request, pk):
         paper = get_object_or_404(Paper, pk=pk)
@@ -25,7 +24,6 @@ class HidePaperApiView(APIView):
                 signature.save()
         else:
             raise ValidationError("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다.")
-
 
 class PaperViewset(ModelViewSet):
     queryset = Paper.objects.all()

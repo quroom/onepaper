@@ -41,7 +41,6 @@ class Profile(models.Model):
     address = models.CharField(max_length=200, blank=True)
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
-    used_count = models.PositiveSmallIntegerField(blank=True, default=0)
 
     def __str__(self):
         return self.user.username + ":" + str(self.profile_name) + ""

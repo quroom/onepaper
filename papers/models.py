@@ -102,10 +102,16 @@ class Signature(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_paper_visible = models.BooleanField(default=True)
-    paper = models.OneToOneField(Paper,
+    paper = models.ForeignKey(Paper,
                                  on_delete=models.CASCADE,
                                  related_name="paper_signatures")
-    profile = models.OneToOneField(Profile,
+    profile = models.ForeignKey(Profile,
                                 on_delete=models.CASCADE,
-                                related_name="profile_signatues")
+                                related_name="profile_signatures")
     signature = models.ImageField()
+
+    class Meta:
+        unique_together = ('paper', 'profile')
+
+    def __str__(self):
+        return str(self.profile)
