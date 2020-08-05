@@ -6,6 +6,7 @@ module.exports = {
   outputDir: "./dist/",
 
   chainWebpack: (config) => {
+    config.resolve.extensions.add('.ts');
     config
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
@@ -28,6 +29,7 @@ module.exports = {
       .headers({ "Access-Control-Allow-Origin": ["*"] });
   },
   transpileDependencies: ["vuetify"],
+
 
   // uncomment before executing 'npm run build'
   // css: {

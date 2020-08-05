@@ -74,6 +74,7 @@
             target="_blank"
           >
             {{ eco.text }}
+            {{ $vuetify.lang.t("$vuetify.hello") }}
           </a>
         </v-row>
       </v-col>
