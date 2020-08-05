@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from profiles.serializers import GeneralProfileSerializer, ProfileNameSerializer
 from profiles.models import Profile, Expert
@@ -26,18 +27,18 @@ class PaperSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['expert'].user == data['seller'].user:
             raise serializers.ValidationError({
-                "expert": "전문가와 매도(임대)인은 동일할 수 없습니다.",
-                "seller": "전문가와 매도(임대)인은 동일할 수 없습니다."
+                "expert": _("전문가와 매도(임대)인은 동일할 수 없습니다."),
+                "seller": _("전문가와 매도(임대)인은 동일할 수 없습니다.")
             })
         if data['expert'].user == data['buyer'].user:
             raise serializers.ValidationError({
-                "expert": "전문가와 매수(임차)인은 동일할 수 없습니다.",
-                "seller": "전문가와 매수(임차)인은 동일할 수 없습니다."
+                "expert": _("전문가와 매수(임차)인은 동일할 수 없습니다."),
+                "seller": _("전문가와 매수(임차)인은 동일할 수 없습니다.")
             })
         if data['seller'].user == data['buyer'].user:
             raise serializers.ValidationError({
-                "buyer": "매도(임대)인과 매수(임차)인은 동일할 수 없습니다.",
-                "seller": "매도(임대)인과 매수(임차)인은 동일할 수 없습니다."
+                "buyer": _("매도(임대)인과 매수(임차)인은 동일할 수 없습니다."),
+                "seller": _("매도(임대)인과 매수(임차)인은 동일할 수 없습니다.")
             })
         return data
 

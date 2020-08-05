@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
+from django.conf.urls.i18n import i18n_patterns
 
 from django_registration.backends.one_step.views import RegistrationView
 
@@ -25,7 +26,9 @@ from profiles.forms import CustomUserForm
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin.site.urls)
+]
+urlpatterns += i18n_patterns(
     path("accounts/register/",
         RegistrationView.as_view(
             form_class=CustomUserForm,
@@ -37,14 +40,9 @@ urlpatterns = [
     path("api/", include("papers.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path("api/rest-auth/", include("rest_auth.urls")),
-    path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
-    re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"), 
-
-    # path("",
-    #     TemplateView.as_view(template_name="index.html"),
-    #     name="app",
-    # ),
-]
+    path("api/rest-auth/registration/", include("rest_auth.registration.urls"))
+)
+urlpatterns += re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"),
 
 from django.conf.urls.static import static
 from django.conf import settings

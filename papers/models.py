@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db import models
 from profiles.models import CustomUser, Expert, Profile
@@ -18,20 +19,20 @@ class Paper(models.Model):
     STORE = 40
     LAND = 41
     ITEM_TYPE = (
-        (ONE_ROOM, '원룸'),
-        (TWO_ROOM, '투룸'),
-        (THREE_ROOM, '쓰리룸'),
-        (FOUR_ROOM, '포룸'),
-        (SHARE_HOUSE, '쉐어하우스'),
-        (OFFICE_TEL, '오피스텔'),
+        (ONE_ROOM, _('원룸')),
+        (TWO_ROOM, _('투룸')),
+        (THREE_ROOM, _('쓰리룸')),
+        (FOUR_ROOM, _('포룸')),
+        (SHARE_HOUSE, _('쉐어하우스')),
+        (OFFICE_TEL, _('오피스텔')),
 
-        (APARTMENT, '아파트'),
-        (VILLA, '빌라'),
-        (HOUSE, '단독주택'),
-        (COMMERCIAL_HOUSE, '상가주택'),
+        (APARTMENT, _('아파트')),
+        (VILLA, _('빌라')),
+        (HOUSE, _('단독주택')),
+        (COMMERCIAL_HOUSE, _('상가주택')),
 
-        (STORE, '상가'),
-        (LAND, '토지'),
+        (STORE, _('상가')),
+        (LAND, _('토지')),
     )
 
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
@@ -40,19 +41,19 @@ class Paper(models.Model):
     TRADE = 3
     EXCAHNGE = 4
     TRADE_TYPE = (
-        (RENT, '월세'),
-        (DEPOSIT_LOAN, '전세'),
-        (TRADE, '매매'),
-        (EXCAHNGE, '교환'),
+        (RENT, _('월세')),
+        (DEPOSIT_LOAN, _('전세')),
+        (TRADE, _('매매')),
+        (EXCAHNGE, _('교환')),
     )
 
     DRAFT = 0
     DONE = 1
     HIDDEN = 2
     STATUS_TYPE = (
-        (DRAFT, '작성중'),
-        (DONE, '완료'),
-        (HIDDEN, '숨김')
+        (DRAFT, _('작성중')),
+        (DONE, _('완료')),
+        (HIDDEN, _('숨김'))
     )
 
     # Need to be moved to Realestates model.
