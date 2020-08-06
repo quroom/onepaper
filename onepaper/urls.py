@@ -26,9 +26,7 @@ from profiles.forms import CustomUserForm
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
 urlpatterns = [
-    path("admin/", admin.site.urls)
-]
-urlpatterns += i18n_patterns(
+    path("admin/", admin.site.urls),    
     path("accounts/register/",
         RegistrationView.as_view(
             form_class=CustomUserForm,
@@ -41,7 +39,7 @@ urlpatterns += i18n_patterns(
     path("api-auth/", include("rest_framework.urls")),
     path("api/rest-auth/", include("rest_auth.urls")),
     path("api/rest-auth/registration/", include("rest_auth.registration.urls"))
-)
+]
 urlpatterns += re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"),
 
 from django.conf.urls.static import static
