@@ -4,27 +4,27 @@ from django.db import models
 from profiles.models import CustomUser, Expert, Profile
 
 class Paper(models.Model):
-    ONE_ROOM = 1
-    TWO_ROOM = 2
-    THREE_ROOM = 3
-    FOUR_ROOM = 4
-    SHARE_HOUSE = 5
-    OFFICE_TEL = 6
+    ONEROOM = 1
+    TWOROOM = 2
+    THREEROOM = 3
+    FOURROOM = 4
+    SHAREHOUSE = 5
+    OFFICETEL = 6
 
     APARTMENT = 20
     VILLA = 21
     HOUSE = 22
-    COMMERCIAL_HOUSE = 23
+    COMMERCIALHOUSE = 23
 
     STORE = 40
     LAND = 41
     ITEM_TYPE = (
-        (ONE_ROOM, _('원룸')),
-        (TWO_ROOM, _('투룸')),
-        (THREE_ROOM, _('쓰리룸')),
-        (FOUR_ROOM, _('포룸')),
-        (SHARE_HOUSE, _('쉐어하우스')),
-        (OFFICE_TEL, _('오피스텔')),
+        (ONEROOM, _('원룸')),
+        (TWOROOM, _('투룸')),
+        (THREEROOM, _('쓰리룸')),
+        (FOURROOM, _('포룸')),
+        (SHAREHOUSE, _('쉐어하우스')),
+        (OFFICETEL, _('오피스텔')),
 
         (APARTMENT, _('아파트')),
         (VILLA, _('빌라')),
@@ -37,12 +37,12 @@ class Paper(models.Model):
 
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
     RENT = 1
-    DEPOSIT_LOAN = 2
+    DEPOSITLOAN = 2
     TRADE = 3
     EXCAHNGE = 4
     TRADE_TYPE = (
         (RENT, _('월세')),
-        (DEPOSIT_LOAN, _('전세')),
+        (DEPOSITLOAN, _('전세')),
         (TRADE, _('매매')),
         (EXCAHNGE, _('교환')),
     )
