@@ -18,21 +18,3 @@ function apiService(endpoint, method, data) {
     .then(getJSON)
     .catch(error => console.log(error));
 }
-
-function apiService2(endpoint, method, data) {
-  const config = {
-    method: method || "GET",
-    body: data !== undefined ? JSON.stringify(data) : null,
-    headers: {
-      "content-type": "application/json",
-      "X-CSRFTOKEN": CSRF_TOKEN
-    }
-  };
-  return fetch(endpoint, config)
-    .then(function(response){
-      return response.text()
-    })
-    .catch(error => console.log(error));
-}
-
-export { apiService,  apiService2};
