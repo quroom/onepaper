@@ -29,7 +29,7 @@ class Paper(models.Model):
         (APARTMENT, _('아파트')),
         (VILLA, _('빌라')),
         (HOUSE, _('단독주택')),
-        (COMMERCIAL_HOUSE, _('상가주택')),
+        (COMMERCIALHOUSE, _('상가주택')),
 
         (STORE, _('상가')),
         (LAND, _('토지')),
@@ -57,7 +57,7 @@ class Paper(models.Model):
     )
 
     # Need to be moved to Realestates model.
-    ground_type = models.CharField(max_length=10)
+    land_type = models.CharField(max_length=10)
     lot_area = models.PositiveSmallIntegerField(default=0, blank=True)
     building_structure = models.CharField(max_length=100)
     building_type = models.CharField(max_length=100)
@@ -73,8 +73,9 @@ class Paper(models.Model):
     trade_type = models.PositiveSmallIntegerField(
         choices=TRADE_TYPE, default=RENT)
     address = models.CharField(max_length=250)
+    room_name = models.CharField(max_length=50)
     realestate_type = models.PositiveSmallIntegerField(
-        choices=ITEM_TYPE, default=ONE_ROOM)
+        choices=ITEM_TYPE, default=ONEROOM)
     down_payment = models.BigIntegerField(null=True, blank=True)
     security_deposit = models.BigIntegerField()
     monthly_fee = models.PositiveIntegerField()
@@ -94,7 +95,7 @@ class Paper(models.Model):
                               null=True,
                               on_delete=models.SET_NULL,
                               related_name="buyer_papers")
-    status = models.PositiveSmallIntegerField(
+    status_type = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
