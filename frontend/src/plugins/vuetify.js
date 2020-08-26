@@ -4,7 +4,8 @@ import Vuetify from "vuetify/lib";
 import Constants from "@/plugins/Constants";
 
 Vue.use(Vuetify);
-Vue.use(Constants)
+Vue.use(Constants);
+
 export default new Vuetify({
   icons: {
     iconfont: "md"

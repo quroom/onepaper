@@ -2,9 +2,42 @@
   <div class="home">
     <v-container class="my-5">
       <v-row>
-        <v-col class="xs12 sm6 md4 lg3" v-for="n in 20" :key="n">
-          <v-card class="pa-2 outlined tile">
-            {{$getConst('ITEM_TYPE', 1)}}
+        <v-col
+          cols="12"
+          sm="4"
+          md="3"
+          lg="3"
+          v-for="paper in papers"
+          :key="paper.id"
+        >
+          <v-card
+            class="outlined tile"
+            :to="{ name: 'Paper', params: { id: paper.id } }"
+          >
+            <v-card-title class="ma-1">
+              {{ paper.room_name }}
+              {{ $getConstI18("trade_type", paper.trade_type) }}
+            </v-card-title>
+            <v-card-subtitle style="float:right">
+              {{ $t("author") }}: <span class="author-name"> {{ paper.author }} </span>
+            </v-card-subtitle>
+            <v-card-text>
+              <div>
+                {{ paper.address }}
+              </div>
+              <span>
+                {{ $getConstI18("realestate_type", paper.realestate_type) }}
+              </span>
+              <span v-if="paper.trade_type == $getConstByVal('trade_type', 'rent')">
+                보{{ paper.security_deposit }}/월 {{paper.monthly_fee}}
+              </span>
+              <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'depositloan')">
+              </span>
+              <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'trade')">
+              </span>
+              <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'exchange')">
+              </span>  
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -16,9 +49,31 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { apiService } from "@/common/api.service";
+
 export default {
   name: "Home",
-  components: {}
+  data() {
+    return {
+      papers: []
+    };
+  },
+  methods: {
+    getPapers() {
+      let endpoint = "api/papers/";
+      apiService(endpoint).then(data => {
+        this.papers.push(...data.results);
+      });
+    }
+  },
+  created() {
+    this.getPapers();
+  }
 };
 </script>
+<style>
+  .author-name {
+    font-weight:bold !important;
+    color : #DC3545
+  }
+</style>

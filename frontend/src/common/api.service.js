@@ -18,3 +18,5 @@ function apiService(endpoint, method, data) {
     .then(getJSON)
     .catch(error => console.log(error));
 }
+
+export { apiService };
