@@ -24,9 +24,9 @@ class PaperSerializer(serializers.ModelSerializer):
 
         super(PaperSerializer, self).__init__(*args, **kwargs)
         authorization_user_profiles = Profile.objects.filter(authorization_users=user)
-        self.fields['expert'].queryset = authorization_user_profiles.filter(expert__isnull=False)
-        self.fields['seller'].queryset = authorization_user_profiles.filter(expert__isnull=True)
-        self.fields['buyer'].queryset = authorization_user_profiles.filter(expert__isnull=True)
+        self.fields['expert'].queryset = authorization_user_profiles.filter(user__expert__isnull=False)
+        self.fields['seller'].queryset = authorization_user_profiles.filter(user__expert__isnull=True)
+        self.fields['buyer'].queryset = authorization_user_profiles.filter(user__expert__isnull=True)
 
     def validate(self, data):
         if getattr(data['expert'], 'user', None) == data['seller'].user:
