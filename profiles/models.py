@@ -45,13 +45,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username + ":" + str(self.profile_name) + ""
 
+#Admin can add user to expert list.
 class Expert(models.Model):
-    profile = models.OneToOneField(Profile,
+    user = models.OneToOneField(CustomUser,
                                 on_delete=models.CASCADE,
                                 related_name="expert")
 
     def __str__(self):
-        return self.profile.__str__()
+        return self.user.__str__()
         # return "%s : %s" % (self.profile.user.username, self.profile.profile_name)
 
 @receiver(user_logged_in, sender=CustomUser)

@@ -29,12 +29,22 @@ class CurrentProfileViewset(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Profile.objects.filter(user=request.user)
-        serializer = BaseProfileSerializer(queryset, many=True)
+        page = self.paginate_queryset(queryset)
+        expert = getattr(request.user, 'expert', None)
+
+        serializer = GeneralProfileSerializer(queryset, many=True)
+
+        if page is not None:
+            if expert is not None:
+                serializer = ExpertProfileSerializer(queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+        if expert is not None:
+                serializer = ExpertProfileSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        expert = getattr(instance, 'expert', None)
+        expert = getattr(request.user, 'expert', None)
         if expert is None:
             serializer = self.get_serializer(instance)
         else:
