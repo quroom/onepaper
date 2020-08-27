@@ -25,7 +25,7 @@ class BaseProfileSerializer(serializers.ModelSerializer):
         return CustomUserSerializer(obj.user).data
 
     def get_is_expert(self, obj):
-        expert = getattr(obj, 'expert', None)
+        expert = getattr(obj.user, 'expert', None)
         if expert is None:
             return False
         else:
@@ -40,7 +40,7 @@ class ExpertProfileSerializer(BaseProfileSerializer):
 class GeneralProfileSerializer(BaseProfileSerializer):
     class Meta:
         model = Profile
-        exclude = ['shop_name', 'shop_address', 'register_number']
+        exclude = ['shop_name', 'shop_address', 'registration_number']
         read_only_fields = ('used_count', 'is_expert')
 
 class ProfileNameSerializer(serializers.ModelSerializer):

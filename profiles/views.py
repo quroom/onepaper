@@ -21,34 +21,24 @@ class CustomUserViewset(ModelViewSet):
     def list(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-
 class CurrentProfileViewset(ModelViewSet):
     queryset = Profile.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
-    serializer_class = GeneralProfileSerializer
+
+    def get_serializer_class(self):
+        expert = getattr(self.request.user, 'expert', None)
+        if expert is not None:
+            return ExpertProfileSerializer
+        else:
+            return GeneralProfileSerializer
 
     def list(self, request, *args, **kwargs):
         queryset = Profile.objects.filter(user=request.user)
         page = self.paginate_queryset(queryset)
-        expert = getattr(request.user, 'expert', None)
-
-        serializer = GeneralProfileSerializer(queryset, many=True)
+        serializer = self.get_serializer_class()(queryset, many=True)
 
         if page is not None:
-            if expert is not None:
-                serializer = ExpertProfileSerializer(queryset, many=True)
             return self.get_paginated_response(serializer.data)
-        if expert is not None:
-                serializer = ExpertProfileSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        expert = getattr(request.user, 'expert', None)
-        if expert is None:
-            serializer = self.get_serializer(instance)
-        else:
-            serializer = ExpertProfileSerializer(instance)
         return Response(serializer.data)
 
     def perform_create(self, serializer):
@@ -80,7 +70,6 @@ class CurrentProfileViewset(ModelViewSet):
             serializer.validated_data['authorization_users'].append(
                 self.request.user)
         serializer.save()
-
 
 class AuthedProfileList(APIView):
     permission_classes = [IsAuthenticated]

@@ -32,7 +32,7 @@ class Profile(models.Model):
     #For expert user(like shop)
     shop_name = models.CharField(max_length=100, blank=True)
     shop_address = models.CharField(max_length=200, blank=True)
-    register_number = models.CharField(max_length=45, blank=True)
+    registration_number = models.CharField(max_length=45, blank=True)
 
     #For general user
     name = models.CharField(max_length=150, blank=True)
