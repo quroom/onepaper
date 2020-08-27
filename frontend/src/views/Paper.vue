@@ -23,6 +23,7 @@
         </v-col>
       </v-row>
       <div>{{ $t("intro") }}</div>
+
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
       <v-row no-gutters>
         <v-col class="text-center font-weight-bold" cols="2">
@@ -43,6 +44,7 @@
           </v-col>
         </template>
       </v-row>
+
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
       <v-row no-gutters>
@@ -53,27 +55,72 @@
           <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
         </v-col>
         <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
-          <v-col class="text-center font-weight-bold" cols="2" :key="`name`+index">
+          <v-col class="text-center font-weight-bold" cols="2" md="1" :key="`name`+index">
             <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
           </v-col>
-          <v-col class="text-center" cols="4" :key="`value-`+index">
+          <v-col class="text-center" cols="4" md="2" :key="`value-`+index">
             <v-card outlined tile>{{ paper[contract_field_name] }}</v-card>
           </v-col>
         </template>
       </v-row>
       <v-row no-gutters>
         <v-col class="text-center font-weight-bold" cols="2">
-          <v-card outlined tile> 입금계좌 </v-card>
+          <v-card outlined tile>{{$t("bank_account")}}</v-card>
         </v-col>
         <v-col class="text-center" cols="10">
-          <v-card v-if="!loading" outlined tile>{{ this.paper.seller_profile.bank_name }} {{ this.paper.seller_profile.name }} {{ this.paper.seller_profile.account_number }}</v-card>
+          <v-card v-if="!loading" outlined tile>{{ paper.seller_profile.bank_name }} {{ paper.seller_profile.name }} {{ paper.seller_profile.account_number }}</v-card>
         </v-col>
       </v-row>
-      <v-row v-if="paper.expert_profile!=null" no-gutters>
-        <v-col class="text-center font-weight-bold" cols="12">
 
+      <v-textarea
+        auto-grow
+        readonly
+        :value="paper.special_agreement"
+      >
+      </v-textarea>
+
+      <div class="mt-5">3. {{ $t("contractor_info") }}</div>
+      <div>{{ $t("contractor_info_intro") }}</div>
+      <v-row v-if="paper.expert_profile!=null && !loading" no-gutters>
+        <v-col class="text-center font-weight-bold" cols="12">
+          <v-card outlined tile>{{ $t("realestate_agency") }}</v-card>
         </v-col>
+        <template v-for="(field_name, index) in fields_names.expert_fields_name">
+          <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
+            <v-card outlined tile>{{ $t(field_name) }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="4" md="2" :key="`value-`+index">
+            <v-card outlined tile>{{ paper.expert_profile[field_name]}}</v-card>
+          </v-col>
+        </template>
       </v-row>
+      <v-row class="mt-5" v-if="!loading" no-gutters>
+        <v-col class="text-center font-weight-bold" cols="12">
+          <v-card outlined tile>{{ $t("landlord") }}</v-card>
+        </v-col>
+        <template v-for="(field_name, index) in fields_names.basic_profile_fields_name">
+          <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
+            <v-card outlined tile>{{ $t(field_name) }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="4" md="2" :key="`value-`+index">
+            <v-card outlined tile>{{ paper.seller_profile[field_name]}}</v-card>
+          </v-col>
+        </template>
+      </v-row>
+      <v-row class="mt-5" v-if="!loading" no-gutters>
+        <v-col class="text-center font-weight-bold" cols="12">
+          <v-card outlined tile>{{ $t("tenant") }}</v-card>
+        </v-col>
+        <template v-for="(field_name, index) in fields_names.basic_profile_fields_name">
+          <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
+            <v-card outlined tile>{{ $t(field_name) }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="4" md="2" :key="`value-`+index">
+            <v-card outlined tile>{{ paper.buyer_profile[field_name]}}</v-card>
+          </v-col>
+        </template>
+      </v-row>
+
     </v-container>
   </div>
 </template>
@@ -108,10 +155,28 @@ export default {
           "maintenance_fee",
           "down_payment",
         ],
-        "profile_fields_name": [
+        "profile_type_fields_name": [
           "expert_profile",
           "seller_profile",
           "buyer_profile"
+        ],
+        "basic_profile_fields_name": [
+          "name",
+          "birthday",
+          "mobile_number",
+          "address",
+          "bank_name",
+          "account_number"
+        ],
+        "expert_fields_name": [
+          "registration_number",
+          "name",
+          "birthday",
+          "mobile_number",
+          "shop_name",
+          "shop_address",
+          "bank_name",
+          "account_number",
         ]
       }     
       
