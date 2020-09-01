@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Paper from "../views/Paper.vue";
+import PaperEditor from "../views/PaperEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -13,9 +14,14 @@ const routes = [
   },
   {
     path: "/paper/:id",
-    name: "Paper",
+    name: "paper",
     component: Paper,
     props: true
+  },
+  {
+    path: "/ask",
+    name: "paper-editor",
+    component: PaperEditor,
   }
 ];
 

@@ -4,16 +4,19 @@
       <v-row>
         <v-col
           cols="12"
-          sm="4"
-          md="3"
-          lg="3"
+          md="6"
+          lg="4"
+          xl="3"
           v-for="paper in papers"
           :key="paper.id"
         >
           <v-card
             class="outlined tile"
-            :to="{ name: 'Paper', params: { id: paper.id } }"
+            :to="{ name: 'paper', params: { id: paper.id } }"
           >
+            <div class="text-body-2" style="float:right">
+              {{ $t("updated_at") }} : {{ paper.updated_at}}
+            </div>
             <v-card-title class="ma-1">
               {{ paper.room_name }}
               {{ $getConstI18("trade_type", paper.trade_type) }}
@@ -36,14 +39,16 @@
               <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'trade')">
               </span>
               <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'exchange')">
-              </span>  
+              </span>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
-      <v-btn color="grey" dark absolute fab mid right>
-        <v-icon>add</v-icon>
-      </v-btn>
+      <router-link :to="{ name: 'paper-editor' }">
+        <v-btn color="grey" dark absolute fab mid right>
+          <v-icon>add</v-icon>
+        </v-btn>
+      </router-link>
     </v-container>
   </div>
 </template>
