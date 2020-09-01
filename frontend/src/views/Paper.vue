@@ -18,9 +18,7 @@
           class="text-h4 text-center text-decoration-underline"
           cols="12"
           xs="12"
-        >
-          {{ paper.title }}
-        </v-col>
+        >{{ paper.title }}</v-col>
       </v-row>
       <div>{{ $t("intro") }}</div>
 
@@ -39,7 +37,11 @@
             <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
           </v-col>
           <v-col class="text-center" cols="2" :key="`value-`+index">
-            <v-card v-if="realestate_field_name=='building_area' || realestate_field_name=='lot_area'" outlined tile>{{ paper[realestate_field_name] }}㎡</v-card>
+            <v-card
+              v-if="realestate_field_name=='building_area' || realestate_field_name=='lot_area'"
+              outlined
+              tile
+            >{{ paper[realestate_field_name] }}㎡</v-card>
             <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
           </v-col>
         </template>
@@ -68,16 +70,13 @@
           <v-card outlined tile>{{$t("bank_account")}}</v-card>
         </v-col>
         <v-col class="text-center" cols="10">
-          <v-card v-if="!loading" outlined tile>{{ paper.seller_profile.bank_name }} {{ paper.seller_profile.name }} {{ paper.seller_profile.account_number }}</v-card>
+          <v-card
+            v-if="!loading"
+            outlined
+            tile
+          >{{ paper.seller_profile.bank_name }} {{ paper.seller_profile.name }} {{ paper.seller_profile.account_number }}</v-card>
         </v-col>
       </v-row>
-
-      <v-textarea
-        auto-grow
-        readonly
-        :value="paper.special_agreement"
-      >
-      </v-textarea>
 
       <div class="mt-5">3. {{ $t("contractor_info") }}</div>
       <div>{{ $t("contractor_info_intro") }}</div>
@@ -120,7 +119,8 @@
           </v-col>
         </template>
       </v-row>
-
+      <div class="mt-5">4. {{ $t("special_agreement") }}</div>
+      <v-textarea class="disabled-textarea" auto-grow readonly :value="paper.special_agreement"></v-textarea>
     </v-container>
   </div>
 </template>
@@ -141,7 +141,7 @@ export default {
       loading: false,
       paper: {},
       fields_names: {
-        "realestate_fields_name":[
+        realestate_fields_name: [
           "room_name",
           "land_type",
           "lot_area",
@@ -149,18 +149,18 @@ export default {
           "building_type",
           "building_area"
         ],
-        "contract_fields_name": [
+        contract_fields_name: [
           "security_deposit",
           "monthly_fee",
           "maintenance_fee",
-          "down_payment",
+          "down_payment"
         ],
-        "profile_type_fields_name": [
+        profile_type_fields_name: [
           "expert_profile",
           "seller_profile",
           "buyer_profile"
         ],
-        "basic_profile_fields_name": [
+        basic_profile_fields_name: [
           "name",
           "birthday",
           "mobile_number",
@@ -168,7 +168,7 @@ export default {
           "bank_name",
           "account_number"
         ],
-        "expert_fields_name": [
+        expert_fields_name: [
           "registration_number",
           "name",
           "birthday",
@@ -176,13 +176,9 @@ export default {
           "shop_name",
           "shop_address",
           "bank_name",
-          "account_number",
+          "account_number"
         ]
-      }     
-      
-        // "from_date",
-        // "to_date",
-        // "special_agreement"
+      }
     };
   },
   methods: {
@@ -200,3 +196,11 @@ export default {
   }
 };
 </script>
+<style>
+  .v-text-field > .v-input__control > .v-input__slot:before {
+    border-style:none !important;
+  }
+  .v-text-field > .v-input__control > .v-input__slot:after {
+    border-style:none !important;
+  }
+</style>
