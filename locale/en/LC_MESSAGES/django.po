@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-05 10:28+0900\n"
+"POT-Creation-Date: 2020-09-17 10:57+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,94 +25,158 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: .\papers\models.py:22
+#: .\papers\models.py:24
 msgid "원룸"
 msgstr "Single Room"
 
-#: .\papers\models.py:23
+#: .\papers\models.py:25
 msgid "투룸"
 msgstr ""
 
-#: .\papers\models.py:24
+#: .\papers\models.py:26
 msgid "쓰리룸"
 msgstr ""
 
-#: .\papers\models.py:25
+#: .\papers\models.py:27
 msgid "포룸"
 msgstr ""
 
-#: .\papers\models.py:26
+#: .\papers\models.py:28
 msgid "쉐어하우스"
 msgstr ""
 
-#: .\papers\models.py:27
+#: .\papers\models.py:29
 msgid "오피스텔"
 msgstr ""
 
-#: .\papers\models.py:29
+#: .\papers\models.py:31
 msgid "아파트"
 msgstr ""
 
-#: .\papers\models.py:30
+#: .\papers\models.py:32
 msgid "빌라"
 msgstr ""
 
-#: .\papers\models.py:31
+#: .\papers\models.py:33
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:32
+#: .\papers\models.py:34
 msgid "상가주택"
 msgstr ""
 
-#: .\papers\models.py:34
+#: .\papers\models.py:36
 msgid "상가"
 msgstr ""
 
-#: .\papers\models.py:35
+#: .\papers\models.py:37
 msgid "토지"
 msgstr ""
 
-#: .\papers\models.py:44
+#: .\papers\models.py:46
 msgid "월세"
 msgstr ""
 
-#: .\papers\models.py:45
+#: .\papers\models.py:47
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:46
+#: .\papers\models.py:48
 msgid "매매"
 msgstr ""
 
-#: .\papers\models.py:47
+#: .\papers\models.py:49
 msgid "교환"
 msgstr ""
 
-#: .\papers\models.py:54
+#: .\papers\models.py:58
 msgid "작성중"
 msgstr ""
 
-#: .\papers\models.py:55
-msgid "완료"
+#: .\papers\models.py:59
+msgid "작성완료"
 msgstr ""
 
-#: .\papers\models.py:56
+#: .\papers\models.py:60
+msgid "확인완료"
+msgstr ""
+
+#: .\papers\models.py:61
 msgid "숨김"
 msgstr ""
 
-#: .\papers\models.py:109 .\papers\models.py:110 .\papers\models.py:111
+#: .\papers\models.py:113 .\papers\models.py:114 .\papers\models.py:115
 msgid "같은 회원은 입력될 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:30 .\papers\serializers.py:31
-msgid "전문가와 매도(임대)인은 동일할 수 없습니다."
+#: .\papers\serializers.py:37
+msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:35 .\papers\serializers.py:36
-msgid "전문가와 매수(임차)인은 동일할 수 없습니다."
+#: .\papers\serializers.py:41 .\papers\serializers.py:45
+msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:40 .\papers\serializers.py:41
+#: .\papers\serializers.py:49 .\papers\serializers.py:53
+msgid "프로필 사용 동의를 하지 않은 프로필은 추가할 수 없습니다."
+msgstr ""
+
+#: .\papers\serializers.py:57 .\papers\serializers.py:58
 msgid "매도(임대)인과 매수(임차)인은 동일할 수 없습니다."
 msgstr ""
+
+#: .\papers\serializers.py:64
+msgid "본인의 프로필을 입력해주세요."
+msgstr ""
+
+#: .\papers\serializers.py:68
+msgid "공인중개사로 인증되지 않은 사용자는 등록할 수 없습니다."
+msgstr ""
+
+#: .\papers\serializers.py:72 .\papers\serializers.py:73
+msgid "공인중개사와 매도(임대)인은 동일할 수 없습니다."
+msgstr ""
+
+#: .\papers\serializers.py:77 .\papers\serializers.py:78
+msgid "공인중개사와 매수(임차)인은 동일할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:22
+msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:27
+msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
+msgstr ""
+
+#: .\papers\views.py:65
+msgid "완료된 계약서는 삭제할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:86
+msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:93
+msgid "이미 서명이 등록되어있습니다."
+msgstr ""
+
+#: .\papers\views.py:117
+msgid "계약서 검토가 완료되어 서명을 수정할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:121
+msgid "수정할 수 있는 서명이 없습니다"
+msgstr ""
+
+#: .\profiles\forms.py:9
+msgid "이름"
+msgstr "FullName"
+
+#: .\profiles\forms.py:10
+msgid "생년월일"
+msgstr "Brithday"
+
+#: .\profiles\forms.py:15
+msgid "아이디"
+msgstr "User ID"

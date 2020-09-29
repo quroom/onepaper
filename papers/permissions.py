@@ -14,6 +14,6 @@ class IsParticiations(permissions.BasePermission):
         return getattr(obj.paper.expert,'user',None) == request.user or getattr(obj.paper.seller,'user',None) == request.user\
             or getattr(obj.paper.buyer,'user',None) == request.user
 
-class IsProfileUser(permissions.BasePermission):
+class IsSignatureUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.profile.user == request.user
+        return obj.user == request.user

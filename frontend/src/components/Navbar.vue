@@ -11,6 +11,10 @@
         <v-icon>home</v-icon>
       </router-link>
       <v-spacer></v-spacer>
+      <router-link :to="{ name: 'profiles' }">
+        {{ $t("profile") }}
+      </router-link>
+      <v-spacer></v-spacer>
       <v-btn text color="grey" href="/accounts/logout/">
         <span>{{ $t("logout") }}</span>
         <v-icon>exit_to_app</v-icon>

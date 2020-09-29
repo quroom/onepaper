@@ -15,7 +15,7 @@
             :to="{ name: 'paper', params: { id: paper.id } }"
           >
             <div class="text-body-2" style="float:right">
-              {{ $t("updated_at") }} : {{ paper.updated_at}}
+              {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at}}
             </div>
             <v-card-title class="ma-1">
               {{ paper.room_name }}

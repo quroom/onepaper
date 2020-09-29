@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Paper from "../views/Paper.vue";
 import PaperEditor from "../views/PaperEditor.vue";
+import Profiles from "../views/ProfileList.vue";
+import ProfileEditor from "../views/ProfileEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -19,9 +21,21 @@ const routes = [
     props: true
   },
   {
-    path: "/ask",
+    path: "/create/paper/:id?",
     name: "paper-editor",
     component: PaperEditor,
+    props: true
+  },
+  {
+    path: "/profiles",
+    name: "profiles",
+    component: Profiles
+  },
+  {
+    path: "/create/profiles/:id?",
+    name: "profile-editor",
+    component: ProfileEditor,
+    props: true
   }
 ];
 

@@ -17,7 +17,7 @@ const Constants = {
   },
   TRADE_TYPE: {
     1: "rent",
-    2: "depositlone",
+    2: "depositloan",
     3: "trade",
     4: "exchange",
   },
@@ -25,10 +25,28 @@ const Constants = {
     1: "draft",
     2: "done",
     3: "hidden"
-  }
+  },
+  REALESTATE_TYPE_LIST: [],
+  TRADE_TYPE_LIST: [],
+  STATUS_TYPE_LIST: [],
 };
 
 Constants.install = function(Vue) {
+  Object.keys(Constants).forEach(function(key){
+    if(key.indexOf('_LIST') < 0 && key.indexOf('install') < 0){
+      Object.keys(Constants[key]).forEach(function(type_val){
+        const val = type_val
+        const name = Constants[key][val]
+        Constants[key+'_LIST'].push({text: name, value:Number(val)})
+      })
+    }
+  })
+
+  Vue.prototype.$getConst = (type) => {
+    type = type.toUpperCase();
+    return Constants[type];
+  };
+  
   Vue.prototype.$getConstI18 = (type, key) => {
     type = type.toUpperCase();
     return i18n.t(Constants[type][key]);
@@ -36,7 +54,7 @@ Constants.install = function(Vue) {
   Vue.prototype.$getConstByVal = (type, val) => {
     type = type.toUpperCase();
     let object = Constants[type];
-    return Object.keys(object).find(key => object[key] === val);;
+    return Object.keys(object).find(key => object[key] === val);
   };
 };
 

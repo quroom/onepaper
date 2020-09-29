@@ -40,10 +40,11 @@ urlpatterns = [
     path("api/rest-auth/", include("rest_auth.urls")),
     path("api/rest-auth/registration/", include("rest_auth.registration.urls"))
 ]
-urlpatterns += re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"),
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"),

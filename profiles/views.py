@@ -19,7 +19,14 @@ class CustomUserViewset(ModelViewSet):
         return self.request.user
 
     def list(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class CurrentProfileViewset(ModelViewSet):
     queryset = Profile.objects.all()
@@ -34,11 +41,7 @@ class CurrentProfileViewset(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = Profile.objects.filter(user=request.user)
-        page = self.paginate_queryset(queryset)
         serializer = self.get_serializer_class()(queryset, many=True)
-
-        if page is not None:
-            return self.get_paginated_response(serializer.data)
         return Response(serializer.data)
 
     def perform_create(self, serializer):
@@ -75,6 +78,6 @@ class AuthedProfileList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = request.user.auth_profiles.all()
+        queryset = request.user.auth_profiles.filter(user__expert__isnull=True)
         serializer = GeneralProfileSerializer(queryset, many=True)
         return Response(serializer.data)

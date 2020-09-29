@@ -1,6 +1,6 @@
 import { extend, configure } from "vee-validate";
 import { integer, required, email, max } from "vee-validate/dist/rules";
-import {i18n} from '@/plugins/i18n';
+import i18n from '@/plugins/i18n';
 
 configure({
   defaultMessage: (_, values) => {

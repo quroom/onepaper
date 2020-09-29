@@ -1,15 +1,17 @@
+import os
+import base64
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db import models
 from profiles.models import CustomUser, Expert, Profile
 
 class Paper(models.Model):
-    ONEROOM = 1
-    TWOROOM = 2
-    THREEROOM = 3
-    FOURROOM = 4
-    SHAREHOUSE = 5
-    OFFICETEL = 6
+    ONEROOM = 0
+    TWOROOM = 1
+    THREEROOM = 2
+    FOURROOM = 3
+    SHAREHOUSE = 4
+    OFFICETEL = 5
 
     APARTMENT = 20
     VILLA = 21
@@ -36,10 +38,10 @@ class Paper(models.Model):
     )
 
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
-    RENT = 1
-    DEPOSITLOAN = 2
-    TRADE = 3
-    EXCAHNGE = 4
+    RENT = 0
+    DEPOSITLOAN = 1
+    TRADE = 2
+    EXCAHNGE = 3
     TRADE_TYPE = (
         (RENT, _('월세')),
         (DEPOSITLOAN, _('전세')),
@@ -49,37 +51,38 @@ class Paper(models.Model):
 
     DRAFT = 0
     DONE = 1
-    HIDDEN = 2
+    CONFIRMED = 2
+    HIDDEN = 3
+
     STATUS_TYPE = (
         (DRAFT, _('작성중')),
-        (DONE, _('완료')),
+        (DONE, _('작성완료')),
+        (CONFIRMED, _('확인완료')),
         (HIDDEN, _('숨김'))
     )
 
     # Need to be moved to Realestates model.
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(CustomUser,
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL,
+                               related_name="author_papers")
     land_type = models.CharField(max_length=10)
     lot_area = models.PositiveSmallIntegerField(default=0, blank=True)
     building_structure = models.CharField(max_length=100)
     building_type = models.CharField(max_length=100)
     building_area = models.SmallIntegerField(default=0, blank=True)
-
-    author = models.ForeignKey(CustomUser,
-                               null=True, blank=True,
-                               on_delete=models.SET_NULL,
-                               related_name="author_papers")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=50)
     trade_type = models.PositiveSmallIntegerField(
-        choices=TRADE_TYPE, default=RENT)
+        choices=TRADE_TYPE, default=RENT, blank=True)
     address = models.CharField(max_length=250)
-    room_name = models.CharField(max_length=50)
+    room_name = models.CharField(max_length=50, blank=True)
     realestate_type = models.PositiveSmallIntegerField(
-        choices=ITEM_TYPE, default=ONEROOM)
+        choices=ITEM_TYPE, default=ONEROOM, blank=True)
     down_payment = models.BigIntegerField(null=True, blank=True)
-    security_deposit = models.BigIntegerField()
-    monthly_fee = models.PositiveIntegerField()
-    maintenance_fee = models.PositiveIntegerField()
+    security_deposit = models.BigIntegerField(null=True, blank=True)
+    monthly_fee = models.PositiveIntegerField(null=True, blank=True)
+    maintenance_fee = models.PositiveIntegerField(null=True, blank=True)
     from_date = models.DateField()
     to_date = models.DateField()
     special_agreement = models.TextField(blank=True)
@@ -95,11 +98,11 @@ class Paper(models.Model):
                               null=True,
                               on_delete=models.SET_NULL,
                               related_name="buyer_papers")
-    status_type = models.PositiveSmallIntegerField(
+    status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
-        return self.title
+        return self.address + ' ' + self.room_name + '-' + self.get_trade_type_display()
 
     def full_clean(self):
         expert_user = getattr(self.expert,'user')
@@ -112,20 +115,55 @@ class Paper(models.Model):
                 'buyer':_('같은 회원은 입력될 수 없습니다.'),
             })
 
+#Add unique profile+paper
+class Contractor(models.Model):
+    EXPERT = 0
+    SELLER = 1
+    BUYER = 2
+
+    CONTRACTOR_TYPE = (
+        (EXPERT, _('전문가')),
+        (SELLER, _('임대인(매도인)')),
+        (BUYER, _('임차인(매수인)')),
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    profile = models.ForeignKey(Profile,
+                                null=True,
+                                on_delete=models.SET_NULL,
+                                related_name="profile_contractors",
+                                related_query_name="profile_contractors")
+    paper = models.ForeignKey(Paper,
+                              null=True,
+                              on_delete=models.SET_NULL,
+                              related_name="paper_contractors",
+                              related_query_name="paper_contractors")
+    group = models.PositiveSmallIntegerField(
+        choices=CONTRACTOR_TYPE)
+        
+    class Meta:
+        unique_together = ('paper', 'profile')
+
+from django.conf import settings
 class Signature(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_paper_visible = models.BooleanField(default=True)
+    is_confirmed = models.BooleanField(default=False)
+    contractor = models.ForeignKey(Contractor,
+                                   on_delete=models.CASCADE,
+                                   related_name="signatures")
     paper = models.ForeignKey(Paper,
-                                 on_delete=models.CASCADE,
-                                 related_name="paper_signatures")
-    profile = models.ForeignKey(Profile,
-                                on_delete=models.CASCADE,
-                                related_name="profile_signatures")
-    signature = models.ImageField()
+                              on_delete=models.CASCADE,
+                              related_name="paper_signatures")
+    user = models.ForeignKey(CustomUser,
+                              on_delete=models.CASCADE,
+                              related_name="user_signatures")
+    image = models.ImageField()
 
     class Meta:
-        unique_together = ('paper', 'profile')
+        unique_together = ('paper', 'user')
 
     def __str__(self):
-        return str(self.profile)
+        return str(self.user)

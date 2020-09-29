@@ -129,11 +129,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGES = [
-    ('ko', _('Korean')),
-    ('en', _('English')),
+    ('ko-KR', _('Korean')),
+    ('en-US', _('English')),
 ]
 
 LANGUAGE_CODE = 'ko-KR'
+# LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'UTC'
 
@@ -172,8 +173,9 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = (True)
 
 # Phonenumber Field setting
-PHONENUMBER_DB_FORMAT = 'NATIONAL'
-PHONENUMBER_DEFAULT_REGION = 'KR'
+PHONENUMBER_DB_FORMAT = "NATIONAL"
+PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
+PHONENUMBER_DEFAULT_REGION = "KR"
 
 # Django-REST-Framework
 REST_FRAMEWORK = {
