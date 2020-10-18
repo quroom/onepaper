@@ -172,28 +172,41 @@
               rules="required"
             >
               <v-autocomplete
-                v-model="expert"
+                class="mt-2"
+                multiple
+                @change="contractorChanged(experts, 'expert')"
+                v-model="experts"
                 :error-messages="errors"
                 :filter="customFilter"
                 :items="my_profiles"
                 item-text="name"
                 item-value="id"
-                class="mt-2"
+                return-object
                 :label="$t('realestate_agency')"
                 :placeholder="$t('realestate_agency')+' '+$t('search')"
               >
                 <template
                   v-slot:selection="{ item }"
-                >{{ item.user.name + '(' + $t('shop_name') + ':' + item.shop_name + ' / ' + $t('shop_address') +':'+ item.shop_address + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >
+                <v-chip
+                    v-bind="item.attrs"
+                    :input-value="item.selected"
+                    close
+                    @click:close="remove(item, 'experts')"
+                  >
+                    {{ item.expert_profile.shop_name }}
+                  </v-chip>
+                  <!-- {{ '(' + $t('shop_name') + ':' + item.expert_profile.shop_name}} -->
+                </template>
                 <template
                   v-slot:item="{ item }"
-                >{{ item.user.name + '(' + $t('shop_name') + ':' + item.shop_name + ' / ' + $t('shop_address') +':'+ item.shop_address + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >{{ item.expert_profile.shop_name}}</template>
               </v-autocomplete>
             </ValidationProvider>
-            <v-expansion-panel>
+            <v-expansion-panel v-if="experts">
               <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-row>
+                <v-row v-for="expert in experts" :key="`expert`+expert.id">
                   <template v-for="(field_name, index) in fields_names.expert_fields_name">
                     <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
                       <v-card outlined tile>{{ $t(field_name) }}</v-card>
@@ -205,10 +218,13 @@
                       md="2"
                       :key="`value-`+index"
                     >
-                      <v-card outlined tile>{{ getExpertProfile.user[field_name]}}</v-card>
+                      <v-card outlined tile>{{ expert.user[field_name]}}</v-card>
+                    </v-col>
+                    <v-col v-else-if="field_name==='registration_number' || field_name==='shop_name'" class="text-center" cols="4" md="2" :key="`value-`+index">
+                      <v-card outlined tile>{{ expert.expert_profile[field_name]}}</v-card>
                     </v-col>
                     <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-                      <v-card outlined tile>{{ getExpertProfile[field_name]}}</v-card>
+                      <v-card outlined tile>{{ expert[field_name]}}</v-card>
                     </v-col>
                   </template>
                 </v-row>
@@ -217,18 +233,19 @@
           </v-col>
           <v-col v-if="!is_loading" cols="12">
             <ValidationProvider
-              ref="seller"
+              ref="sellers"
               v-slot="{ errors }"
               :name="$t('landlord')"
               rules="required"
             >
               <v-autocomplete
-                v-model="seller"
+                v-model="sellers"
                 :error-messages="errors"
                 :filter="customFilter"
-                :items="authed_profiles"
+                :items="allowed_profiles"
                 item-text="name"
                 item-value="id"
+                return-object
                 class="mt-2"
                 :label="$t('landlord')"
                 :placeholder="$t('landlord')+' '+$t('search')"
@@ -241,7 +258,7 @@
                 >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
-            <v-expansion-panel>
+            <v-expansion-panel v-if="sellers">
               <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-row>
@@ -256,10 +273,10 @@
                       md="2"
                       :key="`value-`+index"
                     >
-                      <v-card outlined tile>{{ getSellerProfile['user'][field_name]}}</v-card>
+                      <v-card outlined tile>{{ sellers['user'][field_name]}}</v-card>
                     </v-col>
                     <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-                      <v-card outlined tile>{{ getSellerProfile[field_name]}}</v-card>
+                      <v-card outlined tile>{{ sellers[field_name]}}</v-card>
                     </v-col>
                   </template>
                 </v-row>
@@ -268,19 +285,20 @@
           </v-col>
           <v-col v-if="!is_loading" class="mt-5" cols="12">
             <ValidationProvider
-              ref="buyer"
+              ref="buyers"
               v-slot="{ errors }"
               :name="$t('tenant')"
               rules="required"
             >
               <v-autocomplete
-                v-model="buyer"
+                v-model="buyers"
                 :error-messages="errors"
                 :filter="customFilter"
-                :items="authed_profiles"
+                :items="allowed_profiles"
                 item-text="name"
                 item-value="id"
                 class="mt-2"
+                return-object
                 :label="$t('tenant')"
                 :placeholder="$t('tenant')+' '+$t('search')"
               >
@@ -292,7 +310,7 @@
                 >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
-            <v-expansion-panel>
+            <v-expansion-panel v-if="buyers">
               <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-row>
@@ -310,7 +328,7 @@
                       :key="`value-` + index"
                     >
                       <v-card outlined tile>
-                        {{ getBuyerProfile["user"][field_name] }}
+                        {{ buyers["user"][field_name] }}
                       </v-card>
                     </v-col>
                     <v-col
@@ -321,7 +339,7 @@
                       :key="`value-` + index"
                     >
                       <v-card outlined tile>
-                        {{ getBuyerProfile[field_name] }}
+                        {{ buyers[field_name] }}
                       </v-card>
                     </v-col>
                   </template>
@@ -358,14 +376,15 @@ export default {
   },
   computed: {
     getBuyerProfile: function() {
-      return this.authed_profiles.find(profile => profile.id == this.buyer);
+      return this.allowed_profiles.find(profile => profile.id == this.buyer);
     },
     getSellerProfile: function() {
-      return this.authed_profiles.find(profile => profile.id == this.seller);
+      return this.allowed_profiles.find(profile => profile.id == this.seller);
     },
     getExpertProfile: function() {
+      console.log(this.my_profiles.find(profile => profile.id == this.expert.id))
       if (this.expert != undefined) {
-        return this.my_profiles.find(profile => profile.id == this.expert);
+        return this.my_profiles.find(profile => profile.id == this.expert.id);
       } else {
         return this.expert;
       }      
@@ -377,7 +396,7 @@ export default {
       is_loading: false,
       is_expert: false,
       my_profiles: [],
-      authed_profiles: [],
+      allowed_profiles: [],
       fields_names: {
         realestate_fields_name: [
           "room_name",
@@ -402,14 +421,13 @@ export default {
           "account_number"
         ],
         expert_fields_name: [
-          "registration_number",
           "name",
           "birthday",
-          "mobile_number",
-          "shop_name",
-          "shop_address",
           "bank_name",
-          "account_number"
+          "account_number",
+          "registration_number",
+          "shop_name",
+          "address"
         ]
       },
       from_date_menu: false,
@@ -429,18 +447,31 @@ export default {
       from_date: null,
       to_date: null,
       realestate_type: null,
-      expert: null,
-      seller: null,
-      buyer: null,
+      contractors: [
+
+      ],
+      experts: null,
+      sellers: null,
+      buyers: null,
       special_agreement: null
     };
   },
   methods: {
+    remove (item, type) {
+      const index = this[type].indexOf(item)
+      if (index >= 0) this[type].splice(index, 1)
+    },
+    contractorChanged(datas, type) {
+      for(var data of datas){
+        console.log(data, type)
+      }
+    },
     getAuthedProfiles() {
-      let endpoint = `/api/authed-profiles/`;
+      let endpoint = `/api/allowed-profiles/`;
       this.is_loading = true;
+      this.test = true
       apiService(endpoint).then(data => {
-        this.authed_profiles = data;
+        this.allowed_profiles = data;
         this.is_loading = false;
       });
     },
@@ -451,18 +482,17 @@ export default {
         this.is_expert = true;
       });
     },
-    customFilter(item, queryText) {
+    customFilter(item, queryText) {  
       const name = item.user.name.toLowerCase();
-      const birthday =
-        item.user.birthday == null ? "" : item.user.birthday.toLowerCase();
       const username = item.user.username.toLowerCase();
       const profile_name = item.profile_name.toLowerCase();
+      const shop_name = item.expert_profile === null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
-
+            
       return (
         name.indexOf(searchText) > -1 ||
-        birthday.indexOf(searchText) > -1 ||
         username.indexOf(searchText) > -1 ||
+        shop_name.indexOf(searchText) > -1 ||
         profile_name.indexOf(searchText) > -1
       );
     },
@@ -495,9 +525,9 @@ export default {
               to_date: self.to_date,
               title: self.title,
               realestate_type: self.realestate_type,
-              expert: self.expert,
-              seller: self.seller,
-              buyer: self.buyer,
+              experts: self.experts,
+              sellers: self.sellers,
+              buyers: self.buyers,
               special_agreement: self.sepcial_agreement
             }).then(data => {
               if (data.id) {
@@ -545,9 +575,7 @@ export default {
           (vm.to_date = data.to_date),
           (vm.realestate_type = data.realestate_type),
           (vm.special_agreement = data.special_agreement),
-          (vm.expert = data.expert),
-          (vm.seller = data.seller),
-          (vm.buyer = data.buyer),
+          (vm.contractors = data.contractors),
           (vm.status = data.status)
         )
       );

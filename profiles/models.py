@@ -5,12 +5,12 @@ from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from ipware import get_client_ip
+from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    ip_address = models.GenericIPAddressField(null=True)    
-    request_expert = models.BooleanField(blank=True, default=False)
+    ip_address = models.GenericIPAddressField(null=True)
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
@@ -18,23 +18,16 @@ class CustomUser(AbstractUser):
     used_count = models.PositiveSmallIntegerField(blank=True, default=0)
     name = models.CharField(max_length=150)
     birthday = models.DateField(null=True)
+    request_expert = models.BooleanField(default=False)
 
 class Profile(models.Model):
     user = models.ForeignKey(CustomUser,
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name="profiles")
-    authorization_users = models.ManyToManyField(CustomUser,
-                                                 blank=True,
-                                                 related_name="auth_profiles")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_name = models.CharField(max_length=50)
-
-    #For expert user(like shop)
-    shop_name = models.CharField(max_length=100, blank=True)
-    shop_address = models.CharField(max_length=200, blank=True)
-    registration_number = models.CharField(max_length=45, blank=True)
 
     #For general user Move name birthday to CustomUser
     mobile_number = PhoneNumberField()
@@ -45,25 +38,45 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username + ":" + str(self.profile_name) + ""
 
-#Admin can add user to expert list.
-class Expert(models.Model):
-    user = models.OneToOneField(CustomUser,
-                                on_delete=models.CASCADE,
-                                related_name="expert")
-    shop_name = models.CharField(max_length=100, blank=True)
-    registration_number = models.CharField(max_length=45, blank=True)
+class ExpertProfile(models.Model):
+    REQUEST = 0
+    APPROVED = 1
+    DENYED = 2
+    CLOSED = 3
 
-    def __str__(self):
-        return self.user.__str__()
-        # return "%s : %s" % (self.profile.user.username, self.profile.profile_name)
+    STATUS_TYPE = (
+        (REQUEST, _('요청')),
+        (APPROVED, _('승인')),
+        (DENYED, _('거부')),
+        (CLOSED, _('폐업'))
+    )
 
-class AuthUser(models.Model):
-    auth_users = models.ManyToManyField(CustomUser,
-                                    blank=True,
-                                    related_name="auth_users")
     profile = models.OneToOneField(Profile,
-                                    blank=True,
-                                    related_name="auth_profile")
+                             on_delete=models.SET_NULL,
+                             null=True,
+                             blank=True,
+                             related_name="expert_profile")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    registration_number = models.CharField(max_length=45)
+    shop_name = models.CharField(max_length=100)
+
+    business_registration_certificate = models.ImageField()
+    agency_license = models.ImageField()
+    stamp = models.ImageField()
+    status = models.PositiveSmallIntegerField(
+        choices=STATUS_TYPE, default=REQUEST)
+
+class AuthedUser(models.Model):
+    authed_users = models.ManyToManyField(CustomUser,
+                                        blank=True,
+                                        related_name="authed_users")
+    profile = models.OneToOneField(Profile,
+                                   on_delete=models.SET_NULL,
+                                   null=True,
+                                   blank=True,
+                                   related_name="authed_user")
 
 @receiver(user_logged_in, sender=CustomUser)
 def post_login(sender, user, request, **kwargs):

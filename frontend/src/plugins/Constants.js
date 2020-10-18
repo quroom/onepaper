@@ -26,9 +26,15 @@ const Constants = {
     2: "done",
     3: "hidden"
   },
+  CONTRACTOR_TYPE: {
+    1: "seller",
+    2: "buyer",
+    3: "expert"
+  },
   REALESTATE_TYPE_LIST: [],
   TRADE_TYPE_LIST: [],
   STATUS_TYPE_LIST: [],
+  CONTRACTOR_TYPE_LIST: []
 };
 
 Constants.install = function(Vue) {

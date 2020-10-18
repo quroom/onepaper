@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -6,10 +7,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from profiles.models import CustomUser, Expert, Profile
-from profiles.serializers import CustomUserSerializer, BaseProfileSerializer, ExpertProfileSerializer, GeneralProfileSerializer
-from profiles.permissions import IsOwner
-
+from profiles.forms import CustomUserForm
+from profiles.models import AuthedUser, CustomUser, ExpertProfile, Profile
+from profiles.serializers import CustomUserSerializer, ProfileSerializer, ExpertProfileSerializer, AuthedUserSerializer, AllowedProfileListSerializer
+from profiles.permissions import IsOwner, IsProfileUserOrReadonly
 
 class CustomUserViewset(ModelViewSet):
     model = CustomUser
@@ -31,53 +32,71 @@ class CustomUserViewset(ModelViewSet):
 class CurrentProfileViewset(ModelViewSet):
     queryset = Profile.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
-
+    serializer_class = ProfileSerializer
+    
     def get_serializer_class(self):
-        expert = getattr(self.request.user, 'expert', None)
-        if expert is not None:
+        if self.request.user.request_expert:
             return ExpertProfileSerializer
         else:
-            return GeneralProfileSerializer
+            return ProfileSerializer
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
 
     def list(self, request, *args, **kwargs):
-        queryset = Profile.objects.filter(user=request.user)
+        queryset = self.get_queryset()
         serializer = self.get_serializer_class()(queryset, many=True)
         return Response(serializer.data)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
     def perform_create(self, serializer):
-        if serializer.validated_data['authorization_users'] is None:
-            serializer.validated_data['authorization_users'] = [
-                self.request.user]
-        else:
-            serializer.validated_data['authorization_users'].append(
-                self.request.user)
         serializer.save(user=self.request.user)
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        if getattr(instance, 'profile_signatues', None) is None:
-            serializer = self.get_serializer(
-                instance, data=request.data, partial=partial)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
-            return Response(serializer.data)
-        else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+class AuthedUserDetail(APIView):
+    permission_classes = [IsAuthenticated, IsProfileUserOrReadonly]
+    serializer_class = AuthedUserSerializer
+    
+    def get_object(self, pk):
+        obj = get_object_or_404(AuthedUser, profile=pk)
+        return obj    
 
-    def perform_update(self, serializer):
-        if serializer.validated_data['authorization_users'] is None:
-            serializer.validated_data['authorization_users'] = [
-                self.request.user]
-        else:
-            serializer.validated_data['authorization_users'].append(
-                self.request.user)
-        serializer.save()
+    def get(self, request, pk):
+        authedUser = self.get_object(pk)
+        serializer = AuthedUserSerializer(authedUser)
+        return Response(serializer.data)
 
-class AuthedProfileList(APIView):
+    def post(self, request, pk):
+        authedUser = get_object_or_404(AuthedUser, profile=pk)
+        authedUser.authed_users.add(*request.data['authed_users'])
+        authedUser.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(authedUser, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        authedUser = get_object_or_404(AuthedUser, profile=pk)
+        authedUser.authed_users.remove(*request.data['authed_users'])
+        authedUser.save()
+
+        serializer_context = {"request": request}
+        serializer = self.serializer_class(authedUser, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = request.user.auth_profiles.filter(user__expert__isnull=True)
-        serializer = GeneralProfileSerializer(queryset, many=True)
-        return Response(serializer.data)
+        profiles = Profile.objects.filter(authed_user__authed_users=request.user, expert_profile=None)
+        # profiles = AuthedUser.objects.filter(authed_users=request.user, profile__expert_profile=None).values('profile')
+        # serializer = AllowedProfileListSerializer(authed_users, many=True)
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

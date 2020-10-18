@@ -3,12 +3,12 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, generics, status, serializers
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, Contractor, Signature
-from papers.serializers import PaperSerializer, SignatureSerializer
+from papers.serializers import PaperSerializer, PaperReadonlySerializer,SignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsParticiations, IsSignatureUser
 
 class HidePaperApiView(APIView):
@@ -29,15 +29,25 @@ class HidePaperApiView(APIView):
 class PaperViewset(ModelViewSet):
     queryset = Paper.objects.all()
     permission_classes = [IsAuthenticated, IsAuthorOrParticiations]
-    serializer_class = PaperSerializer
+
+    def get_serializer_class(self):
+        if self.request.method in SAFE_METHODS:
+            return PaperReadonlySerializer
+        else:
+            return PaperSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', "partial_update", "destroy"]:
+            return [IsAuthenticated(), IsAuthor()]
+        return super(PaperViewset, self).get_permissions()
 
     def list(self, request, *args, **kwargs):
-        # queryset = Paper.objects.filter(expert__user=self.request.user)
-        # FIX: Call list function by each user type like expert, seller, buyer filter.
-        queryset = Paper.objects.filter(paper_contractors__profile__user=self.request.user)
-        # queryset = Contractor.objects.select_related('paper').filter(profile__user=self.request.user)
-        # queryset = Paper.objects.filter(Q(author=self.request.user) | Q(expert__user=self.request.user) |
-        #                             Q(seller__user=self.request.user) | Q(buyer__user=self.request.user)).distinct().order_by('-updated_at')
+        group = getattr(kwargs, 'group', None)
+        if group is None:
+            queryset = Paper.objects.filter(paper_contractors__profile__user=self.request.user)
+        else:
+            queryset = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__group=kwargs['group'])
+
         serializer_context = {"request": request}
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -46,29 +56,20 @@ class PaperViewset(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         paper = serializer.save(author=self.request.user)
-        instance = self.request.data
-        expert = instance.get('expert')
-        seller = instance.get('seller')
-        buyer = instance.get('buyer')
-
-        if expert != None:
-            Contractor.objects.create(paper=paper, profile_id=expert, group=Contractor.EXPERT)
-        if seller != None:
-            Contractor.objects.create(paper=paper, profile_id=seller, group=Contractor.SELLER)
-        if buyer != None:
-            Contractor.objects.create(paper=paper, profile_id=buyer, group=Contractor.BUYER)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
-    def get_permissions(self):
-        if self.action in ['update', "partial_update", "destroy"]:
-            return [IsAuthenticated(), IsAuthor()]
-        return super(PaperViewset, self).get_permissions()
 
     def destroy(self, request, *args, **kwargs):
         # FIX: Make destory function works well.

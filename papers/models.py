@@ -3,7 +3,7 @@ import base64
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db import models
-from profiles.models import CustomUser, Expert, Profile
+from profiles.models import CustomUser, ExpertProfile, Profile
 
 class Paper(models.Model):
     ONEROOM = 0
@@ -86,45 +86,22 @@ class Paper(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     special_agreement = models.TextField(blank=True)
-    expert = models.ForeignKey(Profile,
-                               null=True, blank=True,
-                               on_delete=models.SET_NULL,
-                               related_name="expert_papers")
-    seller = models.ForeignKey(Profile,
-                               null=True,
-                               on_delete=models.SET_NULL,
-                               related_name="seller_papers")
-    buyer = models.ForeignKey(Profile,
-                              null=True,
-                              on_delete=models.SET_NULL,
-                              related_name="buyer_papers")
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
         return self.address + ' ' + self.room_name + '-' + self.get_trade_type_display()
 
-    def full_clean(self):
-        expert_user = getattr(self.expert,'user')
-        seller_user = getattr(self.seller,'user')
-        buyer_user = getattr(self.buyer,'user')
-        if expert_user==seller_user or expert_user==buyer_user or seller_user==buyer_user:
-            raise ValidationError({
-                'expert':_('같은 회원은 입력될 수 없습니다.'),
-                'seller':_('같은 회원은 입력될 수 없습니다.'),
-                'buyer':_('같은 회원은 입력될 수 없습니다.'),
-            })
-
 #Add unique profile+paper
 class Contractor(models.Model):
-    EXPERT = 0
     SELLER = 1
     BUYER = 2
+    EXPERT = 3
 
     CONTRACTOR_TYPE = (
-        (EXPERT, _('전문가')),
         (SELLER, _('임대인(매도인)')),
         (BUYER, _('임차인(매수인)')),
+        (EXPERT, _('공인중개사'))
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -151,19 +128,11 @@ class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_paper_visible = models.BooleanField(default=True)
     is_confirmed = models.BooleanField(default=False)
-    contractor = models.ForeignKey(Contractor,
-                                   on_delete=models.CASCADE,
-                                   related_name="signatures")
-    paper = models.ForeignKey(Paper,
-                              on_delete=models.CASCADE,
-                              related_name="paper_signatures")
-    user = models.ForeignKey(CustomUser,
-                              on_delete=models.CASCADE,
-                              related_name="user_signatures")
+    contractor = models.OneToOneField(Contractor,
+                                      on_delete=models.SET_NULL,
+                                      null=True,
+                                      blank=True,
+                                      related_name="signature")
     image = models.ImageField()
-
-    class Meta:
-        unique_together = ('paper', 'user')
-
     def __str__(self):
         return str(self.user)
