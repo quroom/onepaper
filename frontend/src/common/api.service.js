@@ -19,4 +19,17 @@ function apiService(endpoint, method, data) {
     .catch(error => console.log(error));
 }
 
-export { apiService };
+function apiService_formData(endpoint, method, data) {
+  const config = {
+    method: method || "GET",
+    body: data !== undefined ? data : null,
+    headers: {
+      "X-CSRFTOKEN": CSRF_TOKEN
+    }
+  };
+  return fetch(endpoint, config)
+    .then(getJSON)
+    .catch(error => console.log(error));
+}
+
+export { apiService, apiService_formData };

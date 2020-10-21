@@ -86,14 +86,67 @@
             v-if="!isLoading"
             outlined
             tile
-          >{{ paper.seller_profile.bank_name }} {{ paper.seller_profile.user.name }} {{ paper.seller_profile.account_number }}</v-card>
+          >{{ seller.profile.bank_name }} {{ seller.profile.user.name }} {{ seller.profile.account_number }}</v-card>
         </v-col>
       </v-row>
 
       <div class="mt-5">3. {{ $t("contractor_info") }}</div>
       <div>{{ $t("contractor_info_intro") }}</div>
-      <v-row v-if="paper.expert_profile!=null && !isLoading" no-gutters>
-        <v-col class="text-center font-weight-bold" cols="12">
+      
+
+
+      <v-row v-if="expert!=null && !isLoading" no-gutters>
+        
+        <v-dialog v-model="expert_dialog" height="400px" max-width="400px" eager>
+            <v-card>
+              <VueSignaturePad
+                class="signature_pad"
+                width="100%"
+                height="400px"
+                ref="expert_signaturePad"
+                :options= "{
+                  minWidth: 3,
+                  maxWidth: 3,
+                  penColor: 'red',
+                }"
+              />
+              <v-card-actions>
+                <v-btn color="blue darken-1" text @click="expert_dialog = false">{{$t('close')}}</v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="clear('expert')"
+                >{{$t('clear')}}</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="save('expert')"
+                >{{$t('save')}}</v-btn>
+              </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-btn
+          style="position:absolute; z-index:2;"
+          @click="open('expert')"
+          v-if="expert.signature===null && requestUser===expert.profile.user.username"            
+          color="red"
+          dark
+          top
+          right
+        >
+          <v-icon>create</v-icon>
+          {{$t("signature")}}
+        </v-btn>
+        <v-col class="text-center" cols="1">
+          <v-card outlined tile> {{$t("sign")}} </v-card>
+          <template v-if="expert.signature">
+            <a v-bind:href="expert.signature.image" target="_blank">
+              <img class="signature_img" :src="expert.signature.image" />
+            </a>            
+          </template>
+        </v-col>
+        <v-col class="text-center font-weight-bold" cols="11">
           <v-card outlined tile color="blue lighten-4">{{ $t("realestate_agency") }}</v-card>
         </v-col>
         <template v-for="(field_name, index) in fields_names.expert_fields_name">
@@ -107,80 +160,77 @@
             md="2"
             :key="`value-`+index"
           >
-            <v-card outlined tile>{{ paper.expert_profile['user'][field_name]}}</v-card>
+            <v-card outlined tile>{{ expert.profile.user[field_name]}}</v-card>
+          </v-col>
+          <v-col v-else-if="field_name==='registration_number' || field_name==='shop_name'" class="text-center" cols="4" md="2" :key="`value-`+index">
+            <v-card outlined tile>{{ expert.profile.expert_profile[field_name]}}</v-card>
           </v-col>
           <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-            <v-card outlined tile>{{ paper.expert_profile[field_name]}}</v-card>
+            <v-card outlined tile>{{ expert.profile[field_name]}}</v-card>
           </v-col>
         </template>
         <v-col>
-          <v-btn
-            v-if="paper.expert_signature===null && requestUser===paper.expert_profile.user.username"
-            color="red"
-            dark
-            fab
-            top
-            right
-          >
-            <v-icon>create</v-icon>
-            {{$t("signature")}}
-          </v-btn>
-          <template v-if="paper.expert_signature">
-            <div class="top-mid">{{$t("signature")}}</div>
-            <img width="60px" :src="paper.expert_signature.image" />
+          <template v-if="expert.profile.expert_profile.stamp">
+            <div class="top-mid">({{$t("stamp")}})</div>
+            <a v-bind:href="expert.profile.expert_profile.stamp" target="_blank">
+              <img class="stamp_img" :src="expert.profile.expert_profile.stamp" />
+            </a>
           </template>
         </v-col>
       </v-row>
-      <v-row class="mt-5" v-if="!isLoading" no-gutters>           
-          <v-dialog v-model="seller_dialog" height="400px" max-width="400px" eager>
-              <v-card>
-                <VueSignaturePad
-                  class="signature_pad"
-                  width="100%"
-                  height="400px"
-                  ref="seller_signaturePad"
-                  :options= "{
-                    minWidth: 3,
-                    maxWidth: 3,
-                    penColor: 'red',
-                  }"
-                />
-                <v-card-actions>
-                  <v-btn color="blue darken-1" text @click="seller_dialog = false">{{$t('close')}}</v-btn>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="clear('seller_signaturePad')"
-                  >{{$t('clear')}}</v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    color="blue darken-1"
-                    text
-                    @click="save('seller_signaturePad')"
-                  >{{$t('save')}}</v-btn>
-                </v-card-actions>
-              </v-card>
-          </v-dialog>
-          <v-btn
-            style="position:absolute; z-index:2;"
-            @click="open('seller')"
-            v-if="paper.seller_signature===null && requestUser===paper.seller_profile.user.username"
-            color="red"
-            dark
-            fab
-            top
-            right
-          >
-            <v-icon>create</v-icon>
-            {{$t("signature")}}
-          </v-btn>
-        
+
+
+      <v-row class="mt-5" v-if="!isLoading" no-gutters>
+        <v-dialog v-model="seller_dialog" height="400px" max-width="400px" eager>
+            <v-card>
+              <VueSignaturePad
+                class="signature_pad"
+                width="100%"
+                height="400px"
+                ref="seller_signaturePad"
+                :options= "{
+                  minWidth: 3,
+                  maxWidth: 3,
+                  penColor: 'red',
+                }"
+              />
+              <v-card-actions>
+                <v-btn color="blue darken-1" text @click="seller_dialog = false">{{$t('close')}}</v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="clear('seller')"
+                >{{$t('clear')}}</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="save('seller')"
+                >{{$t('save')}}</v-btn>
+              </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-btn
+          style="position:absolute; z-index:2;"
+          @click="open('seller')"
+          v-if="seller.signature===null && requestUser===seller.profile.user.username"            
+          color="red"
+          dark
+          top
+          right
+        >
+          <v-icon>create</v-icon>
+          {{$t("signature")}}
+        </v-btn>
         <v-col class="text-center" cols="1">
           <v-card outlined tile> {{ $t("sign") }} </v-card>
-            <template v-if="paper.seller_signature">              
-              <img @click="newtab(paper.seller_signature.image)" class="signature_img" :src="paper.seller_signature.image" />
+            <template v-if="seller.signature">
+              <a v-bind:href="seller.signature.image" target="_blank">
+                <img class="signature_img" :src="seller.signature.image" />
+              </a>
             </template>
         </v-col>
+
         <v-col class="text-center font-weight-bold" cols="11">
           <v-card outlined tile color="blue lighten-4">{{ $t("landlord") }}</v-card>
         </v-col>
@@ -195,10 +245,10 @@
             md="2"
             :key="`value-`+index"
           >
-            <v-card outlined tile>{{ paper.seller_profile['user'][field_name]}}</v-card>
+            <v-card outlined tile>{{ seller.profile.user[field_name]}}</v-card>
           </v-col>
           <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-            <v-card outlined tile>{{ paper.seller_profile[field_name]}}</v-card>
+            <v-card outlined tile>{{ seller.profile[field_name]}}</v-card>
           </v-col>
         </template>         
       </v-row>
@@ -221,20 +271,19 @@
                 <v-btn
                   color="blue darken-1"
                   text
-                  @click="clear('buyer_signaturePad')"
+                  @click="clear('buyer')"
                 >{{$t('clear')}}</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="save('buyer_signaturePad')">{{$t('save')}}</v-btn>
+                <v-btn color="blue darken-1" text @click="save('buyer')">{{$t('save')}}</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
           <v-btn
             style="position:absolute; z-index:1"
             @click="open('buyer')"
-            v-if="paper.buyer_signature===null && requestUser===paper.buyer_profile.user.username"
+            v-if="buyer.signature===null && requestUser===buyer.profile.user.username"
             color="red"
             dark
-            fab
             top
             right
           >
@@ -243,8 +292,10 @@
           </v-btn>
         <v-col class="text-center" cols="1">
           <v-card outlined tile> {{$t("sign")}} </v-card>
-          <template v-if="paper.buyer_signature">
-            <img @click="newtab(paper.buyer_signature.image)" class="signature_img" :src="paper.buyer_signature.image" />
+          <template v-if="buyer.signature">
+            <a v-bind:href="buyer.signature.image" target="_blank">
+              <img class="signature_img" :src="buyer.signature.image" />
+            </a>            
           </template>
         </v-col>
         <v-col class="text-center font-weight-bold" cols="11">
@@ -261,10 +312,10 @@
             md="2"
             :key="`value-`+index"
           >
-            <v-card outlined tile>{{ paper.buyer_profile['user'][field_name]}}</v-card>
+            <v-card outlined tile>{{ buyer.profile.user[field_name]}}</v-card>
           </v-col>
           <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-            <v-card outlined tile>{{ paper.buyer_profile[field_name]}}</v-card>
+            <v-card outlined tile>{{ buyer.profile[field_name]}}</v-card>
           </v-col>
         </template>
       </v-row>
@@ -275,7 +326,7 @@
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService, apiService_formData } from "@/common/api.service";
 import i18n from "@/plugins/i18n";
 import PaperActions from "@/components/PaperActions.vue";
 
@@ -293,11 +344,15 @@ export default {
   data() {
     return {
       isLoading: true,
+      expert_dialog: false,
       seller_dialog: false,
       buyer_dialog: false,
       warning_dialog: false,
       error: null,
       paper: {},
+      expert: null,
+      seller: null,
+      buyer: null,
       fields_names: {
         realestate_fields_name: [
           "room_name",
@@ -332,7 +387,7 @@ export default {
           "birthday",
           "mobile_number",
           "shop_name",
-          "shop_address",
+          "address",
           "bank_name",
           "account_number"
         ]
@@ -346,39 +401,66 @@ export default {
     }
   },
   methods: {
+    initialize_contractors(contractors) {
+      console.log(this)
+      for(var i=0; i<contractors.length; i++){
+          if(contractors[i].group == this.$getConstByVal("CONTRACTOR_TYPE","expert")){
+            this.expert = contractors[i]
+          }else if(contractors[i].group == this.$getConstByVal("CONTRACTOR_TYPE","seller")){
+            this.seller = contractors[i]
+          }else {
+            this.buyer = contractors[i]
+          }
+      }
+    },
     getPaperData() {
       this.isLoading = true;
       let endpoint = `/api/papers/${this.id}/`;
       apiService(endpoint).then(data => {
         this.paper = data;
-        console.log(this.paper.buyer_signature)
+        this.initialize_contractors(this.paper.paper_contractors);
+        // console.log(this.buyer.signature)
         this.isLoading = false;
       });
     },
-    clear(padName) {
-      this.$refs[padName].clearSignature();
+    clear(group) {
+      const { data } = this.$refs[group+'_signaturePad'].saveSignature();
+      console.log(data)
+      this.$refs[group+'_signaturePad'].clearSignature();
     },
-    save(padName) {
-      const { isEmpty, data } = this.$refs[padName].saveSignature();
+    save(group) {
+      const { isEmpty, data } = this.$refs[group+'_signaturePad'].saveSignature();
+            
+      // var parseFile = new Parse.File('signature'+self[group].id, { base64: base64 });      
       if(isEmpty) {
         this.warning_dialog = true;
         this.error = i18n.t("signature_empty_warning");
       }
 
-      let self = this;      
-      let endpoint = `/api/papers/${this.id}/signature/`;
-      let content_type = 'multipart/form-data'
+      let self = this;
+      let endpoint = `/api/papers/${this.id}/signature/`;      
       try {
-        apiService(endpoint, 'POST', {
-          image:data
-        },content_type).then(data => {
-          if (data.id) {
-            window.location.reload()
-          } else {
-            this.warning_dialog = true;
-            self.error= data;            
-          }
+      fetch(data).then(
+        res => {
+        return res.blob()
+      }).then(
+        myblob =>{
+          const formData  = new FormData();
+          formData.append('image', myblob, "signature_" + self[group].id + ".png");
+          formData.append('contractor', self[group].id);
+  
+          apiService_formData(endpoint, 'POST', formData).then(data => {
+            if (data.id) {
+              window.location.reload()
+            } else {
+              this.warning_dialog = true;
+              self.error= data;            
+            }
         });
+        }
+        
+      )
+        
       } catch (err) {
         console.log(err);
       }
@@ -424,12 +506,20 @@ img {
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
-.signature_img { 
+.signature_img {
   width:50px;
   z-index: 1;
   position: absolute;
   top: -10px;
   left: 20px;
+  cursor: pointer;
+}
+.stamp_img {
+  width:50px;
+  z-index: 1;
+  position: absolute;
+  top: 0px;
+  right: -50px;
   cursor: pointer;
 }
 </style>

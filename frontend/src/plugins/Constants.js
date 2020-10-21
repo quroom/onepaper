@@ -2,12 +2,12 @@ import i18n from "@/plugins/i18n";
 
 const Constants = {
   REALESTATE_TYPE: {
-    1: "oneroom",
-    2: "tworoom",
-    3: "threeroom",
-    4: "fourroom",
-    5: "sharehouse",
-    6: "officetel",
+    0: "oneroom",
+    1: "tworoom",
+    2: "threeroom",
+    3: "fourroom",
+    4: "sharehouse",
+    5: "officetel",
     20: "aprtment",
     21: "vailla",
     22: "house",
@@ -16,20 +16,21 @@ const Constants = {
     41: "land",
   },
   TRADE_TYPE: {
-    1: "rent",
-    2: "depositloan",
-    3: "trade",
-    4: "exchange",
+    0: "rent",
+    1: "depositloan",
+    // 2: "trade",
+    // 3: "exchange",
   },
   STATUS_TYPE: {
-    1: "draft",
-    2: "done",
+    0: "draft",
+    1: "done",
+    2: "confrim",
     3: "hidden"
   },
   CONTRACTOR_TYPE: {
-    1: "seller",
-    2: "buyer",
-    3: "expert"
+    0: "seller",
+    1: "buyer",
+    2: "expert"
   },
   REALESTATE_TYPE_LIST: [],
   TRADE_TYPE_LIST: [],

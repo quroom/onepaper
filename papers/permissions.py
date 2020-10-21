@@ -1,13 +1,15 @@
 from rest_framework import permissions
-
+from papers.models import Contractor
 class IsAuthor(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.author == request.user
 
 class IsAuthorOrParticiations(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):        
-        return obj.author == request.user or getattr(obj.expert,'user',None) == request.user\
-            or getattr(obj.seller,'user',None) == request.user or getattr(obj.buyer,'user',None) == request.user
+        if obj.author == request.user:
+            return True
+        else:
+            return Contractor.objects.filter(paper=obj, profile__user=request.user).exists()
 
 class IsParticiations(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):

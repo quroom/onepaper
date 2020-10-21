@@ -3,20 +3,74 @@ from rest_framework import serializers
 from profiles.serializers import ProfileSerializer
 from profiles.models import Profile, ExpertProfile, AuthedUser
 from papers.models import Paper, Contractor, Signature
+# from core.utils import Base64ImageField
 
-#Later: AddPaperListSerializer, Because Paperserializer is too much heavy.
+class Base64ImageField(serializers.ImageField):
+    """
+    A Django REST framework field for handling image-uploads through raw post data.
+    It uses base64 for encoding and decoding the contents of the file.
+
+    Heavily based on
+    https://github.com/tomchristie/django-rest-framework/pull/1268
+
+    Updated for Django REST framework 3.
+    """
+
+    def to_internal_value(self, data):
+        from django.core.files.base import ContentFile
+        import base64
+        import six
+        import uuid
+
+        # Check if this is a base64 string
+        if isinstance(data, six.string_types):
+            # Check if the base64 string is in the "data:" format
+            if 'data:' in data and ';base64,' in data:
+                # Break out the header from the base64 content
+                header, data = data.split(';base64,')
+
+            # Try to decode the file. Return validation error if it fails.
+            try:
+                decoded_file = base64.b64decode(data)
+            except TypeError:
+                self.fail('invalid_image')
+
+            # Generate file name:
+            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+            # Get the file name extension:
+            file_extension = self.get_file_extension(file_name, decoded_file)
+
+            complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+            data = ContentFile(decoded_file, name=complete_file_name)
+
+        return super(Base64ImageField, self).to_internal_value(data)
+
+    def get_file_extension(self, file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
 
 class ContractorSerializer(serializers.ModelSerializer):
-    # profile = ProfileSerializer(many=False)
-    # profile_id = serializers.PrimaryKeyRelatedField(many=False,
-    #                                                 source='profile',
-    #                                                 queryset=Profile.objects.all())
     class Meta:
         model = Contractor
         fields = ("profile", "profile_id", "paper", "group")
 
+class SignatureSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(
+        max_length=None, use_url=True,
+    ),
+    contractor = ContractorSerializer(read_only=True)
+    class Meta:
+        model = Signature
+        fields = ("id", "created_at", "updated_at", "is_paper_visible", "is_confirmed", "contractor", "image")
+
 class ContractorDetailSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
+    signature = SignatureSerializer(read_only=True)
     class Meta:
         model = Contractor
         fields = "__all__"
@@ -31,6 +85,7 @@ class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
         fields = '__all__'
+
     def create(self, validated_data):
         contractors = validated_data.pop('paper_contractors')
         paper = Paper.objects.create(**validated_data)
@@ -99,64 +154,3 @@ class PaperSerializer(serializers.ModelSerializer):
 
 class PaperReadonlySerializer(PaperSerializer):
     paper_contractors = ContractorDetailSerializer(many=True)
-
-import base64
-from django.core.files.base import ContentFile
-
-class Base64ImageField(serializers.ImageField):
-    """
-    A Django REST framework field for handling image-uploads through raw post data.
-    It uses base64 for encoding and decoding the contents of the file.
-
-    Heavily based on
-    https://github.com/tomchristie/django-rest-framework/pull/1268
-
-    Updated for Django REST framework 3.
-    """
-
-    def to_internal_value(self, data):
-        from django.core.files.base import ContentFile
-        import base64
-        import six
-        import uuid
-
-        # Check if this is a base64 string
-        if isinstance(data, six.string_types):
-            # Check if the base64 string is in the "data:" format
-            if 'data:' in data and ';base64,' in data:
-                # Break out the header from the base64 content
-                header, data = data.split(';base64,')
-
-            # Try to decode the file. Return validation error if it fails.
-            try:
-                decoded_file = base64.b64decode(data)
-            except TypeError:
-                self.fail('invalid_image')
-
-            # Generate file name:
-            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
-            # Get the file name extension:
-            file_extension = self.get_file_extension(file_name, decoded_file)
-
-            complete_file_name = "%s.%s" % (file_name, file_extension, )
-
-            data = ContentFile(decoded_file, name=complete_file_name)
-
-        return super(Base64ImageField, self).to_internal_value(data)
-
-    def get_file_extension(self, file_name, decoded_file):
-        import imghdr
-
-        extension = imghdr.what(file_name, decoded_file)
-        extension = "jpg" if extension == "jpeg" else extension
-
-        return extension
-
-class SignatureSerializer(serializers.ModelSerializer):
-    image = Base64ImageField(
-        max_length=None, use_url=False,
-    )
-    class Meta:
-        model = Signature
-        fields = "__all__"
-        read_only_fields = ("paper", "user", "image")

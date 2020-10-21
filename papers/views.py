@@ -85,29 +85,37 @@ class SignatureListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         kwarg_id = self.kwargs.get("id")
-        return Signature.objects.filter(paper=kwarg_id)
+        return Signature.objects.filter(contractor__paper__id=kwarg_id)
 
 class SignatureCreateApiView(generics.CreateAPIView):
     queryset = Signature.objects.all()
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsParticiations]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
     def perform_create(self, serializer):
         id = self.kwargs.get("id")
         request_user = self.request.user
         paper = get_object_or_404(Paper, id=id)
+        contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
 
         if paper.status == Paper.DONE:
             raise ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))
 
-        signatures = Signature.objects.filter(paper=paper, user=self.request.user)
+        signatures = Signature.objects.filter(contractor=contractor)
 
         if signatures.exists():
             signature = signatures.first()
             if signature.updated_at > paper.updated_at:
                 raise serializers.ValidationError(_("이미 서명이 등록되어있습니다."))
 
-        serializer.save(paper=paper, user=self.request.user, image=self.request.data['image'])
+        serializer.save(contractor=contractor, image=self.request.data['image'])
         return Response(serializer.data)
 
 class SignatureUpdateApiView(mixins.RetrieveModelMixin,

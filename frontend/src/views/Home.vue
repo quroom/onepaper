@@ -41,6 +41,18 @@
               <span v-else-if="paper.trade_type == $getConstByVal('trade_type', 'exchange')">
               </span>
             </v-card-text>
+            <v-card-actions>
+              <v-btn
+              v-if="!isLoading && !IsSigned(paper.paper_contractors)"
+              color="red"
+              dark
+              top
+              right
+              >
+                <v-icon>create</v-icon>
+                {{$t("signature")}}
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -60,19 +72,42 @@ export default {
   name: "Home",
   data() {
     return {
-      papers: []
+      papers: [],
+      requestUser: null,
+      isLoading: true,
     };
   },
+  computed: {
+    
+  },
   methods: {
+    IsSigned(contractors) {
+      const self = this;
+      for(var i=0; i<contractors.length; i++){
+        var contractor = contractors[i]
+        console.log(contractor.profile.user.username);
+        if(contractor.profile.user.username==self.requestUser){
+          console.log(contractor.signature == null)
+          console.log(!self.isLoading && !!(contractor.signature == null))
+          return !(contractor.signature == null);
+        }
+      }
+      
+        
+      console.log("what?")
+    },
     getPapers() {
       let endpoint = "api/papers/";
+      this.isLoading = true;
       apiService(endpoint).then(data => {
         this.papers.push(...data.results);
+        this.isLoading = false;
       });
     }
   },
   created() {
     this.getPapers();
+    this.requestUser = window.localStorage.getItem("username");
   }
 };
 </script>

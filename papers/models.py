@@ -94,9 +94,9 @@ class Paper(models.Model):
 
 #Add unique profile+paper
 class Contractor(models.Model):
-    SELLER = 1
-    BUYER = 2
-    EXPERT = 3
+    SELLER = 0
+    BUYER = 1
+    EXPERT = 2
 
     CONTRACTOR_TYPE = (
         (SELLER, _('임대인(매도인)')),
@@ -135,4 +135,4 @@ class Signature(models.Model):
                                       related_name="signature")
     image = models.ImageField()
     def __str__(self):
-        return str(self.user)
+        return str(self.contractor.profile.user)
