@@ -33,7 +33,6 @@
         >{{ paper.title }}</v-col>
       </v-row>
       <div>{{ $t("intro") }}</div>
-
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
       <v-row no-gutters>
         <v-col class="text-center font-weight-bold" cols="2">
@@ -58,7 +57,6 @@
           </v-col>
         </template>
       </v-row>
-
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
       <v-row no-gutters>
@@ -89,14 +87,9 @@
           >{{ seller.profile.bank_name }} {{ seller.profile.user.name }} {{ seller.profile.account_number }}</v-card>
         </v-col>
       </v-row>
-
       <div class="mt-5">3. {{ $t("contractor_info") }}</div>
       <div>{{ $t("contractor_info_intro") }}</div>
-      
-
-
-      <v-row v-if="expert!=null && !isLoading" no-gutters>
-        
+      <v-row v-if="expert!=null && !isLoading" no-gutters>        
         <v-dialog v-model="expert_dialog" height="400px" max-width="400px" eager>
             <v-card>
               <VueSignaturePad
@@ -147,7 +140,14 @@
           </template>
         </v-col>
         <v-col class="text-center font-weight-bold" cols="11">
-          <v-card outlined tile color="blue lighten-4">{{ $t("realestate_agency") }}</v-card>
+          <v-card outlined tile color="blue lighten-4">
+            {{ $t("realestate_agency") }}
+            <template v-if="expert.profile.expert_profile.stamp">
+              <a v-bind:href="expert.profile.expert_profile.stamp" target="_blank">
+                <img class="stamp_img" :src="expert.profile.expert_profile.stamp" />
+              </a>
+            </template>
+          </v-card>
         </v-col>
         <template v-for="(field_name, index) in fields_names.expert_fields_name">
           <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
@@ -169,17 +169,7 @@
             <v-card outlined tile>{{ expert.profile[field_name]}}</v-card>
           </v-col>
         </template>
-        <v-col>
-          <template v-if="expert.profile.expert_profile.stamp">
-            <div class="top-mid">({{$t("stamp")}})</div>
-            <a v-bind:href="expert.profile.expert_profile.stamp" target="_blank">
-              <img class="stamp_img" :src="expert.profile.expert_profile.stamp" />
-            </a>
-          </template>
-        </v-col>
       </v-row>
-
-
       <v-row class="mt-5" v-if="!isLoading" no-gutters>
         <v-dialog v-model="seller_dialog" height="400px" max-width="400px" eager>
             <v-card>
@@ -402,7 +392,6 @@ export default {
   },
   methods: {
     initialize_contractors(contractors) {
-      console.log(this)
       for(var i=0; i<contractors.length; i++){
           if(contractors[i].group == this.$getConstByVal("CONTRACTOR_TYPE","expert")){
             this.expert = contractors[i]
@@ -424,8 +413,6 @@ export default {
       });
     },
     clear(group) {
-      const { data } = this.$refs[group+'_signaturePad'].saveSignature();
-      console.log(data)
       this.$refs[group+'_signaturePad'].clearSignature();
     },
     save(group) {
@@ -456,7 +443,7 @@ export default {
               this.warning_dialog = true;
               self.error= data;            
             }
-        });
+          });
         }
         
       )
@@ -507,7 +494,7 @@ img {
   background-clip: content-box, border-box;
 }
 .signature_img {
-  width:50px;
+  width:60px;
   z-index: 1;
   position: absolute;
   top: -10px;
@@ -515,11 +502,10 @@ img {
   cursor: pointer;
 }
 .stamp_img {
-  width:50px;
+  width:60px;
   z-index: 1;
   position: absolute;
-  top: 0px;
-  right: -50px;
+  top: -20px; 
   cursor: pointer;
 }
 </style>

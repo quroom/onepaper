@@ -29,6 +29,11 @@
           </v-card>
         </v-col>
       </v-row>
+      <router-link :to="{ name: 'profile-editor' }">
+        <v-btn color="grey" dark absolute fab mid right>
+          <v-icon>add</v-icon>
+        </v-btn>
+      </router-link>
     </v-container>
   </div>
 </template>

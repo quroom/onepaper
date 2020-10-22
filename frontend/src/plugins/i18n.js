@@ -48,7 +48,8 @@ const i18n = new VueI18n({
       sign: "Signature",
       signature: "Sign",
       signature_empty_warning: "Signature can't be empty",
-      stamp: "stamp",
+      stamp: "Stamp",
+      submit: "Submit",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
       terms_and_conditions_intro: "The contract details for the above real estate are as follows.",
@@ -70,6 +71,8 @@ const i18n = new VueI18n({
       registration_number: "Registration Number",
       shop_name: "Shop Name",
       shop_address: "Shop Address",
+      business_registration_certificate: "Registration Certificate",
+      agency_license: "Agency License",
 
       //Realestate basic message
       address: "Address",
@@ -154,6 +157,7 @@ const i18n = new VueI18n({
       signature: "서명",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
       stamp: "인장",
+      submit: "제출",
       tenant: "임차인",
       terms_and_conditions: "계약내용",
       terms_and_conditions_intro: "위 부동산의 계약내용은 아래와 같다.",
@@ -175,6 +179,8 @@ const i18n = new VueI18n({
       registration_number: "등록번호",
       shop_name: "사무소 명칭",
       shop_address: "사무소 소재지",
+      business_registration_certificate: "사업자 등록증",
+      agency_license: "자격증",
 
       area: "면적",
       address: "주소",

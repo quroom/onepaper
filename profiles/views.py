@@ -43,6 +43,11 @@ class CurrentProfileViewset(ModelViewSet):
     def get_queryset(self):
         return Profile.objects.filter(user=self.request.user)
 
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer_class()(queryset, many=True)

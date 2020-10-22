@@ -28,8 +28,6 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_name = models.CharField(max_length=50)
-
-    #For general user Move name birthday to CustomUser
     mobile_number = PhoneNumberField()
     address = models.CharField(max_length=200)
     bank_name = models.CharField(max_length=45, blank=True)

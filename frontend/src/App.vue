@@ -20,10 +20,9 @@ export default {
   methods: {
     async setUserInfo() {
       const data = await apiService("/api/user/");
-      const requestUser = data["username"];
-      const is_expert = data["is_expert"]
-      window.localStorage.setItem("username", requestUser);
-      window.localStorage.setItem("is_expert", is_expert);
+      window.localStorage.setItem("username", data["username"]);
+      window.localStorage.setItem("is_expert", data["is_expert"]);
+      window.localStorage.setItem("request_expert", data["request_expert"]);
     }
   },
   created() {

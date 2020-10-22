@@ -10,7 +10,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     ip_address = serializers.IPAddressField(read_only=True)
     is_expert = serializers.SerializerMethodField()
 
-    def get_is_expert(self, obj):        
+    def get_is_expert(self, obj):
         return ExpertProfile.objects.filter(profile__user=obj, status=ExpertProfile.APPROVED).exists()
 
     class Meta:
@@ -55,11 +55,18 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         ExpertProfile.objects.create(profile=profile, **expert_profile)
         return profile
     
-    def update(self, validated_data):
-        expert_profile = validated_data.pop('expert_profile')
-        profile = Profile.objects.save(**validated_data)
-        ExpertProfile.objects.save(profile=profile, **expert_profile)
-        return profile
+    def update(self, instance, validated_data):
+        expert_profile_data = validated_data.pop('expert_profile')
+        
+        expert_profile = instance.expert_profile
+        for key, val in expert_profile_data.items():
+            setattr(expert_profile, key, val)
+        expert_profile.save()
+
+        for key, val in validated_data.items():
+            setattr(instance, key, val)
+        instance.save()
+        return instance
 
 class AuthedUserSerializer(serializers.ModelSerializer):
     authed_users = CustomUserIDNameSerializer(many=True)

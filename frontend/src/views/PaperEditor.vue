@@ -340,7 +340,7 @@
       <div class="mt-5">4. {{ $t("special_agreement") }}</div>
       <v-textarea class="mt-2" v-model="special_agreement" auto-grow outlined>
       </v-textarea>
-      <v-btn class="mr-4" @click="onSubmit()">submit</v-btn>
+      <v-btn class="mr-4" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </div>
   </ValidationObserver>
 </template>
