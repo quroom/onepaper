@@ -16,7 +16,7 @@ function apiService(endpoint, method, data) {
   };
   return fetch(endpoint, config)
     .then(getJSON)
-    .catch(error => console.log(error));
+    .catch(error => alert(error));
 }
 
 function apiService_formData(endpoint, method, data) {
@@ -29,7 +29,7 @@ function apiService_formData(endpoint, method, data) {
   };
   return fetch(endpoint, config)
     .then(getJSON)
-    .catch(error => console.log(error));
+    .catch(error => alert(error));
 }
 
 export { apiService, apiService_formData };
