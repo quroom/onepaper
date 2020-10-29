@@ -27,7 +27,7 @@
 </template>
 <script>
 export default {
-  name: "NavbarComponent",
+  name: "Navbar",
   methods: {
     switchLoc() {
       this.$i18n.locale = this.$i18n.locale === "en" ? "ko" : "en";

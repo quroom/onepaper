@@ -1,18 +1,18 @@
 <template>
   <v-app>
-    <NavbarComponent />
+    <Navbar />
     <router-view />
   </v-app>
 </template>
 
 <script>
-import NavbarComponent from "./components/Navbar.vue";
+import Navbar from "./components/Navbar.vue";
 import { apiService } from "@/common/api.service";
 
 export default {
   name: "App",
   components: {
-    NavbarComponent
+    Navbar
   },
   data: () => ({
     //
