@@ -11,8 +11,11 @@
         <v-icon>home</v-icon>
       </router-link>
       <v-spacer></v-spacer>
-      <router-link :to="{ name: 'profiles' }">
+      <router-link class="ma-4" :to="{ name: 'profiles' }">
         {{ $t("profile") }}
+      </router-link>
+      <router-link class="ma-4" :to="{ name: 'Home' }">
+        {{ $t("contract") }}
       </router-link>
       <v-spacer></v-spacer>
       <v-btn text color="grey" href="/accounts/logout/">

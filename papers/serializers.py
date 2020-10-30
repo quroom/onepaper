@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from profiles.serializers import ProfileSerializer
-from profiles.models import Profile, ExpertProfile, AuthedUser
+from profiles.models import Profile, ExpertProfile, AllowedUser
 from papers.models import Paper, Contractor, Signature
 
 class ContractorSerializer(serializers.ModelSerializer):
@@ -57,7 +57,7 @@ class PaperSerializer(serializers.ModelSerializer):
             
             contractors_id_list.append(contractor['profile'].id)
 
-            if not AuthedUser.objects.filter(authed_users=author, profile=contractor['profile']).exists():
+            if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
                 raise serializers.ValidationError({
                     key: _("프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."),
                 })

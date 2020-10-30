@@ -4,11 +4,11 @@
       :to="{name: 'paper-editor', params: {id: id}}"
     >
       <v-btn color="green" dark>
-        Edit
+        {{$t('edit')}}
       </v-btn>
     </router-link>
     <v-btn color="error" @click="deletePaper">
-      Delete
+      {{$t('delete')}}
     </v-btn>
   </div>
 </template>

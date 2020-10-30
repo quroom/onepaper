@@ -2,7 +2,7 @@ import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from django.http import JsonResponse
 from rest_framework import serializers
-from profiles.models import CustomUser, Profile, ExpertProfile, AuthedUser
+from profiles.models import CustomUser, Profile, ExpertProfile, AllowedUser
 from papers.models import Paper
 from django.db.models import Q
 
@@ -11,7 +11,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     is_expert = serializers.SerializerMethodField()
 
     def get_is_expert(self, obj):
-        return ExpertProfile.objects.filter(profile__user=obj, status=ExpertProfile.APPROVED).exists()
+        return ExpertProfile.objects.filter(profile__user=obj, status=ExpertProfile.APPROVED).exists() or obj.request_expert
 
     class Meta:
         model = CustomUser
@@ -23,7 +23,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class CustomUserIDNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username']
+        fields = ['username']
 
 class ExpertSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,17 +68,17 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class AuthedUserSerializer(serializers.ModelSerializer):
-    authed_users = CustomUserIDNameSerializer(many=True)
-    profile = ProfileSerializer()
+class AllowedUserSerializer(serializers.ModelSerializer):
+    allowed_users = CustomUserIDNameSerializer(many=True)
+    # profile = ProfileSerializer()
     class Meta:
-        model = AuthedUser
+        model = AllowedUser
         fields = "__all__"
         read_only_fields = ('profile',)
 
 class AllowedProfileListSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     class Meta:
-        model = AuthedUser
+        model = AllowedUser
         fields = ["profile"]
         read_only_fields = ('profile',)

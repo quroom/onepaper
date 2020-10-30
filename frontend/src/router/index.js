@@ -5,6 +5,7 @@ import Paper from "../views/Paper.vue";
 import PaperEditor from "../views/PaperEditor.vue";
 import Profiles from "../views/ProfileList.vue";
 import ProfileEditor from "../views/ProfileEditor.vue";
+import AllowedUserEditor from "../components/AllowedUserEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -36,7 +37,14 @@ const routes = [
     name: "profile-editor",
     component: ProfileEditor,
     props: true
+  },
+  {
+    path: "/profiles/:id?/allowed-users/",
+    name: "allowed-user-editor",
+    component: AllowedUserEditor,
+    props: true
   }
+
 ];
 
 const router = new VueRouter({

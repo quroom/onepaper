@@ -1,32 +1,43 @@
 <template>
   <div class="mt-5">
     <v-container class="my-5">
-      <v-row no-gutters>
-        <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
-          <v-card>
-            <v-card-title v-if="profile.user.is_expert">
-              {{ profile.profile_name }} / {{ profile.registration_number }}
-            </v-card-title>
-            <v-card-title v-else>{{ profile.profile_name }}</v-card-title>
-            <v-card-subtitle v-if="profile.user.is_expert" class="ma-0 pb-0">
-              {{ profile.shop_name }} /
-              {{ profile.shop_address}}
-            </v-card-subtitle>
-            <v-card-subtitle v-else class="pb-0">{{ profile.address}}</v-card-subtitle>
-            <v-card-subtitle class="pt-0">
-              {{ profile.mobile_number }} /
-              {{ profile.bank_name }}
-              {{ profile.account_number }}
-            </v-card-subtitle>
-            <v-card-actions>
-              <v-btn
-                :to="{ name: 'profile-editor', params: { id: profile.id } }"
-              >
-                {{ $t("modify") }}
-              </v-btn>
-              <v-btn>{{ $t("delete") }}</v-btn>
-            </v-card-actions>
-          </v-card>
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+          lg="4"
+          xs="3"
+          v-for="profile in profiles"
+          :key="profile.id"
+        >
+          <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
+            <v-card>
+              <v-card-title>
+                {{ profile.address }}
+              </v-card-title>
+              <v-card-subtitle class="ma-0 pb-0">
+                <span class="pa-1"> {{ profile.user.name }} </span>
+                <span class="pa-1"> {{ profile.user.birthday }} </span>
+                <span class="pa-1"> {{ profile.mobile_number }} </span>
+              </v-card-subtitle>
+              <v-card-subtitle v-if="profile.user.is_expert" class="ma-0 pb-0">
+                <span class="pa-1"> {{ profile.expert_profile.registration_number }} </span>
+                <span class="pa-1"> {{ profile.expert_profile.shop_name }} </span>
+              </v-card-subtitle>
+              <v-card-subtitle class="pt-0">
+                <span class="pa-1"> {{ profile.bank_name }} </span>
+                <span class="pa-1"> {{ profile.account_number }} </span>
+              </v-card-subtitle>
+              <v-card-actions>
+                <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }">
+                  {{ $t("edit") }}
+                </v-btn>
+                <v-btn color="error" @click.stop="deletePaper(profile.id)">{{ $t("delete") }}</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> {{ $t("add_user") }} </v-btn>
+              </v-card-actions>
+            </v-card>
+          </router-link>
         </v-col>
       </v-row>
       <router-link :to="{ name: 'profile-editor' }">
@@ -44,7 +55,7 @@ export default {
   name: "Profiles",
   data() {
     return {
-      profiles: []
+      profiles: [],
     };
   },
   methods: {
@@ -53,6 +64,18 @@ export default {
       apiService(endpoint).then(data => {
         this.profiles.push(...data);
       });
+    },
+    deletePaper(id) {
+      let self = this
+      console.log(id);
+      let endpoint = `api/profiles/${id}/`;
+      apiService(endpoint, "DELETE").then(() => {
+        alert(self.$i18n.t("request_success"))
+        self.$router.go(self.$router.currentRoute);
+      });
+    },
+    addUser(username){
+      this.username_list.push(username)
     }
   },
   created() {

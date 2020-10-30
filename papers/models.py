@@ -92,6 +92,8 @@ class Paper(models.Model):
     def __str__(self):
         return self.address + ' ' + self.room_name + '-' + self.get_trade_type_display()
 
+    class Meta:
+        ordering = ['-id']
 #Add unique profile+paper
 class Contractor(models.Model):
     SELLER = 0

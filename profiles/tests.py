@@ -1,6 +1,7 @@
 import json
 import tempfile
 import random
+import os
 
 from PIL import Image
 from django.contrib.auth.models import User
@@ -50,7 +51,6 @@ class ProfileTestCase(APITestCase):
 
     def create_profile(self):
         profile = Profile.objects.create(user=self.user,
-                                         profile_name="기본프로필",
                                          mobile_number="010-7777-1618",
                                          address="광주광역시 남구 서문대로 690번길 3",
                                          bank_name="국민은행",
@@ -59,7 +59,6 @@ class ProfileTestCase(APITestCase):
 
     def create_expert_profile(self):
         data = {
-            "profile_name": "기본프로필",
             "mobile_number": "010-7777-1618",
             "address": "광주광역시 남구 서문대로 690번길 3",
             "bank_name": "국민은행",
@@ -67,7 +66,6 @@ class ProfileTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["profile_name"], "기본프로필")
         self.assertEqual(response.data["mobile_number"], "010-7777-1618")
         self.assertEqual(response.data["address"], "광주광역시 남구 서문대로 690번길 3")
         self.assertEqual(response.data["bank_name"], "국민은행")
@@ -91,7 +89,6 @@ class ProfileTestCase(APITestCase):
     def test_profile_updated_by_owner(self):
         self.create_profile()
         data = {
-            "profile_name": "기본프로필1",
             "mobile_number": "010-4334-2929",
             "address": "광주광역시 북구 중흥동",
             "bank_name": "우리은행",
@@ -100,7 +97,6 @@ class ProfileTestCase(APITestCase):
         response = self.client.put(
             reverse("profile-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["profile_name"], "기본프로필1")
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"], "광주광역시 북구 중흥동")
         self.assertEqual(response.data["bank_name"], "우리은행")
@@ -112,7 +108,7 @@ class ProfileTestCase(APITestCase):
         self.create_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profile-detail", kwargs={"pk": 1}),
-                                   {"profile_name": "hacked!!!"})
+                                   {"bank_name": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_profile_delete(self):
@@ -174,7 +170,6 @@ class ExpertProfileTestCase(APITestCase):
     def create_expert_profile(self):
         # FIXME: Need to create objects with model directely
         data = {
-            "profile_name": "기본프로필",
             "mobile_number": "010-7777-1618",
             "address": "광주광역시 남구 서문대로 690번길 3",
             "bank_name": "국민은행",
@@ -191,7 +186,6 @@ class ExpertProfileTestCase(APITestCase):
     def test_expert_profile_create(self):
         response = self.create_expert_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["profile_name"], "기본프로필")
         self.assertEqual(response.data["mobile_number"], "010-7777-1618")
         self.assertEqual(response.data["address"], "광주광역시 남구 서문대로 690번길 3")
         self.assertEqual(response.data["bank_name"], "국민은행")
@@ -205,7 +199,6 @@ class ExpertProfileTestCase(APITestCase):
     def test_expert_profile_update(self):
         self.create_expert_profile()
         data = {
-            "profile_name": "기본프로필_",
             "mobile_number": "010-4334-2929",
             "address": "광주광역시 남구 서문대로 690번길 3_",
             "bank_name": "국민은행_",
@@ -216,7 +209,6 @@ class ExpertProfileTestCase(APITestCase):
         response = self.client.put(
             reverse("profile-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["profile_name"], "기본프로필_")
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"], "광주광역시 남구 서문대로 690번길 3_")
         self.assertEqual(response.data["bank_name"], "국민은행_")
@@ -232,7 +224,7 @@ class ExpertProfileTestCase(APITestCase):
         self.create_expert_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profile-detail", kwargs={"pk": 1}),
-                                   {"profile_name": "hacked!!!"})
+                                   {"bank_name": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_expert_profile_delete(self):
@@ -242,8 +234,8 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-class AuthedUserTestCase(APITestCase):
-    detail_url = reverse("authed-user-detail", args=(1,))
+class AllowedUserTestCase(APITestCase):
+    detail_url = reverse("allowed-user-detail", args=(1,))
 
     def setUp(self):
         self.user = CustomUser.objects.create_user(username="test",
@@ -258,31 +250,30 @@ class AuthedUserTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def create_user(self):
+    def create_user(self, id):
         random_int = str(random.randint(1, 10000000))
-        self.user = CustomUser.objects.create_user(username="test"+random_int,
+        self.user = CustomUser.objects.create_user(username="test"+str(id),
                                                    email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
-                                                   name="김상은"+random_int,
+                                                   name="김상은"+str(id),
                                                    birthday="1988-05-12")
 
     def create_profile(self):
         profile = Profile.objects.create(user=self.user,
-                                         profile_name="기본프로필",
                                          mobile_number="010-7777-1618",
                                          address="광주광역시 남구 서문대로 690번길 3",
                                          bank_name="국민은행",
                                          account_number="94334292963")
         return profile
 
-    def test_authed_user_create(self):
-        # print(reverse("authed-user-detail", args=(1,)))
+    def test_allowed_user_create(self):
+        # print(reverse("allowed-user-detail", args=(1,)))
         self.create_profile()
-        self.create_user()
-        self.create_user()
+        self.create_user(1)
+        self.create_user(2)
 
         response = self.client.post(reverse(
-            "authed-user-detail", args=(1,)), {"authed_users": [1, 2, 3]}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test", "test1", "test2"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data["authed_users"]), 3)
+        self.assertEqual(len(response.data["allowed_users"]), 3)

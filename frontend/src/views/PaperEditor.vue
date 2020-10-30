@@ -30,7 +30,7 @@
           </v-col>
         </template>
         <v-col cols="4" md="2">
-          <ValidationProvider :name="$t('realestate_type')" v-slot="{ errors, }" rules="required">          
+          <ValidationProvider :name="$t('realestate_type')" v-slot="{ errors, }" rules="required">
             <v-select
               v-model="realestate_type"
               :error-messages="errors"
@@ -240,10 +240,10 @@
               >
                 <template
                   v-slot:selection="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
                 <template
                   v-slot:item="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
             <v-expansion-panel v-if="seller">
@@ -292,10 +292,10 @@
               >
                 <template
                   v-slot:selection="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
                 <template
                   v-slot:item="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + $t('profile_name') + ':'+ item.profile_name + ")" }}</template>
+                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
             <v-expansion-panel v-if="buyer">
@@ -359,8 +359,8 @@ export default {
     }
   },
   components: {
-    ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    ValidationProvider
   },
   computed: {
   },
@@ -440,7 +440,7 @@ export default {
         console.log(data, type)
       }
     },
-    getAuthedProfiles() {
+    getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.is_loading = true;
       this.test = true
@@ -459,7 +459,7 @@ export default {
     customFilter(item, queryText) {  
       const name = item.user.name.toLowerCase();
       const username = item.user.username.toLowerCase();
-      const profile_name = item.profile_name.toLowerCase();
+      const mobile_number = item.mobile_number.toLowerCase();
       const shop_name = item.expert_profile === null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
             
@@ -467,7 +467,7 @@ export default {
         name.indexOf(searchText) > -1 ||
         username.indexOf(searchText) > -1 ||
         shop_name.indexOf(searchText) > -1 ||
-        profile_name.indexOf(searchText) > -1
+        mobile_number.indexOf(searchText) > -1
       );
     },
     combine_contractors(){
@@ -522,6 +522,7 @@ export default {
               special_agreement: self.special_agreement
             }).then(data => {
               if (data.id) {
+                alert(self.$i18n.t("request_success"))
                 self.$router.push({
                   name: "paper",
                   params: { id: data.id }
@@ -584,11 +585,10 @@ export default {
       return next();
     }
   },
-  created() {    
-    
+  created() {
     document.title = i18n.t("create_paper_title");
     this.requestUser = window.localStorage.getItem("username");
-    this.getAuthedProfiles();
+    this.getAllowedProfiles();
     if (window.localStorage.getItem("is_expert") == "true") {
       this.getMyProfiles();
     }

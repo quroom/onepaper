@@ -1,3 +1,5 @@
+from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
@@ -8,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
-from profiles.models import AuthedUser, CustomUser, ExpertProfile, Profile
-from profiles.serializers import CustomUserSerializer, ProfileSerializer, ExpertProfileSerializer, AuthedUserSerializer, AllowedProfileListSerializer
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile
+from profiles.serializers import CustomUserSerializer, ProfileSerializer, ExpertProfileSerializer, AllowedUserSerializer, AllowedProfileListSerializer
 from profiles.permissions import IsOwner, IsProfileUserOrReadonly
 
 class CustomUserViewset(ModelViewSet):
@@ -43,11 +45,6 @@ class CurrentProfileViewset(ModelViewSet):
     def get_queryset(self):
         return Profile.objects.filter(user=self.request.user)
 
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
-
-
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer_class()(queryset, many=True)
@@ -63,36 +60,49 @@ class CurrentProfileViewset(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class AuthedUserDetail(APIView):
+class AllowedUserDetail(APIView):
     permission_classes = [IsAuthenticated, IsProfileUserOrReadonly]
-    serializer_class = AuthedUserSerializer
+    serializer_class = AllowedUserSerializer
+    lookup_field = "pk"
     
     def get_object(self, pk):
-        obj = get_object_or_404(AuthedUser, profile=pk)
+        obj = get_object_or_404(AllowedUser, profile=pk)
         return obj    
 
     def get(self, request, pk):
-        authedUser = self.get_object(pk)
-        serializer = AuthedUserSerializer(authedUser)
+        allowedUser = self.get_object(pk)
+        serializer = AllowedUserSerializer(allowedUser)
         return Response(serializer.data)
 
     def post(self, request, pk):
-        authedUser = get_object_or_404(AuthedUser, profile=pk)
-        authedUser.authed_users.add(*request.data['authed_users'])
-        authedUser.save()
+        allowedUser = get_object_or_404(AllowedUser, profile=pk)
+        user_list = CustomUser.objects.filter(username__in=request.data['allowed_users'])
+        if user_list.count() == 0:
+            return Response(ValidationError(_("유효하지 않은 유저 회원 아이디입니다.")), status=status.HTTP_400_BAD_REQUEST)
+
+        allowedUser.allowed_users.add(*user_list)
+        allowedUser.allowed_users.add(allowedUser.profile.user)
+        allowedUser.save()
 
         serializer_context = {"request": request}
-        serializer = self.serializer_class(authedUser, context=serializer_context)
+        serializer = self.serializer_class(allowedUser, context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
-        authedUser = get_object_or_404(AuthedUser, profile=pk)
-        authedUser.authed_users.remove(*request.data['authed_users'])
-        authedUser.save()
+        allowedUser = get_object_or_404(AllowedUser, profile=pk)
+        try:
+            request.data['allowed_users'].remove(allowedUser.profile.user.username)
+        except ValueError:
+            pass
+        user_list = CustomUser.objects.filter(username__in=request.data['allowed_users'])
+        if user_list.count() == 0:
+            return Response(ValidationError(_("유효하지 않은 유저 회원 아이디입니다.")), status=status.HTTP_400_BAD_REQUEST)
+        allowedUser.allowed_users.remove(*user_list)
+        allowedUser.save()
 
         serializer_context = {"request": request}
-        serializer = self.serializer_class(authedUser, context=serializer_context)
+        serializer = self.serializer_class(allowedUser, context=serializer_context)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -100,8 +110,6 @@ class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        profiles = Profile.objects.filter(authed_user__authed_users=request.user, expert_profile=None)
-        # profiles = AuthedUser.objects.filter(authed_users=request.user, profile__expert_profile=None).values('profile')
-        # serializer = AllowedProfileListSerializer(authed_users, many=True)
+        profiles = Profile.objects.filter(allowed_user__allowed_users=request.user, expert_profile=None)
         serializer = ProfileSerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -19,12 +19,12 @@ class HidePaperApiView(APIView):
             signature = signatures.get(
                 user=self.request.user) if signatures.exists() else None
             if signature is None:
-                raise ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다."))
+                return Response(ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
             else:
                 signature.is_paper_visible = not signature.is_paper_visible
                 signature.save()
         else:
-            raise ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."))
+            return Response(ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다.")), status=status.HTTP_400_BAD_REQUEST)
 
 class PaperViewset(ModelViewSet):
     queryset = Paper.objects.all()
@@ -77,7 +77,7 @@ class PaperViewset(ModelViewSet):
         if instance.status == Paper.DRAFT:
             self.perform_destroy(instance)
             return Response(status=status.HTTP_204_NO_CONTENT)
-        raise ValidationError(_("완료된 계약서는 삭제할 수 없습니다."))
+        return Response(ValidationError(_("완료된 계약서는 삭제할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
 
 class SignatureListApiView(generics.ListAPIView):
     serializer_class = SignatureSerializer
@@ -106,14 +106,15 @@ class SignatureCreateApiView(generics.CreateAPIView):
         contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
 
         if paper.status == Paper.DONE:
-            raise ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))
+            return Response(ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
+            
 
         signatures = Signature.objects.filter(contractor=contractor)
 
         if signatures.exists():
             signature = signatures.first()
             if signature.updated_at > paper.updated_at:
-                raise serializers.ValidationError(_("이미 서명이 등록되어있습니다."))
+                return Response(ValidationError(_("이미 서명이 등록되어있습니다.")), status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save(contractor=contractor, image=self.request.data['image'])
         return Response(serializer.data)
@@ -137,11 +138,11 @@ class SignatureUpdateApiView(mixins.RetrieveModelMixin,
         paper = get_object_or_404(Paper, id=id)
 
         if paper.status == Paper.CONFIRMED:
-            raise ValidationError(_("계약서 검토가 완료되어 서명을 수정할 수 없습니다."))
+            Response(ValidationError(_("계약서 검토가 완료되어 서명을 수정할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
 
         signatures = Signature.objects.filter(paper=paper, user=self.request.user)
         if not signatures.exists():
-            raise ValidationError(_("수정할 수 있는 서명이 없습니다"))
+            Response(ValidationError(_("수정할 수 있는 서명이 없습니다")), status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save(paper=paper, user=self.request.user)
         return Response(serializer.data)

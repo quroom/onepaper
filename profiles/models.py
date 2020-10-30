@@ -1,6 +1,7 @@
 import phonenumbers
 from django.db import models
 from django.contrib.auth.signals import user_logged_in
+from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
@@ -27,14 +28,13 @@ class Profile(models.Model):
                              related_name="profiles")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    profile_name = models.CharField(max_length=50)
     mobile_number = PhoneNumberField()
     address = models.CharField(max_length=200)
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
 
     def __str__(self):
-        return self.user.username + ":" + str(self.profile_name) + ""
+        return self.user.username
 
 class ExpertProfile(models.Model):
     REQUEST = 0
@@ -66,15 +66,15 @@ class ExpertProfile(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=REQUEST)
 
-class AuthedUser(models.Model):
-    authed_users = models.ManyToManyField(CustomUser,
+class AllowedUser(models.Model):
+    allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         blank=True,
-                                        related_name="authed_users")
+                                        related_name="allowed_users")
     profile = models.OneToOneField(Profile,
                                    on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True,
-                                   related_name="authed_user")
+                                   related_name="allowed_user")
 
 @receiver(user_logged_in, sender=CustomUser)
 def post_login(sender, user, request, **kwargs):

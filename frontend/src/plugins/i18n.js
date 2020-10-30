@@ -10,6 +10,8 @@ const i18n = new VueI18n({
   messages: {
     en: {
       //Default message
+      allow_user_list: "List of users allowed to view profile",
+      add_user: "Add User",
       all: "All",
       author: "Posted by",
       back: "Back",
@@ -27,6 +29,7 @@ const i18n = new VueI18n({
       desc_realestate: "Description of Realestate",
       delete: "Delete",
       detail: "detail",
+      edit: "Edit",
       etc: "Additional information",
       info: "Info",
       intro: "This is realestate contract that is made by traders.",
@@ -38,10 +41,11 @@ const i18n = new VueI18n({
       move: "Move",
       next: "Next",
       profile: "Profile",
-      profile_name: "Profile Name",
+      profile_name: "Profile Name",      
       realestate: "Realestate",
       realestate_agency: "Realestate Agency",
       required_item: "Item is required",
+      request_success: "Your request has been processed.",
       save: "Save",
       search: "search",
       special_agreement: "Special Agreement",
@@ -57,6 +61,7 @@ const i18n = new VueI18n({
       transaction_category: "transaction category",
       term_of_lease: "Term of Lease",
       updated_at: "Update Date",
+      user: "User",
       username: "User ID",
       validation: en.messages,
       won: "won",
@@ -117,7 +122,9 @@ const i18n = new VueI18n({
       done: "Done",
       hidden: "Hidden"
     },
-    ko: {      
+    ko: {
+      allow_user_list: "프로필 조회 허용 회원 리스트",
+      add_user: "회원 추가",
       all: "모든",
       author: "작성자",
       back: "뒤로",
@@ -135,6 +142,7 @@ const i18n = new VueI18n({
       delete: "삭제",
       desc_realestate: "부동산 기본정보(표시)",
       detail: "상세",
+      edit: "수정",
       etc: "기타 요청사항",
       info: "정보",
       intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
@@ -150,6 +158,7 @@ const i18n = new VueI18n({
       realestate: "부동산",
       realestate_agency: "개업공인중개사",
       required_item: "필수 입력 항목입니다",
+      request_success: "요청이 처리되었습니다.",
       save: "제출",
       search: "검색",
       special_agreement: "특약",      
@@ -164,6 +173,7 @@ const i18n = new VueI18n({
       term_of_lease: "계약기간",
       title: "제목",
       transaction_category: "거래종류(매매,전세 등)*",
+      user: "회원",
       username: "회원아이디",
       updated_at: "수정일",
       validation: ko.messages,
