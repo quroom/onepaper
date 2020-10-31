@@ -22,6 +22,13 @@ class ContractorDetailSerializer(serializers.ModelSerializer):
         model = Contractor
         fields = "__all__"
 
+class PaperListSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = Paper
+        fields = ("id", "address", "author", "room_name", "trade_type")
+        read_only_fields = ("id", "address", "author","room_name", "trade_type")
+
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
@@ -31,7 +38,7 @@ class PaperSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Paper
-        fields = '__all__'
+        fields = "__all__"
 
     def create(self, validated_data):
         contractors = validated_data.pop('paper_contractors')

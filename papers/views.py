@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, Contractor, Signature
-from papers.serializers import PaperSerializer, PaperReadonlySerializer,SignatureSerializer
+from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer,SignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsParticiations, IsSignatureUser
 
 class HidePaperApiView(APIView):
@@ -25,6 +25,13 @@ class HidePaperApiView(APIView):
                 signature.save()
         else:
             return Response(ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다.")), status=status.HTTP_400_BAD_REQUEST)
+
+class PaperListApiView(generics.ListAPIView):
+    serializer_class = PaperListSerializer
+    permission_classes = [IsAuthenticated, IsParticiations]
+
+    def get_queryset(self):
+        return Paper.objects.filter(paper_contractors__profile__user=self.request.user)
 
 class PaperViewset(ModelViewSet):
     queryset = Paper.objects.all()

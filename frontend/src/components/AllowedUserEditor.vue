@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       headers: [{
-        text: i18n.t("username"),
+        text: `${i18n.t("allow")} ${i18n.t("username")}`,
         align: 'start',
         sortable: true,
         value: 'username'

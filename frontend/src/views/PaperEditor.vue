@@ -1,6 +1,24 @@
 <template>
   <ValidationObserver ref="obs">
     <div class="container my-5">
+      <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
+        <v-data-table
+          v-model="selected_paper"
+          :headers="headers"
+          :items="paper_list"
+          item-key="id"
+          show-selected
+          single-select
+        >
+          <template
+            v-slot:item.trade_type="{item}">
+            {{$getConstI18("TRADE_TYPE", item.trade_type)}}
+          </template>
+        </v-data-table>
+      </v-dialog>
+      <v-btn class="float_right" @click="getPaperList()">
+        {{ $t("paper") + ' ' + $t("load") }}
+      </v-btn>
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
       <v-row>
         <v-col cols="8" md="10">
@@ -219,7 +237,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-col>
-          <v-col v-if="!is_loading" cols="12">
+          <v-col v-if="!isLoading" cols="12">
             <ValidationProvider
               ref="seller"
               v-slot="{ errors }"
@@ -271,7 +289,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-col>
-          <v-col v-if="!is_loading" class="mt-5" cols="12">
+          <v-col v-if="!isLoading" class="mt-5" cols="12">
             <ValidationProvider
               ref="buyer"
               v-slot="{ errors }"
@@ -367,7 +385,9 @@ export default {
   data() {
     return {
       requestUser: null,
-      is_loading: false,
+      paper_load_dialog: false,
+      paper_list: [],
+      isLoading: false,
       is_expert: false,
       my_profiles: [],
       allowed_profiles: [],
@@ -427,7 +447,32 @@ export default {
       expert: null,
       seller: null,
       buyer: null,
-      special_agreement: null
+      special_agreement: null,
+      headers: [
+        {
+          text: "",
+          value: "id",
+          align: "start",
+          sortable: true,
+          visibility: "hidden"
+        },
+        {
+          text: `${i18n.t("author")}`,
+          value: "author"
+        },
+        {
+          text: `${i18n.t("trade_type")}`,
+          value: "trade_type"
+        },
+        {
+          text: `${i18n.t("address")}`,
+          value: "address"
+        },
+        {
+          text: `${i18n.t("room_name")}`,
+          value: "room_name"
+        },
+      ],
     };
   },
   methods: {
@@ -442,11 +487,11 @@ export default {
     },
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
-      this.is_loading = true;
+      this.isLoading = true;
       this.test = true
       apiService(endpoint).then(data => {
         this.allowed_profiles = data;
-        this.is_loading = false;
+        this.isLoading = false;
       });
     },
     getMyProfiles() {
@@ -455,6 +500,16 @@ export default {
         this.my_profiles = data;
         this.is_expert = true;
       });
+    },
+    getPaperList() {
+      this.paper_list = [];
+      this.paper_load_dialog = true;
+      this.isLoading = true;
+      let endpoint = `/api/paper-list/`;
+      apiService(endpoint).then(data => {
+        this.paper_list.push(...data.results);
+        this.isLoading = false;
+      })
     },
     customFilter(item, queryText) {  
       const name = item.user.name.toLowerCase();
@@ -595,3 +650,8 @@ export default {
   }
 };
 </script>
+<style>
+  .float_right {
+    float: right;
+  }
+</style>
