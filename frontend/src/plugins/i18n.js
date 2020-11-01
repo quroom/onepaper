@@ -10,7 +10,7 @@ const i18n = new VueI18n({
   messages: {
     en: {
       //Default message
-      allow : "allowed",
+      allow: "allowed",
       allow_user_list: "List of users allowed to view profile",
       add_user: "Add User",
       all: "All",
@@ -24,9 +24,10 @@ const i18n = new VueI18n({
       close: "Close",
       contract: "Contract",
       contractor_info: "Contractor Info",
-      contractor_info_intro: "The contractor details for the above real estate are as follows.",
+      contractor_info_intro:
+        "The contractor details for the above real estate are as follows.",
       created_at: "Created Date",
-      create_paper_title: "Editor - Paper",      
+      create_paper_title: "Editor - Paper",
       desc_realestate: "Description of Realestate",
       delete: "Delete",
       detail: "detail",
@@ -39,18 +40,19 @@ const i18n = new VueI18n({
       load: "Load",
       logout: "Logout",
       manwon: "ten thousand Won",
-      modify: "Modify",      
+      modify: "Modify",
       move: "Move",
       next: "Next",
       paper: "Paper",
       profile: "Profile",
-      profile_name: "Profile Name",      
+      profile_name: "Profile Name",
       realestate: "Realestate",
       realestate_agency: "Realestate Agency",
       required_item: "Item is required",
       request_success: "Your request has been processed.",
       save: "Save",
       search: "search",
+      select: "Select",
       special_agreement: "Special Agreement",
       sign: "Signature",
       signature: "Sign",
@@ -59,7 +61,8 @@ const i18n = new VueI18n({
       submit: "Submit",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
-      terms_and_conditions_intro: "The contract details for the above real estate are as follows.",
+      terms_and_conditions_intro:
+        "The contract details for the above real estate are as follows.",
       title: "Title",
       transaction_category: "transaction category",
       term_of_lease: "Term of Lease",
@@ -123,7 +126,7 @@ const i18n = new VueI18n({
 
       draft: "Draft",
       done: "Done",
-      hidden: "Hidden"
+      hidden: "Hidden",
     },
     ko: {
       allow: "허용",
@@ -149,7 +152,8 @@ const i18n = new VueI18n({
       edit: "수정",
       etc: "기타 요청사항",
       info: "정보",
-      intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
+      intro:
+        "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       manwon: "만원",
       landlord: "임대인",
       last: "최종",
@@ -167,7 +171,8 @@ const i18n = new VueI18n({
       request_success: "요청이 처리되었습니다.",
       save: "제출",
       search: "검색",
-      special_agreement: "특약",      
+      select: "선택",
+      special_agreement: "특약",
       sign: "(서명)",
       signature: "서명",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
@@ -208,7 +213,7 @@ const i18n = new VueI18n({
       building_area: "건물면적(㎡)",
       realestate_type: "부동산종류",
       trade_type: "계약 종류",
-      
+
       from_date: "입주일",
       to_date: "퇴실일",
       down_payment: "계약금",
@@ -236,9 +241,9 @@ const i18n = new VueI18n({
 
       draft: "작성중",
       done: "완료",
-      hidden: "숨김"
-    }
-  }
+      hidden: "숨김",
+    },
+  },
 });
 
 export default i18n;
