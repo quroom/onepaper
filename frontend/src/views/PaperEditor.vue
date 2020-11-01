@@ -7,16 +7,17 @@
           :headers="headers"
           :items="paper_list"
           item-key="id"
-          show-selected
-          single-select
         >
           <template
-            v-slot:item.trade_type="{item}">
+            v-slot:item.trade_type="{ item }">
             {{$getConstI18("TRADE_TYPE", item.trade_type)}}
+          </template>
+          <template v-slot:item.select="{ item }">
+            <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
           </template>
         </v-data-table>
       </v-dialog>
-      <v-btn class="float_right" @click="getPaperList()">
+      <v-btn class="success float_right" @click="getPaperList()">
         {{ $t("paper") + ' ' + $t("load") }}
       </v-btn>
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
@@ -358,7 +359,7 @@
       <div class="mt-5">4. {{ $t("special_agreement") }}</div>
       <v-textarea class="mt-2" v-model="special_agreement" auto-grow outlined>
       </v-textarea>
-      <v-btn class="mr-4" @click="onSubmit()">{{$t('submit')}}</v-btn>
+      <v-btn class="primary mr-4" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </div>
   </ValidationObserver>
 </template>
@@ -387,6 +388,7 @@ export default {
       requestUser: null,
       paper_load_dialog: false,
       paper_list: [],
+      selected_paper: [],
       isLoading: false,
       is_expert: false,
       my_profiles: [],
@@ -472,6 +474,10 @@ export default {
           text: `${i18n.t("room_name")}`,
           value: "room_name"
         },
+        {
+          text: "",
+          value: "select"
+        }
       ],
     };
   },
@@ -509,6 +515,53 @@ export default {
       apiService(endpoint).then(data => {
         this.paper_list.push(...data.results);
         this.isLoading = false;
+      })
+    },
+    loadPaper(item) {
+      let self = this;
+      let endpoint = `/api/papers/${item.id}/`;
+      apiService(endpoint).then(data => {
+        for(const contractor_index in data.paper_contractors) {
+          var contractor = data.paper_contractors[contractor_index]
+          if(contractor.group==self.$getConstByVal("CONTRACTOR_TYPE", "expert")){
+            self.my_profiles.filter(function(item){
+              if(item.id == contractor.profile.id){
+                self.expert = contractor.profile
+              }
+            })            
+          }else if(contractor.group==self.$getConstByVal("CONTRACTOR_TYPE", "seller")){
+            self.allowed_profiles.filter(function(item){
+              if(item.id == contractor.profile.id){
+                self.seller = contractor.profile
+              }
+            })
+          }else {
+            self.allowed_profiles.filter(function(item){
+              if(item.id == contractor.profile.id){
+                self.buyer = contractor.profile
+              }
+            })
+          }
+        }
+        (self.land_type = data.land_type),
+        (self.lot_area = data.lot_area),
+        (self.building_structure = data.building_structure),
+        (self.building_type = data.building_type),
+        (self.building_area = data.building_area),
+        (self.trade_type = data.trade_type),
+        (self.address = data.address),
+        (self.room_name = data.room_name),
+        (self.deposit = data.deposit),
+        (self.down_payment = data.monthly_fee),
+        (self.security_deposit = data.security_deposit),
+        (self.maintenance_fee = data.maintenance_fee),
+        (self.monthly_fee = data.monthly_fee),
+        (self.from_date = data.from_date),
+        (self.to_date = data.to_date),
+        (self.realestate_type = data.realestate_type),
+        (self.special_agreement = data.special_agreement),
+        (self.contractors = data.paper_contractors)
+        self.paper_load_dialog = false;
       })
     },
     customFilter(item, queryText) {  
