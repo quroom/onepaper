@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
 
+    'addresses',
     'profiles',
     'papers',
 

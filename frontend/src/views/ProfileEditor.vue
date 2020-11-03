@@ -2,7 +2,15 @@
   <ValidationObserver ref="obj">
     <v-container class="my-5">
       <!-- UserInfo -->
+      <v-btn style="float:right" color="primary" :to="{ name: 'allowed-user-editor', params: { id: id } }"> {{ $t("add_user") }} </v-btn>
       <v-row>
+        <v-col cols="4" md="2">
+          <v-text-field
+            v-model="username"
+            :label="$t('username')"
+            readonly
+          ></v-text-field>
+        </v-col>
         <v-col cols="4" md="2">
           <v-text-field
             v-model="name"
@@ -25,42 +33,62 @@
             <div class="text-h5">
               {{ $t("realestate_agency") }} {{ $t("profile") }}
             </div>
-          </v-col>      
+          </v-col>
           <v-col cols="6" md="3">
-            <ValidationProvider :name="$t('registration_number')" rules="required" v-slot="{ errors, }">
-            <v-text-field
-              v-model="expert_profile.registration_number"
-              :error-messages="errors"
-              :label="$t('registration_number')"
-            ></v-text-field>
+            <ValidationProvider
+              ref="registration_number"
+              :name="$t('registration_number')"
+              rules="required" v-slot="{ errors }">
+              <v-text-field
+                v-model="expert_profile.registration_number"
+                :error-messages="errors"
+                :label="$t('registration_number')"
+              ></v-text-field>
             </ValidationProvider>
           </v-col>
           <v-col cols="6" md="3">
-            <v-text-field
-              v-model="expert_profile.shop_name"
-              :label="$t('shop_name')"
-            ></v-text-field>
+            <ValidationProvider ref="shop_name"  :name="$t('shop_name')" rules="required" v-slot="{ errors }">
+              <v-text-field
+                v-model="expert_profile.shop_name"
+                :error-messages="errors"
+                :label="$t('shop_name')"
+              ></v-text-field>
+            </ValidationProvider>
           </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="address"
-              :label="$t('shop_address')"
-            ></v-text-field>
+          <v-col cols="10">
+            <ValidationProvider ref="shop_address" :name="$t('address')" rules="required" v-slot="{ errors }">
+              <v-text-field
+                v-model="address"
+                :error-messages="errors"
+                :label="$t('shop_address')"
+              ></v-text-field>
+            </ValidationProvider>
           </v-col>
         </template>
         <template v-else>
-          <v-col cols="12">
-            <v-text-field
-              v-model="address"
-              :label="$t('address')"
-            ></v-text-field>
+          <v-col class="text-center" cols="12">
+            <div class="text-h5">
+              {{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}
+            </div>
           </v-col>
+          <v-col cols="10">
+            <ValidationProvider ref="address" :name="$t('address')" rules="required" v-slot="{ errors }">
+              <v-text-field
+                v-model="address"
+                :error-messages="errors"
+                :label="$t('address')"
+              ></v-text-field>
+            </ValidationProvider>
+            </v-col>
         </template>
         <v-col cols="6" md="2">
-          <v-text-field
-            v-model="mobile_number"
-            :label="$t('mobile_number')"
-          ></v-text-field>
+          <ValidationProvider ref="address" :name="$t('address')" rules="required" v-slot="{ errors }">
+            <v-text-field
+              v-model="mobile_number"
+              :error-messages="errors"
+              :label="$t('mobile_number')"
+            ></v-text-field>
+          </ValidationProvider>
         </v-col>
         <v-col cols="6" md="2">
           <v-text-field
@@ -95,6 +123,15 @@
           </v-col>
           <v-col cols="4" md="2">
             <v-file-input
+              v-model="expert_profile.garantee_insurance"
+              :label="$t('garantee_insurance')"
+              accept="image/*"
+              @click.stop
+              @change="preview_image('garantee_insurance')"
+            ></v-file-input>
+          </v-col>
+          <v-col cols="4" md="2">
+            <v-file-input
               v-model="expert_profile.stamp"
               :label="$t('stamp')"
               accept="image/*"
@@ -102,20 +139,34 @@
               @change="preview_image('stamp')"
             ></v-file-input>
           </v-col>
-          <v-row >
-            <v-col v-if="business_registration_certificate_url" class="d-flex child-flex" cols="12" md="4">
+          <v-row>
+            <v-divider class="mx-4 text-center" style="display: inline;"></v-divider>
+            <v-col class="text-center" cols="12">
+            <div class="text-h5">
+              {{ $t("attached_document") }}
+            </div>
+          </v-col>
+          </v-row>
+          <v-row>
+            <v-col v-if="business_registration_certificate_url" class="d-flex child-flex" cols="6" md="3">
               <div class="absolute_text"> {{ $t("business_registration_certificate") }} </div>
               <a v-bind:href="business_registration_certificate_url" target="_blank">
                 <img class="img" :src="business_registration_certificate_url" aspect-ratio="1" />
               </a>
             </v-col>
-            <v-col v-if="agency_license_url" class="d-flex child-flex" cols="12" md="4">
+            <v-col v-if="agency_license_url" class="d-flex child-flex" cols="6" md="3">
               <div class="absolute_text"> {{ $t("agency_license") }} </div>
               <a v-bind:href="agency_license_url" target="_blank">
                 <img class="img" :src="agency_license_url" aspect-ratio="1" />
               </a>
             </v-col>
-            <v-col v-if="stamp_url" class="d-flex child-flex" cols="12" md="4">
+            <v-col v-if="garantee_insurance_url" class="d-flex child-flex" cols="6" md="3">
+              <div class="absolute_text"> {{ $t("garantee_insurance") }} </div>
+              <a v-bind:href="garantee_insurance_url" target="_blank">
+                <img class="img" :src="garantee_insurance_url" aspect-ratio="1" />
+              </a>
+            </v-col>
+            <v-col v-if="stamp_url" class="d-flex child-flex" cols="6" md="3">
               <div class="absolute_text"> {{ $t("stamp") }} </div>
               <a v-bind:href="stamp_url" target="_blank">
                 <img class="img" :src="stamp_url" aspect-ratio="1" />
@@ -149,6 +200,7 @@ export default {
     return {
       is_expert: false,
       is_request_expert: false,
+      username: null,
       name: null,
       birthday: null,
       mobile_number: null,
@@ -164,12 +216,12 @@ export default {
       },
       business_registration_certificate_url: null,
       agency_license_url: null,
-      stamp_url: null
+      stamp_url: null,
+      garantee_insurance_url: null
     };
   },
   methods: {
     preview_image(name) {
-      console.log(name);
       this[name + "_url"] = window.URL.createObjectURL(this['expert_profile'][name]);
     },
     onSubmit() {
@@ -213,43 +265,51 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
-    console.log(to.params.id);
     if (to.params.id !== undefined) {
       let endpoint = `/api/profiles/${to.params.id}/`;
       let data = await apiService(endpoint);
       if (data.user.is_expert) {
         return next(
-        vm => (
-          (vm.name = data.user.name),
-          (vm.birthday = data.user.birthday),
-          (vm.address = data.address),
-          (vm.mobile_number = data.mobile_number),
-          (vm.bank_name = data.bank_name),
-          (vm.account_number = data.account_number),
-          (vm.expert_profile.registration_number = data.expert_profile.registration_number),
-          (vm.expert_profile.shop_name = data.expert_profile.shop_name),
-          (vm.business_registration_certificate_url = data.expert_profile.business_registration_certificate),
-          (vm.agency_license_url = data.expert_profile.agency_license),
-          (vm.stamp_url = data.expert_profile.stamp)
-        )
+        vm => {
+          vm.username = data.user.username;
+          vm.name = data.user.name;
+          vm.birthday = data.user.birthday;
+          vm.address = data.address;
+          vm.mobile_number = data.mobile_number;
+          vm.bank_name = data.bank_name;
+          vm.account_number = data.account_number;
+          vm.expert_profile.registration_number = data.expert_profile.registration_number;
+          vm.expert_profile.shop_name = data.expert_profile.shop_name;
+          vm.business_registration_certificate_url = data.expert_profile.business_registration_certificate;
+          vm.agency_license_url = data.expert_profile.agency_license;
+          vm.stamp_url = data.expert_profile.stamp;
+          vm.garantee_insurance_url = data.expert_profile.garantee_insurance;
+        }
       );
       } else {
         return next(
-        vm => (
-          (vm.name = data.user.name),
-          (vm.birthday = data.user.birthday),
-          (vm.address = data.address),
-          (vm.mobile_number = data.mobile_number),
-          (vm.bank_name = data.bank_name),
-          (vm.account_number = data.account_number)
-        )
+        vm => {
+          vm.username = data.user.username;
+          vm.name = data.user.name;
+          vm.birthday = data.user.birthday;
+          vm.address = data.address;
+          vm.mobile_number = data.mobile_number;
+          vm.bank_name = data.bank_name;
+          vm.account_number = data.account_number;
+        }
       );
       }
       
     } else {
       let endpoint = `/api/user/`;
       let data = await apiService(endpoint);
-      return next(vm => ((vm.name = data.name), (vm.birthday = data.birthday)));
+      return next(
+      vm => {
+          vm.username = data.username;
+          vm.name = data.name;
+          vm.birthday = data.birthday;
+        }
+      );
     }
   },
   created() {

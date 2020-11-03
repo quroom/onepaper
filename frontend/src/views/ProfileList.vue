@@ -67,7 +67,6 @@ export default {
     },
     deletePaper(id) {
       let self = this
-      console.log(id);
       let endpoint = `api/profiles/${id}/`;
       apiService(endpoint, "DELETE").then(() => {
         alert(self.$i18n.t("request_success"))

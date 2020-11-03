@@ -10,7 +10,8 @@ const i18n = new VueI18n({
   messages: {
     en: {
       //Default message
-      allow: "allowed",
+      attached_document: "Attached Document",
+      allow: "Allowed",
       allow_user_list: "List of users allowed to view profile",
       add_user: "Add User",
       all: "All",
@@ -33,6 +34,8 @@ const i18n = new VueI18n({
       detail: "detail",
       edit: "Edit",
       etc: "Additional information",
+      garantee_insurance: "Brokerage Garantee Insurance",
+      general: "General",
       info: "Info",
       intro: "This is realestate contract that is made by traders.",
       landlord: "Landlord",
@@ -90,7 +93,7 @@ const i18n = new VueI18n({
       area: "Area",
       land_type: "Land Type",
       lot_area: "Lot Area(㎡)",
-      room_name: "Detail Room Name",
+      room_name: "Detail Address(DongHo Or Room Name)",
       building_structure: "Building Strcuture",
       building_type: "Building Type",
       building_area: "Building Area(㎡)",
@@ -129,6 +132,7 @@ const i18n = new VueI18n({
       hidden: "Hidden",
     },
     ko: {
+      attached_document: "첨부 서류",
       allow: "허용",
       allow_user_list: "프로필 조회 허용 회원 리스트",
       add_user: "회원 추가",
@@ -151,6 +155,8 @@ const i18n = new VueI18n({
       detail: "상세",
       edit: "수정",
       etc: "기타 요청사항",
+      garantee_insurance: "중개 보증 서류",
+      general: "일반",
       info: "정보",
       intro:
         "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
@@ -207,7 +213,7 @@ const i18n = new VueI18n({
       address: "주소",
       land_type: "지목",
       lot_area: "토지면적(㎡)",
-      room_name: "동 호수(또는 방이름)",
+      room_name: "상세주소(동호수 또는 방이름)",
       building_structure: "건물구조",
       building_type: "건물용도",
       building_area: "건물면적(㎡)",

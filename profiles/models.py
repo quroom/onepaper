@@ -63,6 +63,7 @@ class ExpertProfile(models.Model):
     business_registration_certificate = models.ImageField()
     agency_license = models.ImageField()
     stamp = models.ImageField()
+    garantee_insurance = models.ImageField()
     status = models.PositiveSmallIntegerField(
         choices=STATUS_TYPE, default=REQUEST)
 

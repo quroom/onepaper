@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-h6 text-center ma-2"> {{ $t("allow_user_list") }} </div>    
+    <div class="text-h6 text-center ma-2"> {{ $t("allow_user_list") }} </div>
     <v-data-table
       v-model="selected_users"
       :headers="headers"
@@ -11,7 +11,10 @@
     <template v-slot:top>
       <v-row>
         <v-col>
-          <v-text-field v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user">
+          <v-text-field v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
             <template v-slot:append-outer>
               <v-btn
                 color="primary"
@@ -57,11 +60,19 @@ export default {
         align: 'start',
         sortable: true,
         value: 'username'
-      }],
+      },
+      {
+        text: `${i18n.t("name")}`,
+        align: 'start',
+        value: 'name'
+      }
+      ],
       allowed_users: [],
       selected_users: [],
-      new_user: null,
-      new_users: []
+      new_user: {
+        name: null,
+        username: null,
+      },
     }
   },
   methods: {
@@ -72,21 +83,19 @@ export default {
       })
     },
     addUser() {
-      this.new_users.push(this.new_user)
       let data = {
-        "allowed_users" : this.new_users
+        "allowed_users" : this.new_user
       }
       
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
         if(data.id) {
+          this.allowed_users = data.allowed_users;
           alert(this.$i18n.t("request_success"))
-          this.allowed_users = data.allowed_users;          
         } else {
           alert(data)
         }
-        this.new_user = "";
-        this.new_users = [];
+        this.new_user = {name: null, username: null};
       })
     },
     deleteUser() {
@@ -102,8 +111,8 @@ export default {
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "DELETE", data).then(data => {
         if(data.id) {
+          this.allowed_users = data.allowed_users;
           alert(this.$i18n.t("request_success"))
-          this.allowed_users = data.allowed_users;          
         } else {
           alert(data)
         }

@@ -63,9 +63,9 @@
               {{ $t("author") }}:
               <span class="author-name"> {{ paper.author }} </span>
             </v-card-subtitle>
-            <v-card-text>
+            <v-card-text v-if="paper.address">
               <div>
-                {{ paper.address }}
+                {{ paper.address.old_address }}
               </div>
               <span>
                 {{ $getConstI18("realestate_type", paper.realestate_type) }}
@@ -148,7 +148,6 @@ export default {
           return !(contractor.signature == null);
         }
       }
-      console.log("what?");
     },
     getCurrentContractor() {
       const self = this;
@@ -204,7 +203,7 @@ export default {
             });
           });
       } catch (err) {
-        console.log(err);
+        alert(err);
       }
     },
     open(paper) {

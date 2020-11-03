@@ -9,10 +9,10 @@
           item-key="id"
         >
           <template
-            v-slot:item.trade_type="{ item }">
+            v-slot:[`item.trade_type`]="{ item }">
             {{$getConstI18("TRADE_TYPE", item.trade_type)}}
           </template>
-          <template v-slot:item.select="{ item }">
+          <template v-slot:[`item.select`]="{ item }">
             <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
           </template>
         </v-data-table>
@@ -21,35 +21,33 @@
         {{ $t("paper") + ' ' + $t("load") }}
       </v-btn>
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
+      <AddressSearch
+        label="주소 검색"
+        :room_name="room_name"
+        :address="address.old_address"
+        :address_objects.sync="address_objects"
+        :room_name_local.sync="room_name"
+      ></AddressSearch>
       <v-row>
-        <v-col cols="8" md="10">
-          <ValidationProvider :name="$t('address')" rules="required" v-slot="{ errors, }">
-            <v-text-field
-              v-model="address"
-              :error-messages="errors"
-              :label="$t('address')"
-              required
-            ></v-text-field>
-          </ValidationProvider>
-        </v-col>
         <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
           <v-col cols="4" md="2" :key="`index`+index">
             <ValidationProvider
               :name="$t(realestate_field_name)"
               rules="required"
-              v-slot="{ errors, }"
+              v-slot="{ errors }"
             >
               <v-text-field
                 v-model="$data[''+realestate_field_name]"
                 :error-messages="errors"
                 :label="$t(realestate_field_name)"
                 required
+          data-vv-validate-on="none"
               ></v-text-field>
             </ValidationProvider>
           </v-col>
         </template>
         <v-col cols="4" md="2">
-          <ValidationProvider :name="$t('realestate_type')" v-slot="{ errors, }" rules="required">
+          <ValidationProvider :name="$t('realestate_type')" v-slot="{ errors }" rules="required">
             <v-select
               v-model="realestate_type"
               :error-messages="errors"
@@ -68,7 +66,7 @@
       <div>{{ $t("terms_and_conditions_intro") }}</div>
       <v-row>
         <v-col cols="2">
-          <ValidationProvider :name="$t('trade_type')" v-slot="{ errors, }" rules="required">
+          <ValidationProvider :name="$t('trade_type')" v-slot="{ errors }" rules="required">
             <v-select
               v-model="trade_type"
               :error-messages="errors"
@@ -92,7 +90,7 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider :name="$t('from_date')" v-slot="{ errors, }" rules="required">
+              <ValidationProvider :name="$t('from_date')" v-slot="{ errors }" rules="required">
                 <v-text-field
                   v-model="from_date"
                   :error-messages="errors"
@@ -121,7 +119,7 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider :name="$t('to_date')" v-slot="{ errors, }" rules="required">
+              <ValidationProvider :name="$t('to_date')" v-slot="{ errors }" rules="required">
                 <v-text-field
                   v-model="to_date"
                   :error-messages="errors"
@@ -146,7 +144,7 @@
           <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
             <v-col cols="6" md="3" :key="`index`+index">
               <ValidationProvider
-                v-slot="{ errors, }"
+                v-slot="{ errors }"
                 :name="$t(contract_field_name)"
                 rules="required"
               >
@@ -164,7 +162,7 @@
           <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
             <v-col v-if="contract_field_name!='monthly_fee'" cols="6" md="3" :key="`index`+index">
               <ValidationProvider
-                v-slot="{ errors, }"
+                v-slot="{ errors }"
                 :name="$t(contract_field_name)"
                 rules="required"
               >
@@ -359,7 +357,7 @@
       <div class="mt-5">4. {{ $t("special_agreement") }}</div>
       <v-textarea class="mt-2" v-model="special_agreement" auto-grow outlined>
       </v-textarea>
-      <v-btn class="primary mr-4" @click="onSubmit()">{{$t('submit')}}</v-btn>
+      <v-btn class="float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </div>
   </ValidationObserver>
 </template>
@@ -367,6 +365,7 @@
 <script>
 import { apiService } from "@/common/api.service";
 import i18n from "@/plugins/i18n";
+import AddressSearch from "@/components/AddressSearch";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
@@ -379,7 +378,8 @@ export default {
   },
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    AddressSearch
   },
   computed: {
   },
@@ -395,7 +395,6 @@ export default {
       allowed_profiles: [],
       fields_names: {
         realestate_fields_name: [
-          "room_name",
           "land_type",
           "lot_area",
           "building_structure",
@@ -434,7 +433,10 @@ export default {
       building_type: null,
       building_area: null,
       trade_type: null,
-      address: null,
+      address_objects: null,
+      address: {
+        old_address: null,
+      },
       room_name: null,
       down_payment: null,
       security_deposit: null,
@@ -485,11 +487,6 @@ export default {
     remove (item, type) {
       const index = this[type].indexOf(item)
       if (index >= 0) this[type].splice(index, 1)
-    },
-    contractorChanged(datas, type) {
-      for(var data of datas){
-        console.log(data, type)
-      }
     },
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
@@ -543,24 +540,24 @@ export default {
             })
           }
         }
-        (self.land_type = data.land_type),
-        (self.lot_area = data.lot_area),
-        (self.building_structure = data.building_structure),
-        (self.building_type = data.building_type),
-        (self.building_area = data.building_area),
-        (self.trade_type = data.trade_type),
-        (self.address = data.address),
-        (self.room_name = data.room_name),
-        (self.deposit = data.deposit),
-        (self.down_payment = data.monthly_fee),
-        (self.security_deposit = data.security_deposit),
-        (self.maintenance_fee = data.maintenance_fee),
-        (self.monthly_fee = data.monthly_fee),
-        (self.from_date = data.from_date),
-        (self.to_date = data.to_date),
-        (self.realestate_type = data.realestate_type),
-        (self.special_agreement = data.special_agreement),
-        (self.contractors = data.paper_contractors)
+        self.land_type = data.land_type;
+        self.lot_area = data.lot_area;
+        self.building_structure = data.building_structure;
+        self.building_type = data.building_type;
+        self.building_area = data.building_area;
+        self.trade_type = data.trade_type;
+        self.address = data.address;
+        self.room_name = data.room_name;
+        self.deposit = data.deposit;
+        self.down_payment = data.down_payment;
+        self.security_deposit = data.security_deposit;
+        self.maintenance_fee = data.maintenance_fee;
+        self.monthly_fee = data.monthly_fee;
+        self.from_date = data.from_date;
+        self.to_date = data.to_date;
+        self.realestate_type = data.realestate_type;
+        self.special_agreement = data.special_agreement;
+        self.contractors = data.paper_contractors;
         self.paper_load_dialog = false;
       })
     },
@@ -600,7 +597,6 @@ export default {
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           self.contractors = [];
-          console.log("validation true");
           self.combine_contractors();
           let endpoint = "/api/papers/";
           let method = "POST";
@@ -616,7 +612,14 @@ export default {
               building_type: self.building_type,
               building_area: self.building_area,
               trade_type: self.trade_type,
-              address: self.address,
+              address: {
+                old_address: self.address_objects.jibunAddress,
+                new_address: self.address_objects.address,
+                sigunguCd: self.address_objects.bcode.substring(0,5),
+                bjdongCd: self.address_objects.bcode.substring(5,10),
+                bun: self.address_objects.jibunAddress.split("동 ")[1].split("-")[0],
+                ji: self.address_objects.jibunAddress.split("동 ")[1].split("-")[1],
+              },
               room_name: self.room_name,
               down_payment: self.down_payment,
               security_deposit: self.security_deposit,
@@ -646,7 +649,7 @@ export default {
               }
             });
           } catch (err) {
-            console.log(err);
+            alert(err);
           }
         } else console.log("validation error");
       });
@@ -668,25 +671,25 @@ export default {
               (vm.buyer = contractor.profile)
             }
           }
-          (vm.land_type = data.land_type),
-          (vm.lot_area = data.lot_area),
-          (vm.building_structure = data.building_structure),
-          (vm.building_type = data.building_type),
-          (vm.building_area = data.building_area),
-          (vm.trade_type = data.trade_type),
-          (vm.address = data.address),
-          (vm.room_name = data.room_name),
-          (vm.deposit = data.deposit),
-          (vm.down_payment = data.monthly_fee),
-          (vm.security_deposit = data.security_deposit),
-          (vm.maintenance_fee = data.maintenance_fee),
-          (vm.monthly_fee = data.monthly_fee),
-          (vm.from_date = data.from_date),
-          (vm.to_date = data.to_date),
-          (vm.realestate_type = data.realestate_type),
-          (vm.special_agreement = data.special_agreement),
-          (vm.contractors = data.paper_contractors),
-          (vm.status = data.status)
+          vm.land_type = data.land_type;
+          vm.lot_area = data.lot_area;
+          vm.building_structure = data.building_structure;
+          vm.building_type = data.building_type;
+          vm.building_area = data.building_area;
+          vm.trade_type = data.trade_type;
+          vm.address = data.address;
+          vm.room_name = data.room_name;
+          vm.deposit = data.deposit;
+          vm.down_payment = data.monthly_fee;
+          vm.security_deposit = data.security_deposit;
+          vm.maintenance_fee = data.maintenance_fee;
+          vm.monthly_fee = data.monthly_fee;
+          vm.from_date = data.from_date;
+          vm.to_date = data.to_date;
+          vm.realestate_type = data.realestate_type;
+          vm.special_agreement = data.special_agreement;
+          vm.contractors = data.paper_contractors;
+          vm.status = data.statu;
         }
       );
     } else {

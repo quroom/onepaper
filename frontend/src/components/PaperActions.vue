@@ -31,7 +31,7 @@ export default {
         await apiService(endpoint, "DELETE");
         this.$router.push("/");
       }catch (err) {
-        console.log(err);
+        alert(err);
       }
     }
   }

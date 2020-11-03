@@ -6,4 +6,4 @@ from profiles.serializers import CustomUserSerializer
 @receiver(post_save, sender=Profile)
 def create_profile(sender, instance, created, **kwargs):
      if created:
-         AllowedUser.objects.create(profile=instance)
+         allowedUser = AllowedUser.objects.create(profile=instance)

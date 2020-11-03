@@ -1,7 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
-from profiles.serializers import ProfileSerializer
+from addresses.models import Address
+from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
+from profiles.serializers import ProfileSerializer
 from papers.models import Paper, Contractor, Signature
 
 class ContractorSerializer(serializers.ModelSerializer):
@@ -15,7 +17,7 @@ class SignatureSerializer(serializers.ModelSerializer):
         model = Signature
         fields = "__all__"
 
-class ContractorDetailSerializer(serializers.ModelSerializer):
+class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
     class Meta:
@@ -34,6 +36,7 @@ class PaperSerializer(serializers.ModelSerializer):
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     status_type = serializers.IntegerField(read_only=True)
+    address = AddressSerializer()
     paper_contractors = ContractorSerializer(many=True)
 
     class Meta:
@@ -41,9 +44,12 @@ class PaperSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        contractors = validated_data.pop('paper_contractors')
-        paper = Paper.objects.create(**validated_data)
-        for contractor in contractors:
+        contractors_data = validated_data.pop('paper_contractors')
+        address_data = validated_data.pop('address')
+
+        address = Address.objects.create(**address_data)
+        paper = Paper.objects.create(**validated_data, address=address)
+        for contractor in contractors_data:
             Contractor.objects.create(profile=contractor['profile'], paper=paper, group=contractor['group'])
         return paper
 
@@ -65,9 +71,10 @@ class PaperSerializer(serializers.ModelSerializer):
             contractors_id_list.append(contractor['profile'].id)
 
             if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
-                raise serializers.ValidationError({
-                    key: _("프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."),
-                })
+                if author != contractor['profile'].user:
+                    raise serializers.ValidationError({
+                        key: _("프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."),
+                    })
 
             if contractor['group'] == Contractor.SELLER or contractor['group'] == Contractor.BUYER:
                 if ExpertProfile.objects.filter(profile=contractor['profile']).exists():
@@ -107,4 +114,5 @@ class PaperSerializer(serializers.ModelSerializer):
         return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
 
 class PaperReadonlySerializer(PaperSerializer):
-    paper_contractors = ContractorDetailSerializer(many=True)
+    address = AddressSerializer()
+    paper_contractors = ContractorReadSerializer(many=True)

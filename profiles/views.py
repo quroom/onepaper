@@ -56,7 +56,7 @@ class CurrentProfileViewset(ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -76,12 +76,14 @@ class AllowedUserDetail(APIView):
 
     def post(self, request, pk):
         allowedUser = get_object_or_404(AllowedUser, profile=pk)
-        user_list = CustomUser.objects.filter(username__in=request.data['allowed_users'])
-        if user_list.count() == 0:
-            return Response(ValidationError(_("유효하지 않은 유저 회원 아이디입니다.")), status=status.HTTP_400_BAD_REQUEST)
+        user = CustomUser.objects.filter(username=request.data['allowed_users']['username'])
+        user_by_name = user.filter(name=request.data['allowed_users']['name'])
+        if user.count() == 0:
+            return Response(ValidationError(_("일치하는 회원 아이디가 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
+        if user_by_name.count() == 0:
+            return Response(ValidationError(_("이름이 일치하지 않습니다.")), status=status.HTTP_400_BAD_REQUEST)
 
-        allowedUser.allowed_users.add(*user_list)
-        allowedUser.allowed_users.add(allowedUser.profile.user)
+        allowedUser.allowed_users.add(*user)
         allowedUser.save()
 
         serializer_context = {"request": request}
@@ -91,13 +93,10 @@ class AllowedUserDetail(APIView):
 
     def delete(self, request, pk):
         allowedUser = get_object_or_404(AllowedUser, profile=pk)
-        try:
-            request.data['allowed_users'].remove(allowedUser.profile.user.username)
-        except ValueError:
-            pass
         user_list = CustomUser.objects.filter(username__in=request.data['allowed_users'])
         if user_list.count() == 0:
-            return Response(ValidationError(_("유효하지 않은 유저 회원 아이디입니다.")), status=status.HTTP_400_BAD_REQUEST)
+            return Response(ValidationError(_("일치하는 회원이 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
+
         allowedUser.allowed_users.remove(*user_list)
         allowedUser.save()
 
@@ -111,5 +110,6 @@ class AllowedProfileList(APIView):
 
     def get(self, request):
         profiles = Profile.objects.filter(allowed_user__allowed_users=request.user, expert_profile=None)
-        serializer = ProfileSerializer(profiles, many=True)
+        self_profile = Profile.objects.filter(user=self.request.user, expert_profile=None)
+        serializer = ProfileSerializer(profiles | self_profile, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

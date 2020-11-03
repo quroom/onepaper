@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db import models
 from profiles.models import CustomUser, ExpertProfile, Profile
+from addresses.models import Address
 
 class Paper(models.Model):
     ONEROOM = 0
@@ -75,7 +76,10 @@ class Paper(models.Model):
     building_area = models.SmallIntegerField(default=0, blank=True)
     trade_type = models.PositiveSmallIntegerField(
         choices=TRADE_TYPE, default=RENT, blank=True)
-    address = models.CharField(max_length=250)
+    address = models.OneToOneField(Address,
+                                   null=True,
+                                   on_delete=models.SET_NULL,
+                                   related_name="paper")
     room_name = models.CharField(max_length=50, blank=True)
     realestate_type = models.PositiveSmallIntegerField(
         choices=ITEM_TYPE, default=ONEROOM, blank=True)

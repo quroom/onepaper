@@ -31,7 +31,7 @@
         <v-card outlined tile>{{ $t("address") }}</v-card>
       </v-col>
       <v-col cols="10">
-        <v-card outlined tile>{{ paper.address }}</v-card>
+        <v-card outlined tile>{{ paper.address.old_address }}</v-card>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -492,7 +492,6 @@ export default {
       apiService(endpoint).then(data => {
         this.paper = data;
         this.initialize_contractors(this.paper.paper_contractors);
-        // console.log(this.buyer.signature)
         this.isLoading = false;
       });
     },
@@ -534,7 +533,7 @@ export default {
             });
           });
       } catch (err) {
-        console.log(err);
+        alert(err);
       }
     },
     open(user) {

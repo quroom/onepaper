@@ -23,7 +23,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class CustomUserIDNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username']
+        fields = ['username', "name"]
 
 class ExpertSerializer(serializers.ModelSerializer):
     class Meta:
