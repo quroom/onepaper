@@ -27,11 +27,17 @@
     <div>{{ $t("intro") }}</div>
     <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
     <v-row no-gutters v-if="paper.address">
-      <v-col class="text-center font-weight-bold" cols="2">
+      <v-col class="text-center font-weight-bold" cols="1">
         <v-card outlined tile>{{ $t("address") }}</v-card>
       </v-col>
-      <v-col cols="10">
+      <v-col cols="6">
         <v-card outlined tile>{{ paper.address.old_address }}</v-card>
+      </v-col>
+      <v-col class="text-center font-weight-bold" cols="3">
+        <v-card outlined tile>{{ $t("room_name") }}</v-card>
+      </v-col>
+      <v-col cols="2">
+        <v-card outlined tile>{{ paper.room_name }}</v-card>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -176,7 +182,7 @@
         <v-col
           class="text-center font-weight-bold"
           cols="2"
-          md="2"
+          lg="1"
           :key="`name` + index"
         >
           <v-card outlined tile>{{ $t(field_name) }}</v-card>
@@ -185,18 +191,16 @@
           v-if="field_name === 'name' || field_name === 'birthday'"
           class="text-center"
           cols="4"
-          md="2"
+          lg="2"
           :key="`value-` + index"
         >
           <v-card outlined tile>{{ expert.profile.user[field_name] }}</v-card>
         </v-col>
         <v-col
-          v-else-if="
-            field_name === 'registration_number' || field_name === 'shop_name'
-          "
+          v-else-if="field_name === 'registration_number'"
           class="text-center"
           cols="4"
-          md="2"
+          lg="2"
           :key="`value-` + index"
         >
           <v-card outlined tile>{{
@@ -204,10 +208,30 @@
           }}</v-card>
         </v-col>
         <v-col
+          v-else-if="field_name === 'shop_name'"
+          class="text-center"
+          cols="3"
+          lg="4"
+          :key="`value-` + index"
+        >
+          <v-card outlined tile>{{
+            expert.profile.expert_profile[field_name]
+          }}</v-card>
+        </v-col>
+        <v-col
+          v-else-if="field_name === 'address'"
+          class="text-center"
+          cols="5"
+          lg="6"
+          :key="`value-` + index"
+        >
+          <v-card outlined tile>{{ expert.profile[field_name] }}</v-card>
+        </v-col>
+        <v-col
           v-else
           class="text-center"
           cols="4"
-          md="2"
+          lg="2"
           :key="`value-` + index"
         >
           <v-card outlined tile>{{ expert.profile[field_name] }}</v-card>
@@ -425,7 +449,6 @@ export default {
       buyer: null,
       fields_names: {
         realestate_fields_name: [
-          "room_name",
           "land_type",
           "lot_area",
           "building_structure",
@@ -594,5 +617,9 @@ img {
   position: absolute;
   top: -30px;
   cursor: pointer;
+}
+.v-card {
+  padding: 6px 8px 6px 8px;
+  border: thin solid rgba(0, 0, 0, 0.2) !important;
 }
 </style>
