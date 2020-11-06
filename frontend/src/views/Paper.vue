@@ -1,18 +1,18 @@
 <template>
   <v-container class="my-5">
-    <PaperActions v-if="isPaperAuthor" :id="paper.id" />
     <v-row>
-      <v-col cols="6">
-        <v-icon left color="blue">person</v-icon>
-        <span>{{ $t("author") }}: {{ paper.author }}</span>
+      <v-col cols="12" md="4">
+        <PaperActions v-if="isPaperAuthor" :id="paper.id" />
       </v-col>
-      <v-col cols="6">
-        <v-row>
+      <v-col cols="12" md="8">
+        <div style="float:right">
+          <v-icon left color="blue">person</v-icon>
+          <span class="pr-8">{{ $t("author") }}: {{ paper.author }}</span>
           <span
-            >{{ $t("last") }} {{ $t("updated_at") }} :
+            >{{ $t("last") }}{{ $t("updated_at") }} :
             {{ paper.created_at }}</span
           >
-        </v-row>
+        </div>
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -26,7 +26,7 @@
     </v-row>
     <div>{{ $t("intro") }}</div>
     <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
-    <v-row no-gutters>
+    <v-row no-gutters v-if="paper.address">
       <v-col class="text-center font-weight-bold" cols="2">
         <v-card outlined tile>{{ $t("address") }}</v-card>
       </v-col>
@@ -56,9 +56,10 @@
             tile
             >{{ paper[realestate_field_name] }}㎡</v-card
           >
-          <v-card v-else outlined tile>{{
-            paper[realestate_field_name]
-          }}</v-card>
+          <v-card v-else-if="realestate_field_name == 'land_type' || realestate_field_name =='building_type'" outlined tile>
+            {{$getConstI18(realestate_field_name, paper[realestate_field_name])}}
+          </v-card>
+          <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
         </v-col>
       </template>
     </v-row>
@@ -77,17 +78,18 @@
         v-for="(contract_field_name,
         index) in fields_names.contract_fields_name"
       >
-        <v-col
-          class="text-center font-weight-bold"
-          cols="2"
-          md="1"
-          :key="`name` + index"
-        >
-          <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
-        </v-col>
-        <v-col class="text-center" cols="4" md="2" :key="`value-` + index">
-          <v-card outlined tile>{{ paper[contract_field_name] }}</v-card>
-        </v-col>
+        <template v-if="paper[contract_field_name] != undefined">
+          <v-col
+            class="text-center font-weight-bold"
+            cols="2"
+            :key="`name` + index"
+          >
+            <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="2" :key="`value-` + index">
+            <v-card outlined tile>{{ paper[contract_field_name] }}</v-card>
+          </v-col>
+        </template>
       </template>
     </v-row>
     <v-row no-gutters>
@@ -104,10 +106,10 @@
     <div class="mt-5">3. {{ $t("contractor_info") }}</div>
     <div>{{ $t("contractor_info_intro") }}</div>
     <v-row v-if="expert != null && !isLoading" no-gutters>
-      <v-dialog v-model="expert_dialog" height="400px" max-width="400px" eager>
+      <v-dialog v-model="expert_dialog" height="40%" max-width="60%" eager>
         <v-card>
           <VueSignaturePad
-            class="signature_pad"
+            class="signature-pad"
             width="100%"
             height="400px"
             ref="expert_signaturePad"
@@ -132,7 +134,7 @@
         </v-card>
       </v-dialog>
       <v-btn
-        style="position:absolute; z-index:2;"
+        class="signature-button"
         @click="open('expert')"
         v-if="
           expert.signature === null &&
@@ -150,7 +152,7 @@
         <v-card outlined tile> {{ $t("sign") }} </v-card>
         <template v-if="expert.signature">
           <a v-bind:href="expert.signature.image" target="_blank">
-            <img class="signature_img" :src="expert.signature.image" />
+            <img class="signature-img" :src="expert.signature.image" />
           </a>
         </template>
       </v-col>
@@ -163,7 +165,7 @@
               target="_blank"
             >
               <img
-                class="stamp_img"
+                class="stamp-img"
                 :src="expert.profile.expert_profile.stamp"
               />
             </a>
@@ -213,10 +215,10 @@
       </template>
     </v-row>
     <v-row class="mt-5" v-if="!isLoading" no-gutters>
-      <v-dialog v-model="seller_dialog" height="400px" max-width="400px" eager>
+      <v-dialog v-model="seller_dialog" height="40%" max-width="60%" eager>
         <v-card>
           <VueSignaturePad
-            class="signature_pad"
+            class="signature-pad"
             width="100%"
             height="400px"
             ref="seller_signaturePad"
@@ -241,7 +243,7 @@
         </v-card>
       </v-dialog>
       <v-btn
-        style="position:absolute; z-index:2;"
+        class="signature-button"
         @click="open('seller')"
         v-if="
           seller.signature === null &&
@@ -259,7 +261,7 @@
         <v-card outlined tile> {{ $t("sign") }} </v-card>
         <template v-if="seller.signature">
           <a v-bind:href="seller.signature.image" target="_blank">
-            <img class="signature_img" :src="seller.signature.image" />
+            <img class="signature-img" :src="seller.signature.image" />
           </a>
         </template>
       </v-col>
@@ -301,10 +303,10 @@
       </template>
     </v-row>
     <v-row class="mt-5" v-if="!isLoading" no-gutters>
-      <v-dialog v-model="buyer_dialog" height="400px" max-width="400px" eager>
+      <v-dialog v-model="buyer_dialog" height="40%" max-width="60%" eager>
         <v-card>
           <VueSignaturePad
-            class="signature_pad"
+            class="signature-pad"
             width="100%"
             height="400px"
             ref="buyer_signaturePad"
@@ -329,7 +331,7 @@
         </v-card>
       </v-dialog>
       <v-btn
-        style="position:absolute; z-index:1"
+        class="signature-button"
         @click="open('buyer')"
         v-if="
           buyer.signature === null &&
@@ -347,7 +349,7 @@
         <v-card outlined tile> {{ $t("sign") }} </v-card>
         <template v-if="buyer.signature">
           <a v-bind:href="buyer.signature.image" target="_blank">
-            <img class="signature_img" :src="buyer.signature.image" />
+            <img class="signature-img" :src="buyer.signature.image" />
           </a>
         </template>
       </v-col>
@@ -471,15 +473,9 @@ export default {
   methods: {
     initialize_contractors(contractors) {
       for (let i = 0; i < contractors.length; i++) {
-        if (
-          contractors[i].group ==
-          this.$getConstByVal("CONTRACTOR_TYPE", "expert")
-        ) {
+        if (contractors[i].group == this.$getConstByName("CONTRACTOR_TYPE", "expert")) {
           this.expert = contractors[i];
-        } else if (
-          contractors[i].group ==
-          this.$getConstByVal("CONTRACTOR_TYPE", "seller")
-        ) {
+        } else if (contractors[i].group == this.$getConstByName("CONTRACTOR_TYPE", "seller")) {
           this.seller = contractors[i];
         } else {
           this.buyer = contractors[i];
@@ -570,7 +566,13 @@ img {
   top: -25px;
   right: -45px;
 }
-.signature_pad {
+.signature-button {
+  height: 27px !important;
+  min-width: 95px !important;
+  position:absolute;
+  z-index:2;
+}
+.signature-pad {
   border-bottom: double 3px transparent;
   border-radius: 5px;
   background-image: linear-gradient(white, white),
@@ -578,19 +580,19 @@ img {
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
-.signature_img {
-  width: 60px;
+.signature-img {
+  height: 40px;
   z-index: 1;
   position: absolute;
   top: -10px;
-  left: 20px;
+  left: 5px;
   cursor: pointer;
 }
-.stamp_img {
-  width: 60px;
+.stamp-img {
+  height: 60px;
   z-index: 1;
   position: absolute;
-  top: -60px;
+  top: -30px;
   cursor: pointer;
 }
 </style>
