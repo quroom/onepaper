@@ -1,17 +1,21 @@
 <template>
-  <v-container class="my-5">
+  <v-container>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col class="pa-0" cols="12" sm="4">
         <PaperActions v-if="isPaperAuthor" :id="paper.id" />
       </v-col>
-      <v-col cols="12" md="8">
+      <v-col class="pa-0 pr-1" cols="12" sm="4">
         <div style="float:right">
           <v-icon left color="blue">person</v-icon>
-          <span class="pr-8">{{ $t("author") }}: {{ paper.author }}</span>
+          <span>{{ $t("author") }}: {{ paper.author }}</span>          
+        </div>
+      </v-col>
+      <v-col class="pa-0 pr-1" cols="12" sm="4">
+        <div style="float:right">
           <span
-            >{{ $t("last") }}{{ $t("updated_at") }} :
-            {{ paper.created_at }}</span
-          >
+              >{{ $t("last") }}{{ $t("updated_at") }} :
+              {{ paper.created_at }}
+          </span>
         </div>
       </v-col>
     </v-row>
@@ -27,16 +31,16 @@
     <div>{{ $t("intro") }}</div>
     <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
     <v-row no-gutters v-if="paper.address">
-      <v-col class="text-center font-weight-bold" cols="1">
+      <v-col class="text-center font-weight-bold" cols="2" sm="1">
         <v-card outlined tile>{{ $t("address") }}</v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="10" sm="6">
         <v-card outlined tile>{{ paper.address.old_address }}</v-card>
       </v-col>
-      <v-col class="text-center font-weight-bold" cols="3">
+      <v-col class="text-center font-weight-bold" cols="3" sm="3">
         <v-card outlined tile>{{ $t("room_name") }}</v-card>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="9" sm="2">
         <v-card outlined tile>{{ paper.room_name }}</v-card>
       </v-col>
     </v-row>
@@ -47,12 +51,13 @@
       >
         <v-col
           class="text-center font-weight-bold"
-          cols="2"
+          cols="3"
+          sm="2"
           :key="`name` + index"
         >
           <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
         </v-col>
-        <v-col class="text-center" cols="2" :key="`value-` + index">
+        <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
           <v-card
             v-if="
               realestate_field_name == 'building_area' ||
@@ -72,10 +77,10 @@
     <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
     <div>{{ $t("terms_and_conditions_intro") }}</div>
     <v-row no-gutters>
-      <v-col class="text-center font-weight-bold" cols="2">
+      <v-col class="text-center font-weight-bold" cols="3" sm="2">
         <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
       </v-col>
-      <v-col class="text-center font-weight-bold" cols="10">
+      <v-col class="text-center font-weight-bold" cols="9" sm="10">
         <v-card outlined tile
           >{{ paper.from_date }} ~ {{ paper.to_date }}</v-card
         >
@@ -87,23 +92,24 @@
         <template v-if="paper[contract_field_name] != undefined">
           <v-col
             class="text-center font-weight-bold"
-            cols="2"
+            cols="3"
+            sm="2"
             :key="`name` + index"
           >
             <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
           </v-col>
-          <v-col class="text-center" cols="2" :key="`value-` + index">
+          <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
             <v-card outlined tile>{{ paper[contract_field_name] }}</v-card>
           </v-col>
         </template>
       </template>
     </v-row>
     <v-row no-gutters>
-      <v-col class="text-center font-weight-bold" cols="2">
+      <v-col class="text-center font-weight-bold" cols="3" sm="2">
         <v-card outlined tile>{{ $t("bank_account") }}</v-card>
       </v-col>
-      <v-col class="text-center" cols="10">
-        <v-card v-if="!isLoading" outlined tile
+      <v-col class="text-center" cols="9" sm="10">
+        <v-card v-if="!isLoading && seller != null" outlined tile
           >{{ seller.profile.bank_name }} {{ seller.profile.user.name }}
           {{ seller.profile.account_number }}</v-card
         >
@@ -139,30 +145,25 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn
-        class="signature-button"
-        @click="open('expert')"
-        v-if="
-          expert.signature === null &&
-            requestUser === expert.profile.user.username
-        "
-        color="red"
-        dark
-        top
-        right
-      >
-        <v-icon>create</v-icon>
-        {{ $t("signature") }}
-      </v-btn>
-      <v-col class="text-center" cols="1">
-        <v-card outlined tile> {{ $t("sign") }} </v-card>
+      <v-col class="text-center" cols="2" md="1">
+        <v-card class="pa-0" outlined tile>
+          <template v-if="expert.signature === null && requestUser === expert.profile.user.username">
+            <v-btn class="signature-button" @click="open('expert')" color="red" dark>
+            <v-icon>create</v-icon>
+            {{ $t("signature") }}
+          </v-btn>
+          </template>
+          <template v-else>
+            {{ $t("sign") }}
+          </template>
+        </v-card>
         <template v-if="expert.signature">
           <a v-bind:href="expert.signature.image" target="_blank">
             <img class="signature-img" :src="expert.signature.image" />
           </a>
         </template>
       </v-col>
-      <v-col class="text-center font-weight-bold" cols="11">
+      <v-col class="contractor-title text-center font-weight-bold" cols="10" md="11">
         <v-card outlined tile color="blue lighten-4">
           {{ $t("realestate_agency") }}
           <template v-if="expert.profile.expert_profile.stamp">
@@ -181,36 +182,28 @@
       <template v-for="(field_name, index) in fields_names.expert_fields_name">
         <v-col
           class="text-center font-weight-bold"
-          cols="2"
+          cols="3"
+          md="2"
           lg="1"
           :key="`name` + index"
         >
           <v-card outlined tile>{{ $t(field_name) }}</v-card>
         </v-col>
         <v-col
-          v-if="field_name === 'name' || field_name === 'birthday'"
+          v-if="field_name === 'registration_number'"
           class="text-center"
-          cols="4"
+          cols="9"
+          md="10"
           lg="2"
           :key="`value-` + index"
         >
-          <v-card outlined tile>{{ expert.profile.user[field_name] }}</v-card>
-        </v-col>
-        <v-col
-          v-else-if="field_name === 'registration_number'"
-          class="text-center"
-          cols="4"
-          lg="2"
-          :key="`value-` + index"
-        >
-          <v-card outlined tile>{{
-            expert.profile.expert_profile[field_name]
-          }}</v-card>
+          <v-card outlined tile>{{ expert.profile.expert_profile[field_name] }}</v-card>
         </v-col>
         <v-col
           v-else-if="field_name === 'shop_name'"
           class="text-center"
-          cols="3"
+          cols="9"
+          md="10"
           lg="4"
           :key="`value-` + index"
         >
@@ -221,24 +214,38 @@
         <v-col
           v-else-if="field_name === 'address'"
           class="text-center"
-          cols="5"
+          cols="9"
+          md="10"
           lg="6"
           :key="`value-` + index"
         >
           <v-card outlined tile>{{ expert.profile[field_name] }}</v-card>
         </v-col>
         <v-col
+          v-else-if="field_name === 'name' || field_name === 'birthday'"
+          class="text-center"
+          cols="9"
+          sm="3"
+          md="2"
+          :key="`value-` + index"
+        >
+          <v-card outlined tile>{{
+            expert.profile.user[field_name]
+          }}</v-card>
+        </v-col>
+        <v-col
           v-else
           class="text-center"
-          cols="4"
-          lg="2"
+          cols="9"
+          sm="3"
+          md="2"
           :key="`value-` + index"
         >
           <v-card outlined tile>{{ expert.profile[field_name] }}</v-card>
         </v-col>
       </template>
     </v-row>
-    <v-row class="mt-5" v-if="!isLoading" no-gutters>
+    <v-row class="mt-5" v-if="!isLoading && seller != null" no-gutters>
       <v-dialog v-model="seller_dialog" height="40%" max-width="60%" eager>
         <v-card>
           <VueSignaturePad
@@ -266,23 +273,23 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn
-        class="signature-button"
-        @click="open('seller')"
-        v-if="
-          seller.signature === null &&
-            requestUser === seller.profile.user.username
-        "
-        color="red"
-        dark
-        top
-        right
-      >
-        <v-icon>create</v-icon>
-        {{ $t("signature") }}
-      </v-btn>
-      <v-col class="text-center" cols="1">
-        <v-card outlined tile> {{ $t("sign") }} </v-card>
+      <v-col class="text-center" cols="2" md="1">
+        <v-card class="pa-0" outlined tile> 
+          <template v-if="seller.signature === null && requestUser === seller.profile.user.username">
+            <v-btn
+              class="signature-button"
+              @click="open('seller')"
+              color="red"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ $t("signature") }}
+            </v-btn>
+          </template>
+          <template v-else>
+            {{ $t("sign") }}
+          </template>
+        </v-card>
         <template v-if="seller.signature">
           <a v-bind:href="seller.signature.image" target="_blank">
             <img class="signature-img" :src="seller.signature.image" />
@@ -290,7 +297,7 @@
         </template>
       </v-col>
 
-      <v-col class="text-center font-weight-bold" cols="11">
+      <v-col class="text-center font-weight-bold" cols="10" md="11">
         <v-card outlined tile color="blue lighten-4">{{
           $t("landlord")
         }}</v-card>
@@ -300,16 +307,28 @@
       >
         <v-col
           class="text-center font-weight-bold"
-          cols="2"
+          cols="3"
           md="2"
+          lg="1"
           :key="`name` + index"
         >
           <v-card outlined tile>{{ $t(field_name) }}</v-card>
         </v-col>
         <v-col
-          v-if="field_name === 'name' || field_name === 'birthday'"
+          v-if="field_name === 'address'"
           class="text-center"
-          cols="4"
+          cols="9"
+          md="10"
+          lg="11"
+          :key="`value-` + index"
+        >
+          <v-card outlined tile>{{ buyer.profile[field_name] }}</v-card>
+        </v-col>
+        <v-col
+          v-else-if="field_name === 'name' || field_name === 'birthday'"
+          class="text-center"
+          cols="9"
+          sm="3"
           md="2"
           :key="`value-` + index"
         >
@@ -318,7 +337,8 @@
         <v-col
           v-else
           class="text-center"
-          cols="4"
+          cols="9"
+          sm="3"
           md="2"
           :key="`value-` + index"
         >
@@ -326,7 +346,7 @@
         </v-col>
       </template>
     </v-row>
-    <v-row class="mt-5" v-if="!isLoading" no-gutters>
+    <v-row class="mt-5" v-if="!isLoading && buyer != null" no-gutters>
       <v-dialog v-model="buyer_dialog" height="40%" max-width="60%" eager>
         <v-card>
           <VueSignaturePad
@@ -354,30 +374,30 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn
-        class="signature-button"
-        @click="open('buyer')"
-        v-if="
-          buyer.signature === null &&
-            requestUser === buyer.profile.user.username
-        "
-        color="red"
-        dark
-        top
-        right
-      >
-        <v-icon>create</v-icon>
-        {{ $t("signature") }}
-      </v-btn>
-      <v-col class="text-center" cols="1">
-        <v-card outlined tile> {{ $t("sign") }} </v-card>
+      <v-col class="text-center" cols="2" md="1">
+        <v-card class="pa-0" outlined tile> 
+          <template v-if="buyer.signature === null && requestUser === buyer.profile.user.username">
+            <v-btn
+              class="signature-button"
+              @click="open('buyer')"
+              color="red"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ $t("signature") }}
+            </v-btn>
+          </template>
+          <template v-else>
+            {{ $t("sign") }}
+          </template>
+        </v-card>
         <template v-if="buyer.signature">
           <a v-bind:href="buyer.signature.image" target="_blank">
             <img class="signature-img" :src="buyer.signature.image" />
           </a>
         </template>
       </v-col>
-      <v-col class="text-center font-weight-bold" cols="11">
+      <v-col class="text-center font-weight-bold" cols="10" md="11">
         <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
       </v-col>
       <template
@@ -385,16 +405,28 @@
       >
         <v-col
           class="text-center font-weight-bold"
-          cols="2"
+          cols="3"
           md="2"
+          lg="1"
           :key="`name` + index"
         >
           <v-card outlined tile>{{ $t(field_name) }}</v-card>
         </v-col>
         <v-col
-          v-if="field_name === 'name' || field_name === 'birthday'"
+          v-if="field_name === 'address'"
           class="text-center"
-          cols="4"
+          cols="9"
+          md="10"
+          lg="11"
+          :key="`value-` + index"
+        >
+          <v-card outlined tile>{{ buyer.profile[field_name] }}</v-card>
+        </v-col>
+        <v-col
+          v-else-if="field_name === 'name' || field_name === 'birthday'"
+          class="text-center"
+          cols="9"
+          sm="3"
           md="2"
           :key="`value-` + index"
         >
@@ -403,7 +435,8 @@
         <v-col
           v-else
           class="text-center"
-          cols="4"
+          cols="9"
+          sm="3"
           md="2"
           :key="`value-` + index"
         >
@@ -412,12 +445,13 @@
       </template>
     </v-row>
     <div class="mt-5">4. {{ $t("special_agreement") }}</div>
-    <v-textarea
-      class="no_underline"
-      auto-grow
-      readonly
-      :value="paper.special_agreement"
-    ></v-textarea>
+    
+    <quill-editor
+        ref="myQuillEditor"
+        v-model="paper.special_agreement"
+        :options="options"
+        :disabled="true"
+      />
   </v-container>
 </template>
 
@@ -425,6 +459,12 @@
 import { apiService, apiService_formData } from "@/common/api.service";
 import i18n from "@/plugins/i18n";
 import PaperActions from "@/components/PaperActions.vue";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import { quillEditor } from 'vue-quill-editor'
+
 
 export default {
   name: "Paper",
@@ -435,7 +475,8 @@ export default {
     }
   },
   components: {
-    PaperActions
+    PaperActions,
+    quillEditor
   },
   data() {
     return {
@@ -467,25 +508,30 @@ export default {
           "buyer_profile"
         ],
         basic_profile_fields_name: [
+          "address",
           "name",
           "birthday",
           "mobile_number",
-          "address",
           "bank_name",
           "account_number"
         ],
         expert_fields_name: [
+          "address",
+          "shop_name",
           "registration_number",
           "name",
           "birthday",
           "mobile_number",
-          "shop_name",
-          "address",
           "bank_name",
           "account_number"
         ]
       },
-      requestUser: null
+      requestUser: null,
+      options : {
+        modules: {
+          toolbar: false
+        }
+      },
     };
   },
   computed: {
@@ -590,9 +636,6 @@ img {
   right: -45px;
 }
 .signature-button {
-  height: 27px !important;
-  min-width: 95px !important;
-  position:absolute;
   z-index:2;
 }
 .signature-pad {
@@ -619,7 +662,10 @@ img {
   cursor: pointer;
 }
 .v-card {
-  padding: 6px 8px 6px 8px;
+  padding: 2px 8px 2px 8px;
   border: thin solid rgba(0, 0, 0, 0.2) !important;
+}
+.contractor-title {
+  background: #BBDEFB !important;
 }
 </style>

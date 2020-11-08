@@ -36,31 +36,41 @@
               rules="required"
               v-slot="{ errors }"
             >
+              <v-select
+                v-if="realestate_field_name=='building_type'"
+                v-model="building_type"
+                :error-messages="errors"
+                :items="$getConst('BUILDING_TYPE_LIST')"
+                item-text="text"
+                item-value="value"
+                :label="$t('building_type')"
+              >
+                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+              </v-select>
+              <v-select
+                v-else-if="realestate_field_name=='land_type'"
+                v-model="land_type"
+                :error-messages="errors"
+                :items="$getConst('LAND_TYPE_LIST')"
+                item-text="text"
+                item-value="value"
+                :label="$t('land_type')"
+              >
+                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+              </v-select>
               <v-text-field
+                v-else
                 v-model="$data[''+realestate_field_name]"
                 :error-messages="errors"
                 :label="$t(realestate_field_name)"
                 required
-          data-vv-validate-on="none"
-              ></v-text-field>
+              >
+              </v-text-field>
             </ValidationProvider>
           </v-col>
         </template>
-        <v-col cols="4" md="2">
-          <ValidationProvider :name="$t('realestate_type')" v-slot="{ errors }" rules="required">
-            <v-select
-              v-model="realestate_type"
-              :error-messages="errors"
-              :items="$getConst('REALESTATE_TYPE_LIST')"
-              item-text="text"
-              item-value="value"
-              :label="$t('realestate_type')"
-            >
-              <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-              <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-            </v-select>
-          </ValidationProvider>
-        </v-col>
       </v-row>
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
@@ -140,7 +150,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <template v-if="trade_type==$getConstByVal('TRADE_TYPE', 'rent')">
+        <template v-if="trade_type==$getConstByName('TRADE_TYPE', 'rent')">
           <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
             <v-col cols="6" md="3" :key="`index`+index">
               <ValidationProvider
@@ -241,7 +251,6 @@
               ref="seller"
               v-slot="{ errors }"
               :name="$t('landlord')"
-              rules="required"
             >
               <v-autocomplete
                 v-model="seller"
@@ -257,10 +266,10 @@
               >
                 <template
                   v-slot:selection="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
+                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
                 <template
                   v-slot:item="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
+                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
             <v-expansion-panel v-if="seller">
@@ -293,7 +302,6 @@
               ref="buyer"
               v-slot="{ errors }"
               :name="$t('tenant')"
-              rules="required"
             >
               <v-autocomplete
                 v-model="buyer"
@@ -309,10 +317,10 @@
               >
                 <template
                   v-slot:selection="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
+                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
                 <template
                   v-slot:item="{ item }"
-                >{{ item.user.name + '(' + $t('birthday') + ':' + item.user.birthday + ' / ' + $t('username') +':'+ item.user.username + ' / ' + ")" }}</template>
+                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
               </v-autocomplete>
             </ValidationProvider>
             <v-expansion-panel v-if="buyer">
@@ -355,8 +363,11 @@
         </v-row>
       </v-expansion-panels>
       <div class="mt-5">4. {{ $t("special_agreement") }}</div>
-      <v-textarea class="mt-2" v-model="special_agreement" auto-grow outlined>
-      </v-textarea>
+      <quill-editor
+        ref="myQuillEditor"
+        v-model="special_agreement"
+        :options="editorOption"
+      />
       <v-btn class="float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </div>
   </ValidationObserver>
@@ -367,6 +378,11 @@ import { apiService } from "@/common/api.service";
 import i18n from "@/plugins/i18n";
 import AddressSearch from "@/components/AddressSearch";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
   name: "PaperEditor",
@@ -379,7 +395,8 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    AddressSearch
+    AddressSearch,
+    quillEditor
   },
   computed: {
   },
@@ -427,10 +444,10 @@ export default {
       },
       from_date_menu: false,
       to_date_menu: false,
-      land_type: "대",
+      land_type: 7,
       lot_area: null,
       building_structure: null,
-      building_type: null,
+      building_type: 80,
       building_area: null,
       trade_type: null,
       address_objects: null,
@@ -444,7 +461,7 @@ export default {
       monthly_fee: null,
       from_date: null,
       to_date: null,
-      realestate_type: null,
+      realestate_type: 0,
       contractors: [
 
       ],
@@ -452,6 +469,60 @@ export default {
       seller: null,
       buyer: null,
       special_agreement: null,
+      editorOption: {
+        modules: {
+          toolbar: {
+            container: [
+              ['bold', 'underline', {'list': 'ordered'}, { 'size': ['small', false, 'large', 'huge'] }],
+              ['image', 'link', 'video']
+            ],
+            handlers: {
+              'image': () => {
+                let self = this;
+                var input = document.createElement("input");
+                input.setAttribute("type", "file");
+                input.click();
+                // Listen upload local image and save to server
+                input.onchange = () => {
+
+                    const file = input.files[0];
+                    if(file.size > 512000){
+                      alert(self.$t("image_file_size_error"))
+                      return;
+                    }
+                    const file_count = self.$refs.myQuillEditor.$el.getElementsByTagName("img").length
+                    if(file_count >= 2){
+                      alert(self.$t("image_file_count_error"))
+                      return;
+                    }
+                    // file type is only image.
+                    if (/^image\//.test(file.type)) {
+                        console.log(file)
+                        const getBase64 = (file) => new Promise(function (resolve, reject) {
+                            let reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result)
+                            reader.onerror = (error) => reject('Error: ', error);
+                        })
+
+                        const range = self.$refs.myQuillEditor.quill.getSelection();
+                        console.log(range)
+                        getBase64(file).then((result) => {
+                          let encoded = result;
+                          self.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
+                        })
+                        .catch(e => console.log(e))
+                        
+                    } else {
+                        alert(self.$t("image_file_type_error"));
+                    }
+                };
+              }
+            }
+          }
+        },
+        placeholder: this.$t("insert_special_agreement")
+      },
       headers: [
         {
           text: "",
@@ -520,13 +591,13 @@ export default {
       apiService(endpoint).then(data => {
         for(const contractor_index in data.paper_contractors) {
           var contractor = data.paper_contractors[contractor_index]
-          if(contractor.group==self.$getConstByVal("CONTRACTOR_TYPE", "expert")){
+          if(contractor.group==self.$getConstByName("CONTRACTOR_TYPE", "expert")){
             self.my_profiles.filter(function(item){
               if(item.id == contractor.profile.id){
                 self.expert = contractor.profile
               }
             })            
-          }else if(contractor.group==self.$getConstByVal("CONTRACTOR_TYPE", "seller")){
+          }else if(contractor.group==self.$getConstByName("CONTRACTOR_TYPE", "seller")){
             self.allowed_profiles.filter(function(item){
               if(item.id == contractor.profile.id){
                 self.seller = contractor.profile
@@ -564,7 +635,7 @@ export default {
     customFilter(item, queryText) {  
       const name = item.user.name.toLowerCase();
       const username = item.user.username.toLowerCase();
-      const mobile_number = item.mobile_number.toLowerCase();
+      const birthday = item.user.birthday.toLowerCase();
       const shop_name = item.expert_profile === null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
             
@@ -572,38 +643,52 @@ export default {
         name.indexOf(searchText) > -1 ||
         username.indexOf(searchText) > -1 ||
         shop_name.indexOf(searchText) > -1 ||
-        mobile_number.indexOf(searchText) > -1
+        birthday.indexOf(searchText) > -1
       );
     },
-    combine_contractors(){
-      if(this.expert) {
-        this.contractors.push({
-          "profile": this.expert.id, "paper":null, "group":this.$getConstByVal("CONTRACTOR_TYPE", "expert")
-        })
-      }
-      if(this.seller) {
-        this.contractors.push({
-          "profile": this.seller.id, "paper":null, "group":this.$getConstByVal("CONTRACTOR_TYPE", "seller")
-        })
-      }
-      if(this.buyer) {
-        this.contractors.push({
-          "profile": this.buyer.id, "paper":null, "group":this.$getConstByVal("CONTRACTOR_TYPE", "buyer")
-        })
-      }
+    update_contractors(method){
+      if(method=="PUT"){
+        for(const index in this.contractors){
+          if(this.contractors[index].group == this.$getConstByName("CONTRACTOR_TYPE", "expert")){
+            this.contractors[index].profile = this.expert.id;
+          }else if(this.contractors[index].group == this.$getConstByName("CONTRACTOR_TYPE", "seller")){
+            this.contractors[index].profile = this.seller.id;
+          }else {
+            this.contractors[index].profile = this.buyer.id;
+          }
+          // this.contractors[index].paper = null;
+        }
+      }else {
+        this.contractors = []
+        if(this.expert) {
+          this.contractors.push({
+            "profile": this.expert.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "expert")
+          })
+        }
+        if(this.seller) {
+          this.contractors.push({
+            "profile": this.seller.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "seller")
+          })
+        }
+        if(this.buyer) {
+          this.contractors.push({
+            "profile": this.buyer.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "buyer")
+          })
+        }
+      }      
     },
     onSubmit() {
       const self = this;
       this.$refs.obs.validate().then(function(v) {
-        if (v == true) {
-          self.contractors = [];
-          self.combine_contractors();
+        if (v == true) {                    
           let endpoint = "/api/papers/";
           let method = "POST";
           if (self.id !== undefined) {
             endpoint += `${self.id}/`;
             method = "PUT";
           }
+
+          self.update_contractors(method);
           try {
             apiService(endpoint, method, {
               land_type: self.land_type,
@@ -613,12 +698,12 @@ export default {
               building_area: self.building_area,
               trade_type: self.trade_type,
               address: {
-                old_address: self.address_objects.jibunAddress,
-                new_address: self.address_objects.address,
-                sigunguCd: self.address_objects.bcode.substring(0,5),
-                bjdongCd: self.address_objects.bcode.substring(5,10),
-                bun: self.address_objects.jibunAddress.split("동 ")[1].split("-")[0],
-                ji: self.address_objects.jibunAddress.split("동 ")[1].split("-")[1],
+                old_address: self.address_objects ? self.address_objects.jibunAddress : self.address.old_address ,
+                new_address: self.address_objects ? self.address_objects.address : self.address.new_address,
+                sigunguCd: self.address_objects ? self.address_objects.bcode.substring(0,5) : self.address.sigunguCd,
+                bjdongCd: self.address_objects ? self.address_objects.bcode.substring(5,10) : self.address.bjdongCd,
+                bun: self.address_objects ? self.address_objects.jibunAddress.split("동 ")[1].split("-")[0] : self.address.bun,
+                ji: self.address_objects ? self.address_objects.jibunAddress.split("동 ")[1].split("-")[1] :  self.address.ji,
               },
               room_name: self.room_name,
               down_payment: self.down_payment,
@@ -663,9 +748,9 @@ export default {
         vm => {
           for(const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index]
-            if(contractor.group==vm.$getConstByVal("CONTRACTOR_TYPE", "expert")){
+            if(contractor.group==vm.$getConstByName("CONTRACTOR_TYPE", "expert")){
               (vm.expert = contractor.profile)
-            }else if(contractor.group==vm.$getConstByVal("CONTRACTOR_TYPE", "seller")){
+            }else if(contractor.group==vm.$getConstByName("CONTRACTOR_TYPE", "seller")){
               (vm.seller = contractor.profile)
             }else {
               (vm.buyer = contractor.profile)
@@ -680,7 +765,7 @@ export default {
           vm.address = data.address;
           vm.room_name = data.room_name;
           vm.deposit = data.deposit;
-          vm.down_payment = data.monthly_fee;
+          vm.down_payment = data.down_payment;
           vm.security_deposit = data.security_deposit;
           vm.maintenance_fee = data.maintenance_fee;
           vm.monthly_fee = data.monthly_fee;
@@ -705,9 +790,13 @@ export default {
     }
   }
 };
+
 </script>
 <style>
-  .float_right {
-    float: right;
-  }
+.float_right {
+  float: right;
+}
+.ql-container {
+    font-size: 16px;
+}
 </style>

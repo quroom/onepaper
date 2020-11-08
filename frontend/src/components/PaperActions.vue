@@ -3,11 +3,12 @@
     <router-link
       :to="{name: 'paper-editor', params: {id: id}}"
     >
-      <v-btn color="green" dark>
+      <v-btn 
+      class="ma-1 auto" color="green" dark>
         {{$t('edit')}}
       </v-btn>
     </router-link>
-    <v-btn color="error" @click="deletePaper">
+    <v-btn class="ma-1 auto" color="error" @click="deletePaper">
       {{$t('delete')}}
     </v-btn>
   </div>
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     async deletePaper() {
-      let endpoint = `/api/peprs/${this.id}/`;
+      let endpoint = `/api/papers/${this.id}/`;
       try {
         await apiService(endpoint, "DELETE");
         this.$router.push("/");

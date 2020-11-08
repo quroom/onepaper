@@ -7,35 +7,26 @@ from profiles.models import CustomUser, ExpertProfile, Profile
 from addresses.models import Address
 
 class Paper(models.Model):
-    ONEROOM = 0
-    TWOROOM = 1
-    THREEROOM = 2
-    FOURROOM = 3
-    SHAREHOUSE = 4
-    OFFICETEL = 5
+    BUILDINGLAND = 7
 
-    APARTMENT = 20
-    VILLA = 21
-    HOUSE = 22
-    COMMERCIALHOUSE = 23
+    LAND_TYPE = (
+        (BUILDINGLAND, _('대')),
+    )
 
-    STORE = 40
-    LAND = 41
-    ITEM_TYPE = (
-        (ONEROOM, _('원룸')),
-        (TWOROOM, _('투룸')),
-        (THREEROOM, _('쓰리룸')),
-        (FOURROOM, _('포룸')),
-        (SHAREHOUSE, _('쉐어하우스')),
-        (OFFICETEL, _('오피스텔')),
+    BUILDING_STRUCTURE = ()
 
-        (APARTMENT, _('아파트')),
-        (VILLA, _('빌라')),
+    C1CNFACILITY = 70
+    C2CNFACILITY = 71
+    HOUSE = 80
+    APARTMENT = 81
+    ETC = 100
+
+    BUILDING_TYPE = (
+        (C1CNFACILITY, _('제1종근린생활시설')),
+        (C2CNFACILITY, _('제2종근린생활시설')),
         (HOUSE, _('단독주택')),
-        (COMMERCIALHOUSE, _('상가주택')),
-
-        (STORE, _('상가')),
-        (LAND, _('토지')),
+        (APARTMENT, _('아파트')),
+        (ETC, _('기타'))
     )
 
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
@@ -69,10 +60,12 @@ class Paper(models.Model):
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="author_papers")
-    land_type = models.CharField(max_length=10)
+    land_type = models.PositiveSmallIntegerField(
+        choices=LAND_TYPE, default=BUILDINGLAND, blank=True)
     lot_area = models.PositiveSmallIntegerField(default=0, blank=True)
     building_structure = models.CharField(max_length=100)
-    building_type = models.CharField(max_length=100)
+    building_type = models.PositiveSmallIntegerField(
+        choices=BUILDING_TYPE, default=HOUSE, blank=True)
     building_area = models.SmallIntegerField(default=0, blank=True)
     trade_type = models.PositiveSmallIntegerField(
         choices=TRADE_TYPE, default=RENT, blank=True)
@@ -81,8 +74,6 @@ class Paper(models.Model):
                                    on_delete=models.SET_NULL,
                                    related_name="paper")
     room_name = models.CharField(max_length=50, blank=True)
-    realestate_type = models.PositiveSmallIntegerField(
-        choices=ITEM_TYPE, default=ONEROOM, blank=True)
     down_payment = models.BigIntegerField(null=True, blank=True)
     security_deposit = models.BigIntegerField(null=True, blank=True)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True)
@@ -94,7 +85,7 @@ class Paper(models.Model):
         choices=STATUS_TYPE, default=DRAFT)
 
     def __str__(self):
-        return self.address + ' ' + self.room_name + '-' + self.get_trade_type_display()
+        return self.address.old_address + ' ' + self.room_name + '-' + self.get_trade_type_display()
 
     class Meta:
         ordering = ['-id']
@@ -126,7 +117,13 @@ class Contractor(models.Model):
         choices=CONTRACTOR_TYPE)
         
     class Meta:
-        unique_together = ('paper', 'profile')
+       constraints = [
+                     models.UniqueConstraint(fields=['profile', 'paper'],
+                     name="unique_profile_paper")
+                     ]
+    
+    def __str__(self):
+        return str(self.profile.user)
 
 from django.conf import settings
 class Signature(models.Model):

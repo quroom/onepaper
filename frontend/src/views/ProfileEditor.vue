@@ -1,6 +1,6 @@
 <template>
   <ValidationObserver ref="obj">
-    <v-container class="my-5">
+    <v-container>
       <!-- UserInfo -->
       <v-btn style="float:right" color="primary" :to="{ name: 'allowed-user-editor', params: { id: id } }"> {{ $t("add_user") }} </v-btn>
       <v-row>
@@ -213,6 +213,7 @@ export default {
         business_registration_certificate: null,
         agency_license: null,
         stamp: null,
+        garantee_insurance: null
       },
       business_registration_certificate_url: null,
       agency_license_url: null,
@@ -232,8 +233,8 @@ export default {
       if (this.address) formData.append("address", this.address)
       if (this.bank_name) formData.append("bank_name", this.bank_name)
       if (this.account_number) formData.append("account_number", this.account_number)
-      if (self.is_request_expert || self.is_expert) {
-        Object.keys(self.expert_profile).forEach(function(key) {
+      if (this.is_request_expert || this.is_expert) {
+        Object.keys(this.expert_profile).forEach(function(key) {
           if(self.expert_profile[key] != null) {
             formData.append('expert_profile.'+key, self.expert_profile[key])
           }
@@ -252,7 +253,7 @@ export default {
           self.$router.push({
             name: "profiles"
           });
-        } else {          
+        } else {
           Object.keys(data).forEach(function(key) {
             self.$refs[key].applyResult({
               errors: data[key],

@@ -1,20 +1,31 @@
 import i18n from "@/plugins/i18n";
 
 const Constants = {
-  REALESTATE_TYPE: {
-    0: "oneroom",
-    1: "tworoom",
-    2: "threeroom",
-    3: "fourroom",
-    4: "sharehouse",
-    5: "officetel",
-    20: "aprtment",
-    21: "vailla",
-    22: "house",
-    23: "commercialhouse",
-    40: "store",
-    41: "land",
+  LAND_TYPE : {
+    7: 'buildingland'
   },
+  BUILDING_TYPE: {
+    70: "c1neighborfacility",
+    71: "c2neighborfacility",
+    80: "house",
+    81: "apartment",
+    100: "etc",
+  },
+  // REALESTATE_TYPE: {
+  //   0: "oneroom",
+  //   1: "tworoom",
+  //   2: "threeroom",
+  //   3: "fourroom",
+  //   4: "sharehouse",
+  //   5: "officetel",
+  //   20: "aprtment",
+  //   21: "vailla",
+  //   22: "house",
+  //   23: "commercialhouse",
+  //   40: "store",
+  //   41: "land",
+  //   99: "etc",
+  // },
   TRADE_TYPE: {
     0: "rent",
     1: "depositloan",
@@ -24,7 +35,7 @@ const Constants = {
   STATUS_TYPE: {
     0: "draft",
     1: "done",
-    2: "confrim",
+    2: "confirm",
     3: "hidden"
   },
   CONTRACTOR_TYPE: {
@@ -32,7 +43,9 @@ const Constants = {
     1: "buyer",
     2: "expert"
   },
-  REALESTATE_TYPE_LIST: [],
+  LAND_TYPE_LIST: [],
+  BUILDING_TYPE_LIST: [],
+  // REALESTATE_TYPE_LIST: [],
   TRADE_TYPE_LIST: [],
   STATUS_TYPE_LIST: [],
   CONTRACTOR_TYPE_LIST: []
@@ -56,9 +69,9 @@ Constants.install = function(Vue) {
   
   Vue.prototype.$getConstI18 = (type, key) => {
     type = type.toUpperCase();
-    return i18n.t(Constants[type][key]);
+    return Constants[type][key] ? i18n.t(Constants[type][key]) : key;
   };
-  Vue.prototype.$getConstByVal = (type, val) => {
+  Vue.prototype.$getConstByName = (type, val) => {
     type = type.toUpperCase();
     let object = Constants[type];
     return Object.keys(object).find(key => object[key] === val);

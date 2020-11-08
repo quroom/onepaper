@@ -31,7 +31,7 @@
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-text class="pt-5">
-          <vue-daum-postcode :key=key @complete="address_objects = $event; onSubmitAddress();"/>
+          <vue-daum-postcode :no-auto-mapping="true" :key=key @complete="address_objects = $event; onSubmitAddress();"/>
         </v-card-text>
       </v-card>
     </v-dialog>

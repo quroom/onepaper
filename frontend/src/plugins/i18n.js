@@ -8,7 +8,7 @@ Vue.use(VueI18n);
 const i18n = new VueI18n({
   locale: "ko",
   messages: {
-    en: {
+    en: {      
       //Default message
       attached_document: "Attached Document",
       allow: "Allowed",
@@ -33,10 +33,14 @@ const i18n = new VueI18n({
       delete: "Delete",
       detail: "detail",
       edit: "Edit",
-      etc: "Additional information",
+      etc : "ETC",
       garantee_insurance: "Brokerage Garantee Insurance",
       general: "General",
+      image_file_size_error: "Image file size can't be over 500KB.",
+      image_file_count_error: "You can't upload over two images.",
+      image_file_type_error:"Only images can be uploaded here.",
       info: "Info",
+      insert_special_agreement: "Insert special agreement",
       intro: "This is realestate contract that is made by traders.",
       landlord: "Landlord",
       last: "Last",
@@ -57,6 +61,7 @@ const i18n = new VueI18n({
       search: "search",
       select: "Select",
       special_agreement: "Special Agreement",
+      special_agreement_basic_template: "",
       sign: "Signature",
       signature: "Sign",
       signature_empty_warning: "Signature can't be empty",
@@ -91,12 +96,14 @@ const i18n = new VueI18n({
       //Realestate basic message
       address: "Address",
       area: "Area",
+      dong: "Dong",
+      ho: "Ho",
       land_type: "Land Type",
-      lot_area: "Lot Area(㎡)",
-      room_name: "Detail Address(DongHo Or Room Name)",
+      lot_area: "Lot Area",
+      room_name: "Room Name",
       building_structure: "Building Strcuture",
       building_type: "Building Type",
-      building_area: "Building Area(㎡)",
+      building_area: "Building Area",
       realestate_type: "Realestate Type",
       trade_type: "Trade Type",
 
@@ -108,6 +115,13 @@ const i18n = new VueI18n({
       monthly_fee: "Monthly Fee",
       maintenance_fee: "Maintenance Fee",
 
+      //Land type
+      buildingland: "Building Land",
+
+      //Building type
+      c1neighborfacility: "C1 Neighbor Facility",
+      c2neighborfacility: "C2 Neighbor Facility",
+
       //Realestate model message
       oneroom: "Single Room",
       tworoom: "Double Room",
@@ -115,7 +129,7 @@ const i18n = new VueI18n({
       fourroom: "Four Room",
       sharehouse: "Share House",
       officetel: "Officetel",
-      aprtment: "Condominium",
+      apartment: "Condominium",
       vailla: "Apartment",
       house: "House",
       commercialhouse: "Commercial House",
@@ -129,6 +143,7 @@ const i18n = new VueI18n({
 
       draft: "Draft",
       done: "Done",
+      confirm: "Confirmed",
       hidden: "Hidden",
     },
     ko: {
@@ -154,12 +169,15 @@ const i18n = new VueI18n({
       desc_realestate: "부동산 기본정보(표시)",
       detail: "상세",
       edit: "수정",
-      etc: "기타 요청사항",
+      etc : "기타",
       garantee_insurance: "중개 보증 서류",
       general: "일반",
+      image_file_size_error: "이미지 크기는 500KB를 넘을 수 없습니다.",
+      image_file_count_error: "2개 이상의 이미지를 첨부할 수 없습니다.",
+      image_file_type_error: "이미지만 업로드 가능합니다.",
       info: "정보",
-      intro:
-        "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
+      insert_special_agreement: "특약을 입력해주세요.",
+      intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       manwon: "만원",
       landlord: "임대인",
       last: "최종",
@@ -179,6 +197,7 @@ const i18n = new VueI18n({
       search: "검색",
       select: "선택",
       special_agreement: "특약",
+      special_agreement_basic_template: "",
       sign: "(서명)",
       signature: "서명",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
@@ -204,19 +223,21 @@ const i18n = new VueI18n({
       bank_name: "은행명",
       account_number: "계좌번호",
       registration_number: "등록번호",
-      shop_name: "사무소 명칭",
-      shop_address: "사무소 소재지",
+      shop_name: "사무소명",
+      shop_address: "사무소주소",
       business_registration_certificate: "사업자 등록증",
       agency_license: "자격증",
 
       area: "면적",
       address: "주소",
+      dong: "동",
+      ho: "호",
       land_type: "지목",
-      lot_area: "토지면적(㎡)",
-      room_name: "상세주소(동호수 또는 방이름)",
+      lot_area: "토지면적",
+      room_name: "방이름",
       building_structure: "건물구조",
       building_type: "건물용도",
-      building_area: "건물면적(㎡)",
+      building_area: "건물면적",
       realestate_type: "부동산종류",
       trade_type: "계약 종류",
 
@@ -226,6 +247,12 @@ const i18n = new VueI18n({
       security_deposit: "보증금",
       monthly_fee: "월세",
       maintenance_fee: "관리비",
+      
+      //Land type
+      buildingland: "대",
+
+      c1neighborfacility: "제1종근린생활시설",
+      c2neighborfacility: "제2종근린생활시설",
 
       oneroom: "원룸",
       tworoom: "투룸",
@@ -233,7 +260,7 @@ const i18n = new VueI18n({
       fourroom: "포룸",
       sharehouse: "쉐어하우스",
       officetel: "오피스텔",
-      aprtment: "아파트",
+      apartment: "아파트",
       vailla: "빌라",
       house: "단독주택",
       commercialhouse: "상가주택",
@@ -247,6 +274,7 @@ const i18n = new VueI18n({
 
       draft: "작성중",
       done: "완료",
+      confirm: "확인",
       hidden: "숨김",
     },
   },

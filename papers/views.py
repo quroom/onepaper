@@ -63,6 +63,23 @@ class PaperViewset(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save()
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -85,7 +102,18 @@ class PaperViewset(ModelViewSet):
             self.perform_destroy(instance)
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(ValidationError(_("완료된 계약서는 삭제할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
+    def validate(self, attrs):
+        field1 = attrs.get('field1', self.object.field1)
+        field2 = attrs.get('field2', self.object.field2)
 
+        try:
+            obj = Model.objects.get(field1=field1, field2=field2)
+        except StateWithholdingForm.DoesNotExist:
+            return attrs
+        if self.object and obj.id == self.object.id:
+            return attrs
+        else:
+            raise serializers.ValidationError('field1 with field2 already exists')
 class SignatureListApiView(generics.ListAPIView):
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsParticiations]

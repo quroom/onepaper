@@ -9,7 +9,7 @@ from papers.models import Paper, Contractor, Signature
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contractor
-        fields = ("profile", "profile_id", "paper", "group")
+        fields = ("id", "profile", "profile_id", "paper", "group")
 
 class SignatureSerializer(serializers.ModelSerializer):
     contractor = ContractorSerializer(read_only=True)
@@ -20,16 +20,24 @@ class SignatureSerializer(serializers.ModelSerializer):
 class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
+
     class Meta:
         model = Contractor
         fields = "__all__"
 
 class PaperListSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+    updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
+    paper_contractors = ContractorReadSerializer(many=True, read_only=True)
+
     class Meta:
         model = Paper
-        fields = ("id", "address", "author", "room_name", "trade_type")
-        read_only_fields = ("id", "address", "author","room_name", "trade_type")
+        exclude = ["special_agreement", "created_at"]
+        read_only_fields = ("__all__",)
+
+    def get_updated_at(self, instance):
+        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -44,15 +52,39 @@ class PaperSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        contractors_data = validated_data.pop('paper_contractors')
         address_data = validated_data.pop('address')
-
+        contractors_data = validated_data.pop('paper_contractors')
+        
         address = Address.objects.create(**address_data)
         paper = Paper.objects.create(**validated_data, address=address)
         for contractor in contractors_data:
             Contractor.objects.create(profile=contractor['profile'], paper=paper, group=contractor['group'])
         return paper
+    
+    def update(self, instance, validated_data):
+        address_data = validated_data.pop('address')
+        contractors_data = validated_data.pop('paper_contractors')
+        
+        address = instance.address
+        for key, val in address_data.items():
+            setattr(address, key, val)
+        address.save()
 
+        contractors = instance.paper_contractors.all()
+        
+        for contractor in contractors:
+            for contractor_data in contractors_data:
+                if contractor_data['group'] == contractor.group:
+                    for key, val in contractor_data.items():
+                        if not val is None:
+                            setattr(contractor, key, val)
+                    contractor.save()
+
+        for key, val in validated_data.items():
+            setattr(instance, key, val)
+        instance.save()
+        return instance
+    
     def validate(self, data):
         author = self.context['request'].user
         is_author_expert = ExpertProfile.objects.filter(profile__user=author).exists()
@@ -94,9 +126,9 @@ class PaperSerializer(serializers.ModelSerializer):
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
 
-        if contractors_id_list.count(contractor['profile']) > 1:
-            #Need to be updated
-            #거래자 여러명 되면, key + id로 수정해줘야함.
+            if contractors_id_list.count(contractor['profile']) > 1:
+                #Need to be updated
+                #거래자 여러명 되면, key + id로 수정해줘야함.
                 raise serializers.ValidationError({
                 key: _("같은 사용자를 중복해서 등록할 수 없습니다."),
                 })

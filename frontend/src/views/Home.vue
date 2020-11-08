@@ -1,124 +1,111 @@
 <template>
-  <div class="home">
-    <v-container class="my-5">
-      <v-row>
-        <v-dialog v-model="warning_dialog">
-          <v-row no-gutters>
-            <v-col class="text-center" cols="12">
-              <v-card v-model="error">
-                <div class="text-h6 red--text ">
-                  {{ error }}
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-dialog>
-        <v-dialog v-model="dialog" height="400px" max-width="400px" eager>
-          <v-card>
-            <VueSignaturePad
-              class="signature_pad"
-              width="100%"
-              height="400px"
-              ref="signaturePad"
-              :options="{
-                minWidth: 3,
-                maxWidth: 3,
-                penColor: 'red'
-              }"
-            />
-            <v-card-actions>
-              <v-btn color="blue darken-1" text @click="dialog = false">{{
-                $t("close")
-              }}</v-btn>
-              <v-btn color="blue darken-1" text @click="clear('seller')">{{
-                $t("clear")
-              }}</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="save('seller')">{{
-                $t("save")
-              }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-col
-          cols="12"
-          md="6"
-          lg="4"
-          xl="3"
-          v-for="paper in papers"
-          :key="paper.id"
-        >
-          <v-card
-            class="outlined tile"
-            :to="{ name: 'paper', params: { id: paper.id } }"
-          >
-            <div class="text-body-2" style="float:right">
-              {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at }}
-            </div>
-            <v-card-title class="ma-1">
-              {{ paper.room_name }}
-              {{ $getConstI18("trade_type", paper.trade_type) }}
-            </v-card-title>
-            <v-card-subtitle style="float:right">
-              {{ $t("author") }}:
-              <span class="author-name"> {{ paper.author }} </span>
-            </v-card-subtitle>
-            <v-card-text v-if="paper.address">
-              <div>
-                {{ paper.address.old_address }}
+  <v-container>
+    <v-row>
+      <v-col
+        cols="12"
+        md="6"
+        lg="4"
+        xl="3"
+        v-for="paper in papers"
+        :key="paper.id"
+      >
+        <v-card
+          class="outlined tile"
+          :to="{ name: 'paper', params: { id: paper.id } }"
+        >            
+          <div class="text-body-2 pa-2" style="float:right">
+            {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at }}
+            <div>
+              <div class="author-name-position">
+                {{ $t("author") }}:
+                <span class="author-name-font"> {{ paper.author }} </span>
               </div>
-              <span>
-                {{ $getConstI18("realestate_type", paper.realestate_type) }}
-              </span>
-              <span
-                v-if="paper.trade_type == $getConstByVal('trade_type', 'rent')"
-              >
-                보{{ paper.security_deposit }}/월 {{ paper.monthly_fee }}
-              </span>
-              <span
-                v-else-if="
-                  paper.trade_type ==
-                    $getConstByVal('trade_type', 'depositloan')
-                "
-              >
-              </span>
-              <span
-                v-else-if="
-                  paper.trade_type == $getConstByVal('trade_type', 'trade')
-                "
-              >
-              </span>
-              <span
-                v-else-if="
-                  paper.trade_type == $getConstByVal('trade_type', 'exchange')
-                "
-              >
-              </span>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                style="z-index:2;"
-                @click.prevent="open(paper)"
-                v-if="!isLoading && !IsSigned(paper.paper_contractors)"
-                color="red"
-                dark
-                top
-                right
-              >
-                <v-icon>create</v-icon>
-                {{ $t("signature") }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <router-link :to="{ name: 'paper-editor' }">
-        <v-btn color="grey" dark absolute fab mid right>
-          <v-icon>add</v-icon>
-        </v-btn>
-      </router-link>
-    </v-container>
-  </div>
+            </div>
+          </div>
+          
+          <v-card-title class="card-title pa-0 pl-4">
+            {{ paper.room_name }}
+            {{ $getConstI18("trade_type", paper.trade_type) }}
+          </v-card-title>
+          <v-card-text v-if="paper.address">
+            <div>
+              {{ paper.address.old_address }}
+            </div>
+            <span>
+              {{ $getConstI18("building_type", paper.building_type) }}
+            </span>
+            <span v-if="paper.trade_type == $getConstByName('trade_type', 'rent')">
+              보{{ paper.security_deposit }} / 월{{ paper.monthly_fee }} / 관{{ paper.maintenance_fee }}
+            </span>
+            <span
+              v-else-if="paper.trade_type==$getConstByName('trade_type', 'depositloan')"
+            >
+              보{{ paper.security_deposit }} / 관{{ paper.maintenance_fee }}
+            </span>
+            <!-- To be updated -->
+            <span
+              v-else-if="
+                paper.trade_type == $getConstByName('trade_type', 'trade')
+              "
+            >
+            </span>
+            <span
+              v-else-if="
+                paper.trade_type == $getConstByName('trade_type', 'exchange')
+              "
+            >
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              style="z-index:2;"
+              @click.prevent="open(paper)"
+              v-if="!isLoading && !IsSigned(paper.paper_contractors)"
+              color="red"
+              dark
+              top
+              right
+            >
+              <v-icon>create</v-icon>
+              {{ $t("signature") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>        
+      <v-dialog v-model="dialog" height="40%" max-width="60%" eager>
+        <v-card>
+          <VueSignaturePad
+            class="signature_pad"
+            width="100%"
+            height="400px"
+            ref="signaturePad"
+            :options="{
+              minWidth: 3,
+              maxWidth: 3,
+              penColor: 'red'
+            }"
+          />
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="dialog = false">{{
+              $t("close")
+            }}</v-btn>
+            <v-btn color="blue darken-1" text @click="clear('seller')">{{
+              $t("clear")
+            }}</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="save('seller')">{{
+              $t("save")
+            }}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <router-link :to="{ name: 'paper-editor' }">
+      <v-btn color="grey" dark fixed fab bottom right>
+        <v-icon>add</v-icon>
+      </v-btn>
+    </router-link>
+  </v-container>
 </template>
 
 <script>
@@ -131,7 +118,6 @@ export default {
     return {
       papers: [],
       dialog: false,
-      warning_dialog: false,
       error: null,
       requestUser: null,
       isLoading: true,
@@ -160,7 +146,7 @@ export default {
       }
     },
     getPapers() {
-      let endpoint = "api/papers/";
+      let endpoint = "api/paper-list/";
       this.isLoading = true;
       apiService(endpoint).then(data => {
         this.papers.push(...data.results);
@@ -226,8 +212,14 @@ export default {
 };
 </script>
 <style>
-.author-name {
+.author-name-position {
+  float:right;
+}
+.author-name-font {
   font-weight: bold !important;
   color: #dc3545;
+}
+.card-title {
+  width: 100%;
 }
 </style>
