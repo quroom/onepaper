@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-10 13:01+0900\n"
+"POT-Creation-Date: 2020-11-23 22:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,104 +17,152 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\onepaper\settings.py:133
+#: .\onepaper\settings.py:135
 msgid "Korean"
 msgstr ""
 
-#: .\onepaper\settings.py:134
+#: .\onepaper\settings.py:136
 msgid "English"
 msgstr ""
 
-#: .\papers\models.py:13
+#: .\papers\models.py:14
 msgid "대"
 msgstr ""
 
-#: .\papers\models.py:25
+#: .\papers\models.py:26
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:26
+#: .\papers\models.py:27
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:27
+#: .\papers\models.py:28
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:28
+#: .\papers\models.py:29
 msgid "아파트"
 msgstr ""
 
-#: .\papers\models.py:29
+#: .\papers\models.py:30
 msgid "기타"
 msgstr ""
 
-#: .\papers\models.py:38
+#: .\papers\models.py:39
 msgid "월세"
 msgstr ""
 
-#: .\papers\models.py:39
+#: .\papers\models.py:40
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:40
+#: .\papers\models.py:41
 msgid "매매"
 msgstr ""
 
-#: .\papers\models.py:41
+#: .\papers\models.py:42
 msgid "교환"
 msgstr ""
 
-#: .\papers\models.py:50
+#: .\papers\models.py:51
 msgid "작성중"
 msgstr ""
 
-#: .\papers\models.py:51
-msgid "작성완료"
-msgstr ""
-
 #: .\papers\models.py:52
-msgid "확인완료"
+msgid "작성완료"
 msgstr ""
 
 #: .\papers\models.py:53
 msgid "숨김"
 msgstr ""
 
-#: .\papers\models.py:99
+#: .\papers\models.py:70
+msgid "티비"
+msgstr ""
+
+#: .\papers\models.py:71
+msgid "냉장고"
+msgstr ""
+
+#: .\papers\models.py:72
+msgid "세탁기"
+msgstr ""
+
+#: .\papers\models.py:73
+msgid "에어컨"
+msgstr ""
+
+#: .\papers\models.py:74
+msgid "침대"
+msgstr ""
+
+#: .\papers\models.py:75
+msgid "책상"
+msgstr ""
+
+#: .\papers\models.py:76
+msgid "옷장"
+msgstr ""
+
+#: .\papers\models.py:77
+msgid "신발장"
+msgstr ""
+
+#: .\papers\models.py:78
+msgid "가스렌지"
+msgstr ""
+
+#: .\papers\models.py:79
+msgid "전자렌지"
+msgstr ""
+
+#: .\papers\models.py:80
+msgid "도어락"
+msgstr ""
+
+#: .\papers\models.py:81
+msgid "비데"
+msgstr ""
+
+#: .\papers\models.py:82
+msgid "추가물품"
+msgstr ""
+
+#: .\papers\models.py:129
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:100
+#: .\papers\models.py:130
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:101
+#: .\papers\models.py:131
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\serializers.py:108
+#: .\papers\serializers.py:126
 msgid ""
 "프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:114
+#: .\papers\serializers.py:132
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:120
+#: .\papers\serializers.py:138
 msgid "본인의 프로필을 입력해주세요."
 msgstr ""
 
-#: .\papers\serializers.py:126
+#: .\papers\serializers.py:144
 msgid "공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:133
+#: .\papers\serializers.py:151
 msgid "같은 사용자를 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:138
+#: .\papers\serializers.py:156
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
@@ -139,7 +187,7 @@ msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
 #: .\papers\views.py:190
-msgid "계약서 검토가 완료되어 서명을 수정할 수 없습니다."
+msgid "계약서 작성이 완료되어 서명을 수정할 수 없습니다."
 msgstr ""
 
 #: .\papers\views.py:194
@@ -162,32 +210,120 @@ msgstr ""
 msgid "아이디"
 msgstr "User ID"
 
-#: .\profiles\models.py:46
+#: .\profiles\models.py:49
 msgid "요청"
 msgstr ""
 
-#: .\profiles\models.py:47
+#: .\profiles\models.py:50
 msgid "승인"
 msgstr ""
 
-#: .\profiles\models.py:48
+#: .\profiles\models.py:51
 msgid "거부"
 msgstr ""
 
-#: .\profiles\models.py:49
+#: .\profiles\models.py:52
 msgid "폐업"
 msgstr ""
 
-#: .\profiles\views.py:82
-msgid "일치하는 회원 아이디가 없습니다."
+#: .\profiles\serializers.py:170
+msgid "위임인만 서명이 가능합니다."
 msgstr ""
 
-#: .\profiles\views.py:84
+#: .\profiles\serializers.py:172
+msgid "위임인과 수임인이 동일할 수 없습니다."
+msgstr ""
+
+#: .\profiles\serializers.py:174
+msgid "사용자가 존재하지 않습니다."
+msgstr ""
+
+#: .\profiles\views.py:62
+msgid "작성한 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+msgstr ""
+
+#: .\profiles\views.py:65
+msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
+msgstr ""
+
+#: .\profiles\views.py:87
+msgid "승인 가능한 전문가가 선택되지 않았습니다."
+msgstr ""
+
+#: .\profiles\views.py:100
+msgid "전문가가 선택되지 않았습니다."
+msgstr ""
+
+#: .\profiles\views.py:127
+msgid "회원 아이디가 없습니다."
+msgstr ""
+
+#: .\profiles\views.py:131
 msgid "이름이 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\views.py:98
+#: .\profiles\views.py:133
+msgid "이미 추가된 회원입니다."
+msgstr ""
+
+#: .\profiles\views.py:147
 msgid "일치하는 회원이 없습니다."
+msgstr ""
+
+#: .\templates\django_registration\registration_form.html:6
+#: .\templates\django_registration\registration_form.html:11
+#: .\templates\registration\login.html:13
+msgid "Create Account"
+msgstr ""
+
+#: .\templates\django_registration\registration_form.html:13
+#: .\templates\registration\login.html:6 .\templates\registration\login.html:11
+msgid "Log in"
+msgstr ""
+
+#: .\templates\registration\password_change_done.html:8
+msgid "Your password was changed."
+msgstr ""
+
+#: .\templates\registration\password_change_form.html:6
+#: .\templates\registration\password_reset_form.html:6
+msgid "Password change"
+msgstr ""
+
+#: .\templates\registration\password_change_form.html:8
+#: .\templates\registration\password_reset_confirm.html:8
+#: .\templates\registration\password_reset_form.html:8
+msgid ""
+"Please enter your old password, for security’s sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: .\templates\registration\password_change_form.html:12
+msgid "Reset my password"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:6
+msgid "Password reset"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:8
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:12
+msgid "Change my password"
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:8
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:9
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
 msgstr ""
 
 #~ msgid "원룸"

@@ -26,7 +26,7 @@ from profiles.forms import CustomUserForm
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
 urlpatterns = [
-    path("admin/", admin.site.urls),    
+    path("admin/", admin.site.urls),
     path("accounts/register/",
         RegistrationView.as_view(
             form_class=CustomUserForm,

@@ -7,7 +7,7 @@ router.register(r"papers", PaperViewset, basename="Paper")
 urlpatterns = [    
     path("", include(router.urls)),
     path("paper-list/",
-          PaperListApiView.as_view()),
+          PaperListApiView.as_view()),    
     path("papers/<int:pk>/hide/",
          HidePaperApiView.as_view()),
     path("papers/<int:id>/signature/",
@@ -16,7 +16,7 @@ urlpatterns = [
     path("papers/<int:id>/signatures/",
           SignatureListApiView.as_view(),
           name="retreive-signature"),
-    path("papers/<int:id>/signatures/<int:pk>/",
+    path("papers/<int:paper_id>/signatures/<int:pk>/",
           SignatureUpdateApiView.as_view(),
           name="update-signature")
 ]

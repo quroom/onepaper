@@ -4,23 +4,31 @@ from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
 from profiles.serializers import ProfileSerializer
-from papers.models import Paper, Contractor, Signature
+from papers.models import Paper, Contractor, Signature, PaperStatus
+
+class SignatureSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+    paper_status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Signature
+        fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_paper_status(self, instance):
+        return instance.contractor.paper.status.status
 
 class ContractorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contractor
         fields = ("id", "profile", "profile_id", "paper", "group")
 
-class SignatureSerializer(serializers.ModelSerializer):
-    contractor = ContractorSerializer(read_only=True)
-    class Meta:
-        model = Signature
-        fields = "__all__"
-
 class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
-
+    
     class Meta:
         model = Contractor
         fields = "__all__"
@@ -30,6 +38,7 @@ class PaperListSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
     paper_contractors = ContractorReadSerializer(many=True, read_only=True)
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Paper
@@ -39,13 +48,16 @@ class PaperListSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
 
+    def get_status(self, instance):
+        return instance.status.status
+
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
-    status_type = serializers.IntegerField(read_only=True)
     address = AddressSerializer()
     paper_contractors = ContractorSerializer(many=True)
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Paper
@@ -54,11 +66,12 @@ class PaperSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
-        
+        status = PaperStatus.objects.create(status=PaperStatus.DRAFT)        
         address = Address.objects.create(**address_data)
-        paper = Paper.objects.create(**validated_data, address=address)
-        for contractor in contractors_data:
-            Contractor.objects.create(profile=contractor['profile'], paper=paper, group=contractor['group'])
+
+        paper = Paper.objects.create(**validated_data, address=address, status=status)
+        for contractor_data in contractors_data:
+            Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'])
         return paper
     
     def update(self, instance, validated_data):
@@ -66,19 +79,30 @@ class PaperSerializer(serializers.ModelSerializer):
         contractors_data = validated_data.pop('paper_contractors')
         
         address = instance.address
+        for key in ['dong', 'ho']:
+            if not key in address_data:
+                setattr(address, key, '')
         for key, val in address_data.items():
             setattr(address, key, val)
         address.save()
 
         contractors = instance.paper_contractors.all()
         
-        for contractor in contractors:
-            for contractor_data in contractors_data:
+        for contractor_data in contractors_data:
+            matched = False
+            for contractor in contractors:
+                if contractor_data['paper'] == None:
+                    matched = True
+                    contractors.get(group=contractor_data['group']).delete()
+                    break
                 if contractor_data['group'] == contractor.group:
+                    matched = True
                     for key, val in contractor_data.items():
                         if not val is None:
                             setattr(contractor, key, val)
                     contractor.save()
+            if matched == False:
+                 Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'])
 
         for key, val in validated_data.items():
             setattr(instance, key, val)
@@ -126,7 +150,7 @@ class PaperSerializer(serializers.ModelSerializer):
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
 
-            if contractors_id_list.count(contractor['profile']) > 1:
+            if contractors_id_list.count(contractor['profile'].id) > 1:
                 #Need to be updated
                 #거래자 여러명 되면, key + id로 수정해줘야함.
                 raise serializers.ValidationError({
@@ -145,6 +169,13 @@ class PaperSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
 
+    def get_status(self, instance):
+        return instance.status.status
+
 class PaperReadonlySerializer(PaperSerializer):
     address = AddressSerializer()
     paper_contractors = ContractorReadSerializer(many=True)
+    status = serializers.SerializerMethodField()
+    
+    def get_status(self, instance):
+        return instance.status.status

@@ -53,12 +53,15 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'phonenumber_field',
+    'multiselectfield',
 
     'addresses',
     'profiles',
     'papers',
 
     'webpack_loader',
+    'django_cleanup.apps.CleanupConfig',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -160,6 +163,8 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = "profiles.CustomUser"
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "uploads"
 
@@ -187,8 +192,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 6
+    'PAGE_SIZE': 4
 }
 
 WEBPACK_LOADER = {

@@ -10,10 +10,10 @@
     >
     <template v-slot:top>
       <v-row>
-        <v-col>
+        <v-col cols="5">
           <v-text-field v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="7">
           <v-text-field v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
             <template v-slot:append-outer>
               <v-btn
@@ -30,12 +30,13 @@
     </v-data-table>
     <v-row no-gutters>
       <v-col class="text-right">
-        <v-btn
+        <DeleteAlert :callback="deleteUser"></DeleteAlert>
+        <!-- <v-btn
         color="error"
         :label="$t('delete')"
         class="pa-3 btn"
         @click="deleteUser"
-      > {{$t("user")}} {{$t("delete")}} </v-btn>
+      > {{$t("user")}} {{$t("delete")}} </v-btn> -->
       </v-col>
     </v-row>
   </v-container>
@@ -43,10 +44,13 @@
 
 <script>
 import { apiService } from "@/common/api.service";
-import i18n from "@/plugins/i18n";
+import DeleteAlert from "@/components/DeleteAlert";
 
 export default {
   name: "AllowedUserEditor",
+  components: {
+    DeleteAlert
+  },
   props: {
     id: {
       type: [Number, String],
@@ -56,13 +60,13 @@ export default {
   data() {
     return {
       headers: [{
-        text: `${i18n.t("allow")} ${i18n.t("username")}`,
+        text: `${this.$i18n.t("allow")} ${this.$i18n.t("username")}`,
         align: 'start',
         sortable: true,
         value: 'username'
       },
       {
-        text: `${i18n.t("name")}`,
+        text: `${this.$i18n.t("name")}`,
         align: 'start',
         value: 'name'
       }
@@ -110,7 +114,7 @@ export default {
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "DELETE", data).then(data => {
-        if(data.id) {
+        if(data.length == undefined) {
           this.allowed_users = data.allowed_users;
           alert(this.$i18n.t("request_success"))
         } else {

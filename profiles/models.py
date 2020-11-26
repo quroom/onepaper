@@ -1,4 +1,5 @@
 import phonenumbers
+from addresses.models import Address
 from django.db import models
 from django.contrib.auth.signals import user_logged_in
 from django.conf import settings
@@ -23,13 +24,15 @@ class CustomUser(AbstractUser):
 
 class Profile(models.Model):
     user = models.ForeignKey(CustomUser,
-                             blank=True, null=True,
-                             on_delete=models.SET_NULL,
+                             on_delete=models.CASCADE,
                              related_name="profiles")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     mobile_number = PhoneNumberField()
-    address = models.CharField(max_length=200)
+    address = models.OneToOneField(Address,
+                                   null=True,
+                                   on_delete=models.SET_NULL,
+                                   related_name="profile")
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
 
@@ -39,20 +42,18 @@ class Profile(models.Model):
 class ExpertProfile(models.Model):
     REQUEST = 0
     APPROVED = 1
-    DENYED = 2
+    DENIED = 2
     CLOSED = 3
 
     STATUS_TYPE = (
         (REQUEST, _('요청')),
         (APPROVED, _('승인')),
-        (DENYED, _('거부')),
+        (DENIED, _('거부')),
         (CLOSED, _('폐업'))
     )
 
     profile = models.OneToOneField(Profile,
-                             on_delete=models.SET_NULL,
-                             null=True,
-                             blank=True,
+                             on_delete=models.CASCADE,
                              related_name="expert_profile")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -60,7 +61,7 @@ class ExpertProfile(models.Model):
     registration_number = models.CharField(max_length=45)
     shop_name = models.CharField(max_length=100)
 
-    business_registration_certificate = models.ImageField()
+    registration_certificate = models.ImageField()
     agency_license = models.ImageField()
     stamp = models.ImageField()
     garantee_insurance = models.ImageField()
@@ -72,10 +73,30 @@ class AllowedUser(models.Model):
                                         blank=True,
                                         related_name="allowed_users")
     profile = models.OneToOneField(Profile,
-                                   on_delete=models.SET_NULL,
-                                   null=True,
-                                   blank=True,
+                                   on_delete=models.CASCADE,
                                    related_name="allowed_user")
+
+class Mandate(models.Model):
+    author = models.ForeignKey(CustomUser,
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL,
+                               related_name="author_mandates")
+    updated_at = models.DateTimeField(auto_now=True)
+    designator = models.ForeignKey(Profile,
+                            on_delete=models.CASCADE,
+                            related_name="designator")
+    address = models.OneToOneField(Address,
+                                   on_delete=models.CASCADE)
+    designee = models.ForeignKey(Profile,
+                            on_delete=models.CASCADE,
+                            related_name="designee")
+    designator_signature = models.ImageField(blank=True)
+    from_date = models.DateField(null=True, blank=True)
+    to_date = models.DateField(null=True, blank=True)
+    content = models.TextField()
+    
+    class Meta:
+        ordering = ['-updated_at']
 
 @receiver(user_logged_in, sender=CustomUser)
 def post_login(sender, user, request, **kwargs):

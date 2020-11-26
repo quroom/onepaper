@@ -1,5 +1,28 @@
 <template>
   <v-container>
+    <v-dialog
+      v-model="dialog"
+      max-width="400px"
+    >
+      <v-card>
+        <v-card-title>
+          {{ $t("add_allowed_user") }}
+        </v-card-title>
+        <v-card-text class="text-body-1 text--primary">
+          <v-text-field :label="$t('username')" v-model="username" readonly></v-text-field>
+          <v-text-field :label="$t('name')" v-model="name" readonly></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            @click.prevent="addUser()"
+          >
+            {{ $t("add_user") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col
         cols="12"
@@ -11,8 +34,11 @@
       >
         <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
           <v-card>
+            <v-chip class="ma-1" color="primary" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')">{{$t("approved")}}</v-chip>
+            <v-chip class="ma-1" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')">{{$t("reviewing")}}</v-chip>
+            <v-chip class="ma-1" color="error" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')">{{$t("denied")}}</v-chip>
             <v-card-title>
-              {{ profile.address }}
+              {{ profile.address.old_address }}
             </v-card-title>
             <v-card-subtitle class="ma-0 pb-0">
               <span class="pa-1"> {{ profile.user.name }} </span>
@@ -27,12 +53,13 @@
               <span class="pa-1"> {{ profile.bank_name }} </span>
               <span class="pa-1"> {{ profile.account_number }} </span>
             </v-card-subtitle>
-            <v-card-actions>
-              <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }">
-                {{ $t("edit") }}
-              </v-btn>
-              <v-btn color="error" @click.stop="deletePaper(profile.id)">{{ $t("delete") }}</v-btn>
+            <v-card-actions v-if="username != undefined">
               <v-spacer></v-spacer>
+              <v-btn color="primary" @click.prevent="addUser(profile.id)"> {{ $t("request") }} {{ $t("add_user") }} </v-btn>
+            </v-card-actions>
+            <v-card-actions v-else>
+              <v-spacer></v-spacer>
+              <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }"> {{ $t("edit") }} </v-btn>
               <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> {{ $t("add_user") }} </v-btn>
             </v-card-actions>
           </v-card>
@@ -51,29 +78,60 @@ import { apiService } from "@/common/api.service";
 
 export default {
   name: "Profiles",
+  props: {
+    username: {
+      type: [String],
+      required: false
+    },
+    name: {
+      type: [String],
+      required: false
+    },
+  },
   data() {
     return {
       profiles: [],
+      dialog: false,
     };
   },
   methods: {
+    addUser(id) {
+      let endpoint = ``;
+      let data = {
+        "allowed_users" : {
+          "name": this.name,
+          "username": this.username
+        }
+      }
+      if(id!=undefined){
+        endpoint = `/api/profiles/${id}/allowed-users/`
+      } else {
+        endpoint = `/api/profiles/${this.profiles[0].id}/allowed-users/`
+      }      
+      apiService(endpoint, "POST", data).then(data => {
+        if(data.id) {
+          alert(this.$i18n.t("request_success"))
+        } else {
+          alert(data)
+        }
+        this.dialog = false
+      })
+    },
     getProfiles() {
-      let endpoint = "api/profiles/";
+      let endpoint = "/api/profiles/";
       apiService(endpoint).then(data => {
+        if(data.length == 0){
+            this.$emit("update:has_profile", false)
+        } else {
+          this.$emit("update:has_profile", true)
+        }
         this.profiles.push(...data);
+
+        if(this.username != undefined && this.name != undefined && this.profiles.length == 1){
+          this.dialog=true;
+        }
       });
     },
-    deletePaper(id) {
-      let self = this
-      let endpoint = `api/profiles/${id}/`;
-      apiService(endpoint, "DELETE").then(() => {
-        alert(self.$i18n.t("request_success"))
-        self.$router.go(self.$router.currentRoute);
-      });
-    },
-    addUser(username){
-      this.username_list.push(username)
-    }
   },
   created() {
     this.getProfiles();

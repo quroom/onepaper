@@ -1,3 +1,4 @@
+// import Vue from 'vue'
 import i18n from "@/plugins/i18n";
 
 const Constants = {
@@ -34,23 +35,28 @@ const Constants = {
   },
   STATUS_TYPE: {
     0: "draft",
-    1: "done",
-    2: "confirm",
-    3: "hidden"
+    1: "progress",
+    2: "done",
   },
   CONTRACTOR_TYPE: {
     0: "seller",
     1: "buyer",
     2: "expert"
   },
+  EXPERT_STATUS: {
+    0: "request",
+    1: "approved",
+    2: "denied",
+    3: "closed"
+  },
   LAND_TYPE_LIST: [],
   BUILDING_TYPE_LIST: [],
   // REALESTATE_TYPE_LIST: [],
   TRADE_TYPE_LIST: [],
   STATUS_TYPE_LIST: [],
-  CONTRACTOR_TYPE_LIST: []
+  CONTRACTOR_TYPE_LIST: [],
+  EXPERT_STATUS_LIST: []
 };
-
 Constants.install = function(Vue) {
   Object.keys(Constants).forEach(function(key){
     if(key.indexOf('_LIST') < 0 && key.indexOf('install') < 0){
@@ -61,18 +67,22 @@ Constants.install = function(Vue) {
       })
     }
   })
-
-  Vue.prototype.$getConst = (type) => {
+  Vue.prototype.$getConst = (type, key) => {
+    type = type.toUpperCase();
+    key = type.toLowerCase()
+    return Constants[type][key];
+  };
+  Vue.prototype.$getConstList = (type) => {
     type = type.toUpperCase();
     return Constants[type];
-  };
-  
+  };  
   Vue.prototype.$getConstI18 = (type, key) => {
     type = type.toUpperCase();
     return Constants[type][key] ? i18n.t(Constants[type][key]) : key;
   };
   Vue.prototype.$getConstByName = (type, val) => {
     type = type.toUpperCase();
+    val = val.toLowerCase();
     let object = Constants[type];
     return Object.keys(object).find(key => object[key] === val);
   };

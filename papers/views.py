@@ -1,30 +1,35 @@
+import datetime
+from django_filters.rest_framework import DjangoFilterBackend
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import mixins, generics, status, serializers
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from papers.models import Paper, Contractor, Signature
-from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer,SignatureSerializer
+from papers.models import Paper, PaperStatus, Contractor, Signature
+from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer, SignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsParticiations, IsSignatureUser
 
 class HidePaperApiView(APIView):
     def post(self, request, pk):
-        paper = get_object_or_404(Paper, pk=pk)
-        if paper.status == Paper.DONE:
-            signatures = Signature.objects.filter(paper=paper)
-            signature = signatures.get(
-                user=self.request.user) if signatures.exists() else None
-            if signature is None:
-                return Response(ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
-            else:
-                signature.is_paper_visible = not signature.is_paper_visible
-                signature.save()
+        contractors = Contractor.objects.filter(paper=pk, profile__user=self.request.user)
+        if contractors.exists():
+            contractor = contractors.first()
+            try:
+                if contractor.paper.status == PaperStatus.DONE:
+                    if contractor.signature:
+                        contractor.is_paper_visible = not contractor.is_paper_visible
+                        contractor.save()
+                else:
+                    return Response({"detail": ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            except papers.models.Contractor.signature.RelatedObjectDoesNotExist:
+                return Response({"detail": ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다.")), status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("계약서의 계약자가 아닙니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
 class PaperListApiView(generics.ListAPIView):
     serializer_class = PaperListSerializer
@@ -34,8 +39,18 @@ class PaperListApiView(generics.ListAPIView):
         return Paper.objects.filter(paper_contractors__profile__user=self.request.user)
 
 class PaperViewset(ModelViewSet):
-    queryset = Paper.objects.all()
     permission_classes = [IsAuthenticated, IsAuthorOrParticiations]
+    
+    def get_queryset(self):
+        filters = {}
+        for key in self.request.query_params:
+            if key=='status':
+                filters['status'] = self.request.query_params.get(key)
+            elif key=='group':
+                filters['paper_contractors__group'] = self.request.query_params.get(key)
+
+        papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters)
+        return papers
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
@@ -47,38 +62,6 @@ class PaperViewset(ModelViewSet):
         if self.action in ['update', "partial_update", "destroy"]:
             return [IsAuthenticated(), IsAuthor()]
         return super(PaperViewset, self).get_permissions()
-
-    def list(self, request, *args, **kwargs):
-        group = getattr(kwargs, 'group', None)
-        if group is None:
-            queryset = Paper.objects.filter(paper_contractors__profile__user=self.request.user)
-        else:
-            queryset = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__group=kwargs['group'])
-
-        serializer_context = {"request": request}
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return paginator.get_paginated_response(serializer.data)
-
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', True)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        if getattr(instance, '_prefetched_objects_cache', None):
-            # If 'prefetch_related' has been applied to a queryset, we need to
-            # forcibly invalidate the prefetch cache on the instance.
-            instance._prefetched_objects_cache = {}
-
-        return Response(serializer.data)
-
-    def perform_update(self, serializer):
-        serializer.save()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -95,25 +78,38 @@ class PaperViewset(ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+
+        if instance.status.status == PaperStatus.PROGRESS:
+            if (datetime.datetime.now().astimezone() - instance.updated_at).total_seconds() / 3600 > 12:
+                return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        elif instance.status.status == PaperStatus.DONE:
+            return Response({"detail": ValidationError(_("완료된 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
     def destroy(self, request, *args, **kwargs):
         # FIX: Make destory function works well.
         instance = self.get_object()
-        if instance.status == Paper.DRAFT:
-            self.perform_destroy(instance)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(ValidationError(_("완료된 계약서는 삭제할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
-    def validate(self, attrs):
-        field1 = attrs.get('field1', self.object.field1)
-        field2 = attrs.get('field2', self.object.field2)
+        if instance.status.status == PaperStatus.DONE:
+            return Response({"detail": ValidationError(_("완료된 계약서는 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        elif instance.status.status == PaperStatus.PROGRESS:
+            if (datetime.datetime.now().astimezone() - instance.updated_at).total_seconds()/3600 > 12:
+                return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-        try:
-            obj = Model.objects.get(field1=field1, field2=field2)
-        except StateWithholdingForm.DoesNotExist:
-            return attrs
-        if self.object and obj.id == self.object.id:
-            return attrs
-        else:
-            raise serializers.ValidationError('field1 with field2 already exists')
 class SignatureListApiView(generics.ListAPIView):
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsParticiations]
@@ -140,16 +136,15 @@ class SignatureCreateApiView(generics.CreateAPIView):
         paper = get_object_or_404(Paper, id=id)
         contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
 
-        if paper.status == Paper.DONE:
-            return Response(ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
-            
+        if paper.status == PaperStatus.DONE:
+            return Response({"detail": ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         signatures = Signature.objects.filter(contractor=contractor)
 
         if signatures.exists():
             signature = signatures.first()
-            if signature.updated_at > paper.updated_at:
-                return Response(ValidationError(_("이미 서명이 등록되어있습니다.")), status=status.HTTP_400_BAD_REQUEST)
+            if signature.updated_at >= paper.updated_at:
+                return Response({"detail": ValidationError(_("이미 서명이 등록되어있습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save(contractor=contractor, image=self.request.data['image'])
         return Response(serializer.data)
@@ -168,16 +163,15 @@ class SignatureUpdateApiView(mixins.RetrieveModelMixin,
         return self.update(request, *args, **kwargs)
     
     def perform_update(self, serializer):
-        id = self.kwargs.get("id")
-        request_user = self.request.user
-        paper = get_object_or_404(Paper, id=id)
-
-        if paper.status == Paper.CONFIRMED:
-            Response(ValidationError(_("계약서 검토가 완료되어 서명을 수정할 수 없습니다.")), status=status.HTTP_400_BAD_REQUEST)
-
-        signatures = Signature.objects.filter(paper=paper, user=self.request.user)
+        id = self.kwargs.get("pk")
+        signatures = Signature.objects.filter(id=id)
         if not signatures.exists():
-            Response(ValidationError(_("수정할 수 있는 서명이 없습니다")), status=status.HTTP_400_BAD_REQUEST)
+            Response({"detail": ValidationError(_("수정할 수 있는 서명이 없습니다"))}, status=status.HTTP_400_BAD_REQUEST)
+        
+        signature = signatures.first()
 
-        serializer.save(paper=paper, user=self.request.user)
+        if signature.contractor.paper == PaperStatus.DONE:
+            Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer.save(image=self.request.data['image'])
         return Response(serializer.data)

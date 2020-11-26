@@ -176,7 +176,7 @@ class ExpertProfileTestCase(APITestCase):
             "account_number": "94334292963",
             "expert_profile.registration_number": "2020118181-11",
             "expert_profile.shop_name": "광주부동산중개",
-            "expert_profile.business_registration_certificate": self.image,
+            "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2
         }

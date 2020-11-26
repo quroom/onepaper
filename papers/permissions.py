@@ -5,7 +5,7 @@ class IsAuthor(permissions.BasePermission):
         return obj.author == request.user
 
 class IsAuthorOrParticiations(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):        
+    def has_object_permission(self, request, view, obj):
         if obj.author == request.user:
             return True
         else:
@@ -18,4 +18,4 @@ class IsParticiations(permissions.BasePermission):
 
 class IsSignatureUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
+        return obj.contractor.profile.user == request.user

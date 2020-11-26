@@ -1,24 +1,32 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Paper from "../views/Paper.vue";
-import PaperEditor from "../views/PaperEditor.vue";
-import Profiles from "../views/ProfileList.vue";
-import ProfileEditor from "../views/ProfileEditor.vue";
-import AllowedUserEditor from "../components/AllowedUserEditor.vue";
+import ApproveExpert from "../views/ApproveExpert";
+import Home from "../views/Home";
+import PaperDetail from "../views/PaperDetail";
+import PaperEditor from "../views/PaperEditor";
+import Profiles from "../views/ProfileList";
+import ProfileEditor from "../views/ProfileEditor";
+import AllowedUserEditor from "../views/AllowedUserEditor";
+import MandateEditor from "../views/MandateEditor";
+import Mandates from "../views/MandateList";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home
+  },
+  {
+    path: "/approve-expert",
+    name: "approve-expert",
+    component: ApproveExpert
   },
   {
     path: "/paper/:id",
     name: "paper",
-    component: Paper,
+    component: PaperDetail,
     props: true
   },
   {
@@ -28,9 +36,16 @@ const routes = [
     props: true
   },
   {
-    path: "/profiles",
+    path: "/profiles/:id?/allowed-users",
+    name: "allowed-user-editor",
+    component: AllowedUserEditor,
+    props: true
+  },
+  {
+    path: "/profiles/:username?/:name?",
     name: "profiles",
-    component: Profiles
+    component: Profiles,
+    props: true
   },
   {
     path: "/create/profiles/:id?",
@@ -39,12 +54,16 @@ const routes = [
     props: true
   },
   {
-    path: "/profiles/:id?/allowed-users/",
-    name: "allowed-user-editor",
-    component: AllowedUserEditor,
+    path: "/mandates/",
+    name: "mandates",
+    component: Mandates
+  },
+  {
+    path: "/create/mandates/:id?",
+    name: "mandates-editor",
+    component: MandateEditor,
     props: true
   }
-
 ];
 
 const router = new VueRouter({

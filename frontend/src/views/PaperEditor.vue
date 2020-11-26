@@ -1,11 +1,11 @@
 <template>
   <ValidationObserver ref="obs">
-    <div class="container my-5">
+    <v-container>
       <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
         <v-data-table
           v-model="selected_paper"
-          :headers="headers"
-          :items="paper_list"
+          :headers="paper_headers"
+          :items="papers"
           item-key="id"
         >
           <template
@@ -20,67 +20,76 @@
       <v-btn class="success float_right" @click="getPaperList()">
         {{ $t("paper") + ' ' + $t("load") }}
       </v-btn>
-      <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
-      <AddressSearch
-        label="주소 검색"
-        :room_name="room_name"
-        :address="address.old_address"
-        :address_objects.sync="address_objects"
-        :room_name_local.sync="room_name"
-      ></AddressSearch>
+      <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
       <v-row>
-        <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
+        <v-col cols="8">
+        <AddressSearch
+          ref="address"
+          :label="$t('address') + $t('search')"
+          :address.sync="address"
+        ></AddressSearch>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="address.dong"
+            :label="$t('dong')"
+            outlined
+            hide-details="auto"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="address.ho"
+            :label="$t('ho')"
+            outlined
+            hide-details="auto"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <template v-for="(realestate_field, index) in fields_names.realestate_fields">
           <v-col cols="4" md="2" :key="`index`+index">
             <ValidationProvider
-              :name="$t(realestate_field_name)"
+              :ref="realestate_field.name"
+              :name="$t(realestate_field.name)"
               rules="required"
               v-slot="{ errors }"
             >
               <v-select
-                v-if="realestate_field_name=='building_type'"
-                v-model="building_type"
+                v-if="realestate_field.type=='select'"
+                v-model="$data[''+realestate_field.name]"
                 :error-messages="errors"
-                :items="$getConst('BUILDING_TYPE_LIST')"
+                :items="$getConstList(realestate_field.name+'_LIST')"
                 item-text="text"
                 item-value="value"
-                :label="$t('building_type')"
-              >
-                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-                <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-              </v-select>
-              <v-select
-                v-else-if="realestate_field_name=='land_type'"
-                v-model="land_type"
-                :error-messages="errors"
-                :items="$getConst('LAND_TYPE_LIST')"
-                item-text="text"
-                item-value="value"
-                :label="$t('land_type')"
+                :label="$t(realestate_field.name)"
               >
                 <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
                 <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
               </v-select>
               <v-text-field
                 v-else
-                v-model="$data[''+realestate_field_name]"
+                v-model="$data[''+realestate_field.name]"
                 :error-messages="errors"
-                :label="$t(realestate_field_name)"
+                :label="$t(realestate_field.name)"
                 required
+                :type="realestate_field.type"
+                :step="realestate_field.step"
               >
               </v-text-field>
             </ValidationProvider>
           </v-col>
         </template>
       </v-row>
-      <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
+      <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
       <v-row>
         <v-col cols="2">
-          <ValidationProvider :name="$t('trade_type')" v-slot="{ errors }" rules="required">
+          <ValidationProvider ref="trade_type" :name="$t('trade_type')" v-slot="{ errors }" rules="required">
             <v-select
               v-model="trade_type"
               :error-messages="errors"
-              :items="$getConst('TRADE_TYPE_LIST')"
+              :items="$getConstList('TRADE_TYPE_LIST')"
               item-text="text"
               item-value="value"
               :label="$t('trade_type')"
@@ -100,7 +109,7 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider :name="$t('from_date')" v-slot="{ errors }" rules="required">
+              <ValidationProvider ref="from_date"  :name="$t('from_date')" v-slot="{ errors }" rules="required">
                 <v-text-field
                   v-model="from_date"
                   :error-messages="errors"
@@ -129,7 +138,7 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider :name="$t('to_date')" v-slot="{ errors }" rules="required">
+              <ValidationProvider ref="to_date" :name="$t('to_date')" v-slot="{ errors }" rules="required">
                 <v-text-field
                   v-model="to_date"
                   :error-messages="errors"
@@ -151,35 +160,37 @@
       </v-row>
       <v-row>
         <template v-if="trade_type==$getConstByName('TRADE_TYPE', 'rent')">
-          <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
-            <v-col cols="6" md="3" :key="`index`+index">
-              <ValidationProvider
-                v-slot="{ errors }"
-                :name="$t(contract_field_name)"
-                rules="required"
-              >
-                <v-text-field
-                  v-model="$data[''+contract_field_name]"
-                  :error-messages="errors"
-                  :label="$t(contract_field_name)+'('+$t('manwon')+')'"
-                  required
-                ></v-text-field>
-              </ValidationProvider>
-            </v-col>
-          </template>
+          <v-col v-for="(contract_field, index) in fields_names.contract_fields" cols="6" md="3" :key="`index`+index">
+            <ValidationProvider
+              v-slot="{ errors }"
+              :ref="contract_field.name"
+              :name="$t(contract_field.name)"
+              rules="required"
+            >
+              <v-text-field
+                v-model="$data[''+contract_field.name]"
+                :error-messages="errors"
+                :label="$t(contract_field.name)+'('+$t('manwon')+')'"
+                :type="contract_field.type"
+                required
+              ></v-text-field>
+            </ValidationProvider>
+          </v-col>
         </template>
         <template v-else>
-          <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
-            <v-col v-if="contract_field_name!='monthly_fee'" cols="6" md="3" :key="`index`+index">
+          <template v-for="(contract_field, index) in fields_names.contract_fields">
+            <v-col v-if="contract_field.name!='monthly_fee'" cols="6" md="3" :key="`index`+index">
               <ValidationProvider
                 v-slot="{ errors }"
-                :name="$t(contract_field_name)"
+                :ref="contract_field.name"
+                :name="$t(contract_field.name)"
                 rules="required"
               >
                 <v-text-field
-                  v-model="$data[''+contract_field_name]"
+                  v-model="$data[''+contract_field.name]"
                   :error-messages="errors"
-                  :label="$t(contract_field_name)+'('+$t('manwon')+')'"
+                  :label="$t(contract_field.name)+'('+$t('manwon')+')'"
+                  :type="contract_field.type"
                   required
                 ></v-text-field>
               </ValidationProvider>
@@ -187,13 +198,13 @@
           </template>
         </template>
       </v-row>
-
-      <div class="mt-5">3. {{ $t("contractor_info") }}</div>
+      <div class="mt-3">3. {{ $t("contractor_info") }}</div>
       <div>{{ $t("contractor_info_intro") }}</div>
       <v-expansion-panels>
         <v-row no-gutters>
           <v-col v-if="is_expert" cols="12">
             <ValidationProvider
+              ref="expert"
               v-slot="{ errors }"
               :name="$t('realestate_agency')"
               rules="required"
@@ -221,28 +232,7 @@
             <v-expansion-panel v-if="expert">
               <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-row>
-                  <template v-for="(field_name, index) in fields_names.expert_fields_name">
-                    <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
-                      <v-card outlined tile>{{ $t(field_name) }}</v-card>
-                    </v-col>
-                    <v-col
-                      v-if="field_name==='name' || field_name==='birthday'"
-                      class="text-center"
-                      cols="4"
-                      md="2"
-                      :key="`value-`+index"
-                    >
-                      <v-card outlined tile>{{ expert.user[field_name]}}</v-card>
-                    </v-col>
-                    <v-col v-else-if="field_name==='registration_number' || field_name==='shop_name'" class="text-center" cols="4" md="2" :key="`value-`+index">
-                      <v-card outlined tile>{{ expert.expert_profile[field_name]}}</v-card>
-                    </v-col>
-                    <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-                      <v-card outlined tile>{{ expert[field_name]}}</v-card>
-                    </v-col>
-                  </template>
-                </v-row>
+                <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-col>
@@ -275,29 +265,11 @@
             <v-expansion-panel v-if="seller">
               <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-row>
-                  <template v-for="(field_name, index) in fields_names.basic_profile_fields_name">
-                    <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
-                      <v-card outlined tile>{{ $t(field_name) }}</v-card>
-                    </v-col>
-                    <v-col
-                      v-if="field_name==='name' || field_name==='birthday'"
-                      class="text-center"
-                      cols="4"
-                      md="2"
-                      :key="`value-`+index"
-                    >
-                      <v-card outlined tile>{{ seller['user'][field_name]}}</v-card>
-                    </v-col>
-                    <v-col v-else class="text-center" cols="4" md="2" :key="`value-`+index">
-                      <v-card outlined tile>{{ seller[field_name]}}</v-card>
-                    </v-col>
-                  </template>
-                </v-row>
+                <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-col>
-          <v-col v-if="!isLoading" class="mt-5" cols="12">
+          <v-col v-if="!isLoading" class="mt-3" cols="12">
             <ValidationProvider
               ref="buyer"
               v-slot="{ errors }"
@@ -326,62 +298,30 @@
             <v-expansion-panel v-if="buyer">
               <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-row>
-                  <template v-for="(field_name, index) in fields_names.basic_profile_fields_name">
-                    <v-col class="text-center font-weight-bold" cols="2" md="2" :key="`name`+index">
-                      <v-card outlined tile>
-                        {{ $t(field_name) }}
-                      </v-card>
-                    </v-col>
-                    <v-col
-                      v-if="field_name==='name' || field_name==='birthday'"
-                      class="text-center"
-                      cols="4"
-                      md="2"
-                      :key="`value-` + index"
-                    >
-                      <v-card outlined tile>
-                        {{ buyer["user"][field_name] }}
-                      </v-card>
-                    </v-col>
-                    <v-col
-                      v-else
-                      class="text-center"
-                      cols="4"
-                      md="2"
-                      :key="`value-` + index"
-                    >
-                      <v-card outlined tile>
-                        {{ buyer[field_name] }}
-                      </v-card>
-                    </v-col>
-                  </template>
-                </v-row>
+                <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>                
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-col>
         </v-row>
       </v-expansion-panels>
-      <div class="mt-5">4. {{ $t("special_agreement") }}</div>
+      <div class="mt-3">4. {{ $t("special_agreement") }}</div>
       <quill-editor
         ref="myQuillEditor"
         v-model="special_agreement"
         :options="editorOption"
       />
-      <v-btn class="float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
-    </div>
+      <v-btn class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+    </v-container>
   </ValidationObserver>
 </template>
 
 <script>
 import { apiService } from "@/common/api.service";
-import i18n from "@/plugins/i18n";
+import Contractor from "@/components/Contractor";
 import AddressSearch from "@/components/AddressSearch";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
-
 import { quillEditor } from 'vue-quill-editor'
 
 export default {
@@ -393,9 +333,8 @@ export default {
     }
   },
   components: {
-    ValidationObserver,
-    ValidationProvider,
     AddressSearch,
+    Contractor,
     quillEditor
   },
   computed: {
@@ -404,42 +343,94 @@ export default {
     return {
       requestUser: null,
       paper_load_dialog: false,
-      paper_list: [],
+      papers: [],
       selected_paper: [],
       isLoading: false,
       is_expert: false,
       my_profiles: [],
       allowed_profiles: [],
       fields_names: {
-        realestate_fields_name: [
-          "land_type",
-          "lot_area",
-          "building_structure",
-          "building_type",
-          "building_area"
+        realestate_fields: [
+          {
+            name: "land_type",
+            type: "select"
+          },
+          { 
+            name: "lot_area",
+            type: "Number",
+            step: "0.01"
+          },
+          {
+            name: "building_structure",
+            tyep: "String"
+          },
+          {
+            name: "building_type",
+            type: "select"
+          },
+          {
+            name: "building_area",
+            type: "Number",
+            step: "0.01"
+          }
         ],
-        contract_fields_name: [
-          "security_deposit",
-          "monthly_fee",
-          "maintenance_fee",
-          "down_payment"
+        contract_fields: [
+          {
+            name: "security_deposit",
+            type: "Number"
+          },
+          {
+            name: "monthly_fee",
+            type: "Number"
+          },
+          {
+            name: "maintenance_fee",
+            type: "Number"
+          },
+          {
+            name: "down_payment",
+            type: "Number"
+          },
         ],
-        basic_profile_fields_name: [
-          "name",
-          "birthday",
-          "mobile_number",
-          "address",
-          "bank_name",
-          "account_number"
+        basic_profile_fields: [
+        { name: "address"
+          , key: "address.old_address"
+          , cols:"9", md:"10", lg:"11" },
+        { name: "name"
+          , key: "user.name"
+          , cols:"9", sm:"3", md:"2"},
+        { name: "birthday"
+          , key: "user.birthday"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "mobile_number"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "bank_name"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "account_number"
+          , cols:"9", sm:"3", md:"2"}
         ],
-        expert_fields_name: [
-          "name",
-          "birthday",
-          "bank_name",
-          "account_number",
-          "registration_number",
-          "shop_name",
-          "address"
+        expert_profile_fields: [
+        { name: "registration_number"
+          , key: "expert_profile.registration_number"
+          , cols:"9", md:"10", lg:"4"},
+        { name: "shop_name"
+          , key: "expert_profile.shop_name"
+          , cols:"9", md:"10", lg:"6"},
+        { name: "address"
+          , key: "address.old_address"
+          , cols:"9", md:"10", lg:"11" },
+        { name: "name"
+          , key: "user.name"
+          , cols:"9", sm:"3", md:"2"},
+        { name: "birthday"
+          , key: "user.birthday"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "mobile_number"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "bank_name"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "account_number"
+          , cols:"9", sm:"3", md:"2"}
         ]
       },
       from_date_menu: false,
@@ -450,11 +441,11 @@ export default {
       building_type: 80,
       building_area: null,
       trade_type: null,
-      address_objects: null,
       address: {
         old_address: null,
+        dong: '',
+        ho: '',
       },
-      room_name: null,
       down_payment: null,
       security_deposit: null,
       maintenance_fee: null,
@@ -497,7 +488,6 @@ export default {
                     }
                     // file type is only image.
                     if (/^image\//.test(file.type)) {
-                        console.log(file)
                         const getBase64 = (file) => new Promise(function (resolve, reject) {
                             let reader = new FileReader();
                             reader.readAsDataURL(file);
@@ -506,12 +496,11 @@ export default {
                         })
 
                         const range = self.$refs.myQuillEditor.quill.getSelection();
-                        console.log(range)
                         getBase64(file).then((result) => {
                           let encoded = result;
                           self.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
                         })
-                        .catch(e => console.log(e))
+                        .catch(e => alert(e))
                         
                     } else {
                         alert(self.$t("image_file_type_error"));
@@ -523,7 +512,7 @@ export default {
         },
         placeholder: this.$t("insert_special_agreement")
       },
-      headers: [
+      paper_headers: [
         {
           text: "",
           value: "id",
@@ -532,26 +521,30 @@ export default {
           visibility: "hidden"
         },
         {
-          text: `${i18n.t("author")}`,
+          text: `${this.$i18n.t("author")}`,
           value: "author"
         },
         {
-          text: `${i18n.t("trade_type")}`,
+          text: `${this.$i18n.t("trade_type")}`,
           value: "trade_type"
         },
         {
-          text: `${i18n.t("address")}`,
-          value: "address"
+          text: `${this.$i18n.t("address")}`,
+          value: "address.old_address"
         },
         {
-          text: `${i18n.t("room_name")}`,
-          value: "room_name"
+          text: `${this.$i18n.t("dong")}`,
+          value: "address.dong"
+        },
+        {
+          text: `${this.$i18n.t("ho")}`,
+          value: "address.ho"
         },
         {
           text: "",
           value: "select"
         }
-      ],
+      ]
     };
   },
   methods: {
@@ -562,7 +555,6 @@ export default {
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
-      this.test = true
       apiService(endpoint).then(data => {
         this.allowed_profiles = data;
         this.isLoading = false;
@@ -576,39 +568,27 @@ export default {
       });
     },
     getPaperList() {
-      this.paper_list = [];
+      this.papers = [];
       this.paper_load_dialog = true;
       this.isLoading = true;
       let endpoint = `/api/paper-list/`;
       apiService(endpoint).then(data => {
-        this.paper_list.push(...data.results);
+        this.papers.push(...data.results);
         this.isLoading = false;
       })
     },
     loadPaper(item) {
       let self = this;
       let endpoint = `/api/papers/${item.id}/`;
+      self.contractors = []
       apiService(endpoint).then(data => {
         for(const contractor_index in data.paper_contractors) {
           var contractor = data.paper_contractors[contractor_index]
-          if(contractor.group==self.$getConstByName("CONTRACTOR_TYPE", "expert")){
-            self.my_profiles.filter(function(item){
-              if(item.id == contractor.profile.id){
-                self.expert = contractor.profile
-              }
-            })            
-          }else if(contractor.group==self.$getConstByName("CONTRACTOR_TYPE", "seller")){
-            self.allowed_profiles.filter(function(item){
-              if(item.id == contractor.profile.id){
-                self.seller = contractor.profile
-              }
-            })
-          }else {
-            self.allowed_profiles.filter(function(item){
-              if(item.id == contractor.profile.id){
-                self.buyer = contractor.profile
-              }
-            })
+          console.log(contractor.profile.user.username)
+          console.log(self.requestUser)
+          if(contractor.profile.user.username==self.requestUser){
+            self.contractors.push(contractor)
+            self.$data[self.$getConst("contractor_type", contractor.group)]=contractor.profile
           }
         }
         self.land_type = data.land_type;
@@ -618,7 +598,6 @@ export default {
         self.building_area = data.building_area;
         self.trade_type = data.trade_type;
         self.address = data.address;
-        self.room_name = data.room_name;
         self.deposit = data.deposit;
         self.down_payment = data.down_payment;
         self.security_deposit = data.security_deposit;
@@ -628,15 +607,14 @@ export default {
         self.to_date = data.to_date;
         self.realestate_type = data.realestate_type;
         self.special_agreement = data.special_agreement;
-        self.contractors = data.paper_contractors;
         self.paper_load_dialog = false;
       })
     },
-    customFilter(item, queryText) {  
+    customFilter(item, queryText) {
       const name = item.user.name.toLowerCase();
       const username = item.user.username.toLowerCase();
       const birthday = item.user.birthday.toLowerCase();
-      const shop_name = item.expert_profile === null ? "" : item.expert_profile.shop_name.toLowerCase();
+      const shop_name = item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
             
       return (
@@ -646,49 +624,46 @@ export default {
         birthday.indexOf(searchText) > -1
       );
     },
-    update_contractors(method){
-      if(method=="PUT"){
-        for(const index in this.contractors){
-          if(this.contractors[index].group == this.$getConstByName("CONTRACTOR_TYPE", "expert")){
-            this.contractors[index].profile = this.expert.id;
-          }else if(this.contractors[index].group == this.$getConstByName("CONTRACTOR_TYPE", "seller")){
-            this.contractors[index].profile = this.seller.id;
-          }else {
-            this.contractors[index].profile = this.buyer.id;
+    updateContractors(){
+      const local_contractor_list = ["expert", "seller", "buyer"]
+      for(const index in local_contractor_list){
+        let matched = false;
+        const local_group_name = local_contractor_list[index]
+        const local_group_constant = this.$getConstByName("CONTRACTOR_TYPE", local_group_name)
+        
+        if(this[local_group_name] != null){
+          for(const index in this.contractors){
+            if(this.contractors[index].group == local_group_constant){
+              this.contractors[index].profile = this[local_group_name].id;
+              matched = true;
+            }
           }
-          // this.contractors[index].paper = null;
+          if(matched == false){
+            this.contractors.push({
+              "profile": this[local_group_name].id, "paper":this.id ? this.id : null, "group": local_group_constant
+            })
+          }
+        } else {
+          for(const index in this.contractors){
+            if(this.contractors[index].group == local_group_constant){
+              this.contractors[index].paper = null;
+              this.contractors[index].profile = this.contractors[index].profile.id
+            }
+          }
         }
-      }else {
-        this.contractors = []
-        if(this.expert) {
-          this.contractors.push({
-            "profile": this.expert.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "expert")
-          })
-        }
-        if(this.seller) {
-          this.contractors.push({
-            "profile": this.seller.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "seller")
-          })
-        }
-        if(this.buyer) {
-          this.contractors.push({
-            "profile": this.buyer.id, "paper":this.id ? this.id : null, "group":this.$getConstByName("CONTRACTOR_TYPE", "buyer")
-          })
-        }
-      }      
+      }
     },
     onSubmit() {
       const self = this;
       this.$refs.obs.validate().then(function(v) {
-        if (v == true) {                    
+        if (v == true) {
           let endpoint = "/api/papers/";
           let method = "POST";
           if (self.id !== undefined) {
             endpoint += `${self.id}/`;
             method = "PUT";
           }
-
-          self.update_contractors(method);
+          self.updateContractors();
           try {
             apiService(endpoint, method, {
               land_type: self.land_type,
@@ -698,14 +673,15 @@ export default {
               building_area: self.building_area,
               trade_type: self.trade_type,
               address: {
-                old_address: self.address_objects ? self.address_objects.jibunAddress : self.address.old_address ,
-                new_address: self.address_objects ? self.address_objects.address : self.address.new_address,
-                sigunguCd: self.address_objects ? self.address_objects.bcode.substring(0,5) : self.address.sigunguCd,
-                bjdongCd: self.address_objects ? self.address_objects.bcode.substring(5,10) : self.address.bjdongCd,
-                bun: self.address_objects ? self.address_objects.jibunAddress.split("동 ")[1].split("-")[0] : self.address.bun,
-                ji: self.address_objects ? self.address_objects.jibunAddress.split("동 ")[1].split("-")[1] :  self.address.ji,
+                old_address: self.address.old_address ,
+                new_address: self.address.new_address,
+                sigunguCd: self.address.sigunguCd,
+                bjdongCd: self.address.bjdongCd,
+                bun: self.address.bun,
+                ji:  self.address.ji,
+                dong: self.address.dong,
+                ho: self.address.ho,
               },
-              room_name: self.room_name,
               down_payment: self.down_payment,
               security_deposit: self.security_deposit,
               maintenance_fee: self.maintenance_fee,
@@ -725,7 +701,12 @@ export default {
                 });
               } else {
                 Object.keys(data).forEach(function(key) {
-                  self.$refs[key].applyResult({
+                  if(key=="detail") {
+                    alert(data[key]);
+                    return;
+                  }
+                  const ref = self.$refs[key].length == undefined ? self.$refs[key] : self.$refs[key][0];
+                  ref.applyResult({
                     errors: data[key],
                     valid: false,
                     failedRules: {}
@@ -736,7 +717,7 @@ export default {
           } catch (err) {
             alert(err);
           }
-        } else console.log("validation error");
+        }
       });
     }
   },
@@ -763,7 +744,6 @@ export default {
           vm.building_area = data.building_area;
           vm.trade_type = data.trade_type;
           vm.address = data.address;
-          vm.room_name = data.room_name;
           vm.deposit = data.deposit;
           vm.down_payment = data.down_payment;
           vm.security_deposit = data.security_deposit;
@@ -782,7 +762,7 @@ export default {
     }
   },
   created() {
-    document.title = i18n.t("create_paper_title");
+    document.title = this.$i18n.t("create_paper_title");
     this.requestUser = window.localStorage.getItem("username");
     this.getAllowedProfiles();
     if (window.localStorage.getItem("is_expert") == "true") {
@@ -798,5 +778,11 @@ export default {
 }
 .ql-container {
     font-size: 16px;
+}
+.truncate {
+  max-width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
