@@ -177,20 +177,13 @@ class Signature(models.Model):
     class Meta:
         ordering = ['-updated_at']
 
-class VerifyingExplanation(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class VerifyingManual(models.Model):
     paper = models.OneToOneField(Paper,
                                 on_delete=models.CASCADE,
                                 related_name="verifying_explanation")
-    pdf = models.FileField()
+    
 
-    class Meta:
-        ordering = ['-updated_at']    
-
-class ExplanationSignature(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class ManualSignature(models.Model):
     contractor = models.OneToOneField(Contractor,
                                       on_delete=models.CASCADE,
                                       related_name="explanation_signature")
@@ -198,6 +191,3 @@ class ExplanationSignature(models.Model):
 
     def __str__(self):
         return str(self.contractor.profile.user)
-
-    class Meta:
-        ordering = ['-updated_at']

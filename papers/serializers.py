@@ -4,7 +4,17 @@ from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
 from profiles.serializers import ProfileSerializer
-from papers.models import Paper, Contractor, Signature, PaperStatus
+from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingManual, ManualSignature
+
+class ManualSignatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ManualSignature
+        fields = "__all__"
+
+class VerifyingManualSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VerifyingManual
+        fields = "__all__"
 
 class SignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -28,6 +38,7 @@ class ContractorSerializer(serializers.ModelSerializer):
 class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
+    explanation_signature = ManualSignatureSerializer(read_only=True)
     
     class Meta:
         model = Contractor
@@ -57,6 +68,7 @@ class PaperSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
     address = AddressSerializer()
     paper_contractors = ContractorSerializer(many=True)
+    verifying_manual = VerifyingManualSerializer(required=False)
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -66,19 +78,26 @@ class PaperSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
-        status = PaperStatus.objects.create(status=PaperStatus.DRAFT)        
+        verifying_manual_data = validated_data.pop('verifying_manual') if not validated_data.get('verifying_manual') is None else None
+        status = PaperStatus.objects.create(status=PaperStatus.DRAFT)
         address = Address.objects.create(**address_data)
 
         paper = Paper.objects.create(**validated_data, address=address, status=status)
+
         for contractor_data in contractors_data:
             Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'])
+        
+        if not verifying_manual_data is None:
+            VerifyingManual.objects.create(paper=paper, **verifying_manual_data)
         return paper
     
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
-        
+        verifying_manual_data = validated_data.pop('verifying_manual') if not validated_data.get('verifying_manual') is None else None
         address = instance.address
+        contractors = instance.paper_contractors.all()
+
         for key in ['dong', 'ho']:
             if not key in address_data:
                 setattr(address, key, '')
@@ -86,8 +105,6 @@ class PaperSerializer(serializers.ModelSerializer):
             setattr(address, key, val)
         address.save()
 
-        contractors = instance.paper_contractors.all()
-        
         for contractor_data in contractors_data:
             matched = False
             for contractor in contractors:
@@ -104,11 +121,18 @@ class PaperSerializer(serializers.ModelSerializer):
             if matched == False:
                  Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'])
 
+        if not verifying_manual_data is None:
+            verifying_manual = instance.verifying_manual
+            for key, val in verifying_explanation_data.items():
+                setattr(verifying_manual, key, val)
+            verifying_manual.save()
+
         for key, val in validated_data.items():
             setattr(instance, key, val)
         instance.save()
+
         return instance
-    
+
     def validate(self, data):
         author = self.context['request'].user
         is_author_expert = ExpertProfile.objects.filter(profile__user=author).exists()
@@ -174,6 +198,7 @@ class PaperSerializer(serializers.ModelSerializer):
 
 class PaperReadonlySerializer(PaperSerializer):
     address = AddressSerializer()
+    verifying_manual = VerifyingManualSerializer()
     paper_contractors = ContractorReadSerializer(many=True)
     status = serializers.SerializerMethodField()
     

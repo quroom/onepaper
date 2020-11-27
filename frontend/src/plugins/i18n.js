@@ -111,6 +111,7 @@ const i18n = new VueI18n({
       updated_at: "Update Date",
       user: "User",
       username: "User ID",
+      verifying_manual: "Verifying Manual",
       won: "won",
       won_paid_recieved: "won paid upon visit and received",
 
@@ -279,6 +280,7 @@ const i18n = new VueI18n({
       user: "회원",
       username: "회원 아이디",
       updated_at: "수정일",
+      verifying_manual: "확인설명서",
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
 
