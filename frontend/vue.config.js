@@ -29,6 +29,7 @@ module.exports = {
       .headers({ "Access-Control-Allow-Origin": ["*"] });
   },
   transpileDependencies: ["vuetify"],
+  lintOnSave: false
 
 
   // uncomment before executing 'npm run build'

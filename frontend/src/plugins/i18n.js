@@ -111,7 +111,7 @@ const i18n = new VueI18n({
       updated_at: "Update Date",
       user: "User",
       username: "User ID",
-      verifying_manual: "Verifying Manual",
+      verifying_explanation: "Verifying Explanation Manual",
       won: "won",
       won_paid_recieved: "won paid upon visit and received",
 
@@ -343,7 +343,15 @@ const i18n = new VueI18n({
       draft: "작성중",
       progress: "서명중",
       done: "완료",
-      hidden: "숨김"
+      hidden: "숨김",
+
+      //for verifying_manual
+      enforcement_rules : "■ 공인중개사법 시행규칙 [별지 제20호서식]",
+      ve_updated_date: "개정 2020. 10. 27.",
+      ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
+      materials_for_ve: "확인ㆍ설명자료",
+      explnation_evidence: "확인ㆍ설명 근거자료 등",
+      explnation_evidence_info: "대상물건의 상태에 관한 자료요구 사항"
     }
   }
 });

@@ -1,6 +1,8 @@
+<!-- eslint-disable -->
 <template>
   <ValidationObserver ref="obs">
     <v-container>
+      <template v-if="false">
       <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
         <v-data-table
           v-model="selected_paper"
@@ -310,6 +312,185 @@
         v-model="special_agreement"
         :options="editorOption"
       />
+      </template>
+      <!-- need to support i18n -->
+      <template v-if="is_expert">
+        <v-divider></v-divider>
+          <div class="caption">
+            {{ $t("enforcement_rules") }}
+            <span class="blue--text text--accent-4">&lt;{{$t("ve_updated_date")}}&gt;</span>
+            <span class="float_right">(4쪽 중 제1쪽)</span>
+          </div>
+          <div class="text-h6 font-weight-bold" align="center">중개대상물 확인ㆍ설명서[Ⅰ] (주거용 건축물)</div>
+          <v-row justify="center" align="center">
+            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="단독주택" value=0></v-checkbox>
+            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="공동주택" value=1></v-checkbox>
+            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="매매·교환" value=2></v-checkbox>
+            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="임대" value=3></v-checkbox>
+          </v-row>
+          <v-row no-gutters>
+            <v-row no-gutters>
+              <v-col cols="12">
+                <v-card tile outlined color="grey lighten-1" align="center">
+                  <v-card-text>
+                    확인·설명 자료
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="2" class="d-flex border" align="center">
+                  <span class="label"> 확인·설명 근거자료 등 </span>
+              </v-col>
+              <v-col class="d-flex flex-wrap border">
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="등기권리증" value=0 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="등기사항증명서" value=1 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="토지대장" value=2 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="건축물대장" value=3 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="지적도" value=4 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="임야도" value=5 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="토지이용계획확인서" value=6 hideDetails="auto"></v-checkbox>
+                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="그밖의자료" value=7 hideDetails="auto"></v-checkbox>
+              </v-col>
+            </v-row>
+            <v-col cols="2" class="border" align="center">
+              <span class="label"> 대상물건의 상태에 관한 자료요구 사항 </span>
+            </v-col>
+            <v-col cols="10" class="border">
+              <v-textarea
+                class="mt-4"
+                label="자료요구 사항"
+                placeholder="대상물건의 상태에 관한 자료요구 사항"
+                outlined
+                hide-details="auto"
+              >
+              </v-textarea>
+            </v-col>
+          </v-row>
+          <v-row class="mt-4" no-gutters>
+            <v-col class="grey lighten-1 border" cols="12" align="center">유의사항</v-col>
+            <v-col class="border" cols="2" align="center">
+              개업공인중개사의 확인·설명 의무
+            </v-col>
+            <v-col class="border" cols="10">
+              개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게 성실·정확하게 설명하고, 토지대장 등본, 등기사항증명서 등 설명의 근거자료를 제시해야 합니다.
+            </v-col>
+            <v-col class="border" cols="2" align="center">
+              실제 거래가격 신고
+            </v-col>
+            <v-col class="border" cols="10">
+              「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1 제1호마목에 따른 실제 거래가격은 매수인이 매수한 부동산을 양도하는 경우 「소득세법」 제97조제1항 및 제7항과 같은 법 시행령 제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아 양도차익이 계산될 수 있음을 유의하시기 바랍니다.
+            </v-col>
+          </v-row>
+          <div class="text-subtitle font-weight-bold">1. 개업공인중개사 기본 확인사항</div>
+          <div class="border pl-2 pr-2 mt-4">
+            <div class="text-body font-weight-bold">
+              ① 대상물건의 표시
+            </div>
+            <div class="border">
+              <span class="ml-2 font-weight-bold">&lt;토지&gt;</span>
+              <v-row no-gutters>
+                <v-col class="d-flex flex-wrap">
+                  <v-text-field class="d-flex ve-input" label="토지 소재지"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.land_area" label="토지 면적" type="Number" step="0.01" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.land_category" label="공부상지목" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.actual_land_category" label="실제 이용 상태" hide-details="auto"></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
+            <div class="border">
+              <span class="ml-2 font-weight-bold">&lt;건축물&gt;</span>
+              <v-row no-gutters>
+                <v-col class="d-flex flex-wrap">
+                  <v-text-field class="d-flex ve-input" v-model="ve.net_area" type="Number" step="0.01" label="전용면적" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.land_share" label="대지지분" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.year_of_completion" label="준공년도(증개축년도)" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.building_category" label="건축물대장상 용도" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.actual_building_category" label="실제 용도" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.explanation_building_structure" label="구조" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.building_direction" label="방향" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.seismic_design" label="내진설계 적용여부" hide-details="auto"></v-text-field>
+                  <v-text-field class="d-flex ve-input" v-model="ve.seismic_capacity" label="내진능력" hide-details="auto"></v-text-field>
+                  <v-radio-group class="ve-input" label="건축물대장상위반건축물 여부" v-model="ve.legal_status" row mandatory>
+                    <v-radio label="위반" :value="false"></v-radio>
+                    <v-radio label="적법" :value="true"></v-radio>
+                  </v-radio-group>
+                  <v-text-field v-if="!ve.legal_status" class="d-flex ve-input" v-model="ve.matters_of_violation" label="위반내용" hide-details="auto"></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
+            <div class="border pl-2 pr-2 mt-4">
+              <div class="text-body font-weight-bold">
+                ② 권리관계
+              </div>
+              <div class="border">
+                <span class="ml-2 font-weight-bold">&lt;등기부기재사항&gt;</span>
+                <v-row no-gutters>
+                  <v-col class="d-flex flex-wrap">
+                    <v-textarea class="d-flex ve-input" v-model="ve.land_ownership" label="토지 소유권에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
+                    <v-textarea class="d-flex ve-input" v-model="ve.building_ownership" label="건축물 소유권에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
+                    <v-textarea class="d-flex ve-input" v-model="ve.land_other" label="토지 소유권 외의 권리에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
+                    <v-textarea class="d-flex ve-input" v-model="ve.building_other" label="건축물 소유권의 권리에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
+                  </v-col>
+                </v-row>
+              </div>
+              <div class="border">
+                <span class="ml-2 font-weight-bold">&lt;민간임대등록여부&gt;</span>
+                <v-radio-group class="d-flex ve-input" label="건축물대장상위반건축물 여부" v-model="ve.rental_housing_registration" row mandatory>
+                  <v-radio label="장기일반민간임대주택" :value="0"></v-radio>
+                  <v-radio label="공공지원민간임대주택" :value="1"></v-radio>
+                  <v-radio label="단기민간임대주택" :value="2"></v-radio>
+                  <v-radio label="해당 사항 없음" :value="3"></v-radio>
+                </v-radio-group>
+              </div>
+            </div>
+            <div class="border pl-2 pr-2 mt-4">
+              <div class="text-body font-weight-bold">
+                ③ 토지이용계획, 공법상 이용제한 및 거래규제에 관한 사항(토지)
+              </div>
+              <div class="border">
+                <v-row no-gutters>
+                  <v-col class="d-flex flex-wrap">
+                    <v-text-field class="d-flex ve-input" v-model="ve.use_area" label="용도지역" hide-details="auto"></v-text-field>
+                    <v-text-field class="d-flex ve-input" v-model="ve.use_district" label="용도지구" hide-details="auto"></v-text-field>
+                    <v-text-field class="d-flex ve-input" v-model="ve.use_zone" label="용도구역" hide-details="auto"></v-text-field>
+                    <v-text-field class="d-flex ve-input" v-model="ve.building_coverage_limit" type="Number" step="1" label="건페율 상한" hide-details="auto"></v-text-field>
+                    <v-text-field class="d-flex ve-input" v-model="ve.floor_area_limit" type="Number" step="1" label="용적률 상한" hide-details="auto"></v-text-field>                  
+                      <v-textarea class="d-flex ve-input" v-model="ve.planning_facilities" label="도시·군계획 시설" hide-details="auto" auto-grow rows="1"></v-textarea>
+                      <v-checkbox class="d-flex ve-input" v-model="ve.permission_reposrt_zone" label="토지거래허가 신고구역"></v-checkbox>
+                      <v-radio-group class="d-flex ve-input" label="투기지역 여부" v-model="ve.speculative_area" row mandatory>
+                        <v-radio label="토지투기지역" :value="0"></v-radio>
+                        <v-radio label="주택투기지역" :value="1"></v-radio>
+                        <v-radio label="투기과열지구" :value="2"></v-radio>
+                      </v-radio-group>
+                      <v-textarea class="d-flex ve-input" v-model="ve.unit_planning_area_others" label="지구단위계획구역, 그 밖의 도시·군관리계획" hint="지구단위계획구역, 그 밖의 도시·군관리계획" hide-details="auto" auto-grow rows="1"></v-textarea>
+                      <v-textarea class="d-flex ve-input" v-model="ve.other_use_restriction" label="그 밖의 이용제한 및 거래규제사항" hide-details="auto" auto-grow rows="1"></v-textarea>
+                    </v-col>
+                </v-row>
+              </div>
+            </div>
+            <div class="border pl-2 pr-2 mt-4">
+              <div class="text-body font-weight-bold">
+                ④ 입지조건
+              </div>
+              <div class="border">
+                <v-row no-gutters>
+                  <v-col class="d-flex flex-wrap">
+                    <div class="d-flex">
+                      <v-text-field class="d-flex ve-input" v-model="ve.relative_with_roads" label="도로와의 관계" hide-details="auto"></v-text-field>
+                      <v-radio-group class="ve-input" v-model="ve.is_paved_rode" row mandatory>
+                        <v-radio label="포장" :value="true"></v-radio>
+                        <v-radio label="비포장" :value="false"></v-radio>
+                      </v-radio-group>
+                      <v-radio-group v-model="ve.acessibility" label="접근성" row mandatory>
+                        <v-radio label="용이함" :value="true"></v-radio>
+                        <v-radio label="불편함" :value="false"></v-radio>
+                      </v-radio-group>
+                    </div>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </div>
+      </template>
       <v-btn class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </v-container>
   </ValidationObserver>
@@ -459,7 +640,116 @@ export default {
       expert: null,
       seller: null,
       buyer: null,
+      options: [0,1,2],
       special_agreement: null,
+      ve: {
+        paper_categories: [],
+        explanation_evidences: [],
+        explanation_evidence_info: null,
+        explanation_address: {
+          old_address: null
+        },
+        land_area: null,
+        land_category: null,
+        actual_land_category: null,
+        net_area: null,
+        land_share: null,
+        year_of_completion: null,
+        building_category: null,
+        actual_building_category: null,
+        explanation_building_structure: null,
+        building_direction: null,
+        seismic_design: null,
+        seismic_capacity: null,
+        legal_status: true,
+        matters_of_violation: null,
+        land_ownership: null,
+        building_ownership: null,
+        land_other: null,
+        building_other: null,
+        rental_housing_registration: 4,
+        use_area: null,
+        use_district: null,
+        use_zone: null,
+        building_coverage_limit: null,
+        floor_area_limit: null,
+        planning_facilities: null,
+        permission_report_zone: null,
+        speculative_area: null,
+        unit_planning_area_others: null,
+        other_use_restriction: null,
+        relative_with_roads: '(  m  ×  m ) 도로에 접합',
+        is_paved_rode: null,
+        acessibility: null,
+        bus_stop: null,
+        bus_by_foot: null,
+        bus_time_required: null,
+        subway_station: null,
+        subway_by_foot: null,
+        subway_time_required: null,
+        parking_lot: null,
+        parking_lot_info: null,
+        elementary_school: null,
+        elementary_school_by_foot: null,
+        elementary_school_time_required: null,
+        middle_school: null,
+        middle_school_by_foot: null,
+        middle_school_time_required: null,
+        high_school: null,
+        high_school_by_foot: null,
+        high_school_time_required: null,
+        department_store: null,
+        department_store_by_foot: null,
+        department_store_time_required: null,
+        medical_center: null,
+        medical_center_by_foot: null,
+        medical_center_time_required: null,
+        security_office: null,
+        management: null,
+        undesirable_facilities: null,
+        undesirable_facilities_info: null,
+        expected_transaction_price: null,
+        land_prcie_recorded: null,
+        building_price_recorded: null,
+        acquisition_tax: null,
+        special_tax: null,
+        local_education_tax: null,
+        water_damage_status: null,
+        water_damage_location: null,
+        water_capacity_status: null,
+        water_capacity_location: null,
+        electricity_supply_status: null,
+        electricity_location: null,
+        gas_supply_status: null,
+        gas_supply_info: null,
+        fire_alarm_detector: null,
+        fire_alarm_detector_quantity: null,
+        heating_supply_method: null,
+        heating_status: null,
+        heating_status_info: null,
+        heating_type: null,
+        heating_type_info: null,
+        is_elevator: null,
+        elevator_status: null,
+        drainage_status: null,
+        drainage_status_info: null,
+        other_facilities: null,
+        wall_crack_status: null,
+        wall_crack_status_info: null,
+        water_leak_status: null,
+        water_leak_status_info: null,
+        wall_paper_status: null,
+        wall_paper_status_info: null,
+        sunshine_status: null,
+        sunshine_status_info: null,
+        noise_status: null,
+        vibration: null,
+        comission: null,
+        actual_expenses: null,
+        payment_period: null,
+        caculation_info: null
+      },
+
       editorOption: {
         modules: {
           toolbar: {
@@ -691,6 +981,7 @@ export default {
               title: self.title,
               realestate_type: self.realestate_type,
               paper_contractors: self.contractors,
+              options: self.options,
               special_agreement: self.special_agreement
             }).then(data => {
               if (data.id) {
@@ -777,12 +1068,36 @@ export default {
   float: right;
 }
 .ql-container {
-    font-size: 16px;
+  font-size: 16px;
 }
 .truncate {
   max-width: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.v-label {
+  margin-bottom: 0;
+}
+
+.label {
+  margin: auto;
+}
+.ve_checkbox {
+  margin: 4px !important;
+}
+.ve-input {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
+.v-card__text {
+  padding: 8px;
+}
+.col {
+  word-break: break-all;
+}
+.border {
+  border:solid 1px rgba(0, 0, 0 ,0.12)
 }
 </style>
