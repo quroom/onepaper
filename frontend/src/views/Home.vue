@@ -47,7 +47,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .author-name-position {
   float:right;
 }

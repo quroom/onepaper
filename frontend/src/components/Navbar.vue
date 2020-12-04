@@ -174,7 +174,4 @@ export default {
 </script>
 
 <style>
-a:hover {
-  text-decoration: none;
-}
 </style>

@@ -10,8 +10,8 @@ from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
-from papers.models import Paper, PaperStatus, Contractor, Signature, ManualSignature
-from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer, SignatureSerializer, ManualSignatureSerializer
+from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
+from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer, SignatureSerializer, ExplanationSignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsParticiations, IsSignatureUser
 
 class HidePaperApiView(APIView):
@@ -45,7 +45,7 @@ class PaperViewset(ModelViewSet):
         filters = {}
         for key in self.request.query_params:
             if key=='status':
-                filters['status'] = self.request.query_params.get(key)
+                filters['status__status'] = self.request.query_params.get(key)
             elif key=='group':
                 filters['paper_contractors__group'] = self.request.query_params.get(key)
 
@@ -168,9 +168,9 @@ class SignatureUpdateApiView(mixins.RetrieveModelMixin,
         serializer.save(image=self.request.data['image'])
         return Response(serializer.data)
 
-class ManualSignatureCreateApiView(generics.CreateAPIView):
-    queryset = ManualSignature.objects.all()
-    serializer_class = ManualSignatureSerializer
+class ExplanationSignatureCreateApiView(generics.CreateAPIView):
+    queryset = ExplanationSignature.objects.all()
+    serializer_class = ExplanationSignatureSerializer
     permission_classes = [IsAuthenticated, IsParticiations]
 
     def create(self, request, *args, **kwargs):
@@ -189,21 +189,21 @@ class ManualSignatureCreateApiView(generics.CreateAPIView):
         if paper.status == PaperStatus.DONE:
             return Response({"detail": ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        signatures = Signature.objects.filter(contractor=contractor)
+        explanation_signatures = ExplanationSignature.objects.filter(contractor=contractor)
 
-        if signatures.exists():
-            signature = signatures.first()
-            if signature.updated_at >= paper.updated_at:
+        if explanation_signatures.exists():
+            explanation_signature = explanation_signatures.first()
+            if explanation_signature.updated_at >= paper.updated_at:
                 return Response({"detail": ValidationError(_("이미 서명이 등록되어있습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer.save(contractor=contractor, image=self.request.data['image'])
         return Response(serializer.data)
 
-class ManualSignatureUpdateApiView(mixins.RetrieveModelMixin,
+class ExplanationSignatureUpdateApiView(mixins.RetrieveModelMixin,
                              mixins.UpdateModelMixin,
                              generics.GenericAPIView):
-    queryset = Signature.objects.all()
-    serializer_class = ManualSignatureSerializer
+    queryset = ExplanationSignature.objects.all()
+    serializer_class = ExplanationSignatureSerializer
     permission_classes = [IsAuthenticated, IsSignatureUser]
 
     def get(self, request, *args, **kwargs):
@@ -214,13 +214,13 @@ class ManualSignatureUpdateApiView(mixins.RetrieveModelMixin,
     
     def perform_update(self, serializer):
         id = self.kwargs.get("pk")
-        signatures = Signature.objects.filter(id=id)
-        if not signatures.exists():
+        explanation_signatures = ExplanationSignature.objects.filter(id=id)
+        if not explanation_signatures.exists():
             Response({"detail": ValidationError(_("수정할 수 있는 서명이 없습니다"))}, status=status.HTTP_400_BAD_REQUEST)
         
-        signature = signatures.first()
+        explanation_signature = explanation_signatures.first()
 
-        if signature.contractor.paper == PaperStatus.DONE:
+        if explanation_signature.contractor.paper == PaperStatus.DONE:
             Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         
         serializer.save(image=self.request.data['image'])

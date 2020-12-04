@@ -45,7 +45,7 @@ class ExpertProfile(models.Model):
     DENIED = 2
     CLOSED = 3
 
-    STATUS_TYPE = (
+    STATUS_CATEGORY = (
         (REQUEST, _('요청')),
         (APPROVED, _('승인')),
         (DENIED, _('거부')),
@@ -66,7 +66,7 @@ class ExpertProfile(models.Model):
     stamp = models.ImageField()
     garantee_insurance = models.ImageField()
     status = models.PositiveSmallIntegerField(
-        choices=STATUS_TYPE, default=REQUEST)
+        choices=STATUS_CATEGORY, default=REQUEST)
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,

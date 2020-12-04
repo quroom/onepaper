@@ -1,6 +1,7 @@
 <template>
-  <v-container>
+  <div class="mt- pa-0" v-once>
     <table
+      border="1"
       style="border-collapse:collapse;"
       class="a4 MsoNormalTable"
       cellspacing="0"
@@ -26,7 +27,7 @@
       <tr>
         <td style="border:0;" colspan="18">
           <div align="center">
-            <b>(    ［］단독주택［］공동주택［］매매·교환［］임대    )</b>
+            <b>(    ［{{0 in ve.paper_categories ? '√' :''}}］단독주택［{{1 in ve.paper_categories ? '√' :''}}］공동주택［{{2 in ve.paper_categories ? '√' :''}}］매매·교환［{{3 in ve.paper_categories ? '√' :''}}］임대    )</b>
           </div>
         </td>
       </tr>
@@ -44,9 +45,9 @@
         </td>
         <td class="border-tbl" width="444" colspan="13">
           <div>
-            ［］등기권리증［］등기사항증명서［］토지대장［
-            ］건축물대장 ［］지적도 <br/>［］임야도 ［
-            ］토지이용계획확인서 ［］그 밖의 자료( )
+            ［{{0 in ve.explanation_evidences ? '√' :''}}］등기권리증［{{1 in ve.explanation_evidences ? '√' :''}}］등기사항증명서［{{2 in ve.explanation_evidences ? '√' :''}}］토지대장［{{3 in ve.explanation_evidences ? '√' :''}}
+            ］건축물대장 ［{{4 in ve.explanation_evidences ? '√' :''}}］지적도 <br/>［{{5 in ve.explanation_evidences ? '√' :''}}］임야도 ［{{6 in ve.explanation_evidences ? '√' :''}}
+            ］토지이용계획확인서 ［{{7 in ve.explanation_evidences ? '√' :''}}］그 밖의 자료({{ve.explanation_evidence_info}})
           </div>
         </td>
       </tr>
@@ -58,7 +59,7 @@
         </td>
         <td class="border-tbl" width="444" colspan="13">
           <div>
-            {{ explanation_evidence_info }}
+            {{ ve.requesting_condition_info }}
           </div>
         </td>
       </tr>
@@ -121,7 +122,7 @@
         </td>
         <td class="border-tbl" width="401" colspan="12">
           <div>
-            {{ address.old_address }}
+            {{ ve.address.old_address }}
           </div>
         </td>
       </tr>
@@ -131,7 +132,7 @@
         </td>
         <td width="110" colspan="2" rowspan="2">
           <div>
-            {{ land_area }}
+            {{ ve.land_area }}
           </div>
         </td>
         <td class="label" width="55" colspan="2" rowspan="2">
@@ -142,7 +143,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ land_category }}
+            {{ $getConstI18("LAND_CATEGORY", ve.land_category) }}
           </div>
         </td>
       </tr>
@@ -152,7 +153,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ actual_land_category }}
+            {{ $getConstI18("LAND_CATEGORY", ve.actual_land_category) }}
           </div>
         </td>
       </tr>
@@ -165,7 +166,7 @@
         </td>
         <td width="165" colspan="4">
           <div>
-            {{ net_area }}
+            {{ ve.net_area }}
           </div>
         </td>
         <td class="label" width="98" colspan="3">
@@ -173,7 +174,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ land_share }}
+            {{ ve.land_share }}
           </div>
         </td>
       </tr>
@@ -183,7 +184,7 @@
         </td>
         <td width="110" colspan="2" rowspan="2">
           <div>
-            {{ year_of_completion }}
+            {{ ve.year_of_completion }}
           </div>
         </td>
         <td class="label" width="55" colspan="2" rowspan="2">
@@ -194,7 +195,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ building_category }}
+            {{ $getConstI18("BUILDING_CATEGORY", ve.building_category) }}
           </div>
         </td>
       </tr>
@@ -204,7 +205,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ actual_building_category }}
+            {{ $getConstI18("BUILDING_CATEGORY", ve.actual_building_category) }}
           </div>
         </td>
       </tr>
@@ -214,7 +215,7 @@
         </td>
         <td width="110" colspan="2">
           <div>
-            {{ building_category }}
+            {{ ve.building_structure }}
           </div>
         </td>
         <td class="label" width="153" colspan="5">
@@ -222,7 +223,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ building_direction }}
+            {{ ve.building_direction }}
           </div>
         </td>
       </tr>
@@ -232,7 +233,7 @@
         </td>
         <td width="110" colspan="2">
           <div>
-            {{ seismic_design }}
+            {{ ve.seismic_design }}
           </div>
         </td>
         <td class="label" width="153" colspan="5">
@@ -240,7 +241,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ seismic_capacity }}
+            {{ ve.seismic_capacity }}
           </div>
         </td>
       </tr>
@@ -249,14 +250,14 @@
           <div>건축물대장상 위반건축물 여부</div>
         </td>
         <td width="110" colspan="2">
-          <div>［{{ legal_status?'':'√' }}］위반［{{ legal_status?'√':'' }}］적법</div>
+          <div>［{{ ve.legal_status? '':'√' }}］위반［{{ ve.legal_status?'√':'' }}］적법</div>
         </td>
         <td class="label" width="55" colspan="2">
           <div>위반내용</div>
         </td>
         <td class="border-tbl" width="235" colspan="8">
           <div>
-            {{ matters_of_violation }}
+            {{ ve.matters_of_violation }}
           </div>
         </td>
       </tr>
@@ -287,7 +288,7 @@
         </td>
         <td width="165" colspan="4">
           <div>
-            {{ land_ownership }}
+            {{ ve.land_ownership }}
           </div>
         </td>
         <td class="label" width="75">
@@ -295,7 +296,7 @@
         </td>
         <td class="border-tbl" width="160" colspan="7">
           <div>
-            {{ land_other }}
+            {{ ve.land_other }}
           </div>
         </td>
       </tr>
@@ -305,7 +306,7 @@
         </td>
         <td class="border-tbl" width="165" colspan="4">
           <div>
-            {{ building_ownership }}
+            {{ ve.building_ownership }}
           </div>
         </td>
         <td class="label" width="75">
@@ -313,7 +314,7 @@
         </td>
         <td class="border-tbl" width="160" colspan="7">
           <div>
-            {{ building_other }}
+            {{ ve.building_other }}
           </div>
         </td>
       </tr>
@@ -323,8 +324,8 @@
         </td>
         <td class="border-tbl" width="494" colspan="14">
           <div>
-            ［ {{ rental_housing_registration==0 ? '√' : '' }} ］장기일반민간임대주택 ［ {{ rental_housing_registration==1 ? '√' : '' }} ］공공지원민간임대주택 
-            ［ {{ rental_housing_registration==2 ? '√' : '' }} ］단기민간임대주택 ［ {{ rental_housing_registration==3 ? '√' : '' }} ］해당 사항 없음
+            ［ {{ ve.rental_housing_registration==0 ? '√' : '' }} ］장기일반민간임대주택 ［ {{ ve.rental_housing_registration==1 ? '√' : '' }} ］공공지원민간임대주택 
+            ［ {{ ve.rental_housing_registration==2 ? '√' : '' }} ］단기민간임대주택 ［ {{ ve.rental_housing_registration==3 ? '√' : '' }} ］해당 사항 없음
           </div>
         </td>
       </tr>
@@ -350,7 +351,7 @@
         </td>
         <td width="240" colspan="5">
           <div>
-            {{ use_area }}
+            {{ ve.use_area }}
           </div>
         </td>
         <td class="label" width="79" colspan="5">
@@ -366,14 +367,14 @@
         </td>
         <td width="240" colspan="5">
           <div>
-            {{ use_district }}
+            {{ ve.use_district }}
           </div>
         </td>
         <td width="79" colspan="5" rowspan="2">
-          <div>{{ building_coverage_limit }}%</div>
+          <div>{{ ve.building_coverage_limit }}%</div>
         </td>
         <td class="border-tbl" width="81" colspan="2" rowspan="2">
-          <div>{{ floor_area_limit }}%</div>
+          <div>{{ ve.floor_area_limit }}%</div>
         </td>
       </tr>
       <tr>
@@ -382,7 +383,7 @@
         </td>
         <td class="border-tbl" width="240" colspan="5">
           <div>
-            {{ use_zone }}
+            {{ ve.use_zone }}
           </div>
         </td>
       </tr>
@@ -392,7 +393,7 @@
         </td>
         <td width="123" colspan="3" rowspan="2">
           <div>
-            {{ planning_facilities }}
+            {{ ve.planning_facilities }}
           </div>
         </td>
         <td class="label" width="80">
@@ -401,7 +402,7 @@
         <td class="border-tbl" width="290" colspan="10">
           <div>
             
-            ［］토지거래허가구역
+            ［{{ ve.permission_report_zone ? "√" : ""}}］토지거래허가구역
           </div>
         </td>
       </tr>
@@ -412,7 +413,7 @@
         <td class="border-tbl" width="290" colspan="10">
           <div>
             
-            ［］토지투기지역［］주택투기지역［］투기과열지구
+            ［{{ ve.speculatvie_area == 0 ? "√" : "" }}］토지투기지역［{{ ve.speculatvie_area == 1 ? "√" : "" }}］주택투기지역［{{ ve.speculatvie_area == 2 ? "√" : "" }}］투기과열지구
           </div>
         </td>
       </tr>
@@ -422,7 +423,7 @@
         </td>
         <td width="133" colspan="3">
           <div>
-            
+            {{ ve.unit_planning_area_others }}
           </div>
         </td>
         <td class="label" width="115" colspan="3">
@@ -430,7 +431,7 @@
         </td>
         <td class="border-tbl" width="153" colspan="6">
           <div>
-            
+            {{ ve.other_use_restriction }}
           </div>
         </td>
       </tr>
@@ -473,6 +474,7 @@
       
     </div>
     <table
+      border="1"
       style="border-collapse:collapse"
       class="a4 MsoNormalTable"
       cellspacing="0"
@@ -496,14 +498,14 @@
         <td width="241" colspan="10">
           <div>
             
-            ( m × m )도로에 접함 ［］포장 ［］비포장
+            {{ ve.relative_with_roads }}도로에 접함 ［{{ ve.is_paved_rode ? '√' : ''}}］포장 ［{{ ve.is_paved_rode ? '' : '√'}}］비포장
           </div>
         </td>
         <td class="label" width="84" colspan="2">
           <div>접근성</div>
         </td>
         <td class="border-tbl" width="160">
-          <div>［］용이함 ［］불편함</div>
+          <div>［{{ ve.accessibility ? '√' : ''}}］용이함 ［{{ ve.accessiblity ? '√' : ''}}］불편함</div>
         </td>
       </tr>
       <tr>
@@ -516,7 +518,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ( ) 정류장, 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.bus_stop }}) 정류장, 소요시간: (［{{ ve.bus_by_foot ? '√' : '' }}］도보 ［{{ ve.bus_by_foot ? '' : '√' }}］차량) 약 {{ ve.bus_time_required }}분
           </div>
         </td>
       </tr>
@@ -527,7 +529,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ( ) 역, 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.subway_station }}) 역, 소요시간: (［{{ ve.subway_by_foot ? '√' : '' }}］도보 ［{{ ve.subway_by_foot ? '' : '√' }}］차량) 약 {{ ve.subway_time_required }}분
           </div>
         </td>
       </tr>
@@ -537,8 +539,8 @@
         </td>
         <td class="border-tbl" width="486" colspan="14">
           <div>
-            ［］없음 ［］전용주차시설 ［］공동주차시설 ［］그
-            밖의 주차시설 ( )
+            ［{{ ve.parking_lot == 0 ? '√' : '' }}］없음 ［{{ ve.parking_lot == 1 ? '√' : '' }}］전용주차시설 ［{{ ve.parking_lot == 2 ? '√' : '' }}］공동주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］그
+            밖의 주차시설 ( {{ ve.parking_lot == 4 ? ve.parking_lot_info : '' }} )
           </div>
         </td>
       </tr>
@@ -552,7 +554,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ( ) 학교, 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.elementary_school }}) 학교, 소요시간: (［{{ ve.elementary_school_by_foot ? '√' : '' }}］도보 ［{{ ve.elementary_school_by_foot ? '' : '√' }}］차량) 약 {{ ve.elementary_school_required_time }}분
           </div>
         </td>
       </tr>
@@ -562,8 +564,7 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            
-            ( ) 학교, 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.middle_school }}) 학교, 소요시간: (［{{ ve.middle_school_by_foot ? '√' : '' }}］도보 ［{{ ve.middle_school_by_foot ? '' : '√' }}］차량) 약 {{ ve.middle_school_required_time }}분
           </div>
         </td>
       </tr>
@@ -573,8 +574,7 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            
-            ( ) 학교, 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.high_school}}) 학교, 소요시간: (［{{ ve.high_school_by_foot ? '√' : '' }}］도보 ［{{ ve.high_school_by_foot ? '' : '√' }}］차량) 약 {{ ve.high_school_required_time }}분
           </div>
         </td>
       </tr>
@@ -588,7 +588,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ( ), 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.department_store }}), 소요시간: (［{{ ve.department_store_by_foot ? '√' : '' }}］도보 ［{{ ve.department_store_by_foot ? '' : '√'}}］차량) 약 {{ ve.department_store_required_time }}분
           </div>
         </td>
       </tr>
@@ -599,7 +599,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ( ), 소요시간: (［］도보 ［］차량) 약 분
+            ({{ ve.medical_center }}), 소요시간: (［{{ ve.medical_center_by_foot ? '√' : ''}}］도보 ［{{ ve.medical_center_by_foot ? '' :'√' }}］차량) 약 {{ ve.medical_center_required_time }}분
           </div>
         </td>
       </tr>
@@ -618,13 +618,13 @@
           <div>경비실</div>
         </td>
         <td width="136" colspan="3">
-          <div>［］있음 ［］없음</div>
+          <div>［{{ ve.is_security_office ? '√' : '' }}］있음 ［{{ ve.is_security_office ? '' : '√' }}］없음</div>
         </td>
         <td class="label" width="64" colspan="3">
           <div>관리주체</div>
         </td>
         <td class="border-tbl" width="278" colspan="7">
-          <div>［］위탁관리 ［］자체관리 ［］그 밖의 유형</div>
+          <div>［{{ ve.management == 0 ? '√' : '' }}］위탁관리 ［{{ ve.management == 1 ? '√' : '' }}］자체관리 ［{{ ve.management == 2 ? '√' : '' }}］그 밖의 유형</div>
         </td>
       </tr>
       <tr>
@@ -641,7 +641,7 @@
         <td class="border-tbl" width="478" colspan="13">
           <div>
             
-            ［］없음 ［］있음 (종류 및 위치: )
+            ［{{ ve.undesirable_facilities ? '' : '√' }}］없음 ［{{ ve.undesirable_facilities ? '√' : '' }}］있음 (종류 및 위치: {{ ve.undesirable_facilities ? ve.undesirable_facilities_info : '' }})
           </div>
         </td>
       </tr>
@@ -661,7 +661,7 @@
         </td>
         <td class="border-tbl" width="407" colspan="11">
           <div>
-            
+            {{ ve.expected_transaction_price }}
           </div>
         </td>
       </tr>
@@ -671,7 +671,7 @@
         </td>
         <td width="160" colspan="6">
           <div>
-            
+            {{ ve.land_prcie_recorded }}
           </div>
         </td>
         <td class="label" width="85" colspan="3">
@@ -679,7 +679,7 @@
         </td>
         <td class="border-tbl" width="162" colspan="2">
           <div>
-            
+            {{ ve.building_price_recorded }}
           </div>
         </td>
       </tr>
@@ -698,19 +698,19 @@
           <div>취득세</div>
         </td>
         <td width="72" colspan="2">
-          <div>%</div>
+          <div>{{ ve.acquisition_tax }}%</div>
         </td>
         <td class="label" width="74" colspan="2">
           <div>농어촌특별세</div>
         </td>
         <td width="85" colspan="4">
-          <div>%</div>
+          <div>{{ ve.special_tax }}%</div>
         </td>
         <td class="label" width="85" colspan="3">
           <div>지방교육세</div>
         </td>
         <td class="border-tbl" width="162" colspan="2">
-          <div>%</div>
+          <div>{{ ve.local_education_tax }}%</div>
         </td>
       </tr>
       <tr>
@@ -763,7 +763,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［］없음 ［］있음 (위치: )
+            ［{{ ve.water_damage_status ? '' : '√' }}］없음 ［{{ ve.water_damage_status ? '√' : ''}}］있음 (위치: {{ ve.water_damage_status ? ve.water_damage_status_info : ''}})
           </div>
         </td>
       </tr>
@@ -774,7 +774,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［］정상 ［］부족함 (위치: )
+            ［{{ ve.water_capacity_status ? '√' : '' }}］정상 ［{{ ve.water_capacity_status ? '' : '√' }}］부족함 (위치: {{ ve.water_capacity_status ? '' : ve.water_capacity_status_info }})
           </div>
         </td>
       </tr>
@@ -788,7 +788,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［］정상 ［］교체 필요 (교체할 부분: )
+            ［{{ ve.electricity_supply_status ? '√' : '' }}］정상 ［{{ ve.electricity_supply_status ? '' : '√' }}］교체 필요 (교체할 부분: {{ ve.electricity_supply_status_info }})
           </div>
         </td>
       </tr>
@@ -802,7 +802,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［］도시가스 ［］그 밖의 방식 ( )
+            ［{{ ve.gas_supply_status ? '√' :'' }}］도시가스 ［{{ ve.gas_supply_status ? '' : '√' }}］그 밖의 방식 ({{ ve.gas_supply_status ? '' : ve.gas_supply_status_info }})
           </div>
         </td>
       </tr>
@@ -816,10 +816,10 @@
         <td width="127" colspan="4">
           <div>
             
-            ［］없음
+            ［{{ ve.is_fire_alarm_detector ? '' : '√' }}］없음
 
             
-            ［］있음(수량: 개)
+            ［{{ ve.is_fire_alarm_detector ? '√' : '' }}］있음(수량: {{ ve.is_fire_alarm_detector ? ve.fire_alarm_detector_quantity : '' }}개)
           </div>
         </td>
         <td class="border-tbl caption" width="292" colspan="8">
@@ -841,14 +841,14 @@
         <td width="157" colspan="6">
           <div>
             
-            ［］중앙공급 ［］개별공급
+            ［{{ ve.heating_supply_method == 0 ? '√' : '' }}］중앙공급 ［{{ ve.heating_supply_method == 1 ? '√' : '' }}］개별공급
           </div>
         </td>
         <td class="label" width="52" colspan="4">
           <div>시설작동</div>
         </td>
         <td class="border-tbl" width="210" colspan="3">
-          <div>［］정상［］수선 필요 ( )</div>
+          <div>［{{ ve.heating_status ? '√' : '' }}］정상［{{ ve.heating_status ? '' : '√' }}］수선 필요 ({{ ve.heating_status ? '' : ve.heating_status_info }})</div>
         </td>
       </tr>
       <tr>
@@ -858,8 +858,8 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［］도시가스 ［］기름 ［］프로판가스 ［］연탄 ［］그 밖의
-            종류 ( )
+            ［{{ ve.heating_type == 0 ? '√' : '' }}］도시가스 ［{{ ve.heating_type == 1 ? '√' : '' }}］기름 ［{{ ve.heating_type == 2 ? '√' : '' }}］프로판가스 ［{{ ve.heating_type == 3 ? '√' : '' }}］연탄 ［{{ ve.heating_type == 4 ? '√' : '' }}］그 밖의
+            종류 ({{ ve.heating_type == 4 ? ve.heating_type_info : '' }})
           </div>
         </td>
       </tr>
@@ -870,7 +870,7 @@
         <td class="border-tbl" width="486" colspan="14">
           <div>
             
-            ［］있음 (［］양호 ［］불량) ［］없음
+            ［{{ ve.is_elevator ? '√' : '' }}］있음 (［{{ ve.is_elevator ? ( ve.elevator_status ? '√' : '') : '' }}］양호 ［{{ ve.is_elevator ? ( ve.elevator_status ? '' : '√') : '' }}］불량) ［{{ ve.is_elevator ? '' : '√' }}］없음
           </div>
         </td>
       </tr>
@@ -881,7 +881,7 @@
         <td class="border-tbl" width="486" colspan="14">
           <div>
             
-            ［］정상 ［］수선 필요 ( )
+            ［{{ ve.drainage_status ? '√' : '' }}］정상 ［{{ ve.drainage_status ? '' : '√' }}］수선 필요 ( {{ ve.drainage_status ? '' : ve.drainage_status_info}} )
           </div>
         </td>
       </tr>
@@ -891,7 +891,7 @@
         </td>
         <td class="border-tbl" width="486" colspan="14">
           <div>
-            
+            {{ ve.other_facilities }}
           </div>
         </td>
       </tr>
@@ -929,6 +929,7 @@
       
     </div>
     <table
+      border="1"
       style="border-collapse:collapse"
       class="a4 MsoNormalTable"
       cellspacing="0"
@@ -956,7 +957,7 @@
         <td class="border-tbl" width="422" colspan="6">
           <div>
             
-            ［］없음 ［］있음 (위치: )
+            ［{{ ve.wall_crack_status ? '' : '√' }}］없음 ［{{ ve.wall_crack_status ? '√' : '' }}］있음 (위치: {{ ve.wall_crack_status ? ve.wall_crack_status_info : '' }})
           </div>
         </td>
       </tr>
@@ -967,7 +968,7 @@
         <td class="border-tbl" width="422" colspan="6">
           <div>
             
-            ［］없음 ［］있음 (위치: )
+            ［{{ ve.water_leak_status ? '' : '√' }}］없음 ［{{ ve.water_leak_status ? '√' : '' }}］있음 (위치: {{ ve.water_leak ? ve.water_leak_status_info : '' }})
           </div>
         </td>
       </tr>
@@ -978,7 +979,7 @@
         <td class="border-tbl" width="478" colspan="8">
           <div>
             
-            ［］깨끗함 ［］보통임 ［］도배 필요
+            ［{{ ve.wall_paper_status == true ? '√' : '' }}］깨끗함 ［{{ ve.wall_paper_status == null ? '√' : '' }}］보통임 ［{{ ve.wall_paper_status == false ? '√' : '' }}］도배 필요
           </div>
         </td>
       </tr>
@@ -999,7 +1000,7 @@
         <td class="border-tbl" width="478" colspan="8">
           <div>
             
-            ［］풍부함 ［］보통임 ［］불충분 (이유: )
+            ［{{ ve.sunshine_status == true ? '√' : '' }}］풍부함 ［{{ ve.sunshine_status == null ? '√' : '' }}］보통임 ［{{ ve.sunshine_status == false ? '√' : '' }}］불충분 (이유: {{ ve.sunshine_status == false ? ve.sunshine_status_info : '' }})
           </div>
         </td>
       </tr>
@@ -1009,15 +1010,16 @@
         </td>
         <td width="239" colspan="6">
           <div>
-            
-            ［］미미함 ［］보통임 ［］심한 편임
+            ［{{ ve.nosie_status == true ? '√' : '' }}］미미함 ［{{ ve.nosie_status == null ? '√' : '' }}］보통임 ［{{ ve.nosie_status == false ? '√' : '' }}］심한 편임
           </div>
         </td>
         <td class="label" width="45" colspan="1">
           <div>진동</div>
         </td>
         <td class="border-tbl" width="214" colspan="2">
-          <div>［］미미함 ［］보통임 ［］심한 편임</div>
+          <div>
+            ［{{ ve.vibration == true ? '√' : '' }}］미미함 ［{{ ve.vibration == null ? '√' : '' }}］보통임 ［{{ ve.vibration == false ? '√' : '' }}］심한 편임
+          </div>
         </td>
       </tr>
       <tr>
@@ -1041,16 +1043,16 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            
+            {{ ve.comission }} 원
           </div>
         </td>
         <td class="border-tbl" width="255" colspan="3" rowspan="4">
           <div>
             &lt;산출내역&gt; 
             <br/><br/>
-            중개보수:
+            중개보수: {{ ve.comission }}
             <br/><br/>
-            실 비:
+            실 비: {{ ve.actual_expenses }}
             <br/><br/>
             ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도
             조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로
@@ -1065,7 +1067,7 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            
+            {{ ve.actual_expenses }} 원
           </div>
         </td>
       </tr>
@@ -1075,7 +1077,7 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            
+            {{ ve.comission + ve.actual_expenses }}
           </div>
         </td>
       </tr>
@@ -1085,7 +1087,7 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            
+            {{ ve.payment_period }}
           </div>
         </td>
       </tr>
@@ -1106,135 +1108,48 @@
             <br/>
           </div>
           <div align="right">
-            년 월 일
+            {{ year }}년 {{ month }}월 {{ day }}일
           </div>
         </td>
       </tr>
     </table>
-  </v-container>
+  </div>
 </template>
 
 <script>
 export default {
   name: "VerifyingExplanation",
   props: {
-    obj: {
+    ve: {
       type: Object,
       required: true
+    },
+    updated_at: {
+      type: String,
+      reuiqred: true
     }
   },
-  data() {
-    return {
-      paper_categories: null,
-      explanation_evidences: null,
-      explanation_evidence_info: null,
-      address: {
-        old_address: null
-      },
-      land_area: null,
-      land_category: null,
-      actual_land_category: null,
-      net_area: null,
-      land_share: null,
-      year_of_completion: null,
-      building_category: null,
-      actual_building_category: null,
-      building_structure: null,
-      building_direction: null,
-      seismic_design: null,
-      seismic_capacity: null,
-      legal_status: true,
-      matters_of_violation: null,
-      land_ownership: null,
-      building_ownership: null,
-      land_other: null,
-      building_other: null,
-      rental_housing_registration: null,
-      use_area: null,
-      use_district: null,
-      use_zone: null,
-      building_coverage_limit: null,
-      floor_area_limit: null,
-      planning_facilities: null,
-      permission_report_zone: null,
-      speculative_area: null,
-      unit_planning_area_others: null,
-      other_use_restriction: null,
-      relative_with_roads: null,
-      is_paved_rode: null,
-      acessibility: null,
-      bus_stop: null,
-      bus_by_foot: null,
-      bus_time_required: null,
-      subway_station: null,
-      subway_by_foot: null,
-      subway_time_required: null,
-      parking_lot: null,
-      parking_lot_info: null,
-      elementary_school: null,
-      elementary_school_by_foot: null,
-      elementary_school_time_required: null,
-      middle_school: null,
-      middle_school_by_foot: null,
-      middle_school_time_required: null,
-      high_school: null,
-      high_school_by_foot: null,
-      high_school_time_required: null,
-      department_store: null,
-      department_store_by_foot: null,
-      department_store_time_required: null,
-      medical_center: null,
-      medical_center_by_foot: null,
-      medical_center_time_required: null,
-      security_office: null,
-      management: null,
-      undesirable_facilities: null,
-      undesirable_facilities_info: null,
-      expected_transaction_price: null,
-      land_prcie_recorded: null,
-      building_price_recorded: null,
-      acquisition_tax: null,
-      special_tax: null,
-      local_education_tax: null,
-      water_damage_status: null,
-      water_damage_location: null,
-      water_capacity_status: null,
-      water_capacity_location: null,
-      electricity_supply_status: null,
-      electricity_location: null,
-      gas_supply_status: null,
-      gas_supply_info: null,
-      fire_alarm_detector: null,
-      fire_alarm_detector_quantity: null,
-      heating_supply_method: null,
-      heating_status: null,
-      heating_status_info: null,
-      heating_type: null,
-      heating_type_info: null,
-      is_elevator: null,
-      elevator_status: null,
-      drainage_status: null,
-      drainage_status_info: null,
-      other_facilities: null,
-      wall_crack_status: null,
-      wall_crack_status_info: null,
-      water_leak_status: null,
-      water_leak_status_info: null,
-      wall_paper_status: null,
-      wall_paper_status_info: null,
-      sunshine_status: null,
-      sunshine_status_info: null,
-      noise_status: null,
-      vibration: null,
-      comission: null,
-      actual_expenses: null,
-      payment_period: null,
-      caculation_info: null
+  computed: {
+    year() {
+      return this.updated_at.split("-")[0]
+    },
+    month() {
+      return this.updated_at.split("-")[1]
+    },
+    day() {
+      return this.updated_at.split("-")[2].split(" ")[0]
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  table {
+    min-width: 800px !important;
+    width: 100%;
+  }
+  div {
+    padding-left: 4px;
+    word-spacing: 2px; 
+  }
 </style>

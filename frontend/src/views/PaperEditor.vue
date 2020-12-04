@@ -2,504 +2,372 @@
 <template>
   <ValidationObserver ref="obs">
     <v-container>
-      <template v-if="false">
-      <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
-        <v-data-table
-          v-model="selected_paper"
-          :headers="paper_headers"
-          :items="papers"
-          item-key="id"
-        >
-          <template
-            v-slot:[`item.trade_type`]="{ item }">
-            {{$getConstI18("TRADE_TYPE", item.trade_type)}}
-          </template>
-          <template v-slot:[`item.select`]="{ item }">
-            <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
-          </template>
-        </v-data-table>
-      </v-dialog>
-      <v-btn class="success float_right" @click="getPaperList()">
-        {{ $t("paper") + ' ' + $t("load") }}
-      </v-btn>
-      <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
-      <v-row>
-        <v-col cols="8">
-        <AddressSearch
-          ref="address"
-          :label="$t('address') + $t('search')"
-          :address.sync="address"
-        ></AddressSearch>
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="address.dong"
-            :label="$t('dong')"
+      <v-progress-linear
+        v-if="is_expert"
+        :value="percent"
+        color="amber"
+        height="25"
+        fixed
+        top
+        style="top:62px"
+      >
+      <strong>{{ Math.ceil(percent) }}%</strong>
+      </v-progress-linear>
+      <template v-if="step==1 || validation_check">
+        <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
+          <v-data-table
+            v-model="selected_paper"
+            :headers="paper_headers"
+            :items="papers"
+            item-key="id"
+          >
+            <template
+              v-slot:[`item.trade_category`]="{ item }">
+              {{$getConstI18("TRADE_CATEGORY", item.trade_category)}}
+            </template>
+            <template v-slot:[`item.select`]="{ item }">
+              <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
+            </template>
+          </v-data-table>
+        </v-dialog>
+        <v-btn class="success float_right" @click="getPaperList()">
+          {{ $t("paper") + ' ' + $t("load") }}
+        </v-btn>
+        <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
+        <v-row>
+          <v-col cols="8">
+          <AddressSearch
+            ref_name="address"
+            :label="$t('address') + $t('search')"
             outlined
-            hide-details="auto"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="address.ho"
-            :label="$t('ho')"
-            outlined
-            hide-details="auto"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <template v-for="(realestate_field, index) in fields_names.realestate_fields">
-          <v-col cols="4" md="2" :key="`index`+index">
-            <ValidationProvider
-              :ref="realestate_field.name"
-              :name="$t(realestate_field.name)"
-              rules="required"
-              v-slot="{ errors }"
-            >
+            :address.sync="address"
+          ></AddressSearch>
+          </v-col>
+          <v-col cols="2">
+            <LazyTextField
+              v-model="address.dong"
+              :label="$t('dong')"
+            ></LazyTextField>
+          </v-col>
+          <v-col cols="2">
+            <LazyTextField
+              v-model="address.ho"
+              :label="$t('ho')"
+              hide-details="auto"
+            ></LazyTextField>
+          </v-col>
+        </v-row>
+        <v-row>
+          <template v-for="(realestate_field, index) in fields_names.realestate_fields">
+            <v-col cols="4" md="2" :key="`index`+index">
+              <ValidationProvider
+                :ref="realestate_field.name"
+                :name="$t(realestate_field.name)"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <v-select
+                  v-if="realestate_field.type=='select'"
+                  v-model="$data[''+realestate_field.name]"
+                  :error-messages="errors"
+                  :items="$getConstList(realestate_field.name+'_LIST')"
+                  item-text="text"
+                  item-value="value"
+                  :label="$t(realestate_field.name)"
+                >
+                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+                </v-select>
+                <LazyTextField
+                  v-else
+                  v-model="$data[''+realestate_field.name]"
+                  :error-messages="errors"
+                  :label="$t(realestate_field.name)"
+                  required
+                  :type="realestate_field.type"
+                  :step="realestate_field.step" 
+                >
+                </LazyTextField>
+              </ValidationProvider>
+            </v-col>
+          </template>
+        </v-row>
+        <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
+        <div>{{ $t("terms_and_conditions_intro") }}</div>
+        <v-row>
+          <v-col cols="2">
+            <ValidationProvider ref="trade_category" :name="$t('trade_category')" v-slot="{ errors }" rules="required">
               <v-select
-                v-if="realestate_field.type=='select'"
-                v-model="$data[''+realestate_field.name]"
+                v-model="trade_category"
                 :error-messages="errors"
-                :items="$getConstList(realestate_field.name+'_LIST')"
+                :items="$getConstList('TRADE_CATEGORY_LIST')"
                 item-text="text"
                 item-value="value"
-                :label="$t(realestate_field.name)"
+                :label="$t('trade_category')"
               >
                 <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
                 <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
               </v-select>
-              <v-text-field
-                v-else
-                v-model="$data[''+realestate_field.name]"
-                :error-messages="errors"
-                :label="$t(realestate_field.name)"
-                required
-                :type="realestate_field.type"
-                :step="realestate_field.step"
-              >
-              </v-text-field>
             </ValidationProvider>
           </v-col>
-        </template>
-      </v-row>
-      <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
-      <div>{{ $t("terms_and_conditions_intro") }}</div>
-      <v-row>
-        <v-col cols="2">
-          <ValidationProvider ref="trade_type" :name="$t('trade_type')" v-slot="{ errors }" rules="required">
-            <v-select
-              v-model="trade_type"
-              :error-messages="errors"
-              :items="$getConstList('TRADE_TYPE_LIST')"
-              item-text="text"
-              item-value="value"
-              :label="$t('trade_type')"
+          <v-col cols="5" md="3">
+            <v-menu
+              v-model="from_date_menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
             >
-              <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-              <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-            </v-select>
-          </ValidationProvider>
-        </v-col>
-        <v-col cols="5" md="3">
-          <v-menu
-            v-model="from_date_menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider ref="from_date"  :name="$t('from_date')" v-slot="{ errors }" rules="required">
-                <v-text-field
-                  v-model="from_date"
-                  :error-messages="errors"
-                  :label="$t('from_date')"
-                  prepend-icon="event"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </ValidationProvider>
-            </template>
-            <v-date-picker
-              v-model="from_date"
-              @input="from_date_menu=false"
-              :locale="this.$i18n.locale"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-        <v-col cols="5" md="3">
-          <v-menu
-            v-model="to_date_menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <ValidationProvider ref="to_date" :name="$t('to_date')" v-slot="{ errors }" rules="required">
-                <v-text-field
-                  v-model="to_date"
-                  :error-messages="errors"
-                  :label="$t('to_date')"
-                  prepend-icon="event"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </ValidationProvider>
-            </template>
-            <v-date-picker
-              v-model="to_date"
-              @input="to_date_menu=false"
-              :locale="this.$i18n.locale"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-      </v-row>
-      <v-row>
-        <template v-if="trade_type==$getConstByName('TRADE_TYPE', 'rent')">
-          <v-col v-for="(contract_field, index) in fields_names.contract_fields" cols="6" md="3" :key="`index`+index">
-            <ValidationProvider
-              v-slot="{ errors }"
-              :ref="contract_field.name"
-              :name="$t(contract_field.name)"
-              rules="required"
-            >
-              <v-text-field
-                v-model="$data[''+contract_field.name]"
-                :error-messages="errors"
-                :label="$t(contract_field.name)+'('+$t('manwon')+')'"
-                :type="contract_field.type"
-                required
-              ></v-text-field>
-            </ValidationProvider>
+              <template v-slot:activator="{ on, attrs }">
+                <ValidationProvider ref="from_date"  :name="$t('from_date')" v-slot="{ errors }" rules="required">
+                  <LazyTextField
+                    v-model="from_date"
+                    :error-messages="errors"
+                    :label="$t('from_date')"
+                    prepend-icon="event"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></LazyTextField>
+                </ValidationProvider>
+              </template>
+              <v-date-picker
+                v-model="from_date"
+                @input="from_date_menu=false"
+                :locale="this.$i18n.locale"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
-        </template>
-        <template v-else>
-          <template v-for="(contract_field, index) in fields_names.contract_fields">
-            <v-col v-if="contract_field.name!='monthly_fee'" cols="6" md="3" :key="`index`+index">
+          <v-col cols="5" md="3">
+            <v-menu
+              v-model="to_date_menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <ValidationProvider ref="to_date" :name="$t('to_date')" v-slot="{ errors }" rules="required">
+                  <LazyTextField
+                    v-model="to_date"
+                    :error-messages="errors"
+                    :label="$t('to_date')"
+                    prepend-icon="event"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></LazyTextField>
+                </ValidationProvider>
+              </template>
+              <v-date-picker
+                v-model="to_date"
+                @input="to_date_menu=false"
+                :locale="this.$i18n.locale"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
+        <v-row>
+          <template v-if="trade_category==$getConstByName('TRADE_CATEGORY', 'rent')">
+            <v-col v-for="(contract_field, index) in fields_names.contract_fields" cols="6" md="3" :key="`index`+index">
               <ValidationProvider
                 v-slot="{ errors }"
                 :ref="contract_field.name"
                 :name="$t(contract_field.name)"
                 rules="required"
               >
-                <v-text-field
+                <LazyTextField
                   v-model="$data[''+contract_field.name]"
                   :error-messages="errors"
                   :label="$t(contract_field.name)+'('+$t('manwon')+')'"
                   :type="contract_field.type"
                   required
-                ></v-text-field>
+                ></LazyTextField>
               </ValidationProvider>
             </v-col>
           </template>
-        </template>
-      </v-row>
-      <div class="mt-3">3. {{ $t("contractor_info") }}</div>
-      <div>{{ $t("contractor_info_intro") }}</div>
-      <v-expansion-panels>
-        <v-row no-gutters>
-          <v-col v-if="is_expert" cols="12">
-            <ValidationProvider
-              ref="expert"
-              v-slot="{ errors }"
-              :name="$t('realestate_agency')"
-              rules="required"
-            >
-              <v-autocomplete
-                class="mt-2"
-                v-model="expert"
-                :error-messages="errors"
-                :filter="customFilter"
-                :items="my_profiles"
-                item-text="name"
-                item-value="id"
-                return-object
-                :label="$t('realestate_agency')"
-                :placeholder="$t('realestate_agency')+' '+$t('search')"
-              >
-                <template v-slot:selection="{ item }">
-                  {{ item.expert_profile.shop_name + ':' + item.user.name}}
-                </template>
-                <template v-slot:item="{ item }">
-                  {{ item.expert_profile.shop_name + ':' + item.user.name}}
-                </template>
-              </v-autocomplete>
-            </ValidationProvider>
-            <v-expansion-panel v-if="expert">
-              <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-col>
-          <v-col v-if="!isLoading" cols="12">
-            <ValidationProvider
-              ref="seller"
-              v-slot="{ errors }"
-              :name="$t('landlord')"
-            >
-              <v-autocomplete
-                v-model="seller"
-                :error-messages="errors"
-                :filter="customFilter"
-                :items="allowed_profiles"
-                item-text="name"
-                item-value="id"
-                return-object
-                class="mt-2"
-                :label="$t('landlord')"
-                :placeholder="$t('landlord')+' '+$t('search')"
-              >
-                <template
-                  v-slot:selection="{ item }"
-                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
-                <template
-                  v-slot:item="{ item }"
-                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
-              </v-autocomplete>
-            </ValidationProvider>
-            <v-expansion-panel v-if="seller">
-              <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-col>
-          <v-col v-if="!isLoading" class="mt-3" cols="12">
-            <ValidationProvider
-              ref="buyer"
-              v-slot="{ errors }"
-              :name="$t('tenant')"
-            >
-              <v-autocomplete
-                v-model="buyer"
-                :error-messages="errors"
-                :filter="customFilter"
-                :items="allowed_profiles"
-                item-text="name"
-                item-value="id"
-                class="mt-2"
-                return-object
-                :label="$t('tenant')"
-                :placeholder="$t('tenant')+' '+$t('search')"
-              >
-                <template
-                  v-slot:selection="{ item }"
-                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
-                <template
-                  v-slot:item="{ item }"
-                >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
-              </v-autocomplete>
-            </ValidationProvider>
-            <v-expansion-panel v-if="buyer">
-              <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>                
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-col>
+          <template v-else>
+            <template v-for="(contract_field, index) in fields_names.contract_fields">
+              <v-col v-if="contract_field.name!='monthly_fee'" cols="6" md="3" :key="`index`+index">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  :ref="contract_field.name"
+                  :name="$t(contract_field.name)"
+                  rules="required"
+                >
+                  <LazyTextField
+                    v-model="$data[''+contract_field.name]"
+                    :error-messages="errors"
+                    :label="$t(contract_field.name)+'('+$t('manwon')+')'"
+                    :type="contract_field.type"
+                    required
+                  ></LazyTextField>
+                </ValidationProvider>
+              </v-col>
+            </template>
+          </template>
         </v-row>
-      </v-expansion-panels>
-      <div class="mt-3">4. {{ $t("special_agreement") }}</div>
-      <quill-editor
-        ref="myQuillEditor"
-        v-model="special_agreement"
-        :options="editorOption"
-      />
-      </template>
-      <!-- need to support i18n -->
-      <template v-if="is_expert">
-        <v-divider></v-divider>
-          <div class="caption">
-            {{ $t("enforcement_rules") }}
-            <span class="blue--text text--accent-4">&lt;{{$t("ve_updated_date")}}&gt;</span>
-            <span class="float_right">(4쪽 중 제1쪽)</span>
-          </div>
-          <div class="text-h6 font-weight-bold" align="center">중개대상물 확인ㆍ설명서[Ⅰ] (주거용 건축물)</div>
-          <v-row justify="center" align="center">
-            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="단독주택" value=0></v-checkbox>
-            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="공동주택" value=1></v-checkbox>
-            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="매매·교환" value=2></v-checkbox>
-            <v-checkbox class="ve_checkbox" v-model="ve.paper_categories" label="임대" value=3></v-checkbox>
-          </v-row>
+        <div class="mt-3">3. {{ $t("contractor_info") }}</div>
+        <div>{{ $t("contractor_info_intro") }}</div>
+        <v-expansion-panels>
           <v-row no-gutters>
-            <v-row no-gutters>
-              <v-col cols="12">
-                <v-card tile outlined color="grey lighten-1" align="center">
-                  <v-card-text>
-                    확인·설명 자료
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="2" class="d-flex border" align="center">
-                  <span class="label"> 확인·설명 근거자료 등 </span>
-              </v-col>
-              <v-col class="d-flex flex-wrap border">
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="등기권리증" value=0 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="등기사항증명서" value=1 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="토지대장" value=2 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="건축물대장" value=3 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="지적도" value=4 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="임야도" value=5 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="토지이용계획확인서" value=6 hideDetails="auto"></v-checkbox>
-                  <v-checkbox class="ve_checkbox" v-model="ve.explanation_evidences" label="그밖의자료" value=7 hideDetails="auto"></v-checkbox>
-              </v-col>
-            </v-row>
-            <v-col cols="2" class="border" align="center">
-              <span class="label"> 대상물건의 상태에 관한 자료요구 사항 </span>
-            </v-col>
-            <v-col cols="10" class="border">
-              <v-textarea
-                class="mt-4"
-                label="자료요구 사항"
-                placeholder="대상물건의 상태에 관한 자료요구 사항"
-                outlined
-                hide-details="auto"
+            <v-col v-if="is_expert" cols="12">
+              <ValidationProvider
+                ref="expert"
+                v-slot="{ errors }"
+                :name="$t('realestate_agency')"
+                rules="required"
               >
-              </v-textarea>
+                <v-autocomplete
+                  class="mt-2"
+                  v-model="expert"
+                  :error-messages="errors"
+                  :filter="customFilter"
+                  :items="my_profiles"
+                  item-text="name"
+                  item-value="id"
+                  return-object
+                  :label="$t('realestate_agency')"
+                  :placeholder="$t('realestate_agency')+' '+$t('search')"
+                >
+                  <template v-slot:selection="{ item }">
+                    {{ item.expert_profile.shop_name + ':' + item.user.name}}
+                  </template>
+                  <template v-slot:item="{ item }">
+                    {{ item.expert_profile.shop_name + ':' + item.user.name}}
+                  </template>
+                </v-autocomplete>
+              </ValidationProvider>
+              <v-expansion-panel v-if="expert">
+                <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-col>
+            <v-col v-if="!isLoading" cols="12">
+              <ValidationProvider
+                ref="seller"
+                v-slot="{ errors }"
+                :name="$t('landlord')"
+              >
+                <v-autocomplete
+                  v-model="seller"
+                  :error-messages="errors"
+                  :filter="customFilter"
+                  :items="allowed_profiles"
+                  item-text="name"
+                  item-value="id"
+                  return-object
+                  class="mt-2"
+                  :label="$t('landlord')"
+                  :placeholder="$t('landlord')+' '+$t('search')"
+                >
+                  <template
+                    v-slot:selection="{ item }"
+                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                  <template
+                    v-slot:item="{ item }"
+                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                </v-autocomplete>
+              </ValidationProvider>
+              <v-expansion-panel v-if="seller">
+                <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-col>
+            <v-col v-if="!isLoading" class="mt-3" cols="12">
+              <ValidationProvider
+                ref="buyer"
+                v-slot="{ errors }"
+                :name="$t('tenant')"
+              >
+                <v-autocomplete
+                  v-model="buyer"
+                  :error-messages="errors"
+                  :filter="customFilter"
+                  :items="allowed_profiles"
+                  item-text="name"
+                  item-value="id"
+                  class="mt-2"
+                  return-object
+                  :label="$t('tenant')"
+                  :placeholder="$t('tenant')+' '+$t('search')"
+                >
+                  <template
+                    v-slot:selection="{ item }"
+                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                  <template
+                    v-slot:item="{ item }"
+                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                </v-autocomplete>
+              </ValidationProvider>
+              <v-expansion-panel v-if="buyer">
+                <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
             </v-col>
           </v-row>
-          <v-row class="mt-4" no-gutters>
-            <v-col class="grey lighten-1 border" cols="12" align="center">유의사항</v-col>
-            <v-col class="border" cols="2" align="center">
-              개업공인중개사의 확인·설명 의무
-            </v-col>
-            <v-col class="border" cols="10">
-              개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게 성실·정확하게 설명하고, 토지대장 등본, 등기사항증명서 등 설명의 근거자료를 제시해야 합니다.
-            </v-col>
-            <v-col class="border" cols="2" align="center">
-              실제 거래가격 신고
-            </v-col>
-            <v-col class="border" cols="10">
-              「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1 제1호마목에 따른 실제 거래가격은 매수인이 매수한 부동산을 양도하는 경우 「소득세법」 제97조제1항 및 제7항과 같은 법 시행령 제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아 양도차익이 계산될 수 있음을 유의하시기 바랍니다.
-            </v-col>
-          </v-row>
-          <div class="text-subtitle font-weight-bold">1. 개업공인중개사 기본 확인사항</div>
-          <div class="border pl-2 pr-2 mt-4">
-            <div class="text-body font-weight-bold">
-              ① 대상물건의 표시
-            </div>
-            <div class="border">
-              <span class="ml-2 font-weight-bold">&lt;토지&gt;</span>
-              <v-row no-gutters>
-                <v-col class="d-flex flex-wrap">
-                  <v-text-field class="d-flex ve-input" label="토지 소재지"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.land_area" label="토지 면적" type="Number" step="0.01" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.land_category" label="공부상지목" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.actual_land_category" label="실제 이용 상태" hide-details="auto"></v-text-field>
-                </v-col>
-              </v-row>
-            </div>
-            <div class="border">
-              <span class="ml-2 font-weight-bold">&lt;건축물&gt;</span>
-              <v-row no-gutters>
-                <v-col class="d-flex flex-wrap">
-                  <v-text-field class="d-flex ve-input" v-model="ve.net_area" type="Number" step="0.01" label="전용면적" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.land_share" label="대지지분" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.year_of_completion" label="준공년도(증개축년도)" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.building_category" label="건축물대장상 용도" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.actual_building_category" label="실제 용도" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.explanation_building_structure" label="구조" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.building_direction" label="방향" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.seismic_design" label="내진설계 적용여부" hide-details="auto"></v-text-field>
-                  <v-text-field class="d-flex ve-input" v-model="ve.seismic_capacity" label="내진능력" hide-details="auto"></v-text-field>
-                  <v-radio-group class="ve-input" label="건축물대장상위반건축물 여부" v-model="ve.legal_status" row mandatory>
-                    <v-radio label="위반" :value="false"></v-radio>
-                    <v-radio label="적법" :value="true"></v-radio>
-                  </v-radio-group>
-                  <v-text-field v-if="!ve.legal_status" class="d-flex ve-input" v-model="ve.matters_of_violation" label="위반내용" hide-details="auto"></v-text-field>
-                </v-col>
-              </v-row>
-            </div>
-            <div class="border pl-2 pr-2 mt-4">
-              <div class="text-body font-weight-bold">
-                ② 권리관계
-              </div>
-              <div class="border">
-                <span class="ml-2 font-weight-bold">&lt;등기부기재사항&gt;</span>
-                <v-row no-gutters>
-                  <v-col class="d-flex flex-wrap">
-                    <v-textarea class="d-flex ve-input" v-model="ve.land_ownership" label="토지 소유권에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
-                    <v-textarea class="d-flex ve-input" v-model="ve.building_ownership" label="건축물 소유권에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
-                    <v-textarea class="d-flex ve-input" v-model="ve.land_other" label="토지 소유권 외의 권리에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
-                    <v-textarea class="d-flex ve-input" v-model="ve.building_other" label="건축물 소유권의 권리에 관한 사항" hide-details="auto" auto-grow rows="2"></v-textarea>
-                  </v-col>
-                </v-row>
-              </div>
-              <div class="border">
-                <span class="ml-2 font-weight-bold">&lt;민간임대등록여부&gt;</span>
-                <v-radio-group class="d-flex ve-input" label="건축물대장상위반건축물 여부" v-model="ve.rental_housing_registration" row mandatory>
-                  <v-radio label="장기일반민간임대주택" :value="0"></v-radio>
-                  <v-radio label="공공지원민간임대주택" :value="1"></v-radio>
-                  <v-radio label="단기민간임대주택" :value="2"></v-radio>
-                  <v-radio label="해당 사항 없음" :value="3"></v-radio>
-                </v-radio-group>
-              </div>
-            </div>
-            <div class="border pl-2 pr-2 mt-4">
-              <div class="text-body font-weight-bold">
-                ③ 토지이용계획, 공법상 이용제한 및 거래규제에 관한 사항(토지)
-              </div>
-              <div class="border">
-                <v-row no-gutters>
-                  <v-col class="d-flex flex-wrap">
-                    <v-text-field class="d-flex ve-input" v-model="ve.use_area" label="용도지역" hide-details="auto"></v-text-field>
-                    <v-text-field class="d-flex ve-input" v-model="ve.use_district" label="용도지구" hide-details="auto"></v-text-field>
-                    <v-text-field class="d-flex ve-input" v-model="ve.use_zone" label="용도구역" hide-details="auto"></v-text-field>
-                    <v-text-field class="d-flex ve-input" v-model="ve.building_coverage_limit" type="Number" step="1" label="건페율 상한" hide-details="auto"></v-text-field>
-                    <v-text-field class="d-flex ve-input" v-model="ve.floor_area_limit" type="Number" step="1" label="용적률 상한" hide-details="auto"></v-text-field>                  
-                      <v-textarea class="d-flex ve-input" v-model="ve.planning_facilities" label="도시·군계획 시설" hide-details="auto" auto-grow rows="1"></v-textarea>
-                      <v-checkbox class="d-flex ve-input" v-model="ve.permission_reposrt_zone" label="토지거래허가 신고구역"></v-checkbox>
-                      <v-radio-group class="d-flex ve-input" label="투기지역 여부" v-model="ve.speculative_area" row mandatory>
-                        <v-radio label="토지투기지역" :value="0"></v-radio>
-                        <v-radio label="주택투기지역" :value="1"></v-radio>
-                        <v-radio label="투기과열지구" :value="2"></v-radio>
-                      </v-radio-group>
-                      <v-textarea class="d-flex ve-input" v-model="ve.unit_planning_area_others" label="지구단위계획구역, 그 밖의 도시·군관리계획" hint="지구단위계획구역, 그 밖의 도시·군관리계획" hide-details="auto" auto-grow rows="1"></v-textarea>
-                      <v-textarea class="d-flex ve-input" v-model="ve.other_use_restriction" label="그 밖의 이용제한 및 거래규제사항" hide-details="auto" auto-grow rows="1"></v-textarea>
-                    </v-col>
-                </v-row>
-              </div>
-            </div>
-            <div class="border pl-2 pr-2 mt-4">
-              <div class="text-body font-weight-bold">
-                ④ 입지조건
-              </div>
-              <div class="border">
-                <v-row no-gutters>
-                  <v-col class="d-flex flex-wrap">
-                    <div class="d-flex">
-                      <v-text-field class="d-flex ve-input" v-model="ve.relative_with_roads" label="도로와의 관계" hide-details="auto"></v-text-field>
-                      <v-radio-group class="ve-input" v-model="ve.is_paved_rode" row mandatory>
-                        <v-radio label="포장" :value="true"></v-radio>
-                        <v-radio label="비포장" :value="false"></v-radio>
-                      </v-radio-group>
-                      <v-radio-group v-model="ve.acessibility" label="접근성" row mandatory>
-                        <v-radio label="용이함" :value="true"></v-radio>
-                        <v-radio label="불편함" :value="false"></v-radio>
-                      </v-radio-group>
-                    </div>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </div>
+        </v-expansion-panels>
+        <div class="mt-3">4. {{ $t("special_agreement") }}</div>
+        <quill-editor
+          ref="myQuillEditor"
+          v-model="special_agreement"
+          :options="editorOption"
+        />
       </template>
-      <v-btn class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+      <v-divider class="ma-4"></v-divider>
+      <!-- need to support i18n -->
+      <VerifyingExplanationEditor ref="verifying_explanation" v-if="is_expert" :ve.sync="ve" :step="step" :validation_check.sync="validation_check"></VerifyingExplanationEditor>
+      <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert">
+        <v-col class="contractor-title text-center font-weight-bold" cols="12">
+          <v-card outlined tile color="blue lighten-4">
+            {{ $t("realestate_agency") }}
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
+        </v-col>
+        <v-col class="contractor-title text-center font-weight-bold" cols="12">
+          <v-card outlined tile color="blue lighten-4">
+            {{ $t("landlord") }}
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
+        </v-col>
+        <v-col class="contractor-title text-center font-weight-bold" cols="12">
+          <v-card outlined tile color="blue lighten-4">
+            {{ $t("tenant") }}
+          </v-card>
+        </v-col>
+        <v-col cols="12">
+          <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
+        </v-col>
+      </v-row>
+      <template v-if="is_expert">
+        <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn class="mt-3" style="float:right" color="green" v-if="step!=max_step" dark @click="nextStep()">{{$t("next")}}</v-btn>
+        <v-btn v-if="step==max_step" class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+      </template>
+      <v-btn v-else class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
     </v-container>
   </ValidationObserver>
 </template>
 
 <script>
+import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
-import Contractor from "@/components/Contractor";
 import AddressSearch from "@/components/AddressSearch";
+import Contractor from "@/components/Contractor";
+import VerifyingExplanationEditor from "@/components/VerifyingExplanationEditor";
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
@@ -516,9 +384,13 @@ export default {
   components: {
     AddressSearch,
     Contractor,
-    quillEditor
+    quillEditor,
+    VerifyingExplanationEditor
   },
   computed: {
+    percent() {
+      return (this.step-1)*100/(this.max_step-1)
+    }
   },
   data() {
     return {
@@ -530,10 +402,13 @@ export default {
       is_expert: false,
       my_profiles: [],
       allowed_profiles: [],
+      validation_check: false,
+      step:1,
+      max_step:4,
       fields_names: {
         realestate_fields: [
           {
-            name: "land_type",
+            name: "land_category",
             type: "select"
           },
           { 
@@ -546,7 +421,7 @@ export default {
             tyep: "String"
           },
           {
-            name: "building_type",
+            name: "building_category",
             type: "select"
           },
           {
@@ -616,12 +491,12 @@ export default {
       },
       from_date_menu: false,
       to_date_menu: false,
-      land_type: 7,
+      land_category: 7,
       lot_area: null,
       building_structure: null,
-      building_type: 80,
+      building_category: 80,
       building_area: null,
-      trade_type: null,
+      trade_category: null,
       address: {
         old_address: null,
         dong: '',
@@ -633,7 +508,7 @@ export default {
       monthly_fee: null,
       from_date: null,
       to_date: null,
-      realestate_type: 0,
+      realestate_category: 0,
       contractors: [
 
       ],
@@ -645,111 +520,112 @@ export default {
       ve: {
         paper_categories: [],
         explanation_evidences: [],
-        explanation_evidence_info: null,
-        explanation_address: {
-          old_address: null
+        explanation_evidence_info: '',
+        address: {
+          old_address: null,
+          dong: '',
+          ho: '',
         },
-        land_area: null,
-        land_category: null,
-        actual_land_category: null,
-        net_area: null,
-        land_share: null,
-        year_of_completion: null,
-        building_category: null,
-        actual_building_category: null,
-        explanation_building_structure: null,
-        building_direction: null,
-        seismic_design: null,
-        seismic_capacity: null,
+        land_area: 0,
+        land_category: 7,
+        actual_land_category: 7,
+        net_area: 0,
+        land_share: '',
+        year_of_completion: 1995,
+        building_category: 80,
+        actual_building_category: 80,
+        building_structure: '',
+        building_direction: '남향  (기준:  )',
+        seismic_design: '해당사항없음',
+        seismic_capacity: '해당사항없음',
         legal_status: true,
-        matters_of_violation: null,
-        land_ownership: null,
-        building_ownership: null,
-        land_other: null,
-        building_other: null,
-        rental_housing_registration: 4,
-        use_area: null,
-        use_district: null,
-        use_zone: null,
+        matters_of_violation: '',
+        land_ownership: '',
+        building_ownership: '',
+        land_other: '',
+        building_other: '',
+        rental_housing_registration: 3,
+        use_area: '',
+        use_district: '',
+        use_zone: '',
         building_coverage_limit: null,
         floor_area_limit: null,
-        planning_facilities: null,
-        permission_report_zone: null,
+        planning_facilities: '',
+        permission_report_zone: '',
         speculative_area: null,
-        unit_planning_area_others: null,
-        other_use_restriction: null,
-        relative_with_roads: '(  m  ×  m ) 도로에 접합',
-        is_paved_rode: null,
-        acessibility: null,
-        bus_stop: null,
-        bus_by_foot: null,
-        bus_time_required: null,
-        subway_station: null,
+        unit_planning_area_others: '',
+        other_use_restriction: '',
+        relative_with_roads: '(  m  ×  m )',
+        is_paved_rode: true,
+        accessibility: true,
+        bus_stop: "",
+        bus_by_foot: true,
+        bus_time_required: 5,
+        subway_station: "",
         subway_by_foot: null,
         subway_time_required: null,
-        parking_lot: null,
-        parking_lot_info: null,
-        elementary_school: null,
-        elementary_school_by_foot: null,
-        elementary_school_time_required: null,
-        middle_school: null,
-        middle_school_by_foot: null,
-        middle_school_time_required: null,
-        high_school: null,
-        high_school_by_foot: null,
-        high_school_time_required: null,
-        department_store: null,
-        department_store_by_foot: null,
-        department_store_time_required: null,
-        medical_center: null,
-        medical_center_by_foot: null,
-        medical_center_time_required: null,
-        security_office: null,
-        management: null,
-        undesirable_facilities: null,
-        undesirable_facilities_info: null,
+        parking_lot: 0,
+        parking_lot_info: '',
+        elementary_school: '',
+        elementary_school_by_foot: true,
+        elementary_school_time_required: 10,
+        middle_school: '',
+        middle_school_by_foot: true,
+        middle_school_time_required: 10,
+        high_school: '',
+        high_school_by_foot: true,
+        high_school_time_required: 10,
+        department_store: '',
+        department_store_by_foot: false,
+        department_store_time_required: 10,
+        medical_center: '',
+        medical_center_by_foot: false,
+        medical_center_time_required: 10,
+        is_security_office: false,
+        management: 1,
+        undesirable_facilities: false,
+        undesirable_facilities_info: '',
         expected_transaction_price: null,
         land_prcie_recorded: null,
         building_price_recorded: null,
         acquisition_tax: null,
         special_tax: null,
         local_education_tax: null,
-        water_damage_status: null,
-        water_damage_location: null,
-        water_capacity_status: null,
-        water_capacity_location: null,
-        electricity_supply_status: null,
-        electricity_location: null,
-        gas_supply_status: null,
-        gas_supply_info: null,
-        fire_alarm_detector: null,
+        water_damage_status: true,
+        water_damage_status_info: '',
+        water_capacity_status: true,
+        water_capacity_status_info: '',
+        electricity_supply_status: true,
+        electricity_supply_status_info: '',
+        gas_supply_status: true,
+        gas_supply_status_info: '',
+        is_fire_alarm_detector: false,
         fire_alarm_detector_quantity: null,
-        heating_supply_method: null,
-        heating_status: null,
-        heating_status_info: null,
-        heating_type: null,
-        heating_type_info: null,
-        is_elevator: null,
+        heating_supply_method: 1,
+        heating_status: true,
+        heating_status_info: '',
+        heating_type: 0,
+        heating_type_info: '',
+        is_elevator: false,
         elevator_status: null,
-        drainage_status: null,
-        drainage_status_info: null,
-        other_facilities: null,
-        wall_crack_status: null,
-        wall_crack_status_info: null,
-        water_leak_status: null,
-        water_leak_status_info: null,
-        wall_paper_status: null,
-        wall_paper_status_info: null,
-        sunshine_status: null,
-        sunshine_status_info: null,
-        noise_status: null,
-        vibration: null,
-        comission: null,
-        actual_expenses: null,
-        payment_period: null,
-        caculation_info: null
+        drainage_status: true,
+        drainage_status_info: '',
+        other_facilities: '',
+        wall_crack_status: true,
+        wall_crack_status_info: '',
+        water_leak_status: true,
+        water_leak_status_info: '',
+        wall_paper_status: 'null',
+        wall_paper_status_info: '',
+        sunshine_status: 'null',
+        sunshine_status_info: '',
+        noise_status: 'null',
+        vibration: true,
+        comission: 2000000,
+        actual_expenses: 50000,
+        payment_period: '',
+        calculation_info: '<산출내역> \n\n중개보수: \n실    비: \n※ 중개보수는 시ㆍ도 조례로 정한 요율에 따르거나, 시ㆍ도 조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수 있습니다.'
       },
-
       editorOption: {
         modules: {
           toolbar: {
@@ -763,9 +639,7 @@ export default {
                 var input = document.createElement("input");
                 input.setAttribute("type", "file");
                 input.click();
-                // Listen upload local image and save to server
                 input.onchange = () => {
-
                     const file = input.files[0];
                     if(file.size > 512000){
                       alert(self.$t("image_file_size_error"))
@@ -776,7 +650,6 @@ export default {
                       alert(self.$t("image_file_count_error"))
                       return;
                     }
-                    // file type is only image.
                     if (/^image\//.test(file.type)) {
                         const getBase64 = (file) => new Promise(function (resolve, reject) {
                             let reader = new FileReader();
@@ -815,8 +688,8 @@ export default {
           value: "author"
         },
         {
-          text: `${this.$i18n.t("trade_type")}`,
-          value: "trade_type"
+          text: `${this.$i18n.t("trade_category")}`,
+          value: "trade_category"
         },
         {
           text: `${this.$i18n.t("address")}`,
@@ -878,15 +751,15 @@ export default {
           console.log(self.requestUser)
           if(contractor.profile.user.username==self.requestUser){
             self.contractors.push(contractor)
-            self.$data[self.$getConst("contractor_type", contractor.group)]=contractor.profile
+            self.$data[self.$getConst("contractor_category", contractor.group)]=contractor.profile
           }
         }
-        self.land_type = data.land_type;
+        self.land_category = data.land_category;
         self.lot_area = data.lot_area;
         self.building_structure = data.building_structure;
-        self.building_type = data.building_type;
+        self.building_category = data.building_category;
         self.building_area = data.building_area;
-        self.trade_type = data.trade_type;
+        self.trade_category = data.trade_category;
         self.address = data.address;
         self.deposit = data.deposit;
         self.down_payment = data.down_payment;
@@ -895,10 +768,27 @@ export default {
         self.monthly_fee = data.monthly_fee;
         self.from_date = data.from_date;
         self.to_date = data.to_date;
-        self.realestate_type = data.realestate_type;
+        self.realestate_category = data.realestate_category;
         self.special_agreement = data.special_agreement;
+        if(data.verifying_explanation != null) {
+          self.ve = data.verifying_explanation;
+        }
         self.paper_load_dialog = false;
       })
+    },    
+    nextStep(){
+      const self = this;
+      this.$refs.obs.validate().then(function(v) {
+        if (v == true) {
+          self.step +=1;
+        } else {
+          self.$vuetify.goTo(self.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+        }
+      })
+    },
+    backStep(){
+      this.validation_check = false;
+      this.step -=1;
     },
     customFilter(item, queryText) {
       const name = item.user.name.toLowerCase();
@@ -919,7 +809,7 @@ export default {
       for(const index in local_contractor_list){
         let matched = false;
         const local_group_name = local_contractor_list[index]
-        const local_group_constant = this.$getConstByName("CONTRACTOR_TYPE", local_group_name)
+        const local_group_constant = this.$getConstByName("CONTRACTOR_CATEGORY", local_group_name)
         
         if(this[local_group_name] != null){
           for(const index in this.contractors){
@@ -945,6 +835,7 @@ export default {
     },
     onSubmit() {
       const self = this;
+      this.validation_check = true
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           let endpoint = "/api/papers/";
@@ -956,12 +847,12 @@ export default {
           self.updateContractors();
           try {
             apiService(endpoint, method, {
-              land_type: self.land_type,
+              land_category: self.land_category,
               lot_area: self.lot_area,
               building_structure: self.building_structure,
-              building_type: self.building_type,
+              building_category: self.building_category,
               building_area: self.building_area,
-              trade_type: self.trade_type,
+              trade_category: self.trade_category,
               address: {
                 old_address: self.address.old_address ,
                 new_address: self.address.new_address,
@@ -979,10 +870,11 @@ export default {
               from_date: self.from_date,
               to_date: self.to_date,
               title: self.title,
-              realestate_type: self.realestate_type,
+              realestate_category: self.realestate_category,
               paper_contractors: self.contractors,
               options: self.options,
-              special_agreement: self.special_agreement
+              special_agreement: self.special_agreement,
+              verifying_explanation: self.ve
             }).then(data => {
               if (data.id) {
                 alert(self.$i18n.t("request_success"))
@@ -991,17 +883,11 @@ export default {
                   params: { id: data.id }
                 });
               } else {
-                Object.keys(data).forEach(function(key) {
-                  if(key=="detail") {
-                    alert(data[key]);
+                applyValidation(self, data);
+                self.$nextTick(() => {
+                    self.$vuetify.goTo(self.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+                    alert(self.$i18n.t("error"))
                     return;
-                  }
-                  const ref = self.$refs[key].length == undefined ? self.$refs[key] : self.$refs[key][0];
-                  ref.applyResult({
-                    errors: data[key],
-                    valid: false,
-                    failedRules: {}
-                  });
                 });
               }
             });
@@ -1020,20 +906,20 @@ export default {
         vm => {
           for(const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index]
-            if(contractor.group==vm.$getConstByName("CONTRACTOR_TYPE", "expert")){
+            if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")){
               (vm.expert = contractor.profile)
-            }else if(contractor.group==vm.$getConstByName("CONTRACTOR_TYPE", "seller")){
+            }else if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")){
               (vm.seller = contractor.profile)
             }else {
               (vm.buyer = contractor.profile)
             }
           }
-          vm.land_type = data.land_type;
+          vm.land_category = data.land_category;
           vm.lot_area = data.lot_area;
           vm.building_structure = data.building_structure;
-          vm.building_type = data.building_type;
+          vm.building_category = data.building_category;
           vm.building_area = data.building_area;
-          vm.trade_type = data.trade_type;
+          vm.trade_category = data.trade_category;
           vm.address = data.address;
           vm.deposit = data.deposit;
           vm.down_payment = data.down_payment;
@@ -1042,10 +928,14 @@ export default {
           vm.monthly_fee = data.monthly_fee;
           vm.from_date = data.from_date;
           vm.to_date = data.to_date;
-          vm.realestate_type = data.realestate_type;
+          vm.realestate_category = data.realestate_category;
           vm.special_agreement = data.special_agreement;
           vm.contractors = data.paper_contractors;
-          vm.status = data.statu;
+          vm.status = data.status;
+          console.log(data.verifying_explanation)
+          if(data.verifying_explanation != null) {
+            vm.ve = data.verifying_explanation;
+          }
         }
       );
     } else {
@@ -1061,43 +951,6 @@ export default {
     }
   }
 };
-
 </script>
-<style>
-.float_right {
-  float: right;
-}
-.ql-container {
-  font-size: 16px;
-}
-.truncate {
-  max-width: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.v-label {
-  margin-bottom: 0;
-}
-
-.label {
-  margin: auto;
-}
-.ve_checkbox {
-  margin: 4px !important;
-}
-.ve-input {
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 4px;
-}
-.v-card__text {
-  padding: 8px;
-}
-.col {
-  word-break: break-all;
-}
-.border {
-  border:solid 1px rgba(0, 0, 0 ,0.12)
-}
+<style scoped>
 </style>

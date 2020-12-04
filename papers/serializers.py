@@ -1,20 +1,27 @@
+
 from django.utils.translation import ugettext_lazy as _
+from rest_framework import fields
 from rest_framework import serializers
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
 from profiles.serializers import ProfileSerializer
-from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingManual, ManualSignature
+from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
 
-class ManualSignatureSerializer(serializers.ModelSerializer):
+class ExplanationSignatureSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ManualSignature
+        model = ExplanationSignature
         fields = "__all__"
 
-class VerifyingManualSerializer(serializers.ModelSerializer):
+class VerifyingExplanationSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+    paper_categories = fields.MultipleChoiceField(choices=VerifyingExplanation.PAPER_CATEGORY)
+    explanation_evidences = fields.MultipleChoiceField(choices=VerifyingExplanation.EXPLANATION_EVIDENCE_CATEGORY)
+    
     class Meta:
-        model = VerifyingManual
+        model = VerifyingExplanation
         fields = "__all__"
+        read_only_fields = ('paper',)
 
 class SignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -38,7 +45,7 @@ class ContractorSerializer(serializers.ModelSerializer):
 class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
-    explanation_signature = ManualSignatureSerializer(read_only=True)
+    explanation_signature = ExplanationSignatureSerializer(read_only=True)
     
     class Meta:
         model = Contractor
@@ -67,8 +74,9 @@ class PaperSerializer(serializers.ModelSerializer):
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     address = AddressSerializer()
+    options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorSerializer(many=True)
-    verifying_manual = VerifyingManualSerializer(required=False)
+    verifying_explanation = VerifyingExplanationSerializer(required=False)
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -78,7 +86,7 @@ class PaperSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
-        verifying_manual_data = validated_data.pop('verifying_manual') if not validated_data.get('verifying_manual') is None else None
+        verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else None
         status = PaperStatus.objects.create(status=PaperStatus.DRAFT)
         address = Address.objects.create(**address_data)
 
@@ -87,14 +95,16 @@ class PaperSerializer(serializers.ModelSerializer):
         for contractor_data in contractors_data:
             Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'])
         
-        if not verifying_manual_data is None:
-            VerifyingManual.objects.create(paper=paper, **verifying_manual_data)
+        if not verifying_explanation_data is None:
+            verifying_explanation_address_data = verifying_explanation_data.pop('address')
+            address = Address.objects.create(**verifying_explanation_address_data)
+            VerifyingExplanation.objects.create(paper=paper, address=address, **verifying_explanation_data)
         return paper
     
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
-        verifying_manual_data = validated_data.pop('verifying_manual') if not validated_data.get('verifying_manual') is None else None
+        verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else None
         address = instance.address
         contractors = instance.paper_contractors.all()
 
@@ -121,11 +131,20 @@ class PaperSerializer(serializers.ModelSerializer):
             if matched == False:
                  Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'])
 
-        if not verifying_manual_data is None:
-            verifying_manual = instance.verifying_manual
+        if not verifying_explanation_data is None:
+            verifying_explanation = instance.verifying_explanation
+            verifying_explanation_addres = instance.verifying_explanation.address
+            verifying_explanation_address_data = verifying_explanation_data.pop('address')
+            
+            for key in ['dong', 'ho']:
+                if not key in verifying_explanation_address_data:
+                    setattr(verifying_explanation_addres, key, '')
+            for key, val in verifying_explanation_address_data.items():
+                setattr(verifying_explanation_addres, key, val)
+            verifying_explanation_addres.save()
             for key, val in verifying_explanation_data.items():
-                setattr(verifying_manual, key, val)
-            verifying_manual.save()
+                setattr(verifying_explanation, key, val)
+            verifying_explanation.save()
 
         for key, val in validated_data.items():
             setattr(instance, key, val)
@@ -198,7 +217,7 @@ class PaperSerializer(serializers.ModelSerializer):
 
 class PaperReadonlySerializer(PaperSerializer):
     address = AddressSerializer()
-    verifying_manual = VerifyingManualSerializer()
+    verifying_explanation = VerifyingExplanationSerializer()
     paper_contractors = ContractorReadSerializer(many=True)
     status = serializers.SerializerMethodField()
     

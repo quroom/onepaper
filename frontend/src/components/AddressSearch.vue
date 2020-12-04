@@ -3,7 +3,7 @@
     <ValidationProvider
       :ref="ref_name"
       mode="passive"
-      :name="$t(ref_name)"
+      :name="$t('address')"
       rules="required"
       v-slot="{ errors }"
     >
@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .vue-daum-postcode-container {
   width: 100% !important;
   height: 444px !important;

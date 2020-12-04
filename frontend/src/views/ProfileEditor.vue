@@ -290,6 +290,7 @@
 
 <script>
 import { apiService, apiService_formData } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api"
 import AddressSearch from "@/components/AddressSearch";
 import DeleteAlert from "@/components/DeleteAlert"
 
@@ -402,17 +403,7 @@ export default {
                 name: "profiles"
               });
             } else {
-              Object.keys(data).forEach(function (key) {
-                if(key=="detail") {
-                  alert(data[key]);
-                  return;
-                } 
-                self.$refs[key].applyResult({
-                  errors: data[key],
-                  valid: false,
-                  failedRules: {},
-                });
-              });
+              applyValidation(self, data);
             }
           });
         }
@@ -470,7 +461,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .img {
   border: 1px solid gray;
   width: 100%;

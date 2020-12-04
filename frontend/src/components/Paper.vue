@@ -16,7 +16,7 @@
         <v-icon left>
           label
         </v-icon>
-        {{ $getConstI18('status_type', status) }}
+        {{ $getConstI18('status_category', status) }}
       </v-chip>
       <div class="text-body-2 pa-2" style="float:right">
         {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at }}
@@ -30,33 +30,33 @@
       
       <v-card-title class="card-title pa-0 pl-4">
         {{ paper.room_name }}
-        {{ $getConstI18("trade_type", paper.trade_type) }}
+        {{ $getConstI18("trade_category", paper.trade_category) }}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
           {{ paper.address.old_address }}
         </div>
         <span>
-          {{ $getConstI18("building_type", paper.building_type) }}
+          {{ $getConstI18("building_category", paper.building_category) }}
         </span>
-        <span v-if="paper.trade_type == $getConstByName('trade_type', 'rent')">
+        <span v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
           보{{ paper.security_deposit }} / 월{{ paper.monthly_fee }} / 관{{ paper.maintenance_fee }}
         </span>
         <span
-          v-else-if="paper.trade_type==$getConstByName('trade_type', 'depositloan')"
+          v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
         >
           보{{ paper.security_deposit }} / 관{{ paper.maintenance_fee }}
         </span>
         <!-- To be updated -->
         <span
           v-else-if="
-            paper.trade_type == $getConstByName('trade_type', 'trade')
+            paper.trade_category == $getConstByName('trade_category', 'trade')
           "
         >
         </span>
         <span
           v-else-if="
-            paper.trade_type == $getConstByName('trade_type', 'exchange')
+            paper.trade_category == $getConstByName('trade_category', 'exchange')
           "
         >
         </span>

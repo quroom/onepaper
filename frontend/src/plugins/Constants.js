@@ -2,17 +2,18 @@
 import i18n from "@/plugins/i18n";
 
 const Constants = {
-  LAND_TYPE : {
-    7: 'buildingland'
+  LAND_CATEGORY : {
+    7: 'buildingland',
+    100: "etc"
   },
-  BUILDING_TYPE: {
+  BUILDING_CATEGORY: {
     70: "c1neighborfacility",
     71: "c2neighborfacility",
     80: "house",
     81: "apartment",
     100: "etc",
   },
-  // REALESTATE_TYPE: {
+  // REALESTATE_CATEGORY: {
   //   0: "oneroom",
   //   1: "tworoom",
   //   2: "threeroom",
@@ -27,18 +28,18 @@ const Constants = {
   //   41: "land",
   //   99: "etc",
   // },
-  TRADE_TYPE: {
+  TRADE_CATEGORY: {
     0: "rent",
     1: "depositloan",
     // 2: "trade",
     // 3: "exchange",
   },
-  STATUS_TYPE: {
+  STATUS_CATEGORY: {
     0: "draft",
     1: "progress",
     2: "done",
   },
-  CONTRACTOR_TYPE: {
+  CONTRACTOR_CATEGORY: {
     0: "seller",
     1: "buyer",
     2: "expert"
@@ -49,12 +50,12 @@ const Constants = {
     2: "denied",
     3: "closed"
   },
-  LAND_TYPE_LIST: [],
-  BUILDING_TYPE_LIST: [],
-  // REALESTATE_TYPE_LIST: [],
-  TRADE_TYPE_LIST: [],
-  STATUS_TYPE_LIST: [],
-  CONTRACTOR_TYPE_LIST: [],
+  LAND_CATEGORY_LIST: [],
+  BUILDING_CATEGORY_LIST: [],
+  // REALESTATE_CATEGORY_LIST: [],
+  TRADE_CATEGORY_LIST: [],
+  STATUS_CATEGORY_LIST: [],
+  CONTRACTOR_CATEGORY_LIST: [],
   EXPERT_STATUS_LIST: []
 };
 Constants.install = function(Vue) {
