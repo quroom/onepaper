@@ -7,7 +7,7 @@ router.register(r"papers", PaperViewset, basename="Paper")
 urlpatterns = [    
     path("", include(router.urls)),
     path("paper-list/",
-          PaperListApiView.as_view()),    
+          PaperListApiView.as_view()),
     path("papers/<int:pk>/hide/",
          HidePaperApiView.as_view()),
     path("papers/<int:id>/signature/",

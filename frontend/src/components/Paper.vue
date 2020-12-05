@@ -11,7 +11,7 @@
     >
       <v-chip
         class="ma-2"
-         :color="status == $getConstByName('status_category', 'progress') ? 'primary' : status == $getConstByName('status_category', 'done') ? 'green' : ''"
+         :color="status == $getConstByName('status_category', 'progress') ? 'primary' : status == $getConstByName('status_category', 'done') ? 'success' : ''"
          dark
         label
       >
