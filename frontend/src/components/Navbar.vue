@@ -6,7 +6,7 @@
           {{ $t("add_allowed_user") }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
-          <v-text-field
+          <LazyTextField
             v-model="link"
             :label="$t('link')"
             ref="link"
@@ -16,7 +16,7 @@
             <template v-slot:message="{ message, key }">
               <div v-html="message" :key="key"></div>
             </template>
-          </v-text-field>
+          </LazyTextField>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

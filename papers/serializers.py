@@ -1,4 +1,4 @@
-
+import datetime
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import fields
 from rest_framework import serializers
@@ -9,9 +9,14 @@ from profiles.serializers import ProfileSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
 
 class ExplanationSignatureSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+
     class Meta:
         model = ExplanationSignature
         fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class VerifyingExplanationSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -32,7 +37,7 @@ class SignatureSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_paper_status(self, instance):
         return instance.contractor.paper.status.status
@@ -60,18 +65,17 @@ class PaperListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Paper
-        exclude = ["special_agreement", "created_at"]
+        exclude = ["special_agreement"]
         read_only_fields = ("__all__",)
 
     def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     address = AddressSerializer()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
@@ -206,11 +210,8 @@ class PaperSerializer(serializers.ModelSerializer):
             })
         return data
 
-    def get_created_at(self, instance):
-        return instance.created_at.strftime("%Y-%m-%d %H:%M:%S")
-
     def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status

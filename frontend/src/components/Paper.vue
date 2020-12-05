@@ -11,6 +11,8 @@
     >
       <v-chip
         class="ma-2"
+         :color="status == $getConstByName('status_category', 'progress') ? 'primary' : status == $getConstByName('status_category', 'done') ? 'green' : ''"
+         dark
         label
       >
         <v-icon left>
@@ -50,7 +52,7 @@
         <!-- To be updated -->
         <span
           v-else-if="
-            paper.trade_category == $getConstByName('trade_category', 'trade')
+            paper.trade_category == $getConstByName('trade_category', 'purchase')
           "
         >
         </span>
@@ -194,6 +196,7 @@ export default {
 
             apiService_formData(endpoint, method, formData).then(data => {
               if (data.id) {
+                alert(this.$i18n.t("request_success"))
                 self.contractor.signature = data;
                 self.paper_status = data.paper_status;
                 self.dialog = false;

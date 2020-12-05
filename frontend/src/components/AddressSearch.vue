@@ -7,7 +7,7 @@
       rules="required"
       v-slot="{ errors }"
     >
-      <v-text-field
+      <LazyTextField
         v-model="address.old_address"
         :label="label"
         outlined
@@ -18,7 +18,7 @@
         @click="dialog = true"
         data-vv-validate-on="none"
       >
-      </v-text-field>
+      </LazyTextField>
       <v-dialog v-if="!readonly" v-model="dialog">
         <v-card>
           <v-card-text class="pt-5">

@@ -81,6 +81,7 @@
 
 <script>
 import { apiService } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api";
 
 export default {
   name: "ApproveExpert",
@@ -160,7 +161,7 @@ export default {
           this.profiles=data.results;
           alert(this.$i18n.t("request_success"))
         } else {
-          alert(data)
+          applyValidation(data)
         }
       })
     },
@@ -181,7 +182,7 @@ export default {
           alert(this.$i18n.t("request_success"))
           this.selected_profile_list = []
         } else {
-          alert(data)
+          applyValidation(data)
         }
       })
     }

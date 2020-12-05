@@ -11,7 +11,7 @@
         <div style="float:right">
           <span
               >{{ $t("last") }}{{ $t("updated_at") }} :
-              {{ paper.created_at }}
+              {{ paper.updated_at }}
           </span>
         </div>
       </v-col>
@@ -379,6 +379,7 @@ export default {
       return this.buyer.signature != undefined && this.paper.updated_at <= this.buyer.signature.updated_at ;
     },
     isExpertExplanationSigned: function() {
+      console.log(this.expert.explanation_signature);
       return this.expert.explanation_signature != undefined && this.paper.updated_at <= this.expert.explanation_signature.updated_at ;
     },
     isSellerExplanationSigned: function() {
@@ -531,7 +532,7 @@ export default {
       if(this.is_explanation_signature == true ){
          if(this.contractor.explanation_signature != undefined){
           method = "PUT";
-          endpoint = `/api/papers/${this.id}/explanation-signatures/${self.contractor.explnation_signature.id}/`;
+          endpoint = `/api/papers/${this.id}/explanation-signatures/${self.contractor.explanation_signature.id}/`;
         } else {
           endpoint = `/api/papers/${this.id}/explanation-signature/`;
         }
@@ -584,11 +585,11 @@ export default {
       }
     },
     open(is_explanation_signature) {
-      if( is_explanation_signature == true) {
-        this.signature_pad_options.penColor = "#2196F3"
-      } else {
-        this.signature_pad_options.penColor = "#F44336"
-      }
+      // if( is_explanation_signature == true) {
+      //   this.signature_pad_options.penColor = "#2196F3"
+      // } else {
+      //   this.signature_pad_options.penColor = "#F44336"
+      // }
       
       this.dialog = true;
       this.is_explanation_signature = is_explanation_signature;
@@ -612,11 +613,11 @@ export default {
 .v-card {
   height: 100%;
 }
-.v-text-field > .v-input__control > .v-input__slot:before {
+.LazyTextField > .v-input__control > .v-input__slot:before {
   border: 0 !important;
   border-style: none !important;
 }
-.v-text-field > .v-input__control > .v-input__slot:after {
+.LazyTextField > .v-input__control > .v-input__slot:after {
   border-style: none !important;
 }
 img {

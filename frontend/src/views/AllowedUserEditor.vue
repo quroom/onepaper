@@ -11,19 +11,19 @@
     <template v-slot:top>
       <v-row>
         <v-col cols="5">
-          <v-text-field v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></v-text-field>
+          <LazyTextField v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></LazyTextField>
         </v-col>
         <v-col cols="7">
-          <v-text-field v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
+          <LazyTextField v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
             <template v-slot:append-outer>
               <v-btn
                 color="primary"
-                :label="$t('add_user')"
+                :label="$t('trade') + $t('add_user')"
                 class="pa-3 btn"
                 @click="addUser"
-              > {{$t("add_user")}} </v-btn>
+              > {{$t("trade") +" " + $t("add_user")}} </v-btn>
             </template>
-          </v-text-field>
+          </LazyTextField>
         </v-col>
       </v-row>
     </template>
@@ -44,6 +44,7 @@
 
 <script>
 import { apiService } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api";
 import DeleteAlert from "@/components/DeleteAlert";
 
 export default {
@@ -90,14 +91,14 @@ export default {
       let data = {
         "allowed_users" : this.new_user
       }
-      
+      self = this
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
         if(data.id) {
           this.allowed_users = data.allowed_users;
           alert(this.$i18n.t("request_success"))
         } else {
-          alert(data)
+          applyValidation(data)
         }
         this.new_user = {name: null, username: null};
       })
@@ -118,7 +119,7 @@ export default {
           this.allowed_users = data.allowed_users;
           alert(this.$i18n.t("request_success"))
         } else {
-          alert(data)
+          applyValidation(data)
         }
         this.selected_users = []
       })

@@ -325,31 +325,35 @@
       <v-divider class="ma-4"></v-divider>
       <!-- need to support i18n -->
       <VerifyingExplanationEditor ref="verifying_explanation" v-if="is_expert" :ve.sync="ve" :step="step" :validation_check.sync="validation_check"></VerifyingExplanationEditor>
-      <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert">
+      <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert ">
         <v-col class="contractor-title text-center font-weight-bold" cols="12">
           <v-card outlined tile color="blue lighten-4">
             {{ $t("realestate_agency") }}
           </v-card>
         </v-col>
-        <v-col cols="12">
+        <v-col v-if="expert" cols="12">
           <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
         </v-col>
-        <v-col class="contractor-title text-center font-weight-bold" cols="12">
-          <v-card outlined tile color="blue lighten-4">
-            {{ $t("landlord") }}
-          </v-card>
-        </v-col>
-        <v-col cols="12">
-          <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
-        </v-col>
-        <v-col class="contractor-title text-center font-weight-bold" cols="12">
-          <v-card outlined tile color="blue lighten-4">
-            {{ $t("tenant") }}
-          </v-card>
-        </v-col>
-        <v-col cols="12">
-          <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
-        </v-col>
+        <template v-if="seller">
+          <v-col class="contractor-title text-center font-weight-bold" cols="12">
+            <v-card outlined tile color="blue lighten-4">
+              {{ $t("landlord") }}
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
+          </v-col>
+        </template>
+        <template v-if="buyer">
+          <v-col class="contractor-title text-center font-weight-bold" cols="12">
+            <v-card outlined tile color="blue lighten-4">
+              {{ $t("tenant") }}
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
+          </v-col>
+        </template>
       </v-row>
       <template v-if="is_expert">
         <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
@@ -363,15 +367,15 @@
 </template>
 
 <script>
-import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
 import Contractor from "@/components/Contractor";
 import VerifyingExplanationEditor from "@/components/VerifyingExplanationEditor";
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import { quillEditor } from 'vue-quill-editor';
 
 export default {
   name: "PaperEditor",
@@ -778,6 +782,7 @@ export default {
     },    
     nextStep(){
       const self = this;
+      this.$refs.verifying_explanation.$refs.form.validate()
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           self.step +=1;
@@ -883,7 +888,7 @@ export default {
                   params: { id: data.id }
                 });
               } else {
-                applyValidation(self, data);
+                applyValidation(data, self);
                 self.$nextTick(() => {
                     self.$vuetify.goTo(self.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
                     alert(self.$i18n.t("error"))

@@ -61,14 +61,14 @@
               min-width="290px"
             >
               <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+                  <LazyTextField
                     v-model="period"
                     :label="$t('mandate') + $t('period')"
                     prepend-icon="event"
                     readonly
                     v-bind="attrs"
                     v-on="on"
-                  ></v-text-field>
+                  ></LazyTextField>
               </template>
               <v-date-picker
                 v-model="period"
@@ -205,7 +205,7 @@
 
 <script>
 import { apiService, apiService_formData } from "@/common/api.service";
-import { applyValidation } from "@/common/common_api"
+import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
 import Contractor from "@/components/Contractor";
 import DeleteAlert from "@/components/DeleteAlert";
@@ -370,7 +370,7 @@ export default {
                 name: "mandates"
               });
             } else {
-              applyValidation(self, data);
+              applyValidation(data, self);
             }
           });
         }

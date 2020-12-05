@@ -78,6 +78,7 @@ const i18n = new VueI18n({
       no_profile: "There is no profile",
       no_profile_cant_use_service:
         "You must create profile before using service.",
+      number: "Number",
       paper: "Paper",
       profile: "Profile",
       period: "Period",
@@ -102,6 +103,7 @@ const i18n = new VueI18n({
       stamp: "Stamp",
       submit: "Submit",
       signature_and_submit: "Submit mandate after signature",
+      trade: "Trade",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
       terms_and_conditions_intro:
@@ -173,7 +175,7 @@ const i18n = new VueI18n({
 
       rent: "Rent",
       depositloan: "Desposit Loan",
-      trade: "Trade",
+      purchase: "Purchase",
       exchange: "Exchange",
 
       draft: "Draft",
@@ -238,7 +240,7 @@ const i18n = new VueI18n({
       manwon: "만원",
       landlord: "임대인",
       language: "언어",
-      last: "최종",
+      last: "마지막",
       link: "링크",
       link_is_copied: "링크가 복사 되었습니다.",
       load: "불러오기",
@@ -251,6 +253,7 @@ const i18n = new VueI18n({
       no_contract: "작성된 계약서가 없습니다.",
       no_profile: "생성된 프로필이 없습니다.",
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
+      number: "번호",
       paper: "계약서",
       profile: "프로필",
       period: "기간",
@@ -275,6 +278,7 @@ const i18n = new VueI18n({
       stamp: "인장",
       submit: "제출",
       signature_and_submit: "서명 후 위임장 제출",
+      trade: "거래",
       tenant: "임차인",
       terms_and_conditions: "계약내용",
       terms_and_conditions_intro: "위 부동산의 계약내용은 아래와 같다.",
@@ -341,7 +345,7 @@ const i18n = new VueI18n({
 
       rent: "월세",
       depositloan: "전세",
-      trade: "매매",
+      purchase: "매매",
       exchange: "교환",
 
       draft: "작성중",

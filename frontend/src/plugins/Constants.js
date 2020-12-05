@@ -31,7 +31,7 @@ const Constants = {
   TRADE_CATEGORY: {
     0: "rent",
     1: "depositloan",
-    // 2: "trade",
+    // 2: "purchase",
     // 3: "exchange",
   },
   STATUS_CATEGORY: {

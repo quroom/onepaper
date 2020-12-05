@@ -1,3 +1,4 @@
+import datetime
 from django.utils.translation import ugettext_lazy as _
 import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
@@ -9,15 +10,16 @@ from addresses.serializers import AddressSerializer
 from papers.models import Paper
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
     ip_address = serializers.IPAddressField(read_only=True)
     is_expert = serializers.SerializerMethodField()
     has_profile = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
+        fields = ['id', 'updated_at', 'username', 'email', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
                   'response_rate', 'contract_success_rate', 'name', 'birthday', 'bio', 'used_count', 'request_expert']
-        read_only_fields = ('id', 'username', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
+        read_only_fields = ('id', 'updated_at', 'username', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
                   'response_rate', 'contract_success_rate', 'used_count')
 
     def get_is_expert(self, obj):
@@ -26,6 +28,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def get_has_profile(self, obj):
         return obj.profiles.exists()
 
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class CustomUserIDNameSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,15 +57,21 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
         return obj.profile.user.birthday
 
     def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+
     class Meta:
         model = ExpertProfile
         fields = "__all__"
         read_only_fields = ('profile', 'status',)
 
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
 class ProfileSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
     user = CustomUserSerializer(read_only=True)
     address = AddressSerializer()
     expert_profile = ExpertSerializer(read_only=True)
@@ -93,6 +103,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             setattr(instance, key, val)
         instance.save()
         return instance
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
@@ -135,6 +148,9 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
 class AllowedUserSerializer(serializers.ModelSerializer):
     allowed_users = CustomUserIDNameSerializer(many=True)
     # profile = ProfileSerializer()
@@ -159,6 +175,9 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
         model = Mandate
         fields = "__all__"
 
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
@@ -173,7 +192,7 @@ class MandateSerializer(serializers.ModelSerializer):
             if data['designator'].user == data['designee'].user:
                 raise serializers.ValidationError({"designee":_("위임인과 수임인이 동일할 수 없습니다.")})
         except Profile.DoesNotExist:
-            raise serializers.ValidationError(_("사용자가 존재하지 않습니다."))
+            raise serializers.ValidationError({"detail":_("사용자가 존재하지 않습니다.")})
         return data
     
     def create(self, validated_data):
@@ -202,3 +221,6 @@ class MandateSerializer(serializers.ModelSerializer):
             setattr(instance, key, val)
         instance.save()
         return instance
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")

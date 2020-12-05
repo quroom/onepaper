@@ -1,10 +1,11 @@
-from papers.models import Paper, ExplanationSignature,Signature, Contractor, PaperStatus
+from papers.models import Paper, ExplanationSignature, Signature, Contractor, PaperStatus
 from profiles.models import Mandate
 from papers.serializers import PaperSerializer
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 @receiver(post_save, sender=Signature)
+@receiver(post_save, sender=ExplanationSignature)
 def create_signature(sender, instance, created, **kwargs):
     if created == False:
         paper = instance.contractor.paper
@@ -15,7 +16,7 @@ def create_signature(sender, instance, created, **kwargs):
             contractors = contractors.exclude(profile__in=mandates.values("designator"))
         signatures = Signature.objects.filter(
             updated_at__gte=paper.updated_at, contractor__in=contractors)
-        explanation_signatures = Signature.objects.filter(
+        explanation_signatures = ExplanationSignature.objects.filter(
             updated_at__gte=paper.updated_at, contractor__in=contractors)
         if paper.status.status == PaperStatus.DRAFT:
             if signatures.count() > 0 or explanation_signatures.count() > 0:

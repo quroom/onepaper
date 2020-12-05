@@ -10,7 +10,6 @@ from ipware import get_client_ip
 from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
-    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     ip_address = models.GenericIPAddressField(null=True)
     average_response_time = models.FloatField(default=0)
@@ -26,7 +25,6 @@ class Profile(models.Model):
     user = models.ForeignKey(CustomUser,
                              on_delete=models.CASCADE,
                              related_name="profiles")
-    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     mobile_number = PhoneNumberField()
     address = models.OneToOneField(Address,
@@ -55,7 +53,6 @@ class ExpertProfile(models.Model):
     profile = models.OneToOneField(Profile,
                              on_delete=models.CASCADE,
                              related_name="expert_profile")
-    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     registration_number = models.CharField(max_length=45)

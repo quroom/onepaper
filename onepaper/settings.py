@@ -140,7 +140,7 @@ LANGUAGES = [
 # LANGUAGE_CODE = 'ko-KR'
 LANGUAGE_CODE = 'en-US'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 

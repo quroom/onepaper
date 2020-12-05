@@ -51,12 +51,12 @@ class Paper(models.Model):
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
     RENT = 0
     DEPOSITLOAN = 1
-    TRADE = 2
+    PURCHASE = 2
     EXCAHNGE = 3
     TRADE_CATEGORY = (
         (RENT, _('월세')),
         (DEPOSITLOAN, _('전세')),
-        (TRADE, _('매매')),
+        (PURCHASE, _('매매')),
         (EXCAHNGE, _('교환')),
     )
 
@@ -90,7 +90,6 @@ class Paper(models.Model):
     )
 
     # Need to be moved to Realestates model.
-    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(CustomUser,
                                null=True, blank=True,
@@ -143,7 +142,6 @@ class Contractor(models.Model):
         (EXPERT, _('공인중개사'))
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile = models.ForeignKey(Profile,
                                 on_delete=models.CASCADE,

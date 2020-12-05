@@ -10,30 +10,30 @@
           color="primary"
           :to="{ name: 'allowed-user-editor', params: { id: id } }"
         >
-          {{ $t("add_user") }}
+          {{$t("trade") + $t("add_user") }}
         </v-btn>
       </v-row>
       <v-row>
         <v-col cols="4" md="2">
-          <v-text-field
+          <LazyTextField
             v-model="username"
             :label="$t('username')"
             readonly
-          ></v-text-field>
+          ></LazyTextField>
         </v-col>
         <v-col cols="4" md="2">
-          <v-text-field
+          <LazyTextField
             v-model="name"
             :label="$t('name')"
             readonly
-          ></v-text-field>
+          ></LazyTextField>
         </v-col>
         <v-col cols="4" md="2">
-          <v-text-field
+          <LazyTextField
             v-model="birthday"
             :label="$t('birthday')"
             readonly
-          ></v-text-field>
+          ></LazyTextField>
         </v-col>
       </v-row>
       <v-row>
@@ -52,20 +52,20 @@
             ></AddressSearch>
           </v-col>
           <v-col cols="2">
-            <v-text-field
+            <LazyTextField
               v-model="address.dong"
               :label="$t('dong')"
               outlined
               hide-details="auto"
-            ></v-text-field>
+            ></LazyTextField>
           </v-col>
           <v-col cols="2">
-            <v-text-field
+            <LazyTextField
               v-model="address.ho"
               :label="$t('ho')"
               outlined
               hide-details="auto"
-            ></v-text-field>
+            ></LazyTextField>
           </v-col>
           <v-col cols="6" md="3">
             <ValidationProvider
@@ -74,11 +74,11 @@
               rules="required"
               v-slot="{ errors }"
             >
-              <v-text-field
+              <LazyTextField
                 v-model="expert_profile.registration_number"
                 :error-messages="errors"
                 :label="$t('registration_number')"
-              ></v-text-field>
+              ></LazyTextField>
             </ValidationProvider>
           </v-col>
           <v-col cols="6" md="3">
@@ -88,11 +88,11 @@
               rules="required"
               v-slot="{ errors }"
             >
-              <v-text-field
+              <LazyTextField
                 v-model="expert_profile.shop_name"
                 :error-messages="errors"
                 :label="$t('shop_name')"
-              ></v-text-field>
+              ></LazyTextField>
             </ValidationProvider>
           </v-col>
         </template>
@@ -110,20 +110,20 @@
             ></AddressSearch>
           </v-col>
           <v-col cols="2">
-            <v-text-field
+            <LazyTextField
               v-model="address.dong"
               :label="$t('dong')"
               outlined
               hide-details="auto"
-            ></v-text-field>
+            ></LazyTextField>
           </v-col>
           <v-col cols="2">
-            <v-text-field
+            <LazyTextField
               v-model="address.ho"
               :label="$t('ho')"
               outlined
               hide-details="auto"
-            ></v-text-field>
+            ></LazyTextField>
           </v-col>
         </template>
         <v-col cols="6" md="2">
@@ -144,16 +144,17 @@
           </ValidationProvider>
         </v-col>
         <v-col cols="6" md="2">
-          <v-text-field
+          <LazyTextField
             v-model="bank_name"
             :label="$t('bank_name')"
-          ></v-text-field>
+          ></LazyTextField>
         </v-col>
         <v-col cols="6" md="2">
-          <v-text-field
+          <LazyTextField
             v-model="account_number"
             :label="$t('account_number')"
-          ></v-text-field>
+            type="Number"
+          ></LazyTextField>
         </v-col>
         <template v-if="is_request_expert || is_expert">
           <v-col cols="4" md="2">
@@ -290,9 +291,9 @@
 
 <script>
 import { apiService, apiService_formData } from "@/common/api.service";
-import { applyValidation } from "@/common/common_api"
+import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
-import DeleteAlert from "@/components/DeleteAlert"
+import DeleteAlert from "@/components/DeleteAlert";
 
 export default {
   name: "ProfileEditor",
@@ -403,7 +404,7 @@ export default {
                 name: "profiles"
               });
             } else {
-              applyValidation(self, data);
+              applyValidation(data, self);
             }
           });
         }
