@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
@@ -26,7 +27,7 @@ from profiles.forms import CustomUserForm
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
 urlpatterns = [
-    path("admin/", admin.site.urls),    
+    path("admin/", admin.site.urls),
     path("accounts/register/",
         RegistrationView.as_view(
             form_class=CustomUserForm,
@@ -38,7 +39,8 @@ urlpatterns = [
     path("api/", include("papers.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path("api/rest-auth/", include("rest_auth.urls")),
-    path("api/rest-auth/registration/", include("rest_auth.registration.urls"))
+    path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
+    path('api/__debug__/', include(debug_toolbar.urls)),
 ]
 
 from django.conf.urls.static import static

@@ -1,99 +1,91 @@
 <template>
-  <v-row align="center">
-    <v-col cols="8">
-      <ValidationProvider mode="passive" :name="$t('address')" rules="required" v-slot="{ errors }">
-        <v-text-field
-          v-model="address_local"
-          :label="label"
-          outlined
-          hide-details="auto"
-          readonly
-          required
-          :error-messages="errors"
-          @click="dialog=true;"
-          data-vv-validate-on="none"
-        >
-        </v-text-field>
-      </ValidationProvider>
-    </v-col>
-    <v-col cols="4">
-      <ValidationProvider :name="$t('room_name')" v-slot="{ errors }">
-        <v-text-field
-          v-model="room_name_local"
-          :label="$t('room_name')"
-          outlined
-          hide-details="auto"
-          :error-messages="errors"
-          v-on:change="updateText"
-        ></v-text-field>
-      </ValidationProvider>
-    </v-col>
-    <v-dialog v-model="dialog">
-      <v-card>
-        <v-card-text class="pt-5">
-          <vue-daum-postcode :no-auto-mapping="true" :key=key @complete="address_objects = $event; onSubmitAddress();"/>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </v-row>
+  <div>
+    <ValidationProvider
+      :ref="ref_name"
+      mode="passive"
+      :name="$t('address')"
+      rules="required"
+      v-slot="{ errors }"
+    >
+      <LazyTextField
+        v-model="address.old_address"
+        :label="label"
+        outlined
+        hide-details="auto"
+        readonly
+        required
+        :error-messages="errors"
+        @click="dialog = true"
+        data-vv-validate-on="none"
+      >
+      </LazyTextField>
+      <v-dialog v-if="!readonly" v-model="dialog">
+        <v-card>
+          <v-card-text class="pt-5">
+            <vue-daum-postcode
+              :no-auto-mapping="true"
+              :key="key"
+              @complete=" address_local = $event;
+                onSubmitAddress();
+              "
+            />
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </ValidationProvider>
+  </div>
 </template>
 <script>
-
-import { ValidationProvider } from "vee-validate";
-
 export default {
   name: "AddressSearch",
-  components: {
-    ValidationProvider
-  },
   props: {
     label: {
       type: String,
       required: true
     },
+    readonly: {
+      type: Boolean,
+      required: false
+    },
+    old_address: {
+      type: String,
+      required: false
+    },
+    ref_name: {
+      type: String,
+      reuiqred: true
+    },
     address: {
-      type: String,
-      required: false
-    },
-    room_name: {
-      type: String,
-      required: false
-    }
-  },
-  watch: { 
-    address: function(newVal, oldVal) { // watch it
-      this.address_local = this.address
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-    },
-    room_name: function(newVal, oldVal) { // watch it
-      this.room_name_local = this.room_name
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
-      dialog:false,
-      key:0,
+      dialog: false,
+      key: 0,
       address_local: null,
-      address_objects:null,
-      room_name_local: null,
-    }
+      dong: null,
+      ho: null
+    };
   },
   methods: {
-    updateText(){
-      this.$emit('update:room_name_local', this.room_name_local)
-    },
     onSubmitAddress() {
-      this.address_local = this.address_objects.address + ' ' + this.address_objects.buildingName;
-      this.$emit('update:address_objects', this.address_objects)
-      this.dialog = false
-      this.key+=1
+      this.address.old_address = this.address_local.jibunAddress;
+      this.address.new_address = this.address_local.address;
+      this.address.sigunguCd = this.address_local.bcode.substring(0,5);
+      this.address.bjdongCd = this.address_local.bcode.substring(0,5);
+      this.address.bun = this.address_local.jibunAddress.split("-")[0].split(" ")[this.address_local.jibunAddress.split("-")[0].split(" ").length - 1]      
+      this.address.ji = this.address_local.jibunAddress.split("-")[1] ? this.address_local.jibunAddress.split("-")[1].split(" ")[0] : "";
+      this.$emit("update:address", this.address);
+      this.dialog = false;
+      this.key += 1;
     }
-  } 
-}
+  }
+};
 </script>
 
-<style>
+<style scoped>
 .vue-daum-postcode-container {
   width: 100% !important;
   height: 444px !important;

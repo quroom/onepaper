@@ -53,12 +53,16 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'phonenumber_field',
+    'multiselectfield',
 
     'addresses',
     'profiles',
     'papers',
 
     'webpack_loader',
+    'django_cleanup.apps.CleanupConfig',
+    'django_filters',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -70,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'onepaper.urls'
@@ -137,7 +142,7 @@ LANGUAGES = [
 # LANGUAGE_CODE = 'ko-KR'
 LANGUAGE_CODE = 'en-US'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -159,6 +164,8 @@ LOGOUT_REDIRECT_URL = "/"
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = "profiles.CustomUser"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "uploads"
@@ -187,8 +194,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 6
+    'PAGE_SIZE': 10
 }
 
 WEBPACK_LOADER = {
@@ -198,3 +206,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
     }
 }
+
+# INTERNAL_IPS = ["127.0.0.1"]

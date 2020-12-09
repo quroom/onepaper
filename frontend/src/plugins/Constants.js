@@ -1,17 +1,19 @@
+// import Vue from 'vue'
 import i18n from "@/plugins/i18n";
 
 const Constants = {
-  LAND_TYPE : {
-    7: 'buildingland'
+  LAND_CATEGORY : {
+    7: 'buildingland',
+    100: "etc"
   },
-  BUILDING_TYPE: {
+  BUILDING_CATEGORY: {
     70: "c1neighborfacility",
     71: "c2neighborfacility",
     80: "house",
     81: "apartment",
     100: "etc",
   },
-  // REALESTATE_TYPE: {
+  // REALESTATE_CATEGORY: {
   //   0: "oneroom",
   //   1: "tworoom",
   //   2: "threeroom",
@@ -26,31 +28,36 @@ const Constants = {
   //   41: "land",
   //   99: "etc",
   // },
-  TRADE_TYPE: {
+  TRADE_CATEGORY: {
     0: "rent",
     1: "depositloan",
-    // 2: "trade",
+    // 2: "purchase",
     // 3: "exchange",
   },
-  STATUS_TYPE: {
+  STATUS_CATEGORY: {
     0: "draft",
-    1: "done",
-    2: "confirm",
-    3: "hidden"
+    1: "progress",
+    2: "done",
   },
-  CONTRACTOR_TYPE: {
+  CONTRACTOR_CATEGORY: {
     0: "seller",
     1: "buyer",
     2: "expert"
   },
-  LAND_TYPE_LIST: [],
-  BUILDING_TYPE_LIST: [],
-  // REALESTATE_TYPE_LIST: [],
-  TRADE_TYPE_LIST: [],
-  STATUS_TYPE_LIST: [],
-  CONTRACTOR_TYPE_LIST: []
+  EXPERT_STATUS: {
+    0: "request",
+    1: "approved",
+    2: "denied",
+    3: "closed"
+  },
+  LAND_CATEGORY_LIST: [],
+  BUILDING_CATEGORY_LIST: [],
+  // REALESTATE_CATEGORY_LIST: [],
+  TRADE_CATEGORY_LIST: [],
+  STATUS_CATEGORY_LIST: [],
+  CONTRACTOR_CATEGORY_LIST: [],
+  EXPERT_STATUS_LIST: []
 };
-
 Constants.install = function(Vue) {
   Object.keys(Constants).forEach(function(key){
     if(key.indexOf('_LIST') < 0 && key.indexOf('install') < 0){
@@ -61,18 +68,22 @@ Constants.install = function(Vue) {
       })
     }
   })
-
-  Vue.prototype.$getConst = (type) => {
+  Vue.prototype.$getConst = (type, key) => {
+    type = type.toUpperCase();
+    key = type.toLowerCase()
+    return Constants[type][key];
+  };
+  Vue.prototype.$getConstList = (type) => {
     type = type.toUpperCase();
     return Constants[type];
-  };
-  
+  };  
   Vue.prototype.$getConstI18 = (type, key) => {
     type = type.toUpperCase();
     return Constants[type][key] ? i18n.t(Constants[type][key]) : key;
   };
   Vue.prototype.$getConstByName = (type, val) => {
     type = type.toUpperCase();
+    val = val.toLowerCase();
     let object = Constants[type];
     return Object.keys(object).find(key => object[key] === val);
   };

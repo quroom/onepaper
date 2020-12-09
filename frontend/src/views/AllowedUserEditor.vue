@@ -6,36 +6,39 @@
       :headers="headers"
       :items="allowed_users"
       item-key="username"
+      :server-items-length="items_length"
       show-select
+      @update:page="updatePagination"
     >
     <template v-slot:top>
       <v-row>
-        <v-col>
-          <v-text-field v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></v-text-field>
+        <v-col cols="5">
+          <LazyTextField v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></LazyTextField>
         </v-col>
-        <v-col>
-          <v-text-field v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
+        <v-col cols="7">
+          <LazyTextField v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
             <template v-slot:append-outer>
               <v-btn
                 color="primary"
-                :label="$t('add_user')"
+                :label="$t('trade') + $t('add_user')"
                 class="pa-3 btn"
                 @click="addUser"
-              > {{$t("add_user")}} </v-btn>
+              > {{$t("trade") +" " + $t("add_user")}} </v-btn>
             </template>
-          </v-text-field>
+          </LazyTextField>
         </v-col>
       </v-row>
     </template>
     </v-data-table>
     <v-row no-gutters>
       <v-col class="text-right">
-        <v-btn
+        <DeleteAlert :callback="deleteUser"></DeleteAlert>
+        <!-- <v-btn
         color="error"
         :label="$t('delete')"
         class="pa-3 btn"
         @click="deleteUser"
-      > {{$t("user")}} {{$t("delete")}} </v-btn>
+      > {{$t("user")}} {{$t("delete")}} </v-btn> -->
       </v-col>
     </v-row>
   </v-container>
@@ -43,10 +46,14 @@
 
 <script>
 import { apiService } from "@/common/api.service";
-import i18n from "@/plugins/i18n";
+import { applyValidation } from "@/common/common_api";
+import DeleteAlert from "@/components/DeleteAlert";
 
 export default {
   name: "AllowedUserEditor",
+  components: {
+    DeleteAlert
+  },
   props: {
     id: {
       type: [Number, String],
@@ -55,50 +62,68 @@ export default {
   },
   data() {
     return {
+      allowed_users: [],
+      selected_users: [],
+      items_length:0,
+      next: null,
+      new_user: {
+        name: null,
+        username: null,
+      },
       headers: [{
-        text: `${i18n.t("allow")} ${i18n.t("username")}`,
+        text: `${this.$i18n.t("allow")} ${this.$i18n.t("username")}`,
         align: 'start',
         sortable: true,
         value: 'username'
       },
       {
-        text: `${i18n.t("name")}`,
+        text: `${this.$i18n.t("name")}`,
         align: 'start',
         value: 'name'
       }
       ],
-      allowed_users: [],
-      selected_users: [],
-      new_user: {
-        name: null,
-        username: null,
-      },
     }
   },
   methods: {
+    updatePagination (pagination) {
+      let endpoint = `/api/profiles/${this.id}/allowed-users/?page=${pagination}`
+      apiService(endpoint).then(data => {
+        this.allowed_users = data.results;
+        if(data.count) {
+          this.items_length = data.count;
+        }
+      })
+    },
     getUsers() {
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint).then(data => {
-        this.allowed_users = data.allowed_users;
+        this.allowed_users = data.results;
+        if(data.count) {
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
+        }
       })
     },
     addUser() {
       let data = {
         "allowed_users" : this.new_user
       }
-      
+      const that = this
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
-        if(data.id) {
-          this.allowed_users = data.allowed_users;
+        if(data.count) {
+          this.items_length = data.count;
+          this.allowed_users = data.results;
           alert(this.$i18n.t("request_success"))
         } else {
-          alert(data)
+          applyValidation(data)
         }
         this.new_user = {name: null, username: null};
       })
     },
-    deleteUser() {
+    async deleteUser() {
+      const that = this;
       let selected_user_list = []
       for(var i=0; i<this.selected_users.length; i++){
         selected_user_list.push(this.selected_users[i].username)
@@ -109,12 +134,14 @@ export default {
       }
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
-      apiService(endpoint, "DELETE", data).then(data => {
-        if(data.id) {
-          this.allowed_users = data.allowed_users;
-          alert(this.$i18n.t("request_success"))
+      await apiService(endpoint, "DELETE", data).then(data => {
+        if(data == '') {
+          alert(that.$i18n.t("request_success"))
+          for(var i=0; i < that.selected_users.length; i++){
+            that.$delete(that.allowed_users, that.allowed_users.indexOf(that.selected_users[i]))
+          }
         } else {
-          alert(data)
+          applyValidation(data)
         }
         this.selected_users = []
       })

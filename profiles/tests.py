@@ -168,7 +168,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data["request_expert"], True)
 
     def create_expert_profile(self):
-        # FIXME: Need to create objects with model directely
+        #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-7777-1618",
             "address": "광주광역시 남구 서문대로 690번길 3",
@@ -176,7 +176,7 @@ class ExpertProfileTestCase(APITestCase):
             "account_number": "94334292963",
             "expert_profile.registration_number": "2020118181-11",
             "expert_profile.shop_name": "광주부동산중개",
-            "expert_profile.business_registration_certificate": self.image,
+            "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2
         }
@@ -194,7 +194,7 @@ class ExpertProfileTestCase(APITestCase):
             response.data["expert_profile"]["registration_number"], "2020118181-11")
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개")
-        # FIXME: Need to add image test code
+        #FIXME: Need to add image test code
 
     def test_expert_profile_update(self):
         self.create_expert_profile()

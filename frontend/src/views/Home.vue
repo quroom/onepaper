@@ -1,105 +1,72 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col
-        cols="12"
-        md="6"
-        lg="4"
-        xl="3"
-        v-for="paper in papers"
-        :key="paper.id"
+    <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
+      {{$t("no_contract")}}
+    </div>
+    <template v-else>
+      <v-menu v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
       >
-        <v-card
-          class="outlined tile"
-          :to="{ name: 'paper', params: { id: paper.id } }"
-        >            
-          <div class="text-body-2 pa-2" style="float:right">
-            {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at }}
-            <div>
-              <div class="author-name-position">
-                {{ $t("author") }}:
-                <span class="author-name-font"> {{ paper.author }} </span>
-              </div>
-            </div>
-          </div>
-          
-          <v-card-title class="card-title pa-0 pl-4">
-            {{ paper.room_name }}
-            {{ $getConstI18("trade_type", paper.trade_type) }}
-          </v-card-title>
-          <v-card-text v-if="paper.address">
-            <div>
-              {{ paper.address.old_address }}
-            </div>
-            <span>
-              {{ $getConstI18("building_type", paper.building_type) }}
-            </span>
-            <span v-if="paper.trade_type == $getConstByName('trade_type', 'rent')">
-              보{{ paper.security_deposit }} / 월{{ paper.monthly_fee }} / 관{{ paper.maintenance_fee }}
-            </span>
-            <span
-              v-else-if="paper.trade_type==$getConstByName('trade_type', 'depositloan')"
-            >
-              보{{ paper.security_deposit }} / 관{{ paper.maintenance_fee }}
-            </span>
-            <!-- To be updated -->
-            <span
-              v-else-if="
-                paper.trade_type == $getConstByName('trade_type', 'trade')
-              "
-            >
-            </span>
-            <span
-              v-else-if="
-                paper.trade_type == $getConstByName('trade_type', 'exchange')
-              "
-            >
-            </span>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              style="z-index:2;"
-              @click.prevent="open(paper)"
-              v-if="!isLoading && !IsSigned(paper.paper_contractors)"
-              color="red"
-              dark
-              top
-              right
-            >
-              <v-icon>create</v-icon>
-              {{ $t("signature") }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>        
-      <v-dialog v-model="dialog" height="40%" max-width="60%" eager>
+        <template
+          v-slot:activator="{ on, attrs }"
+        >
+          <v-btn color="grey" dark fixed fab middle right v-bind="attrs" v-on="on">
+            <v-icon>filter_list_alt</v-icon>
+          </v-btn>
+        </template>
         <v-card>
-          <VueSignaturePad
-            class="signature_pad"
-            width="100%"
-            height="400px"
-            ref="signaturePad"
-            :options="{
-              minWidth: 3,
-              maxWidth: 3,
-              penColor: 'red'
-            }"
-          />
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">{{
-              $t("close")
-            }}</v-btn>
-            <v-btn color="blue darken-1" text @click="clear('seller')">{{
-              $t("clear")
-            }}</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="save('seller')">{{
-              $t("save")
-            }}</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+            <v-list>
+              <v-list-item>
+                <v-text-field
+                  class="ve-input"
+                  :label="$t('address')"
+                  hide-details
+                  dense
+                ></v-text-field>
+              </v-list-item>
+              <v-list-item>
+                <v-text-field
+                  class="ve-input"
+                  :label="$t('ho')"
+                  hide-details
+                  dense
+                ></v-text-field>
+              </v-list-item>
+              <v-list-item>
+                <v-checkbox class="ve-input" v-model="hide" :label="$t('hidden') + $t('paper')" hide-details dense></v-checkbox>
+              </v-list-item>
+            </v-list>
+            <v-list>
+              <v-list-item>
+                <v-list-item-action>
+                  
+      
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+            <v-card-actions>
+              <v-btn icon>
+                <v-icon>search</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+      </v-menu>
+      <v-row>
+        <template v-for="paper in papers">
+          <Paper :requestUser="requestUser" :paper="paper" :key="paper.id"/>
+        </template>
+      </v-row>
+      <v-row justify="center">
+        <v-btn
+          v-show="next"
+          @click="getPapers"
+          color="primary"
+        >
+          {{$t("load_more")}}
+        </v-btn>
+      </v-row>
+    </template>
     <router-link :to="{ name: 'paper-editor' }">
       <v-btn color="grey" dark fixed fab bottom right>
         <v-icon>add</v-icon>
@@ -109,100 +76,47 @@
 </template>
 
 <script>
-import { apiService, apiService_formData } from "@/common/api.service";
-import i18n from "@/plugins/i18n";
-
+import { apiService } from "@/common/api.service";
+import Paper from "@/components/Paper"
 export default {
   name: "Home",
+  components: {
+    Paper
+  },
   data() {
     return {
       papers: [],
-      dialog: false,
-      error: null,
+      options: {
+        group: null,
+        hide: false,
+        status: 0,
+        address: null,
+        dong: null,
+        ho: null,
+      },
+      hide: false,
+      menu: false,
       requestUser: null,
-      isLoading: true,
-      current_paper: null
+      next: null
     };
   },
   computed: {},
   methods: {
-    IsSigned(contractors) {
-      const self = this;
-      for (let i = 0; i < contractors.length; i++) {
-        let contractor = contractors[i];
-        if (contractor.profile.user.username == self.requestUser) {
-          return !(contractor.signature == null);
-        }
+    async getPapers() {
+      let endpoint = "/api/papers/";
+      if(this.next) {
+        endpoint = this.next;
       }
-    },
-    getCurrentContractor() {
-      const self = this;
-      const contractors = self.current_paper.paper_contractors;
-      for (let i = 0; i < contractors.length; i++) {
-        let contractor = contractors[i];
-        if (contractor.profile.user.username == self.requestUser) {
-          return contractor;
-        }
-      }
-    },
-    getPapers() {
-      let endpoint = "api/paper-list/";
       this.isLoading = true;
-      apiService(endpoint).then(data => {
+      await apiService(endpoint).then(data => {
         this.papers.push(...data.results);
         this.isLoading = false;
+        if (data.next) {
+          this.next = data.next;
+        } else {
+          this.next = null
+        }
       });
-    },
-    clear() {
-      this.$refs["signaturePad"].clearSignature();
-    },
-    save() {
-      const { isEmpty, data } = this.$refs["signaturePad"].saveSignature();
-      if (isEmpty) {
-        alert(i18n.t("signature_empty_warning"));
-        return;
-      }
-
-      let self = this;
-      let endpoint = `/api/papers/${this.current_paper.id}/signature/`;
-
-      try {
-        fetch(data)
-          .then(res => {
-            return res.blob();
-          })
-          .then(myblob => {
-            const formData = new FormData();
-            formData.append(
-              "image",
-              myblob,
-              "signature_" + self.getCurrentContractor().id + ".png"
-            );
-            formData.append("contractor", self.getCurrentContractor().id);
-
-            apiService_formData(endpoint, "POST", formData).then(data => {
-              if (data.id) {
-                window.location.reload();
-              } else {
-                alert(data);
-              }
-            });
-          });
-      } catch (err) {
-        alert(err);
-      }
-    },
-    open(paper) {
-      this.current_paper = paper;
-      this.dialog = true;
-      this.$nextTick(() => {
-        this.$refs["signaturePad"].resizeCanvas();
-      });
-    },
-    newtab(image) {
-      let newTab = window.open();
-      newTab.document.body.innerHTML =
-        "<img src=" + image + ' width="500px" height="500px">';
     }
   },
   created() {
@@ -211,7 +125,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .author-name-position {
   float:right;
 }
@@ -221,5 +135,10 @@ export default {
 }
 .card-title {
   width: 100%;
+}
+.ve-input {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 4px;
 }
 </style>
