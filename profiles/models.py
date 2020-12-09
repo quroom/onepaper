@@ -74,15 +74,6 @@ class AllowedUser(models.Model):
                                    on_delete=models.CASCADE,
                                    related_name="allowed_user")
 
-class MandateAllowedProfile(models.Model):
-    designator = models.OneToOneField(Profile,
-                                      on_delete=models.CASCADE,
-                                      related_name="desinator_allowed_user")
-
-    designee = models.ManyToManyField(Profile,
-                                      blank=True,
-                                      related_name="designee_allowed_user")
-
 class Mandate(models.Model):
     author = models.ForeignKey(CustomUser,
                                null=True, blank=True,

@@ -4,7 +4,7 @@ import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from django.http import JsonResponse
 from rest_framework import serializers
-from profiles.models import MandateAllowedProfile, AllowedUser, CustomUser, ExpertProfile, Mandate, Profile
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Mandate, Profile
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
@@ -191,13 +191,6 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
-
-class MandateAllowedProfileSerializer(serializers.ModelSerializer):
-    # designator = ProfileBasicInfoSerializer(read_only=True)
-    # designee = ProfileBasicInfoSerializer(many=True)
-    class Meta:
-        model = MandateAllowedProfile
-        fields = "__all__"
 
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)

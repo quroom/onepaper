@@ -12,8 +12,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
 from papers.models import Contractor
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Mandate, MandateAllowedProfile
-from profiles.serializers import AllowedUserSerializer, AllowedProfileListSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateAllowedProfileSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Mandate
+from profiles.serializers import AllowedUserSerializer, AllowedProfileListSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
 
 class CustomUserViewset(ModelViewSet):
@@ -212,66 +212,6 @@ class AllowedProfileList(APIView, PageNumberPagination):
     def get(self, request):
         profiles = Profile.objects.filter(allowed_user__allowed_users=request.user)
         serializer = ProfileSerializer(profiles, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-class MandateAllowedProfileDetail(mixins.RetrieveModelMixin,
-                            mixins.UpdateModelMixin,
-                            mixins.DestroyModelMixin,
-                            generics.GenericAPIView):
-    queryset = MandateAllowedProfile.objects.all()
-    permission_classes = [IsAuthenticated, IsOwnerOrReadonly]
-    serializer_class = MandateAllowedProfileSerializer
-    
-    def get_object(self, pk):
-        try:
-            return Profile.objects.get(id=pk)
-        except Profile.DoesNotExist:
-            return None
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-    
-    def retrieve(self, request, *args, **kwargs):
-        id = self.kwargs.get("pk")
-        profile = self.get_object(id)
-        if profile is None:
-            return Response({"designator": ValidationError(_("프로필이 존재하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = self.get_serializer(profile.desinator_allowed_user)
-        return Response(serializer.data)
-
-    def put(self, request, *args, **kwargs):
-        id = self.kwargs.get("pk")
-        profile = self.get_object(id)
-        if profile is None:
-            return Response({"designator": ValidationError(_("프로필이 존재하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        allowedUser = profile.allowed_user
-        if not profile.user == request.user:
-            return Response({"designator": ValidationError(_("사용자의 프로필만 추가할 수 있습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-        try:
-            designee_profile = Profile.objects.get(id=self.request.data['designee'])
-        except Profile.DoesNotExist:
-            return Response({"designee": ValidationError(_("프로필이 존재하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        allowedUser.allowed_users.add(designee_profile.user)
-        allowedUser.save()
-        profile.desinator_allowed_user.designee.add(designee_profile)
-        profile.desinator_allowed_user.save()
-        serializer = ProfileBasicInfoSerializer(profile.desinator_allowed_user.designee.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            profile = Profile.objects.get(id=self.request.data['designee'])
-        except Profile.DoesNotExist:
-            return Response({"designee": ValidationError(_("프로필이 존재하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-        allowedUser = profile.allowed_user
-        allowedUser.allowed_users.remove(profile.user)
-        allowedUser.save()
-        profile.desinator_allowed_user.desginee.remove(profile)
-        profile.desinator_allowed_user.desginee.save()
-        serializer = ProfileBasicInfoSerializer(profile.desinator_allowed_user.desginee.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class MandateViewset(ModelViewSet):
