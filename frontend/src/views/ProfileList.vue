@@ -60,7 +60,6 @@
               <v-btn color="primary" @click.prevent="addUserDialog(profile.id)"> {{ $t("request") }} {{ $t("add_user") }} </v-btn>
             </v-card-actions>
             <v-card-actions v-else>
-              <v-spacer></v-spacer>
               <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }"> {{ $t("edit") }} </v-btn>
               <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> {{ $t("trade") + $t("add_user") }} </v-btn>
             </v-card-actions>

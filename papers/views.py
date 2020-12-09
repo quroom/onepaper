@@ -12,10 +12,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
 from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer, SignatureSerializer, ExplanationSignatureSerializer
-from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsContractorUser, IsParticiations, IsSignatureUser
+from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsContractorUser, IsSignatureUser
 
 class HidePaperApiView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
+    
     def post(self, request, pk):
         contractors = Contractor.objects.filter(paper=pk, profile__user=self.request.user)
         if contractors.exists():
@@ -23,6 +24,7 @@ class HidePaperApiView(APIView):
             try:
                 if contractor.paper.status.status == PaperStatus.DONE:
                     if contractor.signature:
+                        self.check_object_permissions(self.request, contractor)
                         contractor.is_paper_visible = not contractor.is_paper_visible
                         contractor.save()
                 else:
@@ -35,28 +37,29 @@ class HidePaperApiView(APIView):
         serializer = PaperListSerializer(papers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class PaperListApiView(generics.ListAPIView):
-    serializer_class = PaperListSerializer
-    permission_classes = [IsAuthenticated, IsParticiations]
-
+class PaperViewset(ModelViewSet):
+    permission_classes = [IsAuthenticated, IsAuthorOrParticiations]
+    
     def get_queryset(self):
         filters = {}
+        address_search_text = None
         for key in self.request.query_params:
             if key=='status':
                 filters['status__status'] = self.request.query_params.get(key)
             elif key=='group':
                 filters['paper_contractors__group'] = self.request.query_params.get(key)
             elif key=='hide':
-                return Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_visible=self.request.query_params.get(key))
-
-        return Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_visible=True, **filters)
-
-class PaperViewset(ModelViewSet):
-    permission_classes = [IsAuthenticated, IsAuthorOrParticiations]
-    
-    def get_queryset(self):
-        papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user)
-        return papers
+                filters['paper_contractors__is_paper_hidden'] = self.request.query_params.get(key)
+            elif key=='dong':
+                filters['paper_address__dong'] = self.request.query_params.get(key)
+            elif key=='ho':
+                filters['paper_address__ho'] = self.request.query_params.get(key)
+            elif key=="address":
+                address_search_text = self.request.query_params.get(key)
+        if address_search_text is None:
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters)
+        else:
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters)
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:
@@ -69,6 +72,22 @@ class PaperViewset(ModelViewSet):
             return [IsAuthenticated(), IsAuthor()]
         return super(PaperViewset, self).get_permissions()
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = PaperListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = PaperListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -78,11 +97,6 @@ class PaperViewset(ModelViewSet):
 
     def perform_create(self, serializer):
         paper = serializer.save(author=self.request.user)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
@@ -119,7 +133,7 @@ class PaperViewset(ModelViewSet):
 class SignatureCreateApiView(generics.CreateAPIView):
     queryset = Signature.objects.all()
     serializer_class = SignatureSerializer
-    permission_classes = [IsAuthenticated, IsParticiations]
+    permission_classes = [IsAuthenticated, IsSignatureUser]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -177,7 +191,7 @@ class SignatureUpdateApiView(mixins.RetrieveModelMixin,
 class ExplanationSignatureCreateApiView(generics.CreateAPIView):
     queryset = ExplanationSignature.objects.all()
     serializer_class = ExplanationSignatureSerializer
-    permission_classes = [IsAuthenticated, IsParticiations]
+    permission_classes = [IsAuthenticated, IsSignatureUser]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

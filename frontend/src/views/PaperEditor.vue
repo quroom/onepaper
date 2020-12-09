@@ -264,6 +264,7 @@
                   class="mt-2"
                   :label="$t('landlord')"
                   :placeholder="$t('landlord')+' '+$t('search')"
+                  @change="input_change"
                 >
                   <template
                     v-slot:selection="{ item }"
@@ -323,7 +324,7 @@
         />
       </template>
       <v-divider class="ma-4"></v-divider>
-      <!-- need to support i18n -->
+      <!--#FIXME need to support i18n -->
       <VerifyingExplanationEditor ref="verifying_explanation" v-if="is_expert" :ve.sync="ve" :step="step" :validation_check.sync="validation_check"></VerifyingExplanationEditor>
       <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert ">
         <v-col class="contractor-title text-center font-weight-bold" cols="12">
@@ -639,19 +640,19 @@ export default {
             ],
             handlers: {
               'image': () => {
-                let self = this;
+                let that = this;
                 var input = document.createElement("input");
                 input.setAttribute("type", "file");
                 input.click();
                 input.onchange = () => {
                     const file = input.files[0];
                     if(file.size > 512000){
-                      alert(self.$t("image_file_size_error"))
+                      alert(that.$t("image_file_size_error"))
                       return;
                     }
-                    const file_count = self.$refs.myQuillEditor.$el.getElementsByTagName("img").length
+                    const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName("img").length
                     if(file_count >= 2){
-                      alert(self.$t("image_file_count_error"))
+                      alert(that.$t("image_file_count_error"))
                       return;
                     }
                     if (/^image\//.test(file.type)) {
@@ -662,15 +663,15 @@ export default {
                             reader.onerror = (error) => reject('Error: ', error);
                         })
 
-                        const range = self.$refs.myQuillEditor.quill.getSelection();
+                        const range = that.$refs.myQuillEditor.quill.getSelection();
                         getBase64(file).then((result) => {
                           let encoded = result;
-                          self.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
+                          that.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
                         })
                         .catch(e => alert(e))
                         
                     } else {
-                        alert(self.$t("image_file_type_error"));
+                        alert(that.$t("image_file_type_error"));
                     }
                 };
               }
@@ -715,6 +716,9 @@ export default {
     };
   },
   methods: {
+    input_change(item) {
+      this.$delete(this.allowed_profiles)
+    },
     remove (item, type) {
       const index = this[type].indexOf(item)
       if (index >= 0) this[type].splice(index, 1)
@@ -738,56 +742,56 @@ export default {
       this.papers = [];
       this.paper_load_dialog = true;
       this.isLoading = true;
-      let endpoint = `/api/paper-list/`;
+      let endpoint = `/api/papers/`;
       apiService(endpoint).then(data => {
         this.papers.push(...data.results);
         this.isLoading = false;
       })
     },
     loadPaper(item) {
-      let self = this;
+      let that = this;
       let endpoint = `/api/papers/${item.id}/`;
-      self.contractors = []
+      that.contractors = []
       apiService(endpoint).then(data => {
         for(const contractor_index in data.paper_contractors) {
           var contractor = data.paper_contractors[contractor_index]
           console.log(contractor.profile.user.username)
-          console.log(self.requestUser)
-          if(contractor.profile.user.username==self.requestUser){
-            self.contractors.push(contractor)
-            self.$data[self.$getConst("contractor_category", contractor.group)]=contractor.profile
+          console.log(that.requestUser)
+          if(contractor.profile.user.username==that.requestUser){
+            that.contractors.push(contractor)
+            that.$data[that.$getConst("contractor_category", contractor.group)]=contractor.profile
           }
         }
-        self.land_category = data.land_category;
-        self.lot_area = data.lot_area;
-        self.building_structure = data.building_structure;
-        self.building_category = data.building_category;
-        self.building_area = data.building_area;
-        self.trade_category = data.trade_category;
-        self.address = data.address;
-        self.deposit = data.deposit;
-        self.down_payment = data.down_payment;
-        self.security_deposit = data.security_deposit;
-        self.maintenance_fee = data.maintenance_fee;
-        self.monthly_fee = data.monthly_fee;
-        self.from_date = data.from_date;
-        self.to_date = data.to_date;
-        self.realestate_category = data.realestate_category;
-        self.special_agreement = data.special_agreement;
+        that.land_category = data.land_category;
+        that.lot_area = data.lot_area;
+        that.building_structure = data.building_structure;
+        that.building_category = data.building_category;
+        that.building_area = data.building_area;
+        that.trade_category = data.trade_category;
+        that.address = data.address;
+        that.deposit = data.deposit;
+        that.down_payment = data.down_payment;
+        that.security_deposit = data.security_deposit;
+        that.maintenance_fee = data.maintenance_fee;
+        that.monthly_fee = data.monthly_fee;
+        that.from_date = data.from_date;
+        that.to_date = data.to_date;
+        that.realestate_category = data.realestate_category;
+        that.special_agreement = data.special_agreement;
         if(data.verifying_explanation != null) {
-          self.ve = data.verifying_explanation;
+          that.ve = data.verifying_explanation;
         }
-        self.paper_load_dialog = false;
+        that.paper_load_dialog = false;
       })
     },    
     nextStep(){
-      const self = this;
+      const that = this;
       this.$refs.verifying_explanation.$refs.form.validate()
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
-          self.step +=1;
+          that.step +=1;
         } else {
-          self.$vuetify.goTo(self.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+          that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
         }
       })
     },
@@ -839,59 +843,59 @@ export default {
       }
     },
     onSubmit() {
-      const self = this;
+      const that = this;
       this.validation_check = true
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           let endpoint = "/api/papers/";
           let method = "POST";
-          if (self.id !== undefined) {
-            endpoint += `${self.id}/`;
+          if (that.id !== undefined) {
+            endpoint += `${that.id}/`;
             method = "PUT";
           }
-          self.updateContractors();
+          that.updateContractors();
           try {
             apiService(endpoint, method, {
-              land_category: self.land_category,
-              lot_area: self.lot_area,
-              building_structure: self.building_structure,
-              building_category: self.building_category,
-              building_area: self.building_area,
-              trade_category: self.trade_category,
+              land_category: that.land_category,
+              lot_area: that.lot_area,
+              building_structure: that.building_structure,
+              building_category: that.building_category,
+              building_area: that.building_area,
+              trade_category: that.trade_category,
               address: {
-                old_address: self.address.old_address ,
-                new_address: self.address.new_address,
-                sigunguCd: self.address.sigunguCd,
-                bjdongCd: self.address.bjdongCd,
-                bun: self.address.bun,
-                ji:  self.address.ji,
-                dong: self.address.dong,
-                ho: self.address.ho,
+                old_address: that.address.old_address ,
+                new_address: that.address.new_address,
+                sigunguCd: that.address.sigunguCd,
+                bjdongCd: that.address.bjdongCd,
+                bun: that.address.bun,
+                ji:  that.address.ji,
+                dong: that.address.dong,
+                ho: that.address.ho,
               },
-              down_payment: self.down_payment,
-              security_deposit: self.security_deposit,
-              maintenance_fee: self.maintenance_fee,
-              monthly_fee: self.monthly_fee,
-              from_date: self.from_date,
-              to_date: self.to_date,
-              title: self.title,
-              realestate_category: self.realestate_category,
-              paper_contractors: self.contractors,
-              options: self.options,
-              special_agreement: self.special_agreement,
-              verifying_explanation: self.ve
+              down_payment: that.down_payment,
+              security_deposit: that.security_deposit,
+              maintenance_fee: that.maintenance_fee,
+              monthly_fee: that.monthly_fee,
+              from_date: that.from_date,
+              to_date: that.to_date,
+              title: that.title,
+              realestate_category: that.realestate_category,
+              paper_contractors: that.contractors,
+              options: that.options,
+              special_agreement: that.special_agreement,
+              verifying_explanation: that.ve
             }).then(data => {
               if (data.id) {
-                alert(self.$i18n.t("request_success"))
-                self.$router.push({
+                alert(that.$i18n.t("request_success"))
+                that.$router.push({
                   name: "paper",
                   params: { id: data.id }
                 });
               } else {
-                applyValidation(data, self);
-                self.$nextTick(() => {
-                    self.$vuetify.goTo(self.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
-                    alert(self.$i18n.t("error"))
+                applyValidation(data, that);
+                that.$nextTick(() => {
+                    that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+                    alert(that.$i18n.t("error"))
                     return;
                 });
               }

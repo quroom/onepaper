@@ -246,8 +246,8 @@
           cols="6"
           md="3"
         >
-          <div class="absolute_text">{{ $t("registration_certificate") }}</div>
           <a v-bind:href="registration_certificate_url" target="_blank">
+            <div class="absolute_text">{{ $t("registration_certificate") }}</div>
             <img
               class="img"
               :src="registration_certificate_url"
@@ -261,8 +261,8 @@
           cols="6"
           md="3"
         >
-          <div class="absolute_text">{{ $t("agency_license") }}</div>
           <a v-bind:href="agency_license_url" target="_blank">
+            <div class="absolute_text">{{ $t("agency_license") }}</div>
             <img class="img" :src="agency_license_url" aspect-ratio="1" />
           </a>
         </v-col>
@@ -272,14 +272,14 @@
           cols="6"
           md="3"
         >
-          <div class="absolute_text">{{ $t("garantee_insurance") }}</div>
           <a v-bind:href="garantee_insurance_url" target="_blank">
+            <div class="absolute_text">{{ $t("garantee_insurance") }}</div>
             <img class="img" :src="garantee_insurance_url" aspect-ratio="1" />
           </a>
         </v-col>
         <v-col v-if="stamp_url" class="d-flex child-flex" cols="6" md="3">
-          <div class="absolute_text">{{ $t("stamp") }}</div>
           <a v-bind:href="stamp_url" target="_blank">
+            <div class="absolute_text">{{ $t("stamp") }}</div>
             <img class="img" :src="stamp_url" aspect-ratio="1" />
           </a>
         </v-col>
@@ -360,31 +360,31 @@ export default {
       }
     },
     onSubmit() {
-      const self = this;
+      const that = this;
       this.$refs.obs.validate().then(function (v) {
         if (v == true) {
           const formData = new FormData();
-          if (self.mobile_number)
-            formData.append("mobile_number", self.mobile_number);
-          if (self.address) {
-            formData.append("address.old_address", self.address['old_address']);
-            formData.append("address.new_address", self.address['new_address']);
-            formData.append("address.sigunguCd", self.address['sigunguCd']);
-            formData.append("address.bjdongCd", self.address['bjdongCd']);
-            formData.append("address.bun", self.address['bun']);
-            formData.append("address.ji", self.address['ji']);
-            formData.append("address.dong", self.address['dong']);
-            formData.append("address.ho", self.address['ho']);
+          if (that.mobile_number)
+            formData.append("mobile_number", that.mobile_number);
+          if (that.address) {
+            formData.append("address.old_address", that.address['old_address']);
+            formData.append("address.new_address", that.address['new_address']);
+            formData.append("address.sigunguCd", that.address['sigunguCd']);
+            formData.append("address.bjdongCd", that.address['bjdongCd']);
+            formData.append("address.bun", that.address['bun']);
+            formData.append("address.ji", that.address['ji']);
+            formData.append("address.dong", that.address['dong']);
+            formData.append("address.ho", that.address['ho']);
           }
-          if (self.bank_name) formData.append("bank_name", self.bank_name);
-          if (self.account_number)
-            formData.append("account_number", self.account_number);
-          if (self.is_request_expert || self.is_expert) {
-            Object.keys(self.expert_profile).forEach(function (key) {
-              if (self.expert_profile[key] != null) {
+          if (that.bank_name) formData.append("bank_name", that.bank_name);
+          if (that.account_number)
+            formData.append("account_number", that.account_number);
+          if (that.is_request_expert || that.is_expert) {
+            Object.keys(that.expert_profile).forEach(function (key) {
+              if (that.expert_profile[key] != null) {
                 formData.append(
                   "expert_profile." + key,
-                  self.expert_profile[key]
+                  that.expert_profile[key]
                 );
               }
             });
@@ -392,19 +392,19 @@ export default {
           let endpoint = "/api/profiles/";
           let method = "POST";
 
-          if (self.id !== undefined) {
-            endpoint += `${self.id}/`;
+          if (that.id !== undefined) {
+            endpoint += `${that.id}/`;
             method = "PATCH";
           }
           apiService_formData(endpoint, method, formData).then((data) => {
             if (data.id) {
-              alert(self.$i18n.t("request_success"));
-              self.$emit("update:has_profile", data.has_profile)
-              self.$router.push({
+              alert(that.$i18n.t("request_success"));
+              that.$emit("update:has_profile", data.has_profile)
+              that.$router.push({
                 name: "profiles"
               });
             } else {
-              applyValidation(data, self);
+              applyValidation(data, that);
             }
           });
         }
@@ -463,18 +463,11 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-align: center;
+}
 .img {
   border: 1px solid gray;
   width: 100%;
-}
-.absolute_text {
-  z-index: 1;
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  top: -10px;
-  left: 0;
-  right: 0;
-  text-align: center;
 }
 </style>

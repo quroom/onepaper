@@ -33,6 +33,7 @@ class Profile(models.Model):
                                    related_name="profile")
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
+    is_hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -67,11 +68,20 @@ class ExpertProfile(models.Model):
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                        blank=True,
-                                        related_name="allowed_users")
+                                           blank=True,
+                                           related_name="allowed_users")
     profile = models.OneToOneField(Profile,
                                    on_delete=models.CASCADE,
                                    related_name="allowed_user")
+
+class MandateAllowedProfile(models.Model):
+    designator = models.OneToOneField(Profile,
+                                      on_delete=models.CASCADE,
+                                      related_name="desinator_allowed_user")
+
+    designee = models.ManyToManyField(Profile,
+                                      blank=True,
+                                      related_name="designee_allowed_user")
 
 class Mandate(models.Model):
     author = models.ForeignKey(CustomUser,

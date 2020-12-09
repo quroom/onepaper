@@ -1,5 +1,5 @@
 <template>
-  <div class="mt- pa-0" v-once>
+  <div style="overflow-x:auto" class="mt-2 pa-0" v-once>
     <table
       border="1"
       style="border-collapse:collapse;"

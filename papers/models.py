@@ -89,7 +89,7 @@ class Paper(models.Model):
         (ADDITIONALITEMS, _('추가물품')),
     )
 
-    # Need to be moved to Realestates model.
+    #FIXME Need to be moved to Realestates model.
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(CustomUser,
                                null=True, blank=True,
@@ -153,7 +153,7 @@ class Contractor(models.Model):
                               on_delete=models.CASCADE,
                               related_name="paper_contractors",
                               related_query_name="paper_contractors")
-    is_paper_visible = models.BooleanField(default=True)
+    is_paper_hidden = models.BooleanField(default=False)
     group = models.PositiveSmallIntegerField(
         choices=CONTRACTOR_CATEGORY)
         

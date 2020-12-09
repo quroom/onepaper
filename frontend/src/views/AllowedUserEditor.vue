@@ -6,7 +6,9 @@
       :headers="headers"
       :items="allowed_users"
       item-key="username"
+      :server-items-length="items_length"
       show-select
+      @update:page="updatePagination"
     >
     <template v-slot:top>
       <v-row>
@@ -60,6 +62,14 @@ export default {
   },
   data() {
     return {
+      allowed_users: [],
+      selected_users: [],
+      items_length:0,
+      next: null,
+      new_user: {
+        name: null,
+        username: null,
+      },
       headers: [{
         text: `${this.$i18n.t("allow")} ${this.$i18n.t("username")}`,
         align: 'start',
@@ -72,30 +82,39 @@ export default {
         value: 'name'
       }
       ],
-      allowed_users: [],
-      selected_users: [],
-      new_user: {
-        name: null,
-        username: null,
-      },
     }
   },
   methods: {
+    updatePagination (pagination) {
+      let endpoint = `/api/profiles/${this.id}/allowed-users/?page=${pagination}`
+      apiService(endpoint).then(data => {
+        this.allowed_users = data.results;
+        if(data.count) {
+          this.items_length = data.count;
+        }
+      })
+    },
     getUsers() {
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint).then(data => {
-        this.allowed_users = data.allowed_users;
+        this.allowed_users = data.results;
+        if(data.count) {
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
+        }
       })
     },
     addUser() {
       let data = {
         "allowed_users" : this.new_user
       }
-      self = this
+      const that = this
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
-        if(data.id) {
-          this.allowed_users = data.allowed_users;
+        if(data.count) {
+          this.items_length = data.count;
+          this.allowed_users = data.results;
           alert(this.$i18n.t("request_success"))
         } else {
           applyValidation(data)
@@ -103,7 +122,8 @@ export default {
         this.new_user = {name: null, username: null};
       })
     },
-    deleteUser() {
+    async deleteUser() {
+      const that = this;
       let selected_user_list = []
       for(var i=0; i<this.selected_users.length; i++){
         selected_user_list.push(this.selected_users[i].username)
@@ -114,10 +134,12 @@ export default {
       }
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
-      apiService(endpoint, "DELETE", data).then(data => {
-        if(data.length == undefined) {
-          this.allowed_users = data.allowed_users;
-          alert(this.$i18n.t("request_success"))
+      await apiService(endpoint, "DELETE", data).then(data => {
+        if(data == '') {
+          alert(that.$i18n.t("request_success"))
+          for(var i=0; i < that.selected_users.length; i++){
+            that.$delete(that.allowed_users, that.allowed_users.indexOf(that.selected_users[i]))
+          }
         } else {
           applyValidation(data)
         }

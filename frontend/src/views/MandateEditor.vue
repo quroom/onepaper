@@ -324,8 +324,8 @@ export default {
       );
     },
     async submit() {
-      const self = this;
-      const { isEmpty, data } = await self.$refs.signaturePad.saveSignature();
+      const that = this;
+      const { isEmpty, data } = await that.$refs.signaturePad.saveSignature();
       if (this.isDesignator&&isEmpty) {
         alert(this.$i18n.t("signature_empty_warning"))
         return;
@@ -338,43 +338,43 @@ export default {
       this.$refs.mandate_obs.validate().then(function (v) {
         if (v == true) {
           const formData = new FormData()
-          formData.append("designator", self.designator.id);
-          formData.append("designee", self.designee.id);
-          formData.append("content", self.content);
-          if(self.isDesignator){
-            formData.append("designator_signature", self.designator_signature, "designator_signature"+self.designator.id+".png");
+          formData.append("designator", that.designator.id);
+          formData.append("designee", that.designee.id);
+          formData.append("content", that.content);
+          if(that.isDesignator){
+            formData.append("designator_signature", that.designator_signature, "designator_signature"+that.designator.id+".png");
           }
-          if (self.period.length > 0) {
-            formData.append("from_date", self.period[0]);
-            formData.append("to_date", self.period[1]);
+          if (that.period.length > 0) {
+            formData.append("from_date", that.period[0]);
+            formData.append("to_date", that.period[1]);
           }
-          if (self.address) {
-            formData.append("address.old_address", self.address.old_address);
-            formData.append("address.new_address", self.address.new_address);
-            formData.append("address.sigunguCd", self.address.sigunguCd);
-            formData.append("address.bjdongCd", self.address.bjdongCd);
-            formData.append("address.bun", self.address.bun);
-            formData.append("address.ji", self.address.ji);
+          if (that.address) {
+            formData.append("address.old_address", that.address.old_address);
+            formData.append("address.new_address", that.address.new_address);
+            formData.append("address.sigunguCd", that.address.sigunguCd);
+            formData.append("address.bjdongCd", that.address.bjdongCd);
+            formData.append("address.bun", that.address.bun);
+            formData.append("address.ji", that.address.ji);
           }
           let endpoint = "/api/mandates/";
           let method = "POST";
 
-          if (self.id != undefined) {
-            endpoint += `${self.id}/`;
+          if (that.id != undefined) {
+            endpoint += `${that.id}/`;
             method = "PATCH";
           }
           apiService_formData(endpoint, method, formData).then((data) => {
             if (data.id) {
-              alert(self.$i18n.t("request_success"));
-              self.$router.push({
+              alert(that.$i18n.t("request_success"));
+              that.$router.push({
                 name: "mandates"
               });
             } else {
-              applyValidation(data, self);
+              applyValidation(data, that);
             }
           });
         }
-        self.signature_dialog = false;
+        that.signature_dialog = false;
       })
     },
     open() {

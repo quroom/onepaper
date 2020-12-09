@@ -14,12 +14,8 @@ class IsAuthorOrParticiations(permissions.BasePermission):
         if obj.author == request.user:
             return True
         else:
-            return Contractor.objects.filter(paper=obj, profile__user=request.user).exists()
-
-class IsParticiations(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return getattr(obj.paper.expert,'user',None) == request.user or getattr(obj.paper.seller,'user',None) == request.user\
-            or getattr(obj.paper.buyer,'user',None) == request.user
+            if request.method in permissions.SAFE_METHODS:
+                return Contractor.objects.filter(paper=obj, profile__user=request.user).exists()
 
 class IsSignatureUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):

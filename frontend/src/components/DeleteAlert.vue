@@ -39,6 +39,7 @@
 
 <script>
 
+import { applyValidation } from "@/common/common_api";
 import { apiService } from "@/common/api.service";
 
 export default {
@@ -60,12 +61,13 @@ export default {
         try {
           let endpoint = this.url+`${this.id}/`;
           await apiService(endpoint, "DELETE").then(data => {
-            if(data["detail"] != undefined){
-               alert(data['detail'])
-            }
-            else if(data.length == undefined){
-              alert(this.$i18n.t("request_success"))
+            console.log(data)
+            if(data == undefined){
+              alert(this.$i18n.t("request_success"));
               this.$router.push({name:this.router_name}); 
+            }
+            else{
+              applyValidation(data);
             }
           });
         } catch(err) {

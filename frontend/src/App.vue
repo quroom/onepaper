@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app app>
     <Navbar :is_staff="is_staff" />
     <v-main>
       <router-view :has_profile.sync="has_profile" />
@@ -9,6 +9,7 @@
 
 <script>
 import Navbar from "./components/Navbar";
+import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
 
 export default {
@@ -43,6 +44,9 @@ export default {
   methods: {
     async setUserInfo() {
       const data = await apiService("/api/user/");
+      if(data.id == undefined){
+        applyValidation(data)
+      }
       window.localStorage.setItem("username", data["username"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);

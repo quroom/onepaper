@@ -4,7 +4,7 @@ import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from django.http import JsonResponse
 from rest_framework import serializers
-from profiles.models import CustomUser, Profile, ExpertProfile, AllowedUser, Mandate
+from profiles.models import MandateAllowedProfile, AllowedUser, CustomUser, ExpertProfile, Mandate, Profile
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
@@ -59,16 +59,31 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
+class ExpertBasicInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ExpertProfile
+        fields = ['registration_number', 'shop_name', 'status']
+        read_only_fields = ('registration_number', 'shop_name', 'status')
+
 class ExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
 
     class Meta:
         model = ExpertProfile
         fields = "__all__"
-        read_only_fields = ('profile', 'status',)
+        read_only_fields = ('profile', 'status')
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+class ProfileBasicInfoSerializer(serializers.ModelSerializer):
+    user = CustomUserIDNameSerializer(read_only=True)
+    expert_profile = ExpertBasicInfoSerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ['user', 'expert_profile']
 
 class ProfileSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -79,7 +94,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ('used_count', 'is_expert')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
@@ -109,13 +123,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
+    updated_at = serializers.SerializerMethodField()
     expert_profile = ExpertSerializer()
     address = AddressSerializer()
 
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ('used_count', 'is_expert')
 
     def create(self, validated_data):
         address_data = validated_data.pop('address')
@@ -178,6 +192,13 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
+class MandateAllowedProfileSerializer(serializers.ModelSerializer):
+    # designator = ProfileBasicInfoSerializer(read_only=True)
+    # designee = ProfileBasicInfoSerializer(many=True)
+    class Meta:
+        model = MandateAllowedProfile
+        fields = "__all__"
+
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
@@ -187,9 +208,21 @@ class MandateSerializer(serializers.ModelSerializer):
     
     def validate(self, data):
         try:
-            if data['designator'].user != self.context['request'].user and "designator_signature" in data:
-                raise serializers.ValidationError({"signature-button":_("위임인만 서명이 가능합니다.")})
-            if data['designator'].user == data['designee'].user:
+            designator = data['designator']
+            designee = data['designee']
+            request_user = self.context['request'].user
+            
+            if designator.user != request_user and designee_user != request_user:
+                raise serializers.ValidationError({
+                    "designee":_("위임인 또는 수임인에 작성자가 포함되어야 합니다."),
+                    "designator":_("위임인 또는 수임인에 작성자가 포함되어야 합니다.")
+                })
+            if designator.user != request_user:
+                if not request.user in designator.designee_allowed_user.all().values('user'):
+                    raise serializers.ValidationError({"designator":_("위임장 작성을 위한 위임장 작성 프로필 조회 허용을 확인해주세요.")})
+                if "designator_signature" in data:
+                    raise serializers.ValidationError({"signature-button":_("위임인만 서명이 가능합니다.")})
+            if designator.user == designee_user:
                 raise serializers.ValidationError({"designee":_("위임인과 수임인이 동일할 수 없습니다.")})
         except Profile.DoesNotExist:
             raise serializers.ValidationError({"detail":_("사용자가 존재하지 않습니다.")})

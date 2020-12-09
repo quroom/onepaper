@@ -45,26 +45,26 @@
         <td :colspan="headers.length">
           <div class="mt-5 row sp-details">
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <div class="absolute_text"> {{ $t("registration_certificate") }} </div>
               <a v-bind:href="item.registration_certificate" target="_blank">
+                <div class="absolute_text"> {{ $t("registration_certificate") }} </div>
                 <img class="img" :src="item.registration_certificate" aspect-ratio="1" />
               </a>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <div class="absolute_text"> {{ $t("agency_license") }} </div>
               <a v-bind:href="item.agency_license" target="_blank">
+                <div class="absolute_text"> {{ $t("agency_license") }} </div>
                 <img class="img" :src="item.agency_license" aspect-ratio="1" />
               </a>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <div class="absolute_text"> {{ $t("garantee_insurance") }} </div>
               <a v-bind:href="item.garantee_insurance" target="_blank">
+                <div class="absolute_text"> {{ $t("garantee_insurance") }} </div>
                 <img class="img" :src="item.garantee_insurance" aspect-ratio="1" />
               </a>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <div class="absolute_text"> {{ $t("stamp") }} </div>
               <a v-bind:href="item.stamp" target="_blank">
+                <div class="absolute_text"> {{ $t("stamp") }} </div>
                 <img class="img" :src="item.stamp" aspect-ratio="1" />
               </a>
             </v-col>
@@ -157,8 +157,8 @@ export default {
       }
       let endpoint = `/api/approve-experts/`
       apiService(endpoint, "PUT", data).then(data => {
-        if(data.length == undefined) {
-          this.profiles=data.results;
+        if(data.count) {
+          this.profiles = data.results;
           alert(this.$i18n.t("request_success"))
         } else {
           applyValidation(data)
@@ -176,8 +176,7 @@ export default {
 
       let endpoint = `/api/approve-experts/`
       apiService(endpoint, "DELETE", data).then(data => {
-        console.log(data.length)
-        if(data.length == undefined) {
+        if(data.count) {
           this.profiles=data.results;
           alert(this.$i18n.t("request_success"))
           this.selected_profile_list = []
@@ -193,5 +192,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+a {
+  text-align: center;
+}
+.img {
+  border: 1px solid gray;
+  width: 100%;
+}
 </style>

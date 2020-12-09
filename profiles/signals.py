@@ -1,12 +1,15 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from profiles.models import Profile, AllowedUser
+from profiles.models import AllowedUser, Profile, MandateAllowedProfile
 from profiles.serializers import CustomUserSerializer
 
 @receiver(post_save, sender=Profile)
 def create_profile(sender, instance, created, **kwargs):
      if created:
+         MandateAllowedProfile.objects.create(designator=instance)
          allowedUser = AllowedUser.objects.create(profile=instance)
+         allowedUser.allowed_users.add(instance.user)
+         allowedUser.save()
 
 @receiver(post_delete, sender=Profile)
 def delete_address(sender, instance, **kwargs):

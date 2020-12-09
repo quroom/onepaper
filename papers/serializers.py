@@ -60,7 +60,7 @@ class PaperListSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
-    paper_contractors = ContractorReadSerializer(many=True, read_only=True)
+    # paper_contractors = ContractorReadSerializer(many=True, read_only=True)
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -198,7 +198,7 @@ class PaperSerializer(serializers.ModelSerializer):
                     })
 
             if contractors_id_list.count(contractor['profile'].id) > 1:
-                #Need to be updated
+                #FIXME Need to be updated
                 #거래자 여러명 되면, key + id로 수정해줘야함.
                 raise serializers.ValidationError({
                 key: _("같은 사용자를 중복해서 등록할 수 없습니다."),

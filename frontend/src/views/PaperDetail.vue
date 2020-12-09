@@ -521,7 +521,7 @@ export default {
     },
     save() {
       const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
-      let self = this;
+      let that = this;
       let endpoint = "";
       var method = "POST";
 
@@ -532,14 +532,14 @@ export default {
       if(this.is_explanation_signature == true ){
          if(this.contractor.explanation_signature != undefined){
           method = "PUT";
-          endpoint = `/api/papers/${this.id}/explanation-signatures/${self.contractor.explanation_signature.id}/`;
+          endpoint = `/api/papers/${this.id}/explanation-signatures/${that.contractor.explanation_signature.id}/`;
         } else {
           endpoint = `/api/papers/${this.id}/explanation-signature/`;
         }
       }else {
         if(this.contractor.signature != undefined){
           method = "PUT";
-          endpoint = `/api/papers/${this.id}/signatures/${self.contractor.signature.id}/`;
+          endpoint = `/api/papers/${this.id}/signatures/${that.contractor.signature.id}/`;
         } else {
           endpoint = `/api/papers/${this.id}/signature/`;
         }
@@ -555,28 +555,28 @@ export default {
               formData.append(
                 "image",
                 myblob,
-                "explanation_signature_" + self.contractor.id + ".png"
+                "explanation_signature_" + that.contractor.id + ".png"
               );
             } else {
               formData.append(
               "image",
               myblob,
-              "signature_" + self.contractor.id + ".png"
+              "signature_" + that.contractor.id + ".png"
             );
             }
             
-            formData.append("contractor", self.contractor.id);
+            formData.append("contractor", that.contractor.id);
 
             apiService_formData(endpoint, method, formData).then(data => {
               if (data.id) {
                 console.log("success")
-                alert(self.$i18n.t("request_success"))
-                if(self.is_explanation_signature == true){
-                  self.contractor.explanation_signature = data;
+                alert(that.$i18n.t("request_success"))
+                if(that.is_explanation_signature == true){
+                  that.contractor.explanation_signature = data;
                 } else {
-                  self.contractor.signature = data;
+                  that.contractor.signature = data;
                 }
-                self.dialog = false;
+                that.dialog = false;
               }
             });
           });
@@ -610,8 +610,10 @@ export default {
 };
 </script>
 <style scoped>
-.v-card {
-  height: 100%;
+/* .v-card {
+  height: 100%;  
+  padding: 2px 8px 2px 8px;
+  border: thin solid rgba(0, 0, 0, 0.2) !important;
 }
 .LazyTextField > .v-input__control > .v-input__slot:before {
   border: 0 !important;
@@ -639,13 +641,14 @@ img {
     radial-gradient(circle at top left, #4bc5e8, #9f6274);
   background-origin: border-box;
   background-clip: content-box, border-box;
-}
+} */
 .signature-img {
-  height: 40px;
+  width: 100%;
+  height: 30px;
   z-index: 1;
   position: absolute;
-  top: -10px;
-  left: 5px;
+  top: -3px;
+  left: -5px;
   cursor: pointer;
 }
 .stamp-img {
@@ -654,10 +657,6 @@ img {
   position: absolute;
   top: -30px;
   cursor: pointer;
-}
-.v-card {
-  padding: 2px 8px 2px 8px;
-  border: thin solid rgba(0, 0, 0, 0.2) !important;
 }
 .contractor-title {
   background: #BBDEFB !important;

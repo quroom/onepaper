@@ -67,6 +67,7 @@ const i18n = new VueI18n({
       link: "Link",
       link_is_copied: "Link is copied",
       load: "Load",
+      load_more: "Load More",
       logout: "Logout",
       mandate: "Mandate",
       mandate_paper: "warrant of attorney",
@@ -115,7 +116,8 @@ const i18n = new VueI18n({
       user: "User",
       username: "User ID",
       verifying_explanation: "Verifying Explanation Manual",
-      won: "won",
+      writing: "writing",
+      won: "Won",
       won_paid_recieved: "won paid upon visit and received",
 
       //Profile message
@@ -240,10 +242,11 @@ const i18n = new VueI18n({
       manwon: "만원",
       landlord: "임대인",
       language: "언어",
-      last: "마지막",
+      last: "최종",
       link: "링크",
       link_is_copied: "링크가 복사 되었습니다.",
       load: "불러오기",
+      load_more: "더 보기",
       logout: "로그아웃",
       mandate: "위임",
       mandate_paper: "위임장",
@@ -289,6 +292,7 @@ const i18n = new VueI18n({
       username: "회원 아이디",
       updated_at: "수정일",
       verifying_manual: "확인설명서",
+      writing: "작성",
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
 
@@ -351,7 +355,7 @@ const i18n = new VueI18n({
       draft: "작성중",
       progress: "서명중",
       done: "완료",
-      hidden: "숨김",
+      hidden: "숨긴",
 
       //for verifying_manual
       enforcement_rules : "■ 공인중개사법 시행규칙 [별지 제20호서식]",

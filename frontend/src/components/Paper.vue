@@ -31,12 +31,13 @@
       </div>
       
       <v-card-title class="card-title pa-0 pl-4">
-        {{ paper.room_name }}
         {{ $getConstI18("trade_category", paper.trade_category) }}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
           {{ paper.address.old_address }}
+          <span v-if="paper.address.dong!=''"> {{ paper.address.dong }}{{ $t("dong") }}</span>
+          <span v-if="paper.address.ho!=''"> {{ paper.address.ho }}{{ $t("ho") }}</span>
         </div>
         <span>
           {{ $getConstI18("building_category", paper.building_category) }}
@@ -63,7 +64,7 @@
         >
         </span>
       </v-card-text>
-      <v-card-actions>
+      <!-- <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
           style="z-index:2;"
@@ -77,7 +78,7 @@
           <v-icon>create</v-icon>
           {{ $t("signature") }}
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
     <v-dialog v-model="dialog" height="40%" max-width="60%" eager>
         <v-card>
@@ -135,30 +136,30 @@ export default {
     status() {
       return this.paper_status ? this.paper_status : this.paper.status;
     },
-    contractor() {
-      const contractors = this.paper.paper_contractors;
-      for (let i = 0; i < contractors.length; i++) {
-        let contractor = contractors[i];
-        if (contractor.profile.user.username == this.requestUser) {
-          return contractor;
-        }
-      }
-      return undefined;
-    },
-    IsSigned(){
-      const contractors = this.paper.paper_contractors
-      for (let i = 0; i < contractors.length; i++) {
-        let contractor = contractors[i];
-        console.log(this.requestUser)
-        if (contractor.profile.user.username == this.requestUser) {
-          console.log(contractor.signature)
-          var updated_at = this.$get(contractor, "signature.updated_at", "0000-00-00")
-          console.log(this.paper.updated_at < updated_at)
-          return this.paper.updated_at <= this.$get(contractor, "signature.updated_at", "0000-00-00");
-        }
-      }
-      return false;
-    }
+    // contractor() {
+    //   const contractors = this.paper.paper_contractors;
+    //   for (let i = 0; i < contractors.length; i++) {
+    //     let contractor = contractors[i];
+    //     if (contractor.profile.user.username == this.requestUser) {
+    //       return contractor;
+    //     }
+    //   }
+    //   return undefined;
+    // },
+    // IsSigned(){
+    //   const contractors = this.paper.paper_contractors
+    //   for (let i = 0; i < contractors.length; i++) {
+    //     let contractor = contractors[i];
+    //     console.log(this.requestUser)
+    //     if (contractor.profile.user.username == this.requestUser) {
+    //       console.log(contractor.signature)
+    //       var updated_at = this.$get(contractor, "signature.updated_at", "0000-00-00")
+    //       console.log(this.paper.updated_at < updated_at)
+    //       return this.paper.updated_at <= this.$get(contractor, "signature.updated_at", "0000-00-00");
+    //     }
+    //   }
+    //   return false;
+    // }
   },
   methods: {
     clear() {
@@ -166,7 +167,7 @@ export default {
     },
     save() {
       const { isEmpty, data } = this.$refs["signaturePad"].saveSignature();
-      const self = this;
+      const that = this;
       if (isEmpty) {
         alert(this.$i18n.t("signature_empty_warning"));
         return;
@@ -175,8 +176,8 @@ export default {
       let endpoint = `/api/papers/${this.paper.id}/signature/`;
       let method = "POST";
 
-      if(self.contractor.signature != null) {
-        endpoint = `/api/papers/${this.paper.id}/signatures/${self.contractor.signature.id}/`;
+      if(that.contractor.signature != null) {
+        endpoint = `/api/papers/${this.paper.id}/signatures/${that.contractor.signature.id}/`;
         method = "PUT";
       }
 
@@ -190,16 +191,16 @@ export default {
             formData.append(
               "image",
               myblob,
-              "signature_" + self.contractor.id + ".png"
+              "signature_" + that.contractor.id + ".png"
             );
-            formData.append("contractor", self.contractor.id);
+            formData.append("contractor", that.contractor.id);
 
             apiService_formData(endpoint, method, formData).then(data => {
               if (data.id) {
                 alert(this.$i18n.t("request_success"))
-                self.contractor.signature = data;
-                self.paper_status = data.paper_status;
-                self.dialog = false;
+                that.contractor.signature = data;
+                that.paper_status = data.paper_status;
+                that.dialog = false;
               }
             });
           });

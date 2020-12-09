@@ -1,13 +1,11 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from papers.views import PaperViewset, PaperListApiView, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
+from papers.views import PaperViewset, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
 
 router = DefaultRouter()
 router.register(r"papers", PaperViewset, basename="Paper")
 urlpatterns = [    
     path("", include(router.urls)),
-    path("paper-list/",
-          PaperListApiView.as_view()),
     path("papers/<int:pk>/hide/",
          HidePaperApiView.as_view()),
     path("papers/<int:id>/signature/",

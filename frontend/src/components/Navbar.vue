@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app>
+  <v-app-bar app width="100%">
     <v-dialog v-model="dialog" max-width="400px">
       <v-card>
         <v-card-title>
@@ -79,7 +79,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <template v-if="$vuetify.breakpoint.width > 500">
+    <template v-if="this.$root.$el.clientWidth > 500">
       <router-link :to="{ name: 'home' }">
         <v-toolbar-title class="text-uppercase grey--text">
           OnePaper
@@ -99,9 +99,8 @@
           {{ $t(item.title) }}
         </router-link>
       </template>
-      <v-spacer></v-spacer>
     </template>
-    <v-spacer v-else></v-spacer>
+    <v-spacer></v-spacer>
     <v-btn text color="grey" href="/accounts/logout/">
       <span>{{ $t("logout") }}</span>
       <v-icon>exit_to_app</v-icon>
@@ -173,5 +172,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>
