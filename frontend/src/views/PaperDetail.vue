@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-row>
+    <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
+    <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
         <div style="float:right">
           <v-icon left color="blue">person</v-icon>
@@ -215,25 +216,29 @@
       :options="options"
       :disabled="true"
     />
-    <v-dialog v-model="dialog" height="40%" max-width="60%" eager>
+    <v-dialog v-model="dialog" width="50vh" height="25vh" eager>
       <v-card>
         <VueSignaturePad
           class="signature-pad"
-          width="100%"
-          height="400px"
+          width="50vh"
+          height="25vh"
           ref="signaturePad"
+          :customStyle="{ border: 'black 2px solid' }"
           :options="{...signature_pad_options}"
         />
+        <v-card-title class="justify-center">
+          {{ $t("please_sign") }}
+        </v-card-title>
         <v-card-actions>
           <v-btn color="blue darken-1" text @click="dialog = false">{{
             $t("close")
           }}</v-btn>
           <v-btn color="blue darken-1" text @click="clear()">{{
-            $t("clear")
+            `${$t("signature")} ${$t("clear")}`
           }}</v-btn>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="save()">{{
-            $t("save")
+            `${$t("signature")} ${$t("save")}`
           }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -338,6 +343,7 @@
 
 <script>
 import { apiService, apiService_formData } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api";
 import Contractor from "@/components/Contractor";
 import Actions from "@/components/Actions";
 import VerifyingExplanation from "@/components/VerifyingExplanation";
@@ -512,7 +518,11 @@ export default {
       this.isLoading = true;
       let endpoint = `/api/papers/${this.id}/`;
       apiService(endpoint).then(data => {
-        this.paper = data;
+        if(data.id != undefined){
+          this.paper = data;
+        } else {
+          applyValidation(data)
+        }
         this.isLoading = false;
       });
     },
@@ -568,7 +578,7 @@ export default {
             formData.append("contractor", that.contractor.id);
 
             apiService_formData(endpoint, method, formData).then(data => {
-              if (data.id) {
+              if (data.id != undefined) {
                 console.log("success")
                 alert(that.$i18n.t("request_success"))
                 if(that.is_explanation_signature == true){
@@ -577,6 +587,8 @@ export default {
                   that.contractor.signature = data;
                 }
                 that.dialog = false;
+              } else {
+                applyValidation(data)
               }
             });
           });
@@ -630,10 +642,6 @@ img {
   top: -25px;
   right: -45px;
 }
-.signature-button {
-  z-index: 2;
-  height: 100% !important;
-}
 .signature-pad {
   border-bottom: double 3px transparent;
   border-radius: 5px;
@@ -642,6 +650,11 @@ img {
   background-origin: border-box;
   background-clip: content-box, border-box;
 } */
+.signature-button {
+  z-index: 2;
+  height: 100% !important;
+  width: 100% !important;
+}
 .signature-img {
   width: 100%;
   height: 30px;

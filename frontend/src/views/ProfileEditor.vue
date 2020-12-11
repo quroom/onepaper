@@ -39,9 +39,12 @@
       <v-row>
         <!-- Expert Profile -->
         <template v-if="is_request_expert || is_expert">
-          <v-col class="text-center" cols="12">
-            <div class="text-h5">
+          <v-col cols="12">
+            <div class="text-h5 text-center">
               {{ $t("realestate_agency") }} {{ $t("profile") }}
+            </div>
+            <div class="mt-2 text-body-1 text-left" v-if="is_expert">
+              개업공인중개사 프로필은 첨부해주신 서류 검토후 승인 처리 후 사용이 가능합니다.
             </div>
           </v-col>
           <v-col cols="8">
@@ -284,7 +287,8 @@
           </a>
         </v-col>
       </v-row>
-      <v-btn class="mr-4" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+      <v-btn v-if="is_expert" style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("request") }}</v-btn>
+      <v-btn v-else style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
     </v-container>
   </ValidationObserver>
 </template>
@@ -396,17 +400,21 @@ export default {
             endpoint += `${that.id}/`;
             method = "PATCH";
           }
-          apiService_formData(endpoint, method, formData).then((data) => {
-            if (data.id) {
-              alert(that.$i18n.t("request_success"));
-              that.$emit("update:has_profile", data.has_profile)
-              that.$router.push({
-                name: "profiles"
-              });
-            } else {
-              applyValidation(data, that);
-            }
-          });
+            apiService_formData(endpoint, method, formData).then((data) => {
+              try{
+                if (data.id != undefined) {
+                  alert(that.$i18n.t("request_success"));
+                  that.$emit("update:has_profile", data.has_profile)
+                  that.$router.push({
+                    name: "profiles"
+                  });
+                } else {
+                  applyValidation(data, that);
+                }
+              } catch (err) {
+                alert(err);
+              }
+            });
         }
       });
     },
@@ -415,34 +423,39 @@ export default {
     if (to.params.id !== undefined) {
       let endpoint = `/api/profiles/${to.params.id}/`;
       let data = await apiService(endpoint);
-      if (data.user.is_expert) {
-        return next((vm) => {
-          vm.username = data.user.username;
-          vm.name = data.user.name;
-          vm.birthday = data.user.birthday;
-          vm.address = data.address;
-          vm.mobile_number = data.mobile_number;
-          vm.bank_name = data.bank_name;
-          vm.account_number = data.account_number;
-          vm.expert_profile.registration_number =
-            data.expert_profile.registration_number;
-          vm.expert_profile.shop_name = data.expert_profile.shop_name;
-          vm.registration_certificate_url =
-            data.expert_profile.registration_certificate;
-          vm.agency_license_url = data.expert_profile.agency_license;
-          vm.stamp_url = data.expert_profile.stamp;
-          vm.garantee_insurance_url = data.expert_profile.garantee_insurance;
-        });
+    
+      if (data.id != undefined) {
+        if (data.user.is_expert) {
+          return next((vm) => {
+            vm.username = data.user.username;
+            vm.name = data.user.name;
+            vm.birthday = data.user.birthday;
+            vm.address = data.address;
+            vm.mobile_number = data.mobile_number;
+            vm.bank_name = data.bank_name;
+            vm.account_number = data.account_number;
+            vm.expert_profile.registration_number =
+              data.expert_profile.registration_number;
+            vm.expert_profile.shop_name = data.expert_profile.shop_name;
+            vm.registration_certificate_url =
+              data.expert_profile.registration_certificate;
+            vm.agency_license_url = data.expert_profile.agency_license;
+            vm.stamp_url = data.expert_profile.stamp;
+            vm.garantee_insurance_url = data.expert_profile.garantee_insurance;
+          });
+        } else {
+          return next((vm) => {
+            vm.username = data.user.username;
+            vm.name = data.user.name;
+            vm.birthday = data.user.birthday;
+            vm.address = data.address;
+            vm.mobile_number = data.mobile_number;
+            vm.bank_name = data.bank_name;
+            vm.account_number = data.account_number;
+          });
+        }
       } else {
-        return next((vm) => {
-          vm.username = data.user.username;
-          vm.name = data.user.name;
-          vm.birthday = data.user.birthday;
-          vm.address = data.address;
-          vm.mobile_number = data.mobile_number;
-          vm.bank_name = data.bank_name;
-          vm.account_number = data.account_number;
-        });
+        applyValidation(data);
       }
     } else {
       return next((vm) => {

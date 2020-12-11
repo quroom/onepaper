@@ -2,6 +2,7 @@
 <template>
   <ValidationObserver ref="obs">
     <v-container>
+      <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', trade_category)} ${$t('contract')}` }}</div>
       <v-progress-linear
         v-if="is_expert"
         :value="percent"
@@ -20,6 +21,9 @@
             :headers="paper_headers"
             :items="papers"
             item-key="id"
+            :server-items-length="items_length"
+            @update:page="updatePagination"
+            :items-per-page="items_per_page"
           >
             <template
               v-slot:[`item.trade_category`]="{ item }">
@@ -408,92 +412,10 @@ export default {
       my_profiles: [],
       allowed_profiles: [],
       validation_check: false,
-      step:1,
-      max_step:4,
-      fields_names: {
-        realestate_fields: [
-          {
-            name: "land_category",
-            type: "select"
-          },
-          { 
-            name: "lot_area",
-            type: "Number",
-            step: "0.01"
-          },
-          {
-            name: "building_structure",
-            tyep: "String"
-          },
-          {
-            name: "building_category",
-            type: "select"
-          },
-          {
-            name: "building_area",
-            type: "Number",
-            step: "0.01"
-          }
-        ],
-        contract_fields: [
-          {
-            name: "security_deposit",
-            type: "Number"
-          },
-          {
-            name: "monthly_fee",
-            type: "Number"
-          },
-          {
-            name: "maintenance_fee",
-            type: "Number"
-          },
-          {
-            name: "down_payment",
-            type: "Number"
-          },
-        ],
-        basic_profile_fields: [
-        { name: "address"
-          , key: "address.old_address"
-          , cols:"9", md:"10", lg:"11" },
-        { name: "name"
-          , key: "user.name"
-          , cols:"9", sm:"3", md:"2"},
-        { name: "birthday"
-          , key: "user.birthday"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "mobile_number"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "bank_name"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "account_number"
-          , cols:"9", sm:"3", md:"2"}
-        ],
-        expert_profile_fields: [
-        { name: "registration_number"
-          , key: "expert_profile.registration_number"
-          , cols:"9", md:"10", lg:"4"},
-        { name: "shop_name"
-          , key: "expert_profile.shop_name"
-          , cols:"9", md:"10", lg:"6"},
-        { name: "address"
-          , key: "address.old_address"
-          , cols:"9", md:"10", lg:"11" },
-        { name: "name"
-          , key: "user.name"
-          , cols:"9", sm:"3", md:"2"},
-        { name: "birthday"
-          , key: "user.birthday"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "mobile_number"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "bank_name"
-          , cols:"9", sm:"3", md:"2"}, 
-        { name: "account_number"
-          , cols:"9", sm:"3", md:"2"}
-        ]
-      },
+      step: 1,
+      max_step: 4,
+      items_length: 0,
+      items_per_page: 10,
       from_date_menu: false,
       to_date_menu: false,
       land_category: 7,
@@ -501,7 +423,7 @@ export default {
       building_structure: null,
       building_category: 80,
       building_area: null,
-      trade_category: null,
+      trade_category: 0,
       address: {
         old_address: null,
         dong: '',
@@ -631,6 +553,90 @@ export default {
         payment_period: '',
         calculation_info: '<산출내역> \n\n중개보수: \n실    비: \n※ 중개보수는 시ㆍ도 조례로 정한 요율에 따르거나, 시ㆍ도 조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수 있습니다.'
       },
+      fields_names: {
+        realestate_fields: [
+          {
+            name: "land_category",
+            type: "select"
+          },
+          { 
+            name: "lot_area",
+            type: "Number",
+            step: "0.01"
+          },
+          {
+            name: "building_structure",
+            tyep: "String"
+          },
+          {
+            name: "building_category",
+            type: "select"
+          },
+          {
+            name: "building_area",
+            type: "Number",
+            step: "0.01"
+          }
+        ],
+        contract_fields: [
+          {
+            name: "security_deposit",
+            type: "Number"
+          },
+          {
+            name: "monthly_fee",
+            type: "Number"
+          },
+          {
+            name: "maintenance_fee",
+            type: "Number"
+          },
+          {
+            name: "down_payment",
+            type: "Number"
+          },
+        ],
+        basic_profile_fields: [
+        { name: "address"
+          , key: "address.old_address"
+          , cols:"9", md:"10", lg:"11" },
+        { name: "name"
+          , key: "user.name"
+          , cols:"9", sm:"3", md:"2"},
+        { name: "birthday"
+          , key: "user.birthday"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "mobile_number"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "bank_name"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "account_number"
+          , cols:"9", sm:"3", md:"2"}
+        ],
+        expert_profile_fields: [
+        { name: "registration_number"
+          , key: "expert_profile.registration_number"
+          , cols:"9", md:"10", lg:"4"},
+        { name: "shop_name"
+          , key: "expert_profile.shop_name"
+          , cols:"9", md:"10", lg:"6"},
+        { name: "address"
+          , key: "address.old_address"
+          , cols:"9", md:"10", lg:"11" },
+        { name: "name"
+          , key: "user.name"
+          , cols:"9", sm:"3", md:"2"},
+        { name: "birthday"
+          , key: "user.birthday"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "mobile_number"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "bank_name"
+          , cols:"9", sm:"3", md:"2"}, 
+        { name: "account_number"
+          , cols:"9", sm:"3", md:"2"}
+        ]
+      },
       editorOption: {
         modules: {
           toolbar: {
@@ -716,6 +722,17 @@ export default {
     };
   },
   methods: {
+    updatePagination (pagination) {
+      let endpoint = `/api/papers/?page=${pagination}`
+      apiService(endpoint).then(data => {
+        if(data != undefined) {
+          this.papers = data.results;
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
+        }
+      })
+    },
     input_change(item) {
       this.$delete(this.allowed_profiles)
     },
@@ -727,15 +744,30 @@ export default {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
       apiService(endpoint).then(data => {
-        this.allowed_profiles = data;
+        if(data.length != undefined){
+            this.allowed_profiles = data;
+          if(data.length == 1) {
+            alert(this.$i18n.t("send_your_link"))
+            this.$root.$emit("link_dialog", true)
+            this.$router.push({
+              name:"home"
+            })
+          }
+        } else {
+          applyValidation(data)
+        }
         this.isLoading = false;
       });
     },
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        this.my_profiles = data;
-        this.is_expert = true;
+        if(data != undefined){
+          this.my_profiles = data;
+          this.is_expert = true;
+        } else {
+          applyValidation(data)
+        }
       });
     },
     getPaperList() {
@@ -744,7 +776,10 @@ export default {
       this.isLoading = true;
       let endpoint = `/api/papers/`;
       apiService(endpoint).then(data => {
-        this.papers.push(...data.results);
+        if(data != undefined) {
+          this.items_length = data.count;
+          this.papers.push(...data.results);
+        }
         this.isLoading = false;
       })
     },
@@ -753,35 +788,39 @@ export default {
       let endpoint = `/api/papers/${item.id}/`;
       that.contractors = []
       apiService(endpoint).then(data => {
-        for(const contractor_index in data.paper_contractors) {
-          var contractor = data.paper_contractors[contractor_index]
-          console.log(contractor.profile.user.username)
-          console.log(that.requestUser)
-          if(contractor.profile.user.username==that.requestUser){
-            that.contractors.push(contractor)
-            that.$data[that.$getConst("contractor_category", contractor.group)]=contractor.profile
+        if(data.id != undefined) {
+          for(const contractor_index in data.paper_contractors) {
+            var contractor = data.paper_contractors[contractor_index]
+            console.log(contractor.profile.user.username)
+            console.log(that.requestUser)
+            if(contractor.profile.user.username==that.requestUser){
+              that.contractors.push(contractor)
+              that.$data[that.$getConst("contractor_category", contractor.group)]=contractor.profile
+            }
           }
+          that.land_category = data.land_category;
+          that.lot_area = data.lot_area;
+          that.building_structure = data.building_structure;
+          that.building_category = data.building_category;
+          that.building_area = data.building_area;
+          that.trade_category = data.trade_category;
+          that.address = data.address;
+          that.deposit = data.deposit;
+          that.down_payment = data.down_payment;
+          that.security_deposit = data.security_deposit;
+          that.maintenance_fee = data.maintenance_fee;
+          that.monthly_fee = data.monthly_fee;
+          that.from_date = data.from_date;
+          that.to_date = data.to_date;
+          that.realestate_category = data.realestate_category;
+          that.special_agreement = data.special_agreement;
+          if(data.verifying_explanation != null) {
+            that.ve = data.verifying_explanation;
+          }
+          that.paper_load_dialog = false;
+        } else {
+          applyValidation(data)
         }
-        that.land_category = data.land_category;
-        that.lot_area = data.lot_area;
-        that.building_structure = data.building_structure;
-        that.building_category = data.building_category;
-        that.building_area = data.building_area;
-        that.trade_category = data.trade_category;
-        that.address = data.address;
-        that.deposit = data.deposit;
-        that.down_payment = data.down_payment;
-        that.security_deposit = data.security_deposit;
-        that.maintenance_fee = data.maintenance_fee;
-        that.monthly_fee = data.monthly_fee;
-        that.from_date = data.from_date;
-        that.to_date = data.to_date;
-        that.realestate_category = data.realestate_category;
-        that.special_agreement = data.special_agreement;
-        if(data.verifying_explanation != null) {
-          that.ve = data.verifying_explanation;
-        }
-        that.paper_load_dialog = false;
       })
     },    
     nextStep(){
@@ -885,7 +924,7 @@ export default {
               special_agreement: that.special_agreement,
               verifying_explanation: that.ve
             }).then(data => {
-              if (data.id) {
+              if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"))
                 that.$router.push({
                   name: "paper",
@@ -911,42 +950,46 @@ export default {
     if (to.params.id !== undefined) {
       let endpoint = `/api/papers/${to.params.id}/`;
       let data = await apiService(endpoint);
-      return next(
-        vm => {
-          for(const contractor_index in data.paper_contractors) {
-            var contractor = data.paper_contractors[contractor_index]
-            if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")){
-              (vm.expert = contractor.profile)
-            }else if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")){
-              (vm.seller = contractor.profile)
-            }else {
-              (vm.buyer = contractor.profile)
+      if(data.id) {
+        return next(
+          vm => {
+            for(const contractor_index in data.paper_contractors) {
+              var contractor = data.paper_contractors[contractor_index]
+              if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")){
+                (vm.expert = contractor.profile)
+              }else if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")){
+                (vm.seller = contractor.profile)
+              }else {
+                (vm.buyer = contractor.profile)
+              }
+            }
+            vm.land_category = data.land_category;
+            vm.lot_area = data.lot_area;
+            vm.building_structure = data.building_structure;
+            vm.building_category = data.building_category;
+            vm.building_area = data.building_area;
+            vm.trade_category = data.trade_category;
+            vm.address = data.address;
+            vm.deposit = data.deposit;
+            vm.down_payment = data.down_payment;
+            vm.security_deposit = data.security_deposit;
+            vm.maintenance_fee = data.maintenance_fee;
+            vm.monthly_fee = data.monthly_fee;
+            vm.from_date = data.from_date;
+            vm.to_date = data.to_date;
+            vm.realestate_category = data.realestate_category;
+            vm.special_agreement = data.special_agreement;
+            vm.contractors = data.paper_contractors;
+            vm.status = data.status;
+            console.log(data.verifying_explanation)
+            if(data.verifying_explanation != null) {
+              vm.ve = data.verifying_explanation;
             }
           }
-          vm.land_category = data.land_category;
-          vm.lot_area = data.lot_area;
-          vm.building_structure = data.building_structure;
-          vm.building_category = data.building_category;
-          vm.building_area = data.building_area;
-          vm.trade_category = data.trade_category;
-          vm.address = data.address;
-          vm.deposit = data.deposit;
-          vm.down_payment = data.down_payment;
-          vm.security_deposit = data.security_deposit;
-          vm.maintenance_fee = data.maintenance_fee;
-          vm.monthly_fee = data.monthly_fee;
-          vm.from_date = data.from_date;
-          vm.to_date = data.to_date;
-          vm.realestate_category = data.realestate_category;
-          vm.special_agreement = data.special_agreement;
-          vm.contractors = data.paper_contractors;
-          vm.status = data.status;
-          console.log(data.verifying_explanation)
-          if(data.verifying_explanation != null) {
-            vm.ve = data.verifying_explanation;
-          }
-        }
-      );
+        );
+      } else {
+        applyValidation(data)
+      }
     } else {
       return next();
     }

@@ -140,7 +140,12 @@ export default {
     getProfiles() {
       let endpoint = `/api/approve-experts/`
       apiService(endpoint).then(data => {
-        this.profiles=data.results;
+        if(data.count != undefined) {
+          this.profiles=data.results;
+        } else {
+          applyValidation(data)
+          this.$router.push({name:'home'})
+        }
       })
     },
     approveProfile(item, is_list) {
@@ -157,7 +162,7 @@ export default {
       }
       let endpoint = `/api/approve-experts/`
       apiService(endpoint, "PUT", data).then(data => {
-        if(data.count) {
+        if(data.count != undefined) {
           this.profiles = data.results;
           alert(this.$i18n.t("request_success"))
         } else {
@@ -176,9 +181,9 @@ export default {
 
       let endpoint = `/api/approve-experts/`
       apiService(endpoint, "DELETE", data).then(data => {
-        if(data.count) {
-          this.profiles=data.results;
-          alert(this.$i18n.t("request_success"))
+        if(data.count != undefined) {
+          this.profiles = data.results;
+          alert(this.$i18n.t("delete_success"))
           this.selected_profile_list = []
         } else {
           applyValidation(data)

@@ -1,57 +1,78 @@
 <template>
   <v-container>
+    <v-menu v-model="menu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+    >
+      <template
+        v-slot:activator="{ on, attrs }"
+      >
+        <v-btn color="primary" dark fixed fab middle right v-bind="attrs" v-on="on">
+          <v-icon>filter_list_alt</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
+          <v-list>
+            <v-list-item>
+              <v-select
+                v-model="options.status"
+                :items="STATUS_CATEGORY_LIST"
+                item-text="text"
+                item-value="value"
+                :label="`${$t('contract')} ${$t('status')}`"
+              >
+              </v-select>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                class="ve-input"
+                v-model="options.address"
+                exact_correct_match
+
+                :label="`${$t('address')}(${$t('partial_correct_match')})`"
+                hide-details
+                dense
+              ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+              <v-text-field
+                class="ve-input"
+                v-model="options.dong"
+                :label="`${$t('dong')}(${$t('exact_correct_match')})`"
+                hide-details
+                dense
+              ></v-text-field>
+              <v-text-field
+                class="ve-input"
+                v-model="options.ho"
+                :label="`${$t('ho')}(${$t('exact_correct_match')})`"
+                hide-details
+                dense
+              ></v-text-field>
+            </v-list-item>
+          </v-list>
+          <v-card-actions>
+            <v-btn
+              color="green"
+              dark
+              @click="menu = false"
+            >
+              {{ $t('cancel') }}
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="getPapersWithOptions(); menu=false;">
+              <v-icon>search</v-icon>
+              {{ $t('search') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+    </v-menu>
     <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
-      {{$t("no_contract")}}
+      {{$t("no_contents")}}
     </div>
     <template v-else>
-      <v-menu v-model="menu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-      >
-        <template
-          v-slot:activator="{ on, attrs }"
-        >
-          <v-btn color="grey" dark fixed fab middle right v-bind="attrs" v-on="on">
-            <v-icon>filter_list_alt</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-            <v-list>
-              <v-list-item>
-                <v-text-field
-                  class="ve-input"
-                  :label="$t('address')"
-                  hide-details
-                  dense
-                ></v-text-field>
-              </v-list-item>
-              <v-list-item>
-                <v-text-field
-                  class="ve-input"
-                  :label="$t('ho')"
-                  hide-details
-                  dense
-                ></v-text-field>
-              </v-list-item>
-              <v-list-item>
-                <v-checkbox class="ve-input" v-model="hide" :label="$t('hidden') + $t('paper')" hide-details dense></v-checkbox>
-              </v-list-item>
-            </v-list>
-            <v-list>
-              <v-list-item>
-                <v-list-item-action>
-                  
-      
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
-            <v-card-actions>
-              <v-btn icon>
-                <v-icon>search</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-      </v-menu>
       <v-row>
         <template v-for="paper in papers">
           <Paper :requestUser="requestUser" :paper="paper" :key="paper.id"/>
@@ -77,6 +98,7 @@
 
 <script>
 import { apiService } from "@/common/api.service";
+import { applyValidation } from "@/common/common_api";
 import Paper from "@/components/Paper"
 export default {
   name: "Home",
@@ -86,35 +108,78 @@ export default {
   data() {
     return {
       papers: [],
+      isLoading: true,
       options: {
-        group: null,
-        hide: false,
-        status: 0,
-        address: null,
-        dong: null,
-        ho: null,
+        address: '',
+        dong: '',
+        ho: '',
+        status: ''
       },
       hide: false,
       menu: false,
       requestUser: null,
-      next: null
+      next: null,
+      STATUS_CATEGORY_LIST: [
+        {
+          text:`${this.$t('all')}`,
+          value: ''
+        },
+        {
+          text:`${this.$t('draft')}`,
+          value: 0
+        },
+        {
+          text:`${this.$t('progress')}`,
+          value: 1
+        },
+        {
+          text:`${this.$t('done')}`,
+          value: 2
+        }
+      ]
     };
   },
   computed: {},
   methods: {
+    async getPapersWithOptions(){
+      let endpoint = "/api/papers/";
+      let is_options = false;
+      Object.entries(this.options).forEach(function(entry){
+        const [key, value] = entry;
+        if(value !== ''){
+          if(is_options) {
+            endpoint += `&${key}=${value}`
+          } else {
+            endpoint += `?${key}=${value}`
+          }
+          is_options = true;
+        }
+      })
+      this.isLoading = true;
+      await apiService(endpoint).then(data => {
+        if(data.count != undefined){
+          this.papers = data.results
+          this.isLoading = false;
+          this.next = data.next;
+        } else {
+          applyValidation(data);
+        }
+      });
+    },
     async getPapers() {
+      const that = this;
       let endpoint = "/api/papers/";
       if(this.next) {
         endpoint = this.next;
       }
       this.isLoading = true;
       await apiService(endpoint).then(data => {
-        this.papers.push(...data.results);
-        this.isLoading = false;
-        if (data.next) {
+        if(data.count != undefined){
+          this.papers.push(...data.results);
+          this.isLoading = false;
           this.next = data.next;
         } else {
-          this.next = null
+          applyValidation(data);
         }
       });
     }

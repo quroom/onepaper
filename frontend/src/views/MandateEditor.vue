@@ -1,12 +1,13 @@
 <template>
   <v-container>
-    <v-dialog v-model="signature_dialog" height="40%" max-width="60%" eager>
+    <v-dialog v-model="signature_dialog" width="50vh" height="25vh" eager>
         <v-card>
           <VueSignaturePad
             class="signature-pad"
-            width="100%"
-            height="400px"
+            width="50vh"
+            height="25vh"
             ref="signaturePad"
+            :customStyle="{ border: 'black 2px solid' }"
             :options="{
               minWidth: 3,
               maxWidth: 3,
@@ -14,11 +15,14 @@
             }"
           />
           <v-card-actions>
+            <v-card-title class="justify-center">
+              {{ $t("please_sign") }}
+            </v-card-title>
             <v-btn color="blue darken-1" text @click="signature_dialog = false">{{
               $t("close")
             }}</v-btn>
             <v-btn color="blue darken-1" text @click="$refs.signaturePad.clearSignature();">{{
-              $t("clear")
+              `${$t("signature")} ${$t("clear")}`
             }}</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="submit()">{{
@@ -27,7 +31,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <template v-if="id&&isAuthor">
+      <template v-if="id&&isAuthor&&!designator_signature_url">
         <v-chip-group>
           <DeleteAlert v-if="!readonly_flag" :id="id" url="/api/mandates/" router_name="mandates" />
           <v-spacer></v-spacer>
@@ -174,7 +178,7 @@
           ({{ $t("designator") }} {{ $t("signature") }})
         </div>
       </ValidationObserver>
-      <div style="float:right">
+      <div v-if="!designator_signature_url" style="float:right">
         <v-btn
           v-if="isDesignator"
           class="signature-button mt-3"
@@ -232,7 +236,7 @@ export default {
   data() {
     return {
       id: null,
-      readonly_flag: this.readonly ? this.readonly : false,
+      readonly_flag: this.readonly,
       isLoading: false,
       allowed_profiles: [],
       my_profiles: [],
@@ -298,15 +302,23 @@ export default {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
       apiService(endpoint).then(data => {
-        this.allowed_profiles = data;
-        this.isLoading = false;
+        if(data.length != undefined) {
+          this.allowed_profiles = data;
+          this.isLoading = false;
+        } else {
+          applyValidation(data)
+        }
       });
     },
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        this.my_profiles = data;
-        this.is_expert = true;
+        if(data.length != undefined) {
+          this.my_profiles = data;
+          this.is_expert = true;
+        } else {
+          applyValidation(data)
+        }
       });
     },
     customFilter(item, queryText) {
@@ -364,7 +376,7 @@ export default {
             method = "PATCH";
           }
           apiService_formData(endpoint, method, formData).then((data) => {
-            if (data.id) {
+            if (data.id != undefined) {
               alert(that.$i18n.t("request_success"));
               that.$router.push({
                 name: "mandates"
@@ -388,19 +400,23 @@ export default {
     if (to.params.id !== undefined){
       let endpoint = `/api/mandates/${to.params.id}/`;
       let data = await apiService(endpoint);
-      return next(
-        vm => {
-          vm.id = data.id;
-          vm.author = data.author;
-          vm.designator = data.designator;
-          vm.designee = data.designee;
-          vm.address = data.address;
-          vm.designator_signature_url = data.designator_signature;
-          vm.content = data.content;
-          vm.period.push(data.from_date)
-          vm.period.push(data.to_date)
-        }
-      )
+      if(data.id != undefined) {
+        return next(
+          vm => {
+            vm.id = data.id;
+            vm.author = data.author;
+            vm.designator = data.designator;
+            vm.designee = data.designee;
+            vm.address = data.address;
+            vm.designator_signature_url = data.designator_signature;
+            vm.content = data.content;
+            vm.period.push(data.from_date)
+            vm.period.push(data.to_date)
+          }
+        ) 
+      } else {
+        applyValidation(data)
+      }
     } else {
       return next();
     }
@@ -414,7 +430,11 @@ export default {
 </script>
 
 <style scoped>
-
+.signature-button {
+  z-index: 2;
+  height: 100% !important;
+  width: 100% !important;
+}
 .signature-img {
   height: 40px;
   left: 95px;

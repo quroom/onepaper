@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-row>
+    <div v-if="mandates.length == 0 && !isLoading" class="text-h5 text-center">
+      {{$t("no_contents")}}
+    </div>
+    <v-row v-else>
       <v-col
         cols="12"
         md="6"
@@ -24,6 +27,15 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row justify="center">
+      <v-btn
+        v-show="next"
+        @click="getMandates"
+        color="primary"
+      >
+        {{$t("load_more")}}
+      </v-btn>
+    </v-row>
     <router-link :to="{ name: 'mandates-editor', params: {readonly:false} }">
       <v-btn color="grey" dark fixed fab bottom right>
         <v-icon>add</v-icon>
@@ -33,20 +45,33 @@
 </template>
 
 <script>
+import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
 
 export default {
   name: "Mandates",
   data() {
     return {
-      mandates:[]
+      isLoading: true,
+      mandates:[],
+      next: null,
     }
   },
   methods: {
     async getMandates(){
       let endpoint = "api/mandates/";
+      if(this.next){
+        endpoint = this.next;
+      }
+      this.isLoading = true;
       await apiService(endpoint).then(data => {
-        this.mandates.push(...data.results);
+        if(data != undefined) {
+          this.next = data.next;
+          this.mandates.push(...data.results);
+          this.isLoading = false;
+        } else {
+          applyValidation(data)
+        }
       })
     }
   },

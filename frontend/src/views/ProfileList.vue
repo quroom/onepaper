@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <v-btn
+      align="center"
+      color="green"
+      dark
+      :to="{ name: 'user-editor'}"
+    >
+      <v-icon>account_box</v-icon>
+      {{$t("edit_registor_info")}}
+    </v-btn>
     <v-dialog
       v-model="dialog"
       max-width="400px"
@@ -24,7 +33,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-row>
+    <div v-if="profiles.length == 0 && !isLoading" class="text-h5 text-center">
+      {{$t("no_contents")}}
+    </div>
+    <v-row v-else>
       <v-col
         cols="12"
         md="6"
@@ -55,13 +67,20 @@
               <span class="pa-1"> {{ profile.bank_name }} </span>
               <span class="pa-1"> {{ profile.account_number }} </span>
             </v-card-subtitle>
-            <v-card-actions v-if="username != undefined">
+            <v-card-actions v-if="username != undefined && name != undefined">
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click.prevent="addUserDialog(profile.id)"> {{ $t("request") }} {{ $t("add_user") }} </v-btn>
+              <v-btn color="primary" @click.prevent="addUserDialog(profile.id)">
+                <v-icon>person_add</v-icon>
+                {{ $t("add_trade_user_directly") }}
+              </v-btn>
             </v-card-actions>
             <v-card-actions v-else>
               <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }"> {{ $t("edit") }} </v-btn>
-              <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> {{ $t("trade") + $t("add_user") }} </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> 
+                <v-icon>person_add</v-icon>
+                {{ $t("trade") + $t("add_user") }}
+              </v-btn>
             </v-card-actions>
           </v-card>
         </router-link>
@@ -98,8 +117,9 @@ export default {
   data() {
     return {
       profiles: [],
+      isLoading: false,
       id: undefined,
-      dialog: false,
+      dialog: false
     };
   },
   methods: {
@@ -117,7 +137,7 @@ export default {
       }
       endpoint = `/api/profiles/${this.profiles[0].id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
-        if(data.id) {
+        if(data.count != undefined) {
           alert(this.$i18n.t("request_success"))
         } else {
           applyValidation(data)
@@ -127,14 +147,20 @@ export default {
     },
     getProfiles() {
       let endpoint = "/api/profiles/";
+      this.isLoading = true;
       apiService(endpoint).then(data => {
-        if(data.length == 0){
-            this.$emit("update:has_profile", false)
+        if(data.length != undefined){
+          this.profiles.push(...data);
+          
+          if(data.length == 0){
+              this.$emit("update:has_profile", false)
+          } else {
+            this.$emit("update:has_profile", true)
+          }
         } else {
-          this.$emit("update:has_profile", true)
+          applyValidation(data)
         }
-        this.profiles.push(...data);
-
+        this.isLoading = false;
         if(this.username != undefined && this.name != undefined && this.profiles.length == 1){
           this.dialog = true;
           this.id = this.profiles[0].id;
