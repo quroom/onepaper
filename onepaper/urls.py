@@ -40,7 +40,7 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api/rest-auth/", include("rest_auth.urls")),
     path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
-    path('api/__debug__/', include(debug_toolbar.urls)),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 from django.conf.urls.static import static
