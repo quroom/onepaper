@@ -1043,16 +1043,16 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            {{ ve.comission }} 원
+            {{ `${ve.comission}${$t('won')}` }} 
           </div>
         </td>
         <td class="border-tbl" width="255" colspan="3" rowspan="4">
           <div>
             &lt;산출내역&gt; 
             <br/><br/>
-            중개보수: {{ ve.comission }}
+            중개보수: {{ `${ve.comission}${$t('won')}` }} 
             <br/><br/>
-            실 비: {{ ve.actual_expenses }}
+            실 비: {{ `${ve.actual_expenses}${$t('won')}` }}
             <br/><br/>
             ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도
             조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로
@@ -1067,7 +1067,7 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            {{ ve.actual_expenses }} 원
+            {{ `${ve.actual_expenses}${$t('won')}` }}
           </div>
         </td>
       </tr>
@@ -1077,7 +1077,7 @@
         </td>
         <td width="219" colspan="4">
           <div>
-            {{ ve.comission + ve.actual_expenses }}
+            {{ `${ve.comission + ve.actual_expenses}${$t('won')}` }}
           </div>
         </td>
       </tr>
@@ -1146,10 +1146,20 @@ export default {
 <style scoped>
   table {
     min-width: 800px !important;
-    width: 100%;
+    width: 99.9%;
+    border-width: 1px 0px;
   }
   div {
     padding-left: 4px;
     word-spacing: 2px; 
+  }
+  .border-tb {
+    border-width: 1px 0px 1px 0px;
+  }
+  .border-trb {
+    border-width: 1px 1px 1px 0px;
+  }
+  .border-tbl {
+    border-width: 1px 0px 1px 1px;
   }
 </style>

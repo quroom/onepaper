@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    'rest_auth',
-    'rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    # 'rest_auth',
+    # 'rest_auth.registration',
 
     'crispy_forms',
     'phonenumber_field',

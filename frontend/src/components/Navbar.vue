@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app width="100%">
-    <v-dialog v-model="dialog" max-width="400px">
+    <v-dialog v-model="dialog" max-width="400px" @click:outside="messages = []; success = false;">
       <v-card>
         <v-card-title>
           {{ $t("add_allowed_user") }}
@@ -32,37 +32,31 @@
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <router-link
             v-for="item in items"
-            :v-if="!item.staff_only || item.staff_only == is_staff"
             :to="item.route"
             :key="item.title + `-nav`"
           >
-            <v-list-item>
-              <v-list-item-icon>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-icon>
-
-              <v-list-item-content>
-                <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-if="!item.staff_only || item.staff_only == is_staff">
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </router-link>
           <v-divider></v-divider>
           <v-list-item
             key="link"
-            @click="
-              messages = [];
-              success = false;
-              dialog = true;
-            "
+            @click="dialog = true;"
           >
             <v-list-item-icon>
               <v-icon> arrow_right_alt </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title
-                >{{ $t("profile") }} {{ $t("allow") }}
-                {{ $t("link") }}</v-list-item-title
-              >
+                >{{ $t("add_trader_link") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="switchLoc()">
@@ -74,6 +68,19 @@
               <v-list-item-title
                 >{{ $t("language") }} {{ $t("change") }}</v-list-item-title
               >
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item
+            :to="{ name: 'user-editor'}"
+          >
+            <v-list-item-icon>
+              <v-icon>account_box</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{$t("edit_registor_info")}}
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -99,6 +106,14 @@
           {{ $t(item.title) }}
         </router-link>
       </template>
+    </template>
+    <template v-else>
+      <router-link
+        class="ma-4"
+        :to="{ name: 'home' }"
+      >
+        {{ $t("paper") }}
+      </router-link>
     </template>
     <v-spacer></v-spacer>
     <v-btn text color="grey" href="/accounts/logout/">
@@ -135,7 +150,7 @@ export default {
         },
         {
           title: "mandate_paper",
-          icon: "account_box",
+          icon: "description",
           route: { name: "mandates" },
           staff_only: false
         },
@@ -151,6 +166,11 @@ export default {
       success: false,
       messages: ""
     };
+  },
+  mounted() {
+    this.$root.$on('link_dialog', data => {
+        this.dialog = data;
+    });
   },
   created() {
     this.requestUser = window.localStorage.getItem("username");

@@ -9,6 +9,7 @@ import ProfileEditor from "../views/ProfileEditor";
 import AllowedUserEditor from "../views/AllowedUserEditor";
 import MandateEditor from "../views/MandateEditor";
 import Mandates from "../views/MandateList";
+import UserEditor from "../views/UserEditor";
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,11 @@ const routes = [
     name: "mandates-editor",
     component: MandateEditor,
     props: true
+  },
+  {
+    path: "/edit/user/",
+    name: "user-editor",
+    component: UserEditor
   }
 ];
 

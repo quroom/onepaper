@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
     bio = models.CharField(max_length=240, blank=True)
     used_count = models.PositiveSmallIntegerField(blank=True, default=0)
     name = models.CharField(max_length=150)
-    birthday = models.DateField(null=True)
+    birthday = models.DateField()
     request_expert = models.BooleanField(default=False)
 
 class Profile(models.Model):

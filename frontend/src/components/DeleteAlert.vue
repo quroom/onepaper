@@ -57,17 +57,17 @@ export default {
   },
   methods: {
     async deleteData() {
+      const that = this;
       if(this.callback == undefined) {
         try {
           let endpoint = this.url+`${this.id}/`;
           await apiService(endpoint, "DELETE").then(data => {
-            console.log(data)
             if(data == undefined){
-              alert(this.$i18n.t("request_success"));
+              alert(this.$i18n.t("delete_success"));
               this.$router.push({name:this.router_name}); 
             }
             else{
-              applyValidation(data);
+              applyValidation(data, that);
             }
           });
         } catch(err) {
@@ -76,7 +76,6 @@ export default {
       } else {
         this.callback()
       }
-      
     }
   }
 }

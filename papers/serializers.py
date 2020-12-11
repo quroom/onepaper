@@ -1,4 +1,5 @@
 import datetime
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import fields
 from rest_framework import serializers
@@ -87,6 +88,7 @@ class PaperSerializer(serializers.ModelSerializer):
         model = Paper
         fields = "__all__"
 
+    @transaction.atomic
     def create(self, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
@@ -104,7 +106,8 @@ class PaperSerializer(serializers.ModelSerializer):
             address = Address.objects.create(**verifying_explanation_address_data)
             VerifyingExplanation.objects.create(paper=paper, address=address, **verifying_explanation_data)
         return paper
-    
+
+    @transaction.atomic
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address')
         contractors_data = validated_data.pop('paper_contractors')
@@ -186,7 +189,7 @@ class PaperSerializer(serializers.ModelSerializer):
                     })
             if contractor['group'] == Contractor.EXPERT:
                 if ExpertProfile.objects.filter(profile=contractor['profile'], status=ExpertProfile.APPROVED).exists():
-                    if not author == contractor['profile'].user:
+                    if author != contractor['profile'].user:
                         raise serializers.ValidationError({
                             key: _("본인의 프로필을 입력해주세요."),
                         })

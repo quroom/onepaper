@@ -1,6 +1,6 @@
 <template>
   <v-app app>
-    <Navbar :is_staff="is_staff" />
+    <Navbar class="navbar" :is_staff="is_staff" />
     <v-main>
       <router-view :has_profile.sync="has_profile" />
     </v-main>
@@ -19,12 +19,13 @@ export default {
   },
   data: () => ({
     is_staff: false,
-    has_profile: false
+    link_dialog: false,
+    has_profile: true
   }),
   watch: {
     has_profile() {
-      console.log("has_profile:", this.has_profile)
       if (this.has_profile == false && this.is_staff == false) {
+        console.log("profile", this.has_profile)
         if (this.$router.name != "profile-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -32,8 +33,9 @@ export default {
       }
     },
     $route(to) {
-      console.log("route_has_profile:", this.has_profile)
+      console.log(this)
       if (this.has_profile == false && this.is_staff == false) {
+        console.log("route_profile", this.has_profile)
         if (to.name != "profile-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -45,8 +47,9 @@ export default {
     async setUserInfo() {
       const data = await apiService("/api/user/");
       if(data.id == undefined){
-        applyValidation(data)
+        applyValidation(data, this)
       }
+      console.log("update_has_profile", data["has_profile"])
       window.localStorage.setItem("username", data["username"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);
@@ -54,12 +57,12 @@ export default {
       window.localStorage.setItem("request_expert", data["request_expert"]);
       this.has_profile = data["has_profile"];
       this.is_staff = data["is_staff"];
-      if (this.has_profile == false && this.is_staff == false) {
-        if (this.$route.name != "profile-editor") {
-          alert(this.$i18n.t("no_profile_cant_use_service"));
-          this.$router.push({ name: "profile-editor" });
-        }
-      }
+      // if (this.has_profile == false && this.is_staff == false) {
+      //   if (this.$route.name != "profile-editor") {
+      //     alert(this.$i18n.t("no_profile_cant_use_service"));
+      //     this.$router.push({ name: "profile-editor" });
+      //   }
+      // }
     }
   },
   created() {
@@ -88,5 +91,11 @@ a:hover {
 }
 .float_right {
   float: right;
+}
+
+@media print {
+  .navbar {
+    display: none;
+  }
 }
 </style>

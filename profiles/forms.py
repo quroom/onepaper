@@ -7,7 +7,7 @@ from datetime import datetime
 
 date_range = 100
 this_year = datetime.now().year
-class CustomUserForm(RegistrationForm):    
+class CustomUserForm(RegistrationForm):
     # username = forms.CharField(label=_('widget=forms.TextInput(attrs={'autofocus': True}))
     name = forms.CharField(label=_('이름'), required=True, max_length=150)
     birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))

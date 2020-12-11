@@ -38,8 +38,8 @@ urlpatterns = [
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
     path("api-auth/", include("rest_framework.urls")),
-    path("api/rest-auth/", include("rest_auth.urls")),
-    path("api/rest-auth/registration/", include("rest_auth.registration.urls")),
+    path("api/dj_rest_auth/", include("dj_rest_auth.urls")),
+    path("api/dj_rest_auth/registration/", include("dj_rest_auth.registration.urls")),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 
