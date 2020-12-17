@@ -10,15 +10,16 @@ const i18n = new VueI18n({
   messages: {
     en: {
       validation: en.messages,
-      //Default message      
-      add_trade_user_directly:"Add user directly",
+      //Default message
+      add_trade_user_directly: "Add user directly",
       add_trader_link: "Request link to add trader",
       accept: "Aceept",
-      and: "and", 
+      and: "and",
       attached_document: "Attached Document",
       allow: "Allowed",
       add_allowed_user: "Add user allowed to view profile",
-      allow_user_list: "List of users allowed to view profile(Contracted member)",
+      allow_user_list:
+        "List of users allowed to view profile(Contracted member)",
       add_user: "Add User",
       approve: "Approve",
       approved: "Approved",
@@ -42,6 +43,7 @@ const i18n = new VueI18n({
       create_paper_title: "Editor - Paper",
       confirm: "Confirm",
       copy: "Copy",
+      default: "Default",
       desc_realestate: "Description of Realestate",
       designator: "designator",
       designee: "designee",
@@ -73,6 +75,7 @@ const i18n = new VueI18n({
       language: "Language",
       last: "Last",
       link: "Link",
+      list: "List",
       link_is_copied: "Link is copied",
       load: "Load",
       load_more: "Load More",
@@ -95,6 +98,7 @@ const i18n = new VueI18n({
       please_add_trade_user: "Please add user allowed to view profile",
       please_sign: "Please sign here.",
       profile_name: "Profile Name",
+      profile_list_detail: "This profile will be used in contract paper.",
       read_mode: "Read Mode",
       realestate: "Realestate",
       realestate_agency: "Realestate Agency",
@@ -107,6 +111,7 @@ const i18n = new VueI18n({
       search: "Search",
       send_your_link: "Send link to user who you want to trade.",
       select: "Select",
+      set_default_profile: "As Default",
       special_agreement: "Special Agreement",
       special_agreement_basic_template: "",
       status: "status",
@@ -129,6 +134,7 @@ const i18n = new VueI18n({
       username: "User ID",
       verifying_explanation: "Verifying Explanation Manual",
       writing: "writing",
+      written: "Written",
       won: "Won",
       won_paid_recieved: "won paid upon visit and received",
 
@@ -147,7 +153,7 @@ const i18n = new VueI18n({
       //Realestate basic message
       address: "Address",
       area: "Area",
-      dong: "Dong", 
+      dong: "Dong",
       ho: "Ho",
       land_category: "Land Type",
       lot_area: "Lot Area",
@@ -201,7 +207,7 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
-      add_trade_user_directly:"거래회원 즉시추가",
+      add_trade_user_directly: "거래회원 즉시추가",
       add_trader_link: "거래자 등록 요청 링크",
       accept: "동의합니다.",
       and: "및",
@@ -231,8 +237,9 @@ const i18n = new VueI18n({
       content: "내용",
       contractor_info: "계약자 정보",
       contractor_info_intro: "위 부동산의 계약자 정보는 아래와 같다.",
+      default: "기본",
       delete: "삭제",
-      deleted: "삭제할", 
+      deleted: "삭제할",
       delete_account: "회원 탈퇴",
       delete_confirm: "정말 삭제 하시겠습니까?",
       delete_success: "정상적으로 삭제되었습니다.",
@@ -264,6 +271,7 @@ const i18n = new VueI18n({
       language: "언어",
       last: "최종",
       link: "링크",
+      list: "목록",
       link_is_copied: "링크가 복사 되었습니다.",
       load: "불러오기",
       load_more: "더 보기",
@@ -281,9 +289,12 @@ const i18n = new VueI18n({
       paper: "계약서",
       profile: "프로필",
       period: "기간",
-      please_add_trade_user: "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
+      please_add_trade_user:
+        "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
       profile_name: "프로필명",
+      profile_list_detail:
+        "작성된 프로필(기본 프로필)은 계약서 작성 시 계약자 정보로 자동 입력됩니다.",
       read_mode: "읽기모드",
       realestate: "부동산",
       realestate_agency: "개업공인중개사",
@@ -296,6 +307,7 @@ const i18n = new VueI18n({
       search: "검색",
       send_your_link: "거래를 원하는 회원에게 링크를 전송하세요.",
       select: "선택",
+      set_default_profile: "기본프로필 설정",
       special_agreement: "특약",
       special_agreement_basic_template: "",
       status: "상태",
@@ -317,6 +329,7 @@ const i18n = new VueI18n({
       updated_at: "수정일",
       verifying_manual: "확인설명서",
       writing: "작성",
+      written: "작성한",
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
 
@@ -382,14 +395,14 @@ const i18n = new VueI18n({
       hidden: "숨긴",
 
       //for verifying_manual
-      enforcement_rules : "■ 공인중개사법 시행규칙 [별지 제20호서식]",
+      enforcement_rules: "■ 공인중개사법 시행규칙 [별지 제20호서식]",
       ve_updated_date: "개정 2020. 10. 27.",
       ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
       materials_for_ve: "확인ㆍ설명자료",
-      explnation_evidence: "확인ㆍ설명 근거자료 등",
-      explnation_evidence_info: "대상물건의 상태에 관한 자료요구 사항"
-    }
-  }
+      explanation_evidence: "확인ㆍ설명 근거자료 등",
+      explanation_evidence_info: "대상물건의 상태에 관한 자료요구 사항",
+    },
+  },
 });
 
 export default i18n;

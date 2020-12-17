@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
+    <div v-if="paper.trade_category" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
     <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
         <div style="float:right">
@@ -102,7 +102,7 @@
             <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
           </v-col>
           <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-            <v-card outlined tile>{{ paper[contract_field_name] }}</v-card>
+            <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("manwon") }}</v-card>
           </v-col>
         </template>
       </template>
@@ -179,7 +179,6 @@
           </a>
         </v-card>
       </v-col>
-
       <Contractor :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></Contractor>
     </v-row>
     <v-row class="mt-5" v-if="!isLoading && buyer != null" no-gutters>
@@ -303,12 +302,11 @@
             <template v-else>
               {{ $t("sign") }}
             </template>
-            <a v-if="isSellerExplanationSigned" v-bind:href="seller.explnation_signature.image" target="_blank">
-              <img class="signature-img" :src="seller.explnation_signature.image" />
+            <a v-if="isSellerExplanationSigned" v-bind:href="seller.explanation_signature.image" target="_blank">
+              <img class="signature-img" :src="seller.explanation_signature.image" />
             </a>
           </v-card>
         </v-col>
-
       <Contractor :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></Contractor>
       </v-row>
       <v-row class="mt-5" v-if="!isLoading && buyer != null" no-gutters>
@@ -385,7 +383,6 @@ export default {
       return this.buyer.signature != undefined && this.paper.updated_at <= this.buyer.signature.updated_at ;
     },
     isExpertExplanationSigned: function() {
-      console.log(this.expert.explanation_signature);
       return this.expert.explanation_signature != undefined && this.paper.updated_at <= this.expert.explanation_signature.updated_at ;
     },
     isSellerExplanationSigned: function() {
@@ -579,7 +576,6 @@ export default {
 
             apiService_formData(endpoint, method, formData).then(data => {
               if (data.id != undefined) {
-                console.log("success")
                 alert(that.$i18n.t("request_success"))
                 if(that.is_explanation_signature == true){
                   that.contractor.explanation_signature = data;

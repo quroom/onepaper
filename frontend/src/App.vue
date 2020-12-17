@@ -25,7 +25,6 @@ export default {
   watch: {
     has_profile() {
       if (this.has_profile == false && this.is_staff == false) {
-        console.log("profile", this.has_profile)
         if (this.$router.name != "profile-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -33,9 +32,7 @@ export default {
       }
     },
     $route(to) {
-      console.log(this)
       if (this.has_profile == false && this.is_staff == false) {
-        console.log("route_profile", this.has_profile)
         if (to.name != "profile-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -49,12 +46,10 @@ export default {
       if(data.id == undefined){
         applyValidation(data, this)
       }
-      console.log("update_has_profile", data["has_profile"])
       window.localStorage.setItem("username", data["username"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);
       window.localStorage.setItem("is_expert", data["is_expert"]);
-      window.localStorage.setItem("request_expert", data["request_expert"]);
       this.has_profile = data["has_profile"];
       this.is_staff = data["is_staff"];
       // if (this.has_profile == false && this.is_staff == false) {

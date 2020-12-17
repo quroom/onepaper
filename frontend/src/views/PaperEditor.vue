@@ -237,10 +237,10 @@
                   :placeholder="$t('realestate_agency')+' '+$t('search')"
                 >
                   <template v-slot:selection="{ item }">
-                    {{ item.expert_profile.shop_name + ':' + item.user.name}}
+                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
                   </template>
                   <template v-slot:item="{ item }">
-                    {{ item.expert_profile.shop_name + ':' + item.user.name}}
+                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
@@ -272,10 +272,10 @@
                 >
                   <template
                     v-slot:selection="{ item }"
-                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template
                     v-slot:item="{ item }"
-                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="seller">
@@ -303,12 +303,10 @@
                   :label="$t('tenant')"
                   :placeholder="$t('tenant')+' '+$t('search')"
                 >
-                  <template
-                    v-slot:selection="{ item }"
-                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
-                  <template
-                    v-slot:item="{ item }"
-                  >{{ item.user.username + '(' + item.user.name + ' / ' + item.user.birthday +")" }}</template>
+                  <template v-slot:selection="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:item="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="buyer">
@@ -787,12 +785,11 @@ export default {
       let that = this;
       let endpoint = `/api/papers/${item.id}/`;
       that.contractors = []
+      that.paper_load_dialog = false;
       apiService(endpoint).then(data => {
         if(data.id != undefined) {
           for(const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index]
-            console.log(contractor.profile.user.username)
-            console.log(that.requestUser)
             if(contractor.profile.user.username==that.requestUser){
               that.contractors.push(contractor)
               that.$data[that.$getConst("contractor_category", contractor.group)]=contractor.profile
@@ -817,7 +814,6 @@ export default {
           if(data.verifying_explanation != null) {
             that.ve = data.verifying_explanation;
           }
-          that.paper_load_dialog = false;
         } else {
           applyValidation(data)
         }
@@ -981,7 +977,6 @@ export default {
             vm.special_agreement = data.special_agreement;
             vm.contractors = data.paper_contractors;
             vm.status = data.status;
-            console.log(data.verifying_explanation)
             if(data.verifying_explanation != null) {
               vm.ve = data.verifying_explanation;
             }

@@ -73,6 +73,7 @@
       {{$t("no_contents")}}
     </div>
     <template v-else>
+      <div class="text-h5 text-center">{{`${$t('written')} ${$t('paper')} ${$t('list')}`}}</div>
       <v-row>
         <template v-for="paper in papers">
           <Paper :requestUser="requestUser" :paper="paper" :key="paper.id"/>

@@ -109,12 +109,10 @@
                   :label="$t('designator')"
                   :placeholder="$t('designator')+ ' ' + $t('search')"
                 >
-                  <template v-slot:selection="{ item }">
-                    {{ item.user.username + '(' + item.user.name + '/' + item.user.birthday + ")"}}
-                  </template>
-                  <template v-slot:item="{ item }">
-                    {{ item.user.username + '(' + item.user.name + '/' + item.user.birthday + ")"}}
-                  </template>
+                  <template v-slot:selection="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:item="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designator">
@@ -145,12 +143,10 @@
                   :label="$t('designee')"
                   :placeholder="$t('designee')+ ' ' + $t('search')"
                 >
-                  <template v-slot:selection="{ item }">
-                    {{ item.user.username + '(' + item.user.name + '/' + item.user.birthday + ")"}}
-                  </template>
-                  <template v-slot:item="{ item }">
-                    {{ item.user.username + '(' + item.user.name + '/' + item.user.birthday + ")"}}
-                  </template>
+                  <template v-slot:selection="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:item="{ item }"
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designee">

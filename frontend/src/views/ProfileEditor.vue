@@ -38,7 +38,7 @@
       </v-row>
       <v-row>
         <!-- Expert Profile -->
-        <template v-if="is_request_expert || is_expert">
+        <template v-if="is_expert">
           <v-col cols="12">
             <div class="text-h5 text-center">
               {{ $t("realestate_agency") }} {{ $t("profile") }}
@@ -159,7 +159,7 @@
             type="Number"
           ></LazyTextField>
         </v-col>
-        <template v-if="is_request_expert || is_expert">
+        <template v-if="is_expert">
           <v-col cols="4" md="2">
             <ValidationProvider
               mode="passive"
@@ -234,7 +234,7 @@
           </v-col>
         </template>
       </v-row>
-      <v-row v-if="is_request_expert || is_expert">
+      <v-row v-if="is_expert">
         <v-divider class="mx-4 text-center" style="display: inline"></v-divider>
         <v-col class="text-center" cols="12">
           <div class="text-h5">
@@ -317,7 +317,6 @@ export default {
   data() {
     return {
       is_expert: false,
-      is_request_expert: false,
       username: null,
       name: null,
       birthday: null,
@@ -383,7 +382,7 @@ export default {
           if (that.bank_name) formData.append("bank_name", that.bank_name);
           if (that.account_number)
             formData.append("account_number", that.account_number);
-          if (that.is_request_expert || that.is_expert) {
+          if (that.is_expert) {
             Object.keys(that.expert_profile).forEach(function (key) {
               if (that.expert_profile[key] != null) {
                 formData.append(
@@ -468,8 +467,6 @@ export default {
   created() {
     if (window.localStorage.getItem("is_expert") == "true") {
       this.is_expert = true;
-    } else if (window.localStorage.getItem("request_expert") == "true") {
-      this.is_request_expert = true;
     }
   },
 };

@@ -43,12 +43,12 @@
           [{{ $getConstI18("building_category", paper.building_category) }}]
         </span>
         <span v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
-          {{ `${$t("security_deposit")}${paper.security_deposit} / ${$t("monthly_fee")}${paper.monthly_fee}${$t('won')} / ${$t("maintenance_fee")}${paper.maintenance_fee}${$t("won")}`}}
+          {{ `${$t("security_deposit")}${paper.security_deposit} / ${$t("monthly_fee")}${paper.monthly_fee}${$t("manwon")} / ${$t("maintenance_fee")}${paper.maintenance_fee}${$t("manwon")}`}}
         </span>
         <span
           v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
         >
-        {{ `${$t("security_deposit")}${paper.security_deposit}${$t('won')} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t('won')}`}}
+        {{ `${$t("security_deposit")}${paper.security_deposit}${$t("manwon")} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t("manwon")}`}}
           <!-- {{$t("security_deposit")}}{{ paper.security_deposit }} / 관{{ paper.maintenance_fee }} -->
         </span>
         <!-- To be updated -->

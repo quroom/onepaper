@@ -3,39 +3,42 @@
     <div v-if="mandates.length == 0 && !isLoading" class="text-h5 text-center">
       {{$t("no_contents")}}
     </div>
-    <v-row v-else>
-      <v-col
-        cols="12"
-        md="6"
-        lg="4"
-        xl="3"
-        v-for="mandate in mandates"
-        :key="mandate.id"
-      >
-        <v-card
-          class="outlined tile"
-          :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:false } }"
+    <template v-else>
+      <div class="text-h5 text-center">{{`${$t('written')} ${$t('mandate_paper')} ${$t('list')}`}}</div>
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+          lg="4"
+          xl="3"
+          v-for="mandate in mandates"
+          :key="mandate.id"
         >
-          <v-card-title class="card-title pa-0 pl-4">
-            {{mandate.address.old_address}}
-          </v-card-title>
-          <v-card-text>
-            <div> {{$t("designator")}} : {{ mandate.designator.user.name }} </div>
-            <div> {{$t("designee")}} : {{ mandate.designee.user.name }} </div>
-          </v-card-text>
+          <v-card
+            class="outlined tile"
+            :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:false } }"
+          >
+            <v-card-title class="card-title pa-0 pl-4">
+              {{mandate.address.old_address}}
+            </v-card-title>
+            <v-card-text>
+              <div> {{$t("designator")}} : {{ mandate.designator.user.name }} </div>
+              <div> {{$t("designee")}} : {{ mandate.designee.user.name }} </div>
+            </v-card-text>
 
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-btn
-        v-show="next"
-        @click="getMandates"
-        color="primary"
-      >
-        {{$t("load_more")}}
-      </v-btn>
-    </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-btn
+          v-show="next"
+          @click="getMandates"
+          color="primary"
+        >
+          {{$t("load_more")}}
+        </v-btn>
+      </v-row>
+    </template>
     <router-link :to="{ name: 'mandates-editor', params: {readonly:false} }">
       <v-btn color="grey" dark fixed fab bottom right>
         <v-icon>add</v-icon>

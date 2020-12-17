@@ -101,7 +101,7 @@
     </v-menu>
     <v-checkbox
       :label="$t('request_agent_account')"
-      v-model="request_expert"
+      v-model="is_expert"
       >
     </v-checkbox>
     <v-btn
@@ -126,7 +126,7 @@ export default {
       email: null,
       name: null,
       birthday: null,
-      request_expert: null,
+      is_expert: null,
       birthday_menu: false,
       dialog: false,
       deleted_username: '',
@@ -148,7 +148,7 @@ export default {
           this.email = data.email;
           this.name = data.name;
           this.birthday = data.birthday;
-          this.request_expert = data.request_expert;
+          this.is_expert = data.is_expert;
           alert(that.$i18n.t("request_success"))
         }
         else{
@@ -164,8 +164,8 @@ export default {
         email: this.deleted_email,
         name: this.deleted_name
       }).then(data => {
-        if(data['delete'] != undefined){
-          alert(data['delete'])
+        if(data['user_delete'] != undefined){
+          alert(data['user_delete'])
           window.location.href="/accounts/logout/"
         }
         else{
@@ -184,7 +184,7 @@ export default {
           vm.email = data.email;
           vm.name = data.name;
           vm.birthday = data.birthday;
-          vm.request_expert = data.request_expert;
+          vm.is_expert = data.is_expert;
         }
       )
     } else {
