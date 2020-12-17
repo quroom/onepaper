@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" max-width="400px" @click:outside="messages = []; success = false;">
       <v-card>
         <v-card-title>
-          {{ $t("add_allowed_user") }}
+          {{ $t("add_trade_user") }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
           <LazyTextField

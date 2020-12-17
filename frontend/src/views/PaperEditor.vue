@@ -760,8 +760,8 @@ export default {
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        if(data != undefined){
-          this.my_profiles = data;
+        if(data.count != undefined){
+          this.my_profiles = data.results;
           this.is_expert = true;
         } else {
           applyValidation(data)

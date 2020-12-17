@@ -160,11 +160,11 @@ export default {
       await apiService(endpoint).then(data => {
         if(data.count != undefined){
           this.papers = data.results
-          this.isLoading = false;
           this.next = data.next;
         } else {
           applyValidation(data);
         }
+        this.isLoading = false;
       });
     },
     async getPapers() {

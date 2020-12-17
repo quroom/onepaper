@@ -6,10 +6,9 @@
     >
       <v-card>
         <v-card-title>
-          {{ $t("add_allowed_user") }}
+          {{ $t("add_trade_user") }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
-          <LazyTextField :label="$t('default') + $t('profile') + ' ' + $t('number')" type="Number" v-model="id" readonly></LazyTextField>
           <LazyTextField :label="$t('username')" v-model="username" readonly></LazyTextField>
           <LazyTextField :label="$t('name')" v-model="name" readonly></LazyTextField>
         </v-card-text>
@@ -17,7 +16,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="primary"
-            @click.prevent="addUser()"
+            @click.prevent="addUser(default_profile)"
           >
             {{ $t("trade") + $t("add_user") }}
           </v-btn>
@@ -79,7 +78,7 @@
               </v-card-subtitle>
               <v-card-actions v-if="username != undefined && name != undefined">
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click.prevent="addUser(profile.id)">
+                <v-btn color="primary" @click.prevent="addUser(profile)">
                   <v-icon>person_add</v-icon>
                   {{ $t("add_trade_user_directly") }}
                 </v-btn>
@@ -95,6 +94,15 @@
             </v-card>
           </router-link>
         </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-btn
+          v-show="next"
+          @click="getProfiles"
+          color="primary"
+        >
+          {{$t("load_more")}}
+        </v-btn>
       </v-row>
     </template>
     <router-link :to="{ name: 'profile-editor' }">
@@ -136,16 +144,13 @@ export default {
     return {
       profiles: [],
       isLoading: false,
-      id: undefined,
-      dialog: false
+      dialog: false,
+      next: null,
     };
   },
   methods: {
-    addUserDialog(id){
-      this.id= id;
-      this.dialog= true;
-    },
-    addUser(id) {
+    addUser(profile) {
+      console.log(profile);
       let endpoint = ``;
       let data = {
         "allowed_users" : {
@@ -153,7 +158,7 @@ export default {
           "username": this.username
         }
       }
-      endpoint = `/api/profiles/${id}/allowed-users/`
+      endpoint = `/api/profiles/${profile.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
         if(data.count != undefined) {
           alert(this.$i18n.t("request_success"))
@@ -165,12 +170,15 @@ export default {
     },
     getProfiles() {
       let endpoint = "/api/profiles/";
+      if(this.next){
+        endpoint = this.next;
+      }
       this.isLoading = true;
       apiService(endpoint).then(data => {
-        if(data.length != undefined){
-          this.profiles.push(...data);
-          
-          if(data.length == 0){
+        if(data.count != undefined){
+          this.profiles.push(...data.results);
+          this.next = data.next;
+          if(data.count == 0){
               this.$emit("update:has_profile", false)
           } else {
             this.$emit("update:has_profile", true)
@@ -181,7 +189,6 @@ export default {
         this.isLoading = false;
         if(this.username != undefined && this.name != undefined){
           this.dialog = true;
-          this.id = this.default_profile.id;
         }
       });
     },
@@ -189,7 +196,9 @@ export default {
       let endpoint = `/api/profiles/${profile.id}/default/`
       apiService(endpoint, "POST").then(data=> {
         if(data.id != undefined){
-          this.default_profile.is_default = false;
+          if(this.default_profile != undefined){
+            this.default_profile.is_default = false;
+          }
           this.$set(this.profiles, this.profiles.indexOf(profile), data);
         } else {
           applyValidation(data)

@@ -11,13 +11,13 @@ const i18n = new VueI18n({
     en: {
       validation: en.messages,
       //Default message
-      add_trade_user_directly: "Add user directly",
+      add_trade_user: "Add trade user",
+      add_trade_user_directly: "Add trade user directly",
       add_trader_link: "Request link to add trader",
       accept: "Aceept",
       and: "and",
       attached_document: "Attached Document",
       allow: "Allowed",
-      add_allowed_user: "Add user allowed to view profile",
       allow_user_list:
         "List of users allowed to view profile(Contracted member)",
       add_user: "Add User",
@@ -207,6 +207,7 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
+      add_trade_user: "거래 회원 추가",
       add_trade_user_directly: "거래회원 즉시추가",
       add_trader_link: "거래자 등록 요청 링크",
       accept: "동의합니다.",
@@ -215,7 +216,6 @@ const i18n = new VueI18n({
       allow: "허용",
       approve: "승인",
       approved: "승인됨",
-      add_allowed_user: "프로필 조회 허용 회원 추가",
       allow_user_list: "프로필 조회 허용 회원 리스트(거래 예정인 회원)",
       add_user: "회원 추가",
       all: "전체",

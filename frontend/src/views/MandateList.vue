@@ -16,7 +16,7 @@
         >
           <v-card
             class="outlined tile"
-            :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:false } }"
+            :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:true } }"
           >
             <v-card-title class="card-title pa-0 pl-4">
               {{mandate.address.old_address}}

@@ -98,8 +98,8 @@
                 rules="required"
                 :name="$t('designator')">
                 <v-autocomplete
+                  v-if="readonly_flag==false"
                   v-model="designator"
-                  :readonly="readonly_flag"
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"
@@ -110,13 +110,13 @@
                   :placeholder="$t('designator')+ ' ' + $t('search')"
                 >
                   <template v-slot:selection="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:item="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designator">
-                <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info") }} {{`(${designator.user.username})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <Contractor :contractor="designator" :fields="basic_profile_fields" :label_cols="label_cols"></Contractor>
                 </v-expansion-panel-content>
@@ -132,8 +132,8 @@
                 :name="$t('designee')"
               >
                 <v-autocomplete
+                  v-if="readonly_flag==false"
                   v-model="designee"
-                  :readonly="readonly_flag"
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"
@@ -150,7 +150,7 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designee">
-                <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}} {{`(${designee.user.username})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <Contractor :contractor="designee" :fields="basic_profile_fields" :label_cols="label_cols"></Contractor>
                 </v-expansion-panel-content>
@@ -293,6 +293,13 @@ export default {
       return this.designator ? this.designator.user.username === this.requestUser : false;
     }
   },
+  watch: {
+    readonly_flag: function(val){
+      if(val == false){
+        this.getAllowedProfiles();
+      }
+    }
+  },
   methods: {
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
@@ -309,8 +316,8 @@ export default {
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        if(data.length != undefined) {
-          this.my_profiles = data;
+        if(data.count != undefined) {
+          this.my_profiles = data.results;
           this.is_expert = true;
         } else {
           applyValidation(data)
@@ -419,7 +426,9 @@ export default {
   },
   created() {
     this.getMyProfiles();
-    this.getAllowedProfiles();
+    if(this.readonly_flag == false) {
+      this.getAllowedProfiles();
+    }
     this.requestUser = window.localStorage.getItem("username");
   }
 }
