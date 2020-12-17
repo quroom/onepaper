@@ -17,7 +17,6 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
-from django.conf.urls.i18n import i18n_patterns
 
 from django_registration.backends.one_step.views import RegistrationView
 
@@ -38,8 +37,8 @@ urlpatterns = [
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
     path("api-auth/", include("rest_framework.urls")),
-    path("api/dj_rest_auth/", include("dj_rest_auth.urls")),
-    path("api/dj_rest_auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("api/dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 

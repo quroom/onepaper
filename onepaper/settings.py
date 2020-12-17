@@ -50,8 +50,6 @@ INSTALLED_APPS = [
 
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    # 'rest_auth',
-    # 'rest_auth.registration',
 
     'crispy_forms',
     'phonenumber_field',
@@ -141,8 +139,8 @@ LANGUAGES = [
     ('en-US', _('English')),
 ]
 
-# LANGUAGE_CODE = 'ko-KR'
-LANGUAGE_CODE = 'en-US'
+LANGUAGE_CODE = 'ko-KR'
+# LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'Asia/Seoul'
 

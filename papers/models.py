@@ -124,9 +124,6 @@ class Paper(models.Model):
         related_name="paper"
     )
 
-    def __str__(self):
-        return self.address.old_address + ' ' + self.address.dong + '-' + self.address.ho
-
     class Meta:
         ordering = ['-updated_at']
 
@@ -162,9 +159,6 @@ class Contractor(models.Model):
                      models.UniqueConstraint(fields=['profile', 'paper'],
                      name="unique_profile_paper")
                      ]
-    
-    def __str__(self):
-        return str(self.profile.user)
 
 class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
@@ -405,6 +399,3 @@ class ExplanationSignature(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name="explanation_signature")
     image = models.ImageField()
-
-    def __str__(self):
-        return str(self.contractor.profile.user)

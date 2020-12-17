@@ -511,7 +511,7 @@ class ProfileTestCase(APITestCase):
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
         self.assertEqual(response.data["is_default"], True)
 
-class UserTestCase(APITestCase):
+class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")
     
     def api_authentication(self):

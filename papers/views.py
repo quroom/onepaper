@@ -12,7 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
 from papers.serializers import PaperSerializer, PaperListSerializer, PaperReadonlySerializer, SignatureSerializer, ExplanationSignatureSerializer
-from papers.permissions import IsAuthor, IsAuthorOrParticiations, IsContractorUser
+from papers.permissions import IsAuthor, IsAuthorOrParticiationsReadonly, IsContractorUser
 
 class HidePaperApiView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
@@ -23,18 +23,18 @@ class HidePaperApiView(APIView):
             if contractor.paper.status.status == PaperStatus.DONE:
                 if contractor.signature:
                     self.check_object_permissions(self.request, contractor)
-                    contractor.is_paper_visible = not contractor.is_paper_visible
+                    contractor.is_paper_hidden = not contractor.is_paper_hidden
                     contractor.save()
             else:
                 return Response({"detail": ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."))}, status=status.HTTP_400_BAD_REQUEST)
         except papers.models.Contractor.signature.RelatedObjectDoesNotExist:
             return Response({"detail": ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-        papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_visible=True)
+        papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_hidden=True)
         serializer = PaperListSerializer(papers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PaperViewset(ModelViewSet):
-    permission_classes = [IsAuthenticated, IsAuthorOrParticiations]
+    permission_classes = [IsAuthenticated, IsAuthorOrParticiationsReadonly]
     
     def get_queryset(self):
         filters = {}
@@ -53,12 +53,14 @@ class PaperViewset(ModelViewSet):
             elif key=="address":
                 address_search_text = self.request.query_params.get(key)
         if address_search_text is None:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters).prefetch_related('author')
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters).select_related('author', 'address', 'status')
         else:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters).prefetch_related('author')
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters).select_related('author', 'address', 'status')
 
     def get_serializer_class(self):
-        if self.request.method in SAFE_METHODS:
+        if self.action == 'list':
+            return PaperListSerializer
+        elif self.request.method in SAFE_METHODS:
             return PaperReadonlySerializer
         else:
             return PaperSerializer
@@ -67,29 +69,6 @@ class PaperViewset(ModelViewSet):
         if self.action in ['update', "partial_update", "destroy"]:
             return [IsAuthenticated(), IsAuthor()]
         return super(PaperViewset, self).get_permissions()
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = PaperListSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = PaperListSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         paper = serializer.save(author=self.request.user)
@@ -132,13 +111,6 @@ class SignatureCreateApiView(generics.CreateAPIView):
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        
     def perform_create(self, serializer):
         id = self.kwargs.get("id")
         request_user = self.request.user
@@ -165,12 +137,6 @@ class SignatureUpdateApiView(mixins.RetrieveModelMixin,
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-    
     def perform_update(self, serializer):
         id = self.kwargs.get("pk")
         signature = get_object_or_404(Signature, id=id)
@@ -185,13 +151,6 @@ class ExplanationSignatureCreateApiView(generics.CreateAPIView):
     queryset = ExplanationSignature.objects.all()
     serializer_class = ExplanationSignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         
     def perform_create(self, serializer):
         id = self.kwargs.get("id")
@@ -218,12 +177,6 @@ class ExplanationSignatureUpdateApiView(mixins.RetrieveModelMixin,
     queryset = ExplanationSignature.objects.all()
     serializer_class = ExplanationSignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
     
     def perform_update(self, serializer):
         id = self.kwargs.get("pk")

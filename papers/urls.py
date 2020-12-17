@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from papers.views import PaperViewset, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
 
 router = DefaultRouter()
-router.register(r"papers", PaperViewset, basename="Paper")
+router.register(r"papers", PaperViewset, basename="papers")
 urlpatterns = [    
     path("", include(router.urls)),
     path("papers/<int:pk>/hide/",

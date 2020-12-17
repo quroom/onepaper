@@ -1,3 +1,4 @@
+from django.db.models import Exists
 import phonenumbers
 from addresses.models import Address
 from django.db import models
@@ -8,6 +9,7 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from ipware import get_client_ip
 from django.utils.translation import gettext_lazy as _
+from django.utils.functional import cached_property
 
 class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
@@ -15,11 +17,11 @@ class CustomUser(AbstractUser):
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
-    bio = models.CharField(max_length=240, blank=True)
     used_count = models.PositiveSmallIntegerField(blank=True, default=0)
     name = models.CharField(max_length=150)
-    birthday = models.DateField()
-    request_expert = models.BooleanField(default=False)
+    birthday = models.DateField(null=True, blank=False)
+    is_expert = models.BooleanField(default=False)
+    bio = models.CharField(max_length=240, blank=True)
 
 class Profile(models.Model):
     user = models.ForeignKey(CustomUser,
@@ -33,10 +35,13 @@ class Profile(models.Model):
                                    related_name="profile")
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
-    is_hidden = models.BooleanField(default=False)
+    is_default = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        ordering = ('-is_default',)
 
 class ExpertProfile(models.Model):
     REQUEST = 0
@@ -66,6 +71,9 @@ class ExpertProfile(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CATEGORY, default=REQUEST)
 
+    class Meta:
+        ordering = ('id',)
+
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
@@ -92,7 +100,7 @@ class Mandate(models.Model):
     from_date = models.DateField(null=True, blank=True)
     to_date = models.DateField(null=True, blank=True)
     content = models.TextField()
-    
+
     class Meta:
         ordering = ['-updated_at']
 

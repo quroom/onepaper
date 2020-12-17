@@ -11,21 +11,25 @@ from addresses.serializers import AddressSerializer
 from papers.models import Paper
 
 
+class BasicCustomUserSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'updated_at', 'username', 'is_expert', 'email', 'bio', 'name', 'birthday']
+        read_only_fields = ('id', 'updated_at', 'is_expert', 'username', 'email')
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
 class CustomUserSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
-    ip_address = serializers.IPAddressField(read_only=True)
-    is_expert = serializers.SerializerMethodField()
     has_profile = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'updated_at', 'username', 'email', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
-                  'response_rate', 'contract_success_rate', 'name', 'birthday', 'bio', 'used_count', 'request_expert']
-        read_only_fields = ('id', 'updated_at', 'username', 'ip_address', 'is_expert', 'is_staff', 'has_profile', 'average_response_time',
-                            'response_rate', 'contract_success_rate', 'used_count')
-
-    def get_is_expert(self, obj):
-        return ExpertProfile.objects.filter(profile__user=obj, status=ExpertProfile.APPROVED).exists() or obj.request_expert
+        fields = ['id', 'updated_at', 'username', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday']
+        read_only_fields = ('id', 'updated_at', 'username', 'is_expert', 'is_staff', 'has_profile')
 
     def get_has_profile(self, obj):
         return obj.profiles.exists()
@@ -33,17 +37,19 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-
 class CustomUserIDNameSerializer(serializers.ModelSerializer):
     birthday = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ['username', "name", "birthday"]
+        fields = ["birthday", "name", 'username']
 
     def get_birthday(self, obj):
         return len(str(obj.birthday)[0:4])*"#"+str(obj.birthday)[4:]
 
+    def get_name(self, obj):
+        return obj.name[0:1] + len(obj.name[1:2])*"#" + obj.name[2:]
 
 class ApproveExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -69,14 +75,12 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-
 class ExpertBasicInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExpertProfile
         fields = ['registration_number', 'shop_name', 'status']
         read_only_fields = ('registration_number', 'shop_name', 'status')
-
 
 class ExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -89,7 +93,6 @@ class ExpertSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
     user = CustomUserIDNameSerializer(read_only=True)
     expert_profile = ExpertBasicInfoSerializer(read_only=True)
@@ -97,21 +100,21 @@ class ProfileBasicInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['user', 'expert_profile', 'mobile_number']
+        fields = ['user', 'expert_profile', 'id', 'mobile_number']
 
     def get_mobile_number(self, obj):
-        return obj.mobile_number.raw_input[:-4]+len(obj.mobile_number.raw_input[-4:])*"#"
-
+        return obj.mobile_number.raw_input[:-2]+len(obj.mobile_number.raw_input[-2:])*"#"
 
 class ProfileSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
-    user = CustomUserSerializer(read_only=True)
+    user = BasicCustomUserSerializer(read_only=True)
     address = AddressSerializer()
     expert_profile = ExpertSerializer(read_only=True)
 
     class Meta:
         model = Profile
         fields = "__all__"
+        read_only_fields = ("is_default",)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -145,7 +148,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)
+    user = BasicCustomUserSerializer(read_only=True)
     updated_at = serializers.SerializerMethodField()
     expert_profile = ExpertSerializer()
     address = AddressSerializer()
@@ -153,6 +156,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+        read_only_fields = ("is_default",)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -197,7 +201,6 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
 
 class AllowedUserSerializer(serializers.ModelSerializer):
     allowed_users = CustomUserIDNameSerializer(many=True)
-    # profile = ProfileSerializer()
 
     class Meta:
         model = AllowedUser
@@ -213,12 +216,25 @@ class AllowedProfileListSerializer(serializers.ModelSerializer):
         fields = ["profile"]
         read_only_fields = ('profile',)
 
+class MandateProfileSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+    user = BasicCustomUserSerializer(read_only=True)
+    address = AddressSerializer()
+    expert_profile = ExpertSerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class MandateReadOnlySerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    designator = ProfileSerializer(read_only=True)
-    designee = ProfileSerializer(read_only=True)
+    designator = MandateProfileSerializer(read_only=True)
+    designee = MandateProfileSerializer(read_only=True)
     address = AddressSerializer(read_only=True)
+    updated_at = serializers.SerializerMethodField()
 
     class Meta:
         model = Mandate
@@ -231,6 +247,7 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
+    updated_at = serializers.SerializerMethodField()
 
     class Meta:
         model = Mandate
@@ -241,6 +258,12 @@ class MandateSerializer(serializers.ModelSerializer):
             designator = data['designator']
             designee = data['designee']
             request_user = self.context['request'].user
+
+            if hasattr(designee, 'expert_profile'):
+                if designee.expert_profile.status != ExpertProfile.APPROVED:
+                    raise serializers.ValidationError({
+                    "designator": _("공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다.")
+                    })
 
             if designator.user != request_user and designee.user != request_user:
                 raise serializers.ValidationError({

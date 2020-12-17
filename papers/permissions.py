@@ -9,7 +9,7 @@ class IsAuthor(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.author == request.user
 
-class IsAuthorOrParticiations(permissions.BasePermission):
+class IsAuthorOrParticiationsReadonly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if obj.author == request.user:
             return True

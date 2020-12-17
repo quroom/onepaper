@@ -87,7 +87,7 @@
               <v-card-actions v-else>
                 <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }"> {{ $t("edit") }} </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }"> 
+                <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }">
                   <v-icon>person_add</v-icon>
                   {{ $t("trade") + $t("add_user") }}
                 </v-btn>

@@ -61,7 +61,6 @@ class PaperListSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
-    # paper_contractors = ContractorReadSerializer(many=True, read_only=True)
     status = serializers.SerializerMethodField()
 
     class Meta:
