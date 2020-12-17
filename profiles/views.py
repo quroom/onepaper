@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
 from papers.models import Contractor
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Mandate
-from profiles.serializers import AllowedUserSerializer, AllowedProfileListSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
+from profiles.serializers import AllowedUserSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
 
 class AllowedProfileList(APIView, PageNumberPagination):
@@ -23,7 +23,7 @@ class AllowedProfileList(APIView, PageNumberPagination):
     def get(self, request):
         profiles = Profile.objects.filter(
             allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
-        serializer = ProfileBasicInfoSerializer(profiles, many=True)
+        serializer = ProfileSerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AllowedUserDetail(APIView, PageNumberPagination):
@@ -135,11 +135,6 @@ class CurrentProfileViewset(ModelViewSet):
         else:
             return ProfileSerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer_class()(queryset, many=True)
-        return Response(serializer.data)
-
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
         instance = self.get_object()
@@ -243,6 +238,14 @@ class MandateViewset(ModelViewSet):
     def get_queryset(self):
         mandates = Mandate.objects.all().select_related('address', 'designator', 'designator__address', 'designator__user', 'designee', 'designee__address', 'designee__user', 'author').prefetch_related('designator__expert_profile', 'designee__expert_profile')
         return (mandates.filter(designator__user=self.request.user) | mandates.filter(designee__user=self.request.user)).distinct()
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = get_object_or_404(Mandate, pk=self.kwargs.get("pk"))
+        if(instance.designator.user != self.request.user and instance.designee.user != self.request.user):
+            serializer = MandateEveryoneSerializer(instance)
+        else:
+            serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

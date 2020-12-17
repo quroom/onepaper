@@ -148,10 +148,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
-    user = BasicCustomUserSerializer(read_only=True)
-    updated_at = serializers.SerializerMethodField()
-    expert_profile = ExpertSerializer()
     address = AddressSerializer()
+    expert_profile = ExpertSerializer()
+    updated_at = serializers.SerializerMethodField()
+    user = BasicCustomUserSerializer(read_only=True)
 
     class Meta:
         model = Profile
@@ -207,32 +207,10 @@ class AllowedUserSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ('profile',)
 
-
-class AllowedProfileListSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
-
-    class Meta:
-        model = AllowedUser
-        fields = ["profile"]
-        read_only_fields = ('profile',)
-
-class MandateProfileSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
-    user = BasicCustomUserSerializer(read_only=True)
-    address = AddressSerializer()
-    expert_profile = ExpertSerializer(read_only=True)
-
-    class Meta:
-        model = Profile
-        fields = "__all__"
-
-    def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
-
-class MandateReadOnlySerializer(serializers.ModelSerializer):
+class MandateEveryoneSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    designator = MandateProfileSerializer(read_only=True)
-    designee = MandateProfileSerializer(read_only=True)
+    designator = ProfileBasicInfoSerializer(read_only=True)
+    designee = ProfileBasicInfoSerializer(read_only=True)
     address = AddressSerializer(read_only=True)
     updated_at = serializers.SerializerMethodField()
 
@@ -243,6 +221,19 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
+class MandateReadOnlySerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    designator = ProfileSerializer(read_only=True)
+    designee = ProfileSerializer(read_only=True)
+    address = AddressSerializer(read_only=True)
+    updated_at = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Mandate
+        fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
