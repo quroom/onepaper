@@ -636,6 +636,24 @@ class MandateTestCase(APITestCase):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
 
+    def create_profile(self):
+        data = {
+            "mobile_number": "010-1234-1234",
+            "address.old_address": '광주 광산구 명도동 169',
+            "address.new_address": '광주광역시 광산구 가마길 2-21',
+            "address.sigunguCd": '29170',
+            "address.bjdongCd": '29170',
+            "address.platGbCd": '',
+            "address.bun":'973',
+            "address.ji":'17',
+            "address.dong":'',
+            "address.ho":'2층',
+            "bank_name": "국민은행",
+            "account_number": "94334292963"
+        }
+        response = self.client.post(self.list_url, data=data)
+        return response
+
     def create_user_profile(self, index=0, is_expert=False):
         user = CustomUser.objects.create_user(username="test"+str(index), email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
@@ -647,3 +665,22 @@ class MandateTestCase(APITestCase):
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
             return expert_profile
         return profile
+
+    def test_create_mandate(self):
+        profile = self.create_profile()
+        profile2 = create_user_profile(index=1)
+        # designator: 18
+        # designee: 3
+        # content: 제1조 상기 위임인은 수임인에게 부동산 기본정보에 기재된 거래 대상 부동산의 계약에 관한 사무를 위임한다.<br>제2조 상기 위임인은 거래계약체결 상대방에게 위임사실을 알리기 위하여 위임장 사본을 제공한다.
+        # from_date: 2020-12-02
+        # to_date: 2020-12-31
+        # address.old_address: 서울 강동구 강일동 669-1
+        # address.new_address: 서울 강동구 풍산로 235
+        # address.sigunguCd: 11740
+        # address.bjdongCd: 11740
+        # address.bun: 669
+        # address.ji: 1
+        data = {
+            mandator: profile.id
+            mandatee: profile2.id
+        }
