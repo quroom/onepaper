@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-16 12:17+0900\n"
+"POT-Creation-Date: 2020-12-16 16:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -328,14 +328,16 @@ msgid "생년월일"
 msgstr "Birthday"
 
 #: .\profiles\forms.py:16
-msgid "중개사 계정으로 등록하길 원하시면 체크."
-msgstr ""
+msgid "사업자 계정으로 등록하길 원하시면 체크."
+msgstr "Check If you want to register as entrepreneur"
 
-#: .\profiles\forms.py:24
+#: .\profiles\forms.py:23
 msgid "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
-msgstr "This email address is already in use. Please supply a different email address."
+msgstr ""
+"This email address is already in use. Please supply a different email "
+"address."
 
-#: .\profiles\forms.py:31
+#: .\profiles\forms.py:30
 msgid "아이디"
 msgstr "User ID"
 

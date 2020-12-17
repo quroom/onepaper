@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-16 12:52+0900\n"
+"POT-Creation-Date: 2020-12-16 16:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: .\onepaper\settings.py:140
 msgid "Korean"
-msgstr "한국어"
+msgstr ""
 
 #: .\onepaper\settings.py:141
 msgid "English"
-msgstr "영어"
+msgstr ""
 
 #: .\papers\models.py:16
 msgid "작성중"
@@ -322,19 +322,23 @@ msgstr ""
 
 #: .\profiles\forms.py:14
 msgid "이름"
-msgstr "이름"
+msgstr ""
 
 #: .\profiles\forms.py:15
 msgid "생년월일"
-msgstr "생년월일"
-
-#: .\profiles\forms.py:16
-msgid "중개사 계정으로 등록하길 원하시면 체크."
 msgstr ""
 
-#: .\profiles\forms.py:29
+#: .\profiles\forms.py:16
+msgid "사업자 계정으로 등록하길 원하시면 체크."
+msgstr ""
+
+#: .\profiles\forms.py:23
+msgid "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
+msgstr ""
+
+#: .\profiles\forms.py:30
 msgid "아이디"
-msgstr "아이디"
+msgstr ""
 
 #: .\profiles\models.py:53
 msgid "요청"
@@ -503,9 +507,6 @@ msgid ""
 "If you don’t receive an email, please make sure you’ve entered the address "
 "you registered with, and check your spam folder."
 msgstr ""
-
-#~ msgid "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
-#~ msgstr "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
 
 #, python-format
 #~ msgid "Password reset on %(site_name)s"
