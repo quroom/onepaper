@@ -127,7 +127,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data["birthday"], "1955-02-12")
         self.assertEqual(response.data["is_expert"], True)
 
-    def create_user_expert_profile(self, index=0, is_expert=False):
+    def create_user_profile(self, index=0, is_expert=False):
         user = CustomUser.objects.create_user(username="test"+str(index), email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
@@ -138,7 +138,7 @@ class ExpertProfileTestCase(APITestCase):
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
             return expert_profile
         return profile
-       
+
     def create_expert_profile(self):
         #FIXME: Need to create objects with model directely
         data = {
@@ -219,9 +219,9 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_approve_expert(self):
-        expert_profile = self.create_user_expert_profile(is_expert=True)
+        expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
-        expert_profile2 = self.create_user_expert_profile(is_expert=True, index=1)
+        expert_profile2 = self.create_user_profile(is_expert=True, index=1)
         self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
@@ -242,9 +242,9 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data['results'][1]['status'], 2)
 
     def test_approve_expert_with_no_profiles(self):
-        expert_profile = self.create_user_expert_profile(is_expert=True)
+        expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
-        expert_profile2 = self.create_user_expert_profile(is_expert=True, index=1)
+        expert_profile2 = self.create_user_profile(is_expert=True, index=1)
         self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
@@ -318,10 +318,17 @@ class ProfileTestCase(APITestCase):
 
     def test_profile_create(self):
         response = self.create_profile()
-    
+
     def test_profile_list_authenticated(self):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_profile_list_count(self):
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.data["count"], 0)
+        self.create_profile()
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.data["count"], 1)
 
     def test_profile_list_unauthenticated(self):
         self.client.force_authenticate(user=None)
@@ -616,3 +623,27 @@ class CustomUserTestCase(APITestCase):
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+class MandateTestCase(APITestCase):
+    mandates_list_url = reverse("mandates-list")
+
+    def api_authentication(self):
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(username="test", email="test@naver.com", password="some_strong_password",
+                                                   bio="bio", name="김주영", birthday="1955-02-12")
+        self.token = Token.objects.create(user=self.user)
+        self.api_authentication()
+
+    def create_user_profile(self, index=0, is_expert=False):
+        user = CustomUser.objects.create_user(username="test"+str(index), email="test@naver.com", password="some_strong_password",
+                                                   bio="bio", name="김주영", birthday="1955-02-12")
+        address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
+        sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
+        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(index))
+        if is_expert:
+            expert_profile = ExpertProfile.objects.create(
+                profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
+            return expert_profile
+        return profile
