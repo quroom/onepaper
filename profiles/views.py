@@ -239,6 +239,9 @@ class MandateViewset(ModelViewSet):
         mandates = Mandate.objects.all().select_related('address', 'designator', 'designator__address', 'designator__user', 'designee', 'designee__address', 'designee__user', 'author').prefetch_related('designator__expert_profile', 'designee__expert_profile')
         return (mandates.filter(designator__user=self.request.user) | mandates.filter(designee__user=self.request.user)).distinct()
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
     def retrieve(self, request, *args, **kwargs):
         instance = get_object_or_404(Mandate, pk=self.kwargs.get("pk"))
         if(instance.designator.user != self.request.user and instance.designee.user != self.request.user):
@@ -246,9 +249,6 @@ class MandateViewset(ModelViewSet):
         else:
             serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)

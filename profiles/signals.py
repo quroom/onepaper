@@ -1,6 +1,7 @@
 from django.db.models.signals import post_delete
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
+from ipware import get_client_ip
 from profiles.models import AllowedUser, CustomUser, Profile
 from profiles.serializers import CustomUserSerializer
 

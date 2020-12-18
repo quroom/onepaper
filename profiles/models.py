@@ -6,7 +6,6 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
-from ipware import get_client_ip
 from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 
