@@ -203,14 +203,21 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개_")
 
-    def test_profile_update_by_random_user(self):
-        random_user = CustomUser.objects.create_user(
-            username="random", password="psw123123123")
+    def test_profile_update_un_authenticated(self):
         self.create_expert_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
                                    {"bank_name": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_expert_profile_update_by_random_user(self):
+        random_user = CustomUser.objects.create_user(
+            username="random", password="psw123123123")
+        self.create_expert_profile()
+        self.client.force_authenticate(user=random_user)
+        response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
+                                   {"bank_name": "hacked!!!"})
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_expert_profile_delete(self):
         self.create_expert_profile()
@@ -361,10 +368,10 @@ class ProfileTestCase(APITestCase):
         random_user = CustomUser.objects.create_user(
             username="random", password="psw123123123")
         self.create_profile()
-        self.client.force_authenticate(user=None)
+        self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
                                    {"bank_name": "hacked!!!"})
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_profile_delete(self):
         self.create_profile()
@@ -644,6 +651,9 @@ class MandateTestCase(APITestCase):
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
+        self.profile1 = self.create_profile().data
+        self.profile2 = self.create_user_profile(index=1)
+        self.create_mandate()
 
     def tearDown(self):
         self.image.close()
@@ -680,11 +690,9 @@ class MandateTestCase(APITestCase):
         return profile
 
     def create_mandate(self):
-        profile = self.create_profile().data
-        profile2 = self.create_user_profile(index=1)
         data = {
-            "designator": profile['id'],
-            "designee": profile2.id,
+            "designator": self.profile1['id'],
+            "designee": self.profile2.id,
             "content": "제1조 상기 위임인은 수임인에게 부동산 기본정보에 기재된 거래 대상 부동산의 계약에 관한 사무를 위임한다.<br>제2조 상기 위임인은 거래계약체결 상대방에게 위임사실을 알리기 위하여 위임장 사본을 제공한다.",
             "from_date": "2020-12-02",
             "to_date": "2020-12-31",
@@ -701,8 +709,11 @@ class MandateTestCase(APITestCase):
         response = self.create_mandate()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_mandate_retrieve(self):
+        response = self.client.get(reverse("mandates-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_mandate_signature(self):
-        response = self.create_mandate()
         data = {
             "designator": 1,
             "designee": 2,
@@ -711,3 +722,15 @@ class MandateTestCase(APITestCase):
 
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_mandate_signature_unauthorization(self):
+        data = {
+            "designator": 1,
+            "designee": 2,
+            "designator_signature": self.image
+        }
+        self.token = Token.objects.create(user=self.profile2.user)
+        self.api_authentication()
+        response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.data['detail'], '이 작업을 수행할 권한(permission)이 없습니다.')
