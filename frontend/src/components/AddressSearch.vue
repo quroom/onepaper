@@ -75,7 +75,7 @@ export default {
       this.address.new_address = this.address_local.address;
       this.address.sigunguCd = this.address_local.bcode.substring(0,5);
       this.address.bjdongCd = this.address_local.bcode.substring(0,5);
-      this.address.bun = this.address_local.jibunAddress.split("-")[0].split(" ")[this.address_local.jibunAddress.split("-")[0].split(" ").length - 1]      
+      this.address.bun = this.address_local.jibunAddress.split("-")[0].split(" ")[this.address_local.jibunAddress.split("-")[0].split(" ").length - 1]
       this.address.ji = this.address_local.jibunAddress.split("-")[1] ? this.address_local.jibunAddress.split("-")[1].split(" ")[0] : "";
       this.$emit("update:address", this.address);
       this.dialog = false;

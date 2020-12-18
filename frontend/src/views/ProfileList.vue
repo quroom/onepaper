@@ -52,14 +52,14 @@
               <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{ profile.id }}</v-chip>
               <template v-else>
                 <v-chip class="ma-1"> {{ profile.id }}</v-chip>
-                <v-btn class="mt-1 mr-2 pa-1" color="primary" style="float:right" @click.prevent="setDefault(profile)">
+                <v-btn class="mt-1 mr-2 pa-1" color="primary" style="float: right;" @click.prevent="setDefault(profile)">
                     <v-icon>check</v-icon>
                     {{ $t("set_default_profile") }}
                 </v-btn>
               </template>
-              <v-chip class="ma-1" color="primary" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
-              <v-chip class="ma-1" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')"> {{$t("reviewing")}} </v-chip>
-              <v-chip class="ma-1" color="error" style="float: right;" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
+              <v-chip class="ma-1" color="primary" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
+              <v-chip class="ma-1" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')"> {{$t("reviewing")}} </v-chip>
+              <v-chip class="ma-1" color="error" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
               <v-card-title class="pb-2">
                 {{ profile.address.old_address }}
               </v-card-title>
