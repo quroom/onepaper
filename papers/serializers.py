@@ -29,6 +29,14 @@ class VerifyingExplanationSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ('paper',)
 
+class VerifyingEveryoneExplanationSerializer(VerifyingExplanationSerializer):
+    address = serializers.SerializerMethodField()
+
+    def get_address(self, instance):
+        address_with_bun = instance.address.old_address.split("-")[0]
+        hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
+        return {"old_address": hidden_address}
+
 class SignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
     paper_status = serializers.SerializerMethodField()
@@ -219,10 +227,39 @@ class PaperSerializer(serializers.ModelSerializer):
         return instance.status.status
 
 class PaperReadonlySerializer(PaperSerializer):
-    address = AddressSerializer()
-    verifying_explanation = VerifyingExplanationSerializer()
+    author = serializers.StringRelatedField(read_only=True)
+    address = AddressSerializer(read_only=True)
     paper_contractors = ContractorReadSerializer(many=True)
+    options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
-    
+    updated_at = serializers.SerializerMethodField()
+    verifying_explanation = VerifyingExplanationSerializer(required=False)
+
+    class Meta:
+        model = Paper
+        fields = "__all__"
+        read_only_fields = ("__all__",)
+
+class PaperEveryoneSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    address = serializers.SerializerMethodField()
+    options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
+    status = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
+    verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False)
+
+    class Meta:
+        model = Paper
+        fields = "__all__"
+        read_only_fields = ("__all__",)
+
+    def get_address(self, instance):
+        address_with_bun = instance.address.old_address.split("-")[0]
+        hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
+        return {"old_address": hidden_address}
+
     def get_status(self, instance):
         return instance.status.status
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")

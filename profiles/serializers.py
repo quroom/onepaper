@@ -10,6 +10,29 @@ from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
 
+class ApproveExpertSerializer(serializers.ModelSerializer):
+    updated_at = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
+    birthday = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ExpertProfile
+        fields = "__all__"
+        read_only_fields = ('profile', 'registration_number', 'shop_name',
+                            'registration_certificate', 'agency_license', 'stamp', 'garantee_insurance')
+
+    def get_username(self, obj):
+        return obj.profile.user.username
+
+    def get_name(self, obj):
+        return obj.profile.user.name
+
+    def get_birthday(self, obj):
+        return obj.profile.user.birthday
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class BasicCustomUserSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -50,30 +73,6 @@ class CustomUserIDNameSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         return obj.name[0:1] + len(obj.name[1:2])*"#" + obj.name[2:]
-
-class ApproveExpertSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
-    name = serializers.SerializerMethodField()
-    birthday = serializers.SerializerMethodField()
-
-    class Meta:
-        model = ExpertProfile
-        fields = "__all__"
-        read_only_fields = ('profile', 'registration_number', 'shop_name',
-                            'registration_certificate', 'agency_license', 'stamp', 'garantee_insurance')
-
-    def get_username(self, obj):
-        return obj.profile.user.username
-
-    def get_name(self, obj):
-        return obj.profile.user.name
-
-    def get_birthday(self, obj):
-        return obj.profile.user.birthday
-
-    def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertBasicInfoSerializer(serializers.ModelSerializer):
 
@@ -292,7 +291,7 @@ class MandateSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address')
+        address_data = validated_data.pop('address') if 'address' in validated_data else {}
 
         address = instance.address
         for key, val in address_data.items():

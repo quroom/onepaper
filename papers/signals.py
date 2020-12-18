@@ -31,16 +31,16 @@ def create_signature(sender, instance, created, **kwargs):
             status_instance.status = PaperStatus.DONE
             status_instance.save()
 
-@receiver(post_save, sender=Paper) 
-def save_paper(sender, instance, created, **kwargs):
-    status_instance = instance.status
-    if status_instance.status != PaperStatus.DRAFT:
-        status_instance.status = PaperStatus.DRAFT
-        status_instance.save()
-
 @receiver(post_delete, sender=Paper)
 def delete_relataive_data(sender, instance, **kwargs):
     if not instance.status is None:
         instance.status.delete()
     if not instance.address is None:
         instance.address.delete()
+
+@receiver(post_save, sender=Paper)
+def save_paper(sender, instance, created, **kwargs):
+    status_instance = instance.status
+    if status_instance.status != PaperStatus.DRAFT:
+        status_instance.status = PaperStatus.DRAFT
+        status_instance.save()

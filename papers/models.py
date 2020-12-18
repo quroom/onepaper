@@ -127,7 +127,6 @@ class Paper(models.Model):
     class Meta:
         ordering = ['-updated_at']
 
-#Add unique profile+paper
 class Contractor(models.Model):
     SELLER = 0
     BUYER = 1
@@ -159,6 +158,13 @@ class Contractor(models.Model):
                      models.UniqueConstraint(fields=['profile', 'paper'],
                      name="unique_profile_paper")
                      ]
+
+class ExplanationSignature(models.Model):
+    updated_at = models.DateTimeField(auto_now=True)
+    contractor = models.OneToOneField(Contractor,
+                                      on_delete=models.CASCADE,
+                                      related_name="explanation_signature")
+    image = models.ImageField()
 
 class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
@@ -392,10 +398,3 @@ class VerifyingExplanation(models.Model):
     actual_expenses = models.PositiveIntegerField(blank=True)
     payment_period = models.CharField(max_length=50, blank=True)
     calculation_info = models.TextField()
-
-class ExplanationSignature(models.Model):
-    updated_at = models.DateTimeField(auto_now=True)
-    contractor = models.OneToOneField(Contractor,
-                                      on_delete=models.CASCADE,
-                                      related_name="explanation_signature")
-    image = models.ImageField()

@@ -2,7 +2,6 @@ from django.db.models import Exists
 import phonenumbers
 from addresses.models import Address
 from django.db import models
-from django.contrib.auth.signals import user_logged_in
 from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
@@ -43,6 +42,14 @@ class Profile(models.Model):
     class Meta:
         ordering = ('-is_default',)
 
+class AllowedUser(models.Model):
+    allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                           blank=True,
+                                           related_name="allowed_users")
+    profile = models.OneToOneField(Profile,
+                                   on_delete=models.CASCADE,
+                                   related_name="allowed_user")
+
 class ExpertProfile(models.Model):
     REQUEST = 0
     APPROVED = 1
@@ -74,14 +81,6 @@ class ExpertProfile(models.Model):
     class Meta:
         ordering = ('id',)
 
-class AllowedUser(models.Model):
-    allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                           blank=True,
-                                           related_name="allowed_users")
-    profile = models.OneToOneField(Profile,
-                                   on_delete=models.CASCADE,
-                                   related_name="allowed_user")
-
 class Mandate(models.Model):
     author = models.ForeignKey(CustomUser,
                                null=True, blank=True,
@@ -103,9 +102,3 @@ class Mandate(models.Model):
 
     class Meta:
         ordering = ['-updated_at']
-
-@receiver(user_logged_in, sender=CustomUser)
-def post_login(sender, user, request, **kwargs):
-    client_ip, is_routable = get_client_ip(request)
-    user.ip_address = client_ip
-    user.save()
