@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
     <div v-if="paper.trade_category" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
     <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
@@ -242,7 +243,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <template v-if="!isLoading && paper.verifying_explanation != null">
+    <template v-if="!isLoading && expert != undefined">
       <VerifyingExplanation class="mt-4" :ve="paper.verifying_explanation" :updated_at="paper.updated_at"></VerifyingExplanation>
       <v-row v-if="expert != null && !isLoading" no-gutters>
         <v-col class="contractor-title text-center font-weight-bold" cols="10" md="11">

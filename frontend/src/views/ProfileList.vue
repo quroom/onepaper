@@ -27,8 +27,8 @@
       {{$t("no_contents")}}
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{ `${$t('written')} ${$t('profile')} ${$t('list')}` }}</div>
-      <div class="text-body text-center">{{ $t("profile_list_detail") }}</div>
+      <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
+      <div class="text-body text-center red--text">{{ $t("profile_list_subtitle") }}</div>
       <v-btn
         align="center"
         color="green"
@@ -54,7 +54,7 @@
                 <v-chip class="ma-1"> {{ profile.id }}</v-chip>
                 <v-btn class="mt-1 mr-2 pa-1" color="primary" style="float: right;" @click.prevent="setDefault(profile)">
                     <v-icon>check</v-icon>
-                    {{ $t("set_default_profile") }}
+                    {{ $t("activate") }}
                 </v-btn>
               </template>
               <v-chip class="ma-1" color="primary" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
@@ -99,15 +99,16 @@
         <v-btn
           v-show="next"
           @click="getProfiles"
-          color="primary"
+          color="grey"
         >
           {{$t("load_more")}}
         </v-btn>
       </v-row>
     </template>
     <router-link :to="{ name: 'profile-editor' }">
-      <v-btn color="grey" dark fixed fab right bottom>
+      <v-btn color="primary" dark fixed right bottom>
         <v-icon>add</v-icon>
+        {{$t("create_profile")}}
       </v-btn>
     </router-link>
   </v-container>

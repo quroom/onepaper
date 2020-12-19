@@ -7,7 +7,7 @@
       <template
         v-slot:activator="{ on, attrs }"
       >
-        <v-btn color="primary" dark fixed fab middle right v-bind="attrs" v-on="on">
+        <v-btn dark fixed fab middle right v-bind="attrs" v-on="on">
           <v-icon>filter_list_alt</v-icon>
         </v-btn>
       </template>
@@ -73,7 +73,7 @@
       {{$t("no_contents")}}
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{`${$t('written')} ${$t('paper')} ${$t('list')}`}}</div>
+      <div class="text-h5 text-center">{{`${$t('paper')} ${$t('list')}`}}</div>
       <v-row>
         <template v-for="paper in papers">
           <Paper :requestUser="requestUser" :paper="paper" :key="paper.id"/>
@@ -83,15 +83,17 @@
         <v-btn
           v-show="next"
           @click="getPapers"
-          color="primary"
+          color="grey"
+          dark
         >
           {{$t("load_more")}}
         </v-btn>
       </v-row>
     </template>
     <router-link :to="{ name: 'paper-editor' }">
-      <v-btn color="grey" dark fixed fab bottom right>
+      <v-btn color="primary" dark fixed bottom right>
         <v-icon>add</v-icon>
+        {{$t("create_paper")}}
       </v-btn>
     </router-link>
   </v-container>

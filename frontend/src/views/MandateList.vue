@@ -4,7 +4,7 @@
       {{$t("no_contents")}}
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{`${$t('written')} ${$t('mandate_paper')} ${$t('list')}`}}</div>
+      <div class="text-h5 text-center">{{`${$t('mandate_paper')} ${$t('list')}`}}</div>
       <v-row>
         <v-col
           cols="12"
@@ -33,15 +33,16 @@
         <v-btn
           v-show="next"
           @click="getMandates"
-          color="primary"
+          color="grey"
         >
           {{$t("load_more")}}
         </v-btn>
       </v-row>
     </template>
     <router-link :to="{ name: 'mandates-editor', params: {readonly:false} }">
-      <v-btn color="grey" dark fixed fab bottom right>
+      <v-btn color="primary" dark fixed bottom right>
         <v-icon>add</v-icon>
+        {{$t("create_mandate")}}
       </v-btn>
     </router-link>
   </v-container>

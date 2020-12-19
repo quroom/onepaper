@@ -2,6 +2,7 @@
 <template>
   <ValidationObserver ref="obs">
     <v-container>
+      <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
       <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', trade_category)} ${$t('contract')}` }}</div>
       <v-progress-linear
         v-if="is_expert"
@@ -71,7 +72,7 @@
                 v-slot="{ errors }"
               >
                 <v-select
-                  v-if="realestate_field.type=='select'"
+                  v-if="realestate_field.type == 'Select'"
                   v-model="$data[''+realestate_field.name]"
                   :error-messages="errors"
                   :items="$getConstList(realestate_field.name+'_LIST')"
@@ -83,13 +84,24 @@
                   <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
                 <LazyTextField
+                  v-else-if="realestate_field.type=='Number'"
+                  v-model="$data[''+realestate_field.name]"
+                  :error-messages="errors"
+                  :label="$t(realestate_field.name)"
+                  required
+                  :type="realestate_field.type"
+                  :step="realestate_field.step"
+                  suffix="㎡"
+                >
+                </LazyTextField>
+                <LazyTextField
                   v-else
                   v-model="$data[''+realestate_field.name]"
                   :error-messages="errors"
                   :label="$t(realestate_field.name)"
                   required
                   :type="realestate_field.type"
-                  :step="realestate_field.step" 
+                  :step="realestate_field.step"
                 >
                 </LazyTextField>
               </ValidationProvider>
@@ -319,11 +331,23 @@
           </v-row>
         </v-expansion-panels>
         <div class="mt-3">4. {{ $t("special_agreement") }}</div>
-        <quill-editor
-          ref="myQuillEditor"
-          v-model="special_agreement"
-          :options="editorOption"
-        />
+        <ValidationProvider
+          ref="special_agreement"
+          v-slot="{ errors }"
+          :name="$t('special_agreement')"
+          rules="required"
+        >
+          <quill-editor
+            ref="myQuillEditor"
+            v-model="special_agreement"
+            :options="editorOption"
+          />
+          <div class="v-messages theme--light error--text" role="alert">
+            <div class="v-messages__wrapper">
+              <div class="v-messages__message">{{ errors[0] }}</div>
+            </div>
+          </div>
+        </ValidationProvider>
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
@@ -441,7 +465,7 @@ export default {
       seller: null,
       buyer: null,
       options: [0,1,2],
-      special_agreement: null,
+      special_agreement: '',
       ve: {
         paper_categories: [],
         explanation_evidences: [],
@@ -555,7 +579,7 @@ export default {
         realestate_fields: [
           {
             name: "land_category",
-            type: "select"
+            type: "Select"
           },
           { 
             name: "lot_area",
@@ -568,7 +592,7 @@ export default {
           },
           {
             name: "building_category",
-            type: "select"
+            type: "Select"
           },
           {
             name: "building_area",
@@ -889,37 +913,40 @@ export default {
             method = "PUT";
           }
           that.updateContractors();
+          let data = {
+            land_category: that.land_category,
+            lot_area: that.lot_area,
+            building_structure: that.building_structure,
+            building_category: that.building_category,
+            building_area: that.building_area,
+            trade_category: that.trade_category,
+            address: {
+              old_address: that.address.old_address ,
+              new_address: that.address.new_address,
+              sigunguCd: that.address.sigunguCd,
+              bjdongCd: that.address.bjdongCd,
+              bun: that.address.bun,
+              ji:  that.address.ji,
+              dong: that.address.dong,
+              ho: that.address.ho,
+            },
+            down_payment: that.down_payment,
+            security_deposit: that.security_deposit,
+            maintenance_fee: that.maintenance_fee,
+            monthly_fee: that.monthly_fee,
+            from_date: that.from_date,
+            to_date: that.to_date,
+            title: that.title,
+            realestate_category: that.realestate_category,
+            paper_contractors: that.contractors,
+            options: that.options,
+            special_agreement: that.special_agreement,
+          }
+          if(that.is_expert){
+            data.verifying_explanation = that.ve;
+          }
           try {
-            apiService(endpoint, method, {
-              land_category: that.land_category,
-              lot_area: that.lot_area,
-              building_structure: that.building_structure,
-              building_category: that.building_category,
-              building_area: that.building_area,
-              trade_category: that.trade_category,
-              address: {
-                old_address: that.address.old_address ,
-                new_address: that.address.new_address,
-                sigunguCd: that.address.sigunguCd,
-                bjdongCd: that.address.bjdongCd,
-                bun: that.address.bun,
-                ji:  that.address.ji,
-                dong: that.address.dong,
-                ho: that.address.ho,
-              },
-              down_payment: that.down_payment,
-              security_deposit: that.security_deposit,
-              maintenance_fee: that.maintenance_fee,
-              monthly_fee: that.monthly_fee,
-              from_date: that.from_date,
-              to_date: that.to_date,
-              title: that.title,
-              realestate_category: that.realestate_category,
-              paper_contractors: that.contractors,
-              options: that.options,
-              special_agreement: that.special_agreement,
-              verifying_explanation: that.ve
-            }).then(data => {
+            apiService(endpoint, method, data).then(data => {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"))
                 that.$router.push({
@@ -990,7 +1017,7 @@ export default {
     }
   },
   created() {
-    document.title = this.$i18n.t("create_paper_title");
+    document.title = this.$i18n.t("create_paper");
     this.requestUser = window.localStorage.getItem("username");
     this.getAllowedProfiles();
     if (window.localStorage.getItem("is_expert") == "true") {

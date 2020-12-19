@@ -159,12 +159,24 @@
           </v-row>
         </v-expansion-panels>
         <div class="mt-3">4. {{$t("mandate_paper")}} {{ $t("content") }}</div>
-        <quill-editor
-          ref="myQuillEditor"
-          v-model="content"
-          :options="editorOption"
-          :disabled="readonly_flag"
-        />        
+        <ValidationProvider
+          ref="content"
+          v-slot="{ errors }"
+          :name="$t('special_agreement')"
+          rules="required"
+        >
+          <quill-editor
+            ref="myQuillEditor"
+            v-model="content"
+            :options="editorOption"
+            :disabled="readonly_flag"
+          />
+          <div class="v-messages theme--light error--text" role="alert">
+            <div class="v-messages__wrapper">
+              <div class="v-messages__message">{{ errors[0] }}</div>
+            </div>
+          </div>
+        </ValidationProvider>
         <div class="mt-3" align="end">
           <template v-if="designator_signature_url">
             <a v-bind:href="designator_signature_url" target="_blank">
