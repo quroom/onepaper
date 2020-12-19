@@ -22,7 +22,7 @@ class AllowedProfileList(APIView, PageNumberPagination):
 
     def get(self, request):
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
+            allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED)).filter(is_default=True)
         serializer = ProfileSerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -123,7 +123,7 @@ class ApproveExpert(mixins.ListModelMixin,
         serializer = self.get_serializer(queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-class CurrentProfileViewset(ModelViewSet):
+class ProfileViewset(ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
@@ -152,7 +152,6 @@ class CurrentProfileViewset(ModelViewSet):
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
-
         return Response(serializer.data)
 
     @transaction.atomic

@@ -20,6 +20,7 @@ class PaperStatus(models.Model):
 
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CATEGORY, default=DRAFT)
+
     def __str__(self):
         return str(self.status)
 

@@ -108,7 +108,7 @@ class PaperSerializer(serializers.ModelSerializer):
         for contractor_data in contractors_data:
             Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'])
         
-        if not verifying_explanation_data is None:
+        if self.context['request'].user.is_expert == True:
             verifying_explanation_address_data = verifying_explanation_data.pop('address')
             address = Address.objects.create(**verifying_explanation_address_data)
             VerifyingExplanation.objects.create(paper=paper, address=address, **verifying_explanation_data)
@@ -145,7 +145,7 @@ class PaperSerializer(serializers.ModelSerializer):
             if matched == False:
                  Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'])
 
-        if not verifying_explanation_data is None:
+        if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
             verifying_explanation_addres = instance.verifying_explanation.address
             verifying_explanation_address_data = verifying_explanation_data.pop('address')
@@ -172,7 +172,7 @@ class PaperSerializer(serializers.ModelSerializer):
         exist_expert = False
         contractors = data['paper_contractors']
         contractors_id_list = []
-
+        users_id_list = []
         for contractor in contractors:
             if contractor['group'] == Contractor.SELLER:
                 key = "seller"
@@ -182,6 +182,7 @@ class PaperSerializer(serializers.ModelSerializer):
                 key = "expert"
             
             contractors_id_list.append(contractor['profile'].id)
+            users_id_list.append(contractor['profile'].user.id)
 
             if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
                 if author != contractor['profile'].user:
@@ -206,18 +207,28 @@ class PaperSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError({
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
-
             if contractors_id_list.count(contractor['profile'].id) > 1:
                 #FIXME Need to be updated
                 #거래자 여러명 되면, key + id로 수정해줘야함.
                 raise serializers.ValidationError({
-                key: _("같은 사용자를 중복해서 등록할 수 없습니다."),
+                key: _("같은 회원을 중복해서 등록할 수 없습니다."),
+                })
+            if users_id_list.count(contractor['profile'].user.id) > 1:
+                #FIXME Need to be updated
+                #거래자 여러명 되면, key + id로 수정해줘야함.
+                raise serializers.ValidationError({
+                key: _("같은 회원을 중복해서 등록할 수 없습니다."),
+                })
+        if author.is_expert==True:
+            if data.get("verifying_explanation") is None:
+                raise serializers.ValidationError({
+                    "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
                 })
 
-        if (is_author_expert==True and exist_expert == False):
-            raise serializers.ValidationError({
-                "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
-            })
+            if exist_expert == False:
+                raise serializers.ValidationError({
+                    "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
+                })
         return data
 
     def get_updated_at(self, instance):

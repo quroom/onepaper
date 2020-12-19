@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from profiles.views import AllowedProfileList, AllowedUserDetail, ApproveExpert, CustomUserViewset, CurrentProfileViewset, SetDefaultProfile, MandateViewset, OpenProfileList, OpenProfileDetail
+from profiles.views import AllowedProfileList, AllowedUserDetail, ApproveExpert, CustomUserViewset, ProfileViewset, SetDefaultProfile, MandateViewset, OpenProfileList, OpenProfileDetail
 
 router = DefaultRouter()
 router.register(r"user", CustomUserViewset, basename="user")
-router.register(r"profiles", CurrentProfileViewset, basename="profiles")
+router.register(r"profiles", ProfileViewset, basename="profiles")
 router.register(r"mandates", MandateViewset, basename="mandates")
 
 urlpatterns = [
