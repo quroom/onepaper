@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 from django.test import override_settings
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase
 from urllib.request import urlopen
 
 from profiles.serializers import ProfileSerializer
