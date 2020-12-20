@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 from django_registration.backends.one_step.views import RegistrationView
 
 from core.views import IndexTemplateView
-from profiles.forms import CustomUserForm
+from profiles.forms import CustomUserForm, ExpertCustomUserForm
 
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
@@ -32,6 +32,11 @@ urlpatterns = [
             form_class=CustomUserForm,
             success_url="/",
             ), name="django_registration_register"),
+    path("expert-accounts/register/",
+        RegistrationView.as_view(
+            form_class=ExpertCustomUserForm,
+            success_url="/",
+            ), name="django_expert_registration_register"),
     path("accounts/", include("django_registration.backends.one_step.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/", include("profiles.urls")),

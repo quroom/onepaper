@@ -99,11 +99,6 @@
         :locale="this.$i18n.locale"
       ></v-date-picker>
     </v-menu>
-    <v-checkbox
-      :label="$t('request_agent_account')"
-      v-model="is_expert"
-      >
-    </v-checkbox>
     <v-btn
       style="float:right"
       class="primary"
@@ -126,7 +121,6 @@ export default {
       email: null,
       name: null,
       birthday: null,
-      is_expert: null,
       birthday_menu: false,
       dialog: false,
       deleted_username: '',
@@ -148,7 +142,6 @@ export default {
           this.email = data.email;
           this.name = data.name;
           this.birthday = data.birthday;
-          this.is_expert = data.is_expert;
           alert(that.$i18n.t("request_success"))
         }
         else{
@@ -184,7 +177,6 @@ export default {
           vm.email = data.email;
           vm.name = data.name;
           vm.birthday = data.birthday;
-          vm.is_expert = data.is_expert;
         }
       )
     } else {

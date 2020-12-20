@@ -3,19 +3,13 @@
 {% load crispy_forms_tags %}
 
 {% block auth %}
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    var daumpost = new daum.Postcode({
-        oncomplete: function(data) {
-            console.log(data)
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-        }
-    })
-</script>
 <h2> {%trans OnePaper %} {%trans "Create Account" %} </h2>
 <div class="form-container">
+    {% if 'expert-account' in request.path %}
+    <form method="POST" enctype="multipart/form-data">
+    {% else %}
     <form method="POST">
+    {% endif %}
         {% csrf_token %}
         {{ form.username|as_crispy_field }}
         {{ form.email|as_crispy_field }}
@@ -23,23 +17,106 @@
         {{ form.password2|as_crispy_field }}
         {{ form.name|as_crispy_field }}
         {{ form.birthday|as_crispy_field }}
+        {{ form.mobile_number|as_crispy_field }}
+        {{ form.old_address|as_crispy_field }}
+        <div id="wrap" style="display: none; border: 1px solid; max-height: 444px; margin: 5px 0px; position: relative;">
+            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+        </div>
         <div class="form-row">
-            <div class="form-group col-sm-8 mb-0">
-                {{ form.address|as_crispy_field }}
-            </div>
-            <div class="form-group col-sm-2 mb-0">
+            <div class="form-group col-6 mb-0">
                 {{ form.dong|as_crispy_field }}
             </div>
-            <div class="form-group col-sm-2 mb-0">
+            <div class="form-group col-6 mb-0" >
                 {{ form.ho|as_crispy_field }}
             </div>
         </div>
-        <!-- <div class="form-row">
-         </div> -->
+        <div class="form-row">
+            <div class="form-group col-5 mb-0">
+                {{ form.bank_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-7 mb-0" >
+                {{ form.account_number|as_crispy_field }}
+            </div>
+        </div>
+        {% if 'expert-account' in request.path %}
+            {{ form.registration_number|as_crispy_field }}
+            {{ form.shop_name|as_crispy_field }}
+            {{ form.registration_certificate|as_crispy_field }}
+            {{ form.agency_license|as_crispy_field }}
+            {{ form.stamp|as_crispy_field }}
+            {{ form.garantee_insurance|as_crispy_field }}
+            {{ form.is_expert|as_crispy_field }}
+        {% endif %}
+        {{ form.new_address }}
+        {{ form.sigunguCd }}
+        {{ form.bjdongCd }}
+        {{ form.platGbCd }}
+        {{ form.bun }}
+        {{ form.ji }}
         <!-- {{ form|crispy }} -->
         <button type="submit" class="btn btn-sm btn-outline-primary">{%trans "Create Account" %}</button>
     </form>
-    <button onclick="daumpost.open()">주소검색</button>
     <p class="mt-2">Or <a href="{% url 'login' %}">{%trans "Log in" %}</a></p>
 </div>
+
+<style>
+    .form-control[readonly] {
+        background-color: #ffffff !important;
+    }
+    #wrap {
+        z-index: 1;
+    }
+    .snps-inline-select {
+        width: auto;
+        display: inline-block;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+</style>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    const that = this;
+    // 우편번호 찾기 찾기 화면을 넣을 element
+    var element_wrap = document.getElementById('wrap');
+    function foldDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element_wrap.style.display = 'none';
+    }
+
+    function execDaumPostcode() {
+        // 현재 scroll 위치를 저장해놓는다.
+        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+        new daum.Postcode({
+            autoMapping:false,
+            oncomplete: function(data) {
+
+                document.getElementById("id_old_address").value = data.jibunAddress
+                document.getElementById("id_new_address").value = data.address
+                document.getElementById("id_sigunguCd").value = data.bcode.substring(0,5)
+                document.getElementById("id_bjdongCd").value = data.bcode.substring(0,5)
+                document.getElementById("id_bun").value = data.jibunAddress.split("-")[0].split(" ")[data.jibunAddress.split("-")[0].split(" ").length - 1]
+                document.getElementById("id_ji").value = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : ""
+
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("id_dong").focus();
+
+                // iframe을 넣은 element를 안보이게 한다.
+                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                element_wrap.style.display = 'none';
+
+                // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                document.body.scrollTop = currentScroll;
+            },
+            // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+            onresize : function(size) {
+                element_wrap.style.height = size.height+'px';
+            },
+            width : '100%',
+            height : '444px'
+        }).embed(element_wrap);
+
+        // iframe을 넣은 element를 보이게 한다.
+        element_wrap.style.display = 'block';
+    }
+</script>
 {% endblock %}

@@ -23,21 +23,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-btn
+      align="center"
+      color="green"
+      dark
+      :to="{ name: 'user-editor'}"
+    >
+      <v-icon>account_box</v-icon>
+      {{$t("edit_registor_info")}}
+    </v-btn>
     <div v-if="profiles.length == 0 && !isLoading" class="text-h5 text-center">
-      {{$t("no_contents")}}
+      <div class="text-h5 text-center">{{$t("no_profile")}}</div>
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
       <div class="text-body text-center red--text">{{ $t("profile_list_subtitle") }}</div>
-      <v-btn
-        align="center"
-        color="green"
-        dark
-        :to="{ name: 'user-editor'}"
-      >
-        <v-icon>account_box</v-icon>
-        {{$t("edit_registor_info")}}
-      </v-btn>
       <v-row>
         <v-col
           cols="12"
@@ -63,14 +63,14 @@
               <v-card-title class="pb-2">
                 {{ profile.address.old_address }}
               </v-card-title>
-              <v-card-subtitle class="ma-0 pb-0">
+              <v-card-subtitle v-if="profile.user.is_expert" class="ma-0 pb-0">
+                <span class="pa-1"> {{ profile.expert_profile.registration_number }} </span>
+                <span class="pa-1"> {{ profile.expert_profile.shop_name }} </span>
+              </v-card-subtitle>
+              <v-card-subtitle class="ma-0 pt-1 pb-0">
                 <span class="pa-1"> {{ profile.user.name }} </span>
                 <span class="pa-1"> {{ profile.user.birthday }} </span>
                 <span class="pa-1"> {{ profile.mobile_number }} </span>
-              </v-card-subtitle>
-              <v-card-subtitle v-if="profile.user.expert_profile" class="ma-0 pb-0">
-                <span class="pa-1"> {{ profile.expert_profile.registration_number }} </span>
-                <span class="pa-1"> {{ profile.expert_profile.shop_name }} </span>
               </v-card-subtitle>
               <v-card-subtitle v-if="profile.bank_name || profile.account_number" class="pt-0 pb-0">
                 <span class="pa-1"> {{ profile.bank_name }} </span>

@@ -66,10 +66,8 @@ class ExpertProfile(models.Model):
                              on_delete=models.CASCADE,
                              related_name="expert_profile")
     updated_at = models.DateTimeField(auto_now=True)
-
     registration_number = models.CharField(max_length=45)
     shop_name = models.CharField(max_length=100)
-
     registration_certificate = models.ImageField()
     agency_license = models.ImageField()
     stamp = models.ImageField()
