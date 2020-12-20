@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div v-if="mandates.length == 0 && !isLoading" class="text-h5 text-center">
-      {{$t("no_contents")}}
+      {{$t("no_mandates")}}
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{`${$t('mandate_paper')} ${$t('list')}`}}</div>

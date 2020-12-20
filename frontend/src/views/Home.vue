@@ -70,7 +70,7 @@
         </v-card>
     </v-menu>
     <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
-      {{$t("no_contents")}}
+      {{$t("no_papers")}}
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{`${$t('paper')} ${$t('list')}`}}</div>
