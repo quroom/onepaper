@@ -3,13 +3,43 @@
 {% load crispy_forms_tags %}
 
 {% block auth %}
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    var daumpost = new daum.Postcode({
+        oncomplete: function(data) {
+            console.log(data)
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        }
+    })
+</script>
 <h2> {%trans OnePaper %} {%trans "Create Account" %} </h2>
 <div class="form-container">
     <form method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ form.username|as_crispy_field }}
+        {{ form.email|as_crispy_field }}
+        {{ form.password1|as_crispy_field }}
+        {{ form.password2|as_crispy_field }}
+        {{ form.name|as_crispy_field }}
+        {{ form.birthday|as_crispy_field }}
+        <div class="form-row">
+            <div class="form-group col-sm-8 mb-0">
+                {{ form.address|as_crispy_field }}
+            </div>
+            <div class="form-group col-sm-2 mb-0">
+                {{ form.dong|as_crispy_field }}
+            </div>
+            <div class="form-group col-sm-2 mb-0">
+                {{ form.ho|as_crispy_field }}
+            </div>
+        </div>
+        <!-- <div class="form-row">
+         </div> -->
+        <!-- {{ form|crispy }} -->
         <button type="submit" class="btn btn-sm btn-outline-primary">{%trans "Create Account" %}</button>
     </form>
+    <button onclick="daumpost.open()">주소검색</button>
     <p class="mt-2">Or <a href="{% url 'login' %}">{%trans "Log in" %}</a></p>
 </div>
 {% endblock %}
