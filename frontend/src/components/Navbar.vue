@@ -173,9 +173,9 @@ export default {
     });
   },
   created() {
-    this.requestUser = window.localStorage.getItem("username");
-    const name = window.localStorage.getItem("name");
-    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.requestUser + "/" + name;
+    const name = window.localStorage.getItem("name")
+    const username = window.localStorage.getItem("username")
+    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + username + "/" + name;
   },
   methods: {
     switchLoc() {

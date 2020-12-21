@@ -43,8 +43,8 @@
             <div class="text-h5 text-center">
               {{ $t("realestate_agency") }} {{ $t("profile") }}
             </div>
-            <div class="mt-2 text-body-1 text-left" v-if="is_expert">
-              개업공인중개사 프로필은 첨부해주신 서류 검토후 승인 처리 후 사용이 가능합니다.
+            <div class="mt-2 text-body-1 text-left red--text" v-if="is_expert">
+              {{ $t("use_profile_after_approval") }}
             </div>
           </v-col>
           <v-col cols="8">
@@ -287,8 +287,7 @@
           </a>
         </v-col>
       </v-row>
-      <v-btn v-if="is_expert" style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("request") }}</v-btn>
-      <v-btn v-else style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+      <v-btn style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
     </v-container>
   </ValidationObserver>
 </template>
@@ -465,9 +464,7 @@ export default {
     }
   },
   created() {
-    if (window.localStorage.getItem("is_expert") == "true") {
-      this.is_expert = true;
-    }
+    this.is_expert = window.localStorage.getItem("is_expert") == "true" ? true : false;
   },
 };
 </script>

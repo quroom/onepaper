@@ -37,7 +37,8 @@
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
-      <div class="text-body text-center red--text">{{ $t("profile_list_subtitle") }}</div>
+      <div class="text-body red--text">{{ $t("profile_list_subtitle") }}</div>
+      <div class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
       <v-row>
         <v-col
           cols="12"
@@ -57,13 +58,13 @@
                     {{ $t("activate") }}
                 </v-btn>
               </template>
-              <v-chip class="ma-1" color="primary" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
-              <v-chip class="ma-1" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')"> {{$t("reviewing")}} </v-chip>
-              <v-chip class="ma-1" color="error" v-if="profile.user.is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
+              <v-chip class="ma-1" color="primary" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
+              <v-chip class="ma-1" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')"> {{$t("reviewing")}} </v-chip>
+              <v-chip class="ma-1" color="error" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
               <v-card-title class="pb-2">
                 {{ profile.address.old_address }}
               </v-card-title>
-              <v-card-subtitle v-if="profile.user.is_expert" class="ma-0 pb-0">
+              <v-card-subtitle v-if="is_expert" class="ma-0 pb-0">
                 <span class="pa-1"> {{ profile.expert_profile.registration_number }} </span>
                 <span class="pa-1"> {{ profile.expert_profile.shop_name }} </span>
               </v-card-subtitle>
@@ -144,6 +145,7 @@ export default {
   data() {
     return {
       profiles: [],
+      is_expert: false,
       isLoading: false,
       dialog: false,
       next: null,
@@ -209,6 +211,7 @@ export default {
   },
   created() {
     this.getProfiles();
+    this.is_expert = window.localStorage.getItem("is_expert") == "true" ? true : false;
   }
 };
 </script>

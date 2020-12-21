@@ -1,8 +1,8 @@
 <template>
   <v-app app>
-    <Navbar class="navbar" :is_staff="is_staff" />
+    <Navbar v-if="!isLoading" class="navbar" :is_staff="is_staff"/>
     <v-main>
-      <router-view :has_profile.sync="has_profile" />
+      <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
   </v-app>
 </template>
@@ -18,6 +18,7 @@ export default {
     Navbar
   },
   data: () => ({
+    isLoading: true,
     is_staff: false,
     link_dialog: false,
     has_profile: true
@@ -25,7 +26,6 @@ export default {
   watch: {
     has_profile() {
       if (this.has_profile == false && this.is_staff == false) {
-        console.log(this.$router.name)
         if (this.$router.name != "profile-editor" && this.$router.name != "profiles" && this.$router.name != "user-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -34,7 +34,6 @@ export default {
     },
     $route(to) {
       if (this.has_profile == false && this.is_staff == false) {
-        console.log(to.name)
         if (to.name != "profile-editor" && to.name != "profiles" && to.name != "user-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -54,17 +53,11 @@ export default {
       window.localStorage.setItem("is_expert", data["is_expert"]);
       this.has_profile = data["has_profile"];
       this.is_staff = data["is_staff"];
-      // if (this.has_profile == false && this.is_staff == false) {
-      //   if (this.$route.name != "profile-editor") {
-      //     alert(this.$i18n.t("no_profile_cant_use_service"));
-      //     this.$router.push({ name: "profile-editor" });
-      //   }
-      // }
+      this.isLoading = false;
     }
   },
   created() {
     this.setUserInfo();
-    this.isLoading = false;
   }
 };
 </script>

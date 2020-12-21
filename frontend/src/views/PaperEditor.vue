@@ -471,19 +471,19 @@ export default {
         explanation_evidences: [],
         explanation_evidence_info: '',
         address: {
-          old_address: null,
+          old_address: '',
           dong: '',
           ho: '',
         },
-        land_area: 0,
+        land_area: null,
         land_category: 7,
         actual_land_category: 7,
-        net_area: 0,
+        net_area: null,
         land_share: '',
-        year_of_completion: 1995,
+        year_of_completion: null,
         building_category: 80,
         actual_building_category: 80,
-        building_structure: '',
+        building_structure: ' ',
         building_direction: '남향  (기준:  )',
         seismic_design: '해당사항없음',
         seismic_capacity: '해당사항없음',
@@ -507,29 +507,29 @@ export default {
         relative_with_roads: '(  m  ×  m )',
         is_paved_rode: true,
         accessibility: true,
-        bus_stop: "",
+        bus_stop: ' ',
         bus_by_foot: true,
-        bus_time_required: 5,
-        subway_station: "",
+        bus_required_time: 5,
+        subway_station: '',
         subway_by_foot: null,
-        subway_time_required: null,
+        subway_required_time: null,
         parking_lot: 0,
         parking_lot_info: '',
-        elementary_school: '',
+        elementary_school: '초등학교',
         elementary_school_by_foot: true,
-        elementary_school_time_required: 10,
-        middle_school: '',
+        elementary_school_required_time: 10,
+        middle_school: '중학교',
         middle_school_by_foot: true,
-        middle_school_time_required: 10,
-        high_school: '',
+        middle_school_required_time: 10,
+        high_school: '고등학교',
         high_school_by_foot: true,
-        high_school_time_required: 10,
-        department_store: '',
+        high_school_required_time: 10,
+        department_store: ' ',
         department_store_by_foot: false,
-        department_store_time_required: 10,
-        medical_center: '',
+        department_store_required_time: 10,
+        medical_center: '병원',
         medical_center_by_foot: false,
-        medical_center_time_required: 10,
+        medical_center_required_time: 10,
         is_security_office: false,
         management: 1,
         undesirable_facilities: false,
@@ -842,7 +842,7 @@ export default {
           applyValidation(data)
         }
       })
-    },    
+    },
     nextStep(){
       const that = this;
       this.$refs.verifying_explanation.$refs.form.validate()
@@ -850,7 +850,7 @@ export default {
         if (v == true) {
           that.step +=1;
         } else {
-          that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+          that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {offset:100})
         }
       })
     },
@@ -942,9 +942,9 @@ export default {
             options: that.options,
             special_agreement: that.special_agreement,
           }
-          if(that.is_expert){
-            data.verifying_explanation = that.ve;
-          }
+            if(that.is_expert){
+              data.verifying_explanation = that.ve;
+            }
           try {
             apiService(endpoint, method, data).then(data => {
               if (data.id != undefined) {
@@ -956,9 +956,13 @@ export default {
               } else {
                 applyValidation(data, that);
                 that.$nextTick(() => {
-                    that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text:first-of-type"), {offset:100})
+                  try {
+                    that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {offset:100})
                     alert(that.$i18n.t("error"))
                     return;
+                  } catch (error) {
+                    alert(`${that.$i18n.t("error")} : ${JSON.stringify(data)}`)
+                  }
                 });
               }
             });
