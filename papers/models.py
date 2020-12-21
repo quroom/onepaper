@@ -335,7 +335,7 @@ class VerifyingExplanation(models.Model):
     bus_stop = models.CharField(max_length=20)
     bus_by_foot = models.BooleanField()
     bus_required_time = models.PositiveSmallIntegerField()
-    subway_station = models.CharField(max_length=20)
+    subway_station = models.CharField(max_length=20, blank=True)
     subway_by_foot = models.BooleanField(null=True, blank=True)
     subway_required_time = models.PositiveSmallIntegerField(null=True, blank=True)
     parking_lot = models.PositiveSmallIntegerField(choices=PARKING_LOT_CATEGORY)
