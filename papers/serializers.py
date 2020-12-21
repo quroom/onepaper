@@ -171,7 +171,6 @@ class PaperSerializer(serializers.ModelSerializer):
         is_author_expert = ExpertProfile.objects.filter(profile__user=author).exists()
         exist_expert = False
         contractors = data['paper_contractors']
-        contractors_id_list = []
         users_id_list = []
         for contractor in contractors:
             if contractor['group'] == Contractor.SELLER:
@@ -181,7 +180,6 @@ class PaperSerializer(serializers.ModelSerializer):
             elif contractor['group'] == Contractor.EXPERT:
                 key = "expert"
             
-            contractors_id_list.append(contractor['profile'].id)
             users_id_list.append(contractor['profile'].user.id)
 
             if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
@@ -197,22 +195,11 @@ class PaperSerializer(serializers.ModelSerializer):
                     })
             if contractor['group'] == Contractor.EXPERT:
                 if ExpertProfile.objects.filter(profile=contractor['profile'], status=ExpertProfile.APPROVED).exists():
-                    if author != contractor['profile'].user:
-                        raise serializers.ValidationError({
-                            key: _("본인의 프로필을 입력해주세요."),
-                        })
-                    else:
-                        exist_expert = True
+                    exist_expert = True
                 else:
                     raise serializers.ValidationError({
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
-            if contractors_id_list.count(contractor['profile'].id) > 1:
-                #FIXME Need to be updated
-                #거래자 여러명 되면, key + id로 수정해줘야함.
-                raise serializers.ValidationError({
-                key: _("같은 회원을 중복해서 등록할 수 없습니다."),
-                })
             if users_id_list.count(contractor['profile'].user.id) > 1:
                 #FIXME Need to be updated
                 #거래자 여러명 되면, key + id로 수정해줘야함.

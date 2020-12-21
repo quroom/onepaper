@@ -167,12 +167,12 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data["birthday"], "1955-02-12")
         self.assertEqual(response.data["is_expert"], True)
 
-    def create_user_profile(self, index=0, is_expert=False):
-        user = CustomUser.objects.create_user(username="test"+str(index), email="test@naver.com", password="some_strong_password",
+    def create_user_profile(self, id=0, is_expert=False):
+        user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
-        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(index))
+        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
@@ -268,7 +268,7 @@ class ExpertProfileTestCase(APITestCase):
     def test_approve_expert_post_delete(self):
         expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
-        expert_profile2 = self.create_user_profile(is_expert=True, index=1)
+        expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
@@ -291,7 +291,7 @@ class ExpertProfileTestCase(APITestCase):
     def test_approve_expert_with_no_profiles(self):
         expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
-        expert_profile2 = self.create_user_profile(is_expert=True, index=1)
+        expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
@@ -692,7 +692,7 @@ class MandateTestCase(APITestCase):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
         self.profile1 = self.create_profile().data
-        self.profile2 = self.create_user_profile(index=1)
+        self.profile2 = self.create_user_profile(id=1)
         self.create_mandate()
 
     def tearDown(self):
@@ -717,12 +717,12 @@ class MandateTestCase(APITestCase):
         response = self.client.post(self.profile_list_url, data=data)
         return response
 
-    def create_user_profile(self, index=0, is_expert=False):
-        user = CustomUser.objects.create_user(username="test"+str(index), email="test@naver.com", password="some_strong_password",
+    def create_user_profile(self, id=0, is_expert=False):
+        user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
-        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(index))
+        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
