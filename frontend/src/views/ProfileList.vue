@@ -38,7 +38,7 @@
     <template v-else>
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
       <div class="text-body red--text">{{ $t("profile_list_subtitle") }}</div>
-      <div class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
+      <div v-if="is_expert" class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
       <v-row>
         <v-col
           cols="12"

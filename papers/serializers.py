@@ -215,6 +215,19 @@ class PaperSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
                 })
+        if not author.id in users_id_list:
+            if author.is_expert == True:
+                raise serializers.ValidationError({
+                    "seller": _("작성자가 포함되지 않았습니다."),
+                    "buyer": _("작성자가 포함되지 않았습니다."),
+                    "expert": _("작성자가 포함되지 않았습니다.")
+                })
+            else:
+                raise serializers.ValidationError({
+                    "seller": _("작성자가 포함되지 않았습니다."),
+                    "buyer": _("작성자가 포함되지 않았습니다.")
+                })
+
         return data
 
     def get_updated_at(self, instance):

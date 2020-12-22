@@ -197,7 +197,8 @@
                 <LazyTextField
                   v-model="$data[''+contract_field.name]"
                   :error-messages="errors"
-                  :label="$t(contract_field.name)+'('+$t('manwon')+')'"
+                  :label="$t(contract_field.name)"
+                  :suffix="$t('manwon')"
                   :type="contract_field.type"
                   required
                 ></LazyTextField>

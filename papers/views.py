@@ -158,7 +158,6 @@ class SignatureCreateApiView(generics.CreateAPIView):
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
 
-
     def post(self, request, *args, **kwargs):
         id = self.kwargs.get("id")
         request_user = self.request.user

@@ -212,9 +212,9 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
-      add_trade_user: "거래 회원 추가",
+      add_trade_user: "거래회원 추가",
       add_trade_user_directly: "거래회원 즉시추가",
-      add_trader_link: "거래자 등록 요청 링크",
+      add_trader_link: "거래회원 등록 요청 링크",
       accept: "동의합니다.",
       activate: "활성화",
       and: "및",

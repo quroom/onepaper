@@ -12,6 +12,7 @@
             ref="link"
             :success="success"
             :success-messages="messages"
+            readonly
           >
             <template v-slot:message="{ message, key }">
               <div v-html="message" :key="key"></div>
