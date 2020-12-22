@@ -1,20 +1,20 @@
 <template>
   <v-col
-        cols="12"
-        md="6"
-        lg="4"
-        xl="3"
-      >
+    cols="12"
+    md="6"
+    lg="4"
+    xl="3"
+  >
     <v-card
       class="outlined tile"
       :to="{ name: 'paper', params: { id: paper.id } }"
     >
-      <v-chip class="ma-1 mr-0">
+      <v-chip class="ma-2 mr-0">
         {{ paper.id }}
       </v-chip>
       <v-chip
-        class="ma-1 mr-0"
-         :color="status == $getConstByName('status_category', 'progress') ? 'primary' : status == $getConstByName('status_category', 'done') ? 'success' : ''"
+        class="ma-2 pa-2"
+         :color="status == $getConstByName('status_category', 'progress') ? 'success' : status == $getConstByName('status_category', 'done') ? 'primary' : ''"
          dark
         label
       >
@@ -23,8 +23,8 @@
         </v-icon>
         {{ $getConstI18('status_category', status) }}
       </v-chip>
-      <div class="text-body-2 pa-1" style="float:right">
-        {{ $t("last") }}{{ $t("updated_at") }} : {{ paper.updated_at }}
+      <div class="text-body-2 mt-2 pr-1" style="float:right">
+        {{ $t("last") }}{{ $t("updated_at") }}: {{ paper.updated_at }}
         <div>
           <div class="author-name-position">
             {{ $t("author") }}:
@@ -32,7 +32,6 @@
           </div>
         </div>
       </div>
-      
       <v-card-title class="card-title pa-0 pl-4">
         {{ $getConstI18("trade_category", paper.trade_category) }}
       </v-card-title>
