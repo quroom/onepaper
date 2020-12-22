@@ -248,12 +248,14 @@ class MandateSerializer(serializers.ModelSerializer):
             designator = data['designator']
             designee = data['designee']
             request_user = self.context['request'].user
-            mandates = Mandate.objects.filter(address__old_address=data['address']['old_address'], designator=designator, designee=designee, to_date__gte=data['from_date']).exclude(designator_signature='')
-            if mandates.exists():
-                mandate_id = mandates.first().id
-                raise serializers.ValidationError({
-                    "period": _("위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)") % {'mandate_id':mandate_id}
-                })
+
+            if data.get("address") != None:
+                mandates = Mandate.objects.filter(address__old_address=data['address']['old_address'], designator=designator, designee=designee, to_date__gte=data['from_date']).exclude(designator_signature='')
+                if mandates.exists():
+                    mandate_id = mandates.first().id
+                    raise serializers.ValidationError({
+                        "period": _("위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)") % {'mandate_id':mandate_id}
+                    })
 
             if hasattr(designee, 'expert_profile'):
                 if designee.expert_profile.status != ExpertProfile.APPROVED:
