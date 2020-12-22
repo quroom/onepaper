@@ -243,7 +243,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개_")
 
-    def test_profile_update_un_authenticated(self):
+    def test_profile_update_unauthenticated(self):
         self.create_expert_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
@@ -447,8 +447,7 @@ class ProfileTestCase(APITestCase):
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        response = self.client.delete(
-            reverse("profiles-detail", kwargs={"pk": 1}))
+        response = self.client.delete(reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_profile_update_with_paper(self):
@@ -758,7 +757,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "content": "안녕하세요.",
+            "content": "안녕하세요."
         }
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
