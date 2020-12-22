@@ -46,7 +46,7 @@
       <div class="mt-3">1. {{ $t("desc_realestate") }} {{ $t("and") }} {{ $t("mandate") }} {{ $t("period") }}</div>
       <ValidationObserver ref="mandate_obs">
         <v-row>
-          <v-col cols="9">
+          <v-col cols="12" sm="9">
             <AddressSearch
             ref_name="address"
             :readonly="readonly_flag"
@@ -54,7 +54,7 @@
             :address.sync="address"
             ></AddressSearch>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="12" sm="3">
             <v-menu
               v-model="period_menu"
               :disabled="readonly_flag"
@@ -65,6 +65,12 @@
               min-width="290px"
             >
               <template v-slot:activator="{ on, attrs }">
+                <ValidationProvider
+                  ref="period"
+                  v-slot="{ errors }"
+                  rules="required"
+                  :name="$t('period')"
+                >
                   <LazyTextField
                     v-model="period"
                     :label="$t('mandate') + $t('period')"
@@ -72,7 +78,9 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
+                    :error-messages="errors"
                   ></LazyTextField>
+                </ValidationProvider>
               </template>
               <v-date-picker
                 v-model="period"

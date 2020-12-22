@@ -18,10 +18,14 @@
             class="outlined tile"
             :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:true } }"
           >
+            <v-chip class="ma-1">{{ mandate.id }}</v-chip>
+            <v-chip v-if="mandate.designator_signature == null" class="ma-1">{{ $t('progress') }}</v-chip>
+            <v-chip v-else class="ma-1" color="primary">{{ $t('signature') + $t('done') }}</v-chip>
             <v-card-title class="card-title pa-0 pl-4">
               {{mandate.address.old_address}}
             </v-card-title>
             <v-card-text>
+              <div> {{mandate.from_date}} ~ {{mandate.to_date}} </div>
               <div> {{$t("designator")}} : {{ mandate.designator.user.name }} </div>
               <div> {{$t("designee")}} : {{ mandate.designee.user.name }} </div>
             </v-card-text>

@@ -1,11 +1,11 @@
 function applyValidation(data, that, key, parent_key) {
   if(data.count==0){
     alert("조회할 수 있는 데이터가 없습니다.")
-    return;
+    return true;
   }
-  if(key=="detail") {
-    alert(data);
-    return;
+  if(data["detail"]) {
+    alert(data["detail"]);
+    return true;
   }
   Object.keys(data).forEach(function(key2){
     if(key2 != 0 ){

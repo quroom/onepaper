@@ -954,16 +954,18 @@ export default {
                   params: { id: data.id }
                 });
               } else {
-                applyValidation(data, that);
-                that.$nextTick(() => {
-                  try {
-                    that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {offset:100})
-                    alert(that.$i18n.t("error"))
-                    return;
-                  } catch (error) {
-                    alert(`${that.$i18n.t("error")} : ${JSON.stringify(data)}`)
-                  }
-                });
+                var flag = applyValidation(data, that);
+                if(!flag){
+                  that.$nextTick(() => {
+                    try {
+                      that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {offset:100})
+                      alert(that.$i18n.t("error"))
+                      return;
+                    } catch (error) {
+                      alert(`${that.$i18n.t("error")} : ${JSON.stringify(data)}`)
+                    }
+                  });
+                }
               }
             });
           } catch (err) {
