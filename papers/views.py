@@ -12,21 +12,21 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
 from papers.serializers import PaperSerializer, PaperListSerializer, PaperEveryoneSerializer, PaperReadonlySerializer, SignatureSerializer, ExplanationSignatureSerializer
-from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser
+from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser, IsSignatureUser
 
 class ExplanationSignatureCreateApiView(generics.CreateAPIView):
     queryset = ExplanationSignature.objects.all()
     serializer_class = ExplanationSignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
 
-    def perform_create(self, serializer):
+    def post(self, request, *args, **kwargs):
         id = self.kwargs.get("id")
         request_user = self.request.user
         paper = get_object_or_404(Paper, id=id)
         contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
         self.check_object_permissions(self.request, contractor)
 
-        if paper.status == PaperStatus.DONE:
+        if paper.status.status == PaperStatus.DONE:
             return Response({"detail": ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         explanation_signatures = ExplanationSignature.objects.filter(contractor=contractor)
@@ -36,24 +36,23 @@ class ExplanationSignatureCreateApiView(generics.CreateAPIView):
             if explanation_signature.updated_at >= paper.updated_at:
                 return Response({"detail": ValidationError(_("이미 서명이 등록되어있습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer.save(contractor=contractor, image=self.request.data['image'])
+        return self.create(request, *args, **kwargs)
+
 
 class ExplanationSignatureUpdateApiView(mixins.RetrieveModelMixin,
-                             mixins.UpdateModelMixin,
-                             generics.GenericAPIView):
+                                        mixins.UpdateModelMixin,
+                                        generics.GenericAPIView):
     queryset = ExplanationSignature.objects.all()
     serializer_class = ExplanationSignatureSerializer
-    permission_classes = [IsAuthenticated, IsContractorUser]
+    permission_classes = [IsAuthenticated, IsSignatureUser]
 
-    def perform_update(self, serializer):
+    def put(self, request, *args, **kwargs):
         id = self.kwargs.get("pk")
         explanation_signature = get_object_or_404(ExplanationSignature, id=id)
-        self.check_object_permissions(self.request, signature.contractor)
 
-        if explanation_signature.contractor.paper == PaperStatus.DONE:
-            Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.save(image=self.request.data['image'])
+        if explanation_signature.contractor.paper.status.status == PaperStatus.DONE:
+            return Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        return self.update(request, *args, **kwargs)
 
 class HidePaperApiView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
@@ -159,14 +158,14 @@ class SignatureCreateApiView(generics.CreateAPIView):
     serializer_class = SignatureSerializer
     permission_classes = [IsAuthenticated, IsContractorUser]
 
-    def perform_create(self, serializer):
+
+    def post(self, request, *args, **kwargs):
         id = self.kwargs.get("id")
         request_user = self.request.user
         paper = get_object_or_404(Paper, id=id)
         contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
         self.check_object_permissions(self.request, contractor)
-
-        if paper.status == PaperStatus.DONE:
+        if paper.status.status == PaperStatus.DONE:
             return Response({"detail": ValidationError(_("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         signatures = Signature.objects.filter(contractor=contractor)
@@ -175,22 +174,18 @@ class SignatureCreateApiView(generics.CreateAPIView):
             signature = signatures.first()
             if signature.updated_at >= paper.updated_at:
                 return Response({"detail": ValidationError(_("이미 서명이 등록되어있습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.save(contractor=contractor, image=self.request.data['image'])
+        return self.create(request, *args, **kwargs)
 
 class SignatureUpdateApiView(mixins.RetrieveModelMixin,
                              mixins.UpdateModelMixin,
                              generics.GenericAPIView):
     queryset = Signature.objects.all()
     serializer_class = SignatureSerializer
-    permission_classes = [IsAuthenticated, IsContractorUser]
+    permission_classes = [IsAuthenticated, IsSignatureUser]
 
-    def perform_update(self, serializer):
+    def put(self, request, *args, **kwargs):
         id = self.kwargs.get("pk")
         signature = get_object_or_404(Signature, id=id)
-        self.check_object_permissions(self.request, signature.contractor)
-
-        if signature.contractor.paper == PaperStatus.DONE:
-            Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-        
-        serializer.save(image=self.request.data['image'])
+        if signature.contractor.paper.status.status == PaperStatus.DONE:
+            return Response({"detail": ValidationError(_("완료된 계약서의 서명은 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        return self.update(request, *args, **kwargs)

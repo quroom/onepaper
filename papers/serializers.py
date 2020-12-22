@@ -60,7 +60,7 @@ class ContractorReadSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
     explanation_signature = ExplanationSignatureSerializer(read_only=True)
-    
+
     class Meta:
         model = Contractor
         fields = "__all__"
@@ -182,12 +182,17 @@ class PaperSerializer(serializers.ModelSerializer):
             
             users_id_list.append(contractor['profile'].user.id)
 
+            if users_id_list.count(contractor['profile'].user.id) > 1:
+                #FIXME Need to be updated
+                #거래자 여러명 되면, key + id로 수정해줘야함.
+                raise serializers.ValidationError({
+                    key: _("같은 회원을 중복해서 등록할 수 없습니다."),
+                })
             if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
                 if author != contractor['profile'].user:
                     raise serializers.ValidationError({
                         key: _("프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."),
                     })
-
             if contractor['group'] == Contractor.SELLER or contractor['group'] == Contractor.BUYER:
                 if ExpertProfile.objects.filter(profile=contractor['profile']).exists():
                     raise serializers.ValidationError({
@@ -200,18 +205,12 @@ class PaperSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError({
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
-            if users_id_list.count(contractor['profile'].user.id) > 1:
-                #FIXME Need to be updated
-                #거래자 여러명 되면, key + id로 수정해줘야함.
-                raise serializers.ValidationError({
-                key: _("같은 회원을 중복해서 등록할 수 없습니다."),
-                })
+
         if author.is_expert==True:
             if data.get("verifying_explanation") is None:
                 raise serializers.ValidationError({
                     "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
                 })
-
             if exist_expert == False:
                 raise serializers.ValidationError({
                     "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),

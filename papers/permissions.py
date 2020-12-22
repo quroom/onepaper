@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from papers.models import Contractor
+from papers.models import Contractor, Signature
 
 class IsAuthor(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -18,3 +18,7 @@ class IsAuthorOrReadonly(permissions.BasePermission):
 class IsContractorUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.profile.user == request.user
+
+class IsSignatureUser(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.contractor.profile.user == request.user

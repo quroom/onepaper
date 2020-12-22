@@ -1,3 +1,4 @@
+import datetime
 from papers.models import Paper, ExplanationSignature, Signature, Contractor, PaperStatus, VerifyingExplanation
 from profiles.models import Mandate
 from papers.serializers import PaperSerializer
@@ -10,7 +11,7 @@ def create_signature(sender, instance, created, **kwargs):
     paper = instance.contractor.paper
     contractors = paper.paper_contractors.prefetch_related("signature", "explanation_signature").all()
     verifying_explanation = VerifyingExplanation.objects.filter(paper=paper)
-    mandates = Mandate.objects.filter(address__old_address=paper.address.old_address, designee__user=paper.author, designator_id__in=contractors.values("profile")).exclude(designator_signature='')
+    mandates = Mandate.objects.filter(address__old_address=paper.address.old_address, designee__user=paper.author, designator_id__in=contractors.values("profile")).exclude(designator_signature='', to_date__lt=datetime.datetime.now())
     if mandates.exists():
         contractors = contractors.exclude(profile__in=mandates.values("designator"))
     signatures_count = contractors.filter(signature__updated_at__gte=paper.updated_at).count()
