@@ -1,4 +1,18 @@
+function renameKeys(obj, newKeys, that) {
+  Object.keys(obj).map((key) => {
+    let newKey = that.$i18n.t(key)
+    if (Array.isArray(obj[key]) == false) {
+      renameKeys(obj[key], newKeys, that);
+    }
+    // console.log(newKey, "]", obj[key]);
+    obj[newKey]=obj[key];
+    delete obj[key];
+  });
+}
+
+
 function applyValidation(data, that, key, parent_key) {
+  var flag;
   if(data.count==0){
     alert("조회할 수 있는 데이터가 없습니다.")
     return true;
@@ -9,7 +23,7 @@ function applyValidation(data, that, key, parent_key) {
   }
   Object.keys(data).forEach(function(key2){
     if(key2 != 0 ){
-      applyValidation(data[key2], that, key2, key)
+      flag = applyValidation(data[key2], that, key2, key)
     }
   })
   if(that != undefined){
@@ -18,6 +32,9 @@ function applyValidation(data, that, key, parent_key) {
         if(that.$refs[parent_key].$refs[key] != undefined){
           if(that.$refs[parent_key].$refs[key]._isVue){
             const ref = that.$refs[parent_key].$refs[key].length == undefined ? that.$refs[parent_key].$refs[key] : that.$refs[parent_key].$refs[key][0];
+            if(ref.applyResult === undefined){
+              return true
+            }
             ref.applyResult({
               errors: data,
               valid: false,
@@ -30,6 +47,10 @@ function applyValidation(data, that, key, parent_key) {
       if(that.$refs[key] != undefined) {
         if(that.$refs[key]._isVue){
           const ref = that.$refs[key].length == undefined ? that.$refs[key] : that.$refs[key][0];
+          
+          if(ref.applyResult === undefined){
+            return true
+          }
           ref.applyResult({
             errors: data,
             valid: false,
@@ -38,6 +59,11 @@ function applyValidation(data, that, key, parent_key) {
         }
       }
     }
+  }
+  if(flag == true){
+    renameKeys(data, undefined, that)
+    alert(JSON.stringify(data))
+    return true;
   }
 }
 
