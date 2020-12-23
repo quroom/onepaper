@@ -517,8 +517,7 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            
-            ({{ ve.bus_stop }}) 정류장, 소요시간: (［{{ ve.bus_by_foot ? '√' : '' }}］도보 ［{{ ve.bus_by_foot ? '' : '√' }}］차량) 약 {{ ve.bus_time_required }}분
+            ({{ ve.bus_stop }}) 정류장, 소요시간: (［{{ ve.bus_by_foot ? '√' : '' }}］도보 ［{{ ve.bus_by_foot ? '' : '√' }}］차량) 약 {{ ve.bus_required_time }}분
           </div>
         </td>
       </tr>
@@ -529,7 +528,7 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ({{ ve.subway_station }}) 역, 소요시간: (［{{ ve.subway_by_foot ? '√' : '' }}］도보 ［{{ ve.subway_by_foot ? '' : '√' }}］차량) 약 {{ ve.subway_time_required }}분
+            ({{ ve.subway_station }}) 역, 소요시간: (［{{ ve.subway_by_foot == true? '√' : '' }}］도보 ［{{ ve.subway_by_foot == false? '√' : '' }}］차량) 약 {{ ve.subway_required_time }}분
           </div>
         </td>
       </tr>
