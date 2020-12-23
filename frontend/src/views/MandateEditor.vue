@@ -33,9 +33,9 @@
       </v-dialog>
       <template v-if="id&&isAuthor&&!designator_signature_url">
         <v-chip-group>
-          <DeleteAlert v-if="!readonly_flag" :id="id" url="/api/mandates/" router_name="mandates" />
+          <DeleteAlert v-if="!readonly" :id="id" url="/api/mandates/" router_name="mandates" />
           <v-spacer></v-spacer>
-          <v-btn v-if="readonly_flag" class="ma-1 auto" color="green" dark @click="readonly_flag=false">
+          <v-btn v-if="readonly" class="ma-1 auto" color="green" dark @click="readonly_flag=false">
             {{ $t("edit") }}
           </v-btn>
           <v-btn v-else class="ma-1 auto" dark @click="readonly_flag=true">
@@ -49,7 +49,7 @@
           <v-col cols="12" sm="9">
             <AddressSearch
             ref_name="address"
-            :readonly="readonly_flag"
+            :readonly="readonly"
             :label="$t('mandate')+' '+$t('realestate')+' '+$t('address') + $t('search')"
             :address.sync="address"
             ></AddressSearch>
@@ -57,7 +57,7 @@
           <v-col cols="12" sm="3">
             <v-menu
               v-model="period_menu"
-              :disabled="readonly_flag"
+              :disabled="readonly"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -106,7 +106,7 @@
                 rules="required"
                 :name="$t('designator')">
                 <v-autocomplete
-                  v-if="readonly_flag==false"
+                  v-if="readonly==false"
                   v-model="designator"
                   :error-messages="errors"
                   :filter="customFilter"
@@ -140,7 +140,7 @@
                 :name="$t('designee')"
               >
                 <v-autocomplete
-                  v-if="readonly_flag==false"
+                  v-if="readonly==false"
                   v-model="designee"
                   :error-messages="errors"
                   :filter="customFilter"
@@ -177,7 +177,7 @@
             ref="myQuillEditor"
             v-model="content"
             :options="editorOption"
-            :disabled="readonly_flag"
+            :disabled="readonly"
           />
           <div class="v-messages theme--light error--text" role="alert">
             <div class="v-messages__wrapper">
@@ -206,7 +206,7 @@
           {{ $t("signature_and_submit") }}
         </v-btn>
         <v-btn
-          v-else-if="!id||!readonly_flag"
+          v-else-if="!id||!readonly"
           class="signature-button mt-3"
           @click="submit()"
           color="primary"
@@ -236,13 +236,6 @@ import { quillEditor } from 'vue-quill-editor'
 
 export default {
   name: "MandateEditor",
-  props: {
-    readonly: {
-      type: Boolean,
-      default: true,
-      required: false
-    }
-  },
   components: {
     AddressSearch,
     Contractor,
@@ -252,10 +245,9 @@ export default {
   data() {
     return {
       id: null,
-      readonly_flag: this.readonly,
+      readonly_flag: true,
       isLoading: false,
       allowed_profiles: [],
-      my_profiles: [],
       designator: null,
       designee: null,
       signature_dialog: false,
@@ -311,13 +303,9 @@ export default {
     },
     isDesignator() {
       return this.designator ? this.designator.user.username === this.requestUser : false;
-    }
-  },
-  watch: {
-    readonly_flag: function(val){
-      if(val == false){
-        this.getAllowedProfiles();
-      }
+    },
+    readonly() {
+      return this.id != null ? this.readonly_flag : false;
     }
   },
   methods: {
@@ -328,17 +316,6 @@ export default {
         if(data.length != undefined) {
           this.allowed_profiles = data;
           this.isLoading = false;
-        } else {
-          applyValidation(data)
-        }
-      });
-    },
-    getMyProfiles() {
-      let endpoint = `/api/profiles/`;
-      apiService(endpoint).then(data => {
-        if(data.count != undefined) {
-          this.my_profiles = data.results;
-          this.is_expert = true;
         } else {
           applyValidation(data)
         }
@@ -445,11 +422,8 @@ export default {
     }
   },
   created() {
-    this.getMyProfiles();
-    if(this.readonly_flag == false) {
-      this.getAllowedProfiles();
-    }
     this.requestUser = window.localStorage.getItem("username");
+    this.getAllowedProfiles();
   }
 }
 </script>
