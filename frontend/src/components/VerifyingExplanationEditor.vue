@@ -566,9 +566,11 @@
                 <LazyTextField class="d-flex ve-input" v-model="ve.comission" type="Number" label="중개보수"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.actual_expenses" type="Number" label="실비"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" :value="parseInt(ve.comission) + parseInt(ve.actual_expenses)" label="합계" readonly></LazyTextField>
-                <LazyTextArea class="d-flex ve-input" v-model="ve.payment_period" label="지급시기" auto-grow rows="3"></LazyTextArea>
-                <LazyTextArea class="d-flex ve-input" v-model="ve.calculation_info" label="산출내역" auto-grow rows="3"></LazyTextArea>
-                </v-col>
+                <LazyTextArea class="d-flex ve-input" v-model="ve.payment_period" label="지급시기" auto-grow rows="1"></LazyTextArea>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <LazyTextArea class="ve-input" v-model="ve.calculation_info" label="중개보수 산출내역" auto-grow rows="3"></LazyTextArea>
             </v-row>
           </div>
         </div>

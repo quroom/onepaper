@@ -439,7 +439,7 @@ const i18n = new VueI18n({
       updated_at: "수정일",
       user: "회원",
       username: "회원 아이디",
-      use_profile_after_approval: "개업공인중개사 프로필은 첨부해주신 서류 검토 후 승인이된 뒤 사용 가능합니다.",
+      use_profile_after_approval: "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
       writing: "작성",
       written: "작성한",
       won: "원",

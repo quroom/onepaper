@@ -1,15 +1,13 @@
-function renameKeys(obj, newKeys, that) {
-  Object.keys(obj).map((key) => {
-    let newKey = that.$i18n.t(key)
-    if (Array.isArray(obj[key]) == false) {
-      renameKeys(obj[key], newKeys, that);
+function renameKeys(obj, that) {
+  const keyValues = Object.entries(obj).map(([key, value]) => {
+    let newKey = that.$i18n.t(key);
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      value = renameKeys(value, that);
     }
-    // console.log(newKey, "]", obj[key]);
-    obj[newKey]=obj[key];
-    delete obj[key];
+    return [newKey, value];
   });
+  return Object.fromEntries(keyValues);
 }
-
 
 function applyValidation(data, that, key, parent_key) {
   var flag;
@@ -61,7 +59,7 @@ function applyValidation(data, that, key, parent_key) {
     }
   }
   if(flag == true){
-    renameKeys(data, undefined, that)
+    data = renameKeys(data, that)
     alert(JSON.stringify(data))
     return true;
   }

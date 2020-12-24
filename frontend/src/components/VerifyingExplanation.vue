@@ -132,7 +132,7 @@
         </td>
         <td width="110" colspan="2" rowspan="2">
           <div>
-            {{ ve.land_area }}
+            {{ ve.land_area }}㎡
           </div>
         </td>
         <td class="label" width="55" colspan="2" rowspan="2">
@@ -166,7 +166,7 @@
         </td>
         <td width="165" colspan="4">
           <div>
-            {{ ve.net_area }}
+            {{ ve.net_area }}㎡
           </div>
         </td>
         <td class="label" width="98" colspan="3">
@@ -184,7 +184,7 @@
         </td>
         <td width="110" colspan="2" rowspan="2">
           <div>
-            {{ ve.year_of_completion }}
+            {{ ve.year_of_completion }}년
           </div>
         </td>
         <td class="label" width="55" colspan="2" rowspan="2">
