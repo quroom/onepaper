@@ -116,9 +116,9 @@ class PaperSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address')
-        contractors_data = validated_data.pop('paper_contractors')
-        verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else None
+        address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
+        contractors_data = validated_data.pop('paper_contractors') if not validated_data.get('paper_contractors') is None else {}
+        verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else {}
         address = instance.address
         contractors = instance.paper_contractors.all()
 
@@ -148,7 +148,7 @@ class PaperSerializer(serializers.ModelSerializer):
         if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
             verifying_explanation_addres = instance.verifying_explanation.address
-            verifying_explanation_address_data = verifying_explanation_data.pop('address')
+            verifying_explanation_address_data = verifying_explanation_data.pop('address') if not validated_data.get('address') is None else {}
             
             for key in ['dong', 'ho']:
                 if not key in verifying_explanation_address_data:
@@ -170,7 +170,7 @@ class PaperSerializer(serializers.ModelSerializer):
         author = self.context['request'].user
         is_author_expert = ExpertProfile.objects.filter(profile__user=author).exists()
         exist_expert = False
-        contractors = data['paper_contractors']
+        contractors = data['paper_contractors'] if not data.get('paper_contractors') is None else []
         users_id_list = []
         for contractor in contractors:
             if contractor['group'] == Contractor.SELLER:
@@ -205,28 +205,28 @@ class PaperSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError({
                         key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
                     })
-
-        if author.is_expert==True:
-            if data.get("verifying_explanation") is None:
-                raise serializers.ValidationError({
-                    "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
-                })
-            if exist_expert == False:
-                raise serializers.ValidationError({
-                    "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
-                })
-        if not author.id in users_id_list:
-            if author.is_expert == True:
-                raise serializers.ValidationError({
-                    "seller": _("작성자가 포함되지 않았습니다."),
-                    "buyer": _("작성자가 포함되지 않았습니다."),
-                    "expert": _("작성자가 포함되지 않았습니다.")
-                })
-            else:
-                raise serializers.ValidationError({
-                    "seller": _("작성자가 포함되지 않았습니다."),
-                    "buyer": _("작성자가 포함되지 않았습니다.")
-                })
+        if self.context['request'].method in ["PUT", "POST"]:
+            if author.is_expert==True:
+                if data.get("verifying_explanation") is None:
+                    raise serializers.ValidationError({
+                        "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
+                    })
+                if exist_expert == False:
+                    raise serializers.ValidationError({
+                        "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
+                    })
+            if not author.id in users_id_list:
+                if author.is_expert == True:
+                    raise serializers.ValidationError({
+                        "seller": _("작성자가 포함되지 않았습니다."),
+                        "buyer": _("작성자가 포함되지 않았습니다."),
+                        "expert": _("작성자가 포함되지 않았습니다.")
+                    })
+                else:
+                    raise serializers.ValidationError({
+                        "seller": _("작성자가 포함되지 않았습니다."),
+                        "buyer": _("작성자가 포함되지 않았습니다.")
+                    })
 
         return data
 

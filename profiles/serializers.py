@@ -127,7 +127,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address')
+        address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
         address = instance.address
 
         for key in ['dong', 'ho']:
@@ -173,8 +173,8 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address')
-        expert_profile_data = validated_data.pop('expert_profile')
+        address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
+        expert_profile_data = validated_data.pop('expert_profile') if not validated_data.get('expert_profile') is None else {}
 
         address = instance.address
         for key in ['dong', 'ho']:

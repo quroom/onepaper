@@ -4,4 +4,4 @@ from addresses.models import Address
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ["old_address", "dong", "ho"]
+        fields = "__all__"
