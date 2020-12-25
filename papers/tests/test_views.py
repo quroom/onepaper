@@ -73,7 +73,8 @@ class PaperTestCase(APITestCase):
         user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
                                               bio="bio", name="김주영", birthday="1955-02-12")
         if is_expert:
-            user.save(is_expert=True)
+            user.is_expert=True
+            user.save()
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
         profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
@@ -87,9 +88,15 @@ class PaperTestCase(APITestCase):
     def test_paper_create(self):
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -118,9 +125,15 @@ class PaperTestCase(APITestCase):
         profile2_allowed_user.allowed_users.add(self.user)
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -155,9 +168,15 @@ class PaperTestCase(APITestCase):
 
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -187,9 +206,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -219,9 +244,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -258,9 +289,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -294,9 +331,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -333,9 +376,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -372,9 +421,15 @@ class PaperTestCase(APITestCase):
         
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -401,9 +456,15 @@ class PaperTestCase(APITestCase):
     def test_paper_update(self):
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -426,9 +487,15 @@ class PaperTestCase(APITestCase):
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -455,9 +522,15 @@ class PaperTestCase(APITestCase):
     def test_paper_update_with_paperstatus_done(self):
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -480,9 +553,15 @@ class PaperTestCase(APITestCase):
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -511,9 +590,15 @@ class PaperTestCase(APITestCase):
     def test_paper_delete(self):
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -540,9 +625,15 @@ class PaperTestCase(APITestCase):
     def test_paper_delete_with_paperstatus_done(self):
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -723,13 +814,12 @@ class PaperTestCase(APITestCase):
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        response = self.client.put(reverse('papers-detail', kwargs={'pk': response.data['id']}), data={
+        response2 = self.client.put(reverse('papers-detail', kwargs={'pk': response.data['id']}), data={
             "verifying_explanation": {
                 "accessibility": False,
             }
         }, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['verifying_explanation']['accessibility'], False)
+        self.assertEqual(response2.status_code, status.HTTP_400_BAD_REQUEST)
 
         response = self.client.patch(reverse('papers-detail', kwargs={'pk': response.data['id']}), data={
             "verifying_explanation": {
@@ -801,9 +891,15 @@ class SignatureTestCase(APITestCase):
                                          sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307")
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,

@@ -423,9 +423,15 @@ class ProfileTestCase(APITestCase):
         response = self.create_profile()
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,
@@ -454,9 +460,15 @@ class ProfileTestCase(APITestCase):
         response = self.create_profile()
         data = {
             "address": {
-                "ho": "22",
-                "old_address": "광주 광산구 명도동 169",
-                "dong": "111"
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
             },
             "building_area": 1111,
             "building_category": 80,

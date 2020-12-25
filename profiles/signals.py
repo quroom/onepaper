@@ -7,7 +7,7 @@ from profiles.serializers import CustomUserSerializer
 
 @receiver(post_save, sender=ExpertProfile)
 def post_expert_profile(sender, instance, **kwargs):
-    if instance.status != ExpertProfile.REQUEST:
+    if instance.status == ExpertProfile.DENIED:
         instance.status = ExpertProfile.REQUEST
         instance.save()
 

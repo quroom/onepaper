@@ -138,6 +138,11 @@ class ProfileViewset(ModelViewSet):
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
         instance = self.get_object()
+        expert_profile = getattr(instance, 'expert_profile', None)
+        if not expert_profile is None:
+            if expert_profile.status != ExpertProfile.REQUEST and expert_profile.status != ExpertProfile.DENIED :
+                return Response({"detail": ValidationError(_("승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."))}, status=status.HTTP_400_BAD_REQUEST)
+               
         if Contractor.objects.filter(profile=instance).exists():
             return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
