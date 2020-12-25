@@ -20,7 +20,7 @@ module.exports = {
     config.devServer
       // the first 3 lines of the following code have been added to the configuration
       .public("http://125.183.143.159:8080")
-      .host("125.183.143.159")
+      // .host("localhost")
       .port(8080)
       .hotOnly(true)
       .watchOptions({ poll: 1000 })
