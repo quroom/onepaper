@@ -441,7 +441,7 @@ export default {
       expert_dialog: false,
       seller_dialog: false,
       buyer_dialog: false,
-      paper: {},
+      paper: { trade_category : null },
       is_explanation_signature: false,
       fields_names: {
         realestate_fields_name: [
