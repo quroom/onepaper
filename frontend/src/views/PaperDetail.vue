@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
-    <div v-if="paper.trade_category" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
+    <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
     <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
         <div style="float:right">
@@ -553,41 +553,18 @@ export default {
         }
       }
       try {
-        fetch(data)
-          .then(res => {
-            return res.blob();
-          })
-          .then(myblob => {
-            const formData = new FormData();
-            if(this.is_explanation_signature == true){
-              formData.append(
-                "image",
-                myblob,
-                "explanation_signature_" + that.contractor.id + ".png"
-              );
-            } else {
-              formData.append(
-              "image",
-              myblob,
-              "signature_" + that.contractor.id + ".png"
-            );
-            }
-            
-            formData.append("contractor", that.contractor.id);
-
-            apiService_formData(endpoint, method, formData).then(data => {
-              if (data.id != undefined) {
-                alert(that.$i18n.t("request_success"))
-                if(that.is_explanation_signature == true){
-                  that.contractor.explanation_signature = data;
-                } else {
-                  that.contractor.signature = data;
-                }
-                that.dialog = false;
+          apiService(endpoint, method, {"image":data, "contractor": that.contractor.id}).then(data => {
+            if (data.id != undefined) {
+              alert(that.$i18n.t("request_success"))
+              if(that.is_explanation_signature == true){
+                that.contractor.explanation_signature = data;
               } else {
-                applyValidation(data)
+                that.contractor.signature = data;
               }
-            });
+              that.dialog = false;
+            } else {
+              applyValidation(data)
+            }
           });
       } catch (err) {
         alert(err);

@@ -342,11 +342,6 @@ export default {
         alert(this.$i18n.t("signature_empty_warning"))
         return;
       }
-      if (data != undefined) {
-        this.designator_signature = await fetch(data).then(res => {
-          return res.blob()
-        });
-      }
       this.$refs.mandate_obs.validate().then(function (v) {
         if (v == true) {
           const formData = new FormData()
@@ -354,7 +349,7 @@ export default {
           formData.append("designee", that.designee.id);
           formData.append("content", that.content);
           if(that.isDesignator){
-            formData.append("designator_signature", that.designator_signature, "designator_signature"+that.designator.id+".png");
+            formData.append("designator_signature", data);
           }
           if (that.period.length > 0) {
             formData.append("from_date", that.period[0]);

@@ -165,14 +165,14 @@ class ExplanationSignature(models.Model):
     contractor = models.OneToOneField(Contractor,
                                       on_delete=models.CASCADE,
                                       related_name="explanation_signature")
-    image = models.ImageField()
+    image = models.TextField()
 
 class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     contractor = models.OneToOneField(Contractor,
                                       on_delete=models.CASCADE,
                                       related_name="signature")
-    image = models.ImageField()
+    image = models.TextField()
     def __str__(self):
         return str(self.contractor.profile.user)
 

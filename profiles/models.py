@@ -8,6 +8,15 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
+import uuid
+import os
+
+def get_file_path(instance, filename):
+    splited_filename = filename.split('.')
+    filename = splited_filename[0]
+    ext = splited_filename[-1]
+    filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
+    return os.path.join('uploads', filename)
 
 class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
@@ -68,10 +77,10 @@ class ExpertProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     registration_number = models.CharField(max_length=45)
     shop_name = models.CharField(max_length=100)
-    registration_certificate = models.ImageField()
-    agency_license = models.ImageField()
-    stamp = models.ImageField()
-    garantee_insurance = models.ImageField()
+    registration_certificate = models.ImageField(upload_to=get_file_path)
+    agency_license = models.ImageField(upload_to=get_file_path)
+    stamp = models.ImageField(upload_to=get_file_path)
+    garantee_insurance = models.ImageField(upload_to=get_file_path)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CATEGORY, default=REQUEST)
 
@@ -92,7 +101,7 @@ class Mandate(models.Model):
     designee = models.ForeignKey(Profile,
                             on_delete=models.CASCADE,
                             related_name="designee")
-    designator_signature = models.ImageField(blank=True)
+    designator_signature = models.TextField(blank=True)
     from_date = models.DateField(null=True, blank=True)
     to_date = models.DateField(null=True, blank=True)
     content = models.TextField()
