@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <div class="text-caption red--text">{{ $t("mandate_subtitle") }}</div>
     <div v-if="mandates.length == 0 && !isLoading" class="text-h5 text-center">
       {{$t("no_mandate")}}
     </div>

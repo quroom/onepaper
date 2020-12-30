@@ -56,7 +56,7 @@ class ExplanationSignatureUpdateApiView(mixins.RetrieveModelMixin,
 
 class HidePaperApiView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
-    
+
     def post(self, request, pk):
         contractor = get_object_or_404(Contractor, paper=pk, profile__user=self.request.user)
         try:

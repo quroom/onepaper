@@ -27,8 +27,6 @@
               <v-text-field
                 class="ve-input"
                 v-model="options.address"
-                exact_correct_match
-
                 :label="`${$t('address')}(${$t('partial_correct_match')})`"
                 hide-details
                 dense
@@ -69,6 +67,7 @@
           </v-card-actions>
         </v-card>
     </v-menu>
+    <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
       {{$t("no_paper")}}
     </div>

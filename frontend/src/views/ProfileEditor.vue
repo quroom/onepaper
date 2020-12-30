@@ -43,7 +43,7 @@
             <div class="text-h5 text-center">
               {{ $t("realestate_agency") }} {{ $t("profile") }}
             </div>
-            <div class="mt-2 text-body-1 text-left red--text" v-if="is_expert">
+            <div class="mt-2 text-caption text-left red--text" v-if="is_expert">
               {{ $t("use_profile_after_approval") }}
             </div>
           </v-col>

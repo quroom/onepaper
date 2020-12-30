@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <div class="text-caption red--text">{{ $t("profile_list_subtitle") }}</div>
     <v-dialog
       v-model="dialog"
       max-width="400px"
@@ -37,7 +38,6 @@
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
-      <div class="text-body red--text">{{ $t("profile_list_subtitle") }}</div>
       <div v-if="is_expert" class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
       <v-row>
         <v-col

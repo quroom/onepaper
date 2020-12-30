@@ -211,15 +211,6 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-
-class AllowedUserSerializer(serializers.ModelSerializer):
-    allowed_users = CustomUserHiddenIDNameSerializer(many=True)
-
-    class Meta:
-        model = AllowedUser
-        fields = "__all__"
-        read_only_fields = ('profile',)
-
 class MandateEveryoneSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     designator = ProfileBasicInfoSerializer(read_only=True)

@@ -14,12 +14,11 @@ from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
 from papers.models import Contractor
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Mandate
-from profiles.serializers import AllowedProfileSerializer, AllowedUserSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
+from profiles.serializers import AllowedProfileSerializer, ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
 
 class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
-
     def get(self, request):
         profiles = Profile.objects.filter(
             allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED)).filter(is_default=True).select_related('user')
@@ -28,7 +27,6 @@ class AllowedProfileList(APIView):
 
 class AllowedUserDetail(APIView, PageNumberPagination):
     permission_classes = [IsAuthenticated, IsProfileUserOrReadonly]
-    serializer_class = AllowedUserSerializer
     lookup_field = "pk"
 
     def get_object(self, pk):
