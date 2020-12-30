@@ -147,15 +147,15 @@ class PaperSerializer(serializers.ModelSerializer):
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
-            verifying_explanation_addres = instance.verifying_explanation.address
-            verifying_explanation_address_data = verifying_explanation_data.pop('address') if not validated_data.get('address') is None else {}
+            verifying_explanation_address = instance.verifying_explanation.address
+            verifying_explanation_address_data = verifying_explanation_data.pop('address') if not verifying_explanation_data.get('address') is None else {}
             
             for key in ['dong', 'ho']:
                 if not key in verifying_explanation_address_data:
-                    setattr(verifying_explanation_addres, key, '')
+                    setattr(verifying_explanation_address, key, '')
             for key, val in verifying_explanation_address_data.items():
-                setattr(verifying_explanation_addres, key, val)
-            verifying_explanation_addres.save()
+                setattr(verifying_explanation_address, key, val)
+            verifying_explanation_address.save()
             for key, val in verifying_explanation_data.items():
                 setattr(verifying_explanation, key, val)
             verifying_explanation.save()
@@ -236,27 +236,46 @@ class PaperSerializer(serializers.ModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
-class PaperReadonlySerializer(PaperSerializer):
+class PaperLoadSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    address = AddressSerializer(read_only=True)
+    options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
+    updated_at = serializers.SerializerMethodField()
+    verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
+
+    class Meta:
+        model = Paper
+        fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+class PaperReadonlySerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     paper_contractors = ContractorReadSerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
-    verifying_explanation = VerifyingExplanationSerializer(required=False)
+    verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
         fields = "__all__"
         read_only_fields = ("__all__",)
 
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_status(self, instance):
+        return instance.status.status
+
 class PaperEveryoneSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
-    status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
-    verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False)
+    verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
@@ -267,9 +286,6 @@ class PaperEveryoneSerializer(serializers.ModelSerializer):
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
         return {"old_address": hidden_address}
-
-    def get_status(self, instance):
-        return instance.status.status
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")

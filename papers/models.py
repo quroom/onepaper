@@ -167,6 +167,9 @@ class ExplanationSignature(models.Model):
                                       related_name="explanation_signature")
     image = models.TextField()
 
+    class Meta:
+        ordering = ['-updated_at']
+
 class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     contractor = models.OneToOneField(Contractor,
@@ -297,14 +300,14 @@ class VerifyingExplanation(models.Model):
                                    null=True,
                                    on_delete=models.SET_NULL)
     land_area = models.FloatField()
-    land_category = models.PositiveSmallIntegerField(
+    ledger_land_category = models.PositiveSmallIntegerField(
         choices=LAND_CATEGORY, default=BUILDINGLAND)
     actual_land_category = models.PositiveSmallIntegerField(
         choices=LAND_CATEGORY, default=BUILDINGLAND)
     net_area = models.FloatField()
     land_share = models.CharField(max_length=40, blank=True)
     year_of_completion = models.SmallIntegerField()
-    building_category = models.PositiveSmallIntegerField(
+    ledger_building_category = models.PositiveSmallIntegerField(
         choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
     actual_building_category = models.PositiveSmallIntegerField(
         choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
