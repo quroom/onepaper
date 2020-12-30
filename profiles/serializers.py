@@ -10,6 +10,20 @@ from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
 
+class CustomUserIDNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["name", 'username', 'is_expert']
+        read_only_fields = ("__all__",)
+
+class AllowedProfileSerializer(serializers.ModelSerializer):
+    user = CustomUserIDNameSerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ["id", "mobile_number", "user"]
+        read_only_fields = ("__all__",)
+
 class ApproveExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
@@ -60,7 +74,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-class CustomUserIDNameSerializer(serializers.ModelSerializer):
+class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
     birthday = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
 
@@ -93,7 +107,7 @@ class ExpertSerializer(serializers.ModelSerializer):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
-    user = CustomUserIDNameSerializer(read_only=True)
+    user = CustomUserHiddenIDNameSerializer(read_only=True)
     expert_profile = ExpertBasicInfoSerializer(read_only=True)
     mobile_number = serializers.SerializerMethodField()
 
@@ -199,7 +213,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
 
 
 class AllowedUserSerializer(serializers.ModelSerializer):
-    allowed_users = CustomUserIDNameSerializer(many=True)
+    allowed_users = CustomUserHiddenIDNameSerializer(many=True)
 
     class Meta:
         model = AllowedUser
