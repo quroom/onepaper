@@ -1,4 +1,3 @@
-<!-- eslint-disable -->
 <template>
   <ValidationObserver ref="obs">
     <v-container>
@@ -477,12 +476,12 @@ export default {
           ho: '',
         },
         land_area: null,
-        land_category: 7,
+        ledger_land_category: 7,
         actual_land_category: 7,
         net_area: null,
         land_share: '',
         year_of_completion: null,
-        building_category: 80,
+        ledger_building_category: 80,
         actual_building_category: 80,
         building_structure: ' ',
         building_direction: '남향  (기준:  )',
@@ -675,13 +674,15 @@ export default {
                 input.click();
                 input.onchange = () => {
                     const file = input.files[0];
-                    if(file.size > 512000){
-                      alert(that.$t("image_file_size_error"))
+                    const max_size = 512000
+                    const max_count = 2
+                    if(file.size > max_size){
+                      alert(that.$t("image_file_size_error", [max_size/1024]))
                       return;
                     }
                     const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName("img").length
-                    if(file_count >= 2){
-                      alert(that.$t("image_file_count_error"))
+                    if(file_count >= max_count){
+                      alert(that.$t("image_file_count_error", [max_count]))
                       return;
                     }
                     if (/^image\//.test(file.type)) {
@@ -691,7 +692,6 @@ export default {
                             reader.onload = () => resolve(reader.result)
                             reader.onerror = (error) => reject('Error: ', error);
                         })
-
                         const range = that.$refs.myQuillEditor.quill.getSelection();
                         getBase64(file).then((result) => {
                           let encoded = result;
@@ -756,7 +756,7 @@ export default {
         }
       })
     },
-    input_change(item) {
+    input_change() {
       this.$delete(this.allowed_profiles)
     },
     remove (item, type) {
@@ -808,7 +808,7 @@ export default {
     },
     loadPaper(item) {
       let that = this;
-      let endpoint = `/api/papers/${item.id}/`;
+      let endpoint = `/api/papers/${item.id}/load/`;
       that.contractors = []
       that.paper_load_dialog = false;
       apiService(endpoint).then(data => {

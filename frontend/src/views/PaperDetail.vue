@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
+    <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
     <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
@@ -341,7 +341,7 @@
 </template>
 
 <script>
-import { apiService, apiService_formData } from "@/common/api.service";
+import { apiService } from "@/common/api.service";
 import { applyValidation } from "@/common/common_api";
 import Contractor from "@/components/Contractor";
 import Actions from "@/components/Actions";
@@ -571,12 +571,6 @@ export default {
       }
     },
     open(is_explanation_signature) {
-      // if( is_explanation_signature == true) {
-      //   this.signature_pad_options.penColor = "#2196F3"
-      // } else {
-      //   this.signature_pad_options.penColor = "#F44336"
-      // }
-      
       this.dialog = true;
       this.is_explanation_signature = is_explanation_signature;
       this.$nextTick(() => {
@@ -596,34 +590,6 @@ export default {
 };
 </script>
 <style scoped>
-/* .v-card {
-  height: 100%;  
-  padding: 2px 8px 2px 8px;
-  border: thin solid rgba(0, 0, 0, 0.2) !important;
-}
-.LazyTextField > .v-input__control > .v-input__slot:before {
-  border: 0 !important;
-  border-style: none !important;
-}
-.LazyTextField > .v-input__control > .v-input__slot:after {
-  border-style: none !important;
-}
-img {
-  z-index: -1;
-}
-.top-mid {
-  position: absolute;
-  top: -25px;
-  right: -45px;
-}
-.signature-pad {
-  border-bottom: double 3px transparent;
-  border-radius: 5px;
-  background-image: linear-gradient(white, white),
-    radial-gradient(circle at top left, #4bc5e8, #9f6274);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-} */
 .signature-button {
   z-index: 2;
   height: 100% !important;
@@ -646,6 +612,6 @@ img {
   cursor: pointer;
 }
 .contractor-title {
-  background: #BBDEFB !important;
+  background: #bbdefb !important;
 }
 </style>

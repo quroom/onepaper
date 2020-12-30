@@ -1,10 +1,5 @@
 <template>
-  <v-col
-    cols="12"
-    md="6"
-    lg="4"
-    xl="3"
-  >
+  <v-col cols="12" md="6" lg="4" xl="3">
     <v-card
       class="outlined tile"
       :to="{ name: 'paper', params: { id: paper.id } }"
@@ -14,14 +9,18 @@
       </v-chip>
       <v-chip
         class="ma-2 pa-2"
-         :color="status == $getConstByName('status_category', 'progress') ? 'success' : status == $getConstByName('status_category', 'done') ? 'primary' : ''"
-         dark
+        :color="
+          paper.status == $getConstByName('status_category', 'progress')
+          ? 'success' : paper.status == $getConstByName('status_category', 'done')
+          ? 'primary' : ''
+        "
+        dark
         label
       >
         <v-icon left>
           label
         </v-icon>
-        {{ $getConstI18('status_category', status) }}
+        {{ $getConstI18("status_category", paper.status) }}
       </v-chip>
       <div class="text-body-2 mt-2 pr-1" style="float:right">
         {{ $t("last") }}{{ $t("updated_at") }}: {{ paper.updated_at }}
@@ -51,9 +50,8 @@
           v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
         >
         {{ `${$t("security_deposit")}${paper.security_deposit}${$t("manwon")} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t("manwon")}`}}
-          <!-- {{$t("security_deposit")}}{{ paper.security_deposit }} / 관{{ paper.maintenance_fee }} -->
         </span>
-        <!-- To be updated -->
+        <!-- #FIXME to be updated -->
         <span
           v-else-if="
             paper.trade_category == $getConstByName('trade_category', 'purchase')
@@ -72,8 +70,6 @@
 </template>
 
 <script>
-import { apiService_formData } from "@/common/api.service.js"
-import { applyValidation } from "@/common/common_api";
 
 export default {
   name: "Paper",
@@ -85,17 +81,6 @@ export default {
     requestUser: {
       type: String,
       required: true
-    }
-  },
-  data() {
-    return {
-      error: null,
-      paper_status: null,
-    }
-  },
-  computed: {
-    status() {
-      return this.paper_status ? this.paper_status : this.paper.status;
     }
   },
   methods: {

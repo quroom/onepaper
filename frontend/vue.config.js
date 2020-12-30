@@ -8,6 +8,10 @@ module.exports = {
 
   chainWebpack: (config) => {
     config.resolve.extensions.add('.ts');
+    config.module
+          .rule('eslint')
+          .use('eslint-loader')
+          .options({quiet: true});
     config
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
@@ -30,7 +34,7 @@ module.exports = {
       .headers({ "Access-Control-Allow-Origin": ["*"] });
   },
   transpileDependencies: ["vuetify"],
-  lintOnSave: false,
+  lintOnSave: true,
 
 
   // uncomment before executing 'npm run build'

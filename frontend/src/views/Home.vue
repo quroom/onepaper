@@ -170,7 +170,6 @@ export default {
       });
     },
     async getPapers() {
-      const that = this;
       let endpoint = "/api/papers/";
       if(this.next) {
         endpoint = this.next;

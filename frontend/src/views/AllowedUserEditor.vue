@@ -113,7 +113,6 @@ export default {
       let data = {
         "allowed_users" : this.new_user
       }
-      const that = this
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
         if(data.count != undefined) {

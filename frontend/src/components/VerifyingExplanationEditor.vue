@@ -109,7 +109,7 @@
                 <LazyTextField class="d-flex ve-input" v-model="ve.land_area" label="토지 면적" type="Number" step="0.01"></LazyTextField>
                 <v-select
                 class="d-flex ve-input"
-                  v-model="ve.land_category"
+                  v-model="ve.ledger_land_category"
                   :items="$getConstList('LAND_CATEGORY_LIST')"
                   item-text="text"
                   item-value="value"
@@ -143,7 +143,7 @@
                 <LazyTextField class="d-flex ve-input" v-model="ve.year_of_completion" label="준공년도(증개축년도)"></LazyTextField>
                 <v-select
                   class="d-flex ve-input"
-                  v-model="ve.building_category"
+                  v-model="ve.ledger_building_category"
                   :items="$getConstList('BUILDING_CATEGORY_LIST')"
                   item-text="text"
                   item-value="value"

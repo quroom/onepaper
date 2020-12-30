@@ -140,6 +140,7 @@ export default {
           return this.profiles[i]
         }
       }
+      return undefined
     }
   },
   data() {
@@ -203,8 +204,6 @@ export default {
             this.default_profile.is_default = false;
           }
           this.$set(this.profiles, this.profiles.indexOf(profile), data);
-        } else {
-          applyValidation(data)
         }
       })
     }
