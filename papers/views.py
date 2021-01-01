@@ -138,7 +138,7 @@ class PaperViewset(ModelViewSet):
         instance = self.get_object()
 
         if instance.status.status == PaperStatus.DONE:
-            return Response({"detail": ValidationError(_("완료된 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("완료된 계약서는 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         elif instance.status.status == PaperStatus.PROGRESS:
             signature_last_updated_at = getattr(Signature.objects.filter(contractor__paper=instance).last(), 'updated_at', None)
             explanation_signature_last_updated_at = getattr(ExplanationSignature.objects.filter(contractor__paper=instance).last(), 'updated_at', None)

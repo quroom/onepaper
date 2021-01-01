@@ -2,12 +2,14 @@ import datetime
 import tempfile
 import os
 
+from django.utils.translation import ugettext_lazy as _
 from PIL import Image
 from django.test import override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 from rest_framework.authtoken.models import Token
+from rest_framework import serializers
 
 from addresses.models import Address
 from profiles.models import AllowedUser, CustomUser, Profile, ExpertProfile
@@ -155,6 +157,8 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["seller"][0], _("작성자가 포함되지 않았습니다."))
+        self.assertEqual(response.data["buyer"][0], _("작성자가 포함되지 않았습니다."))
 
     def test_paper_create_with_contractors(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
@@ -237,6 +241,8 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['seller'][0], _("같은 회원을 중복해서 등록할 수 없습니다."))
+        self.assertEqual(response.data['buyer'][0], _("같은 회원을 중복해서 등록할 수 없습니다."))
 
     def test_paper_create_with_contractors_unallowed(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
@@ -320,6 +326,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["expert"][0], _("공인중개사는 거래자로 등록할 수 없습니다."))
 
     def test_paper_create_with_unapproved_expert(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
@@ -363,6 +370,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["expert"][0], _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."))
     
     def test_paper_create_with_expert_without_verifying_explnation(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
@@ -408,6 +416,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["verifying_explanation"], _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."))
     
     def test_paper_create_with_expert_without_expert(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
@@ -452,6 +461,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["expert"][0], _("작성자가 공인중개사인 경우 비워둘 수 없습니다."))
 
     def test_paper_update(self):
         data = {
@@ -586,6 +596,7 @@ class PaperTestCase(APITestCase):
         paper_status.save()
         response = self.client.put(reverse('papers-detail', kwargs={'pk':response.data['id']}), data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("완료된 계약서는 수정할 수 없습니다."))
 
     def test_paper_delete(self):
         data = {
@@ -659,6 +670,7 @@ class PaperTestCase(APITestCase):
         paper_status.save()
         response = self.client.delete(reverse('papers-detail', kwargs={'pk':response.data['id']}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("완료된 계약서는 삭제할 수 없습니다."))
 
     def test_verifying_explanation_create(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
