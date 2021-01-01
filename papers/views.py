@@ -143,17 +143,17 @@ class PaperViewset(ModelViewSet):
             signature_last_updated_at = getattr(Signature.objects.filter(contractor__paper=instance).last(), 'updated_at', None)
             explanation_signature_last_updated_at = getattr(ExplanationSignature.objects.filter(contractor__paper=instance).last(), 'updated_at', None)
             if explanation_signature_last_updated_at == None:
-                if (datetime.datetime.utcnow() - signature_last_updated_at).total_seconds() / 3600 > 12:
+                if (datetime.datetime.utcnow() - signature_last_updated_at.replace(tzinfo=None)).total_seconds() / 3600 > 12:
                     return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
             elif signature_last_updated_at == None:
-                if (datetime.datetime.utcnow() - explanation_signature_last_updated_at).total_seconds() / 3600 > 12:
+                if (datetime.datetime.utcnow() - explanation_signature_last_updated_at.replace(tzinfo=None)).total_seconds() / 3600 > 12:
                     return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 if signature_last_updated_at >= explanation_signature_last_updated_at:
-                    if (datetime.datetime.utcnow() - explanation_signature_last_updated_at).total_seconds() / 3600 > 12:
+                    if (datetime.datetime.utcnow() - explanation_signature_last_updated_at.replace(tzinfo=None)).total_seconds() / 3600 > 12:
                         return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    if (datetime.datetime.utcnow() - signature_last_updated_at).total_seconds() / 3600 > 12:
+                    if (datetime.datetime.utcnow() - signature_last_updated_at.replace(tzinfo=None)).total_seconds() / 3600 > 12:
                         return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
