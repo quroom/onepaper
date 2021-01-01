@@ -24,12 +24,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn
-      align="center"
-      color="green"
-      dark
-      :to="{ name: 'user-editor'}"
-    >
+    <v-btn align="center" color="green" dark :to="{ name: 'user-editor'}">
       <v-icon>account_box</v-icon>
       {{$t("edit_registor_info")}}
     </v-btn>
@@ -40,14 +35,7 @@
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
       <div v-if="is_expert" class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
       <v-row>
-        <v-col
-          cols="12"
-          md="6"
-          lg="4"
-          xs="3"
-          v-for="profile in profiles"
-          :key="profile.id"
-        >
+        <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
             <v-card>
               <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{ profile.id }}</v-chip>

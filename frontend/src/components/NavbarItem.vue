@@ -125,7 +125,7 @@
 </template>
 <script>
 export default {
-  name: "Navbar",
+  name: "NavbarItem",
   props: {
     is_staff: {
       type: Boolean,

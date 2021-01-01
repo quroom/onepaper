@@ -75,7 +75,7 @@
       <div class="text-h5 text-center">{{`${$t('paper')} ${$t('list')}`}}</div>
       <v-row>
         <template v-for="paper in papers">
-          <Paper :requestUser="requestUser" :paper="paper" :key="paper.id"/>
+          <PaperItem :requestUser="requestUser" :paper="paper" :key="paper.id"/>
         </template>
       </v-row>
       <v-row justify="center">
@@ -101,11 +101,11 @@
 <script>
 import { apiService } from "@/common/api.service";
 import { applyValidation } from "@/common/common_api";
-import Paper from "@/components/Paper"
+import PaperItem from "@/components/PaperItem"
 export default {
   name: "Home",
   components: {
-    Paper
+    PaperItem
   },
   data() {
     return {

@@ -1,6 +1,6 @@
 <template>
   <v-app app>
-    <Navbar v-if="!isLoading" class="navbar" :is_staff="is_staff"/>
+    <NavbarItem v-if="!isLoading" class="navbar" :is_staff="is_staff"/>
     <v-main>
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
@@ -8,14 +8,14 @@
 </template>
 
 <script>
-import Navbar from "./components/Navbar";
+import NavbarItem from "./components/NavbarItem";
 import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
 
 export default {
   name: "App",
   components: {
-    Navbar
+    NavbarItem
   },
   data: () => ({
     isLoading: true,

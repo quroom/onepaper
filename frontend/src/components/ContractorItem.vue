@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "Contractor",
+  name: "ContractorItem",
   props: {
     contractor: {
       type: Object,

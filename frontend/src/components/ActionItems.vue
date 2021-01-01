@@ -13,7 +13,7 @@
 <script>
 import DeleteAlert from "@/components/DeleteAlert"
 export default {
-  name: "Actions",
+  name: "ActionItems",
   components: {
     DeleteAlert
   },

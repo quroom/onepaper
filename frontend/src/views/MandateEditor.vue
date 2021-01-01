@@ -126,7 +126,7 @@
               <v-expansion-panel v-if="designator">
                 <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info") }} {{`(${designator.user.username})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Contractor :contractor="designator" :fields="basic_profile_fields" :label_cols="label_cols"></Contractor>
+                  <ContractorItem :contractor="designator" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -160,7 +160,7 @@
               <v-expansion-panel v-if="designee">
                 <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}} {{`(${designee.user.username})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Contractor :contractor="designee" :fields="basic_profile_fields" :label_cols="label_cols"></Contractor>
+                  <ContractorItem :contractor="designee" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -227,7 +227,7 @@
 import { apiService, apiService_formData } from "@/common/api.service";
 import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
-import Contractor from "@/components/Contractor";
+import ContractorItem from "@/components/ContractorItem";
 import DeleteAlert from "@/components/DeleteAlert";
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -238,7 +238,7 @@ export default {
   name: "MandateEditor",
   components: {
     AddressSearch,
-    Contractor,
+    ContractorItem,
     quillEditor,
     DeleteAlert
   },

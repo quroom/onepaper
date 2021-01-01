@@ -18,7 +18,7 @@
         </div>
       </v-col>
     </v-row>
-    <Actions v-if="isPaperAuthor && !isPaperDone" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
+    <ActionItems v-if="isPaperAuthor && !isPaperDone" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
     <v-divider></v-divider>
     <v-row>
       <v-col
@@ -152,7 +152,7 @@
           </a>
         </v-card>
       </v-col>
-      <Contractor :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></Contractor>
+      <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
     </v-row>
     <v-row class="mt-5" v-if="!isLoading && seller != null" no-gutters>
       <v-col class="text-center font-weight-bold" cols="10" md="11">
@@ -180,7 +180,7 @@
           </a>
         </v-card>
       </v-col>
-      <Contractor :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></Contractor>
+      <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
     </v-row>
     <v-row class="mt-5" v-if="!isLoading && buyer != null" no-gutters>
       <v-col class="text-center font-weight-bold" cols="10" md="11">
@@ -206,7 +206,7 @@
           </a>
         </v-card>
       </v-col>
-      <Contractor :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></Contractor>
+      <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
     </v-row>
     <div class="mt-5">4. {{ $t("special_agreement") }}</div>
     
@@ -280,7 +280,7 @@
           </a>
           </v-card>
         </v-col>
-        <Contractor :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></Contractor>
+        <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
       </v-row>
       <v-row class="mt-5" v-if="!isLoading && seller != null" no-gutters>
         <v-col class="text-center font-weight-bold" cols="10" md="11">
@@ -308,7 +308,7 @@
             </a>
           </v-card>
         </v-col>
-      <Contractor :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></Contractor>
+      <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
       </v-row>
       <v-row class="mt-5" v-if="!isLoading && buyer != null" no-gutters>
         <v-col class="text-center font-weight-bold" cols="10" md="11">
@@ -334,7 +334,7 @@
             </a>
           </v-card>
         </v-col>
-        <Contractor :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></Contractor>
+        <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
       </v-row>
     </template>
   </v-container>
@@ -343,8 +343,8 @@
 <script>
 import { apiService } from "@/common/api.service";
 import { applyValidation } from "@/common/common_api";
-import Contractor from "@/components/Contractor";
-import Actions from "@/components/Actions";
+import ContractorItem from "@/components/ContractorItem";
+import ActionItems from "@/components/ActionItems";
 import VerifyingExplanation from "@/components/VerifyingExplanation";
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -362,8 +362,8 @@ export default {
     }
   },
   components: {
-    Contractor,
-    Actions,
+    ContractorItem,
+    ActionItems,
     VerifyingExplanation,
     quillEditor
   },

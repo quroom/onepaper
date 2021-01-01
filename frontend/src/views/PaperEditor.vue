@@ -259,7 +259,7 @@
               <v-expansion-panel v-if="expert">
                 <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
+                  <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -293,7 +293,7 @@
               <v-expansion-panel v-if="seller">
                 <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
+                  <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -324,7 +324,7 @@
               <v-expansion-panel v-if="buyer">
                 <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
+                  <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -359,7 +359,7 @@
           </v-card>
         </v-col>
         <v-col v-if="expert" cols="12">
-          <Contractor :contractor="expert" :fields="fields_names.expert_profile_fields"></Contractor>
+          <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
         </v-col>
         <template v-if="seller">
           <v-col class="contractor-title text-center font-weight-bold" cols="12">
@@ -368,7 +368,7 @@
             </v-card>
           </v-col>
           <v-col cols="12">
-            <Contractor :contractor="seller" :fields="fields_names.basic_profile_fields"></Contractor>
+            <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
           </v-col>
         </template>
         <template v-if="buyer">
@@ -378,7 +378,7 @@
             </v-card>
           </v-col>
           <v-col cols="12">
-            <Contractor :contractor="buyer" :fields="fields_names.basic_profile_fields"></Contractor>
+            <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
           </v-col>
         </template>
       </v-row>
@@ -397,7 +397,7 @@
 import { apiService } from "@/common/api.service";
 import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
-import Contractor from "@/components/Contractor";
+import ContractorItem from "@/components/ContractorItem";
 import VerifyingExplanationEditor from "@/components/VerifyingExplanationEditor";
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
@@ -414,7 +414,7 @@ export default {
   },
   components: {
     AddressSearch,
-    Contractor,
+    ContractorItem,
     quillEditor,
     VerifyingExplanationEditor
   },
