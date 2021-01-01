@@ -778,7 +778,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "designator_signature": self.image
+            "designator_signature": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
 
@@ -794,7 +794,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "designator_signature": self.image
+            "designator_signature": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
 
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
@@ -804,7 +804,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "designator_signature": self.image
+            "designator_signature": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         self.token = Token.objects.create(user=self.profile2.user)
         self.api_authentication()
@@ -815,7 +815,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "designator_signature": self.image
+            "designator_signature": "data:image/png;base64,iVBORw0KGgoBBBBASDFQWERQWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         }
 
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
@@ -830,7 +830,7 @@ class MandateTestCase(APITestCase):
         data = {
             "designator": 1,
             "designee": 2,
-            "designator_signature": self.image
+            "designator_signature": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         response = self.client.delete(reverse("mandates-detail", kwargs={"pk": 1}))

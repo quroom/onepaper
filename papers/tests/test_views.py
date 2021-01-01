@@ -939,7 +939,7 @@ class SignatureTestCase(APITestCase):
     def test_signature_create(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -948,7 +948,7 @@ class SignatureTestCase(APITestCase):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -956,13 +956,13 @@ class SignatureTestCase(APITestCase):
     def test_signature_create_with_paper_done(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         self.api_authentication(user=self.profile1.user)
         data = {
             'contractor': self.paper['paper_contractors'][1]['id'],
-            'image': self.image1
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -973,7 +973,7 @@ class SignatureTestCase(APITestCase):
     def test_signature_create_error_with_done_paper(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         paper = Paper.objects.get(id=1)
         paper_status = paper.status
@@ -985,7 +985,7 @@ class SignatureTestCase(APITestCase):
     def test_signature_create_duplications(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
@@ -994,13 +994,13 @@ class SignatureTestCase(APITestCase):
     def test_signature_update(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
 
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image1
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.put(reverse('update-signature', kwargs={'paper_id':self.paper['id'], 'pk':response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1008,7 +1008,7 @@ class SignatureTestCase(APITestCase):
     def test_signature_update_with_done_paper(self):
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         paper = Paper.objects.get(id=1)
@@ -1017,7 +1017,7 @@ class SignatureTestCase(APITestCase):
         paper_status.save()
         data = {
             'contractor': self.paper['paper_contractors'][0]['id'],
-            'image': self.image1
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
         }
         response = self.client.put(reverse('update-signature', kwargs={'paper_id':paper.id, 'pk':response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
