@@ -72,7 +72,7 @@
 <script>
 
 export default {
-  name: "Paper",
+  name: "PaperItem",
   props: {
     paper: {
       type: Object,

@@ -88,4 +88,19 @@ a:hover {
     display: none;
   }
 }
+
+.signature-dialog {
+  width: 50vh !important;
+  min-width: 280px !important;
+  max-width: 560px !important;
+}
+
+.signature-pad {
+  width: 50vh !important;
+  min-width: 280px;
+  max-width: 560px;
+  height: 25vh !important;
+  min-height: 140px;
+  max-height: 280px;
+}
 </style>

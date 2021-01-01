@@ -216,12 +216,10 @@
       :options="options"
       :disabled="true"
     />
-    <v-dialog v-model="dialog" width="50vh" height="25vh" eager>
+    <v-dialog content-class="signature-dialog" v-model="dialog" eager>
       <v-card>
         <VueSignaturePad
           class="signature-pad"
-          width="50vh"
-          height="25vh"
           ref="signaturePad"
           :customStyle="{ border: 'black 2px solid' }"
           :options="{...signature_pad_options}"

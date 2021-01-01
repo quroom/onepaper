@@ -1,11 +1,9 @@
 <template>
   <v-container>
-    <v-dialog v-model="signature_dialog" width="50vh" height="25vh" eager>
+    <v-dialog content-class="signature-dialog" v-model="signature_dialog" eager>
         <v-card>
           <VueSignaturePad
             class="signature-pad"
-            width="50vh"
-            height="25vh"
             ref="signaturePad"
             :customStyle="{ border: 'black 2px solid' }"
             :options="{
@@ -14,10 +12,10 @@
               penColor: 'red'
             }"
           />
+          <v-card-title class="justify-center">
+            {{ $t("please_sign") }}
+          </v-card-title>
           <v-card-actions>
-            <v-card-title class="justify-center">
-              {{ $t("please_sign") }}
-            </v-card-title>
             <v-btn color="blue darken-1" text @click="signature_dialog = false">{{
               $t("close")
             }}</v-btn>
@@ -422,7 +420,8 @@ export default {
   }
 }
 </script>
-
+<style>
+</style>
 <style scoped>
 .signature-button {
   z-index: 2;
