@@ -207,26 +207,19 @@ class PaperSerializer(serializers.ModelSerializer):
                     })
         if self.context['request'].method in ["PUT", "POST"]:
             if author.is_expert==True:
-                if data.get("verifying_explanation") is None:
-                    raise serializers.ValidationError({
-                        "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
-                    })
                 if exist_expert == False:
                     raise serializers.ValidationError({
                         "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
                     })
+                if data.get("verifying_explanation") is None:
+                    raise serializers.ValidationError({
+                        "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
+                    })
             if not author.id in users_id_list:
-                if author.is_expert == True:
-                    raise serializers.ValidationError({
-                        "seller": _("작성자가 포함되지 않았습니다."),
-                        "buyer": _("작성자가 포함되지 않았습니다."),
-                        "expert": _("작성자가 포함되지 않았습니다.")
-                    })
-                else:
-                    raise serializers.ValidationError({
-                        "seller": _("작성자가 포함되지 않았습니다."),
-                        "buyer": _("작성자가 포함되지 않았습니다.")
-                    })
+                raise serializers.ValidationError({
+                    "seller": _("작성자가 포함되지 않았습니다."),
+                    "buyer": _("작성자가 포함되지 않았습니다.")
+                })
 
         return data
 
