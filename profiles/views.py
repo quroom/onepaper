@@ -21,7 +21,7 @@ class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED)).filter(is_default=True).select_related('user')
+            allowed_user__allowed_users=request.user).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED)).filter(is_active=True).select_related('user')
         serializer = AllowedProfileSerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -159,7 +159,7 @@ class ProfileViewset(ModelViewSet):
 
     @transaction.atomic
     def perform_create(self, serializer):
-        Profile.objects.filter(user=self.request.user).update(is_default=False)
+        Profile.objects.filter(user=self.request.user).update(is_active=False)
         serializer.save(user=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
@@ -281,9 +281,12 @@ class MandateViewset(ModelViewSet):
 
 class OpenProfileList(APIView, PageNumberPagination):
     def get(self, request, format=None):
-        profiles = Profile.objects.all()
+        name = self.request.query_params.get("name")
+        mobile_number = self.request.query_params.get("mobile_number")
+
+        profiles = Profile.objects.filter(user__name=name, mobile_number=mobile_number, is_active=True)
         page = self.paginate_queryset(profiles, request, view=self)
-        serializer = ProfileBasicInfoSerializer(profiles, many=True)
+        serializer = ProfileBasicInfoSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
 class OpenProfileDetail(APIView):
@@ -303,10 +306,10 @@ class SetDefaultProfile(APIView):
         profile = get_object_or_404(Profile, pk=pk)
         self.check_object_permissions(self.request, profile)
         profiles = Profile.objects.filter(user=self.request.user)
-        default_profiles = profiles.filter(is_default=True)
+        active_profiles = profiles.filter(is_active=True)
         with transaction.atomic():
-            default_profiles.update(is_default=False)
-            profile.is_default = True
+            active_profiles.update(is_active=False)
+            profile.is_active = True
             profile.save()
         serializer = ProfileSerializer(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)

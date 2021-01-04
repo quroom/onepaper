@@ -8,11 +8,13 @@ from profiles.models import CustomUser, ExpertProfile, Profile
 from addresses.models import Address
 
 class PaperStatus(models.Model):
-    DRAFT = 0
-    PROGRESS = 1
-    DONE = 2
+    REQUESTING = 0
+    DRAFT = 1
+    PROGRESS = 2
+    DONE = 3
 
     STATUS_CATEGORY = (
+        (REQUESTING, _('요청중')),
         (DRAFT, _('작성중')),
         (PROGRESS, _('서명중')),
         (DONE, _('완료'))
@@ -151,6 +153,8 @@ class Contractor(models.Model):
                               related_name="paper_contractors",
                               related_query_name="paper_contractors")
     is_paper_hidden = models.BooleanField(default=False)
+    is_allowed = models.BooleanField(default=False)
+
     group = models.PositiveSmallIntegerField(
         choices=CONTRACTOR_CATEGORY)
         

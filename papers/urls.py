@@ -1,10 +1,10 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from papers.views import PaperViewset, PaperLoadAPIView, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
+from papers.views import AllowPaperAPIView, PaperViewset, PaperLoadAPIView, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
 
 router = DefaultRouter()
 router.register(r"papers", PaperViewset, basename="papers")
-urlpatterns = [    
+urlpatterns = [
     path("", include(router.urls)),
     path("papers/<int:pk>/load/",
           PaperLoadAPIView.as_view(),
@@ -23,5 +23,8 @@ urlpatterns = [
           name="update-explanation-signature"),
     path("papers/<int:id>/explanation-signature/",
           ExplanationSignatureCreateApiView.as_view(),
-          name="create-explanation-signature")
+          name="create-explanation-signature"),
+    path("contractors/<int:pk>/allow-paper/",
+          AllowPaperAPIView.as_view(),
+          name="allow-paper")
 ]

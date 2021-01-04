@@ -15,9 +15,8 @@
       <strong>{{ Math.ceil(percent) }}%</strong>
       </v-progress-linear>
       <template v-if="step==1 || validation_check">
-        <v-dialog v-model="paper_load_dialog" height="90%" max-width="90%">
+        <v-dialog v-if="dialog_category=='paper'" v-model="load_dialog" height="90%" max-width="90%">
           <v-data-table
-            v-model="selected_paper"
             :headers="paper_headers"
             :items="papers"
             item-key="id"
@@ -33,6 +32,47 @@
               <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
             </template>
           </v-data-table>
+        </v-dialog>
+        <v-dialog v-else-if="dialog_category=='profile'" v-model="load_dialog" height="90%" max-width="90%">
+          <v-card>
+            <v-card-text>
+                <v-row>
+                  <v-col cols="3">
+                    <LazyTextField
+                      v-model="search.name"
+                      :label="$t('name')"
+                    ></LazyTextField>
+                  </v-col>
+                  <v-col cols="9">
+                    <LazyTextField
+                      v-model="search.mobile_number"
+                      :label="$t('mobile_number')"
+                    >
+                      <template
+                        v-slot:append-outer
+                        @click="SearchProfile()"
+                      >
+                        <v-btn @click="searchProfile()">
+                          {{ $t("search") }}
+                        </v-btn>
+                    </template>
+                    </LazyTextField>
+                  </v-col>
+                </v-row>
+                <v-data-table
+                  :headers="open_profile_headers"
+                  :items="searched_profiles"
+                  item-key="usenrame"
+                  :server-items-length="items_length"
+                  @update:page="updatePagination"
+                  :items-per-page="items_per_page"
+                >
+                  <template v-slot:[`item.select`]="{ item }">
+                    <v-btn class="primary" @click="loadProfile(item)"> {{$t("select")}} </v-btn>
+                  </template>
+                </v-data-table>
+            </v-card-text>
+          </v-card>
         </v-dialog>
         <v-btn class="success float_right" @click="getPaperList()">
           {{ $t("paper") + ' ' + $t("load") }}
@@ -273,21 +313,23 @@
                   v-model="seller"
                   :error-messages="errors"
                   :filter="customFilter"
-                  :items="allowed_profiles"
+                  :items="seller_profiles"
                   item-text="name"
                   item-value="id"
                   return-object
                   class="mt-2"
                   :label="$t('landlord')"
-                  :placeholder="$t('landlord')+' '+$t('search')"
-                  @change="input_change"
+                  :placeholder="$t('landlord')+' '+$t('select')"
                 >
                   <template
-                    v-slot:selection="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                    v-slot:selection="{ }"
+                  >{{ seller.user.username + ' (#' + seller.id + ' / ' + seller.user.name + ' / ' + seller.mobile_number + ")" }}</template>
                   <template
                     v-slot:item="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:append-outer>
+                    <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("search") }} </v-btn>
+                  </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="seller">
@@ -307,7 +349,7 @@
                   v-model="buyer"
                   :error-messages="errors"
                   :filter="customFilter"
-                  :items="allowed_profiles"
+                  :items="buyer_profiles"
                   item-text="name"
                   item-value="id"
                   class="mt-2"
@@ -319,6 +361,9 @@
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:item="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:append-outer>
+                    <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("search") }} </v-btn>
+                  </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="buyer">
@@ -425,19 +470,20 @@ export default {
   },
   data() {
     return {
+      dialog_category: 'paper',
       requestUser: null,
-      paper_load_dialog: false,
-      papers: [],
-      selected_paper: [],
+      load_dialog: false,
       isLoading: false,
       is_expert: false,
+      papers: [],
       my_profiles: [],
-      allowed_profiles: [],
+      seller_profiles: [],
+      buyer_profiles: [],
       validation_check: false,
       step: 1,
       max_step: 4,
       items_length: 0,
-      items_per_page: 10,
+      items_per_page: 2,
       from_date_menu: false,
       to_date_menu: false,
       land_category: 7,
@@ -466,6 +512,12 @@ export default {
       buyer: null,
       options: [0,1,2],
       special_agreement: '',
+      search: {
+        mobile_number: "",
+        name: ""
+      },
+      search_contractor_category: null,
+      searched_profiles: [],
       ve: {
         paper_categories: [],
         explanation_evidences: [],
@@ -709,13 +761,36 @@ export default {
         },
         placeholder: this.$t("insert_special_agreement")
       },
-      paper_headers: [
+      open_profile_headers: [
         {
-          text: "",
+          text: `${this.$i18n.t("number")}`,
           value: "id",
           align: "start",
           sortable: true,
-          visibility: "hidden"
+        },
+        {
+          text: `${this.$i18n.t("username")}`,
+          value: "user.username"
+        },
+        {
+          text: `${this.$i18n.t("name")}`,
+          value: "user.name"
+        },
+        {
+          text: `${this.$i18n.t("mobile_number")}`,
+          value: "mobile_number"
+        },
+        {
+          text: "",
+          value: "select"
+        }
+      ],
+      paper_headers: [
+        {
+          text: `${this.$i18n.t("number")}`,
+          value: "id",
+          align: "start",
+          sortable: true
         },
         {
           text: `${this.$i18n.t("author")}`,
@@ -745,37 +820,32 @@ export default {
     };
   },
   methods: {
-    updatePagination (pagination) {
-      let endpoint = `/api/papers/?page=${pagination}`
-      apiService(endpoint).then(data => {
-        if(data != undefined) {
-          this.papers = data.results;
-          this.items_length = data.count;
-        } else {
-          applyValidation(data)
-        }
-      })
+    backStep(){
+      this.validation_check = false;
+      this.step -=1;
     },
-    input_change() {
-      this.$delete(this.allowed_profiles)
-    },
-    remove (item, type) {
-      const index = this[type].indexOf(item)
-      if (index >= 0) this[type].splice(index, 1)
+    customFilter(item, queryText) {
+      const name = item.user.name.toLowerCase();
+      const username = item.user.username.toLowerCase();
+      const mobile_number = item.mobile_number.toLowerCase();
+      const shop_name = item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
+      const searchText = queryText.toLowerCase();
+
+      return (
+        name.indexOf(searchText) > -1 ||
+        username.indexOf(searchText) > -1 ||
+        mobile_number.indexOf(searchText) > -1 ||
+        mobile_number.replaceAll("-", "").indexOf(searchText) > -1 ||
+        shop_name.indexOf(searchText) > -1
+      );
     },
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
       apiService(endpoint).then(data => {
         if(data.length != undefined){
-            this.allowed_profiles = data;
-          if(data.length == 1) {
-            alert(this.$i18n.t("send_your_link"))
-            this.$root.$emit("link_dialog", true)
-            this.$router.push({
-              name:"home"
-            })
-          }
+            this.seller_profiles = data;
+            this.buyer_profiles = data;
         } else {
           applyValidation(data)
         }
@@ -785,7 +855,7 @@ export default {
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(data.count != 0){
           this.my_profiles = data.results;
           this.is_expert = true;
         } else {
@@ -795,7 +865,8 @@ export default {
     },
     getPaperList() {
       this.papers = [];
-      this.paper_load_dialog = true;
+      this.dialog_category = 'paper';
+      this.load_dialog = true;
       this.isLoading = true;
       let endpoint = `/api/papers/`;
       apiService(endpoint).then(data => {
@@ -806,11 +877,14 @@ export default {
         this.isLoading = false;
       })
     },
+    input_change() {
+      this.$delete(this.allowed_profiles)
+    },
     loadPaper(item) {
       let that = this;
       let endpoint = `/api/papers/${item.id}/load/`;
       that.contractors = []
-      that.paper_load_dialog = false;
+      that.load_dialog = false;
       apiService(endpoint).then(data => {
         if(data.id != undefined) {
           for(const contractor_index in data.paper_contractors) {
@@ -844,6 +918,17 @@ export default {
         }
       })
     },
+    loadProfile(item) {
+      this[this.search_contractor_category+'_profiles'] = this.searched_profiles
+      this[this.search_contractor_category] = item;
+      this.load_dialog = false;
+    },
+    loadSearchDialog(contractor_category){
+      this.search_contractor_category = contractor_category;
+      this.dialog_category = 'profile';
+      this.load_dialog = true;
+      this.items_length = 0;
+    },
     nextStep(){
       const that = this;
       this.$refs.verifying_explanation.$refs.form.validate()
@@ -854,53 +939,6 @@ export default {
           that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {offset:100})
         }
       })
-    },
-    backStep(){
-      this.validation_check = false;
-      this.step -=1;
-    },
-    customFilter(item, queryText) {
-      const name = item.user.name.toLowerCase();
-      const username = item.user.username.toLowerCase();
-      const birthday = item.user.birthday.toLowerCase();
-      const shop_name = item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
-      const searchText = queryText.toLowerCase();
-            
-      return (
-        name.indexOf(searchText) > -1 ||
-        username.indexOf(searchText) > -1 ||
-        shop_name.indexOf(searchText) > -1 ||
-        birthday.indexOf(searchText) > -1
-      );
-    },
-    updateContractors(){
-      const local_contractor_list = ["expert", "seller", "buyer"]
-      for(const index in local_contractor_list){
-        let matched = false;
-        const local_group_name = local_contractor_list[index]
-        const local_group_constant = this.$getConstByName("CONTRACTOR_CATEGORY", local_group_name)
-        
-        if(this[local_group_name] != null){
-          for(const index in this.contractors){
-            if(this.contractors[index].group == local_group_constant){
-              this.contractors[index].profile = this[local_group_name].id;
-              matched = true;
-            }
-          }
-          if(matched == false){
-            this.contractors.push({
-              "profile": this[local_group_name].id, "paper":this.id ? this.id : null, "group": local_group_constant
-            })
-          }
-        } else {
-          for(const index in this.contractors){
-            if(this.contractors[index].group == local_group_constant){
-              this.contractors[index].paper = null;
-              this.contractors[index].profile = this.contractors[index].profile.id
-            }
-          }
-        }
-      }
     },
     onSubmit() {
       const that = this;
@@ -974,6 +1012,69 @@ export default {
           }
         }
       });
+    },
+    searchProfile(){
+      let endpoint = `/api/open-profiles/`+`?name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`;
+      apiService(endpoint).then(data => {
+        if(data.count != 0){
+          this.searched_profiles = data.results;
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
+        }
+      })
+    },
+    remove (item, type) {
+      const index = this[type].indexOf(item)
+      if (index >= 0) this[type].splice(index, 1)
+    },
+    updateContractors(){
+      const local_contractor_list = ["expert", "seller", "buyer"]
+      for(const index in local_contractor_list){
+        let matched = false;
+        const local_group_name = local_contractor_list[index]
+        const local_group_constant = this.$getConstByName("CONTRACTOR_CATEGORY", local_group_name)
+
+        if(this[local_group_name] != null){
+          for(const index in this.contractors){
+            if(this.contractors[index].group == local_group_constant){
+              this.contractors[index].profile = this[local_group_name].id;
+              matched = true;
+            }
+          }
+          if(matched == false){
+            this.contractors.push({
+              "profile": this[local_group_name].id, "paper":this.id ? this.id : null, "group": local_group_constant
+            })
+          }
+        } else {
+          for(const index in this.contractors){
+            if(this.contractors[index].group == local_group_constant){
+              this.contractors[index].paper = null;
+              this.contractors[index].profile = this.contractors[index].profile.id
+            }
+          }
+        }
+      }
+    },
+    updatePagination (pagination) {
+      let endpoint = `/api/papers/?page=${pagination}`
+      if(this.dialog_category == 'profile'){
+        endpoint = `/api/open-profiles/?page=${pagination}`+`&name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`
+      }
+
+      apiService(endpoint).then(data => {
+        if(data != undefined) {
+          if (this.dialog_category == 'paper') {
+            this.papers = data.results;
+          } else {
+            this.searched_profiles = data.results;
+          }
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
+        }
+      })
     }
   },
   async beforeRouteEnter(to, from, next) {

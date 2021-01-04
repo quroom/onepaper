@@ -1,4 +1,5 @@
 import datetime
+from django.db import IntegrityError
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
@@ -11,8 +12,25 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
-from papers.serializers import PaperSerializer, PaperListSerializer, PaperEveryoneSerializer, PaperLoadSerializer, PaperReadonlySerializer, SignatureSerializer, ExplanationSignatureSerializer
+from papers.serializers import PaperSerializer, PaperEveryoneSerializer, PaperListSerializer, PaperLoadSerializer, PaperReadonlySerializer, PaperUnalloweUserSerializer, SignatureSerializer, ExplanationSignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser, IsSignatureUser
+
+class AllowPaperAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsContractorUser]
+
+    def get(self, request, pk):
+        contractor = get_object_or_404(Contractor.objects.select_related('paper'), pk=pk)
+        if contractor.is_allowed == True:
+            return Response({"detail": ValidationError(_("이미 계약서 작성이 허용 되었습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            self.check_object_permissions(self.request, contractor)
+            contractor.is_allowed = True
+            contractor.save()
+        if contractor.paper.status.status == PaperStatus.DRAFT:
+            serializer = PaperReadonlySerializer(contractor.paper)
+        else:
+            serializer = PaperUnalloweUserSerializer(contractor.paper)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ExplanationSignatureCreateApiView(generics.CreateAPIView):
     queryset = ExplanationSignature.objects.all()
@@ -87,7 +105,7 @@ class PaperLoadAPIView(mixins.RetrieveModelMixin,
 
 class PaperViewset(ModelViewSet):
     permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
-    
+
     def get_queryset(self):
         filters = {}
         address_search_text = None
@@ -105,9 +123,9 @@ class PaperViewset(ModelViewSet):
             elif key=="address":
                 address_search_text = self.request.query_params.get(key)
         if address_search_text is None:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters).select_related('author', 'address', 'status')
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
         else:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters).select_related('author', 'address', 'status')
+            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
 
     def get_object(self):
         obj = get_object_or_404(Paper.objects.select_related('author', 'address', 'status').prefetch_related('paper_contractors', 'paper_contractors__profile', 'paper_contractors__profile__user', 'paper_contractors__profile__expert_profile'), pk=self.kwargs['pk'])
@@ -126,6 +144,8 @@ class PaperViewset(ModelViewSet):
         instance = self.get_object()
         if not Contractor.objects.filter(paper=instance, profile__user=self.request.user).exists():
             serializer = PaperEveryoneSerializer(instance)
+        elif Contractor.objects.filter(paper=instance, is_allowed=False).exists():
+            serializer = PaperUnalloweUserSerializer(instance)
         else:
             serializer = self.get_serializer(instance)
         return Response(serializer.data)

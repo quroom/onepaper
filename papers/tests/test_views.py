@@ -141,7 +141,7 @@ class PaperTestCase(APITestCase):
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_paper_create_without_self(self):
+    def test_paper_create_without_self_profile(self):
         profile2 = self.create_user_profile(id=2)
         profile2_allowed_user = AllowedUser.objects.get(profile=profile2)
         profile2_allowed_user.allowed_users.add(self.user)
@@ -179,42 +179,6 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["seller"][0], _("작성자가 포함되지 않았습니다."))
         self.assertEqual(response.data["buyer"][0], _("작성자가 포함되지 않았습니다."))
-
-    def test_paper_create_with_contractors(self):
-        data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
-            "building_area": 1111,
-            "building_category": 80,
-            "building_structure": "11",
-            "down_payment": 1111,
-            "from_date": "2020-11-18",
-            "land_category": 7,
-            "lot_area": 11,
-            "maintenance_fee": 111,
-            "monthly_fee": None,
-            "options": [0, 1, 2],
-            "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
-            ],
-            "security_deposit": 1,
-            "special_agreement": "<p>ㅍㅍ</p>",
-            "to_date": "2020-11-30",
-            "trade_category": 1,
-        }
-        response = self.client.post(self.list_url, data=data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_paper_create_with_same_profiles(self):
         response = self.create_profile()
@@ -254,7 +218,43 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['buyer'][0], _("같은 회원을 중복해서 등록할 수 없습니다."))
 
-    def test_paper_create_with_contractors_unallowed(self):
+    def test_paper_create_with_expert(self):
+        data = {
+            "address": {
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
+            },
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [0, 1, 2],
+            "paper_contractors": [
+                {"profile": self.profile.id, "paper": None, "group": "0"},
+                {"profile": self.profile1.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "to_date": "2020-11-30",
+            "trade_category": 1,
+        }
+        response = self.client.post(self.list_url, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_paper_create_with_expert_unallowed(self):
         expert_profile = self.create_user_profile(id=1, is_expert=True)
         profile2 = self.create_user_profile(id=2)
         

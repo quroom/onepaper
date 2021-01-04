@@ -20,7 +20,8 @@ const i18n = new VueI18n({
       attached_document: "Attached Document",
       allow: "Allowed",
       allow_user_list: "List of prospective trading members",
-      allow_user_list_subtitle: "Only IDs added to the list of prospective members can view your basic profile.",
+      allow_user_list_subtitle: "Please add members who trade frequently. You can add your profile without the contract request·approval step. \
+      Please ask additional members for the'Trade Member Registration Request Link' through the menu. You can easily add members.",
       add_user: "Add User",
       approve: "Approve",
       approved: "Approved",
@@ -204,6 +205,7 @@ const i18n = new VueI18n({
       purchase: "Purchase",
       exchange: "Exchange",
 
+      requesting: "Requesting",
       draft: "Draft",
       progress: "Progress",
       done: "Done",
@@ -329,7 +331,8 @@ const i18n = new VueI18n({
       approve: "승인",
       approved: "승인됨",
       allow_user_list: "거래예정 회원 리스트",
-      allow_user_list_subtitle: "거래예정 회원 리스트에 추가된 아이디만 당신의 기본 프로필을 조회할 수 있습니다.",
+      allow_user_list_subtitle: "자주 거래하는 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
+                                 추가하실 회원에게 메뉴를 통해 생성가능한 '거래회원 등록 요청 링크'를 요청하세요. 손 쉽게 회원 추가가 가능합니다.",
       add_user: "회원 추가",
       all: "전체",
       author: "작성자",
@@ -507,6 +510,7 @@ const i18n = new VueI18n({
       purchase: "매매",
       exchange: "교환",
 
+      requesting: "요청중",
       draft: "작성중",
       progress: "서명중",
       done: "완료",

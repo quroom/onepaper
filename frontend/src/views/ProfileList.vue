@@ -38,7 +38,7 @@
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
             <v-card>
-              <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{ profile.id }}</v-chip>
+              <v-chip class="ma-1" v-if="profile.is_active" color="primary">{{ profile.id }}</v-chip>
               <template v-else>
                 <v-chip class="ma-1"> {{ profile.id }}</v-chip>
                 <v-btn class="mt-1 mr-2 pa-1" color="primary" style="float: right;" @click.prevent="setDefault(profile)">
@@ -124,7 +124,7 @@ export default {
     },
     default_profile: function(){
       for(let i=0; i<this.profiles.length; i++){
-        if(this.profiles[i].is_default==true){
+        if(this.profiles[i].is_active==true){
           return this.profiles[i]
         }
       }
@@ -189,7 +189,7 @@ export default {
       apiService(endpoint, "POST").then(data=> {
         if(data.id != undefined){
           if(this.default_profile != undefined){
-            this.default_profile.is_default = false;
+            this.default_profile.is_active = false;
           }
           this.$set(this.profiles, this.profiles.indexOf(profile), data);
         }

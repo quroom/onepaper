@@ -567,14 +567,14 @@ class ProfileTestCase(APITestCase):
     def test_set_default_profile(self):
         response = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_default"], True)
+        self.assertEqual(response.data["is_active"], True)
         response2 = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_default"], True)
-        self.assertEqual(Profile.objects.filter(is_default=False).count(), 1)
+        self.assertEqual(response.data["is_active"], True)
+        self.assertEqual(Profile.objects.filter(is_active=False).count(), 1)
 
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
-        self.assertEqual(response.data["is_default"], True)
+        self.assertEqual(response.data["is_active"], True)
 
 class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")

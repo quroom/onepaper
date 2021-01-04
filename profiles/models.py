@@ -1,13 +1,13 @@
-from django.db.models import Exists
-import phonenumbers
 from addresses.models import Address
+from django.db.models import Exists
 from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser
-from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
+import phonenumbers
+from phonenumber_field.modelfields import PhoneNumberField
 import uuid
 import os
 
@@ -42,13 +42,13 @@ class Profile(models.Model):
                                    related_name="profile")
     bank_name = models.CharField(max_length=45, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
-    is_default = models.BooleanField(default=True, blank=True)
+    is_active = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.user.username
 
     class Meta:
-        ordering = ('-is_default',)
+        ordering = ('-is_active',)
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -95,12 +95,12 @@ class Mandate(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     designator = models.ForeignKey(Profile,
                             on_delete=models.CASCADE,
-                            related_name="designator")
+                            related_name="designator_mandates")
     address = models.OneToOneField(Address,
                                    on_delete=models.CASCADE)
     designee = models.ForeignKey(Profile,
                             on_delete=models.CASCADE,
-                            related_name="designee")
+                            related_name="designee_mandates")
     designator_signature = models.TextField(blank=True)
     from_date = models.DateField(null=True, blank=True)
     to_date = models.DateField(null=True, blank=True)

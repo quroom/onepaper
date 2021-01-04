@@ -139,8 +139,8 @@
         </v-card>
       </v-col>
       <v-col class="text-center" cols="2" md="1">
-        <v-card class="pa-0" outlined tile>
-          <v-btn  v-if="!isExpertSigned && requestUser === expert.profile.user.username" class="signature-button" @click="open(false)" color="red" dark>
+        <v-card v-if="isExpertAllowed" class="pa-0" outlined tile>
+          <v-btn  v-if="!isPaperRequest && !isExpertSigned && isExpert" class="signature-button" @click="open(false)" color="red" dark>
             <v-icon>create</v-icon>
             {{ $t("signature") }}
           </v-btn>
@@ -150,6 +150,15 @@
           <a v-if="isExpertSigned" v-bind:href="expert.signature.image" target="_blank">
             <img class="signature-img" :src="expert.signature.image" />
           </a>
+        </v-card>
+        <v-card v-else>
+          <v-btn  v-if="isExpert" class="signature-button" @click="allowPaper" color="primary" dark>
+            <v-icon>create</v-icon>
+            {{ $t("allow") }}
+          </v-btn>
+          <template v-else>
+            {{ $t("requesting") }}
+          </template>
         </v-card>
       </v-col>
       <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
@@ -161,9 +170,9 @@
         }}</v-card>
       </v-col>
       <v-col class="text-center" cols="2" md="1">
-        <v-card class="pa-0" outlined tile>
+        <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
           <v-btn
-            v-if="!isSellerSigned && requestUser === seller.profile.user.username"
+            v-if="!isPaperRequest && !isSellerSigned && isSeller"
             class="signature-button"
             @click="open(false)"
             color="red"
@@ -179,6 +188,15 @@
             <img class="signature-img" :src="seller.signature.image" />
           </a>
         </v-card>
+        <v-card v-else>
+          <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="primary" dark>
+            <v-icon>create</v-icon>
+            {{ $t("allow") }}
+          </v-btn>
+          <template v-else>
+            {{ $t("requesting") }}
+          </template>
+        </v-card>
       </v-col>
       <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
     </v-row>
@@ -187,9 +205,9 @@
         <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
       </v-col>
       <v-col class="text-center" cols="2" md="1">
-        <v-card class="pa-0" outlined tile> 
+        <v-card v-if="isBuyerAllowed" class="pa-0" outlined tile>
           <v-btn
-            v-if="!isBuyerSigned && requestUser === buyer.profile.user.username"
+            v-if="!isPaperRequest && !isBuyerSigned && isBuyer"
             class="signature-button"
             @click="open(false)"
             color="red"
@@ -204,6 +222,15 @@
           <a v-if="isBuyerSigned" v-bind:href="buyer.signature.image" target="_blank">
             <img class="signature-img" :src="buyer.signature.image" />
           </a>
+        </v-card>
+        <v-card v-else>
+          <v-btn  v-if="isBuyer" class="signature-button" @click="allowPaper" color="primary" dark>
+            <v-icon>create</v-icon>
+            {{ $t("allow") }}
+          </v-btn>
+          <template v-else>
+            {{ $t("requesting") }}
+          </template>
         </v-card>
       </v-col>
       <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
@@ -366,11 +393,32 @@ export default {
     quillEditor
   },
   computed: {
-    isPaperAuthor() {
+    isPaperAuthor: function() {
       return this.paper.author === this.requestUser;
     },
-    isPaperDone() {
+    isPaperDone: function() {
       return this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'DONE')
+    },
+    isPaperRequest: function() {
+      return this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'REQUEST')
+    },
+    isExpertAllowed: function() {
+      return this.expert.is_allowed
+    },
+    isSellerAllowed: function(){
+      return this.seller.is_allowed
+    },
+    isBuyerAllowed: function(){
+      return this.buyer.is_allowed
+    },
+    isExpert: function(){
+      return this.requestUser === this.expert.profile.user.username
+    },
+    isSeller: function(){
+      return this.requestUser === this.seller.profile.user.username
+    },
+    isBuyer: function(){
+      return this.requestUser === this.buyer.profile.user.username
     },
     isExpertSigned: function() {
       return this.expert.signature != undefined && this.paper.updated_at <= this.expert.signature.updated_at ;
@@ -510,6 +558,18 @@ export default {
     };
   },
   methods: {
+    allowPaper() {
+      this.isLoading = true;
+      let endpoint = `/api/contractors/${this.contractor.id}/allow-paper/`;
+      apiService(endpoint).then(data => {
+        if(data.id != undefined){
+          this.paper = data;
+        } else {
+          applyValidation(data)
+        }
+        this.isLoading = false;
+      });
+    },
     getPaperData() {
       this.isLoading = true;
       let endpoint = `/api/papers/${this.id}/`;

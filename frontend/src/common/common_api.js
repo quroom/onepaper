@@ -12,7 +12,7 @@ function renameKeys(obj, that) {
 function applyValidation(data, that, key, parent_key) {
   var flag;
   if(data.count==0){
-    alert("조회할 수 있는 데이터가 없습니다.")
+    alert("조회된 데이터가 없습니다.")
     return true;
   }
   if(data["detail"]) {

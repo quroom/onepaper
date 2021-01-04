@@ -12,7 +12,8 @@
         :color="
           paper.status == $getConstByName('status_category', 'progress')
           ? 'success' : paper.status == $getConstByName('status_category', 'done')
-          ? 'primary' : ''
+          ? 'primary' : paper.status == $getConstByName('status_category', 'draft')
+          ? '' : 'deep-purple'
         "
         dark
         label

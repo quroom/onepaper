@@ -107,13 +107,19 @@ class ExpertSerializer(serializers.ModelSerializer):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
-    user = CustomUserHiddenIDNameSerializer(read_only=True)
+    address = serializers.SerializerMethodField()
     expert_profile = ExpertBasicInfoSerializer(read_only=True)
     mobile_number = serializers.SerializerMethodField()
+    user = CustomUserHiddenIDNameSerializer(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ['user', 'expert_profile', 'id', 'mobile_number']
+        fields = ['address', 'expert_profile', 'id', 'mobile_number', 'user']
+
+    def get_address(self, instance):
+        address_with_bun = instance.address.old_address.split("-")[0]
+        hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
+        return {"old_address": hidden_address}
 
     def get_mobile_number(self, obj):
         return obj.mobile_number.raw_input[:-2]+len(obj.mobile_number.raw_input[-2:])*"#"
@@ -127,7 +133,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_default",)
+        read_only_fields = ("is_active",)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -169,7 +175,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_default",)
+        read_only_fields = ("is_active",)
 
     @transaction.atomic
     def create(self, validated_data):

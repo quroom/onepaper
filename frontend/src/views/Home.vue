@@ -127,16 +127,20 @@ export default {
           value: ''
         },
         {
+          text:`${this.$t('requesting')}`,
+          value: this.$getConstByName('status_category', 'requesting')
+        },
+        {
           text:`${this.$t('draft')}`,
-          value: 0
+          value: this.$getConstByName('status_category', 'draft')
         },
         {
           text:`${this.$t('progress')}`,
-          value: 1
+          value: this.$getConstByName('status_category', 'progress')
         },
         {
           text:`${this.$t('done')}`,
-          value: 2
+          value: this.$getConstByName('status_category', 'done')
         }
       ]
     };
