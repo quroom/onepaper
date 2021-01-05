@@ -19,6 +19,125 @@ from papers.models import Paper, PaperStatus
 class PaperTestCase(APITestCase):
     list_url = reverse("papers-list")
     profile_list_url = reverse("profiles-list")
+    verifying_explanation = {
+                "accessibility": True,
+                "acquisition_tax": None,
+                "actual_building_category": 80,
+                "actual_expenses": 50000,
+                "actual_land_category": 7,
+                "address": {
+                    "bjdongCd": "11740",
+                    "bun": "669",
+                    "dong": "",
+                    "ho": "",
+                    "id": 215,
+                    "ji": "1",
+                    "new_address": "서울 강동구 강일동 669-1",
+                    "old_address": "서울 강동구 강일동 669-1",
+                    "platGbCd": "",
+                    "sigunguCd": "11740",
+                },
+                "building_category": 80,
+                "building_coverage_limit": None,
+                "building_direction": "남향  (기준:  )",
+                "building_other": "",
+                "building_ownership": "",
+                "building_price_recorded": None,
+                "building_structure": "철근콘크리트",
+                "bus_by_foot": True,
+                "bus_required_time": 5,
+                "bus_stop": "전남대후문",
+                "calculation_info": "<산출내역> ↵↵중개보수: ↵실    비: ↵※ 중개보수는 시ㆍ도 조례로 정한 요율에 따르거나, 시ㆍ도 조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수 있습니다.",
+                "comission": 2000000,
+                "department_store": "홈플러스",
+                "department_store_by_foot": False,
+                "department_store_required_time": 10,
+                "drainage_status": True,
+                "drainage_status_info": "",
+                "electricity_supply_status": True,
+                "electricity_supply_status_info": "",
+                "elementary_school": "중흥초등",
+                "elementary_school_by_foot": True,
+                "elementary_school_required_time": 10,
+                "elevator_status": None,
+                "expected_transaction_price": None,
+                "explanation_evidence_info": "",
+                "explanation_evidences": [],
+                "fire_alarm_detector_quantity": None,
+                "floor_area_limit": None,
+                "gas_supply_status": True,
+                "gas_supply_status_info": "",
+                "heating_status": True,
+                "heating_status_info": "",
+                "heating_supply_method": 1,
+                "heating_type": 0,
+                "heating_type_info": "",
+                "high_school": "전남대사범대학부설고등",
+                "high_school_by_foot": True,
+                "high_school_required_time": 10,
+                "id": 28,
+                "is_elevator": False,
+                "is_fire_alarm_detector": False,
+                "is_paved_rode": True,
+                "is_security_office": False,
+                "land_area": 55,
+                "land_category": 7,
+                "land_other": "",
+                "land_ownership": "",
+                "land_prcie_recorded": None,
+                "land_share": "",
+                "legal_status": True,
+                "local_education_tax": None,
+                "management": 1,
+                "matters_of_violation": "",
+                "medical_center": "전남대병원",
+                "medical_center_by_foot": False,
+                "medical_center_required_time": 20,
+                "middle_school": "전대사범대학부설중",
+                "middle_school_by_foot": True,
+                "middle_school_required_time": 10,
+                "net_area": 50,
+                "noise_status": True,
+                "other_facilities": "",
+                "other_use_restriction": "",
+                "paper": 54,
+                "paper_categories": [],
+                "parking_lot": 0,
+                "parking_lot_info": "",
+                "payment_period": "",
+                "permission_report_zone": None,
+                "planning_facilities": "",
+                "relative_with_roads": "( 4m × 2m ) 도로에 접함",
+                "rental_housing_registration": 3,
+                "requesting_condition_info": "",
+                "seismic_capacity": "해당사항없음",
+                "seismic_design": "해당사항없음",
+                "special_tax": None,
+                "speculative_area": None,
+                "subway_by_foot": False,
+                "subway_required_time": 10,
+                "subway_station": "상무",
+                "sunshine_status": True,
+                "sunshine_status_info": "",
+                "undesirable_facilities": False,
+                "undesirable_facilities_info": "",
+                "unit_planning_area_others": "",
+                "use_area": "",
+                "use_district": "",
+                "use_zone": "",
+                "vibration": True,
+                "wall_crack_status": False,
+                "wall_crack_status_info": "",
+                "wall_paper_status": True,
+                "wall_paper_status_info": "",
+                "water_capacity_status": True,
+                "water_capacity_status_info": "",
+                "water_damage_status": False,
+                "water_damage_status_info": "",
+                "water_leak_status": False,
+                "water_leak_status_info": "",
+                "year_of_completion": 1995
+            }
     def api_authentication(self, user):
         self.token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
@@ -140,6 +259,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["status"],  PaperStatus.DRAFT)
 
     def test_paper_create_without_self_profile(self):
         profile2 = self.create_user_profile(id=2)
@@ -182,7 +302,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_create_with_same_profiles(self):
         response = self.create_profile()
-        
+
         data = {
             "address": {
                 "old_address": '광주 광산구 명도동 169',
@@ -219,6 +339,7 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.data['buyer'][0], _("같은 회원을 중복해서 등록할 수 없습니다."))
 
     def test_paper_create_with_expert(self):
+        self.client.force_authenticate(user=self.expert_profile.profile.user)
         data = {
             "address": {
                 "old_address": '광주 광산구 명도동 169',
@@ -250,12 +371,14 @@ class PaperTestCase(APITestCase):
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
             "trade_category": 1,
+            "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["status"],  PaperStatus.DRAFT)
 
     def test_paper_create_with_expert_unallowed(self):
-        expert_profile = self.create_user_profile(id=1, is_expert=True)
+        self.client.force_authenticate(user=self.expert_profile.profile.user)
         profile2 = self.create_user_profile(id=2)
         
         data = {
@@ -283,16 +406,25 @@ class PaperTestCase(APITestCase):
             "paper_contractors": [
                 {"profile": self.profile.id, "paper": None, "group": "0"},
                 {"profile": profile2.id, "paper": None, "group": "1"},
-                {"profile": expert_profile.id, "paper": None, "group": "2"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
             "trade_category": 1,
+            "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["buyer"][0],  _("프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."))
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["status"],  PaperStatus.REQUESTING)
+        
+        forbidden_response = self.client.get(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}))
+        self.assertEqual(forbidden_response.status_code, status.HTTP_403_FORBIDDEN)
+        
+        self.client.force_authenticate(user=profile2.user)
+        response = self.client.get(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"],  PaperStatus.DRAFT)
 
     def test_paper_create_with_expert_as_trader(self):
         data = {
@@ -695,125 +827,7 @@ class PaperTestCase(APITestCase):
             "special_agreement": "<p>ㅎㅎ</p>",
             "to_date": "2020-12-31",
             "trade_category": 0,
-            "verifying_explanation": {
-                "accessibility": True,
-                "acquisition_tax": None,
-                "actual_building_category": 80,
-                "actual_expenses": 50000,
-                "actual_land_category": 7,
-                "address": {
-                    "bjdongCd": "11740",
-                    "bun": "669",
-                    "dong": "",
-                    "ho": "",
-                    "id": 215,
-                    "ji": "1",
-                    "new_address": "서울 강동구 강일동 669-1",
-                    "old_address": "서울 강동구 강일동 669-1",
-                    "platGbCd": "",
-                    "sigunguCd": "11740",
-                },
-                "building_category": 80,
-                "building_coverage_limit": None,
-                "building_direction": "남향  (기준:  )",
-                "building_other": "",
-                "building_ownership": "",
-                "building_price_recorded": None,
-                "building_structure": "철근콘크리트",
-                "bus_by_foot": True,
-                "bus_required_time": 5,
-                "bus_stop": "전남대후문",
-                "calculation_info": "<산출내역> ↵↵중개보수: ↵실    비: ↵※ 중개보수는 시ㆍ도 조례로 정한 요율에 따르거나, 시ㆍ도 조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수 있습니다.",
-                "comission": 2000000,
-                "department_store": "홈플러스",
-                "department_store_by_foot": False,
-                "department_store_required_time": 10,
-                "drainage_status": True,
-                "drainage_status_info": "",
-                "electricity_supply_status": True,
-                "electricity_supply_status_info": "",
-                "elementary_school": "중흥초등",
-                "elementary_school_by_foot": True,
-                "elementary_school_required_time": 10,
-                "elevator_status": None,
-                "expected_transaction_price": None,
-                "explanation_evidence_info": "",
-                "explanation_evidences": [],
-                "fire_alarm_detector_quantity": None,
-                "floor_area_limit": None,
-                "gas_supply_status": True,
-                "gas_supply_status_info": "",
-                "heating_status": True,
-                "heating_status_info": "",
-                "heating_supply_method": 1,
-                "heating_type": 0,
-                "heating_type_info": "",
-                "high_school": "전남대사범대학부설고등",
-                "high_school_by_foot": True,
-                "high_school_required_time": 10,
-                "id": 28,
-                "is_elevator": False,
-                "is_fire_alarm_detector": False,
-                "is_paved_rode": True,
-                "is_security_office": False,
-                "land_area": 55,
-                "land_category": 7,
-                "land_other": "",
-                "land_ownership": "",
-                "land_prcie_recorded": None,
-                "land_share": "",
-                "legal_status": True,
-                "local_education_tax": None,
-                "management": 1,
-                "matters_of_violation": "",
-                "medical_center": "전남대병원",
-                "medical_center_by_foot": False,
-                "medical_center_required_time": 20,
-                "middle_school": "전대사범대학부설중",
-                "middle_school_by_foot": True,
-                "middle_school_required_time": 10,
-                "net_area": 50,
-                "noise_status": True,
-                "other_facilities": "",
-                "other_use_restriction": "",
-                "paper": 54,
-                "paper_categories": [],
-                "parking_lot": 0,
-                "parking_lot_info": "",
-                "payment_period": "",
-                "permission_report_zone": None,
-                "planning_facilities": "",
-                "relative_with_roads": "( 4m × 2m ) 도로에 접함",
-                "rental_housing_registration": 3,
-                "requesting_condition_info": "",
-                "seismic_capacity": "해당사항없음",
-                "seismic_design": "해당사항없음",
-                "special_tax": None,
-                "speculative_area": None,
-                "subway_by_foot": False,
-                "subway_required_time": 10,
-                "subway_station": "상무",
-                "sunshine_status": True,
-                "sunshine_status_info": "",
-                "undesirable_facilities": False,
-                "undesirable_facilities_info": "",
-                "unit_planning_area_others": "",
-                "use_area": "",
-                "use_district": "",
-                "use_zone": "",
-                "vibration": True,
-                "wall_crack_status": False,
-                "wall_crack_status_info": "",
-                "wall_paper_status": True,
-                "wall_paper_status_info": "",
-                "water_capacity_status": True,
-                "water_capacity_status_info": "",
-                "water_damage_status": False,
-                "water_damage_status_info": "",
-                "water_leak_status": False,
-                "water_leak_status_info": "",
-                "year_of_completion": 1995
-            }
+            "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
