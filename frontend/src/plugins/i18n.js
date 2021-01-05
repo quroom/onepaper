@@ -11,16 +11,16 @@ const i18n = new VueI18n({
     en: {
       validation: en.messages,
       //Default message
-      add_trade_user: "Add trade user",
-      add_trade_user_directly: "Add trade user directly",
-      add_trader_link: "Request link to add trader",
+      add_quick_trade_user: "Add quick trade user",
+      add_quick_trade_user_directly: "Add quick trade user directly",
+      add_quick_trader_link: "Quick trade request link",
       accept: "Aceept",
       activate: "Activate",
       and: "and",
       attached_document: "Attached Document",
       allow: "Allowed",
-      allow_user_list: "List of prospective trading members",
-      allow_user_list_subtitle: "Please add members who trade frequently. You can add your profile without the contract request·approval step. \
+      quick_trade_user_list: "List of quick trading members",
+      quick_trade_user_list_subtitle: "Please add quick trade memebers. You can add your profile without the contract request·approval step. \
       Please ask additional members for the'Trade Member Registration Request Link' through the menu. You can easily add members.",
       add_user: "Add User",
       approve: "Approve",
@@ -100,6 +100,7 @@ const i18n = new VueI18n({
       partial_correct_match: "Partially Correct is Matched",
       paper: "Paper",
       paper_subtitle: "This contract can be viewed by anyone to create a better contract culture, excluding personal information (name, contact number, lot number, etc.).",
+      paper_requesting_subtitle: "Contracts in the requesting state can be signed and contractor information can be checked after all contractors requiring the request press the Approve button.",
       profile: "Profile",
       period: "Period",
       please_add_trade_user: "Please add user allowed to view profile",
@@ -107,6 +108,7 @@ const i18n = new VueI18n({
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
       profile_list_subtitle: "This activated profile will be used in contract paper.",
+      quick_trade_user: "Quick trade user",
       read_mode: "Read Mode",
       realestate: "Realestate",
       realestate_agency: "Realestate Agency",
@@ -320,9 +322,9 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
-      add_trade_user: "거래회원 추가",
-      add_trade_user_directly: "거래회원 즉시추가",
-      add_trader_link: "거래회원 등록 요청 링크",
+      add_quick_trade_user: "빠른거래 회원 추가",
+      add_quick_trade_user_directly: "빠른거래 회원 즉시추가",
+      add_quick_trader_link: "빠른거래 등록 요청 링크",
       accept: "동의합니다.",
       activate: "활성화",
       and: "및",
@@ -330,8 +332,8 @@ const i18n = new VueI18n({
       allow: "허용",
       approve: "승인",
       approved: "승인됨",
-      allow_user_list: "거래예정 회원 리스트",
-      allow_user_list_subtitle: "자주 거래하는 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
+      quick_trade_user_list: "빠른거래 회원 리스트",
+      quick_trade_user_list_subtitle: "빠른 거래 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
                                  추가하실 회원에게 메뉴를 통해 생성가능한 '거래회원 등록 요청 링크'를 요청하세요. 손 쉽게 회원 추가가 가능합니다.",
       add_user: "회원 추가",
       all: "전체",
@@ -407,6 +409,7 @@ const i18n = new VueI18n({
       partial_correct_match: "일부 일치해도 검색됨",
       paper: "계약서",
       paper_subtitle: "본 계약서는 개인정보(성함, 연락처, 지번 등)를 제외하고 더 나은 계약 문화를 만들기 위해 누구나 조회 할 수 있습니다.",
+      paper_requesting_subtitle: "요청 중 상태의 계약서는 요청이 필요한 모든 계약자가 승인 버튼을 누른 후 서명 및 계약자 정보를 확인할 수 있습니다.",
       profile: "프로필",
       period: "기간",
       please_add_trade_user:
@@ -416,6 +419,7 @@ const i18n = new VueI18n({
       profile_name: "프로필명",
       profile_list_subtitle:
         "활성화된 프로필은 계약서 작성 시 계약자 정보로 자동 입력 가능합니다. 프로필은 단 하나만 활성화 가능합니다.",
+      quick_trade_user: "빠른거래 회원",
       read_mode: "읽기모드",
       realestate: "부동산",
       realestate_agency: "개업공인중개사",

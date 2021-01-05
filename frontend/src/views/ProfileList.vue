@@ -7,7 +7,7 @@
     >
       <v-card>
         <v-card-title>
-          {{ $t("add_trade_user") }}
+          {{ `${$t("quick_trade_user")} ${$t("info")}` }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
           <LazyTextField :label="$t('username')" v-model="username" readonly></LazyTextField>
@@ -19,7 +19,7 @@
             color="primary"
             @click.prevent="addUser(default_profile)"
           >
-            {{ $t("trade") + $t("add_user") }}
+            {{ $t("add_quick_trade_user") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -47,7 +47,7 @@
                 </v-btn>
               </template>
               <v-chip class="ma-1" color="primary" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
-              <v-chip class="ma-1" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'request')"> {{$t("reviewing")}} </v-chip>
+              <v-chip class="ma-1" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'requesting')"> {{$t("reviewing")}} </v-chip>
               <v-chip class="ma-1" color="error" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
               <v-card-title class="pb-2">
                 {{ profile.address.old_address }}
@@ -69,7 +69,7 @@
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click.prevent="addUser(profile)">
                   <v-icon>person_add</v-icon>
-                  {{ $t("add_trade_user_directly") }}
+                  {{ $t("add_quick_trade_user_directly") }}
                 </v-btn>
               </v-card-actions>
               <v-card-actions v-else>
@@ -77,7 +77,7 @@
                 <v-spacer></v-spacer>
                 <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }">
                   <v-icon>person_add</v-icon>
-                  {{ $t("trade") + $t("add_user") }}
+                  {{ $t("add_quick_trade_user") }}
                 </v-btn>
               </v-card-actions>
             </v-card>

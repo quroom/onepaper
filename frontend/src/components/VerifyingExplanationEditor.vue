@@ -54,7 +54,6 @@
               outlined
               rows="2"
               auto-grow
-              :rules="rules.required"
             >
             </LazyTextArea>
           </v-col>

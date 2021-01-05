@@ -52,7 +52,7 @@ class SignatureSerializer(serializers.ModelSerializer):
         return instance.contractor.paper.status.status
 
 class ContractorSerializer(serializers.ModelSerializer):
-    is_allowed = serializers.BooleanField(default=False)
+    is_allowed = serializers.BooleanField(default=False, read_only=True)
 
     class Meta:
         model = Contractor
@@ -107,10 +107,9 @@ class PaperSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        address_data = validated_data.pop('address')
-        data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else None
-        contractors_data = validated_data.pop('paper_contractors')
         verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else None
+        address_data = validated_data.pop('address')
+        contractors_data = validated_data.pop('paper_contractors')
         status_instance = PaperStatus.objects.create(status=PaperStatus.DRAFT)
         address = Address.objects.create(**address_data)
 
@@ -132,15 +131,12 @@ class PaperSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address')
+        address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
         contractors_data = validated_data.pop('paper_contractors') if not validated_data.get('paper_contractors') is None else {}
         verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else {}
         address = instance.address
         contractors = instance.paper_contractors.all()
 
-        for key in ['dong', 'ho']:
-            if not key in address_data:
-                setattr(address, key, '')
         for key, val in address_data.items():
             setattr(address, key, val)
         address.save()
@@ -156,18 +152,13 @@ class PaperSerializer(serializers.ModelSerializer):
                 if contractor_data['group'] == contractor.group:
                     matched = True
                     for key, val in contractor_data.items():
-                        if not val is None:
-                            setattr(contractor, key, val)
+                        if key != 'is_allowed':
+                            if not val is None:
+                                setattr(contractor, key, val)
                     contractor.save()
 
             if matched == False:
                  Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'], is_allowed=contractor_data['is_allowed'])
-
-            if status_saved == False and contractor_data['is_allowed'] == False:
-                status_instance = instance.status
-                status_instance.status = PaperStatus.REQUESTING
-                status_instance.save()
-                status_saved = True
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
@@ -215,9 +206,6 @@ class PaperSerializer(serializers.ModelSerializer):
             if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
                 if author != contractor['profile'].user:
                    contractor['is_allowed'] = False
-                    # raise serializers.ValidationError({
-                    #     key: _("거래회원 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."),
-                    # })
                 else:
                     contractor['is_allowed'] = True
             else:

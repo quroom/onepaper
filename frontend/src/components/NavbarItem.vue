@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" max-width="400px" @click:outside="messages = []; success = false;">
       <v-card>
         <v-card-title>
-          {{ $t("add_trade_user") }}
+          {{ `${ $t("add_quick_trade_user")} ${$t('link')}` }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
           <LazyTextField
@@ -53,11 +53,11 @@
             @click="dialog = true;"
           >
             <v-list-item-icon>
-              <v-icon> arrow_right_alt </v-icon>
+              <v-icon> link </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title
-                >{{ $t("add_trader_link") }}</v-list-item-title>
+                >{{ $t("add_quick_trader_link") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="switchLoc()">

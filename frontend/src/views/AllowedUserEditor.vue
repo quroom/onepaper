@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <div class="text-caption red--text">{{ $t("allow_user_list_subtitle") }}</div>
-    <div class="text-h6 text-center ma-2"> {{ $t("allow_user_list") }} </div>
+    <div class="text-caption red--text">{{ $t("quick_trade_user_list_subtitle") }}</div>
+    <div class="text-h6 text-center ma-2"> {{ $t("quick_trade_user_list") }} </div>
     <v-data-table
       v-model="selected_users"
       :headers="headers"
