@@ -267,7 +267,9 @@
         </v-row>
         <div class="mt-3">3. {{ $t("contractor_info") }}</div>
         <div>{{ $t("contractor_info_intro") }}</div>
-        <v-expansion-panels>
+        <v-expansion-panels
+          v-model="panels"
+          multiple>
           <v-row no-gutters>
             <v-col v-if="is_expert" cols="12">
               <ValidationProvider
@@ -486,6 +488,7 @@ export default {
       items_per_page: 2,
       from_date_menu: false,
       to_date_menu: false,
+      panels: [0,1,2],
       land_category: 7,
       lot_area: null,
       building_structure: null,

@@ -142,6 +142,8 @@ class PaperSerializer(serializers.ModelSerializer):
         address.save()
 
         for contractor_data in contractors_data:
+            #Ignore is_allowed. Because after instance created, is_allowed value might be changed by each user.
+            contractor_data.pop("is_allowed")
             matched = False
             status_saved = False
             for contractor in contractors:
@@ -152,9 +154,8 @@ class PaperSerializer(serializers.ModelSerializer):
                 if contractor_data['group'] == contractor.group:
                     matched = True
                     for key, val in contractor_data.items():
-                        if key != 'is_allowed':
-                            if not val is None:
-                                setattr(contractor, key, val)
+                        if not val is None:
+                            setattr(contractor, key, val)
                     contractor.save()
 
             if matched == False:

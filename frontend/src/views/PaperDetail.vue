@@ -127,15 +127,11 @@
         <v-col class="contractor-title text-center font-weight-bold">
           <v-card outlined tile color="blue lighten-4">
             {{ $t("realestate_agency") }}
-              <a
-                v-if="expert.profile.expert_profile.stamp"
+              <a v-if="expert.profile.expert_profile.stamp"
                 v-bind:href="expert.profile.expert_profile.stamp"
                 target="_blank"
               >
-                <img
-                  class="stamp-img"
-                  :src="expert.profile.expert_profile.stamp"
-                />
+                <img class="stamp-img" :src="expert.profile.expert_profile.stamp"/>
               </a>
           </v-card>
         </v-col>
@@ -249,7 +245,7 @@
       </v-row>
     </template>
     <div class="mt-5">4. {{ $t("special_agreement") }}</div>
-    
+
     <quill-editor
       ref="myQuillEditor"
       v-model="paper.special_agreement"
@@ -302,7 +298,7 @@
           </v-col>
           <v-col class="text-center" cols="auto">
             <v-card v-if="isExpertAllowed" class="pa-0" outlined tile>
-              <v-btn 
+              <v-btn
                 v-if="!isPaperRequest && !isExpertExplanationSigned && isExpert"
                 class="signature-button"
                 @click="open(true)"
@@ -331,7 +327,7 @@
           </v-col>
         </v-row>
         <v-row no-gutters>
-          <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>          
+          <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
         </v-row>
       </template>
       <template v-if="!isLoading && seller != null">
@@ -342,7 +338,7 @@
             }}</v-card>
           </v-col>
           <v-col class="text-center" cols="auto">
-            <v-card v-if="isSellerAllowed" class="pa-0" outlined tile> 
+            <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
               <v-btn
                 v-if="!isPaperRequest && !isSellerExplanationSigned && isSeller"
                 class="signature-button"
@@ -382,7 +378,7 @@
             <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
           </v-col>
           <v-col class="text-center" cols="auto">
-            <v-card v-if="isBuyerAllowed"  class="pa-0" outlined tile> 
+            <v-card v-if="isBuyerAllowed"  class="pa-0" outlined tile>
               <v-btn
                 v-if="!isPaperRequest && !isBuyerExplanationSigned && isBuyer"
                 class="signature-button"
