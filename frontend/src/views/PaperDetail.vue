@@ -18,7 +18,15 @@
         </div>
       </v-col>
     </v-row>
-    <ActionItems v-if="isPaperAuthor && !isPaperDone" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
+    <ActionItems v-if="isPaperAuthor && !isPaperDone && deadlineToModify > '0'" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
+    <div v-if="isPaperAuthor" class="text-right text-caption white--text">
+      <span v-if="deadlineToModify > '0'" class="red">
+        {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
+      </span>
+      <span v-if="deadlineToModify < '0'" class="red">
+        {{ $t("modify_delete_deadline_expired") }}
+      </span>
+    </div>
     <v-divider></v-divider>
     <v-row>
       <v-col
@@ -489,7 +497,34 @@ export default {
     isBuyerExplanationSigned: function() {
       return this.buyer.explanation_signature != undefined && this.paper.updated_at <= this.buyer.explanation_signature.updated_at ;
     },
-    contractor: function() {
+    deadlineToModify: function() {
+      let firstTime = "";
+      let deadlineToModify = null;
+      if(this.paper.paper_contractors != undefined){
+        for(const contractor of this.paper.paper_contractors){
+          console.log(contractor.signature != null)
+          if (contractor.signature != null && contractor.signature.updated_at > firstTime) {
+            firstTime = contractor.signature.updated_at
+          }
+          if (contractor.explanation_signature != null && contractor.explanation_signature.updated_at > firstTime) {
+            firstTime = contractor.explanation_signature.updated_at
+          }
+        }
+        if(firstTime == "") {
+          return null;
+        }
+        firstTime = new Date(firstTime)
+        deadlineToModify = new Date(firstTime)
+        deadlineToModify.setTime(firstTime.getTime()+(12*60*60*1000))
+        if(deadlineToModify - new Date() < 0){
+          return -1
+        }
+        return `${deadlineToModify.getFullYear()}-${deadlineToModify.getMonth()+1}-${deadlineToModify.getDate()} ${deadlineToModify.getHours()}:${deadlineToModify.getMinutes()}:${deadlineToModify.getSeconds()}`
+      } else {
+        return null;
+      }
+    },
+    currentContractor: function() {
       if(this.paper.paper_contractors != undefined){
         for (let i = 0; i < this.paper.paper_contractors.length; i++) {
           if(this.paper.paper_contractors[i].profile.user.username == this.requestUser ) {
@@ -497,7 +532,7 @@ export default {
           }
         }
       }
-      return null
+      return null;
     },
     expert: function() {
       if(this.paper.paper_contractors != undefined){
@@ -611,7 +646,7 @@ export default {
   methods: {
     allowPaper() {
       this.isLoading = true;
-      let endpoint = `/api/contractors/${this.contractor.id}/allow-paper/`;
+      let endpoint = `/api/contractors/${this.currentContractor.id}/allow-paper/`;
       apiService(endpoint).then(data => {
         if(data.id != undefined){
           this.paper = data;
@@ -647,28 +682,28 @@ export default {
       }
       
       if(this.is_explanation_signature == true ){
-         if(this.contractor.explanation_signature != undefined){
+         if(this.currentContractor.explanation_signature != undefined){
           method = "PUT";
-          endpoint = `/api/papers/${this.id}/explanation-signatures/${that.contractor.explanation_signature.id}/`;
+          endpoint = `/api/papers/${this.id}/explanation-signatures/${that.currentContractor.explanation_signature.id}/`;
         } else {
           endpoint = `/api/papers/${this.id}/explanation-signature/`;
         }
       }else {
-        if(this.contractor.signature != undefined){
+        if(this.currentContractor.signature != undefined){
           method = "PUT";
-          endpoint = `/api/papers/${this.id}/signatures/${that.contractor.signature.id}/`;
+          endpoint = `/api/papers/${this.id}/signatures/${that.currentContractor.signature.id}/`;
         } else {
           endpoint = `/api/papers/${this.id}/signature/`;
         }
       }
       try {
-          apiService(endpoint, method, {"image":data, "contractor": that.contractor.id}).then(data => {
+          apiService(endpoint, method, {"image":data, "contractor": that.currentContractor.id}).then(data => {
             if (data.id != undefined) {
               alert(that.$i18n.t("request_success"))
               if(that.is_explanation_signature == true){
-                that.contractor.explanation_signature = data;
+                that.currentContractor.explanation_signature = data;
               } else {
-                that.contractor.signature = data;
+                that.currentContractor.signature = data;
               }
               that.dialog = false;
             } else {

@@ -118,7 +118,7 @@
     </template>
     <v-spacer></v-spacer>
     <v-btn text color="grey" href="/accounts/logout/">
-      <span>{{ $t("logout") }}</span>
+      <span class="font-weight-bold">[{{ username }}]</span>
       <v-icon>exit_to_app</v-icon>
     </v-btn>
   </v-app-bar>
@@ -134,7 +134,7 @@ export default {
   },
   data() {
     return {
-      requestUser: null,
+      username: null,
       drawer: false,
       items: [
         {
@@ -175,8 +175,8 @@ export default {
   },
   created() {
     const name = window.localStorage.getItem("name")
-    const username = window.localStorage.getItem("username")
-    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + username + "/" + name;
+    this.username = window.localStorage.getItem("username")
+    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.username + "/" + name;
   },
   methods: {
     switchLoc() {
