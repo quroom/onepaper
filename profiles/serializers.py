@@ -16,14 +16,6 @@ class CustomUserIDNameSerializer(serializers.ModelSerializer):
         fields = ["name", 'username', 'is_expert']
         read_only_fields = ("__all__",)
 
-class AllowedProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserIDNameSerializer(read_only=True)
-
-    class Meta:
-        model = Profile
-        fields = ["id", "mobile_number", "user"]
-        read_only_fields = ("__all__",)
-
 class ApproveExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
@@ -125,9 +117,9 @@ class ProfileBasicInfoSerializer(serializers.ModelSerializer):
         return obj.mobile_number.raw_input[:-2]+len(obj.mobile_number.raw_input[-2:])*"#"
 
 class ProfileSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
     updated_at = serializers.SerializerMethodField()
     user = BasicCustomUserSerializer(read_only=True)
-    address = AddressSerializer()
     expert_profile = ExpertSerializer(read_only=True)
 
     class Meta:
