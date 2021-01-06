@@ -160,12 +160,15 @@ class ExpertProfileTestCase(APITestCase):
     def test_customuser(self):
         response = self.client.get("/api/user/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], 1)
         self.assertEqual(response.data["username"], "test")
         self.assertEqual(response.data["email"], "test@naver.com")
+        self.assertEqual(response.data["is_expert"], True)
+        self.assertEqual(response.data["is_staff"], False)
+        self.assertEqual(response.data["has_profile"], False)
         self.assertEqual(response.data["bio"], "bio")
         self.assertEqual(response.data["name"], "김주영")
         self.assertEqual(response.data["birthday"], "1955-02-12")
-        self.assertEqual(response.data["is_expert"], True)
 
     def create_user_profile(self, id=0, is_expert=False):
         user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
@@ -210,9 +213,18 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data["mobile_number"], "010-1234-1234")
         self.assertEqual(response.data["bank_name"], "국민은행")
         self.assertEqual(response.data["account_number"], "94334292963")
-        self.assertEqual(response.data["address"]["old_address"],  '광주 광산구 명도동 169')
-        self.assertEqual(response.data["address"]["dong"], '')
-        self.assertEqual(response.data["address"]["ho"], '2층')
+        self.assertEqual(response.data["address"], { 
+            "id": 1,
+            "old_address": '광주 광산구 명도동 169',
+            "new_address": '광주광역시 광산구 가마길 2-21',
+            "sigunguCd": '29170',
+            "bjdongCd": '29170',
+            "platGbCd": '',
+            "bun":'973',
+            "ji":'17',
+            "dong":'',
+            "ho":'2층'
+        })
         self.assertEqual(
             response.data["expert_profile"]["registration_number"], "2020118181-11")
         self.assertEqual(
@@ -297,13 +309,13 @@ class ExpertProfileTestCase(APITestCase):
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        # self.assertEqual(response.data["detail"].message, _("전문가가 선택되지 않았습니다."))
+        self.assertEqual(response.data["detail"].message, _("전문가가 선택되지 않았습니다."))
         response = self.client.put("/api/approve-experts/", data={"profiles":[3]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        # self.assertEqual(response.data["detail"].message, _("승인 가능한 전문가가 선택되지 않았습니다."))
+        self.assertEqual(response.data["detail"].message, _("승인 가능한 전문가가 선택되지 않았습니다."))
         response = self.client.delete("/api/approve-experts/", data={"profiles":[5]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        # self.assertEqual(response.data["detail"].message, _("전문가가 선택되지 않았습니다."))
+        self.assertEqual(response.data["detail"].message, _("전문가가 선택되지 않았습니다."))
 
 class ProfileTestCase(APITestCase):
 
