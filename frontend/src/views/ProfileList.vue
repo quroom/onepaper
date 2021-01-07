@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-caption red--text">{{ $t("profile_list_subtitle") }}</div>
+    <div v-if="is_expert" class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
     <v-dialog
       v-model="dialog"
       max-width="400px"
@@ -33,7 +33,7 @@
     </div>
     <template v-else>
       <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
-      <div v-if="is_expert" class="text-caption blue--text">{{ $t("use_profile_after_approval") }}</div>
+      <div class="text-caption red--text">{{ $t("profile_list_subtitle") }}</div>
       <v-row>
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
