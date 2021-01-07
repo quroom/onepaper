@@ -625,8 +625,8 @@ export default {
         sunshine_status_info: '',
         noise_status: 'null',
         vibration: true,
-        comission: 2000000,
-        actual_expenses: 50000,
+        comission: 0,
+        actual_expenses: 0,
         payment_period: '',
         calculation_info: '<산출내역> \n\n중개보수: \n실    비: \n※ 중개보수는 시ㆍ도 조례로 정한 요율에 따르거나, 시ㆍ도 조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수 있습니다.'
       },
