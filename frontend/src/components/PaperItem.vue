@@ -24,7 +24,7 @@
         {{ $getConstI18("status_category", paper.status) }}
       </v-chip>
       <div class="text-body-2 mt-2 pr-1" style="float:right">
-        {{ $t("last") }}{{ $t("updated_at") }}: {{ paper.updated_at }}
+        {{ $t("updated_at") }}: {{ paper.updated_at }}
         <div>
           <div class="author-name-position">
             {{ $t("author") }}:
@@ -33,7 +33,7 @@
         </div>
       </div>
       <v-card-title class="card-title pa-0 pl-4">
-        {{ $getConstI18("trade_category", paper.trade_category) }}
+        [{{ $getConstI18("building_category", paper.building_category) }}] {{ $getConstI18("trade_category", paper.trade_category) }}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
@@ -41,16 +41,17 @@
           <span v-if="paper.address.dong!=''"> {{ paper.address.dong }}{{ $t("dong") }}</span>
           <span v-if="paper.address.ho!=''"> {{ paper.address.ho }}{{ $t("ho") }}</span>
         </div>
-        <span>
-          [{{ $getConstI18("building_category", paper.building_category) }}]
-        </span>
         <span v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
-          {{ `${$t("security_deposit")}${paper.security_deposit} / ${$t("monthly_fee")}${paper.monthly_fee}${$t("manwon")} / ${$t("maintenance_fee")}${paper.maintenance_fee}${$t("manwon")}`}}
+          <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
+          <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("manwon")}` }}</div>
+          <div>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</div>
+          <!-- {{ `${$t("security_deposit")} ${paper.security_deposit}${$t("manwon")} / ${$t("monthly_fee")} ${paper.monthly_fee}${$t("manwon")} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t("manwon")}`}} -->
         </span>
         <span
           v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
         >
-        {{ `${$t("security_deposit")}${paper.security_deposit}${$t("manwon")} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t("manwon")}`}}
+          <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
+          <div>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</div>
         </span>
         <!-- #FIXME to be updated -->
         <span

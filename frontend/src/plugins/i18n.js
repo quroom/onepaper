@@ -55,6 +55,8 @@ const i18n = new VueI18n({
       deleted: "Deleted",
       delete_account: "Delete Account",
       delete_confirm: "Do you really want to delete?",
+      delete_profile_subtitle: "Member ID, e-mail, and name must be exactly the same for withdrawal processing, and account DB will be completely deleted only if there is no created profile. \
+      If there is a profile created, the account will no longer be available, and the database will be preserved for future legal disputes. You can rest assured that the preserved data is only provided to you.",
       delete_success: "It has been deleted.",
       deny: "Deny",
       denied: "Denied",
@@ -140,7 +142,7 @@ const i18n = new VueI18n({
       title: "Title",
       transaction_category: "transaction category",
       term_of_lease: "Term of Lease",
-      updated_at: "Update Date",
+      updated_at: "Updated",
       user: "User",
       username: "User ID",
       use_profile_after_approval: "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
@@ -150,7 +152,7 @@ const i18n = new VueI18n({
       won_paid_recieved: "won paid upon visit and received",
 
       //Profile message
-      birthday: "Birth Day",
+      birthday: "Birthday",
       name: "Name",
       mobile_number: "Conctact",
       bank_name: "Bank Name",
@@ -209,7 +211,7 @@ const i18n = new VueI18n({
       purchase: "Purchase",
       exchange: "Exchange",
 
-      requesting: "Requesting",
+      requesting: "Request",
       draft: "Draft",
       progress: "Progress",
       done: "Done",
@@ -364,6 +366,8 @@ const i18n = new VueI18n({
       deleted: "삭제할",
       delete_account: "회원 탈퇴",
       delete_confirm: "정말 삭제 하시겠습니까?",
+      delete_profile_subtitle: "회원 아이디, 이메일, 성함이 정확히 일치해야 탈퇴 처리 되며, 작성된 프로필이 없는 경우에만 계정 DB는 완전히 삭제됩니다.\
+      작성된 프로필이 있는 경우 계정은 더이상 이용할 수 없도록 처리되며, 데이터베이스를 향후 법적 분쟁 시 활용하기 위해 보존 됩니다. 보존되는 데이터는 본인에게만 제공되니 안심하셔도 됩니다.",
       delete_success: "정상적으로 삭제되었습니다.",
       deny: "거절",
       denied: "거절",

@@ -35,8 +35,7 @@
           ></LazyTextField>
         </v-card-text>
         <v-card-subtitle>
-          회원 아이디, 이메일, 성함이 정확히 일치해야 탈퇴 처리 되며, 작성된 프로필과 계약서가 없는 경우에만 계정 DB는 완전히 삭제됩니다. <br/>
-          작성된 계약서가 있는 경우 계정은 더이상 이용할 수 없도록 처리되며, 데이터베이스를 향후 법적 분쟁 시 활용하기 위해 보존 됩니다. 보존되는 데이터는 본인에게만 제공되니 안심하셔도 됩니다.
+          {{$t("delete_profile_subtitle")}}
         </v-card-subtitle>
         <v-divider></v-divider>
         <v-card-actions>
