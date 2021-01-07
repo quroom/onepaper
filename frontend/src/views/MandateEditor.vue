@@ -113,7 +113,7 @@
                   item-value="id"
                   return-object
                   :label="$t('designator')"
-                  :placeholder="$t('designator')+ ' ' + $t('search')"
+                  :placeholder="$t('quick_trade_user')+ ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
@@ -147,7 +147,7 @@
                   item-value="id"
                   return-object
                   :label="$t('designee')"
-                  :placeholder="$t('designee')+ ' ' + $t('search')"
+                  :placeholder="$t('quick_trade_user')+ ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>

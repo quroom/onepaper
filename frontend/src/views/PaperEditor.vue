@@ -288,7 +288,7 @@
                   item-value="id"
                   return-object
                   :label="$t('realestate_agency')"
-                  :placeholder="$t('realestate_agency')+' '+$t('search')"
+                  :placeholder="$t('realestate_agency')+' '+$t('select')"
                 >
                   <template v-slot:selection="{ item }">
                     {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
@@ -321,7 +321,7 @@
                   return-object
                   class="mt-2"
                   :label="$t('landlord')"
-                  :placeholder="$t('landlord')+' '+$t('select')"
+                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
                   <template
                     v-slot:selection="{ }"
@@ -357,7 +357,7 @@
                   class="mt-2"
                   return-object
                   :label="$t('tenant')"
-                  :placeholder="$t('tenant')+' '+$t('search')"
+                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
                   <template v-slot:selection="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>

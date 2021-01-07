@@ -112,7 +112,7 @@ const i18n = new VueI18n({
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
       profile_list_subtitle: "Only one profile can be activated and will be used when writing the contract. When adding a quick transaction member, the other party can add your profile without searching.",
-      quick_trade_user: "Quick trade user",
+      quick_trade_user: "Quick tradeuser",
       read_mode: "Read Mode",
       realestate: "Realestate",
       realestate_agency: "Realestate Agency",
@@ -326,8 +326,8 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
-      add_quick_trade_user: "빠른거래 회원 추가",
-      add_quick_trade_user_directly: "빠른거래 회원 즉시추가",
+      add_quick_trade_user: "빠른거래회원 추가",
+      add_quick_trade_user_directly: "빠른거래회원 즉시추가",
       add_quick_trader_link: "빠른거래 등록 요청 링크",
       accept: "동의합니다.",
       activate: "활성화",
@@ -336,7 +336,7 @@ const i18n = new VueI18n({
       allow: "허용",
       approve: "승인",
       approved: "승인됨",
-      quick_trade_user_list: "빠른거래 회원 리스트",
+      quick_trade_user_list: "빠른거래회원 리스트",
       quick_trade_user_list_subtitle: "빠른 거래 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
                                  추가하실 회원에게 메뉴를 통해 생성가능한 '거래회원 등록 요청 링크'를 요청하세요. 손 쉽게 회원 추가가 가능합니다.",
       add_user: "회원 추가",
@@ -427,7 +427,7 @@ const i18n = new VueI18n({
       profile_name: "프로필명",
       profile_list_subtitle:
         "프로필은 단 하나만 활성화 가능하며 계약서 작성시 사용됩니다. 빠른거래 회원 추가 시 검색 없이 상대방이 회원님의 프로필을 추가할 수 있습니다.",
-      quick_trade_user: "빠른거래 회원",
+      quick_trade_user: "빠른거래회원",
       read_mode: "읽기모드",
       realestate: "부동산",
       realestate_agency: "개업공인중개사",
