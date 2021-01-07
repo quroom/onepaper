@@ -86,14 +86,17 @@ class AllowedUserTestCase(APITestCase):
         response = self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test", "name":"김주영"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("자기 자신의 아이디는 추가할 수 없습니다."))
+
+        response = self.client.post(reverse(
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test3", "name":"김주영"}}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("회원 아이디가 없습니다."))
 
         response = self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영"}}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("이름이 일치하지 않습니다."))
 
         response = self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영1"}}, format="json")
@@ -107,15 +110,32 @@ class AllowedUserTestCase(APITestCase):
         response = self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test2", "name":"김주영2"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("이미 추가된 회원입니다."))
 
     def test_allowed_profile_delete(self):
         self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영1"}}, format="json")
         profile = Profile.objects.get(id=1)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 2)
-        self.client.delete(reverse(
+
+        response = self.client.delete(reverse(
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test"]}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("자신의 아이디는 삭제할 수 없습니다."))
+
+        response = self.client.delete(reverse(
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test3"]}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))
+
+        response = self.client.delete(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": ["test1"]}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 1)
+        response = self.client.delete(reverse(
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test1"]}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))
 
 MEDIA_ROOT = tempfile.mkdtemp()
 @override_settings(MEDIA_ROOT=MEDIA_ROOT)
@@ -234,7 +254,7 @@ class ExpertProfileTestCase(APITestCase):
         #FIXME: Need to add image test code
 
     def test_expert_profile_update(self):
-        self.create_expert_profile()
+        response = self.create_expert_profile()
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho": "1층",
@@ -244,7 +264,7 @@ class ExpertProfileTestCase(APITestCase):
             "expert_profile.shop_name": "광주부동산중개_",
         }
         response = self.client.put(
-            reverse("profiles-detail", kwargs={"pk": 1}), data)
+            reverse("profiles-detail", kwargs={"pk": response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"]["ho"], "1층")
@@ -254,6 +274,24 @@ class ExpertProfileTestCase(APITestCase):
             response.data["expert_profile"]["registration_number"], "2020118181-11_")
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개_")
+
+    def test_approved_expert_profile_update(self):
+        response = self.create_expert_profile()
+        data = {
+            "mobile_number": "010-4334-2929",
+            "address.ho": "1층",
+            "bank_name": "국민은행_",
+            "account_number": "94334292963_",
+            "expert_profile.registration_number": "2020118181-11_",
+            "expert_profile.shop_name": "광주부동산중개_",
+        }
+        expert_profile = ExpertProfile.objects.get(id=response.data['id'])
+        expert_profile.status = ExpertProfile.APPROVED
+        expert_profile.save()
+        response = self.client.put(
+            reverse("profiles-detail", kwargs={"pk": response.data['id']}), data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."))
 
     def test_profile_update_unauthenticated(self):
         self.create_expert_profile()
@@ -467,6 +505,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response = self.client.delete(reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
 
     def test_profile_update_with_paper(self):
         response = self.create_profile()
@@ -509,6 +548,7 @@ class ProfileTestCase(APITestCase):
             }
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))
 
     def test_profile_update_with_mandate(self):
         response = self.create_profile()
@@ -544,6 +584,7 @@ class ProfileTestCase(APITestCase):
             }
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."))
 
     def test_profile_delete_with_mandate(self):
         response = self.create_profile()
@@ -575,6 +616,25 @@ class ProfileTestCase(APITestCase):
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 2}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."))
+
+    def test_open_profile_list(self):
+        self.create_profile()
+        response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": "010-1234-1234"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['results'][0]['mobile_number'], '010-1234-12##')
+        self.assertEqual(response.data['results'][0]['address']['old_address'], '광주 광산구 명도동')
+        self.assertEqual(response.data['results'][0]['user']['username'], 'test')
+        self.assertEqual(response.data['results'][0]['user']['name'], '김#영')
+
+    def test_open_profile_detail(self):
+        response = self.create_profile()
+        response = self.client.get(reverse("open-profile", args=(response.data['id'],)))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['mobile_number'], '010-1234-12##')
+        self.assertEqual(response.data['address']['old_address'], '광주 광산구 명도동')
+        self.assertEqual(response.data['user']['username'], 'test')
+        self.assertEqual(response.data['user']['name'], '김#영')
 
     def test_set_default_profile(self):
         response = self.create_profile()
@@ -587,6 +647,7 @@ class ProfileTestCase(APITestCase):
 
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
         self.assertEqual(response.data["is_active"], True)
+
 
 class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")
@@ -652,7 +713,7 @@ class CustomUserTestCase(APITestCase):
         response = self.client.put(
             reverse("user-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        # self.assertEqual(response.data["detail"].message, _("프로필이 존재하는 경우 회원 정보를 수정할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("프로필이 존재하는 경우 회원 정보를 수정할 수 없습니다."))
 
     def test_user_delete(self):
         data = {
@@ -663,6 +724,7 @@ class CustomUserTestCase(APITestCase):
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.data['user_delete'], _("탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."))
 
     def test_user_delete_with_profile(self):
         self.create_profile()
@@ -673,7 +735,8 @@ class CustomUserTestCase(APITestCase):
         }
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['user_delete'], _("탈퇴처리 되었습니다."))
 
     def test_user_delete_key_error(self):
         data = {
@@ -683,6 +746,7 @@ class CustomUserTestCase(APITestCase):
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("탈퇴할 회원의 정보를 모두 입력해주세요."))
 
     def test_user_delete_unmatched(self):
         data = {
@@ -693,6 +757,7 @@ class CustomUserTestCase(APITestCase):
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."))
 
 class MandateTestCase(APITestCase):
     mandates_list_url = reverse("mandates-list")
@@ -801,6 +866,7 @@ class MandateTestCase(APITestCase):
         }
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("서명이 완료된 위임장은 수정할 수 없습니다."))
 
     def test_mandate_signature_create(self):
         data = {
@@ -833,6 +899,7 @@ class MandateTestCase(APITestCase):
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("서명이 완료된 위임장은 수정할 수 없습니다."))
 
     def test_mandate_signature_delete(self):
         response = self.client.delete(reverse("mandates-detail", kwargs={"pk": 1}))
@@ -847,3 +914,4 @@ class MandateTestCase(APITestCase):
         response = self.client.put(reverse("mandates-detail", kwargs={"pk": 1}), data=data)
         response = self.client.delete(reverse("mandates-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("서명이 완료된 위임장은 삭제할 수 없습니다."))
