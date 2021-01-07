@@ -10,11 +10,17 @@ from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
 
-class CustomUserIDNameSerializer(serializers.ModelSerializer):
+class ReadOnlyModelSerializer(serializers.ModelSerializer):
+    def get_fields(self, *args, **kwargs):
+        fields = super().get_fields(*args, **kwargs)
+        for field in fields:
+            fields[field].read_only = True
+        return fields
+
+class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["name", 'username', 'is_expert']
-        read_only_fields = ("__all__",)
 
 class ApproveExpertSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -98,6 +104,11 @@ class ExpertSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
+class ExpertReadonlySerializer(ReadOnlyModelSerializer):
+    class Meta:
+        model = ExpertProfile
+        fields = ['registration_number', 'shop_name', 'stamp', 'status']
+
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
     address = serializers.SerializerMethodField()
     expert_profile = ExpertBasicInfoSerializer(read_only=True)
@@ -157,6 +168,18 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
+class ProfileReadonlySerializer(ReadOnlyModelSerializer):
+    address = AddressSerializer(read_only=True)
+    updated_at = serializers.SerializerMethodField()
+    user = BasicCustomUserSerializer(read_only=True)
+    expert_profile = ExpertReadonlySerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
     address = AddressSerializer()

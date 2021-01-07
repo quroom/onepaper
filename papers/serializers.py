@@ -6,8 +6,15 @@ from rest_framework import serializers
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
-from profiles.serializers import ProfileSerializer, ProfileBasicInfoSerializer
+from profiles.serializers import ProfileSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
+
+class ReadOnlyModelSerializer(serializers.ModelSerializer):
+    def get_fields(self, *args, **kwargs):
+        fields = super().get_fields(*args, **kwargs)
+        for field in fields:
+            fields[field].read_only = True
+        return fields
 
 class ExplanationSignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -58,8 +65,8 @@ class ContractorSerializer(serializers.ModelSerializer):
         model = Contractor
         fields = ("id", "profile", "profile_id", "paper", "group", "is_allowed")
 
-class ContractorReadSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(read_only=True)
+class ContractorReadonlySerializer(serializers.ModelSerializer):
+    profile = ProfileReadonlySerializer(read_only=True)
     signature = SignatureSerializer(read_only=True)
     explanation_signature = ExplanationSignatureSerializer(read_only=True)
 
@@ -74,7 +81,7 @@ class ContractorUnalloweUserSerializer(serializers.ModelSerializer):
         model = Contractor
         fields = "__all__"
 
-class PaperListSerializer(serializers.ModelSerializer):
+class PaperListSerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
@@ -84,7 +91,6 @@ class PaperListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
         exclude = ["special_agreement"]
-        read_only_fields = ("__all__",)
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
@@ -260,10 +266,10 @@ class PaperLoadSerializer(serializers.ModelSerializer):
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
-class PaperReadonlySerializer(serializers.ModelSerializer):
+class PaperReadonlySerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
-    paper_contractors = ContractorReadSerializer(many=True)
+    paper_contractors = ContractorReadonlySerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
@@ -272,7 +278,6 @@ class PaperReadonlySerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
         fields = "__all__"
-        read_only_fields = ("__all__",)
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
@@ -280,7 +285,7 @@ class PaperReadonlySerializer(serializers.ModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
-class PaperUnalloweUserSerializer(serializers.ModelSerializer):
+class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     paper_contractors = ContractorUnalloweUserSerializer(many=True)
@@ -292,7 +297,6 @@ class PaperUnalloweUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
         fields = "__all__"
-        read_only_fields = ("__all__",)
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
@@ -300,7 +304,7 @@ class PaperUnalloweUserSerializer(serializers.ModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
-class PaperEveryoneSerializer(serializers.ModelSerializer):
+class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
@@ -310,7 +314,6 @@ class PaperEveryoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
         fields = "__all__"
-        read_only_fields = ("__all__",)
 
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
