@@ -287,6 +287,9 @@ class OpenProfileList(APIView, PageNumberPagination):
         name = self.request.query_params.get("name")
         mobile_number = self.request.query_params.get("mobile_number")
 
+        if name == '' or mobile_number == '':
+            return Response({"detail": ValidationError(_("성함, 연락처 모두 입력해야 합니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
         profiles = Profile.objects.filter(user__name=name, mobile_number=mobile_number, is_active=True)
         page = self.paginate_queryset(profiles, request, view=self)
         serializer = ProfileBasicInfoSerializer(page, many=True)

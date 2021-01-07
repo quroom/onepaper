@@ -626,6 +626,9 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.data['results'][0]['address']['old_address'], '광주 광산구 명도동')
         self.assertEqual(response.data['results'][0]['user']['username'], 'test')
         self.assertEqual(response.data['results'][0]['user']['name'], '김#영')
+                response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": ""})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("성함, 연락처 모두 입력해야 합니다."))
 
     def test_open_profile_detail(self):
         response = self.create_profile()
@@ -647,7 +650,6 @@ class ProfileTestCase(APITestCase):
 
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
         self.assertEqual(response.data["is_active"], True)
-
 
 class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")

@@ -858,7 +858,7 @@ export default {
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        if(data.count != 0){
+        if(data.count != undefined){
           this.my_profiles = data.results;
           this.is_expert = true;
         } else {
@@ -1019,7 +1019,7 @@ export default {
     searchProfile(){
       let endpoint = `/api/open-profiles/`+`?name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`;
       apiService(endpoint).then(data => {
-        if(data.count != 0){
+        if(data.count != undefined){
           this.searched_profiles = data.results;
           this.items_length = data.count;
         } else {

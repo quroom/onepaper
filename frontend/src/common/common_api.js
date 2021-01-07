@@ -10,6 +10,7 @@ function renameKeys(obj, that) {
 }
 
 function applyValidation(data, that, key, parent_key) {
+  console.log(data)
   var flag;
   if(data.count==0){
     alert("조회된 데이터가 없습니다.")
