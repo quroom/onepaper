@@ -86,7 +86,6 @@ class PaperListSerializer(ReadOnlyModelSerializer):
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
     status = serializers.SerializerMethodField()
-    paper_contractors = ContractorSerializer(many=True)
 
     class Meta:
         model = Paper
@@ -252,7 +251,7 @@ class PaperSerializer(serializers.ModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
-class PaperLoadSerializer(serializers.ModelSerializer):
+class PaperLoadSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)

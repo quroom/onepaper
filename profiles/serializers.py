@@ -248,8 +248,8 @@ class MandateEveryoneSerializer(serializers.ModelSerializer):
 
 class MandateReadOnlySerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    designator = ProfileSerializer(read_only=True)
-    designee = ProfileSerializer(read_only=True)
+    designator = ProfileReadonlySerializer(read_only=True)
+    designee = ProfileReadonlySerializer(read_only=True)
     address = AddressSerializer(read_only=True)
     updated_at = serializers.SerializerMethodField()
 

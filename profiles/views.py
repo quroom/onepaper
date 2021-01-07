@@ -1,7 +1,7 @@
-from django.core.exceptions import ValidationError
-from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Exists, Q
+from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import mixins, generics, status
@@ -69,13 +69,17 @@ class AllowedUserDetail(APIView, PageNumberPagination):
 
     def delete(self, request, pk):
         allowedUser = self.get_object(pk)
-        user_list = CustomUser.objects.filter(
-            username__in=request.data['allowed_users'])
-        if user_list.count() == 0:
-            return Response({"detail": ValidationError(_("일치하는 회원이 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        allowedUser.allowed_users.remove(*user_list)
-        allowedUser.save()
+        if request.user.username in request.data['allowed_users']:
+            return Response({"detail": ValidationError(_("자신의 아이디는 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
+        user_list = allowedUser.allowed_users.filter(username__in=request.data['allowed_users'])
+
+        if user_list.count() != len(request.data['allowed_users']):
+            return Response({"detail": ValidationError(_("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
+        response = allowedUser.allowed_users.remove(*user_list)
+        response = allowedUser.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -165,7 +169,7 @@ class ProfileViewset(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if Contractor.objects.filter(profile=instance).exists():
-            return Response({"detail": ValidationError(_("작성한 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Mandate.objects.filter(designator=instance).exists() or Mandate.objects.filter(designee=instance).exists():
             return Response({"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
@@ -214,14 +218,13 @@ class CustomUserViewset(mixins.CreateModelMixin,
                 return Response({"detail": ValidationError(_("입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             return Response({"detail": ValidationError(_("탈퇴할 회원의 정보를 모두 입력해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
-        if Contractor.objects.filter(profile__user=instance).exists():
+        if Profile.objects.filter(user=instance).exists():
             instance.is_active = False
             instance.save()
-            return Response({"user_delete": ValidationError(_("탈퇴처리 되었습니다."))}, status=status.HTTP_200_OK)
+            return Response({"user_delete": _("탈퇴처리 되었습니다.")}, status=status.HTTP_200_OK)
         else:
             instance.delete()
-            return Response({"user_delete": ValidationError(_("탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."))}, status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({"user_delete": _("탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다.")}, status=status.HTTP_204_NO_CONTENT)
 
 class MandateViewset(ModelViewSet):
     permission_classes = [IsAuthenticated]

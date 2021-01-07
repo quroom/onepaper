@@ -23,11 +23,9 @@ class IsProfileUserOrReadonly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
-        elif type(obj) == ExpertProfile:
-            return obj.profile.profile.user == request.user
         else:
             return obj.profile.user == request.user
 
 class IsAuthorOrDesignator(BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.designator.user == request.user or obj.author==request.user
+        return obj.designator.user == request.user or obj.author == request.user
