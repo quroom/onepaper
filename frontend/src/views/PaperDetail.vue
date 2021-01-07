@@ -18,12 +18,12 @@
         </div>
       </v-col>
     </v-row>
-    <ActionItems v-if="isPaperAuthor && !isPaperDone && deadlineToModify > '0'" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
+    <ActionItems v-if="isPaperAuthor && !isPaperDone && (deadlineToModify > '0001-1-1' || deadlineToModify == null)" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
     <div v-if="isPaperAuthor" class="text-right text-caption white--text">
-      <span v-if="deadlineToModify > '0'" class="red">
+      <span v-if="deadlineToModify > '0001-1-1'" class="red">
         {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
       </span>
-      <span v-if="deadlineToModify < '0'" class="red">
+      <span v-if="deadlineToModify < '0001-1-1'" class="red">
         {{ $t("modify_delete_deadline_expired") }}
       </span>
     </div>
@@ -502,7 +502,6 @@ export default {
       let deadlineToModify = null;
       if(this.paper.paper_contractors != undefined){
         for(const contractor of this.paper.paper_contractors){
-          console.log(contractor.signature != null)
           if (contractor.signature != null && contractor.signature.updated_at > firstTime) {
             firstTime = contractor.signature.updated_at
           }
