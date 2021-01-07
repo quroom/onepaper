@@ -41,16 +41,17 @@
                     <LazyTextField
                       v-model="search.name"
                       :label="$t('name')"
+                      @keyup.enter="searchProfile()"
                     ></LazyTextField>
                   </v-col>
                   <v-col cols="9">
                     <LazyTextField
                       v-model="search.mobile_number"
                       :label="$t('mobile_number')"
+                      @keyup.enter="searchProfile()"
                     >
                       <template
                         v-slot:append-outer
-                        @click="SearchProfile()"
                       >
                         <v-btn @click="searchProfile()">
                           {{ $t("search") }}
@@ -858,11 +859,11 @@ export default {
     getMyProfiles() {
       let endpoint = `/api/profiles/`;
       apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(!data.count){
+          applyValidation(data)
+        } else {
           this.my_profiles = data.results;
           this.is_expert = true;
-        } else {
-          applyValidation(data)
         }
       });
     },
@@ -1019,11 +1020,11 @@ export default {
     searchProfile(){
       let endpoint = `/api/open-profiles/`+`?name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`;
       apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(!data.count){
+          applyValidation(data)
+        } else {
           this.searched_profiles = data.results;
           this.items_length = data.count;
-        } else {
-          applyValidation(data)
         }
       })
     },

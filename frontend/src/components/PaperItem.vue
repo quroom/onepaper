@@ -33,11 +33,11 @@
         </div>
       </div>
       <v-card-title class="card-title pa-0 pl-4">
-        [{{ $getConstI18("building_category", paper.building_category) }}] {{ $getConstI18("trade_category", paper.trade_category) }}
+        {{ $getConstI18("trade_category", paper.trade_category) }} {{`${paper.from_date} ~ ${paper.to_date}`}}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
-          {{ paper.address.old_address }}
+          [{{ $getConstI18("building_category", paper.building_category) }}] {{ paper.address.old_address }}
           <span v-if="paper.address.dong!=''"> {{ paper.address.dong }}{{ $t("dong") }}</span>
           <span v-if="paper.address.ho!=''"> {{ paper.address.ho }}{{ $t("ho") }}</span>
         </div>
@@ -103,6 +103,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.card-title {
+  width: 100%;
+}
 </style>

@@ -152,10 +152,10 @@ export default {
       }
       endpoint = `/api/profiles/${profile.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
-        if(data.count != undefined) {
-          alert(this.$i18n.t("request_success"))
-        } else {
+        if(!data.count) {
           applyValidation(data)
+        } else {
+          alert(this.$i18n.t("request_success"))
         }
         this.dialog = false
       })
@@ -167,7 +167,9 @@ export default {
       }
       this.isLoading = true;
       apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(!data.count){
+          applyValidation(data)
+        } else {
           this.profiles.push(...data.results);
           this.next = data.next;
           if(data.count == 0){
@@ -175,8 +177,6 @@ export default {
           } else {
             this.$emit("update:has_profile", true)
           }
-        } else {
-          applyValidation(data)
         }
         this.isLoading = false;
         if(this.username != undefined && this.name != undefined){

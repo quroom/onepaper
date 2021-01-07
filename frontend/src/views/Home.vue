@@ -12,60 +12,78 @@
         </v-btn>
       </template>
       <v-card>
-          <v-list>
-            <v-list-item>
-              <v-select
-                v-model="options.status"
-                :items="STATUS_CATEGORY_LIST"
-                item-text="text"
-                item-value="value"
-                :label="`${$t('contract')} ${$t('status')}`"
-              >
-              </v-select>
-            </v-list-item>
-            <v-list-item>
+        <v-row class="ma-auto" align="center" no-gutters>
+          <v-col class="mt-0 mb-0" cols="auto">
+            <v-select
+              class="ve-input"
+              v-model="options.status"
+              :items="STATUS_CATEGORY_LIST"
+              item-text="text"
+              item-value="value"
+              :label="`${$t('contract')} ${$t('status')}`"
+              style="width:100px"
+              @change="getPapersWithOptions()"
+            ></v-select>
+          </v-col>
+          <v-col class="mt-0 mb-0" cols="auto">
+            <v-select
+              class="ve-input"
+              v-model="options.ordering"
+              :items="ORDERING_LIST"
+              item-text="text"
+              item-value="value"
+              :label="`${$t('to_date')} ${$t('ordering')}`"
+              style="width:100px"
+              @change="getPapersWithOptions()"
+            ></v-select>
+          </v-col>
+          <v-col class="mt-0 mb-0" cols="auto">
               <v-text-field
-                class="ve-input"
-                v-model="options.address"
+                class="search-text ve-input"
+                v-model="options.old_address"
                 :label="`${$t('address')}(${$t('partial_correct_match')})`"
                 hide-details
                 dense
+                @keyup.enter="getPapersWithOptions()"
               ></v-text-field>
-            </v-list-item>
-            <v-list-item>
+            </v-col>
+          <v-col class="mt-0 mb-0" cols="auto">
               <v-text-field
-                class="ve-input"
+                class="search-text ve-input"
                 v-model="options.dong"
                 :label="`${$t('dong')}(${$t('exact_correct_match')})`"
                 hide-details
                 dense
-              ></v-text-field>
+                @keyup.enter="getPapersWithOptions()"
+              ></v-text-field></v-col>
+          <v-col class="mt-0 mb-0" cols="auto">
               <v-text-field
-                class="ve-input"
+                class="search-text ve-input"
                 v-model="options.ho"
                 :label="`${$t('ho')}(${$t('exact_correct_match')})`"
                 hide-details
                 dense
+                @keyup.enter="getPapersWithOptions()"
               ></v-text-field>
-            </v-list-item>
-          </v-list>
-          <v-card-actions>
-            <v-btn
-              color="green"
-              dark
-              @click="menu = false"
-            >
-              {{ $t('cancel') }}
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              @click="getPapersWithOptions(); menu=false;">
-              <v-icon>search</v-icon>
-              {{ $t('search') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-btn
+            color="green"
+            dark
+            @click="menu = false"
+          >
+            {{ $t('cancel') }}
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            @click="getPapersWithOptions(); menu=false;">
+            <v-icon>search</v-icon>
+            {{ $t('search') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </v-menu>
     <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
@@ -112,15 +130,30 @@ export default {
       papers: [],
       isLoading: true,
       options: {
-        address: '',
+        old_address: '',
         dong: '',
         ho: '',
-        status: ''
+        status: '',
+        ordering: ''
       },
       hide: false,
       menu: false,
       requestUser: null,
       next: null,
+      ORDERING_LIST: [
+        {
+          text: `${this.$t('none')}`,
+          value: ''
+        },
+        {
+          text: `${this.$t('ascending')}`,
+          value: 'to_date'
+        },
+        {
+          text: `${this.$t('descending')}`,
+          value: '-to_date'
+        },
+      ],
       STATUS_CATEGORY_LIST: [
         {
           text:`${this.$t('all')}`,
@@ -163,11 +196,11 @@ export default {
       })
       this.isLoading = true;
       await apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(!data.count){
+          applyValidation(data);
+        } else {
           this.papers = data.results
           this.next = data.next;
-        } else {
-          applyValidation(data);
         }
         this.isLoading = false;
       });
@@ -179,12 +212,12 @@ export default {
       }
       this.isLoading = true;
       await apiService(endpoint).then(data => {
-        if(data.count != undefined){
+        if(!data.count){
+          applyValidation(data);
+        } else {
           this.papers.push(...data.results);
           this.isLoading = false;
           this.next = data.next;
-        } else {
-          applyValidation(data);
         }
       });
     }
@@ -206,9 +239,10 @@ export default {
 .card-title {
   width: 100%;
 }
+.search-text {
+  width: 230px;
+}
 .ve-input {
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 4px;
+  margin: 8px;
 }
 </style>

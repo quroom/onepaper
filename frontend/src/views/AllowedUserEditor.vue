@@ -91,22 +91,22 @@ export default {
     updatePagination (pagination) {
       let endpoint = `/api/profiles/${this.id}/allowed-users/?page=${pagination}`
       apiService(endpoint).then(data => {
-        if(data.count != undefined) {
+        if(!data.count) {
+          applyValidation(data)
+        } else {
           this.items_length = data.count;
           this.allowed_users = data.results;
-        } else {
-          applyValidation(data)
         }
       })
     },
     getUsers() {
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint).then(data => {
-        if(data.count != undefined) {
+        if(!data.count) {
+          applyValidation(data)
+        } else {
           this.items_length = data.count;
           this.allowed_users = data.results;
-        } else {
-          applyValidation(data)
         }
       })
     },
@@ -116,12 +116,12 @@ export default {
       }
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       apiService(endpoint, "POST", data).then(data => {
-        if(data.count != undefined) {
+        if(!data.count) {
+          applyValidation(data)
+        } else {
           this.items_length = data.count;
           this.allowed_users = data.results;
           alert(this.$i18n.t("request_success"))
-        } else {
-          applyValidation(data)
         }
         this.new_user = {name: null, username: null};
       })

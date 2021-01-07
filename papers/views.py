@@ -1,10 +1,11 @@
 import datetime
+import django_filters
 from django.db import IntegrityError
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+from rest_framework.filters import SearchFilter, OrderingFilter
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import mixins, generics, status, serializers
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
@@ -102,31 +103,27 @@ class PaperLoadAPIView(mixins.RetrieveModelMixin,
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+class PaperFilter(django_filters.FilterSet):
+    status = django_filters.NumberFilter(field_name="status__status")
+    group = django_filters.NumberFilter(field_name="paper_contractors__group")
+    old_address = django_filters.CharFilter(lookup_expr='icontains', field_name='address__old_address')
+    dong = django_filters.CharFilter(field_name='address__dong')
+    ho = django_filters.CharFilter(field_name='address__ho')
+
+    class Meta:
+        model = Paper
+        fields = ['status', 'paper_contractors', 'address']
 
 class PaperViewset(ModelViewSet):
+    __basic_fields = ('status', 'group', 'old_address', 'dong', 'ho', 'to_date')
     permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
+    filter_backends = (filters.DjangoFilterBackend, OrderingFilter)
+    filter_fields = __basic_fields
+    filter_class = PaperFilter
 
     def get_queryset(self):
-        filters = {}
-        address_search_text = None
-        for key in self.request.query_params:
-            if key=='status':
-                if self.request.query_params.get(key) == '':
-                    pass
-                filters['status__status'] = self.request.query_params.get(key)
-            elif key=='group':
-                filters['paper_contractors__group'] = self.request.query_params.get(key)
-            elif key=='dong':
-                filters['address__dong'] = self.request.query_params.get(key)
-            elif key=='ho':
-                filters['address__ho'] = self.request.query_params.get(key)
-            elif key=="address":
-                address_search_text = self.request.query_params.get(key)
-        if address_search_text is None:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, **filters).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
-        else:
-            return Paper.objects.filter(paper_contractors__profile__user=self.request.user, address__old_address__icontains=address_search_text, **filters).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
-
+        return Paper.objects.filter(paper_contractors__profile__user=self.request.user).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
+ 
     def get_object(self):
         obj = get_object_or_404(Paper.objects.select_related('author', 'address', 'status').prefetch_related('paper_contractors', 'paper_contractors__profile', 'paper_contractors__profile__user', 'paper_contractors__profile__expert_profile'), pk=self.kwargs['pk'])
         self.check_object_permissions(self.request, obj)
