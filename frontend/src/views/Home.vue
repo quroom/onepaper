@@ -212,7 +212,7 @@ export default {
       }
       this.isLoading = true;
       await apiService(endpoint).then(data => {
-        if(data.count != 0 && data.count != undefined){
+        if(data.count != undefined){
           this.papers.push(...data.results);
           this.isLoading = false;
           this.next = data.next;
