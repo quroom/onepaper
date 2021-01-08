@@ -123,7 +123,7 @@ class PaperViewset(ModelViewSet):
 
     def get_queryset(self):
         return Paper.objects.filter(paper_contractors__profile__user=self.request.user).select_related('author', 'address', 'status').prefetch_related('paper_contractors')
- 
+
     def get_object(self):
         obj = get_object_or_404(Paper.objects.select_related('author', 'address', 'status').prefetch_related('paper_contractors', 'paper_contractors__profile', 'paper_contractors__profile__user', 'paper_contractors__profile__expert_profile'), pk=self.kwargs['pk'])
         self.check_object_permissions(self.request, obj)
