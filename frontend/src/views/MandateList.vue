@@ -74,7 +74,7 @@ export default {
       }
       this.isLoading = true;
       await apiService(endpoint).then(data => {
-        if(data != undefined) {
+        if(data.count != undefined){
           this.next = data.next;
           this.mandates.push(...data.results);
           this.isLoading = false;

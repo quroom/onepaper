@@ -2,7 +2,7 @@
   <v-container max-width="400px">
     <v-dialog v-model="dialog" max-width="400px">
       <template v-slot:activator="{ on }">
-        <v-btn 
+        <v-btn
           class="ma-1 auto"
           color="error"
           @click.prevent=""
@@ -56,6 +56,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-btn
+      class="ma-1 auto"
+      style="float:right"
+      color="green"
+      dark
+      href="/accounts/password_change/"
+    >
+      {{$t('password_change')}}
+    </v-btn>
     <div class="mt-4 text-h4 font-weight text-center">{{$t("edit_registor_info")}}</div>
     <LazyTextField
       class="mt-4"
@@ -100,7 +109,7 @@
     </v-menu>
     <v-btn
       style="float:right"
-      class="primary"
+      class="primary mt-4"
       @click="submit"
     >
       {{ $t("submit") }}

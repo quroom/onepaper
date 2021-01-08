@@ -270,6 +270,7 @@
         <div>{{ $t("contractor_info_intro") }}</div>
         <v-expansion-panels
           v-model="panels"
+          :readonly="true"
           multiple>
           <v-row no-gutters>
             <v-col v-if="is_expert" cols="12">
@@ -316,7 +317,7 @@
                   v-model="seller"
                   :error-messages="errors"
                   :filter="customFilter"
-                  :items="seller_profiles"
+                  :items="allowed_profiles"
                   item-text="name"
                   item-value="id"
                   return-object
@@ -352,7 +353,7 @@
                   v-model="buyer"
                   :error-messages="errors"
                   :filter="customFilter"
-                  :items="buyer_profiles"
+                  :items="allowed_profiles"
                   item-text="name"
                   item-value="id"
                   class="mt-2"
@@ -480,8 +481,7 @@ export default {
       is_expert: false,
       papers: [],
       my_profiles: [],
-      seller_profiles: [],
-      buyer_profiles: [],
+      allowed_profiles: [],
       validation_check: false,
       step: 1,
       max_step: 4,
@@ -848,8 +848,7 @@ export default {
       this.isLoading = true;
       apiService(endpoint).then(data => {
         if(data.length != undefined){
-            this.seller_profiles = data;
-            this.buyer_profiles = data;
+            this.allowed_profiles = data;
         } else {
           applyValidation(data)
         }
@@ -923,7 +922,6 @@ export default {
       })
     },
     loadProfile(item) {
-      this[this.search_contractor_category+'_profiles'] = this.searched_profiles
       this[this.search_contractor_category] = item;
       this.load_dialog = false;
     },

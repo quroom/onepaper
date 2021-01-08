@@ -167,9 +167,7 @@ export default {
       }
       this.isLoading = true;
       apiService(endpoint).then(data => {
-        if(!data.count){
-          applyValidation(data)
-        } else {
+        if(data.count != undefined){
           this.profiles.push(...data.results);
           this.next = data.next;
           if(data.count == 0){
@@ -177,6 +175,8 @@ export default {
           } else {
             this.$emit("update:has_profile", true)
           }
+        } else {
+          applyValidation(data)
         }
         this.isLoading = false;
         if(this.username != undefined && this.name != undefined){
