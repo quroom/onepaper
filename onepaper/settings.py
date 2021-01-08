@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,13 +24,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')fe%8bp3c4$*v*ghv46s+4iwbir5)vhj4p5u)4@-db6c5b3&x-'
+# SECRET_KEY = ')fe%8bp3c4$*v*ghv46s+4iwbir5)vhj4p5u)4@-db6c5b3&x-'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')fe%8bp3c4$*v*ghv46s+4iwbir5)vhj4p5u)4@-db6c5b3&x-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
+# DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',"*").split(",")
 
 # Application definition
 
@@ -56,14 +58,14 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'multiselectfield',
 
-    'addresses',
-    'profiles',
-    'papers',
-
     'webpack_loader',
     'django_cleanup.apps.CleanupConfig',
     'django_filters',
-    'debug_toolbar'
+    'debug_toolbar',
+
+    'addresses',
+    'profiles',
+    'papers',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -212,5 +213,13 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'quroom1@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
 
 # INTERNAL_IPS = ["127.0.0.1"]
