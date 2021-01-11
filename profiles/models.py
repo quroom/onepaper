@@ -16,7 +16,7 @@ def get_file_path(instance, filename):
     filename = splited_filename[0]
     ext = splited_filename[-1]
     filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
-    return os.path.join('uploads', filename)
+    return os.path.join('', filename)
 
 class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
