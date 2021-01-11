@@ -7,8 +7,9 @@ __all__ = (
 
 # for media
 class S3DefaultStorage(S3Boto3Storage):
-    default_acl = 'private'
+    default_acl = 'public-read'
     location = 'media'
+    file_overwrite = False
     
 # for static
 class S3StaticStorage(S3Boto3Storage):
