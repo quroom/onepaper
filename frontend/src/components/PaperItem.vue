@@ -33,7 +33,7 @@
         </div>
       </div>
       <v-card-title class="card-title pa-0 pl-4">
-        {{ $getConstI18("trade_category", paper.trade_category) }} {{`${paper.from_date} ~ ${paper.to_date}`}}
+        {{ $getConstI18("trade_category", paper.trade_category) }} {{`${paper.from_date}~${paper.to_date}`}}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
