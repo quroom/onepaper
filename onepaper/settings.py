@@ -222,7 +222,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
 
-USE_S3 = os.environ.get("USE_S3", False)
+USE_S3 = bool( os.environ.get("USE_S3", False) )
 
 if USE_S3:
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -234,5 +234,16 @@ if USE_S3:
     DEFAULT_FILE_STORAGE = '%s.storages.S3DefaultStorage' % AWS_STORAGE_BUCKET_NAME
     STATICFILES_STORAGE = '%s.storages.S3StaticStorage' % AWS_STORAGE_BUCKET_NAME
 
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
 
 # INTERNAL_IPS = ["127.0.0.1"]
