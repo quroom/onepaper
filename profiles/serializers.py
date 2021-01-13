@@ -86,32 +86,20 @@ class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
     def get_name(self, obj):
         return obj.name[0:1] + len(obj.name[1:2])*"#" + obj.name[2:]
 
-class ExpertBasicInfoSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ExpertProfile
-        fields = ['registration_number', 'shop_name', 'status']
-        read_only_fields = ('registration_number', 'shop_name', 'status')
-
 class ExpertSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
-
     class Meta:
         model = ExpertProfile
         fields = "__all__"
         read_only_fields = ('profile', 'status')
 
-    def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
-
 class ExpertReadonlySerializer(ReadOnlyModelSerializer):
     class Meta:
         model = ExpertProfile
-        fields = ['registration_number', 'shop_name', 'stamp', 'status']
+        fields = ['registration_number', 'shop_name', 'stamp', 'status', 'garantee_insurance']
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
     address = serializers.SerializerMethodField()
-    expert_profile = ExpertBasicInfoSerializer(read_only=True)
+    expert_profile = ExpertReadonlySerializer(read_only=True)
     mobile_number = serializers.SerializerMethodField()
     user = CustomUserHiddenIDNameSerializer(read_only=True)
 
