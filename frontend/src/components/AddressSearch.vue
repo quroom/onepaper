@@ -19,9 +19,10 @@
         data-vv-validate-on="none"
       >
       </LazyTextField>
-      <v-dialog v-if="!readonly" v-model="dialog">
+      <v-dialog v-if="!readonly" v-model="dialog" eager>
         <v-card>
-          <v-card-text class="pt-5">
+          <v-icon class="address-close-btn" @click="close()">close</v-icon>
+          <v-card-text class="pa-0">
             <vue-daum-postcode
               :no-auto-mapping="true"
               :key="key"
@@ -80,14 +81,24 @@ export default {
       this.$emit("update:address", this.address);
       this.dialog = false;
       this.key += 1;
+    },
+    close() {
+      this.key += 1;
+      this.dialog = false;
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .vue-daum-postcode-container {
   width: 100% !important;
   height: 444px !important;
+}
+.address-close-btn {
+  float:right;
+  color:aliceblue !important;
+  background-color: black;
+  z-index: 1;
 }
 </style>

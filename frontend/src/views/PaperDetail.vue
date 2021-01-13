@@ -419,6 +419,10 @@
         <v-row no-gutters>
           <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
         </v-row>
+        <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
+        <v-row justify="center">
+          <img class="img" :src="expert.profile.expert_profile.garantee_insurance" aspect-ratio="1" />
+        </v-row>
       </template>
     </template>
   </v-container>

@@ -41,7 +41,6 @@ module.exports = {
   css: {
       extract: {
         filename: 'bundle.css',
-        //chunkFilename: 'bundle.css',
       },
   }
 };
