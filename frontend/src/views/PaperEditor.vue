@@ -2,6 +2,9 @@
   <ValidationObserver ref="obs">
     <v-container>
       <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
+      <v-btn class="float_right" dark @click="getPaperList()">
+        {{ $t("paper") + ' ' + $t("load") }}
+      </v-btn>
       <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', trade_category)} ${$t('contract')}` }}</div>
       <v-progress-linear
         v-if="is_expert"
@@ -29,7 +32,7 @@
               {{$getConstI18("TRADE_CATEGORY", item.trade_category)}}
             </template>
             <template v-slot:[`item.select`]="{ item }">
-              <v-btn class="primary" @click="loadPaper(item)"> {{$t("select")}} </v-btn>
+              <v-btn dark @click="loadPaper(item)"> {{$t("select")}} </v-btn>
             </template>
           </v-data-table>
         </v-dialog>
@@ -75,9 +78,6 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-        <v-btn class="success float_right" @click="getPaperList()">
-          {{ $t("paper") + ' ' + $t("load") }}
-        </v-btn>
         <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
         <v-row>
           <v-col cols="8">

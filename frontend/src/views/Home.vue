@@ -69,7 +69,7 @@
         </v-row>
         <v-card-actions>
           <v-btn
-            color="green"
+            color="red"
             dark
             @click="menu = false"
           >
@@ -77,7 +77,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            color="primary"
+            dark
             @click="getPapersWithOptions(); menu=false;">
             <v-icon>search</v-icon>
             {{ $t('search') }}

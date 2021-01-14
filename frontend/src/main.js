@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueSignaturePad from 'vue-signature-pad';
-import VueDaumPostcode from "vue-daum-postcode"
 import App from "./App";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
@@ -18,7 +17,6 @@ Vue.component('LazyTextArea', LazyTextArea)
 Vue.component('LazyTextField', LazyTextField)
 Vue.use(getSafe);
 Vue.use(Constants);
-Vue.use(VueDaumPostcode);
 Vue.use(VueSignaturePad);
 Vue.config.productionTip = false;
 
