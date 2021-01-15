@@ -23,7 +23,6 @@ class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
         fields = ["name", 'username', 'is_expert']
 
 class ApproveExpertSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
     birthday = serializers.SerializerMethodField()
@@ -42,9 +41,6 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
 
     def get_birthday(self, obj):
         return obj.profile.user.birthday
-
-    def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class BasicCustomUserSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()

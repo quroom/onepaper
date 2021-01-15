@@ -626,7 +626,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.data['results'][0]['address']['old_address'], '광주 광산구 명도동')
         self.assertEqual(response.data['results'][0]['user']['username'], 'test')
         self.assertEqual(response.data['results'][0]['user']['name'], '김#영')
-                response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": ""})
+        response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": ""})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['detail'].message, _("성함, 연락처 모두 입력해야 합니다."))
 
@@ -707,26 +707,47 @@ class CustomUserTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["birthday"], "1955-01-01")
 
-    def test_user_update_with_profile(self):
-        self.create_profile()
+    def test_user_update_with_paper(self):
+        response = self.create_profile()
+        data = {
+            "address": {
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
+            },
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [0, 1, 2],
+            "paper_contractors": [
+                {"profile": response.data['id'], "paper": None, "group": "0"},
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "to_date": "2020-11-30",
+            "trade_category": 1,
+        }
+        self.client.post(reverse("papers-list"), data=data, format="json")
+
         data = {
             "birthday": "1955-01-01"
         }
         response = self.client.put(
-            reverse("user-detail", kwargs={"pk": 1}), data)
+            reverse("user-detail", kwargs={"pk": response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("프로필이 존재하는 경우 회원 정보를 수정할 수 없습니다."))
-
-    def test_user_delete(self):
-        data = {
-            "username": "test",
-            "name": "김주영",
-            "email": "test@naver.com"
-        }
-        response = self.client.delete(
-            reverse("user-detail", kwargs={"pk": 1}), data)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(response.data['user_delete'], _("탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."))
+        self.assertEqual(response.data["detail"].message, _("계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."))
 
     def test_user_delete_with_profile(self):
         self.create_profile()
@@ -737,6 +758,49 @@ class CustomUserTestCase(APITestCase):
         }
         response = self.client.delete(
             reverse("user-detail", kwargs={"pk": 1}), data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['user_delete'], _("탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."))
+
+    def test_user_delete_with_paper(self):
+        response = self.create_profile()
+        data = {
+            "address": {
+                "old_address": '광주 광산구 명도동 169',
+                "new_address": '광주광역시 광산구 가마길 2-21',
+                "sigunguCd": '29170',
+                "bjdongCd": '29170',
+                "platGbCd": '',
+                "bun":'973',
+                "ji":'17',
+                "dong":'',
+                "ho":'2층',
+            },
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [0, 1, 2],
+            "paper_contractors": [
+                {"profile": response.data['id'], "paper": None, "group": "0"},
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "to_date": "2020-11-30",
+            "trade_category": 1,
+        }
+        self.client.post(reverse("papers-list"), data=data, format="json")
+        data = {
+            "username": "test",
+            "name": "김주영",
+            "email": "test@naver.com"
+        }
+        response = self.client.delete(
+            reverse("user-detail", kwargs={"pk": response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['user_delete'], _("탈퇴처리 되었습니다."))
 
