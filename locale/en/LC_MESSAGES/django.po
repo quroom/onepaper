@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 12:38+0900\n"
+"POT-Creation-Date: 2021-01-14 15:27+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,510 +17,549 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\onepaper\settings.py:139
+#: .\onepaper\settings.py:141
 msgid "Korean"
 msgstr ""
 
-#: .\onepaper\settings.py:140
+#: .\onepaper\settings.py:142
 msgid "English"
 msgstr ""
 
-#: .\papers\models.py:16
-msgid "작성중"
-msgstr ""
-
 #: .\papers\models.py:17
-msgid "서명중"
+msgid "요청중"
 msgstr ""
 
 #: .\papers\models.py:18
+msgid "작성중"
+msgstr ""
+
+#: .\papers\models.py:19
+msgid "서명중"
+msgstr ""
+
+#: .\papers\models.py:20
 msgid "완료"
 msgstr ""
 
-#: .\papers\models.py:32 .\papers\models.py:214
+#: .\papers\models.py:34 .\papers\models.py:221
 msgid "대"
 msgstr ""
 
-#: .\papers\models.py:33 .\papers\models.py:49 .\papers\models.py:210
-#: .\papers\models.py:227
+#: .\papers\models.py:35 .\papers\models.py:51 .\papers\models.py:217
+#: .\papers\models.py:234
 msgid "기타"
 msgstr ""
 
-#: .\papers\models.py:45 .\papers\models.py:223
+#: .\papers\models.py:47 .\papers\models.py:230
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:46 .\papers\models.py:224
+#: .\papers\models.py:48 .\papers\models.py:231
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:47 .\papers\models.py:188 .\papers\models.py:225
+#: .\papers\models.py:49 .\papers\models.py:195 .\papers\models.py:232
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:48 .\papers\models.py:226
+#: .\papers\models.py:50 .\papers\models.py:233
 msgid "아파트"
 msgstr ""
 
-#: .\papers\models.py:58
+#: .\papers\models.py:60
 msgid "월세"
 msgstr ""
 
-#: .\papers\models.py:59
+#: .\papers\models.py:61
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:60 .\papers\models.py:190
+#: .\papers\models.py:62 .\papers\models.py:197
 msgid "매매"
 msgstr ""
 
-#: .\papers\models.py:61
+#: .\papers\models.py:63
 msgid "교환"
 msgstr ""
 
-#: .\papers\models.py:78
+#: .\papers\models.py:80
 msgid "티비"
 msgstr ""
 
-#: .\papers\models.py:79
+#: .\papers\models.py:81
 msgid "냉장고"
 msgstr ""
 
-#: .\papers\models.py:80
+#: .\papers\models.py:82
 msgid "세탁기"
 msgstr ""
 
-#: .\papers\models.py:81
+#: .\papers\models.py:83
 msgid "에어컨"
 msgstr ""
 
-#: .\papers\models.py:82
+#: .\papers\models.py:84
 msgid "침대"
 msgstr ""
 
-#: .\papers\models.py:83
+#: .\papers\models.py:85
 msgid "책상"
 msgstr ""
 
-#: .\papers\models.py:84
+#: .\papers\models.py:86
 msgid "옷장"
 msgstr ""
 
-#: .\papers\models.py:85
+#: .\papers\models.py:87
 msgid "신발장"
 msgstr ""
 
-#: .\papers\models.py:86
+#: .\papers\models.py:88
 msgid "가스렌지"
 msgstr ""
 
-#: .\papers\models.py:87
+#: .\papers\models.py:89
 msgid "전자렌지"
 msgstr ""
 
-#: .\papers\models.py:88
+#: .\papers\models.py:90
 msgid "도어락"
 msgstr ""
 
-#: .\papers\models.py:89
+#: .\papers\models.py:91
 msgid "비데"
 msgstr ""
 
-#: .\papers\models.py:90
+#: .\papers\models.py:92
 msgid "추가물품"
 msgstr ""
 
-#: .\papers\models.py:137
+#: .\papers\models.py:139
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:138
+#: .\papers\models.py:140
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:141
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\models.py:189
+#: .\papers\models.py:196
 msgid "공동주택"
 msgstr ""
 
-#: .\papers\models.py:191
+#: .\papers\models.py:198
 msgid "임대"
 msgstr ""
 
-#: .\papers\models.py:203
+#: .\papers\models.py:210
 msgid "등기권리증"
 msgstr ""
 
-#: .\papers\models.py:204
+#: .\papers\models.py:211
 msgid "등기사항증명서"
 msgstr ""
 
-#: .\papers\models.py:205
+#: .\papers\models.py:212
 msgid "토지대장"
 msgstr ""
 
-#: .\papers\models.py:206
+#: .\papers\models.py:213
 msgid "건축물대장"
 msgstr ""
 
-#: .\papers\models.py:207
+#: .\papers\models.py:214
 msgid "지적도"
 msgstr ""
 
-#: .\papers\models.py:208
+#: .\papers\models.py:215
 msgid "임야도"
 msgstr ""
 
-#: .\papers\models.py:209
+#: .\papers\models.py:216
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: .\papers\models.py:235
+#: .\papers\models.py:242
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:236
+#: .\papers\models.py:243
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:237
+#: .\papers\models.py:244
 msgid "단기민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:238
+#: .\papers\models.py:245
 msgid "해당사항없음"
 msgstr ""
 
-#: .\papers\models.py:245
+#: .\papers\models.py:252
 msgid "토기투기지역"
 msgstr ""
 
-#: .\papers\models.py:246
+#: .\papers\models.py:253
 msgid "주택투기지역"
 msgstr ""
 
-#: .\papers\models.py:247
+#: .\papers\models.py:254
 msgid "투기과열지구"
 msgstr ""
 
-#: .\papers\models.py:255
+#: .\papers\models.py:262
 msgid "없음"
 msgstr ""
 
-#: .\papers\models.py:256
+#: .\papers\models.py:263
 msgid "전용주차시설"
 msgstr ""
 
-#: .\papers\models.py:257
+#: .\papers\models.py:264
 msgid "공동주차시설"
 msgstr ""
 
-#: .\papers\models.py:258
+#: .\papers\models.py:265
 msgid "그밖의주차시설"
 msgstr ""
 
-#: .\papers\models.py:265
+#: .\papers\models.py:272
 msgid "위탁관리"
 msgstr ""
 
-#: .\papers\models.py:266
+#: .\papers\models.py:273
 msgid "자체관리"
 msgstr ""
 
-#: .\papers\models.py:267
+#: .\papers\models.py:274
 msgid "그밖의유형"
 msgstr ""
 
-#: .\papers\models.py:273
+#: .\papers\models.py:280
 msgid "중앙공급"
 msgstr ""
 
-#: .\papers\models.py:274
+#: .\papers\models.py:281
 msgid "개별공급"
 msgstr ""
 
-#: .\papers\models.py:282
+#: .\papers\models.py:289
 msgid "가스"
 msgstr ""
 
-#: .\papers\models.py:283
+#: .\papers\models.py:290
 msgid "기름"
 msgstr ""
 
-#: .\papers\models.py:284
+#: .\papers\models.py:291
 msgid "프로판가스"
 msgstr ""
 
-#: .\papers\models.py:285
+#: .\papers\models.py:292
 msgid "연탄"
 msgstr ""
 
-#: .\papers\models.py:286
+#: .\papers\models.py:293
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\models.py:299
-msgid "land_area"
-msgstr "land_area"
-
-#: .\papers\serializers.py:189
+#: .\papers\serializers.py:210 .\papers\tests.py:339
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:194
-msgid ""
-"프로필 사용 동의 목록에 작성자를 추가하지 않은 프로필은 사용할 수 없습니다."
-msgstr ""
-
-#: .\papers\serializers.py:199
+#: .\papers\serializers.py:222 .\papers\tests.py:466
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:206
+#: .\papers\serializers.py:229 .\papers\tests.py:514
 msgid "공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:212
-msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
-msgstr ""
-
-#: .\papers\serializers.py:216
+#: .\papers\serializers.py:235 .\papers\tests.py:591
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:221 .\papers\serializers.py:222
-#: .\papers\serializers.py:223 .\papers\serializers.py:227
-#: .\papers\serializers.py:228
+#: .\papers\serializers.py:239 .\papers\tests.py:553
+msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
+msgstr ""
+
+#: .\papers\serializers.py:243 .\papers\serializers.py:244
+#: .\papers\tests.py:300 .\papers\tests.py:301
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\views.py:30 .\papers\views.py:168
-msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
+#: .\papers\tests.py:430 .\papers\views.py:25
+msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\views.py:37 .\papers\views.py:175
-msgid "이미 서명이 등록되어있습니다."
+#: .\papers\tests.py:726 .\papers\views.py:158
+msgid "완료된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:54 .\papers\views.py:189
-msgid "완료된 계약서의 서명은 수정할 수 없습니다."
-msgstr ""
-
-#: .\papers\views.py:69
-msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
-msgstr ""
-
-#: .\papers\views.py:71
-msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
-msgstr ""
-
-#: .\papers\views.py:129
-msgid "완료된 계약서를 수정 할 수 없습니다."
-msgstr ""
-
-#: .\papers\views.py:132 .\papers\views.py:152
-msgid "최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."
-msgstr ""
-
-#: .\papers\views.py:149
+#: .\papers\tests.py:800 .\papers\views.py:183
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
+#: .\papers\tests.py:1176 .\papers\tests.py:1265 .\papers\views.py:49
+#: .\papers\views.py:208
+msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
+msgstr ""
+
+#: .\papers\tests.py:1186 .\papers\tests.py:1275 .\papers\views.py:56
+#: .\papers\views.py:215
+msgid "이미 서명이 등록되어있습니다."
+msgstr ""
+
+#: .\papers\tests.py:1218 .\papers\tests.py:1307 .\papers\views.py:73
+#: .\papers\views.py:229
+msgid "완료된 계약서의 서명은 수정할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:88
+msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
+msgstr ""
+
+#: .\papers\views.py:90
+msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:166
+msgid "최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."
+msgstr ""
+
+#: .\papers\views.py:191
+msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
+msgstr ""
+
 #: .\profiles\forms.py:16
+msgid "이용약관 동의"
+msgstr ""
+
+#: .\profiles\forms.py:17
+msgid "개인정보 처리방침 동의"
+msgstr ""
+
+#: .\profiles\forms.py:18
 msgid "이름"
 msgstr "FullName"
 
-#: .\profiles\forms.py:17
+#: .\profiles\forms.py:19
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:18
+#: .\profiles\forms.py:20
 msgid "휴대폰 번호"
 msgstr ""
 
-#: .\profiles\forms.py:19
+#: .\profiles\forms.py:21
 msgid "은행명"
 msgstr ""
 
-#: .\profiles\forms.py:20
+#: .\profiles\forms.py:22
 msgid "계좌번호"
 msgstr ""
 
-#: .\profiles\forms.py:21
+#: .\profiles\forms.py:23
 msgid "주소"
 msgstr ""
 
-#: .\profiles\forms.py:28
+#: .\profiles\forms.py:30
 msgid "동"
 msgstr ""
 
-#: .\profiles\forms.py:29
+#: .\profiles\forms.py:31
 msgid "호"
 msgstr ""
 
-#: .\profiles\forms.py:34
+#: .\profiles\forms.py:36
 msgid "아이디"
 msgstr "User ID"
 
-#: .\profiles\forms.py:74
+#: .\profiles\forms.py:76
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
-#: .\profiles\forms.py:75
+#: .\profiles\forms.py:77
 msgid "등록번호"
 msgstr ""
 
-#: .\profiles\forms.py:76
+#: .\profiles\forms.py:78
 msgid "상호명"
 msgstr ""
 
-#: .\profiles\forms.py:77
+#: .\profiles\forms.py:79
 msgid "중개사 등록증"
 msgstr ""
 
-#: .\profiles\forms.py:78
+#: .\profiles\forms.py:80
 msgid "중개사 자격증"
 msgstr ""
 
-#: .\profiles\forms.py:79
+#: .\profiles\forms.py:81
 msgid "인장"
 msgstr ""
 
-#: .\profiles\forms.py:80
+#: .\profiles\forms.py:82
 msgid "보증서류"
 msgstr ""
 
-#: .\profiles\forms.py:81
+#: .\profiles\forms.py:83
 msgid "사무실 주소"
 msgstr ""
 
-#: .\profiles\models.py:59
+#: .\profiles\models.py:68
 msgid "요청"
 msgstr ""
 
-#: .\profiles\models.py:60
+#: .\profiles\models.py:69
 msgid "승인"
 msgstr ""
 
-#: .\profiles\models.py:61
+#: .\profiles\models.py:70
 msgid "거부"
 msgstr ""
 
-#: .\profiles\models.py:62
+#: .\profiles\models.py:71
 msgid "폐업"
 msgstr ""
 
-#: .\profiles\serializers.py:257
+#: .\profiles\serializers.py:271
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr ""
 
-#: .\profiles\serializers.py:263
+#: .\profiles\serializers.py:277
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:268 .\profiles\serializers.py:269
+#: .\profiles\serializers.py:282 .\profiles\serializers.py:283
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:274
+#: .\profiles\serializers.py:288
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr ""
 
-#: .\profiles\serializers.py:277
+#: .\profiles\serializers.py:291
 msgid "위임인만 서명이 가능합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:280
+#: .\profiles\serializers.py:294
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:282
+#: .\profiles\serializers.py:296
 msgid "사용자가 존재하지 않습니다."
 msgstr ""
 
-#: .\profiles\views.py:50
+#: .\profiles\tests.py:89 .\profiles\views.py:48
 msgid "자기 자신의 아이디는 추가할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:55
+#: .\profiles\tests.py:94 .\profiles\views.py:53
 msgid "회원 아이디가 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:60
+#: .\profiles\tests.py:99 .\profiles\views.py:58
 msgid "이름이 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\views.py:62
+#: .\profiles\tests.py:113 .\profiles\views.py:60
 msgid "이미 추가된 회원입니다."
 msgstr ""
 
-#: .\profiles\views.py:77
-msgid "일치하는 회원이 없습니다."
+#: .\profiles\tests.py:124 .\profiles\views.py:74
+msgid "자신의 아이디는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:97 .\profiles\views.py:116
+#: .\profiles\tests.py:129 .\profiles\tests.py:138 .\profiles\views.py:79
+msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
+msgstr ""
+
+#: .\profiles\tests.py:294 .\profiles\views.py:146
+msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
+msgstr ""
+
+#: .\profiles\tests.py:350 .\profiles\tests.py:356 .\profiles\views.py:99
+#: .\profiles\views.py:118
 msgid "전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\views.py:102
+#: .\profiles\tests.py:353 .\profiles\views.py:104
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\views.py:142
+#: .\profiles\tests.py:508 .\profiles\views.py:172
+msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+msgstr ""
+
+#: .\profiles\tests.py:551 .\profiles\views.py:149
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:145
+#: .\profiles\tests.py:587 .\profiles\views.py:152
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:165
-msgid "작성한 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
-msgstr ""
-
-#: .\profiles\views.py:168
+#: .\profiles\tests.py:619 .\profiles\views.py:175
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:194
+#: .\profiles\tests.py:631 .\profiles\views.py:291
+msgid "성함, 연락처 모두 입력해야 합니다."
+msgstr ""
+
+#: .\profiles\tests.py:718 .\profiles\views.py:201
 msgid "프로필이 존재하는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:211
-msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
-msgstr ""
-
-#: .\profiles\views.py:213
-msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
-msgstr ""
-
-#: .\profiles\views.py:217
-msgid "탈퇴처리 되었습니다."
-msgstr ""
-
-#: .\profiles\views.py:220
+#: .\profiles\tests.py:729 .\profiles\views.py:227
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 
-#: .\profiles\views.py:257
+#: .\profiles\tests.py:741 .\profiles\views.py:224
+msgid "탈퇴처리 되었습니다."
+msgstr ""
+
+#: .\profiles\tests.py:751 .\profiles\views.py:220
+msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
+msgstr ""
+
+#: .\profiles\tests.py:762 .\profiles\views.py:218
+msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
+msgstr ""
+
+#: .\profiles\tests.py:871 .\profiles\tests.py:904 .\profiles\views.py:263
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:274
+#: .\profiles\tests.py:919 .\profiles\views.py:280
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
 #: .\templates\django_registration\registration_form.html:6
-#: .\templates\django_registration\registration_form.html:57
+#: .\templates\django_registration\registration_form.html:83
 msgid "Create Account"
 msgstr ""
 
-#: .\templates\django_registration\registration_form.html:59
+#: .\templates\django_registration\registration_form.html:9
+msgid "terms_service_text"
+msgstr ""
+
+#: .\templates\django_registration\registration_form.html:10
+msgid "personal_info_text"
+msgstr ""
+
+#: .\templates\django_registration\registration_form.html:13
+msgid "확인"
+msgstr ""
+
+#: .\templates\django_registration\registration_form.html:85
 #: .\templates\registration\login.html:6 .\templates\registration\login.html:11
+#: .\templates\registration\password_reset_complete.html:9
 msgid "Log in"
 msgstr ""
 
@@ -532,37 +571,43 @@ msgstr ""
 msgid "중개사회원 가입"
 msgstr ""
 
+#: .\templates\registration\login.html:16
+#: .\templates\registration\password_reset_complete.html:6
+#: .\templates\registration\password_reset_form.html:6
+msgid "Password reset"
+msgstr ""
+
 #: .\templates\registration\password_change_done.html:8
 msgid "Your password was changed."
 msgstr ""
 
+#: .\templates\registration\password_change_done.html:9
+msgid "Home"
+msgstr ""
+
 #: .\templates\registration\password_change_form.html:6
-#: .\templates\registration\password_reset_form.html:6
 msgid "Password change"
 msgstr ""
 
 #: .\templates\registration\password_change_form.html:8
-#: .\templates\registration\password_reset_confirm.html:8
-#: .\templates\registration\password_reset_form.html:8
 msgid ""
 "Please enter your old password, for security’s sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
 
 #: .\templates\registration\password_change_form.html:12
-msgid "Reset my password"
-msgstr ""
-
-#: .\templates\registration\password_reset_complete.html:6
-msgid "Password reset"
+#: .\templates\registration\password_reset_confirm.html:12
+msgid "Change my password"
 msgstr ""
 
 #: .\templates\registration\password_reset_complete.html:8
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
 
-#: .\templates\registration\password_reset_confirm.html:12
-msgid "Change my password"
+#: .\templates\registration\password_reset_confirm.html:8
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
 msgstr ""
 
 #: .\templates\registration\password_reset_done.html:8
@@ -576,6 +621,19 @@ msgid ""
 "If you don’t receive an email, please make sure you’ve entered the address "
 "you registered with, and check your spam folder."
 msgstr ""
+
+#: .\templates\registration\password_reset_form.html:8
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:12
+msgid "Reset my password"
+msgstr ""
+
+#~ msgid "land_area"
+#~ msgstr "land_area"
 
 #~ msgid "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
 #~ msgstr ""
