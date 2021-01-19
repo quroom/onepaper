@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-16 05:08+0900\n"
+"POT-Creation-Date: 2021-01-18 14:40+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\onepaper\settings.py:142
+#: .\onepaper\settings.py:133
 msgid "Korean"
-msgstr ""
+msgstr "한국어"
 
-#: .\onepaper\settings.py:143
+#: .\onepaper\settings.py:134
 msgid "English"
-msgstr ""
+msgstr "영어"
 
 #: .\papers\models.py:17
 msgid "요청중"
@@ -542,37 +542,46 @@ msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
 #: .\templates\registration\activate.html:5
-msgid "Activation Failure"
-msgstr ""
-
 #: .\templates\registration\activate.html:8
+msgid "Activation Failure"
+msgstr "활성화 실패"
+
+#: .\templates\registration\activate.html:9
 msgid "Account activation failed."
-msgstr ""
+msgstr "계정 활성화 실패"
 
 #: .\templates\registration\activation_complete.html:5
+#: .\templates\registration\activation_complete.html:8
 #: .\templates\registration\activation_complete_admin_pending.html:5
+#: .\templates\registration\activation_complete_admin_pending.html:8
 msgid "Account Activated"
-msgstr ""
+msgstr "계정 활성화됨"
 
-#: .\templates\registration\activation_complete.html:9
-#: .\templates\registration\activation_complete_admin_pending.html:9
+#: .\templates\registration\activation_complete.html:10
+#: .\templates\registration\activation_complete_admin_pending.html:10
 msgid "Your account is now activated."
-msgstr ""
+msgstr "당신의 계정이 활성화 되었습니다."
 
-#: .\templates\registration\activation_complete.html:11
+#: .\templates\registration\activation_complete.html:12
 msgid "You can log in."
-msgstr ""
+msgstr "로그인 할 수 있습니다."
 
-#: .\templates\registration\activation_complete_admin_pending.html:11
+#: .\templates\registration\activation_complete.html:14
+#: .\templates\registration\login.html:6 .\templates\registration\login.html:11
+#: .\templates\registration\password_reset_complete.html:8
+#: .\templates\registration\registration_form.html:85
+msgid "Log in"
+msgstr "로그인"
+
+#: .\templates\registration\activation_complete_admin_pending.html:12
 msgid "Once a site administrator activates your account you can login."
-msgstr ""
+msgstr "사이트 관리자가 당신의 계정을 활성화해야 로그인할 수 있습니다."
 
-#: .\templates\registration\activation_email.html:8
+#: .\templates\registration\activation_email.html:6
 msgid "registration"
-msgstr ""
+msgstr "등록"
 
-#: .\templates\registration\activation_email.html:13
-#, python-format
+#: .\templates\registration\activation_email.html:11
 msgid ""
 "\n"
 "    You (or someone pretending to be you) have asked to register an account "
@@ -581,9 +590,13 @@ msgid ""
 "    and your address will be removed from our records.\n"
 "    "
 msgstr ""
+"\n"
+"    %(site_name)s에 당신(또는 당신을 가장한 사람)으로부터 계정 등록이 요청되"
+"었습니다.\n"
+"    당신이 아니라면 이메일을 무시해주세요.\n"
+"    당신의 계정은 데이터베이스로부터 삭제될 예정입니다.\n"
 
-#: .\templates\registration\activation_email.html:20
-#, python-format
+#: .\templates\registration\activation_email.html:18
 msgid ""
 "\n"
 "    To activate this account, please click the following link within the "
@@ -591,100 +604,124 @@ msgid ""
 "    %(expiration_days)s days:\n"
 "    "
 msgstr ""
+"\n"
+"    계정을 활성화하기 위해서, %(expiration_days)s일 내로 다음의 링크를 클릭"
+"해주세요.\n"
 
-#: .\templates\registration\activation_email.html:32
-#, python-format
+#: .\templates\registration\activation_email.html:26
+msgid "Account activation on"
+msgstr "계정 활성화"
+
+#: .\templates\registration\activation_email.html:30
 msgid ""
 "\n"
 "    Sincerely,\n"
 "    %(site_name)s Management\n"
 "    "
 msgstr ""
+"\n"
+"    감사합니다,\n"
+"    %(site_name)s의 관리자\n"
+
+#: .\templates\registration\activation_email_subject.txt:2
+msgid "Send Activation Email"
+msgstr "활성화 이메일 전송"
 
 #: .\templates\registration\admin_approve.html:5
-msgid "Approval Failure"
-msgstr ""
-
 #: .\templates\registration\admin_approve.html:8
+msgid "Approval Failure"
+msgstr "승인 실패"
+
+#: .\templates\registration\admin_approve.html:9
 msgid "Account Approval failed."
-msgstr ""
+msgstr "계정 승인 실패"
 
 #: .\templates\registration\admin_approve_complete.html:5
+#: .\templates\registration\admin_approve_complete.html:8
 msgid "Account Approved"
-msgstr ""
+msgstr "계정 승인"
 
-#: .\templates\registration\admin_approve_complete.html:9
+#: .\templates\registration\admin_approve_complete.html:10
 msgid "The user's account is now approved."
-msgstr ""
-
-#: .\templates\registration\login.html:6 .\templates\registration\login.html:11
-#: .\templates\registration\password_reset_complete.html:8
-#: .\templates\registration\registration_form.html:85
-msgid "Log in"
-msgstr ""
+msgstr "사용자의 계정이 승인되었습니다."
 
 #: .\templates\registration\login.html:14
-msgid "개인회원 가입"
-msgstr ""
+msgid "User Registration"
+msgstr "개인회원 가입"
 
 #: .\templates\registration\login.html:15
-msgid "중개사회원 가입"
-msgstr ""
+msgid "Agency Registration"
+msgstr "중개사회원 가입"
 
-#: .\templates\registration\login.html:16
+#: .\templates\registration\login.html:18
 #: .\templates\registration\password_reset_complete.html:6
 #: .\templates\registration\password_reset_form.html:6
 msgid "Password reset"
-msgstr ""
+msgstr "비밀번호 초기화"
+
+#: .\templates\registration\login.html:19
+#: .\templates\registration\registration_complete.html:10
+#: .\templates\registration\resend_activation_form.html:5
+#: .\templates\registration\resend_activation_form.html:8
+msgid "Resend Activation Email"
+msgstr "활성화 이메일 재전송"
 
 #: .\templates\registration\password_change_done.html:7
 msgid "Your password was changed."
-msgstr ""
+msgstr "당신의 비밀번호가 변경되었습니다."
 
 #: .\templates\registration\password_change_done.html:8
 msgid "Home"
-msgstr ""
+msgstr "홈"
 
 #: .\templates\registration\password_change_form.html:6
 msgid "Password change"
-msgstr ""
+msgstr "비밀번호 변경"
 
 #: .\templates\registration\password_change_form.html:8
 msgid ""
 "Please enter your old password, for security’s sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
+"독자의 과거 비밀번호를 입력한 후, 보안을 위해 새로운 비밀번호을 두 번 입력하"
+"여 옳은 입력인 지 확인할 수 있도록 하십시오."
 
 #: .\templates\registration\password_change_form.html:12
 #: .\templates\registration\password_reset_confirm.html:12
 msgid "Change my password"
-msgstr ""
+msgstr "비밀번호 변경"
 
 #: .\templates\registration\password_reset_complete.html:7
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
+msgstr "비밀번호가 설정되었습니다. 이제 로그인하세요."
 
 #: .\templates\registration\password_reset_confirm.html:8
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
+"새로운 비밀번호를 정확히 입력했는지 확인할 수 있도록 두 번 입력하시기 바랍니"
+"다."
 
 #: .\templates\registration\password_reset_done.html:7
 msgid ""
 "We’ve emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
 msgstr ""
+"계정이 존재한다면, 독자가 입력한 이메일로 비밀번호 설정 안내문을 발송했습니"
+"다. 곧 수신할 수 있을 것입니다. "
 
 #: .\templates\registration\password_reset_done.html:8
 msgid ""
 "If you don’t receive an email, please make sure you’ve entered the address "
 "you registered with, and check your spam folder."
 msgstr ""
+"만약 이메일을 받지 못하였다면, 등록하신 이메일을 다시 확인하시거나 스팸 메일"
+"함을 확인해주세요."
 
 #: .\templates\registration\password_reset_email.html:3
 msgid "Greetings"
-msgstr ""
+msgstr "안녕하세요"
 
 #: .\templates\registration\password_reset_email.html:5
 #, python-format
@@ -694,6 +731,10 @@ msgid ""
 "requested that your password be reset on the %(domain)s site. If you do not\n"
 "wish to reset your password, please ignore this message.\n"
 msgstr ""
+"\n"
+"본 이메일은 당신(또는 당신을 가장 한 사람)때문에 발송되었습니다.\n"
+"%(domain)s 사이트에서 암호를 재설정하도록 요청했습니다.\n"
+"당신의 비밀번호를 초기화하길 원하지 않으면, 이 메시지를 무시하십시오.\n"
 
 #: .\templates\registration\password_reset_email.html:11
 msgid ""
@@ -702,44 +743,51 @@ msgid ""
 "it\n"
 "into your web browser:\n"
 msgstr ""
+"\n"
+"당신의 비밀번호를 초기화하기 위해서, 다음 링크를 클릭하거나 복사하여 당신의 "
+"브라우저에 붙여넣어주세요.\n"
 
 #: .\templates\registration\password_reset_email.html:20
 msgid "Your username, in case you've forgotten:"
-msgstr ""
+msgstr "사용자 아이디(잊어버린 경우):"
 
 #: .\templates\registration\password_reset_email.html:23
 msgid "Best regards"
-msgstr ""
+msgstr "감사합니다"
 
 #: .\templates\registration\password_reset_email.html:24
 msgid "Management"
-msgstr ""
+msgstr "관리자"
 
 #: .\templates\registration\password_reset_form.html:8
 msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
 msgstr ""
+"    비밀번호를 잃어버리셨나요? 아래 양식에 이메일을 입력해주세요.새로운 비밀"
+"번호를 설정하는 절차를 이메일로 보내드리겠습니다."
 
 #: .\templates\registration\password_reset_form.html:12
 msgid "Reset my password"
-msgstr ""
+msgstr "비밀번호 초기화"
 
 #: .\templates\registration\registration_closed.html:5
-msgid "Registration is closed"
-msgstr ""
-
 #: .\templates\registration\registration_closed.html:8
+msgid "Registration is closed"
+msgstr "등록이 마감되었습니다"
+
+#: .\templates\registration\registration_closed.html:9
 msgid "Sorry, but registration is closed at this moment. Come back later."
-msgstr ""
+msgstr "죄송합니다. 등록이 마감되었습니다. 나중에 다시오세요."
 
 #: .\templates\registration\registration_complete.html:5
-msgid "Activation email sent"
-msgstr ""
-
 #: .\templates\registration\registration_complete.html:8
+msgid "Activation email sent"
+msgstr "활성화 이메일 전송"
+
+#: .\templates\registration\registration_complete.html:9
 msgid "Please check your email to complete the registration process."
-msgstr ""
+msgstr "등록을 완료하기 위해 당신의 메일을 확인해주세요."
 
 #: .\templates\registration\registration_form.html:6
 #: .\templates\registration\registration_form.html:83
@@ -1067,16 +1115,89 @@ msgstr ""
 #: .\templates\registration\registration_form.html:10
 msgid "personal_info_text"
 msgstr ""
+" ㈜큐룸(은)는 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호"
+"하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음"
+"과 같이 개인정보 처리지침을 수립․공개합니다. \n"
+"1. 개인정보의 처리목적 ㈜큐룸은(는) 다음의 목적을 위하여 개인정보를 처리하고 "
+"있으며, 다음의 목적 이외의 용도로는 이용하지 않습니다. \n"
+"   - 고객 가입의사 확인, 고객에 대한 서비스 제공에 따른 본인 식별․인증, 회원"
+"자격 유지․관리, 물품 또는 서비스 공급에 따른 금액 결제, 물품 또는 서비스의 공"
+"급․배송 등\n"
+"2. 개인정보의 처리 및 보유기간 ① ㈜큐룸은(는) 정보주체로부터 개인정보를 수집"
+"할 때 동의받은 개인정보 보유․이용기간 또는 법령에 따른 개인정보 보유․이용기"
+"간 내에서 개인정보를 처리․보유합니다. \n"
+"   ② 구체적인 개인정보 처리 및 보유 기간은 다음과 같습니다. \n"
+"    - 고객 가입 및 관리 : 서비스 이용계약 또는 회원가입 해지시까지, 다만 채"
+"권․채무관계 성립시에는 준영구 보관.\n"
+"    - 전자상거래에서의 계약․청약철회, 대금결제, 재화 등 공급기록 : 5년 \n"
+"3. 개인정보의 제3자 제공 ㈜큐룸은(는) 정보주체의 별도 동의, 법률의 특별한 규"
+"정 등 개인정보 보호법 제17조에 해당하는 경우 외에는 개인정보를 제3자에게 제공"
+"하지 않습니다. \n"
+"4. 개인정보처리의 위탁 ① ㈜큐룸은(는) 원활한 개인정보 업무처리를 위하여 다음"
+"과 같이 개인정보 처리업무를 외부에 위탁하고 있습니다. \n"
+"    - 향후 추가 예정\n"
+"   ② ㈜큐룸은(는) 위탁계약 체결시 개인정보 보호법 제25조에 따라 위탁업무 수행"
+"목적 외 개인정보 처리금지, 재위탁 제한, 수탁자에 대한 관리․감독, 책임에 관한 "
+"사항을 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있"
+"습니다. \n"
+"5. 정보주체와 법정대리인의 권리․의무 및 행사방법 정보주체는 ㈜큐룸에 대해 언"
+"제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다. \n"
+"    1. 개인정보 열람요구\n"
+"    2. 개인정보에 오류 등이 있을 경우 정정 요구 \n"
+"    3. 삭제요구 \n"
+"    4. 처리정지 요구  \n"
+" 6. 처리하는 개인정보 항목 ㈜큐룸은(는) 다음의 개인정보 항목을 처리하고 있습"
+"니다. \n"
+"   - 일반회원의 경우 성명, 생년월일, 주소, 전화번호, 휴대전화번호, 로그인ID, "
+"이메일주소, 비밀번호, 은행계좌정보 등\n"
+"   - 전문가(중개사) 회원의 경우 등록번호, 상호명, 중개사 등록증, 중개사 자격"
+"증, 인장, 보증서류 등\n"
+" 7. 개인정보의 파기 ① ㈜큐룸은(는) 개인정보 보유기간의 경과, 처리목적 달성 "
+"등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니"
+"다. \n"
+"   ② ㈜큐룸은(는) 다음의 방법으로 개인정보를 파기합니다. \n"
+"      - 전자적 파일 : 파일 삭제 및 디스크 등 저장매체 포맷\n"
+"      - 수기(手記) 문서 : 분쇄하거나 소각 \n"
+" 8. 개인정보의 안전성 확보조치 ㈜큐룸은(는) 개인정보의 안전성 확보를 위해 다"
+"음과 같은 조치를 취하고 있습니다. \n"
+"    - 관리적 조치 : 내부관리계획 수립․시행, 직원․종업원 등에 대한 정기적 교"
+"육 \n"
+"    - 기술적 조치 : 개인정보처리시스템(또는 개인정보가 저장된 컴퓨터)의 비밀"
+"번호 설정 등 접근권한 관리, 백신소프트웨어 등 보안프로그램 설치, 개인정보가 "
+"저장된 파일의 암호화 \n"
+"    - 물리적 조치 : 개인정보가 저장․보관된 장소의 시건, 출입통제 등 \n"
+" 9. 개인정보 자동 수집 장치의 설치∙운영 및 거부에 관한 사항      \n"
+"   ① ㈜큐룸은(는) 이용자에게 개별적인 맞춤서비스를 제공하기 위해 이용정보를 "
+"저장하고 수시로 불러오는 ‘쿠기(cookie)’를 사용합니다.\n"
+"   ② 쿠키는 웹사이트를 운영하는데 이용되는 서버(http)가 이용자의 컴퓨터 브라"
+"우저에게 보내는 소량의 정보이며 이용자들의 PC 컴퓨터내의 하드디스크에 저장되"
+"기도 합니다.\n"
+"      가. 쿠키의 사용목적: 이용자가 방문한 각 서비스와 웹 사이트들에\n"
+"     대한 방문 및 이용형태, 인기 검색어, 보안접속 여부, 등을 파악하여\n"
+"      이용자에게 최적화된 정보 제공을 위해 사용됩니다.\n"
+"      나. 쿠키의 설치∙운영 및 거부 : 웹브라우저 상단의 도구>인터넷 옵션>개인"
+"정보 메뉴의 옵션 설정을 통해 쿠키 저장을 거부 할 수 있습니다.\n"
+"      다. 쿠키 저장을 거부할 경우 맞춤형 서비스 이용에 어려움이 발생할 수 있"
+"습니다.\n"
+" 10. 개인정보 보호책임자 ㈜큐룸은(는) 개인정보 처리에 관한 업무를 총괄해서 책"
+"임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제를 처리하기 위"
+"하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다. \n"
+"   ▶ 개인정보 보호책임자 (사업주 또는 대표자) \n"
+"       성명 : 김상은          직책 : 기술이사\n"
+"       연락처 : quroom1@naver.com\n"
+" 11. 개인정보 처리방침 변경 이 개인정보 처리방침은 2021. 1. 17.부터 적용됩니"
+"다."
 
 #: .\templates\registration\registration_form.html:13
 msgid "확인"
 msgstr ""
 
 #: .\templates\registration\resend_activation_complete.html:5
+#: .\templates\registration\resend_activation_complete.html:8
 msgid "Account Activation Resent"
 msgstr "활성화 이메일 재전송"
 
-#: .\templates\registration\resend_activation_complete.html:9
+#: .\templates\registration\resend_activation_complete.html:10
 #, python-format
 msgid ""
 "\n"
@@ -1086,11 +1207,6 @@ msgstr ""
 "\n"
 "  추가 절차가 포함 된 이메일을 %(email)s 로 보냈습니다.\n"
 "  "
-
-#: .\templates\registration\resend_activation_form.html:5
-#: .\templates\registration\resend_activation_form.html:8
-msgid "Resend Activation Email"
-msgstr "활성화 이메일 전송"
 
 #: .\templates\registration\resend_activation_form.html:13
 msgid "Submit"

@@ -69,7 +69,6 @@ const i18n = new VueI18n({
       etc: "ETC",
       error: "There is a request error",
       exact_correct_match: "Exactly Correct is Matched",
-      garantee_insurance: "Brokerage Garantee Insurance",
       general: "General",
       hide: "Hide",
       id: "ID",
@@ -167,6 +166,7 @@ const i18n = new VueI18n({
       shop_address: "Shop Address",
       registration_certificate: "Registration Certificate",
       agency_license: "Agency License",
+      garantee_insurance: "Brokerage Garantee Insurance",
 
       //Realestate basic message
       address: "Address",
