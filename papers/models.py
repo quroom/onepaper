@@ -101,7 +101,7 @@ class Paper(models.Model):
     land_category = models.PositiveSmallIntegerField(
         choices=LAND_CATEGORY, default=BUILDINGLAND)
     lot_area = models.FloatField(default=0, blank=True)
-    building_structure = models.CharField(max_length=20)
+    building_structure = models.CharField(max_length=20, blank=True)
     building_category = models.PositiveSmallIntegerField(
         choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
     building_area = models.FloatField(default=0, blank=True)

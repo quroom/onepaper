@@ -108,7 +108,7 @@
               <ValidationProvider
                 :ref="realestate_field.name"
                 :name="$t(realestate_field.name)"
-                rules="required"
+                :rules="`${realestate_field.required != false ? 'required' :''}`"
                 v-slot="{ errors }"
               >
                 <v-select
@@ -139,7 +139,7 @@
                   v-model="$data[''+realestate_field.name]"
                   :error-messages="errors"
                   :label="$t(realestate_field.name)"
-                  required
+                  :required="realestate_field.required != false"
                   :type="realestate_field.type"
                   :step="realestate_field.step"
                 >
@@ -644,7 +644,8 @@ export default {
           },
           {
             name: "building_structure",
-            tyep: "String"
+            tyep: "String",
+            required: false
           },
           {
             name: "building_category",

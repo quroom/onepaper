@@ -9,9 +9,21 @@ function renameKeys(obj, that) {
   return Object.fromEntries(keyValues);
 }
 
-function applyValidation(data, that, key, parent_key) {
+function getKeys(object) {
+  return Object
+      .entries(object)
+      .reduce((r, [k, v]) =>{
+          return r.concat(v && typeof v === 'object'
+              ? getKeys(v).map(sub => [k].concat(sub))
+              : v
+          )},
+          []
+      );
+}
+
+function applyValidation(data, that) {
   console.log(data)
-  var flag;
+  var flag = true;
   if(data.count==0){
     alert("조회된 데이터가 없습니다.")
     return true;
@@ -20,45 +32,36 @@ function applyValidation(data, that, key, parent_key) {
     alert(data["detail"]);
     return true;
   }
-  Object.keys(data).forEach(function(key2){
-    if(key2 != 0 ){
-      flag = applyValidation(data[key2], that, key2, key)
-    }
-  })
-  if(that != undefined){
-    if(parent_key != undefined){
-      if(that.$refs[parent_key] != undefined) {
-        if(that.$refs[parent_key].$refs[key] != undefined){
-          if(that.$refs[parent_key].$refs[key]._isVue){
-            const ref = that.$refs[parent_key].$refs[key].length == undefined ? that.$refs[parent_key].$refs[key] : that.$refs[parent_key].$refs[key][0];
-            if(ref.applyResult === undefined){
-              return true
-            }
+  var result = getKeys(data)
+  result.map(arr => {
+    console.log(arr)
+    const parent_key = arr[arr.length-3]
+    const vp_key = arr[arr.length-2]
+    const error_message = arr[arr.length-1]
+    if(that.$refs[vp_key]) {
+      const ref = that.$refs[vp_key].length == undefined ? that.$refs[vp_key] : that.$refs[vp_key][0];
+      if(ref._isVue) {
+        flag = false;
+        ref.applyResult({
+          errors: error_message,
+          valid: false,
+          failedRules: {}
+        });
+      }
+    } else {
+      if(parent_key && that.$refs[parent_key] && that.$refs[parent_key].$refs[vp_key]) {
+          const ref = that.$refs[parent_key].$refs[vp_key].length == undefined ? that.$refs[parent_key].$refs[vp_key] : that.$refs[parent_key].$refs[vp_key][0];
+          if(ref._isVue){
+            flag = false;
             ref.applyResult({
-              errors: data,
+              errors: error_message,
               valid: false,
               failedRules: {}
             });
           }
-        }
-      }
-    } else {
-      if(that.$refs[key] != undefined) {
-        if(that.$refs[key]._isVue){
-          const ref = that.$refs[key].length == undefined ? that.$refs[key] : that.$refs[key][0];
-          
-          if(ref.applyResult === undefined){
-            return true
-          }
-          ref.applyResult({
-            errors: data,
-            valid: false,
-            failedRules: {}
-          });
-        }
       }
     }
-  }
+  })
   if(flag == true){
     data = renameKeys(data, that)
     alert(JSON.stringify(data))
