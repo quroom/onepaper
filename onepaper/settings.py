@@ -1,5 +1,4 @@
 from django.utils.translation import ugettext_lazy as _
-
 """
 Django settings for onepaper project.
 
@@ -35,6 +34,7 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',"*").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,14 +45,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    'django_registration',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
 
     'crispy_forms',
     'phonenumber_field',
@@ -183,9 +175,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 # django.contrib.sites
 SITE_ID = 1
 
-# django.allauth
-ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_EMAIL_REQUIRED = (True)
+# django.registration.redux
+ACCOUNT_ACTIVATION_DAYS = 1 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 # Phonenumber Field setting
 PHONENUMBER_DB_FORMAT = "NATIONAL"
@@ -214,13 +206,14 @@ WEBPACK_LOADER = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'quroom1@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'default from email'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+if EMAIL_HOST_PASSWORD != '':
+    DEFAULT_FROM_EMAIL = 'Onepaper <no-reply@onepaper.biz>'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
 USE_S3 = bool( os.environ.get("USE_S3", False) )
 

@@ -6,13 +6,15 @@ from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from addresses.models import Address
 from profiles.models import CustomUser, ExpertProfile, Profile, AllowedUser
-from django_registration.forms import RegistrationFormUniqueEmail
+from registration.forms import RegistrationFormUniqueEmail
 from datetime import datetime
 
 date_range = 100
 this_year = datetime.now().year
 User = get_user_model()
 class CustomUserForm(RegistrationFormUniqueEmail):
+    terms_service = forms.BooleanField(label=_('이용약관 동의'))
+    personal_info = forms.BooleanField(label=_('개인정보 처리방침 동의'))
     name = forms.CharField(label=_('이름'), required=True, max_length=150)
     birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
@@ -34,8 +36,8 @@ class CustomUserForm(RegistrationFormUniqueEmail):
             'username': _('아이디')
         }
     @transaction.atomic
-    def save(self):
-        user = super(CustomUserForm, self).save()
+    def save(self, commit=True):
+        user = super(CustomUserForm, self).save(commit=commit)
         user.name = self.cleaned_data['name']
         user.birthday = self.cleaned_data['birthday']
         if self.cleaned_data.get('is_expert') == None:

@@ -1,7 +1,7 @@
 import datetime
 from django.db import transaction
 from django.http import JsonResponse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers

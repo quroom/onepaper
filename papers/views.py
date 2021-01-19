@@ -3,7 +3,7 @@ import django_filters
 from django.db import IntegrityError
 from django_filters import rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 

@@ -684,9 +684,22 @@ class CustomUserTestCase(APITestCase):
     def test_user_registration(self):
         data = {"username": "testcase", "email": "testcase@naver.com",
                 "password1": "some_strong_password", "password2": "some_strong_password",
-                "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False}
-        response = self.client.post("/api/dj-rest-auth/registration/", data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False,
+                "mobile_number": "010-1234-1234",
+                "address.old_address": '광주 광산구 명도동 169',
+                "address.new_address": '광주광역시 광산구 가마길 2-21',
+                "address.sigunguCd": '29170',
+                "address.bjdongCd": '29170',
+                "address.platGbCd": '',
+                "address.bun":'973',
+                "address.ji":'17',
+                "address.dong":'',
+                "address.ho":'2층',
+                "bank_name": "국민은행",
+                "account_number": "94334292963"}
+        response = self.client.post(reverse("registration_register"), data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.context['form'].is_valid())
 
     def test_customuser(self):
         response = self.client.get("/api/user/")

@@ -1,6 +1,6 @@
 {% extends "auth_layout.html" %}
-{% load i18n %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block auth %}
 <h2>{%trans "Log in" %}</h2>
@@ -11,9 +11,12 @@
         <button type="submit" class="btn btn-sm btn-outline-primary">{%trans "Log in" %}</button> Or
     </form>
     <p class="mt-4">
-        <a href="{% url 'django_registration_register' %}">{% trans '개인회원 가입' %}</a> | 
-        <a href="{% url 'django_expert_registration_register' %}">{% trans '중개사회원 가입' %}</a> |
-        <a href="{% url 'password_reset' %}">{% trans 'Password reset' %}</a>
+        <a href="{% url 'django_registration_register' %}">{% trans 'User Registration' %}</a> | 
+        <a href="{% url 'django_expert_registration_register' %}">{% trans 'Agency Registration' %}</a>
+    </p>
+    <p class="mt-4">
+        <a href="{% url 'password_reset' %}">{% trans 'Password reset' %}</a> | 
+        <a href="{% url 'registration_resend_activation' %}">{% trans 'Resend Activation Email' %}</a>
     </p>
 </div>
 {% endblock %}

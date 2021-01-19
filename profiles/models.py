@@ -30,6 +30,9 @@ class CustomUser(AbstractUser):
     is_expert = models.BooleanField(default=False)
     bio = models.CharField(max_length=240, blank=True)
 
+    class Meta:
+        ordering = ('id',)
+
 class Profile(models.Model):
     user = models.ForeignKey(CustomUser,
                              on_delete=models.CASCADE,

@@ -1,6 +1,6 @@
 import datetime
 from django.db import transaction
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from rest_framework import fields
 from rest_framework import serializers
 from addresses.models import Address
