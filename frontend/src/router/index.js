@@ -1,7 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 const ApproveExpert = () => import ("../views/ApproveExpert");
+const CompanyInfo = () => import ("../views/CompanyInfo");
 const Home = () => import ("../views/Home");
+const NoticeEditor = () => import ("../views/NoticeEditor");
+const NoticeList = () => import ("../views/NoticeList");
 const PaperDetail = () => import ("../views/PaperDetail");
 const PaperEditor = () => import ("../views/PaperEditor");
 const Profiles = () => import ("../views/ProfileList");
@@ -9,7 +12,9 @@ const ProfileEditor = () => import ("../views/ProfileEditor");
 const AllowedUserEditor = () => import ("../views/AllowedUserEditor");
 const MandateEditor = () => import ("../views/MandateEditor");
 const Mandates = () => import ("../views/MandateList");
+const ServiceInfoList = () => import ("../views/ServiceInfoList");
 const UserEditor = () => import ("../views/UserEditor");
+const HelpDesk = () => import ("../views/HelpDesk");
 
 Vue.use(VueRouter);
 
@@ -23,6 +28,11 @@ const routes = [
     path: "/approve-expert",
     name: "approve-expert",
     component: ApproveExpert
+  },
+  {
+    path: "/company-info",
+    name: "company-info",
+    component: CompanyInfo
   },
   {
     path: "/paper/:id",
@@ -60,10 +70,44 @@ const routes = [
     component: Mandates
   },
   {
-    path: "/create/mandates/:id?",
+    path: "/mandates/:id?",
+    name: "mandate-detail",
+    component: MandateEditor,
+    props: true
+  },
+  {
+    path: "/create/mandates/",
     name: "mandates-editor",
     component: MandateEditor,
     props: true
+  },
+  {
+    path: "/notices/",
+    name: "notices",
+    component: NoticeList
+  },
+  {
+    path: "/notices/:id?",
+    name: "notice-detail",
+    component: NoticeEditor,
+    props: true
+  },
+  {
+    path: "/create/notices/",
+    name: "notices-editor",
+    component: NoticeEditor,
+    props: true
+  },
+  {
+    path: "/service-infos/",
+    name: "service-infos",
+    component: ServiceInfoList,
+    props: true
+  },
+  {
+    path: "/help-desk/",
+    name: "helpdesk",
+    component: HelpDesk
   },
   {
     path: "/edit/user/",

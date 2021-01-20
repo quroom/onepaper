@@ -17,10 +17,10 @@
         >
           <v-card
             class="outlined tile"
-            :to="{ name: 'mandates-editor', params: {id: mandate.id, readonly:true } }"
+            :to="{ name: 'mandate-detail', params: {id: mandate.id, readonly:true } }"
           >
             <v-chip class="ma-1">{{ mandate.id }}</v-chip>
-            <v-chip v-if="mandate.designator_signature == null" class="ma-1">{{ $t('progress') }}</v-chip>
+            <v-chip v-if="mandate.designator_signature == ''" class="ma-1">{{ $t('progress') }}</v-chip>
             <v-chip v-else class="ma-1" color="primary">{{ $t('signature') + $t('done') }}</v-chip>
             <v-card-title class="card-title pa-0 pl-4">
               {{mandate.address.old_address}}
@@ -45,7 +45,7 @@
       </v-row>
     </template>
     <router-link :to="{ name: 'mandates-editor', params: {readonly:false} }">
-      <v-btn color="primary" dark fixed bottom right>
+      <v-btn color="primary" dark absolute bottom right>
         <v-icon>add</v-icon>
         {{$t("create_mandate")}}
       </v-btn>

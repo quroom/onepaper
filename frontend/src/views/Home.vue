@@ -108,7 +108,7 @@
       </v-row>
     </template>
     <router-link :to="{ name: 'paper-editor' }">
-      <v-btn color="primary" dark fixed bottom right>
+      <v-btn color="primary" dark absolute bottom right>
         <v-icon>add</v-icon>
         {{$t("create_paper")}}
       </v-btn>

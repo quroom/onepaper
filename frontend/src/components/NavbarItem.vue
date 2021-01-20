@@ -98,14 +98,17 @@
       </router-link>
       <v-spacer></v-spacer>
       <template v-for="item in items">
-        <router-link
+        <v-btn
           v-if="isShown(item)"
-          class="ma-4"
+          class="my-2"
+          text
+          rounded
           :to="item.route"
           :key="item.title"
+          exact
         >
           {{ $t(item.title) }}
-        </router-link>
+        </v-btn>
       </template>
     </template>
     <template v-else>
@@ -153,15 +156,6 @@ export default {
           icon: "how_to_reg",
           route: { name: "approve-expert" },
           user_category: "staff",
-          staff_only: true
-        }
-      ],
-      staff_items: [
-        {
-          title: "approve",
-          icon: "how_to_reg",
-          route: { name: "approve-expert" },
-          user_category: "expert",
           staff_only: true
         }
       ],

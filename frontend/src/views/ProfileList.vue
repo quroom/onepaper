@@ -95,7 +95,7 @@
       </v-row>
     </template>
     <router-link :to="{ name: 'profile-editor' }">
-      <v-btn color="primary" dark fixed right bottom>
+      <v-btn color="primary" dark absolute right bottom>
         <v-icon>add</v-icon>
         {{$t("create_profile")}}
       </v-btn>

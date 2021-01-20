@@ -4,18 +4,21 @@
     <v-main>
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 import NavbarItem from "./components/NavbarItem";
+import Footer from "./components/Footer";
 import { applyValidation } from "@/common/common_api"
 import { apiService } from "@/common/api.service";
 
 export default {
   name: "App",
   components: {
-    NavbarItem
+    NavbarItem,
+    Footer
   },
   data: () => ({
     isLoading: true,

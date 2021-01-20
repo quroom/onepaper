@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="!isLoading">
     <v-dialog content-class="signature-dialog" v-model="signature_dialog" eager>
         <v-card>
           <VueSignaturePad
