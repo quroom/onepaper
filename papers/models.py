@@ -8,13 +8,13 @@ from profiles.models import CustomUser, ExpertProfile, Profile
 from addresses.models import Address
 
 class PaperStatus(models.Model):
-    REQUESTING = 0
+    REQUES = 0
     DRAFT = 1
     PROGRESS = 2
     DONE = 3
 
     STATUS_CATEGORY = (
-        (REQUESTING, _('요청중')),
+        (REQUES, _('요청중')),
         (DRAFT, _('작성중')),
         (PROGRESS, _('서명중')),
         (DONE, _('완료'))

@@ -36,7 +36,7 @@
             :to="item.route"
             :key="item.title + `-nav`"
           >
-            <template v-if="!item.staff_only || item.staff_only == is_staff">
+            <template v-if="isShown(item)">
               <v-list-item>
                 <v-list-item-icon>
                   <v-icon>{{ item.icon }}</v-icon>
@@ -99,7 +99,7 @@
       <v-spacer></v-spacer>
       <template v-for="item in items">
         <router-link
-          v-if="!item.staff_only || item.staff_only == is_staff"
+          v-if="isShown(item)"
           class="ma-4"
           :to="item.route"
           :key="item.title"
@@ -126,12 +126,6 @@
 <script>
 export default {
   name: "NavbarItem",
-  props: {
-    is_staff: {
-      type: Boolean,
-      required: true
-    }
-  },
   data() {
     return {
       username: null,
@@ -141,24 +135,33 @@ export default {
           title: "paper",
           icon: "description",
           route: { name: "home" },
-          staff_only: false
         },
         {
           title: "profile",
           icon: "account_box",
           route: { name: "profiles" },
-          staff_only: false
         },
         {
           title: "mandate_paper",
           icon: "description",
           route: { name: "mandates" },
-          staff_only: false
+          user_category: "expert",
+          expert_only: true,
         },
         {
           title: "approve",
           icon: "how_to_reg",
           route: { name: "approve-expert" },
+          user_category: "staff",
+          staff_only: true
+        }
+      ],
+      staff_items: [
+        {
+          title: "approve",
+          icon: "how_to_reg",
+          route: { name: "approve-expert" },
+          user_category: "expert",
           staff_only: true
         }
       ],
@@ -177,6 +180,7 @@ export default {
     const name = window.localStorage.getItem("name")
     this.username = window.localStorage.getItem("username")
     this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.username + "/" + name;
+    this.user_category = window.localStorage.getItem("user_category")
   },
   methods: {
     switchLoc() {
@@ -188,6 +192,9 @@ export default {
       document.execCommand("copy");
       this.success = true;
       this.messages = this.$i18n.t("link_is_copied") + "" + "<br>" +"" + this.$i18n.t("send_your_link");
+    },
+    isShown(item){
+      return !item.user_category || this.user_category=='staff' || item.user_category == this.user_category;
     }
   }
 };

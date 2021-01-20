@@ -46,7 +46,7 @@ const Constants = {
     2: "expert"
   },
   EXPERT_STATUS: {
-    0: "request",
+    0: "requesting",
     1: "approved",
     2: "denied",
     3: "closed"

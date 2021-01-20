@@ -285,7 +285,7 @@
                   v-model="expert"
                   :error-messages="errors"
                   :filter="customFilter"
-                  :items="my_profiles"
+                  :items="expert_profiles"
                   item-text="name"
                   item-value="id"
                   return-object
@@ -470,7 +470,7 @@ export default {
   computed: {
     percent() {
       return (this.step-1)*100/(this.max_step-1)
-    }
+    },
   },
   data() {
     return {
@@ -480,7 +480,7 @@ export default {
       isLoading: false,
       is_expert: false,
       papers: [],
-      my_profiles: [],
+      expert_profiles: [],
       allowed_profiles: [],
       validation_check: false,
       step: 1,
@@ -856,14 +856,13 @@ export default {
         this.isLoading = false;
       });
     },
-    getMyProfiles() {
-      let endpoint = `/api/profiles/`;
+    getExpertProfiles() {
+      let endpoint = `/api/expert-profiles/`;
       apiService(endpoint).then(data => {
-        if(!data.count){
-          applyValidation(data)
+        if(data.length != undefined){
+          this.expert_profiles = data;
         } else {
-          this.my_profiles = data.results;
-          this.is_expert = true;
+          applyValidation(data)
         }
       });
     },
@@ -1131,8 +1130,9 @@ export default {
     document.title = this.$i18n.t("create_paper");
     this.requestUser = window.localStorage.getItem("username");
     this.getAllowedProfiles();
-    if (window.localStorage.getItem("is_expert") == "true") {
-      this.getMyProfiles();
+    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
+    if(this.is_expert){
+      this.getExpertProfiles();
     }
   }
 };

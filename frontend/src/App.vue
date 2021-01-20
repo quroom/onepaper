@@ -1,6 +1,6 @@
 <template>
   <v-app app>
-    <NavbarItem v-if="!isLoading" class="navbar" :is_staff="is_staff"/>
+    <NavbarItem v-if="!isLoading" class="navbar" :user_category="user_category"/>
     <v-main>
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
@@ -19,10 +19,16 @@ export default {
   },
   data: () => ({
     isLoading: true,
-    is_staff: false,
     link_dialog: false,
-    has_profile: true
+    has_profile: true,
+/* user_category: user(general_user), expert, staff */
+    user_category: 'user'
   }),
+  computed: {
+    is_staff(){
+      return this.user_category == 'staff';
+    }
+  },
   watch: {
     has_profile() {
       if (this.has_profile == false && this.is_staff == false) {
@@ -50,9 +56,14 @@ export default {
       window.localStorage.setItem("username", data["username"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);
-      window.localStorage.setItem("is_expert", data["is_expert"]);
       this.has_profile = data["has_profile"];
-      this.is_staff = data["is_staff"];
+      if(data["is_expert"]){
+        this.user_category = 'expert'
+      }
+      if(data['is_staff']){
+        this.user_category = 'staff'
+      }
+      window.localStorage.setItem('user_category', this.user_category)
       this.isLoading = false;
     }
   },

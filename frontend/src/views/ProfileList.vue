@@ -198,7 +198,7 @@ export default {
   },
   created() {
     this.getProfiles();
-    this.is_expert = window.localStorage.getItem("is_expert") == "true" ? true : false;
+    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
   }
 };
 </script>

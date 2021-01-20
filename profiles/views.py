@@ -125,11 +125,21 @@ class ApproveExpert(mixins.ListModelMixin,
         serializer = self.get_serializer(queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
 
+class ExpertProfileList(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+    def get(self, request):
+        queryset = Profile.objects.filter(user=self.request.user, expert_profile__status=ExpertProfile.APPROVED).select_related('user', 'address', 'expert_profile')
+        serializer = ProfileReadonlySerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class ProfileViewset(ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user).select_related('user', 'address', 'expert_profile')
+        if self.request.user.is_expert:
+            return Profile.objects.filter(user=self.request.user).select_related('user', 'address')
+        else:
+            return Profile.objects.filter(user=self.request.user).select_related('user', 'address', 'expert_profile')
 
     def get_serializer_class(self):
         if self.request.user.is_expert:

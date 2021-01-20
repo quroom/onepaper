@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from profiles.views import AllowedProfileList, AllowedUserDetail, ApproveExpert, CustomUserViewset, ProfileViewset, SetDefaultProfile, MandateViewset, OpenProfileList, OpenProfileDetail
+from profiles.views import AllowedProfileList, AllowedUserDetail, ApproveExpert, CustomUserViewset, ExpertProfileList, ProfileViewset, SetDefaultProfile, MandateViewset, OpenProfileList, OpenProfileDetail
 
 router = DefaultRouter()
 router.register(r"user", CustomUserViewset, basename="user")
@@ -9,6 +9,7 @@ router.register(r"mandates", MandateViewset, basename="mandates")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("expert-profiles/", ExpertProfileList.as_view(), name="expert-profiles"),
     path("open-profiles/", OpenProfileList.as_view(), name="open-profiles"),
     path("open-profiles/<int:pk>/", OpenProfileDetail.as_view(), name="open-profile"),
     path("profiles/<int:pk>/default/", SetDefaultProfile.as_view(), name="default-profile"),
