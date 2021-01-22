@@ -107,18 +107,16 @@
         :locale="this.$i18n.locale"
       ></v-date-picker>
     </v-menu>
-    <v-btn
-      style="float:right"
-      class="primary mt-4"
-      @click="submit"
-    >
-      {{ $t("submit") }}
-    </v-btn>
+    <v-row class="mt-4" justify="end">
+      <v-btn class="primary" @click="submit">
+        {{ $t("submit") }}
+      </v-btn>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api"
 
 export default {

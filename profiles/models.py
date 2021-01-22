@@ -1,3 +1,5 @@
+import os
+import uuid
 from addresses.models import Address
 from django.db.models import Exists
 from django.db import models
@@ -8,8 +10,6 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 import phonenumbers
 from phonenumber_field.modelfields import PhoneNumberField
-import uuid
-import os
 
 def get_file_path(instance, filename):
     splited_filename = filename.split('.')
@@ -34,7 +34,7 @@ class CustomUser(AbstractUser):
         ordering = ('id',)
 
 class Profile(models.Model):
-    user = models.ForeignKey(CustomUser,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name="profiles")
     updated_at = models.DateTimeField(auto_now=True)
@@ -90,7 +90,7 @@ class ExpertProfile(models.Model):
         ordering = ('id',)
 
 class Mandate(models.Model):
-    author = models.ForeignKey(CustomUser,
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="author_mandates")

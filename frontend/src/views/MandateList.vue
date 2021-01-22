@@ -5,7 +5,6 @@
       {{$t("no_mandate")}}
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{`${$t('mandate_paper')} ${$t('list')}`}}</div>
       <v-row>
         <v-col
           cols="12"
@@ -44,18 +43,18 @@
         </v-btn>
       </v-row>
     </template>
-    <router-link :to="{ name: 'mandates-editor', params: {readonly:false} }">
-      <v-btn color="primary" dark absolute bottom right>
+    <v-row height="100%" justify="end">
+      <v-btn :to="{ name: 'mandates-editor', params: {readonly:false} }" color="primary" dark>
         <v-icon>add</v-icon>
         {{$t("create_mandate")}}
       </v-btn>
-    </router-link>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import { applyValidation } from "@/common/common_api"
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 
 export default {
   name: "Mandates",

@@ -86,6 +86,12 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
+      <v-row justify="center" @click="drawer=false">
+        {{$t("close")}}
+        <v-icon>
+          keyboard_backspace
+        </v-icon>
+      </v-row>
     </v-navigation-drawer>
     <template v-if="this.$root.$el.clientWidth > 500">
       <router-link :to="{ name: 'home' }">
@@ -99,6 +105,7 @@
       <v-spacer></v-spacer>
       <template v-for="item in items">
         <v-btn
+          color="primary"
           v-if="isShown(item)"
           class="my-2"
           text

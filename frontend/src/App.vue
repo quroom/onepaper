@@ -1,10 +1,10 @@
 <template>
   <v-app app>
-    <NavbarItem v-if="!isLoading" class="navbar" :user_category="user_category"/>
-    <v-main>
+    <NavbarItem class="navbar root_tag" v-if="!isLoading" :user_category="user_category"/>
+    <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
-    <Footer/>
+    <Footer class="root_tag"/>
   </v-app>
 </template>
 
@@ -12,7 +12,7 @@
 import NavbarItem from "./components/NavbarItem";
 import Footer from "./components/Footer";
 import { applyValidation } from "@/common/common_api"
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 
 export default {
   name: "App",
@@ -116,5 +116,8 @@ a:hover {
   height: 25vh !important;
   min-height: 140px;
   max-height: 280px;
+}
+.root_tag {
+   min-width:360px;
 }
 </style>

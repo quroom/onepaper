@@ -192,10 +192,10 @@
           ({{ $t("designator") }} {{ $t("signature") }})
         </div>
       </ValidationObserver>
-      <div v-if="!designator_signature_url" style="float:right">
+      <v-row v-if="!designator_signature_url" justify="end">
         <v-btn
           v-if="isDesignator"
-          class="signature-button mt-3"
+          class="mt-3"
           @click="open()"
           color="primary"
           dark
@@ -205,7 +205,7 @@
         </v-btn>
         <v-btn
           v-else-if="!id||!readonly"
-          class="signature-button mt-3"
+          class="mt-3"
           @click="submit()"
           color="primary"
           dark
@@ -216,13 +216,12 @@
         <ValidationProvider ref="signature-button" v-slot="{ errors }">
                 <v-input :error-messages="errors"></v-input>
         </ValidationProvider>
-        
-      </div>
+      </v-row>
   </v-container>
 </template>
 
 <script>
-import { apiService, apiService_formData } from "@/common/api.service";
+import { apiService, apiService_formData } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
 import ContractorItem from "@/components/ContractorItem";
@@ -423,11 +422,6 @@ export default {
 <style>
 </style>
 <style scoped>
-.signature-button {
-  z-index: 2;
-  height: 100% !important;
-  width: 100% !important;
-}
 .signature-img {
   height: 40px;
   left: 95px;

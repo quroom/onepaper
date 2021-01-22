@@ -2,19 +2,20 @@ import os
 import base64
 from multiselectfield import MultiSelectField
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from profiles.models import CustomUser, ExpertProfile, Profile
+from profiles.models import ExpertProfile, Profile
 from addresses.models import Address
 
 class PaperStatus(models.Model):
-    REQUES = 0
+    REQUESTING = 0
     DRAFT = 1
     PROGRESS = 2
     DONE = 3
 
     STATUS_CATEGORY = (
-        (REQUES, _('요청중')),
+        (REQUESTING, _('요청중')),
         (DRAFT, _('작성중')),
         (PROGRESS, _('서명중')),
         (DONE, _('완료'))
@@ -94,7 +95,7 @@ class Paper(models.Model):
 
     #FIXME Need to be moved to Realestates model.
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(CustomUser,
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                null=True, blank=True,
                                on_delete=models.SET_NULL,
                                related_name="author_papers")
@@ -164,6 +165,18 @@ class Contractor(models.Model):
                      name="unique_profile_paper")
                      ]
 
+class Answer(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL,
+                               related_name="author_answers")
+    body = models.TextField()
+    contractor = models.ForeignKey(Contractor, on_delete=models.CASCADE, related_name="contractor_answers")
+    voters = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                    related_name="votes")
+
 class ExplanationSignature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     contractor = models.OneToOneField(Contractor,
@@ -180,6 +193,7 @@ class Signature(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name="signature")
     image = models.TextField()
+
     def __str__(self):
         return str(self.contractor.profile.user)
 

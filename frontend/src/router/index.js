@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 const ApproveExpert = () => import ("../views/ApproveExpert");
-const CompanyInfo = () => import ("../views/CompanyInfo");
+const ServiceIntro = () => import ("../views/ServiceIntro");
 const Home = () => import ("../views/Home");
-const NoticeEditor = () => import ("../views/NoticeEditor");
+const NoticeDetail = () => import ("../views/NoticeDetail");
 const NoticeList = () => import ("../views/NoticeList");
 const PaperDetail = () => import ("../views/PaperDetail");
 const PaperEditor = () => import ("../views/PaperEditor");
@@ -12,7 +12,7 @@ const ProfileEditor = () => import ("../views/ProfileEditor");
 const AllowedUserEditor = () => import ("../views/AllowedUserEditor");
 const MandateEditor = () => import ("../views/MandateEditor");
 const Mandates = () => import ("../views/MandateList");
-const ServiceInfoList = () => import ("../views/ServiceInfoList");
+const Manual = () => import ("../views/Manual");
 const UserEditor = () => import ("../views/UserEditor");
 const HelpDesk = () => import ("../views/HelpDesk");
 
@@ -30,13 +30,13 @@ const routes = [
     component: ApproveExpert
   },
   {
-    path: "/company-info",
-    name: "company-info",
-    component: CompanyInfo
+    path: "/service-intro",
+    name: "service-intro",
+    component: ServiceIntro
   },
   {
     path: "/paper/:id",
-    name: "paper",
+    name: "paper-detail",
     component: PaperDetail,
     props: true
   },
@@ -87,26 +87,20 @@ const routes = [
     component: NoticeList
   },
   {
-    path: "/notices/:id?",
+    path: "/notices/:id",
     name: "notice-detail",
-    component: NoticeEditor,
+    component: NoticeDetail,
     props: true
   },
   {
-    path: "/create/notices/",
-    name: "notices-editor",
-    component: NoticeEditor,
-    props: true
-  },
-  {
-    path: "/service-infos/",
-    name: "service-infos",
-    component: ServiceInfoList,
+    path: "/manual/",
+    name: "manual",
+    component: Manual,
     props: true
   },
   {
     path: "/help-desk/",
-    name: "helpdesk",
+    name: "help-desk",
     component: HelpDesk
   },
   {
@@ -119,7 +113,10 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   // base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior () {
+    return { x: 1, y: 1 }
+  }
 });
 
 export default router;

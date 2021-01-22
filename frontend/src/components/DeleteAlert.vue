@@ -40,7 +40,7 @@
 <script>
 
 import { applyValidation } from "@/common/common_api";
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 
 export default {
   name: "DeleteAlert",

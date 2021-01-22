@@ -1,11 +1,14 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from papers.views import AllowPaperAPIView, PaperViewset, PaperLoadAPIView, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
+from papers.views import AllowPaperAPIView, AllPaperList, PaperViewset, PaperLoadAPIView, ExplanationSignatureCreateApiView, ExplanationSignatureUpdateApiView, SignatureCreateApiView, SignatureUpdateApiView, HidePaperApiView
 
 router = DefaultRouter()
 router.register(r"papers", PaperViewset, basename="papers")
 urlpatterns = [
     path("", include(router.urls)),
+    path("all-papers/",
+         AllPaperList.as_view(),
+         name="all-papers"),
     path("papers/<int:pk>/load/",
           PaperLoadAPIView.as_view(),
           name="load-paper"),

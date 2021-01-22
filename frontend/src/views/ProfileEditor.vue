@@ -287,13 +287,17 @@
           </a>
         </v-col>
       </v-row>
-      <v-btn style="float:right" class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+      <v-row>
+        <v-col cols="12" class="text-right">
+          <v-btn class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </ValidationObserver>
 </template>
 
 <script>
-import { apiService, apiService_formData } from "@/common/api.service";
+import { apiService, apiService_formData } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
 import DeleteAlert from "@/components/DeleteAlert";

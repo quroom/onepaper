@@ -32,8 +32,7 @@
       <div class="text-h5 text-center">{{$t("no_profile")}}</div>
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{ `${$t('profile')} ${$t('list')}` }}</div>
-      <div class="text-caption red--text">{{ $t("profile_list_subtitle") }}</div>
+      <div class="mt-2 text-caption red--text">{{ $t("profile_list_subtitle") }}</div>
       <v-row>
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
@@ -94,16 +93,18 @@
         </v-btn>
       </v-row>
     </template>
-    <router-link :to="{ name: 'profile-editor' }">
-      <v-btn color="primary" dark absolute right bottom>
-        <v-icon>add</v-icon>
-        {{$t("create_profile")}}
-      </v-btn>
-    </router-link>
+    <v-row>
+      <v-col cols="12" class="text-right">
+        <v-btn :to="{ name: 'profile-editor' }" color="primary" dark right>
+          <v-icon>add</v-icon>
+          {{$t("create_profile")}}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 
 export default {

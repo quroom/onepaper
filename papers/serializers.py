@@ -8,13 +8,7 @@ from addresses.serializers import AddressSerializer
 from profiles.models import Profile, ExpertProfile, AllowedUser
 from profiles.serializers import ProfileSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
-
-class ReadOnlyModelSerializer(serializers.ModelSerializer):
-    def get_fields(self, *args, **kwargs):
-        fields = super().get_fields(*args, **kwargs)
-        for field in fields:
-            fields[field].read_only = True
-        return fields
+from onepaper.serializers import ReadOnlyModelSerializer
 
 class ExplanationSignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -42,7 +36,9 @@ class VerifyingEveryoneExplanationSerializer(VerifyingExplanationSerializer):
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
-        return {"old_address": hidden_address}
+        old_address_eng = instance.address.old_address_eng
+        hidden_address_eng = old_address_eng[old_address_eng.index(" ")+1:len(old_address_eng)]
+        return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
 
 class SignatureSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -86,6 +82,7 @@ class PaperListSerializer(ReadOnlyModelSerializer):
     updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
     status = serializers.SerializerMethodField()
+    answer_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Paper
@@ -96,6 +93,9 @@ class PaperListSerializer(ReadOnlyModelSerializer):
 
     def get_status(self, instance):
         return instance.status.status
+
+    def get_answer_count(self, instance):
+        return instance.paper_contractors.get(profile__user=self.context['request'].user).contractor_answers.count()
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -307,6 +307,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
+    status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False, read_only=True)
 
@@ -317,7 +318,12 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
-        return {"old_address": hidden_address}
+        old_address_eng = instance.address.old_address_eng
+        hidden_address_eng = old_address_eng[old_address_eng.index(" ")+1:len(old_address_eng)]
+        return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_status(self, instance):
+        return instance.status.status

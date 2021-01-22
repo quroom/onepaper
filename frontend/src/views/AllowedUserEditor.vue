@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import DeleteAlert from "@/components/DeleteAlert";
 

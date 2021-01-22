@@ -9,13 +9,7 @@ from profiles.models import AllowedUser, CustomUser, ExpertProfile, Mandate, Pro
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
-
-class ReadOnlyModelSerializer(serializers.ModelSerializer):
-    def get_fields(self, *args, **kwargs):
-        fields = super().get_fields(*args, **kwargs)
-        for field in fields:
-            fields[field].read_only = True
-        return fields
+from onepaper.serializers import ReadOnlyModelSerializer
 
 class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
     class Meta:

@@ -38,8 +38,10 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
+    path("api/", include("helps.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path('__debug__/', include(debug_toolbar.urls)),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 from django.conf.urls.static import static

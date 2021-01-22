@@ -43,9 +43,9 @@ export default {
   data: () => ({
     links: [
       // 회사소개, 공지사항, 이용안내, 고객센터, 고객센터 만들기전까지 contact_us
-      {title: 'company_info', route: {name: 'company-info'} },
+      {title: 'service_intro', route: {name: 'service-intro'} },
+      {title: 'how_to_use', route: {name: 'manual'} },
       {title: 'notice', route: {name: 'notices'} },
-      {title: 'service_info', route: {name: 'service-infos'} },
       {title: 'contact_us', email: "quroom@naver.com" },
     ],
   }),

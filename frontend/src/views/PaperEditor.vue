@@ -1,11 +1,15 @@
 <template>
   <ValidationObserver ref="obs">
     <v-container>
-      <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
-      <v-btn class="float_right" dark @click="getPaperList()">
-        {{ $t("paper") + ' ' + $t("load") }}
-      </v-btn>
+      <v-row>
+        <v-col cols="12" class="text-right">
+          <v-btn dark @click="getPaperList()">
+            {{ $t("paper") + ' ' + $t("load") }}
+          </v-btn>
+        </v-col>
+      </v-row>
       <div class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', trade_category)} ${$t('contract')}` }}</div>
+      <div class="text-caption red--text"> {{ $t("paper_subtitle") }} </div>
       <v-progress-linear
         v-if="is_expert"
         :value="percent"
@@ -25,7 +29,6 @@
             item-key="id"
             :server-items-length="items_length"
             @update:page="updatePagination"
-            :items-per-page="items_per_page"
           >
             <template
               v-slot:[`item.trade_category`]="{ item }">
@@ -69,7 +72,6 @@
                   item-key="usenrame"
                   :server-items-length="items_length"
                   @update:page="updatePagination"
-                  :items-per-page="items_per_page"
                 >
                   <template v-slot:[`item.select`]="{ item }">
                     <v-btn class="primary" @click="loadProfile(item)"> {{$t("select")}} </v-btn>
@@ -390,6 +392,7 @@
             ref="myQuillEditor"
             v-model="special_agreement"
             :options="editorOption"
+            :disabled="quill_disabled"
           />
           <div class="v-messages theme--light error--text" role="alert">
             <div class="v-messages__wrapper">
@@ -432,18 +435,24 @@
         </template>
       </v-row>
       <template v-if="is_expert">
-        <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn class="mt-3" style="float:right" color="green" v-if="step!=max_step" dark @click="nextStep()">{{$t("next")}}</v-btn>
-        <v-btn v-if="step==max_step" class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+        <v-row>
+          <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn class="mt-3" style="float:right" color="green" v-if="step!=max_step" dark @click="nextStep()">{{$t("next")}}</v-btn>
+          <v-btn v-if="step==max_step" class="mt-3 float_right primary" @click="onSubmit()"> {{$t('submit')}} </v-btn>
+        </v-row>
       </template>
-      <v-btn v-else class="mt-3 float_right primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+      <v-row v-else>
+        <v-col cols="12" class="text-right">
+          <v-btn class="primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </ValidationObserver>
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import AddressSearch from "@/components/AddressSearch";
 import ContractorItem from "@/components/ContractorItem";
@@ -487,6 +496,7 @@ export default {
       max_step: 4,
       items_length: 0,
       items_per_page: 2,
+      quill_disabled: true,
       from_date_menu: false,
       to_date_menu: false,
       panels: [0,1,2],
@@ -721,7 +731,7 @@ export default {
           toolbar: {
             container: [
               ['bold', 'underline', {'list': 'ordered'}, { 'size': ['small', false, 'large', 'huge'] }],
-              ['image', 'link', 'video']
+              ['image', 'link']
             ],
             handlers: {
               'image': () => {
@@ -886,6 +896,7 @@ export default {
     loadPaper(item) {
       let that = this;
       let endpoint = `/api/papers/${item.id}/load/`;
+      that.quill_disabled = true;
       that.contractors = []
       that.load_dialog = false;
       apiService(endpoint).then(data => {
@@ -916,6 +927,9 @@ export default {
           if(data.verifying_explanation != null) {
             that.ve = data.verifying_explanation;
           }
+          that.$nextTick(()=>{
+            that.quill_disabled = false;
+          })
         } else {
           applyValidation(data)
         }
@@ -961,16 +975,7 @@ export default {
             building_category: that.building_category,
             building_area: that.building_area,
             trade_category: that.trade_category,
-            address: {
-              old_address: that.address.old_address ,
-              new_address: that.address.new_address,
-              sigunguCd: that.address.sigunguCd,
-              bjdongCd: that.address.bjdongCd,
-              bun: that.address.bun,
-              ji:  that.address.ji,
-              dong: that.address.dong,
-              ho: that.address.ho,
-            },
+            address: that.address,
             down_payment: that.down_payment,
             security_deposit: that.security_deposit,
             maintenance_fee: that.maintenance_fee,
@@ -991,7 +996,7 @@ export default {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"))
                 that.$router.push({
-                  name: "paper",
+                  name: "paper-detail",
                   params: { id: data.id }
                 });
               } else {
@@ -1134,6 +1139,9 @@ export default {
     if(this.is_expert){
       this.getExpertProfiles();
     }
+    this.$nextTick(()=>{
+      this.quill_disabled=false;
+    })
   }
 };
 </script>

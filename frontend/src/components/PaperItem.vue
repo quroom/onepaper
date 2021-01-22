@@ -2,7 +2,7 @@
   <v-col cols="12" md="6" lg="4" xl="3">
     <v-card
       class="outlined tile"
-      :to="{ name: 'paper', params: { id: paper.id } }"
+      :to="{ name: 'paper-detail', params: { id: paper.id } }"
     >
       <v-chip class="ma-2 mr-0">
         {{ paper.id }}
@@ -38,33 +38,37 @@
       <v-card-text v-if="paper.address">
         <div>
           [{{ $getConstI18("building_category", paper.building_category) }}] {{ paper.address.old_address }}
-          <span v-if="paper.address.dong!=''"> {{ paper.address.dong }}{{ $t("dong") }}</span>
-          <span v-if="paper.address.ho!=''"> {{ paper.address.ho }}{{ $t("ho") }}</span>
+          <span v-if="!!paper.address.dong"> {{ paper.address.dong }}{{ $t("dong") }}</span>
+          <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }}</span>
         </div>
-        <span v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
-          <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
-          <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("manwon")}` }}</div>
-          <div>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</div>
-          <!-- {{ `${$t("security_deposit")} ${paper.security_deposit}${$t("manwon")} / ${$t("monthly_fee")} ${paper.monthly_fee}${$t("manwon")} / ${$t("maintenance_fee")} ${paper.maintenance_fee}${$t("manwon")}`}} -->
-        </span>
-        <span
-          v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
-        >
-          <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
-          <div>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</div>
-        </span>
-        <!-- #FIXME to be updated -->
-        <span
-          v-else-if="
-            paper.trade_category == $getConstByName('trade_category', 'purchase')
-          "
-        >
-        </span>
-        <span
-          v-else-if="
-            paper.trade_category == $getConstByName('trade_category', 'exchange')
-          "
-        >
+        <span>
+          <template v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
+            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
+            <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("manwon")}` }}</div>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</span>
+          </template>
+          <template
+            v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
+          >
+            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</span>
+          </template>
+          <!-- #FIXME to be updated -->
+          <template
+            v-else-if="
+              paper.trade_category == $getConstByName('trade_category', 'purchase')
+            "
+          >
+          </template>
+          <template
+            v-else-if="
+              paper.trade_category == $getConstByName('trade_category', 'exchange')
+            "
+          >
+          </template>
+          <!-- <span class="answer_count">
+            {{`${$t('answer')}(${paper.answer_count})`}}
+          </span> -->
         </span>
       </v-card-text>
     </v-card>
@@ -104,6 +108,10 @@ export default {
 </script>
 
 <style scoped>
+.answer_count {
+  position: absolute;
+  right: 10px;
+}
 .card-title {
   width: 100%;
 }

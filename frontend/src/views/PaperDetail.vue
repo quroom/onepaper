@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
+    <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <v-row class="mt-4">
       <v-col class="pa-0 pr-1" cols="12" md="8">
         <div style="float:right">
@@ -50,8 +50,11 @@
       </v-col>
       <v-col cols="9" sm="2">
         <v-card outlined tile height="100%">
-          <span v-if="paper.address.dong !='' || paper.address.ho !=''" >
-            {{ paper.address.dong }} {{ $t("dong") }} {{ paper.address.ho }} {{ $t("ho") }}
+          <span v-if="!!paper.address.dong" >
+            {{ paper.address.dong }} {{ $t("dong") }}
+          </span>
+          <span v-if="!!paper.address.ho">
+            {{ paper.address.ho }} {{ $t("ho") }}
           </span>
         </v-card>
       </v-col>
@@ -429,7 +432,7 @@
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import ContractorItem from "@/components/ContractorItem";
 import ActionItems from "@/components/ActionItems";

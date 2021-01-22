@@ -2,7 +2,7 @@
   <v-container>
     <v-menu v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="200"
+      :nudge-width="280"
     >
       <template
         v-slot:activator="{ on, attrs }"
@@ -16,56 +16,82 @@
           <v-col class="mt-0 mb-0" cols="auto">
             <v-select
               class="ve-input"
-              v-model="options.status"
-              :items="STATUS_CATEGORY_LIST"
+              v-model="is_mine"
+              :items="mine_or_all_list"
               item-text="text"
               item-value="value"
-              :label="`${$t('contract')} ${$t('status')}`"
-              style="width:100px"
+              :label="`${$t('lookup_scope')}`"
+              style="width:110px"
               @change="getPapersWithOptions()"
             ></v-select>
           </v-col>
-          <v-col class="mt-0 mb-0" cols="auto">
-            <v-select
-              class="ve-input"
-              v-model="options.ordering"
-              :items="ORDERING_LIST"
-              item-text="text"
-              item-value="value"
-              :label="`${$t('to_date')} ${$t('ordering')}`"
-              style="width:100px"
-              @change="getPapersWithOptions()"
-            ></v-select>
-          </v-col>
-          <v-col class="mt-0 mb-0" cols="auto">
+          <template v-if="is_mine">
+            <v-col class="mt-0 mb-0" cols="auto">
+              <v-select
+                class="ve-input"
+                v-model="options.status"
+                :items="STATUS_CATEGORY_LIST"
+                item-text="text"
+                item-value="value"
+                :label="`${$t('contract')} ${$t('status')}`"
+                style="width:80px"
+                @change="getPapersWithOptions()"
+              ></v-select>
+            </v-col>
+            <v-col class="mt-0 mb-0" cols="auto">
+              <v-select
+                class="ve-input"
+                v-model="options.ordering"
+                :items="ORDERING_LIST"
+                item-text="text"
+                item-value="value"
+                :label="`${$t('to_date')} ${$t('ordering')}`"
+                style="width:80px"
+                @change="getPapersWithOptions()"
+              ></v-select>
+            </v-col>
+            <v-col class="mt-0 mb-0" cols="auto">
+                <v-text-field
+                  class="search-text ve-input"
+                  v-model="options.old_address"
+                  :label="`${$t('address')}(${$t('partial_correct_match')})`"
+                  hide-details
+                  dense
+                  @keyup.enter="getPapersWithOptions()"
+                ></v-text-field>
+              </v-col>
+            <v-col class="mt-0 mb-0" cols="auto">
+                <v-text-field
+                  class="search-text ve-input"
+                  v-model="options.dong"
+                  :label="`${$t('dong')}(${$t('exact_correct_match')})`"
+                  hide-details
+                  dense
+                  @keyup.enter="getPapersWithOptions()"
+                ></v-text-field></v-col>
+            <v-col class="mt-0 mb-0" cols="auto">
+                <v-text-field
+                  class="search-text ve-input"
+                  v-model="options.ho"
+                  :label="`${$t('ho')}(${$t('exact_correct_match')})`"
+                  hide-details
+                  dense
+                  @keyup.enter="getPapersWithOptions()"
+                ></v-text-field>
+            </v-col>
+          </template>
+          <template v-else>
+            <v-col class="mt-0 mb-0" cols="auto">
               <v-text-field
                 class="search-text ve-input"
-                v-model="options.old_address"
-                :label="`${$t('address')}(${$t('partial_correct_match')})`"
+                v-model="all_papers_options.bjdong"
+                :label="`${$t('bjdong')}(${$t('exact_correct_match')})`"
                 hide-details
                 dense
                 @keyup.enter="getPapersWithOptions()"
               ></v-text-field>
             </v-col>
-          <v-col class="mt-0 mb-0" cols="auto">
-              <v-text-field
-                class="search-text ve-input"
-                v-model="options.dong"
-                :label="`${$t('dong')}(${$t('exact_correct_match')})`"
-                hide-details
-                dense
-                @keyup.enter="getPapersWithOptions()"
-              ></v-text-field></v-col>
-          <v-col class="mt-0 mb-0" cols="auto">
-              <v-text-field
-                class="search-text ve-input"
-                v-model="options.ho"
-                :label="`${$t('ho')}(${$t('exact_correct_match')})`"
-                hide-details
-                dense
-                @keyup.enter="getPapersWithOptions()"
-              ></v-text-field>
-          </v-col>
+          </template>
         </v-row>
         <v-card-actions>
           <v-btn
@@ -90,7 +116,6 @@
       {{$t("no_paper")}}
     </div>
     <template v-else>
-      <div class="text-h5 text-center">{{`${$t('paper')} ${$t('list')}`}}</div>
       <v-row>
         <template v-for="paper in papers">
           <PaperItem :requestUser="requestUser" :paper="paper" :key="paper.id"/>
@@ -107,17 +132,19 @@
         </v-btn>
       </v-row>
     </template>
-    <router-link :to="{ name: 'paper-editor' }">
-      <v-btn color="primary" dark absolute bottom right>
-        <v-icon>add</v-icon>
-        {{$t("create_paper")}}
-      </v-btn>
-    </router-link>
+    <v-row>
+      <v-col class="text-right" cols="12">
+        <v-btn :to="{ name: 'paper-editor' }" color="primary" dark>
+          <v-icon>add</v-icon>
+          {{$t("create_paper")}}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import { apiService } from "@/common/api.service";
+import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import PaperItem from "@/components/PaperItem"
 export default {
@@ -136,10 +163,24 @@ export default {
         status: '',
         ordering: ''
       },
+      all_papers_options: {
+        bjdong: '',
+      },
       hide: false,
       menu: false,
       requestUser: null,
       next: null,
+      is_mine: true,
+      mine_or_all_list: [
+        {
+          text: `${this.$t('only_my_papers')}`,
+          value: true
+        },
+        {
+          text: `${this.$t('all_papers')}`,
+          value: false
+        }
+      ],
       ORDERING_LIST: [
         {
           text: `${this.$t('none')}`,
@@ -183,17 +224,32 @@ export default {
     async getPapersWithOptions(){
       let endpoint = "/api/papers/";
       let is_options = false;
-      Object.entries(this.options).forEach(function(entry){
-        const [key, value] = entry;
-        if(value !== ''){
-          if(is_options) {
-            endpoint += `&${key}=${value}`
-          } else {
-            endpoint += `?${key}=${value}`
+      if(this.is_mine){
+        Object.entries(this.options).forEach(function(entry){
+          const [key, value] = entry;
+          if(value !== ''){
+            if(is_options) {
+              endpoint += `&${key}=${value}`
+            } else {
+              endpoint += `?${key}=${value}`
+            }
+            is_options = true;
           }
-          is_options = true;
-        }
-      })
+        })
+      } else {
+        Object.entries(this.all_papers_options).forEach(function(entry){
+          const [key, value] = entry;
+          endpoint = "/api/all-papers/"
+          if(value !== ''){
+            if(is_options) {
+              endpoint += `&${key}=${value}`
+            } else {
+              endpoint += `?${key}=${value}`
+            }
+            is_options = true;
+          }
+        })
+      }
       this.isLoading = true;
       await apiService(endpoint).then(data => {
         if(!data.count){

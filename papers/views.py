@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import mixins, generics, status, serializers
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
@@ -91,6 +92,18 @@ class HidePaperApiView(APIView):
         papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_hidden=True)
         serializer = PaperListSerializer(papers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AllPaperList(APIView, PageNumberPagination):
+    def get(self, request, format=None):
+        bjdong = self.request.query_params.get("bjdong")
+        if not bjdong:
+            papers = Paper.objects.all()
+        else:
+            bjdong = bjdong.strip()
+            papers = Paper.objects.filter(address__bjdongName__icontains=bjdong)
+        page = self.paginate_queryset(papers, request, view=self)
+        serializer = PaperEveryoneSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
 
 class PaperLoadAPIView(mixins.RetrieveModelMixin,
                         generics.GenericAPIView):
