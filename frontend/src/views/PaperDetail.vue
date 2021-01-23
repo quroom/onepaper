@@ -263,7 +263,7 @@
       :options="options"
       :disabled="true"
     />
-    <v-dialog content-class="signature-dialog" v-model="dialog" eager>
+    <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
       <v-card>
         <VueSignaturePad
           class="signature-pad"
@@ -638,8 +638,8 @@ export default {
       },
       requestUser: null,
       signature_pad_options: {
-        minWidth: 5,
-        maxWidth: 5,
+        minWidth: 3,
+        maxWidth: 3,
         penColor: '#F44336'
       },
       options : {

@@ -172,10 +172,13 @@ class PaperViewset(ModelViewSet):
         elif instance.status.status == PaperStatus.PROGRESS:
             initial_date = datetime.datetime(1,1,1)
             signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            #Reset tzinfo. If there is not this code, we will get 'can't compare offset-naive and offset-aware datetimes' error.
+            signature_first_updated_at = signature_first_updated_at.replace(tzinfo=None)
             explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
-                if (datetime.datetime.utcnow() - first_signature_time.replace(tzinfo=None)).total_seconds() / 3600 > 12:
+                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 12:
                     return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -197,10 +200,13 @@ class PaperViewset(ModelViewSet):
         elif instance.status.status == PaperStatus.PROGRESS:
             initial_date = datetime.datetime(1,1,1)
             signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            #Reset tzinfo. If there is not this code, we will get 'can't compare offset-naive and offset-aware datetimes' error.
+            signature_first_updated_at = signature_first_updated_at.replace(tzinfo=None)
             explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
-                if (datetime.datetime.utcnow() - first_signature_time.replace(tzinfo=None)).total_seconds() / 3600 > 12:
+                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 12:
                         return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         self.perform_destroy(instance)
