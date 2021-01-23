@@ -1,12 +1,20 @@
 <template>
   <v-container>
-    <v-treeview
-      activatable
-      open-all
-      :items="tree_items"
-    >
+    <v-row>
+      <v-col class="d-flex">
+        <v-treeview
+          activatable
+          open-all
+          :items="tree_items"
+          @update:active="loadPage"
+        >
 
-    </v-treeview>
+        </v-treeview>
+    </v-col>
+      <v-col v-if="!!active_node" class="d-flex">
+        {{active_node}}
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -16,6 +24,7 @@ export default {
   name: "ManualList",
   data() {
     return {
+      active_node: [],
       tree_items: [
         {
           id: 1,
@@ -35,12 +44,17 @@ export default {
           children: [
             { 
               id: 21, name: `${this.$t('profile')} ${this.$t('manage')}`, children: [
-                { id: 211, name: `${this.$t('add_quick_trade_user')}`,},
                 { id: 212, name: `${this.$t('add_quick_trader_link')}`,},
+                { id: 211, name: `${this.$t('add_quick_trade_user')}`,},
               ]}
           ]
         }
       ]
+    }
+  },
+  methods: {
+    loadPage(value){
+      console.log(value)
     }
   }
 }
