@@ -12,7 +12,7 @@ const ProfileEditor = () => import ("../views/ProfileEditor");
 const AllowedUserEditor = () => import ("../views/AllowedUserEditor");
 const MandateEditor = () => import ("../views/MandateEditor");
 const Mandates = () => import ("../views/MandateList");
-const Manual = () => import ("../views/Manual");
+const ManualList = () => import ("../views/ManualList");
 const UserEditor = () => import ("../views/UserEditor");
 const HelpDesk = () => import ("../views/HelpDesk");
 
@@ -93,9 +93,9 @@ const routes = [
     props: true
   },
   {
-    path: "/manual/",
-    name: "manual",
-    component: Manual,
+    path: "/manuals/",
+    name: "manuals",
+    component: ManualList,
     props: true
   },
   {
