@@ -75,6 +75,7 @@ local_settings.py
 .env
 db.sqlite3
 **/migrations/*
+!**/migrations/__init__.py
 clients
 uploads
 *.mo
