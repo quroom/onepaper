@@ -6,11 +6,25 @@
 import { NotionRenderer, getPageBlocks } from "vue-notion";
 
 export default {
+  name: "ManualDetail",
+  props: {
+    id: {
+      required: true,
+    }
+  },
   components: { NotionRenderer },
+  watch: {
+    // will fire on route changes
+  //'$route.params.id': function(val, oldVal){ // Same
+    '$route.path': function(){
+      console.log(this.$route.params.id);
+      this.blockMap = getPageBlocks(this.id);
+    }
+  },
   data(){
-    return {
+    return { 
       pageLinkOptions: { component: 'router-link', href: 'to' },
-      blockMap: null
+      blockMap: null 
     }
   },
   methods:{
@@ -21,7 +35,7 @@ export default {
   },
   async created() {
     // get Notion blocks from the API via a Notion pageId
-    this.blockMap = await getPageBlocks("ae3044376388491794b73ace424b27f3");
+    this.blockMap = await getPageBlocks(this.id);
   },
 };
 </script>

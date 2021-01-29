@@ -12,6 +12,7 @@ const ProfileEditor = () => import ("../views/ProfileEditor");
 const AllowedUserEditor = () => import ("../views/AllowedUserEditor");
 const MandateEditor = () => import ("../views/MandateEditor");
 const Mandates = () => import ("../views/MandateList");
+const ManualDetail = () => import ("../views/ManualDetail");
 const ManualList = () => import ("../views/ManualList");
 const UserEditor = () => import ("../views/UserEditor");
 const HelpDesk = () => import ("../views/HelpDesk");
@@ -35,7 +36,7 @@ const routes = [
     component: ServiceIntro
   },
   {
-    path: "/paper/:id",
+    path: "/papers/:id",
     name: "paper-detail",
     component: PaperDetail,
     props: true
@@ -96,6 +97,12 @@ const routes = [
     path: "/manuals/",
     name: "manuals",
     component: ManualList,
+    props: true
+  },
+  {
+    path: "/manuals/:id",
+    name: "manual-detail",
+    component: ManualDetail,
     props: true
   },
   {

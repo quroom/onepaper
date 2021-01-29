@@ -1,7 +1,7 @@
 <template>
   <v-container min-width="250">
     <v-row>
-      <v-col v-for="notice in notices" :key="notice.id" cols="12">
+      <v-col v-for="notice in notices" :key="notice.id" cols="12" md="6" lg="4" xl="3">
         <v-card :to="{name: 'notice-detail', params: { id: notice.id } }">
           <v-card-subtitle class="py-1">
             {{ notice.author }}

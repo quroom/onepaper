@@ -1,9 +1,6 @@
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
-import FlagIcon from 'vue-flag-icon'
-
-Vue.use(FlagIcon);
 Vue.use(Vuetify);
 
 export default new Vuetify({

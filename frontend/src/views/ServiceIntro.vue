@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card class="elevation-0 transparent">
           <v-card-title primary-title class="layout justify-center">
-            <div class="text-h3 text-center">Onepaper </div>
+            <div class="text-h3 text-center font-weight-bold">ONEPAPER</div>
           </v-card-title>
           <v-card-text>
             <div class="text-h6 text-center">
@@ -23,7 +23,7 @@
             <div class="text-h5 text-center">신속성</div>
           </v-card-title>
           <v-card-text>
-            아직도 계약서 손으로 번거롭게 작성하고 계시나요?
+            계약서 아직도 손으로 번거롭게 작성하고 계시나요?
             썼던 내용 또 쓰고 계세요? 이제는 한번 쓴 내용은 불러와서 계약서 작성해보세요.
             휴대폰, PC만 있으면 언제 어디서든 계약서를 작성할 수 있답니다.
             <br/>당신과 타인의 거리를 좁혀드리겟습니다.
@@ -39,8 +39,8 @@
             <div class="text-h5 text-center">영속성</div>
           </v-card-title>
           <v-card-text>
+            계약서 분실을 더이상 걱정할 필요없습니다. 언제 어디서든 당신의 계약서를 확인하세요.
             휴대폰, PC로 작성한 계약 데이터는 서비스 기간동안 AWS RDS에 안전하게 저장됩니다.
-            이제는 더이상 계약서 분실을 걱정할 필요도! 계약서를 보관하느라 노심초사할 필요도! 없습니다.
             <br/>당신의 계약서를 영구히 보존해보세요.
           </v-card-text>
         </v-card>
@@ -62,7 +62,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-btn class="blue lighten-2 mt-5" dark large :to="{name:'manual'}">
+      <v-btn class="blue lighten-2 mt-5" dark large :to="{name:'manuals'}">
           이용방법 알아보기
       </v-btn>
     </v-row>

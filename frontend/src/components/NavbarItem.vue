@@ -62,12 +62,16 @@
           </v-list-item>
           <v-list-item @click="switchLoc()">
             <v-list-item-icon>
-              <flag v-if="this.$i18n.locale === 'ko'" iso="kr" />
-              <flag v-else iso="us" />
+              <span v-if="this.$i18n.locale === 'ko'">
+                EN
+              </span>
+              <span v-else>
+                한국
+              </span>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title
-                >{{ $t("language") }} {{ $t("change") }}</v-list-item-title
+                >{{ $t("language_change") }}</v-list-item-title
               >
             </v-list-item-content>
           </v-list-item>
