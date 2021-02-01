@@ -113,8 +113,8 @@ class Paper(models.Model):
                                    on_delete=models.SET_NULL,
                                    related_name="paper")
 
-    down_payment = models.BigIntegerField(null=True, blank=True, default=0)
-    security_deposit = models.BigIntegerField(null=True, blank=True, default=0)
+    down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
+    security_deposit = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     options = MultiSelectField(choices=OPTIONS_CATEGORY,

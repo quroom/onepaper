@@ -1,6 +1,6 @@
 import i18n from "@/plugins/i18n";
 import { extend, configure } from "vee-validate";
-import { integer, email, required, max, regex } from "vee-validate/dist/rules";
+import { required, max_value, regex } from "vee-validate/dist/rules";
 
 configure({
   defaultMessage: (_, values) => {
@@ -8,9 +8,7 @@ configure({
   }
 });
 extend("required", required);
-extend("integer", integer);
-extend("max", max);
-extend("email", email);
+extend("max_value", max_value);
 extend("regex", regex);
 extend("mobile", {
   validate(value) {

@@ -234,13 +234,13 @@
                 v-slot="{ errors }"
                 :ref="contract_field.name"
                 :name="$t(contract_field.name)"
-                rules="required"
+                :rules="`required|max_value:${contract_field.max_value}`"
               >
                 <LazyTextField
                   v-model="$data[''+contract_field.name]"
                   :error-messages="errors"
                   :label="$t(contract_field.name)"
-                  :suffix="$t('manwon')"
+                  :suffix="$t('won')"
                   :type="contract_field.type"
                   required
                 ></LazyTextField>
@@ -254,12 +254,12 @@
                   v-slot="{ errors }"
                   :ref="contract_field.name"
                   :name="$t(contract_field.name)"
-                  rules="required"
+                  :rules="`required|max_value:${contract_field.max_value}`"
                 >
                   <LazyTextField
                     v-model="$data[''+contract_field.name]"
                     :error-messages="errors"
-                    :label="$t(contract_field.name)+'('+$t('manwon')+')'"
+                    :label="$t(contract_field.name)+'('+$t('won')+')'"
                     :type="contract_field.type"
                     required
                   ></LazyTextField>
@@ -670,19 +670,23 @@ export default {
         contract_fields: [
           {
             name: "security_deposit",
-            type: "Number"
+            type: "Number",
+            max_value: 999999999999
           },
           {
             name: "monthly_fee",
-            type: "Number"
+            type: "Number",
+            max_value: 999999999
           },
           {
             name: "maintenance_fee",
-            type: "Number"
+            type: "Number",
+            max_value: 999999999
           },
           {
             name: "down_payment",
-            type: "Number"
+            type: "Number",
+            max_value: 999999999999
           },
         ],
         basic_profile_fields: [

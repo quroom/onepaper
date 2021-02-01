@@ -43,15 +43,15 @@
         </div>
         <span>
           <template v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
-            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
-            <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("manwon")}` }}</div>
-            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</span>
+            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("won")}` }}</div>
+            <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("won")}` }}</div>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
           </template>
           <template
             v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
           >
-            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("manwon")}` }}</div>
-            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("manwon")}` }}</span>
+            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("won")}` }}</div>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
           </template>
           <!-- #FIXME to be updated -->
           <template

@@ -114,7 +114,7 @@
             <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
           </v-col>
           <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-            <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("manwon") }}</v-card>
+            <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
           </v-col>
         </template>
       </template>
