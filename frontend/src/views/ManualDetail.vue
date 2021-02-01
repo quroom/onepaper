@@ -14,11 +14,10 @@ export default {
   },
   components: { NotionRenderer },
   watch: {
-    // will fire on route changes
-  //'$route.params.id': function(val, oldVal){ // Same
-    '$route.path': function(){
+    //Update page from samepage, just with different pageid.
+    '$route.path': async function(){
       console.log(this.$route.params.id);
-      this.blockMap = getPageBlocks(this.id);
+      this.blockMap = await getPageBlocks(this.$route.params.id)
     }
   },
   data(){
@@ -34,7 +33,6 @@ export default {
     }
   },
   async created() {
-    // get Notion blocks from the API via a Notion pageId
     this.blockMap = await getPageBlocks(this.id);
   },
 };
