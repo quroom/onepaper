@@ -100,7 +100,7 @@
     <template v-if="this.$root.$el.clientWidth > 500">
       <router-link :to="{ name: 'home' }">
         <v-toolbar-title class="text-uppercase grey--text">
-          OnePaper<span class="text-caption text-lowercase">[Alpha]</span>
+          OnePaper<span class="text-caption text-lowercase">[alpha]</span>
         </v-toolbar-title>
       </router-link>
       <router-link :to="{ name: 'home' }">
