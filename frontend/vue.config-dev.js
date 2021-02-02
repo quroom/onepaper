@@ -1,4 +1,5 @@
 const BundleTracker = require("webpack-bundle-tracker");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
@@ -11,6 +12,7 @@ module.exports = {
           .rule('eslint')
           .use('eslint-loader')
           .options({quiet: true});
+    config.plugin("BundleAnalyzerPlugin").use(BundleAnalyzerPlugin);
     config
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
