@@ -7,6 +7,7 @@ module.exports = {
       plugins: [
         new BundleAnalyzerPlugin(),
         new CompressionPlugin({
+        filename: "[path]",
         algorithm: "gzip",
         test: /\.(js|css)$/,
         })
