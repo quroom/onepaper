@@ -579,15 +579,8 @@
 </template>
 
 <script>
-import AddressSearch from "@/components/AddressSearch";
-import LazyTextField from "@/components/LazyTextField";
-
 export default {
   name: "VerifyingExplanationEditor",
-  components: {
-    AddressSearch,
-    LazyTextField,
-  },
   props: {
     ve: {
       type: Object,

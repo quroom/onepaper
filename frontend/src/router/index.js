@@ -1,21 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const ApproveExpert = () => import ("../views/ApproveExpert");
-const ServiceIntro = () => import ("../views/ServiceIntro");
-const Home = () => import ("../views/Home");
-const NoticeDetail = () => import ("../views/NoticeDetail");
-const NoticeList = () => import ("../views/NoticeList");
-const PaperDetail = () => import ("../views/PaperDetail");
-const PaperEditor = () => import ("../views/PaperEditor");
-const Profiles = () => import ("../views/ProfileList");
-const ProfileEditor = () => import ("../views/ProfileEditor");
-const AllowedUserEditor = () => import ("../views/AllowedUserEditor");
-const MandateEditor = () => import ("../views/MandateEditor");
-const Mandates = () => import ("../views/MandateList");
-const ManualDetail = () => import ("../views/ManualDetail");
-const ManualList = () => import ("../views/ManualList");
-const UserEditor = () => import ("../views/UserEditor");
-const HelpDesk = () => import ("../views/HelpDesk");
+
+import ApproveExpert from "../views/ApproveExpert";
+import ServiceIntro  from "../views/ServiceIntro";
+import Home  from "../views/Home";
+import NoticeDetail  from "../views/NoticeDetail";
+import NoticeList  from "../views/NoticeList";
+import PaperDetail  from "../views/PaperDetail";
+import PaperEditor  from "../views/PaperEditor";
+import Profiles  from "../views/ProfileList";
+import ProfileEditor  from "../views/ProfileEditor";
+import AllowedUserEditor  from "../views/AllowedUserEditor";
+import MandateEditor  from "../views/MandateEditor";
+import Mandates  from "../views/MandateList";
+import ManualDetail  from "../views/ManualDetail";
+import ManualList  from "../views/ManualList";
+import UserEditor  from "../views/UserEditor";
 
 Vue.use(VueRouter);
 
@@ -104,11 +104,6 @@ const routes = [
     name: "manual-detail",
     component: ManualDetail,
     props: true
-  },
-  {
-    path: "/help-desk/",
-    name: "help-desk",
-    component: HelpDesk
   },
   {
     path: "/edit/user/",

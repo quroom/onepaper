@@ -1,9 +1,16 @@
 const BundleTracker = require("webpack-bundle-tracker");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   configureWebpack: {
-      plugins: [new BundleAnalyzerPlugin()]
+      plugins: [
+        new BundleAnalyzerPlugin(),
+        new CompressionPlugin({
+        algorithm: "gzip",
+        test: /\.(js|css)$/,
+        })
+    ]
   },
   // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
   // publicPath: "http://125.183.143.159:8080/",
@@ -19,9 +26,9 @@ module.exports = {
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
 
-    config.output.filename("bundle.js");
-
     config.optimization.splitChunks(false);
+
+    config.output.filename("bundle.js");
 
     config.resolve.alias.set("__STATIC__", "static");
 
@@ -42,8 +49,8 @@ module.exports = {
 
   // uncomment before executing 'npm run build'
   css: {
-      extract: {
-        filename: 'bundle.css',
-      },
+    extract: {
+      filename: 'bundle.css',
+    },
   }
 };

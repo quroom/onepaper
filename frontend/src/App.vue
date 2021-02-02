@@ -98,9 +98,12 @@ a:hover {
 .float_right {
   float: right;
 }
-
+/* For print paper setting. */
 @media print {
   .navbar {
+    display: none;
+  }
+  .v-footer {
     display: none;
   }
 }
@@ -121,5 +124,13 @@ a:hover {
 }
 .root_tag {
    min-width:360px;
+}
+
+/* Notion Style */
+.notion-page-offset{
+  margin-top: 0px;
+}
+.notion-title {
+  text-align: center;
 }
 </style>

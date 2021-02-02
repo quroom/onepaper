@@ -80,7 +80,7 @@ const i18n = new VueI18n({
       id: "ID",
       image_file_size_error: "Image file size can't be over %{0} KB.",
       image_file_count_error: "You can't upload over %{0} images.",
-      image_file_type_error: "Only images can be uploaded here.",
+      image_file_type_error: "This file extension is not supported.",
       info: "Info",
       insert_special_agreement: "Insert special agreement",
       intro: "This is realestate contract that is made by traders.",
@@ -88,6 +88,7 @@ const i18n = new VueI18n({
       language: "Language",
       language_change: "언어 변경",
       last: "Last",
+      learn_how_to_use:"Learn how to use",
       link: "Link",
       list: "List",
       link_is_copied: "Link is copied",
@@ -123,12 +124,14 @@ const i18n = new VueI18n({
       paper_subtitle: "This contract can be viewed by anyone to create a better contract culture, excluding personal information (name, contact number, lot number, etc.).",
       paper_requesting_subtitle: "Contracts in the requesting state can be signed and contractor information can be checked after all contractors requiring the request press the Approve button.",
       profile: "Profile",
+      permanence: "Permanence",
       period: "Period",
       please_add_trade_user: "Please add user allowed to view profile",
       please_sign: "Please sign here.",
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
       profile_list_subtitle: "Only one profile can be activated and will be used when writing the contract. When adding a quick transaction member, the other party can add your profile without searching.",
+      quickness: "Quickness",
       quick_trade_user: "Quick tradeuser",
       read_mode: "Read Mode",
       realestate: "Realestate",
@@ -142,10 +145,11 @@ const i18n = new VueI18n({
       search: "Search",
       send_your_link: "Send link to user who you want to trade.",
       select: "Select",
-      service_info: "Service Intro",
+      service_intro: "Service Intro",
       special_agreement: "Special Agreement",
       special_agreement_basic_template: "",
       status: "status",
+      share: "Share",
       sign: "Signature",
       signature: "Sign",
       signature_empty_warning: "Signature can't be empty",
@@ -168,6 +172,20 @@ const i18n = new VueI18n({
       written: "Written",
       won: "Won",
       won_paid_recieved: "won paid upon visit and received",
+
+      //Service Intro
+      service_intro_title: "OnePaper's value is reducing the risk and time of real estate transactions through technology.",
+      service_intro_text1: "Are you still having trouble filling out the contract by hand?\
+      Are you writing what you wrote again? Now, read the content you wrote once and write the contract.\
+      With a mobile phone and a PC, you can write a contract anytime, anywhere.\
+      <br/>I will narrow the distance between you and others.",
+      service_intro_text2: "No more worrying about losing your contract. Check your contract anytime, anywhere.\
+      Contract data written on mobile phones and PCs is safely stored on AWS RDS for the duration of the service.\
+      <br/>Keep your contract permanent",
+      service_intro_text3:"Not sure how to write the contract?\
+      Are you worried that the contract I wrote is well written?\
+      Share your contracts, and share contracts from friends.\
+      And refer to the well-written contract.<br/>You can write a better contract.",
 
       //Profile message
       birthday: "Birthday",
@@ -413,7 +431,7 @@ const i18n = new VueI18n({
       id: "ID",
       image_file_size_error: "이미지 크기는 %{0}KB를 넘을 수 없습니다.",
       image_file_count_error: "%{0}개 이상의 이미지를 첨부할 수 없습니다.",
-      image_file_type_error: "이미지만 업로드 가능합니다.",
+      image_file_type_error: "지원하지 않는 파일 종류 입니다.",
       info: "정보",
       insert_special_agreement: "특약을 입력해주세요.",
       intro:
@@ -422,6 +440,7 @@ const i18n = new VueI18n({
       language: "언어",
       language_change: "Language Change",
       last: "최종",
+      learn_how_to_use: "이용방법 알아보기",
       link: "링크",
       list: "목록",
       link_is_copied: "링크가 복사 되었습니다.",
@@ -456,6 +475,7 @@ const i18n = new VueI18n({
       paper_subtitle: "본 계약서는 개인정보(성함, 연락처, 지번 등)를 제외하고 더 나은 계약 문화를 만들기 위해 누구나 조회 할 수 있습니다.",
       paper_requesting_subtitle: "요청 중 상태의 계약서는 요청이 필요한 모든 계약자가 승인 버튼을 누른 후 서명 및 계약자 정보를 확인할 수 있습니다.",
       profile: "프로필",
+      permanence: "영속성",
       period: "기간",
       please_add_trade_user:
         "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
@@ -465,6 +485,7 @@ const i18n = new VueI18n({
       profile_list_subtitle:
         "프로필은 단 하나만 활성화 가능하며 계약서 작성시 사용됩니다. 빠른거래 회원 추가 시 검색 없이 상대방이 회원님의 프로필을 추가할 수 있습니다.",
       quick_trade_user: "빠른거래회원",
+      quickness: "신속성",
       read_mode: "읽기모드",
       realestate: "부동산",
       realestate_agency: "개업공인중개사",
@@ -480,10 +501,11 @@ const i18n = new VueI18n({
       service_intro: "서비스 소개",
       special_agreement: "특약",
       special_agreement_basic_template: "",
-      status: "상태",
+      share: "공유",
       sign: "(서명)",
       signature: "서명",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
+      status: "상태",
       submit: "제출",
       signature_and_submit: "서명 후 위임장 제출",
       trade: "거래",
@@ -502,6 +524,20 @@ const i18n = new VueI18n({
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
 
+      //Service Intro
+      service_intro_title: "원페이퍼는 기술을 통해 부동산 거래 위험과 시간을 줄이는데 가치를 두고 있습니다.",
+      service_intro_text1:"계약서 아직도 손으로 번거롭게 작성하고 계시나요?\
+      썼던 내용 또 쓰고 계세요? 이제는 한번 쓴 내용은 불러와서 계약서 작성해보세요.\
+      휴대폰, PC만 있으면 언제 어디서든 계약서를 작성할 수 있답니다.\
+      <br/>당신과 타인의 거리를 좁혀드리겠습니다.",
+      service_intro_text2:"계약서 분실을 더이상 걱정할 필요없습니다. 언제 어디서든 당신의 계약서를 확인하세요.\
+      휴대폰, PC로 작성한 계약 데이터는 서비스 기간동안 AWS RDS에 안전하게 저장됩니다.\
+      <br/>당신의 계약서를 영구히 보존해보세요.",
+      service_intro_text3:"계약서를 어떻게 작성해야할지 모르겠다구요?\
+      내가 쓴 계약서가 잘 작성되었는지 걱정 되시나요?\
+      당신이 작성한 계약서를 공유하고, 친구가 작성한 계약서를 공유받으세요.\
+      그리고 잘 작성된 계약서를 참고해보세요. \
+      <br/>더 나은 계약서를 작성할 수 있을거에요.",
       //Profile message
       birthday: "생일",
       name: "성함",

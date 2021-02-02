@@ -223,20 +223,13 @@
 <script>
 import { apiService, apiService_formData } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
-import AddressSearch from "@/components/AddressSearch";
 import ContractorItem from "@/components/ContractorItem";
 import DeleteAlert from "@/components/DeleteAlert";
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { quillEditor } from 'vue-quill-editor'
 
 export default {
   name: "MandateEditor",
   components: {
-    AddressSearch,
     ContractorItem,
-    quillEditor,
     DeleteAlert
   },
   data() {

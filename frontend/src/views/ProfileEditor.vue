@@ -171,7 +171,7 @@
               <v-file-input
                 v-model="expert_profile.registration_certificate"
                 :label="$t('registration_certificate')"
-                accept="image/*"
+                accept="['image/png, image/jpeg, image/bmp']"
                 @click.stop
                 @change="preview_image('registration_certificate')"
                 :error-messages="errors"
@@ -189,7 +189,7 @@
               <v-file-input
                 v-model="expert_profile.agency_license"
                 :label="$t('agency_license')"
-                accept="image/*"
+                accept="['image/png, image/jpeg, image/bmp']"
                 @click.stop
                 @change="preview_image('agency_license')"
                 :error-messages="errors"
@@ -207,7 +207,7 @@
               <v-file-input
                 v-model="expert_profile.garantee_insurance"
                 :label="$t('garantee_insurance')"
-                accept="image/*"
+                accept="['image/png, image/jpeg, image/bmp']"
                 @click.stop
                 @change="preview_image('garantee_insurance')"
                 :error-messages="errors"
@@ -225,7 +225,7 @@
               <v-file-input
                 v-model="expert_profile.stamp"
                 :label="$t('stamp')"
-                accept="image/*"
+                accept="['image/png, image/jpeg, image/bmp']"
                 @click.stop
                 @change="preview_image('stamp')"
                 :error-messages="errors"
@@ -299,13 +299,11 @@
 <script>
 import { apiService, apiService_formData } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
-import AddressSearch from "@/components/AddressSearch";
 import DeleteAlert from "@/components/DeleteAlert";
 
 export default {
   name: "ProfileEditor",
   components: {
-    AddressSearch,
     DeleteAlert
   },
   props: {

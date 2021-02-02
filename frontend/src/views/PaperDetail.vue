@@ -437,12 +437,6 @@ import { applyValidation } from "@/common/common_api";
 import ContractorItem from "@/components/ContractorItem";
 import ActionItems from "@/components/ActionItems";
 import VerifyingExplanation from "@/components/VerifyingExplanation";
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-
-import { quillEditor } from 'vue-quill-editor'
-
 
 export default {
   name: "PaperDetail",
@@ -456,7 +450,6 @@ export default {
     ContractorItem,
     ActionItems,
     VerifyingExplanation,
-    quillEditor
   },
   computed: {
     isPaperAuthor: function() {

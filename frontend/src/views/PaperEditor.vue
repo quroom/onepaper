@@ -454,13 +454,8 @@
 <script>
 import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
-import AddressSearch from "@/components/AddressSearch";
 import ContractorItem from "@/components/ContractorItem";
 import VerifyingExplanationEditor from "@/components/VerifyingExplanationEditor";
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
-import { quillEditor } from 'vue-quill-editor';
 
 export default {
   name: "PaperEditor",
@@ -471,9 +466,7 @@ export default {
     }
   },
   components: {
-    AddressSearch,
     ContractorItem,
-    quillEditor,
     VerifyingExplanationEditor
   },
   computed: {
@@ -741,37 +734,37 @@ export default {
               'image': () => {
                 let that = this;
                 var input = document.createElement("input");
+                input.setAttribute('accept', 'image/png, image/jpeg, image/bmp');
                 input.setAttribute("type", "file");
                 input.click();
                 input.onchange = () => {
                     const file = input.files[0];
                     const max_size = 512000
                     const max_count = 2
-                    if(file.size > max_size){
-                      alert(that.$t("image_file_size_error", [max_size/1024]))
-                      return;
-                    }
-                    const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName("img").length
-                    if(file_count >= max_count){
-                      alert(that.$t("image_file_count_error", [max_count]))
-                      return;
-                    }
-                    if (/^image\//.test(file.type)) {
-                        const getBase64 = (file) => new Promise(function (resolve, reject) {
-                            let reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result)
-                            reader.onerror = (error) => reject('Error: ', error);
-                        })
-                        const range = that.$refs.myQuillEditor.quill.getSelection();
-                        getBase64(file).then((result) => {
-                          let encoded = result;
-                          that.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
-                        })
-                        .catch(e => alert(e))
-                        
+                    if (/^image\/(jpe?g|png|bmp)$/.test(file.type)) {
+                      if(file.size > max_size){
+                        alert(that.$t("image_file_size_error", [max_size/1024]))
+                        return;
+                      }
+                      const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName("img").length
+                      if(file_count >= max_count){
+                        alert(that.$t("image_file_count_error", [max_count]))
+                        return;
+                      }
+                      const getBase64 = (file) => new Promise(function (resolve, reject) {
+                          let reader = new FileReader();
+                          reader.readAsDataURL(file);
+                          reader.onload = () => resolve(reader.result)
+                          reader.onerror = (error) => reject('Error: ', error);
+                      })
+                      const range = that.$refs.myQuillEditor.quill.getSelection();
+                      getBase64(file).then((result) => {
+                        let encoded = result;
+                        that.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
+                      })
+                      .catch(e => alert(e))
                     } else {
-                        alert(that.$t("image_file_type_error"));
+                      alert(that.$t("image_file_type_error"));
                     }
                 };
               }
