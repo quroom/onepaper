@@ -220,6 +220,13 @@ if EMAIL_HOST_PASSWORD != '':
 USE_S3 = bool( os.environ.get("USE_S3", False) )
 
 if USE_S3:
+    AWS_IS_GZIPPED = True
+    GZIP_CONTENT_TYPES = (
+    'text/css',
+    'application/javascript',
+    'application/x-javascript',
+    'text/javascript'
+    )
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_REGION = 'ap-northeast-2'
