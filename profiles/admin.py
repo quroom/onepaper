@@ -1,7 +1,6 @@
 from django.contrib import admin
-from profiles.models import CustomUser, ExpertProfile, Profile
+from django.apps import apps
 
 # Register your models here.
-admin.site.register(CustomUser)
-admin.site.register(Profile)
-admin.site.register(ExpertProfile)
+for model in apps.get_app_config('profiles').get_models():
+    admin.site.register(model)

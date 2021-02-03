@@ -1,5 +1,6 @@
 from django.contrib import admin
-from papers.models import Paper, Signature
+from django.apps import apps
+
 # Register your models here.
-admin.site.register(Paper)
-admin.site.register(Signature)
+for model in apps.get_app_config('papers').get_models():
+    admin.site.register(model)
