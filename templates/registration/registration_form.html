@@ -28,11 +28,11 @@
         {{ form.password2|as_crispy_field }}
         {{ form.name|as_crispy_field }}
         {{ form.birthday|as_crispy_field }}
-        {{ form.mobile_number|as_crispy_field }}
         {{ form.old_address|as_crispy_field }}
-        <div id="wrap" style="display: none; border: 1px solid; max-height: 444px; margin: 5px 0px; position: relative;">
+        <div id="wrap" style="display: none; border: 1px solid; top:-54px; max-height: 470px; margin: 5px 0px; position: relative;">
             <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
         </div>
+        {{ form.mobile_number|as_crispy_field }}
         <div class="form-row">
             <div class="form-group col-6 mb-0">
                 {{ form.dong|as_crispy_field }}
@@ -158,7 +158,7 @@
     function execDaumPostcode() {
         // 현재 scroll 위치를 저장해놓는다.
         var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-        new daum.Postcode({
+        var daumpost = new daum.Postcode({
             autoMapping:false,
             oncomplete: function(data) {
 
@@ -169,8 +169,8 @@
                 document.getElementById("id_bun").value = data.jibunAddress.split("-")[0].split(" ")[data.jibunAddress.split("-")[0].split(" ").length - 1]
                 document.getElementById("id_ji").value = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : ""
 
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("id_dong").focus();
+                // 커서를 휴대폰번호 필드로 이동한다.
+                document.getElementById("id_mobile_number").focus();
 
                 // iframe을 넣은 element를 안보이게 한다.
                 // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
@@ -182,9 +182,10 @@
             // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
             onresize : function(size) {
                 element_wrap.style.height = size.height+'px';
+                element_wrap.scrollIntoView()
             },
             width : '100%',
-            height : '444px'
+            height : '101%'
         }).embed(element_wrap);
 
         // iframe을 넣은 element를 보이게 한다.

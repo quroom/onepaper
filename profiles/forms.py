@@ -15,7 +15,7 @@ User = get_user_model()
 class CustomUserForm(RegistrationFormUniqueEmail):
     terms_service = forms.BooleanField(label=_('이용약관 동의'))
     personal_info = forms.BooleanField(label=_('개인정보 처리방침 동의'))
-    name = forms.CharField(label=_('이름'), required=True, max_length=150)
+    name = forms.CharField(label=_('성함'), required=True, max_length=150)
     birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
     bank_name = forms.CharField(label=_('은행명'), required=False, max_length=45)
@@ -33,7 +33,7 @@ class CustomUserForm(RegistrationFormUniqueEmail):
     class Meta(RegistrationFormUniqueEmail.Meta):
         model = CustomUser
         labels = {
-            'username': _('아이디')
+            'username': _('username')
         }
     @transaction.atomic
     def save(self, commit=True):

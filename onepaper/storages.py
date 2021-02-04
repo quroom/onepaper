@@ -1,4 +1,5 @@
 from storages.backends.s3boto3 import S3Boto3Storage
+from django.conf import settings
 
 __all__ = (
     'S3StaticStorage',
@@ -14,4 +15,7 @@ class S3DefaultStorage(S3Boto3Storage):
 # for static
 class S3StaticStorage(S3Boto3Storage):
     default_acl = 'public-read'
-    location = 'static'
+    if settings.DEBUG:
+        location = 'static-green'
+    else:
+        location = 'static'

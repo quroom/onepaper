@@ -131,9 +131,11 @@
       </router-link>
     </template>
     <v-spacer></v-spacer>
-    <v-btn text color="grey" href="/accounts/logout/">
+    <v-btn class="pa-0" text color="grey" :to="{name: 'profiles'}">
       <span class="font-weight-bold">[{{ username }}]</span>
-      <v-icon>exit_to_app</v-icon>
+    </v-btn>
+    <v-btn class="pa-0" min-width="0px" text color="grey" href="/accounts/logout/">
+      <v-icon >exit_to_app</v-icon>
     </v-btn>
   </v-app-bar>
 </template>

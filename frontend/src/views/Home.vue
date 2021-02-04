@@ -7,7 +7,7 @@
       <template
         v-slot:activator="{ on, attrs }"
       >
-        <v-btn dark fixed fab middle right v-bind="attrs" v-on="on">
+        <v-btn dark fixed fab small right v-bind="attrs" v-on="on">
           <v-icon>filter_list_alt</v-icon>
         </v-btn>
       </template>

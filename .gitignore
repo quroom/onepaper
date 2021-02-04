@@ -55,7 +55,6 @@ nosetests.xml
 coverage.xml
 
 # Translations
-*.mo
 *.pot
 
 # Sphinx documentation
@@ -78,5 +77,4 @@ db.sqlite3
 !**/migrations/__init__.py
 clients
 uploads
-*.mo
 media
