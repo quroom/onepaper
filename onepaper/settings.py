@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')fe%8bp3c4$*v*ghv46s+4iwbir5)v
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+DEBUG = os.environ.get("DJANGO_DEBUG", 'True') != 'False'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',"*").split(",")
 
 # Application definition
@@ -217,7 +217,7 @@ if EMAIL_HOST_PASSWORD != '':
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 
-USE_S3 = bool( os.environ.get("USE_S3", False) )
+USE_S3 = os.environ.get("USE_S3", 'False') != 'False'
 
 if USE_S3:
     AWS_IS_GZIPPED = True
