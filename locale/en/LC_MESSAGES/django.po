@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-18 14:40+0900\n"
+"POT-Creation-Date: 2021-02-04 11:53+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,252 +17,252 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\onepaper\settings.py:133
+#: .\onepaper\settings.py:135
 msgid "Korean"
 msgstr ""
 
-#: .\onepaper\settings.py:134
+#: .\onepaper\settings.py:136
 msgid "English"
 msgstr ""
 
-#: .\papers\models.py:17
+#: .\papers\models.py:18
 msgid "요청중"
 msgstr "Requesting"
 
-#: .\papers\models.py:18
+#: .\papers\models.py:19
 msgid "작성중"
 msgstr "Draft"
 
-#: .\papers\models.py:19
+#: .\papers\models.py:20
 msgid "서명중"
 msgstr "Progress"
 
-#: .\papers\models.py:20
+#: .\papers\models.py:21
 msgid "완료"
 msgstr "Done"
 
-#: .\papers\models.py:34 .\papers\models.py:221
+#: .\papers\models.py:35 .\papers\models.py:235
 msgid "대"
 msgstr "Building Land"
 
-#: .\papers\models.py:35 .\papers\models.py:51 .\papers\models.py:217
-#: .\papers\models.py:234
+#: .\papers\models.py:36 .\papers\models.py:52 .\papers\models.py:231
+#: .\papers\models.py:248
 msgid "기타"
 msgstr "Etc"
 
-#: .\papers\models.py:47 .\papers\models.py:230
+#: .\papers\models.py:48 .\papers\models.py:244
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:48 .\papers\models.py:231
+#: .\papers\models.py:49 .\papers\models.py:245
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:49 .\papers\models.py:195 .\papers\models.py:232
+#: .\papers\models.py:50 .\papers\models.py:209 .\papers\models.py:246
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:50 .\papers\models.py:233
+#: .\papers\models.py:51 .\papers\models.py:247
 msgid "아파트"
 msgstr ""
 
-#: .\papers\models.py:60
+#: .\papers\models.py:61
 msgid "월세"
 msgstr ""
 
-#: .\papers\models.py:61
+#: .\papers\models.py:62
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:62 .\papers\models.py:197
+#: .\papers\models.py:63 .\papers\models.py:211
 msgid "매매"
 msgstr ""
 
-#: .\papers\models.py:63
+#: .\papers\models.py:64
 msgid "교환"
 msgstr ""
 
-#: .\papers\models.py:80
+#: .\papers\models.py:81
 msgid "티비"
 msgstr ""
 
-#: .\papers\models.py:81
+#: .\papers\models.py:82
 msgid "냉장고"
 msgstr ""
 
-#: .\papers\models.py:82
+#: .\papers\models.py:83
 msgid "세탁기"
 msgstr ""
 
-#: .\papers\models.py:83
+#: .\papers\models.py:84
 msgid "에어컨"
 msgstr ""
 
-#: .\papers\models.py:84
+#: .\papers\models.py:85
 msgid "침대"
 msgstr ""
 
-#: .\papers\models.py:85
+#: .\papers\models.py:86
 msgid "책상"
 msgstr ""
 
-#: .\papers\models.py:86
+#: .\papers\models.py:87
 msgid "옷장"
 msgstr ""
 
-#: .\papers\models.py:87
+#: .\papers\models.py:88
 msgid "신발장"
 msgstr ""
 
-#: .\papers\models.py:88
+#: .\papers\models.py:89
 msgid "가스렌지"
 msgstr ""
 
-#: .\papers\models.py:89
+#: .\papers\models.py:90
 msgid "전자렌지"
 msgstr ""
 
-#: .\papers\models.py:90
+#: .\papers\models.py:91
 msgid "도어락"
 msgstr ""
 
-#: .\papers\models.py:91
+#: .\papers\models.py:92
 msgid "비데"
 msgstr ""
 
-#: .\papers\models.py:92
+#: .\papers\models.py:93
 msgid "추가물품"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:140
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:140
+#: .\papers\models.py:141
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:141
+#: .\papers\models.py:142
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\models.py:196
+#: .\papers\models.py:210
 msgid "공동주택"
 msgstr ""
 
-#: .\papers\models.py:198
+#: .\papers\models.py:212
 msgid "임대"
 msgstr ""
 
-#: .\papers\models.py:210
+#: .\papers\models.py:224
 msgid "등기권리증"
 msgstr ""
 
-#: .\papers\models.py:211
+#: .\papers\models.py:225
 msgid "등기사항증명서"
 msgstr ""
 
-#: .\papers\models.py:212
+#: .\papers\models.py:226
 msgid "토지대장"
 msgstr ""
 
-#: .\papers\models.py:213
+#: .\papers\models.py:227
 msgid "건축물대장"
 msgstr ""
 
-#: .\papers\models.py:214
+#: .\papers\models.py:228
 msgid "지적도"
 msgstr ""
 
-#: .\papers\models.py:215
+#: .\papers\models.py:229
 msgid "임야도"
 msgstr ""
 
-#: .\papers\models.py:216
+#: .\papers\models.py:230
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: .\papers\models.py:242
+#: .\papers\models.py:256
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:243
+#: .\papers\models.py:257
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:244
+#: .\papers\models.py:258
 msgid "단기민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:245
+#: .\papers\models.py:259
 msgid "해당사항없음"
 msgstr ""
 
-#: .\papers\models.py:252
+#: .\papers\models.py:266
 msgid "토기투기지역"
 msgstr ""
 
-#: .\papers\models.py:253
+#: .\papers\models.py:267
 msgid "주택투기지역"
 msgstr ""
 
-#: .\papers\models.py:254
+#: .\papers\models.py:268
 msgid "투기과열지구"
 msgstr ""
 
-#: .\papers\models.py:262
+#: .\papers\models.py:276
 msgid "없음"
 msgstr "None"
 
-#: .\papers\models.py:263
+#: .\papers\models.py:277
 msgid "전용주차시설"
 msgstr ""
 
-#: .\papers\models.py:264
+#: .\papers\models.py:278
 msgid "공동주차시설"
 msgstr ""
 
-#: .\papers\models.py:265
+#: .\papers\models.py:279
 msgid "그밖의주차시설"
 msgstr ""
 
-#: .\papers\models.py:272
+#: .\papers\models.py:286
 msgid "위탁관리"
 msgstr ""
 
-#: .\papers\models.py:273
+#: .\papers\models.py:287
 msgid "자체관리"
 msgstr ""
 
-#: .\papers\models.py:274
+#: .\papers\models.py:288
 msgid "그밖의유형"
 msgstr ""
 
-#: .\papers\models.py:280
+#: .\papers\models.py:294
 msgid "중앙공급"
 msgstr ""
 
-#: .\papers\models.py:281
+#: .\papers\models.py:295
 msgid "개별공급"
 msgstr ""
 
-#: .\papers\models.py:289
+#: .\papers\models.py:303
 msgid "가스"
 msgstr ""
 
-#: .\papers\models.py:290
+#: .\papers\models.py:304
 msgid "기름"
 msgstr ""
 
-#: .\papers\models.py:291
+#: .\papers\models.py:305
 msgid "프로판가스"
 msgstr ""
 
-#: .\papers\models.py:292
+#: .\papers\models.py:306
 msgid "연탄"
 msgstr ""
 
-#: .\papers\models.py:293
+#: .\papers\models.py:307
 msgid "그밖의종류"
 msgstr ""
 
@@ -291,46 +291,46 @@ msgstr ""
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:430 .\papers\views.py:25
+#: .\papers\tests.py:430 .\papers\views.py:26
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:726 .\papers\views.py:158
+#: .\papers\tests.py:726 .\papers\views.py:171
 msgid "완료된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:800 .\papers\views.py:183
+#: .\papers\tests.py:800 .\papers\views.py:199
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1176 .\papers\tests.py:1265 .\papers\views.py:49
-#: .\papers\views.py:208
+#: .\papers\tests.py:1176 .\papers\tests.py:1265 .\papers\views.py:50
+#: .\papers\views.py:227
 msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1186 .\papers\tests.py:1275 .\papers\views.py:56
-#: .\papers\views.py:215
+#: .\papers\tests.py:1186 .\papers\tests.py:1275 .\papers\views.py:57
+#: .\papers\views.py:234
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1218 .\papers\tests.py:1307 .\papers\views.py:73
-#: .\papers\views.py:229
+#: .\papers\tests.py:1218 .\papers\tests.py:1307 .\papers\views.py:74
+#: .\papers\views.py:248
 msgid "완료된 계약서의 서명은 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:88
+#: .\papers\views.py:89
 msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
 msgstr ""
 
-#: .\papers\views.py:90
+#: .\papers\views.py:91
 msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:166
+#: .\papers\views.py:182
 msgid "최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:191
+#: .\papers\views.py:210
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
@@ -343,7 +343,7 @@ msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
 #: .\profiles\forms.py:18
-msgid "이름"
+msgid "성함"
 msgstr "FullName"
 
 #: .\profiles\forms.py:19
@@ -375,8 +375,8 @@ msgid "호"
 msgstr "Ho"
 
 #: .\profiles\forms.py:36
-msgid "아이디"
-msgstr "User ID"
+msgid "username"
+msgstr ""
 
 #: .\profiles\forms.py:76
 msgid "사업자 계정으로 등록하길 원하시면 체크."
@@ -410,177 +410,186 @@ msgstr "Brokerage Garantee Insurance"
 msgid "사무실 주소"
 msgstr "Shop Address"
 
-#: .\profiles\models.py:68
+#: .\profiles\models.py:71
 msgid "요청"
 msgstr "Request"
 
-#: .\profiles\models.py:69
+#: .\profiles\models.py:72
 msgid "승인"
 msgstr "Approved"
 
-#: .\profiles\models.py:70
+#: .\profiles\models.py:73
 msgid "거부"
 msgstr "Denied"
 
-#: .\profiles\models.py:71
+#: .\profiles\models.py:74
 msgid "폐업"
 msgstr "Closed"
 
-#: .\profiles\serializers.py:267
+#: .\profiles\serializers.py:261
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
-msgstr ""
+msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: .\profiles\serializers.py:273
+#: .\profiles\serializers.py:267
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:278 .\profiles\serializers.py:279
+#: .\profiles\serializers.py:272 .\profiles\serializers.py:273
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
+"Users who are not approved as a real estate agent cannot register on the "
+"power of attorney."
+
+#: .\profiles\serializers.py:278
+msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
+msgstr "Please check Allow Profile View to Create Power of Attorney"
+
+#: .\profiles\serializers.py:281
+msgid "위임인만 서명이 가능합니다."
+msgstr "Only delegates can sign."
 
 #: .\profiles\serializers.py:284
-msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
-msgstr ""
-
-#: .\profiles\serializers.py:287
-msgid "위임인만 서명이 가능합니다."
-msgstr ""
-
-#: .\profiles\serializers.py:290
 msgid "위임인과 수임인이 동일할 수 없습니다."
-msgstr ""
+msgstr "The delegate and delegate cannot be the same."
 
-#: .\profiles\serializers.py:292
+#: .\profiles\serializers.py:286
 msgid "사용자가 존재하지 않습니다."
-msgstr ""
+msgstr "User does not exist."
 
 #: .\profiles\tests.py:89 .\profiles\views.py:48
 msgid "자기 자신의 아이디는 추가할 수 없습니다."
-msgstr ""
+msgstr "You cannot add your own ID."
 
 #: .\profiles\tests.py:94 .\profiles\views.py:53
 msgid "회원 아이디가 없습니다."
-msgstr ""
+msgstr "There is no member ID."
 
 #: .\profiles\tests.py:99 .\profiles\views.py:58
 msgid "이름이 일치하지 않습니다."
-msgstr ""
+msgstr "The names do not match."
 
 #: .\profiles\tests.py:113 .\profiles\views.py:60
 msgid "이미 추가된 회원입니다."
-msgstr ""
+msgstr "This member has already been added."
 
 #: .\profiles\tests.py:124 .\profiles\views.py:74
 msgid "자신의 아이디는 삭제할 수 없습니다."
-msgstr ""
+msgstr "You cannot delete your ID."
 
 #: .\profiles\tests.py:129 .\profiles\tests.py:138 .\profiles\views.py:79
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
+"Members who have not been added to the quick transaction list cannot be "
+"deleted."
 
-#: .\profiles\tests.py:294 .\profiles\views.py:146
+#: .\profiles\tests.py:294 .\profiles\views.py:156
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
-msgstr ""
+msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
 #: .\profiles\tests.py:350 .\profiles\tests.py:356 .\profiles\views.py:99
 #: .\profiles\views.py:118
 msgid "전문가가 선택되지 않았습니다."
-msgstr ""
+msgstr "No expert was chosen."
 
 #: .\profiles\tests.py:353 .\profiles\views.py:104
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
-msgstr ""
+msgstr "No approved experts have been selected."
 
-#: .\profiles\tests.py:508 .\profiles\views.py:172
+#: .\profiles\tests.py:508 .\profiles\views.py:182
 msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
-msgstr ""
+msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\profiles\tests.py:551 .\profiles\views.py:149
+#: .\profiles\tests.py:551 .\profiles\views.py:159
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
-msgstr ""
+msgstr "If you have a contract paper, you cannot edit your profile."
 
-#: .\profiles\tests.py:587 .\profiles\views.py:152
+#: .\profiles\tests.py:587 .\profiles\views.py:162
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
-msgstr ""
+msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: .\profiles\tests.py:619 .\profiles\views.py:175
+#: .\profiles\tests.py:619 .\profiles\views.py:185
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
+"If you have created a power of attorney, you cannot delete your profile."
 
-#: .\profiles\tests.py:631 .\profiles\views.py:291
+#: .\profiles\tests.py:631 .\profiles\views.py:301
 msgid "성함, 연락처 모두 입력해야 합니다."
-msgstr ""
+msgstr "You must enter both your name and contact information."
 
-#: .\profiles\tests.py:750 .\profiles\views.py:201
+#: .\profiles\tests.py:763 .\profiles\views.py:211
 msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
-msgstr ""
+msgstr "If there is a contract, the member information cannot be modified."
 
-#: .\profiles\tests.py:762 .\profiles\views.py:227
+#: .\profiles\tests.py:775 .\profiles\views.py:237
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
+"Withdrawal has been processed. Account information has also been completely "
+"deleted."
 
-#: .\profiles\tests.py:805 .\profiles\views.py:224
+#: .\profiles\tests.py:818 .\profiles\views.py:234
 msgid "탈퇴처리 되었습니다."
-msgstr ""
+msgstr "Withdrawal has been processed."
 
-#: .\profiles\tests.py:815 .\profiles\views.py:220
+#: .\profiles\tests.py:828 .\profiles\views.py:230
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
-msgstr ""
+msgstr "Please enter all the information of the member to withdraw from."
 
-#: .\profiles\tests.py:826 .\profiles\views.py:218
+#: .\profiles\tests.py:839 .\profiles\views.py:228
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
+"The information entered does not match the current member's information."
 
-#: .\profiles\tests.py:935 .\profiles\tests.py:968 .\profiles\views.py:263
+#: .\profiles\tests.py:948 .\profiles\tests.py:981 .\profiles\views.py:273
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
-msgstr ""
+msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\tests.py:983 .\profiles\views.py:280
+#: .\profiles\tests.py:996 .\profiles\views.py:290
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
-msgstr ""
+msgstr "A signed power of attorney cannot be deleted."
 
-#: .\templates\registration\activate.html:5
-#: .\templates\registration\activate.html:8
+#: .\templates\registration\activate.html:4
+#: .\templates\registration\activate.html:7
 msgid "Activation Failure"
 msgstr ""
 
-#: .\templates\registration\activate.html:9
+#: .\templates\registration\activate.html:8
 msgid "Account activation failed."
 msgstr ""
 
-#: .\templates\registration\activation_complete.html:5
-#: .\templates\registration\activation_complete.html:8
-#: .\templates\registration\activation_complete_admin_pending.html:5
-#: .\templates\registration\activation_complete_admin_pending.html:8
+#: .\templates\registration\activation_complete.html:4
+#: .\templates\registration\activation_complete.html:7
+#: .\templates\registration\activation_complete_admin_pending.html:4
+#: .\templates\registration\activation_complete_admin_pending.html:7
 msgid "Account Activated"
 msgstr ""
 
-#: .\templates\registration\activation_complete.html:10
-#: .\templates\registration\activation_complete_admin_pending.html:10
+#: .\templates\registration\activation_complete.html:9
+#: .\templates\registration\activation_complete_admin_pending.html:9
 msgid "Your account is now activated."
 msgstr ""
 
-#: .\templates\registration\activation_complete.html:12
+#: .\templates\registration\activation_complete.html:11
 msgid "You can log in."
 msgstr ""
 
-#: .\templates\registration\activation_complete.html:14
+#: .\templates\registration\activation_complete.html:13
 #: .\templates\registration\login.html:6 .\templates\registration\login.html:11
 #: .\templates\registration\password_reset_complete.html:8
+#: .\templates\registration\registration_complete.html:11
 #: .\templates\registration\registration_form.html:85
 msgid "Log in"
 msgstr ""
 
-#: .\templates\registration\activation_complete_admin_pending.html:12
+#: .\templates\registration\activation_complete_admin_pending.html:11
 msgid "Once a site administrator activates your account you can login."
 msgstr ""
 
-#: .\templates\registration\activation_email.html:6
+#: .\templates\registration\activation_email.html:4
 msgid "registration"
 msgstr ""
 
-#: .\templates\registration\activation_email.html:11
+#: .\templates\registration\activation_email.html:8
 #, python-format
 msgid ""
 "\n"
@@ -591,7 +600,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: .\templates\registration\activation_email.html:18
+#: .\templates\registration\activation_email.html:15
 #, python-format
 msgid ""
 "\n"
@@ -601,11 +610,11 @@ msgid ""
 "    "
 msgstr ""
 
-#: .\templates\registration\activation_email.html:26
+#: .\templates\registration\activation_email.html:22
 msgid "Account activation on"
 msgstr ""
 
-#: .\templates\registration\activation_email.html:30
+#: .\templates\registration\activation_email.html:25
 #, python-format
 msgid ""
 "\n"
@@ -618,21 +627,21 @@ msgstr ""
 msgid "Send Activation Email"
 msgstr ""
 
-#: .\templates\registration\admin_approve.html:5
-#: .\templates\registration\admin_approve.html:8
+#: .\templates\registration\admin_approve.html:4
+#: .\templates\registration\admin_approve.html:7
 msgid "Approval Failure"
 msgstr ""
 
-#: .\templates\registration\admin_approve.html:9
+#: .\templates\registration\admin_approve.html:8
 msgid "Account Approval failed."
 msgstr ""
 
-#: .\templates\registration\admin_approve_complete.html:5
-#: .\templates\registration\admin_approve_complete.html:8
+#: .\templates\registration\admin_approve_complete.html:4
+#: .\templates\registration\admin_approve_complete.html:7
 msgid "Account Approved"
 msgstr ""
 
-#: .\templates\registration\admin_approve_complete.html:10
+#: .\templates\registration\admin_approve_complete.html:9
 msgid "The user's account is now approved."
 msgstr ""
 
@@ -645,6 +654,7 @@ msgid "Agency Registration"
 msgstr ""
 
 #: .\templates\registration\login.html:18
+#: .\templates\registration\password_reset_complete.html:4
 #: .\templates\registration\password_reset_complete.html:6
 #: .\templates\registration\password_reset_form.html:6
 msgid "Password reset"
@@ -657,26 +667,27 @@ msgstr ""
 msgid "Resend Activation Email"
 msgstr ""
 
-#: .\templates\registration\password_change_done.html:7
+#: .\templates\registration\password_change_done.html:8
 msgid "Your password was changed."
 msgstr ""
 
-#: .\templates\registration\password_change_done.html:8
+#: .\templates\registration\password_change_done.html:9
 msgid "Home"
 msgstr ""
 
-#: .\templates\registration\password_change_form.html:6
+#: .\templates\registration\password_change_form.html:5
+#: .\templates\registration\password_change_form.html:7
 msgid "Password change"
 msgstr ""
 
-#: .\templates\registration\password_change_form.html:8
+#: .\templates\registration\password_change_form.html:9
 msgid ""
 "Please enter your old password, for security’s sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
 
-#: .\templates\registration\password_change_form.html:12
-#: .\templates\registration\password_reset_confirm.html:12
+#: .\templates\registration\password_change_form.html:13
+#: .\templates\registration\password_reset_confirm.html:13
 msgid "Change my password"
 msgstr ""
 
@@ -684,7 +695,7 @@ msgstr ""
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
 
-#: .\templates\registration\password_reset_confirm.html:8
+#: .\templates\registration\password_reset_confirm.html:9
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
@@ -723,15 +734,15 @@ msgid ""
 "into your web browser:\n"
 msgstr ""
 
-#: .\templates\registration\password_reset_email.html:20
+#: .\templates\registration\password_reset_email.html:18
 msgid "Your username, in case you've forgotten:"
 msgstr ""
 
-#: .\templates\registration\password_reset_email.html:23
+#: .\templates\registration\password_reset_email.html:21
 msgid "Best regards"
 msgstr ""
 
-#: .\templates\registration\password_reset_email.html:24
+#: .\templates\registration\password_reset_email.html:22
 msgid "Management"
 msgstr ""
 
@@ -745,21 +756,21 @@ msgstr ""
 msgid "Reset my password"
 msgstr ""
 
-#: .\templates\registration\registration_closed.html:5
-#: .\templates\registration\registration_closed.html:8
+#: .\templates\registration\registration_closed.html:4
+#: .\templates\registration\registration_closed.html:7
 msgid "Registration is closed"
 msgstr ""
 
-#: .\templates\registration\registration_closed.html:9
+#: .\templates\registration\registration_closed.html:8
 msgid "Sorry, but registration is closed at this moment. Come back later."
 msgstr ""
 
-#: .\templates\registration\registration_complete.html:5
-#: .\templates\registration\registration_complete.html:8
+#: .\templates\registration\registration_complete.html:4
+#: .\templates\registration\registration_complete.html:7
 msgid "Activation email sent"
 msgstr ""
 
-#: .\templates\registration\registration_complete.html:9
+#: .\templates\registration\registration_complete.html:8
 msgid "Please check your email to complete the registration process."
 msgstr ""
 
@@ -770,121 +781,308 @@ msgstr ""
 
 #: .\templates\registration\registration_form.html:9
 msgid "terms_service_text"
-msgstr "Article 1 (Purpose) These terms and conditions are in the use of Internet-related services (hereinafter referred to as 'Services') provided by One Paper Cyber ​​Mall (hereinafter referred to as “Mall”) operated by Qroom Co., Ltd. (e-commerce business operator). It aims to stipulate the rights, duties and responsibilities of cyber malls and users.\n"
-"  ※「This agreement applies mutatis mutandis to e-commerce transactions using PC communication, wireless, etc.」\n"
+msgstr ""
+"Article 1 (Purpose) These terms and conditions are in the use of Internet-"
+"related services (hereinafter referred to as 'Services') provided by One "
+"Paper Cyber ​​Mall (hereinafter referred to as “Mall”) operated by Qroom Co., "
+"Ltd. (e-commerce business operator). It aims to stipulate the rights, duties "
+"and responsibilities of cyber malls and users.\n"
+"  ※「This agreement applies mutatis mutandis to e-commerce transactions "
+"using PC communication, wireless, etc.」\n"
 "Article 2 (Definition)\n"
-"  ① “Mall” refers to a virtual business place set up by Qroom Co., Ltd. so that goods or services (hereinafter referred to as “goods, etc.”) can be traded using information and communication facilities such as computers, In addition, it is used in the sense of a business operator operating a cyber mall.\n"
-"  ② “User” refers to members and non-members who access the “mall” and receive the services provided by the “mall” in accordance with these terms and conditions.\n"
-"  ③ “Member” refers to a person who has registered as a member in the “Mall” and can continue to use the services provided by the “Mall”.\n"
-"  ④ “Non-member” refers to a person who uses the services provided by the “mall” without registering as a member.\n"
+"  ① “Mall” refers to a virtual business place set up by Qroom Co., Ltd. so "
+"that goods or services (hereinafter referred to as “goods, etc.”) can be "
+"traded using information and communication facilities such as computers, In "
+"addition, it is used in the sense of a business operator operating a cyber "
+"mall.\n"
+"  ② “User” refers to members and non-members who access the “mall” and "
+"receive the services provided by the “mall” in accordance with these terms "
+"and conditions.\n"
+"  ③ “Member” refers to a person who has registered as a member in the “Mall” "
+"and can continue to use the services provided by the “Mall”.\n"
+"  ④ “Non-member” refers to a person who uses the services provided by the "
+"“mall” without registering as a member.\n"
 "Article 3 (Specification, explanation and revision of terms and conditions)\n"
-"  ① “Mall” refers to the contents of these terms and conditions, the name of the representative, the address of the business office (including the address of the place where consumer complaints can be handled), telephone number, copy transmission number, e-mail address, business registration number, communication The sales report number, personal information manager, etc., are posted on the initial service screen (front) of 00 Cyber ​​Mall so that users can easily know. However, the contents of the terms and conditions can be viewed by the user through the connection screen.\n"
-"  ② “The mall provides a separate connection screen or pop-up screen to allow users to understand important contents such as withdrawal of subscription, delivery responsibility, and refund conditions among the contents stipulated in the terms and conditions before the user agrees to the terms and conditions. Must be obtained.\n"
-"  ③ “Mall” refers to the 「Consumer Protection Act in Electronic Commerce, etc.」, 「Act on Regulation of Terms and Conditions」, 「Electronic Documents and Electronic Transactions Basic Act」, 「Electronic Financial Transactions Act」, 「Electronic Signature Act」, and 「Information and Communication Network Use This Agreement may be amended to the extent that it does not violate related laws such as the Promotion and Information Protection Act, the Door-to-Door Sales Act, and the Basic Consumer Act.\n"
-"  ④ If the “mall” revises the terms and conditions, the date of application and the reason for the amendment shall be specified and announced on the initial screen of the mall along with the current terms and conditions from 7 days before the effective date to the day before the effective date. However, if the terms and conditions are changed against the user, it will be notified with a grace period of at least 30 days. In this case, the “Mall” clearly compares the contents before and after the revision and displays them for ease of understanding by users.\n"
-"  ⑤ If the “mall” revises the terms and conditions, the revised terms and conditions are applied only to contracts concluded after the effective date, and the terms and conditions before the amendment are applied to contracts already concluded before that date. However, if the user who has already signed a contract sends the intention to receive the application of the revised terms and conditions to the “mall” within the notice period of the revised terms and conditions under paragraph 3 and obtains the consent of the “Mall”, the revised terms and conditions apply. It's possible.\n"
-"  ⑥ For matters not specified in this Agreement and interpretation of this Agreement, please refer to the Consumer Protection Act in Electronic Commerce, the Act on Regulation of Terms and Conditions, the Consumer Protection Guidelines in e-commerce, etc. set by the Fair Trade Commission, and related laws or commercial practices. Follow.\n"
+"  ① “Mall” refers to the contents of these terms and conditions, the name of "
+"the representative, the address of the business office (including the "
+"address of the place where consumer complaints can be handled), telephone "
+"number, copy transmission number, e-mail address, business registration "
+"number, communication The sales report number, personal information manager, "
+"etc., are posted on the initial service screen (front) of 00 Cyber ​​Mall so "
+"that users can easily know. However, the contents of the terms and "
+"conditions can be viewed by the user through the connection screen.\n"
+"  ② “The mall provides a separate connection screen or pop-up screen to "
+"allow users to understand important contents such as withdrawal of "
+"subscription, delivery responsibility, and refund conditions among the "
+"contents stipulated in the terms and conditions before the user agrees to "
+"the terms and conditions. Must be obtained.\n"
+"  ③ “Mall” refers to the 「Consumer Protection Act in Electronic Commerce, "
+"etc.」, 「Act on Regulation of Terms and Conditions」, 「Electronic "
+"Documents and Electronic Transactions Basic Act」, 「Electronic Financial "
+"Transactions Act」, 「Electronic Signature Act」, and 「Information and "
+"Communication Network Use This Agreement may be amended to the extent that "
+"it does not violate related laws such as the Promotion and Information "
+"Protection Act, the Door-to-Door Sales Act, and the Basic Consumer Act.\n"
+"  ④ If the “mall” revises the terms and conditions, the date of application "
+"and the reason for the amendment shall be specified and announced on the "
+"initial screen of the mall along with the current terms and conditions from "
+"7 days before the effective date to the day before the effective date. "
+"However, if the terms and conditions are changed against the user, it will "
+"be notified with a grace period of at least 30 days. In this case, the "
+"“Mall” clearly compares the contents before and after the revision and "
+"displays them for ease of understanding by users.\n"
+"  ⑤ If the “mall” revises the terms and conditions, the revised terms and "
+"conditions are applied only to contracts concluded after the effective date, "
+"and the terms and conditions before the amendment are applied to contracts "
+"already concluded before that date. However, if the user who has already "
+"signed a contract sends the intention to receive the application of the "
+"revised terms and conditions to the “mall” within the notice period of the "
+"revised terms and conditions under paragraph 3 and obtains the consent of "
+"the “Mall”, the revised terms and conditions apply. It's possible.\n"
+"  ⑥ For matters not specified in this Agreement and interpretation of this "
+"Agreement, please refer to the Consumer Protection Act in Electronic "
+"Commerce, the Act on Regulation of Terms and Conditions, the Consumer "
+"Protection Guidelines in e-commerce, etc. set by the Fair Trade Commission, "
+"and related laws or commercial practices. Follow.\n"
 "Article 4 (Provision and Change of Service)\n"
 "  ① “Mall” performs the following tasks.\n"
-"    1. Provision of information on goods or services and signing of purchase contracts\n"
-"    2. Delivery of goods or services for which the purchase contract has been concluded\n"
+"    1. Provision of information on goods or services and signing of purchase "
+"contracts\n"
+"    2. Delivery of goods or services for which the purchase contract has "
+"been concluded\n"
 "    3. Other tasks set by the “mall”\n"
-"  ② “Mall” may change the contents of the goods or services to be provided by contracts to be concluded in the event of a product or service being sold out or technical specifications changed. In this case, the contents of the changed goods or services and the date of provision are specified and immediately notified to the place where the contents of the current goods or services are posted.\n"
-"  ③ If the contents of the service contracted with the user to be provided by the “mall” are changed for reasons such as out of stock or change of technical specifications, the reason will be immediately notified to the address where the user can be notified.\n"
-"  ④ In the case of the preceding paragraph, the “mall” compensates the user for damages caused by this. However, this is not the case if the “mall” proves that there is no intention or negligence.\n"
+"  ② “Mall” may change the contents of the goods or services to be provided "
+"by contracts to be concluded in the event of a product or service being sold "
+"out or technical specifications changed. In this case, the contents of the "
+"changed goods or services and the date of provision are specified and "
+"immediately notified to the place where the contents of the current goods or "
+"services are posted.\n"
+"  ③ If the contents of the service contracted with the user to be provided "
+"by the “mall” are changed for reasons such as out of stock or change of "
+"technical specifications, the reason will be immediately notified to the "
+"address where the user can be notified.\n"
+"  ④ In the case of the preceding paragraph, the “mall” compensates the user "
+"for damages caused by this. However, this is not the case if the “mall” "
+"proves that there is no intention or negligence.\n"
 "Article 5 (suspension of service)\n"
-"  ① “Mall” may temporarily suspend the provision of services in the event of maintenance, inspection, replacement or breakdown of information and communication facilities such as computers, or disruption of communication.\n"
-"  ② “Mall” compensates for damages suffered by users or third parties due to the temporary suspension of the service for the reasons described in Paragraph 1. However, this is not the case if the “mall” proves that there is no intention or negligence.\n"
-"  ③ In the event that the service cannot be provided due to conversion of business items, abandonment of business, integration between companies, etc., the “mall” notifies the user in the manner specified in Article 8 and the consumer according to the conditions originally suggested by the “mall” Reward. However, if the “mall” does not notify the compensation standards, etc., the users' mileage or reserves, etc., are paid in kind or cash equivalent to the currency value used in the “mall”.\n"
+"  ① “Mall” may temporarily suspend the provision of services in the event of "
+"maintenance, inspection, replacement or breakdown of information and "
+"communication facilities such as computers, or disruption of communication.\n"
+"  ② “Mall” compensates for damages suffered by users or third parties due to "
+"the temporary suspension of the service for the reasons described in "
+"Paragraph 1. However, this is not the case if the “mall” proves that there "
+"is no intention or negligence.\n"
+"  ③ In the event that the service cannot be provided due to conversion of "
+"business items, abandonment of business, integration between companies, "
+"etc., the “mall” notifies the user in the manner specified in Article 8 and "
+"the consumer according to the conditions originally suggested by the “mall” "
+"Reward. However, if the “mall” does not notify the compensation standards, "
+"etc., the users' mileage or reserves, etc., are paid in kind or cash "
+"equivalent to the currency value used in the “mall”.\n"
 "Article 6 (member registration)\n"
-"  ① The user applies for membership by expressing his or her intention to agree to these terms and conditions after filling in the member information according to the registration form set by the “mall”.\n"
-"  ② “Mall” is registered as a member of users who have applied for membership as a member as described in Paragraph 1, unless they fall under any of the following items.\n"
-"    1. If the applicant for membership has previously lost membership in accordance with Article 7 (3) of these Terms and Conditions, however, consent to re-registration as a member of the “Mall” as a person 3 years after the loss of membership in accordance with Article 7 (3) It is an exception in the case of obtaining.\n"
+"  ① The user applies for membership by expressing his or her intention to "
+"agree to these terms and conditions after filling in the member information "
+"according to the registration form set by the “mall”.\n"
+"  ② “Mall” is registered as a member of users who have applied for "
+"membership as a member as described in Paragraph 1, unless they fall under "
+"any of the following items.\n"
+"    1. If the applicant for membership has previously lost membership in "
+"accordance with Article 7 (3) of these Terms and Conditions, however, "
+"consent to re-registration as a member of the “Mall” as a person 3 years "
+"after the loss of membership in accordance with Article 7 (3) It is an "
+"exception in the case of obtaining.\n"
 "    2. In case of false information, omission, or mistake in registration\n"
-"    3. If it is judged that registering as a member is significantly impeding the technology of the “mall”\n"
-"  ③ The membership contract is established when the approval of the “mall” reaches the member.\n"
-"  ④ If there is a change in the information registered at the time of membership registration, the member must notify the “mall” of the change within a considerable period of time by modifying member information.\n"
+"    3. If it is judged that registering as a member is significantly "
+"impeding the technology of the “mall”\n"
+"  ③ The membership contract is established when the approval of the “mall” "
+"reaches the member.\n"
+"  ④ If there is a change in the information registered at the time of "
+"membership registration, the member must notify the “mall” of the change "
+"within a considerable period of time by modifying member information.\n"
 "Article 7 (member withdrawal and loss of qualification, etc.)\n"
-"  ① A member can request withdrawal from the “Mall” at any time, and the “Mall” handles withdrawal immediately.\n"
-"  ② If a member falls under any of the following reasons, the “mall” may limit or suspend membership.\n"
+"  ① A member can request withdrawal from the “Mall” at any time, and the "
+"“Mall” handles withdrawal immediately.\n"
+"  ② If a member falls under any of the following reasons, the “mall” may "
+"limit or suspend membership.\n"
 "    1. In case false information is registered when applying for membership\n"
-"    2. If the member does not pay the debts borne by the member in connection with the use of the “mall” or other “mall” for the goods purchased using the “mall”\n"
-"    3. Threatening the order of e-commerce, such as interfering with other people's use of the “mall” or stealing the information\n"
-"    4. When using the “mall” to be prohibited by laws or these terms and conditions, or to act against public order and morals\n"
-"  ③ After the “mall” restricts or suspends membership, the “mall” may lose membership if the same action is repeated two or more times or if the reason is not corrected within 30 days.\n"
-"  ④ If the “mall” loses membership, membership registration will be canceled. In this case, the member is notified of this and given an opportunity to explain at least 30 days prior to membership cancellation.\n"
+"    2. If the member does not pay the debts borne by the member in "
+"connection with the use of the “mall” or other “mall” for the goods "
+"purchased using the “mall”\n"
+"    3. Threatening the order of e-commerce, such as interfering with other "
+"people's use of the “mall” or stealing the information\n"
+"    4. When using the “mall” to be prohibited by laws or these terms and "
+"conditions, or to act against public order and morals\n"
+"  ③ After the “mall” restricts or suspends membership, the “mall” may lose "
+"membership if the same action is repeated two or more times or if the reason "
+"is not corrected within 30 days.\n"
+"  ④ If the “mall” loses membership, membership registration will be "
+"canceled. In this case, the member is notified of this and given an "
+"opportunity to explain at least 30 days prior to membership cancellation.\n"
 "Article 8 (Notice to Members)\n"
-"  ① When the “mall” notifies the member, it can be made to the e-mail address specified by the member in advance with the “mall”.\n"
-"  ② “Mall” can replace individual notifications by posting them on the “Mall” bulletin board for more than one week in case of notifications to unspecified members. However, individual notifications will be given for matters that have a significant impact on the member's transaction.\n"
-"Article 9 (purchase application and consent to provide personal information, etc.)\n"
-"  ① “Mall” users apply for purchase by the following or similar method on “Mall”, and “Mall” must provide each of the following information in an easy-to-understand manner when users apply for purchase.\n"
+"  ① When the “mall” notifies the member, it can be made to the e-mail "
+"address specified by the member in advance with the “mall”.\n"
+"  ② “Mall” can replace individual notifications by posting them on the "
+"“Mall” bulletin board for more than one week in case of notifications to "
+"unspecified members. However, individual notifications will be given for "
+"matters that have a significant impact on the member's transaction.\n"
+"Article 9 (purchase application and consent to provide personal information, "
+"etc.)\n"
+"  ① “Mall” users apply for purchase by the following or similar method on "
+"“Mall”, and “Mall” must provide each of the following information in an easy-"
+"to-understand manner when users apply for purchase.\n"
 "      1. Search and selection of goods, etc.\n"
-"      2. Enter the recipient's name, address, phone number, e-mail address (or mobile phone number), etc.\n"
-"      3. Confirmation of the contents of the terms and conditions, services for which the right to withdraw subscription is restricted, and the burden of expenses such as shipping and installation fees\n"
-"      4. Agree to these terms and conditions and confirm or reject the above\n"
+"      2. Enter the recipient's name, address, phone number, e-mail address "
+"(or mobile phone number), etc.\n"
+"      3. Confirmation of the contents of the terms and conditions, services "
+"for which the right to withdraw subscription is restricted, and the burden "
+"of expenses such as shipping and installation fees\n"
+"      4. Agree to these terms and conditions and confirm or reject the "
+"above\n"
 "         (Yes, mouse click)\n"
-"      5. Application for purchase of goods, etc. and confirmation or consent to confirmation of “mall”\n"
+"      5. Application for purchase of goods, etc. and confirmation or consent "
+"to confirmation of “mall”\n"
 "      6. Selection of payment method\n"
-"  ② When the “mall” needs to provide the personal information of the purchaser to a third party 1) the person receiving personal information, 2) the purpose of using the personal information of the person receiving the personal information, 3) the items of personal information provided, 4) The person receiving personal information must notify the purchaser of the period of retention and use of personal information and obtain consent. (The same applies if the consented matters are changed.)\n"
-"  ③ When the “mall” entrusts the business to a third party to handle the personal information of the purchaser, 1) the person who is entrusted with the handling of personal information, 2) informs and agrees with the details of the business entrusted with the handling of personal information Must receive. (The same applies even if the matters agreed upon are changed.) However, if it is necessary for the fulfillment of the contract for the provision of services and it is related to the enhancement of the convenience of the purchaser, the method stipulated in the Act on Promotion of Information and Communication Network Utilization and Information Protection, etc. By notifying through the privacy policy, you do not have to go through the notification process and consent process.\n"
+"  ② When the “mall” needs to provide the personal information of the "
+"purchaser to a third party 1) the person receiving personal information, 2) "
+"the purpose of using the personal information of the person receiving the "
+"personal information, 3) the items of personal information provided, 4) The "
+"person receiving personal information must notify the purchaser of the "
+"period of retention and use of personal information and obtain consent. (The "
+"same applies if the consented matters are changed.)\n"
+"  ③ When the “mall” entrusts the business to a third party to handle the "
+"personal information of the purchaser, 1) the person who is entrusted with "
+"the handling of personal information, 2) informs and agrees with the details "
+"of the business entrusted with the handling of personal information Must "
+"receive. (The same applies even if the matters agreed upon are changed.) "
+"However, if it is necessary for the fulfillment of the contract for the "
+"provision of services and it is related to the enhancement of the "
+"convenience of the purchaser, the method stipulated in the Act on Promotion "
+"of Information and Communication Network Utilization and Information "
+"Protection, etc. By notifying through the privacy policy, you do not have to "
+"go through the notification process and consent process.\n"
 "Article 10 (Conclusion of contract)\n"
-"  ① “Mall” may not accept the purchase application as described in Article 9 if it falls under any of the following items. However, in the case of signing a contract with a minor, it must be notified that the minor or legal representative may cancel the contract if the consent of the legal representative is not obtained.\n"
-"    1. In case there is false information, omission or mistake in the application\n"
-"    2. A minor may seek goods and services prohibited by the Youth Protection Act, such as tobacco and alcohol."
+"  ① “Mall” may not accept the purchase application as described in Article 9 "
+"if it falls under any of the following items. However, in the case of "
+"signing a contract with a minor, it must be notified that the minor or legal "
+"representative may cancel the contract if the consent of the legal "
+"representative is not obtained.\n"
+"    1. In case there is false information, omission or mistake in the "
+"application\n"
+"    2. A minor may seek goods and services prohibited by the Youth "
+"Protection Act, such as tobacco and alcohol."
 
 #: .\templates\registration\registration_form.html:10
 msgid "personal_info_text"
-msgstr "Qroom Co., Ltd. establishes and discloses the following personal information processing guidelines in order to protect the personal information of the information subject (customer) in accordance with Article 30 of the Personal Information Protection Act and to deal with related grievances quickly and smoothly.\n"
-"1. Purpose of processing personal information Qroom Co., Ltd. processes personal information for the following purposes, and does not use it for purposes other than the following purposes.\n"
-"   -Confirmation of the customer's intention to join, identification and authentication according to the provision of services to the customer, maintenance and management of membership, payment of money according to the supply of goods or services, supply and delivery of goods or services, etc.\n"
-"2. Processing and retention period of personal information ① Qroom Co., Ltd. handles personal information within the period of retention and use of personal information agreed upon when collecting personal information from the data subject or in accordance with laws and regulations. Hold.\n"
-"   ② Specific personal information processing and retention periods are as follows.\n"
-"    -Customer subscription and management: Until service use contract or membership is terminated, but semi-permanent storage when bonds and debts are established.\n"
-"    -Records of supply of contracts and subscriptions, payments, goods, etc. in e-commerce transactions: 5 years\n"
-"3. Provision of personal information to a third party Qroom Co., Ltd. does not provide personal information to a third party unless it falls under Article 17 of the Personal Information Protection Act, such as separate consent of the information subject or special provisions of the law.\n"
-"4. Consignment of personal information processing ① Qroom Co., Ltd. entrusts the processing of personal information to the outside as follows for smooth personal information processing.\n"
+msgstr ""
+"Qroom Co., Ltd. establishes and discloses the following personal information "
+"processing guidelines in order to protect the personal information of the "
+"information subject (customer) in accordance with Article 30 of the Personal "
+"Information Protection Act and to deal with related grievances quickly and "
+"smoothly.\n"
+"1. Purpose of processing personal information Qroom Co., Ltd. processes "
+"personal information for the following purposes, and does not use it for "
+"purposes other than the following purposes.\n"
+"   -Confirmation of the customer's intention to join, identification and "
+"authentication according to the provision of services to the customer, "
+"maintenance and management of membership, payment of money according to the "
+"supply of goods or services, supply and delivery of goods or services, etc.\n"
+"2. Processing and retention period of personal information ① Qroom Co., Ltd. "
+"handles personal information within the period of retention and use of "
+"personal information agreed upon when collecting personal information from "
+"the data subject or in accordance with laws and regulations. Hold.\n"
+"   ② Specific personal information processing and retention periods are as "
+"follows.\n"
+"    -Customer subscription and management: Until service use contract or "
+"membership is terminated, but semi-permanent storage when bonds and debts "
+"are established.\n"
+"    -Records of supply of contracts and subscriptions, payments, goods, etc. "
+"in e-commerce transactions: 5 years\n"
+"3. Provision of personal information to a third party Qroom Co., Ltd. does "
+"not provide personal information to a third party unless it falls under "
+"Article 17 of the Personal Information Protection Act, such as separate "
+"consent of the information subject or special provisions of the law.\n"
+"4. Consignment of personal information processing ① Qroom Co., Ltd. entrusts "
+"the processing of personal information to the outside as follows for smooth "
+"personal information processing.\n"
 "    -To be added in the future\n"
-"   ② When signing a consignment contract, Qroom Co., Ltd. shall, in accordance with Article 25 of the Personal Information Protection Act, specify in the document the matters related to the prohibition of processing personal information, restriction of re-consignment, management and supervision of the consignee, Oversees the safe handling of personal information.\n"
-"5. Rights, duties and exercise methods of the information subject and legal representative The information subject may exercise the following rights related to personal information protection with respect to Qroom Co., Ltd. at any time.\n"
+"   ② When signing a consignment contract, Qroom Co., Ltd. shall, in "
+"accordance with Article 25 of the Personal Information Protection Act, "
+"specify in the document the matters related to the prohibition of processing "
+"personal information, restriction of re-consignment, management and "
+"supervision of the consignee, Oversees the safe handling of personal "
+"information.\n"
+"5. Rights, duties and exercise methods of the information subject and legal "
+"representative The information subject may exercise the following rights "
+"related to personal information protection with respect to Qroom Co., Ltd. "
+"at any time.\n"
 "    1. Request to view personal information\n"
 "    2. Request for correction if there is an error in personal information\n"
 "    3. Request for deletion\n"
 "    4. Request to stop processing\n"
-" 6. Items of personal information processed Qroom Co., Ltd. processes the following personal information items.\n"
-"   -For general members, name, date of birth, address, phone number, mobile phone number, login ID, email address, password, bank account information, etc.\n"
-"   -For expert (broker) members, registration number, company name, broker registration certificate, broker license, seal, guarantee documents, etc.\n"
-" 7. Destruction of personal information ① Qroom Co., Ltd. destroys personal information without delay when personal information becomes unnecessary, such as the elapse of the personal information retention period or achievement of the processing purpose.\n"
+" 6. Items of personal information processed Qroom Co., Ltd. processes the "
+"following personal information items.\n"
+"   -For general members, name, date of birth, address, phone number, mobile "
+"phone number, login ID, email address, password, bank account information, "
+"etc.\n"
+"   -For expert (broker) members, registration number, company name, broker "
+"registration certificate, broker license, seal, guarantee documents, etc.\n"
+" 7. Destruction of personal information ① Qroom Co., Ltd. destroys personal "
+"information without delay when personal information becomes unnecessary, "
+"such as the elapse of the personal information retention period or "
+"achievement of the processing purpose.\n"
 "   ② Qroom Co., Ltd. destroys personal information in the following ways.\n"
-"      -Electronic files: Delete files and format storage media such as disks\n"
+"      -Electronic files: Delete files and format storage media such as "
+"disks\n"
 "      -Handwritten documents: crushed or incinerated\n"
-" 8. Measures to Ensure the Safety of Personal Information Qroom Co., Ltd. takes the following measures to ensure the safety of personal information.\n"
-"    -Administrative measures: Establishment and implementation of internal management plans, regular training for employees and employees, etc.\n"
-"    -Technical measures: managing access rights such as setting passwords for personal information processing systems (or computers where personal information is stored), installing security programs such as anti-virus software, and encrypting files where personal information is stored\n"
-"    -Physical measures: lock and access control, etc. of places where personal information is stored and stored\n"
-" 9. Matters concerning the installation, operation and rejection of automatic personal information collection devices\n"
-"   ① Qroom Co., Ltd. uses ‘cookies’ that store and retrieve usage information from time to time to provide personalized services to users.\n"
-"   ② Cookies are a small amount of information sent to the user's computer browser by the server (http) used to operate the website, and may be stored on the hard disk in the user's PC computer.\n"
-"      end. Purpose of use of cookies: To each service and website visited by the user\n"
-"     By identifying visits and usage patterns, popular search terms, secure access, etc.\n"
+" 8. Measures to Ensure the Safety of Personal Information Qroom Co., Ltd. "
+"takes the following measures to ensure the safety of personal information.\n"
+"    -Administrative measures: Establishment and implementation of internal "
+"management plans, regular training for employees and employees, etc.\n"
+"    -Technical measures: managing access rights such as setting passwords "
+"for personal information processing systems (or computers where personal "
+"information is stored), installing security programs such as anti-virus "
+"software, and encrypting files where personal information is stored\n"
+"    -Physical measures: lock and access control, etc. of places where "
+"personal information is stored and stored\n"
+" 9. Matters concerning the installation, operation and rejection of "
+"automatic personal information collection devices\n"
+"   ① Qroom Co., Ltd. uses ‘cookies’ that store and retrieve usage "
+"information from time to time to provide personalized services to users.\n"
+"   ② Cookies are a small amount of information sent to the user's computer "
+"browser by the server (http) used to operate the website, and may be stored "
+"on the hard disk in the user's PC computer.\n"
+"      end. Purpose of use of cookies: To each service and website visited by "
+"the user\n"
+"     By identifying visits and usage patterns, popular search terms, secure "
+"access, etc.\n"
 "      It is used to provide optimized information to users.\n"
-"      I. Installation, operation and rejection of cookies: You can refuse to store cookies by setting options in the Tools> Internet Options> Personal Information menu at the top of the web browser.\n"
-"      All. If you refuse to store cookies, you may experience difficulties in using customized services.\n"
-" 10. Personal Information Protection Officer Qroom Co., Ltd. is responsible for the handling of personal information, and designates the person in charge of personal information protection as follows in order to handle complaints and damage relief of the information subject related to personal information processing. There is.\n"
-"   ▶ Personal information protection manager (business owner or representative)\n"
+"      I. Installation, operation and rejection of cookies: You can refuse to "
+"store cookies by setting options in the Tools> Internet Options> Personal "
+"Information menu at the top of the web browser.\n"
+"      All. If you refuse to store cookies, you may experience difficulties "
+"in using customized services.\n"
+" 10. Personal Information Protection Officer Qroom Co., Ltd. is responsible "
+"for the handling of personal information, and designates the person in "
+"charge of personal information protection as follows in order to handle "
+"complaints and damage relief of the information subject related to personal "
+"information processing. There is.\n"
+"   ▶ Personal information protection manager (business owner or "
+"representative)\n"
 "       Name: Kim Sang-eun Position: Technical Director\n"
 "       Contact: quroom1@naver.com\n"
-" 11. Changes to the privacy policy This privacy policy will be applied from January 17, 2021."
+" 11. Changes to the privacy policy This privacy policy will be applied from "
+"January 17, 2021."
 
 #: .\templates\registration\registration_form.html:13
 msgid "확인"
 msgstr "Confirm"
 
-#: .\templates\registration\resend_activation_complete.html:5
-#: .\templates\registration\resend_activation_complete.html:8
+#: .\templates\registration\resend_activation_complete.html:4
+#: .\templates\registration\resend_activation_complete.html:7
 msgid "Account Activation Resent"
 msgstr ""
 
-#: .\templates\registration\resend_activation_complete.html:10
+#: .\templates\registration\resend_activation_complete.html:9
 #, python-format
 msgid ""
 "\n"
@@ -895,6 +1093,9 @@ msgstr ""
 #: .\templates\registration\resend_activation_form.html:13
 msgid "Submit"
 msgstr ""
+
+#~ msgid "아이디"
+#~ msgstr "User ID"
 
 #~ msgid "land_area"
 #~ msgstr "land_area"
