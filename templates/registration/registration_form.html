@@ -32,7 +32,6 @@
         <div id="wrap" style="display: none; border: 1px solid; top:-54px; max-height: 470px; margin: 5px 0px; position: relative;">
             <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
         </div>
-        {{ form.mobile_number|as_crispy_field }}
         <div class="form-row">
             <div class="form-group col-6 mb-0">
                 {{ form.dong|as_crispy_field }}
@@ -41,6 +40,7 @@
                 {{ form.ho|as_crispy_field }}
             </div>
         </div>
+        {{ form.mobile_number|as_crispy_field }}
         <div class="form-row">
             <div class="form-group col-5 mb-0">
                 {{ form.bank_name|as_crispy_field }}

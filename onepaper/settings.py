@@ -248,19 +248,6 @@ if 'RDS_HOSTNAME' in os.environ:
         }
     }
 
-DEFAULT = {
-    'selector': 'textarea',
-    'theme': 'modern',
-    'plugins': 'link image preview codesample contextmenu table code',
-    'toolbar1': 'bold italic underline | alignleft aligncenter alignright alignjustify '
-               '| bullist numlist | outdent indent | table | link image | codesample | preview code',
-    'contextmenu': 'formats | link image',
-    'menubar': False,
-    'inline': False,
-    'statusbar': True,
-    'height': 360,
-}
-
 SUMMERNOTE_CONFIG = {
     'attachment_require_authentication': True,
     'attachment_filesize_limit': 5242880*2,
