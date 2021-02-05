@@ -21,7 +21,10 @@ class CustomUserForm(RegistrationFormUniqueEmail):
     bank_name = forms.CharField(label=_('은행명'), required=False, max_length=45)
     account_number = forms.CharField(label=_('계좌번호'), required=False, max_length=45)
     old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+    old_address_eng = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
     new_address = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
+    bjdongName = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
+    bjdongName_eng = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
     sigunguCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
     bjdongCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
     platGbCd = forms.CharField(max_length=1, required=False, widget=forms.HiddenInput())
@@ -46,7 +49,10 @@ class CustomUserForm(RegistrationFormUniqueEmail):
             user.is_expert = True
         user.save()
         address = Address.objects.create(old_address=self.cleaned_data['old_address'],
+                                         old_address_eng = self.cleaned_data['old_address_eng'],
                                          new_address=self.cleaned_data['new_address'],
+                                         bjdongName=self.cleaned_data['bjdongName'],
+                                         bjdongName_eng=self.cleaned_data['bjdongName_eng'],
                                          sigunguCd=self.cleaned_data['sigunguCd'],
                                          bjdongCd=self.cleaned_data['bjdongCd'],
                                          platGbCd=self.cleaned_data['platGbCd'],

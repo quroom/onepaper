@@ -347,7 +347,10 @@ export default {
           }
           if (that.address) {
             formData.append("address.old_address", that.address.old_address);
+            formData.append("address.old_address_eng", that.address.old_address_eng);
             formData.append("address.new_address", that.address.new_address);
+            formData.append("address.bjdongName", that.address.bjdongName)
+            formData.append("address.bjdongName_eng", that.address.bjdongName_eng)
             formData.append("address.sigunguCd", that.address.sigunguCd);
             formData.append("address.bjdongCd", that.address.bjdongCd);
             formData.append("address.bun", that.address.bun);

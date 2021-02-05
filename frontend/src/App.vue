@@ -2,9 +2,7 @@
   <v-app app>
     <NavbarItem class="navbar root_tag" v-if="!isLoading" :user_category="user_category"/>
     <v-main class="root_tag">
-      <keep-alive :include='["Home", "Profiles", "Mandates", "NoticeList"]'>
-        <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
-      </keep-alive>
+      <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
     <Footer class="root_tag"/>
   </v-app>

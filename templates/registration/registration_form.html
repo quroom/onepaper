@@ -58,7 +58,10 @@
             {{ form.garantee_insurance|as_crispy_field }}
             {{ form.is_expert|as_crispy_field }}
         {% endif %}
+        {{ form.old_address_eng }}
         {{ form.new_address }}
+        {{ form.bjdongName }}
+        {{ form.bjdongName_eng }}
         {{ form.sigunguCd }}
         {{ form.bjdongCd }}
         {{ form.platGbCd }}
@@ -163,7 +166,10 @@
             oncomplete: function(data) {
 
                 document.getElementById("id_old_address").value = data.jibunAddress
+                document.getElementById("id_old_address_eng").value = data.jibunAddressEnglish
                 document.getElementById("id_new_address").value = data.address
+                document.getElementById("id_bjdongName").value = data.bname;
+                document.getElementById("id_bjdongName_eng").value = data.bnameEnglish;
                 document.getElementById("id_sigunguCd").value = data.bcode.substring(0,5)
                 document.getElementById("id_bjdongCd").value = data.bcode.substring(0,5)
                 document.getElementById("id_bun").value = data.jibunAddress.split("-")[0].split(" ")[data.jibunAddress.split("-")[0].split(" ").length - 1]
