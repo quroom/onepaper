@@ -30,6 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')fe%8bp3c4$*v*ghv46s+4iwbir5)v
 # DEBUG = True
 DEBUG = os.environ.get("DJANGO_DEBUG", 'True') != 'False'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',"*").split(",")
+CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS',"*").split(",")
 
 # Application definition
 
@@ -255,4 +256,5 @@ SUMMERNOTE_CONFIG = {
 }
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 # INTERNAL_IPS = ["127.0.0.1"]
