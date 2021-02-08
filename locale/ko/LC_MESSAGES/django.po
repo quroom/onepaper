@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-04 11:53+0900\n"
+"POT-Creation-Date: 2021-02-08 11:59+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,79 +335,83 @@ msgstr ""
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:16
+#: .\profiles\forms.py:12 .\profiles\forms.py:20
+msgid "Your name strings only contain Kor or Eng characters without space."
+msgstr "성함은 공백없이 한글이나 영어 문자만 입력 가능합니다."
+
+#: .\profiles\forms.py:18
 msgid "이용약관 동의"
 msgstr ""
 
-#: .\profiles\forms.py:17
+#: .\profiles\forms.py:19
 msgid "개인정보 처리방침 동의"
 msgstr ""
 
-#: .\profiles\forms.py:18
+#: .\profiles\forms.py:20
 msgid "성함"
 msgstr ""
 
-#: .\profiles\forms.py:19
+#: .\profiles\forms.py:21
 msgid "생년월일"
 msgstr ""
 
-#: .\profiles\forms.py:20
+#: .\profiles\forms.py:22
 msgid "휴대폰 번호"
 msgstr ""
 
-#: .\profiles\forms.py:21
+#: .\profiles\forms.py:23
 msgid "은행명"
 msgstr ""
 
-#: .\profiles\forms.py:22
+#: .\profiles\forms.py:24
 msgid "계좌번호"
 msgstr ""
 
-#: .\profiles\forms.py:23
+#: .\profiles\forms.py:25
 msgid "주소"
 msgstr ""
 
-#: .\profiles\forms.py:30
+#: .\profiles\forms.py:35
 msgid "동"
 msgstr ""
 
-#: .\profiles\forms.py:31
+#: .\profiles\forms.py:36
 msgid "호"
 msgstr ""
 
-#: .\profiles\forms.py:36
+#: .\profiles\forms.py:41
 msgid "username"
 msgstr "아이디"
 
-#: .\profiles\forms.py:76
+#: .\profiles\forms.py:84
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr ""
 
-#: .\profiles\forms.py:77
+#: .\profiles\forms.py:85
 msgid "등록번호"
 msgstr ""
 
-#: .\profiles\forms.py:78
+#: .\profiles\forms.py:86
 msgid "상호명"
 msgstr ""
 
-#: .\profiles\forms.py:79
+#: .\profiles\forms.py:87
 msgid "중개사 등록증"
 msgstr ""
 
-#: .\profiles\forms.py:80
+#: .\profiles\forms.py:88
 msgid "중개사 자격증"
 msgstr ""
 
-#: .\profiles\forms.py:81
+#: .\profiles\forms.py:89
 msgid "인장"
 msgstr ""
 
-#: .\profiles\forms.py:82
+#: .\profiles\forms.py:90
 msgid "보증서류"
 msgstr ""
 
-#: .\profiles\forms.py:83
+#: .\profiles\forms.py:91
 msgid "사무실 주소"
 msgstr ""
 
@@ -567,10 +571,11 @@ msgid "You can log in."
 msgstr "로그인 할 수 있습니다."
 
 #: .\templates\registration\activation_complete.html:13
-#: .\templates\registration\login.html:6 .\templates\registration\login.html:11
+#: .\templates\registration\login.html:6
+#: .\templates\registration\login.html:11
 #: .\templates\registration\password_reset_complete.html:8
 #: .\templates\registration\registration_complete.html:11
-#: .\templates\registration\registration_form.html:85
+#: .\templates\registration\registration_form.html:88
 msgid "Log in"
 msgstr "로그인"
 
@@ -799,7 +804,7 @@ msgid "Please check your email to complete the registration process."
 msgstr "등록을 완료하기 위해 당신의 메일을 확인해주세요."
 
 #: .\templates\registration\registration_form.html:6
-#: .\templates\registration\registration_form.html:83
+#: .\templates\registration\registration_form.html:86
 msgid "Create Account"
 msgstr "회원 가입"
 
@@ -1224,17 +1229,14 @@ msgstr "제출"
 #~ msgid "land_area"
 #~ msgstr "토지면적"
 
-#, python-format
 #~ msgid "Password reset on %(site_name)s"
 #~ msgstr "%(site_name)s의 비밀번호 초기화"
 
-#, python-brace-format
 #~ msgid ""
 #~ "Enter a valid phone number (e.g. {example_number}) or a number with an "
 #~ "international call prefix."
 #~ msgstr "올바른 전화번호를 입력해주세요 (e.g. {example_number})."
 
-#, python-brace-format
 #~ msgid "Enter a valid phone number (e.g. {example_number})."
 #~ msgstr "올바른 전화번호를 입력해주세요 (e.g. {example_number})."
 
