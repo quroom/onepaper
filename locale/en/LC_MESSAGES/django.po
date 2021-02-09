@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-04 11:53+0900\n"
+"POT-Creation-Date: 2021-02-08 11:59+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,79 +334,83 @@ msgstr ""
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:16
+#: .\profiles\forms.py:12 .\profiles\forms.py:20
+msgid "Your name strings only contain Kor or Eng characters without space."
+msgstr ""
+
+#: .\profiles\forms.py:18
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: .\profiles\forms.py:17
+#: .\profiles\forms.py:19
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: .\profiles\forms.py:18
+#: .\profiles\forms.py:20
 msgid "성함"
 msgstr "FullName"
 
-#: .\profiles\forms.py:19
+#: .\profiles\forms.py:21
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:20
+#: .\profiles\forms.py:22
 msgid "휴대폰 번호"
 msgstr "Mobile Number"
 
-#: .\profiles\forms.py:21
+#: .\profiles\forms.py:23
 msgid "은행명"
 msgstr "Bank Name"
 
-#: .\profiles\forms.py:22
+#: .\profiles\forms.py:24
 msgid "계좌번호"
 msgstr "Account Number"
 
-#: .\profiles\forms.py:23
+#: .\profiles\forms.py:25
 msgid "주소"
 msgstr "Address"
 
-#: .\profiles\forms.py:30
+#: .\profiles\forms.py:35
 msgid "동"
 msgstr "Dong"
 
-#: .\profiles\forms.py:31
+#: .\profiles\forms.py:36
 msgid "호"
 msgstr "Ho"
 
-#: .\profiles\forms.py:36
+#: .\profiles\forms.py:41
 msgid "username"
 msgstr ""
 
-#: .\profiles\forms.py:76
+#: .\profiles\forms.py:84
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
-#: .\profiles\forms.py:77
+#: .\profiles\forms.py:85
 msgid "등록번호"
 msgstr "Registration Number"
 
-#: .\profiles\forms.py:78
+#: .\profiles\forms.py:86
 msgid "상호명"
 msgstr "Shop Name"
 
-#: .\profiles\forms.py:79
+#: .\profiles\forms.py:87
 msgid "중개사 등록증"
 msgstr "Registration Certificate"
 
-#: .\profiles\forms.py:80
+#: .\profiles\forms.py:88
 msgid "중개사 자격증"
 msgstr "Agency License"
 
-#: .\profiles\forms.py:81
+#: .\profiles\forms.py:89
 msgid "인장"
 msgstr "Stamp"
 
-#: .\profiles\forms.py:82
+#: .\profiles\forms.py:90
 msgid "보증서류"
 msgstr "Brokerage Garantee Insurance"
 
-#: .\profiles\forms.py:83
+#: .\profiles\forms.py:91
 msgid "사무실 주소"
 msgstr "Shop Address"
 
@@ -574,10 +578,11 @@ msgid "You can log in."
 msgstr ""
 
 #: .\templates\registration\activation_complete.html:13
-#: .\templates\registration\login.html:6 .\templates\registration\login.html:11
+#: .\templates\registration\login.html:6
+#: .\templates\registration\login.html:11
 #: .\templates\registration\password_reset_complete.html:8
 #: .\templates\registration\registration_complete.html:11
-#: .\templates\registration\registration_form.html:85
+#: .\templates\registration\registration_form.html:88
 msgid "Log in"
 msgstr ""
 
@@ -775,7 +780,7 @@ msgid "Please check your email to complete the registration process."
 msgstr ""
 
 #: .\templates\registration\registration_form.html:6
-#: .\templates\registration\registration_form.html:83
+#: .\templates\registration\registration_form.html:86
 msgid "Create Account"
 msgstr ""
 

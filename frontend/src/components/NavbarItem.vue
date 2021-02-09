@@ -90,11 +90,11 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-row justify="center" @click="drawer=false">
-        {{$t("close")}}
+      <v-row class="close-icon" justify="center" @click="drawer=false">
         <v-icon>
           keyboard_backspace
         </v-icon>
+        {{$t("close")}}
       </v-row>
     </v-navigation-drawer>
     <template v-if="this.$root.$el.clientWidth > 500">
@@ -208,4 +208,7 @@ export default {
 </script>
 
 <style scoped>
+.close-icon{
+  cursor: pointer
+}
 </style>

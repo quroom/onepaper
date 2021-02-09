@@ -15,6 +15,36 @@ from addresses.models import Address
 from profiles.models import AllowedUser, CustomUser, Profile, ExpertProfile
 from papers.models import Paper, PaperStatus
 
+address_vars = {
+            "old_address": '광주 광산구 명도동 169',
+            "old_address_eng": '169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea',
+            "new_address": '광주광역시 광산구 가마길 2-21',
+            "bjdongName": "명도동",
+            "bjdongName_eng": "Myeongdo-dong",
+            "sigunguCd": '29200',
+            "bjdongCd": '29200',
+            "platGbCd": '',
+            "bun":'169',
+            "ji":'',
+            "dong":'',
+            "ho":'2층',
+}
+
+address_form = {
+        "address.old_address": "서울 강동구 성내동 111-39",
+        "address.old_address_eng": '111-39, Seongnae-dong, Gangdong-gu, Seoul, Korea',
+        "address.new_address": "서울 강동구 풍성로 87-14",
+        "address.bjdongName": "성내동",
+        "address.bjdongName_eng": "Seongnae-dong",
+        "address.sigunguCd": '11740',
+        "address.bjdongCd": '11740',
+        "address.platGbCd": '',
+        "address.bun":'111',
+        "address.ji":'39',
+        "address.dong":'',
+        "address.ho":'2층',
+}
+
 # Create your tests here.
 class PaperTestCase(APITestCase):
     list_url = reverse("papers-list")
@@ -25,18 +55,7 @@ class PaperTestCase(APITestCase):
                 "actual_building_category": 80,
                 "actual_expenses": 50000,
                 "actual_land_category": 7,
-                "address": {
-                    "bjdongCd": "11740",
-                    "bun": "669",
-                    "dong": "",
-                    "ho": "",
-                    "id": 215,
-                    "ji": "1",
-                    "new_address": "서울 강동구 강일동 669-1",
-                    "old_address": "서울 강동구 강일동 669-1",
-                    "platGbCd": "",
-                    "sigunguCd": "11740",
-                },
+                "address": address_vars,
                 "building_category": 80,
                 "building_coverage_limit": None,
                 "building_direction": "남향  (기준:  )",
@@ -149,8 +168,7 @@ class PaperTestCase(APITestCase):
                                                    bio="bio",
                                                    name="김주영",
                                                    birthday="1955-02-12")
-        address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21',
-                                         sigunguCd='29170', bjdongCd='29170', platGbCd='', bun='973', ji='17', dong='202', ho='307')
+        address = Address.objects.create(**address_vars)
         self.profile = Profile.objects.create(user=self.user, address=address, bank_name="광주은행",
         account_number="120982711", mobile_number="010-1234-5678")
 
@@ -160,8 +178,7 @@ class PaperTestCase(APITestCase):
                                                    bio="bio",
                                                    name="김주영",
                                                    birthday="1955-02-12")
-        address = Address.objects.create(old_address="세종시 빛가람동 222", new_address="세종시 빛가람로 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307",)
+        address = Address.objects.create(**address_vars)
         self.profile1 = Profile.objects.create(user=user1, address=address, bank_name="국민은행",
         account_number="120982711", mobile_number="010-3456-7890")
 
@@ -172,8 +189,7 @@ class PaperTestCase(APITestCase):
                                             name="서주은",
                                             birthday="1955-02-12",
                                             is_expert=True)
-        address = Address.objects.create(old_address="세종시 빛가람동 222", new_address="세종시 빛가람로 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307",)
+        address = Address.objects.create(**address_vars)
         profile2 = Profile.objects.create(user=expert_user, address=address, bank_name="충북은행", account_number="1111111", mobile_number="010-3982-5555")
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
         self.expert_profile.status = ExpertProfile.APPROVED
@@ -194,17 +210,9 @@ class PaperTestCase(APITestCase):
     def create_profile(self):
         data = {
             "mobile_number": "010-1234-1234",
-            "address.old_address": '광주 광산구 명도동 169',
-            "address.new_address": '광주광역시 광산구 가마길 2-21',
-            "address.sigunguCd": '29170',
-            "address.bjdongCd": '29170',
-            "address.platGbCd": '',
-            "address.bun":'973',
-            "address.ji":'17',
-            "address.dong":'',
-            "address.ho":'2층',
             "bank_name": "국민은행",
-            "account_number": "94334292963"
+            "account_number": "94334292963",
+            **address_form
         }
         response = self.client.post(self.profile_list_url, data=data)
         return response
@@ -215,8 +223,7 @@ class PaperTestCase(APITestCase):
         if is_expert:
             user.is_expert=True
             user.save()
-        address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
-        sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
+        address = Address.objects.create(**address_vars)
         profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
         AllowedUser.objects.create(profile=profile)
         if is_expert:
@@ -227,17 +234,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_create(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -266,17 +263,7 @@ class PaperTestCase(APITestCase):
         profile2_allowed_user = AllowedUser.objects.get(profile=profile2)
         profile2_allowed_user.allowed_users.add(self.user)
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -304,17 +291,7 @@ class PaperTestCase(APITestCase):
         response = self.create_profile()
 
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -341,17 +318,7 @@ class PaperTestCase(APITestCase):
     def test_paper_create_with_expert(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -382,17 +349,7 @@ class PaperTestCase(APITestCase):
         profile2 = self.create_user_profile(id=2)
         
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -431,17 +388,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_create_with_expert_as_trader(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -478,17 +425,7 @@ class PaperTestCase(APITestCase):
         profile_allowed_user.allowed_users.add(expert_profile.profile.user)
         
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -517,17 +454,7 @@ class PaperTestCase(APITestCase):
         self.api_authentication(user=self.expert_profile.profile.user)
 
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -556,17 +483,7 @@ class PaperTestCase(APITestCase):
         self.api_authentication(user=self.expert_profile.profile.user)
         
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -592,17 +509,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_update(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -623,17 +530,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -658,17 +555,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_update_with_paperstatus_done(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -689,17 +576,7 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -727,17 +604,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_delete(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -762,17 +629,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_delete_with_paperstatus_done(self):
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -802,16 +659,7 @@ class PaperTestCase(APITestCase):
     def test_verifying_explanation_create(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         data ={
-            "address": {
-                "bjdongCd": "11740",
-                "bun": "669",
-                "dong": "",
-                "ho": "",
-                "ji": "1",
-                "new_address": "서울 강동구 강일동 669-1",
-                "old_address": "서울 강동구 강일동 669-1",
-                "sigunguCd": "11740",
-            },
+            "address": address_vars,
             "building_area": 22,
             "building_category": 80,
             "building_structure": "222",
@@ -881,8 +729,7 @@ class SignatureTestCase(APITestCase):
                                                     name="서주은",
                                                     birthday="1955-02-12",
                                                     is_expert=True)
-        address = Address.objects.create(old_address="세종시 빛가람동 222", new_address="세종시 빛가람로 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307")
+        address = Address.objects.create(**address_vars)
         profile2 = Profile.objects.create(user=expert_user, address=address, bank_name="충북은행", account_number="1111111", mobile_number="010-3982-5555")
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
         self.expert_profile.status = ExpertProfile.APPROVED
@@ -894,8 +741,7 @@ class SignatureTestCase(APITestCase):
                                                     name="김주영",
                                                     birthday="1955-02-12")
         self.api_authentication(user=self.user)
-        address = Address.objects.create(old_address="광주 광산구 명도동 169", new_address="광주광역시 광산구 가마길 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307")
+        address = Address.objects.create(**address_vars)
         self.profile = Profile.objects.create(user=self.user, address=address, bank_name="국민은행", account_number="1908281111", mobile_number="010-3982-1111")
         profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
@@ -905,26 +751,14 @@ class SignatureTestCase(APITestCase):
                                                     bio="bio",
                                                     name="김길동",
                                                     birthday="1955-02-12")
-        address = Address.objects.create(old_address="서울특별시 강남구 명도동 222", new_address="서울특별시 강남구 강남대로 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307")
+        address = Address.objects.create(**address_vars)
         self.profile1 = Profile.objects.create(user=user, address=address, bank_name="서울은행", account_number="1111111", mobile_number="010-3982-2222")
         profile1_allowed_user = AllowedUser.objects.create(profile=self.profile1)
         profile1_allowed_user.allowed_users.add(self.user)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
-        address = Address.objects.create(old_address="세종시 빛가람동 222", new_address="세종시 빛가람로 2-21",
-                                         sigunguCd="29170", bjdongCd="29170", platGbCd="", bun="973", ji="17", dong="202", ho="307")
+        address = Address.objects.create(**address_vars)
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -947,17 +781,7 @@ class SignatureTestCase(APITestCase):
         self.paper = self.client.post(self.list_url, data=data, format="json").data
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         data = {
-            "address": {
-                "old_address": '광주 광산구 명도동 169',
-                "new_address": '광주광역시 광산구 가마길 2-21',
-                "sigunguCd": '29170',
-                "bjdongCd": '29170',
-                "platGbCd": '',
-                "bun":'973',
-                "ji":'17',
-                "dong":'',
-                "ho":'2층',
-            },
+            "address": address_vars,
             "building_area": 1111,
             "building_category": 80,
             "building_structure": "11",
@@ -983,18 +807,7 @@ class SignatureTestCase(APITestCase):
                     "actual_building_category": 80,
                     "actual_expenses": 50000,
                     "actual_land_category": 7,
-                    "address": {
-                        "bjdongCd": "11740",
-                        "bun": "669",
-                        "dong": "",
-                        "ho": "",
-                        "id": 215,
-                        "ji": "1",
-                        "new_address": "서울 강동구 강일동 669-1",
-                        "old_address": "서울 강동구 강일동 669-1",
-                        "platGbCd": "",
-                        "sigunguCd": "11740",
-                    },
+                    "address": address_vars,
                     "building_category": 80,
                     "building_coverage_limit": None,
                     "building_direction": "남향  (기준:  )",

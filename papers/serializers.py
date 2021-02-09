@@ -117,16 +117,16 @@ class PaperSerializer(serializers.ModelSerializer):
         contractors_data = validated_data.pop('paper_contractors')
         status_instance = PaperStatus.objects.create(status=PaperStatus.DRAFT)
         address = Address.objects.create(**address_data)
+        is_paper_requsting = False
 
         paper = Paper.objects.create(**validated_data, address=address, status=status_instance)
 
         for contractor_data in contractors_data:
-            status_saved = False
             Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'], is_allowed=contractor_data['is_allowed'])
-            if status_saved == False and contractor_data['is_allowed'] == False:
+            if is_paper_requsting == False and contractor_data['is_allowed'] == False:
                 status_instance.status = PaperStatus.REQUESTING
                 status_instance.save()
-                status_saved = True
+                is_paper_requsting = True
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation_address_data = verifying_explanation_data.pop('address')
@@ -139,32 +139,25 @@ class PaperSerializer(serializers.ModelSerializer):
         address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
         contractors_data = validated_data.pop('paper_contractors') if not validated_data.get('paper_contractors') is None else {}
         verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else {}
+        status_instance  = instance.status
         address = instance.address
-        contractors = instance.paper_contractors.all()
+        is_paper_requsting = False
+        contractors_profile = []
+        for contractor_data in contractors_data:
+            contractors_profile.append(contractor_data.get("profile"))
+        deleted_contractors = instance.paper_contractors.exclude(profile__in=contractors_profile)
+        deleted_contractors.delete()
 
         for key, val in address_data.items():
             setattr(address, key, val)
         address.save()
 
         for contractor_data in contractors_data:
-            #Ignore is_allowed. Because after instance created, is_allowed value might be changed by each user.
-            contractor_data.pop("is_allowed")
-            matched = False
-            status_saved = False
-            for contractor in contractors:
-                if contractor_data['paper'] == None:
-                    matched = True
-                    contractors.get(group=contractor_data['group']).delete()
-                    break
-                if contractor_data['group'] == contractor.group:
-                    matched = True
-                    for key, val in contractor_data.items():
-                        if not val is None:
-                            setattr(contractor, key, val)
-                    contractor.save()
-
-            if matched == False:
-                 Contractor.objects.create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'], is_allowed=contractor_data['is_allowed'])
+            Contractor.objects.update_or_create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'], defaults={'is_allowed': contractor_data['is_allowed']})
+            if is_paper_requsting == False and contractor_data['is_allowed'] == False:
+                status_instance.status = PaperStatus.REQUESTING
+                status_instance.save()
+                is_paper_requsting = True
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
@@ -209,9 +202,9 @@ class PaperSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     key: _("같은 회원을 중복해서 등록할 수 없습니다."),
                 })
-            if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
-                if author != contractor['profile'].user:
-                   contractor['is_allowed'] = False
+            if author != contractor['profile'].user:
+                if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
+                    contractor['is_allowed'] = False
                 else:
                     contractor['is_allowed'] = True
             else:

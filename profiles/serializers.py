@@ -54,7 +54,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'updated_at', 'username', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday']
-        read_only_fields = ('id', 'updated_at', 'username', 'is_expert', 'is_staff', 'has_profile')
+        read_only_fields = ('id', 'updated_at', 'username', 'email', 'is_expert', 'is_staff', 'has_profile')
 
     def get_has_profile(self, obj):
         return obj.profiles.exists()

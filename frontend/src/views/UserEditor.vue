@@ -71,6 +71,7 @@
       v-model="email"
       :label="$t('email')"
       hide-details="auto"
+      disabled
     ></LazyTextField>
     <LazyTextField
       class="mt-4"
@@ -139,7 +140,6 @@ export default {
       let endpoint = `/api/user/${this.id}/`;
       let that = this;
       apiService(endpoint, "PUT", {
-        email: this.email,
         name: this.name,
         birthday: this.birthday,
       }).then(data => {

@@ -86,6 +86,7 @@ const i18n = new VueI18n({
       insert_special_agreement: "Insert special agreement",
       intro: "This is realestate contract that is made by traders.",
       landlord: "Landlord",
+      landlord_or_tenant: "Are you landlord or tenant?",
       language: "Language",
       language_change: "언어 변경",
       last: "Last",
@@ -439,6 +440,7 @@ const i18n = new VueI18n({
       intro:
         "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       landlord: "임대인",
+      landlord_or_tenant: "당신은 임대인입니까? 임차인입니까?",
       language: "언어",
       language_change: "Language Change",
       last: "최종",

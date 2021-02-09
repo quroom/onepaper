@@ -2,12 +2,14 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import AdminDateWidget
+from django.core.validators import RegexValidator
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from addresses.models import Address
 from profiles.models import CustomUser, ExpertProfile, Profile, AllowedUser
 from registration.forms import RegistrationFormUniqueEmail
 from datetime import datetime
+name_validator = RegexValidator(r"^[가-힣a-zA-Z]+$", _("Your name strings only contain Kor or Eng characters without space."))
 
 date_range = 100
 this_year = datetime.now().year
@@ -15,7 +17,7 @@ User = get_user_model()
 class CustomUserForm(RegistrationFormUniqueEmail):
     terms_service = forms.BooleanField(label=_('이용약관 동의'))
     personal_info = forms.BooleanField(label=_('개인정보 처리방침 동의'))
-    name = forms.CharField(label=_('성함'), required=True, max_length=150)
+    name = forms.CharField(label=_('성함'), required=True, max_length=150, validators=[name_validator], help_text=_("Your name strings only contain Kor or Eng characters without space."))
     birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
     bank_name = forms.CharField(label=_('은행명'), required=False, max_length=45)
