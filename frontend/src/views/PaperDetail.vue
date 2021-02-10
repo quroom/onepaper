@@ -119,12 +119,12 @@
         </template>
       </template>
     </v-row>
-    <v-row no-gutters>
+    <v-row no-gutters v-if="!isLoading && seller != null && seller.profile.bank_name">
       <v-col class="text-center font-weight-bold" cols="3" sm="2">
         <v-card outlined tile>{{ $t("bank_account") }}</v-card>
       </v-col>
       <v-col class="text-center" cols="9" sm="10">
-        <v-card v-if="!isLoading && seller != null" outlined tile
+        <v-card outlined tile
           >{{ seller.profile.bank_name }} {{ seller.profile.user.name }}
           {{ seller.profile.account_number }}</v-card
         >
