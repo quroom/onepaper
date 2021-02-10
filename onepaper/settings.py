@@ -210,7 +210,7 @@ WEBPACK_LOADER = {
 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 if EMAIL_HOST_PASSWORD != '':
-    SERVER_EMAIL = 'Onepaper-Error <error@onepaper.biz>'
+    SERVER_EMAIL = os.environ.get('SERVER_EMAIL', 'Error <error@onepaper.biz>')
     DEFAULT_FROM_EMAIL = 'Onepaper <no-reply@onepaper.biz>'
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'email-smtp.ap-northeast-2.amazonaws.com'
