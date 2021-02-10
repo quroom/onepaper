@@ -255,8 +255,6 @@ SUMMERNOTE_CONFIG = {
     'disable_attachment':True
 }
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-
 ADMINS = [('quroom', 'quroom@naver.com')]
 
 if DEBUG == False:
