@@ -18,8 +18,8 @@
 
 # Default server configuration
 #
-proxy_cache_path   /home/ubuntu/tmp/nginx levels=1:2 keys_zone=s3_cache:10m max_size=500m inactive=60m use_temp_path=off;
-proxy_cache_path   /home/ubuntu/tmp/nginx-green levels=1:2 keys_zone=s3_green_cache:10m max_size=500m inactive=60m use_temp_path=off;
+proxy_cache_path   /home/ubuntu/web-info/nginx levels=1:2 keys_zone=s3_cache:10m max_size=500m inactive=60m use_temp_path=off;
+proxy_cache_path   /home/ubuntu/web-info/nginx-green levels=1:2 keys_zone=s3_green_cache:10m max_size=500m inactive=60m use_temp_path=off;
 proxy_cache_key "$scheme$request_method$host$request_uri";
 
 
@@ -34,6 +34,7 @@ upstream green {
 }
 
 server {
+	listen 80;
 	listen [::]:80;
 	server_name onepaper.biz;
 	return 301 https://onepaper.biz$request_uri;
@@ -42,8 +43,9 @@ server {
 	access_log  /var/log/nginx/access.log;
 	error_log  /var/log/nginx/error.log;
 
+	listen 443 ssl; # managed by certbot
 	listen [::]:443 ssl; # managed by certbot
-		server_name onepaper.biz;
+	server_name onepaper.biz;
 
 # this is for the rest backend
 	location /{
@@ -137,6 +139,7 @@ server {
 }
 
 server {
+	listen 5555 ssl;
 	listen [::]:5555 ssl;
 	access_log  /var/log/nginx/access-green.log;
 	error_log  /var/log/nginx/error-green.log;

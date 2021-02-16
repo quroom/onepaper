@@ -9,7 +9,7 @@ WorkingDirectory=/home/ubuntu/onepaper
 ExecStart=/home/ubuntu/djangovenv/bin/gunicorn \
         --workers 2 \
         --bind unix:/tmp/gunicorn.sock \
-	--access-logfile /home/ubuntu/log/gunicorn/access.log --error-logfile /home/ubuntu/log/gunicorn/error.log --capture-output --enable-stdio-inheritance \
+	--error-logfile /home/ubuntu/web-info/error.log --capture-output --enable-stdio-inheritance \
         onepaper.wsgi:application
 [Install]
 WantedBy=multi-user.target
