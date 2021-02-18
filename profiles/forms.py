@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import AdminDateWidget
@@ -40,6 +41,7 @@ class CustomUserForm(RegistrationFormUniqueEmail):
         labels = {
             'username': _('username')
         }
+
     @transaction.atomic
     def save(self, commit=True):
         user = super(CustomUserForm, self).save(commit=commit)
@@ -67,25 +69,59 @@ class CustomUserForm(RegistrationFormUniqueEmail):
                                          bank_name=self.cleaned_data['bank_name'],
                                          account_number=self.cleaned_data['account_number'],
                                          address=address)
+        allowedUser = AllowedUser.objects.create(profile=profile)
+        allowedUser.allowed_users.add(user)
+        allowedUser.save()
+
         if user.is_expert:
-            ExpertProfile.objects.create(profile=profile,
+            return profile
+        else:
+            return user
+
+def validate_image(image):
+    file_size = image.size
+    max_size = 1024*1024
+    if file_size > max_size:
+        raise ValidationError(_("Max size of file is %(size)s KB"), params={'size': limit_kb})
+
+class ExpertCustomUserForm(CustomUserForm):
+    is_expert = forms.BooleanField(label=_('사업자 계정으로 등록하길 원하시면 체크.'), initial=True, required=True, widget=forms.HiddenInput())
+    registration_number = forms.CharField(label=_("등록번호"), required=True, max_length=45)
+    shop_name = forms.CharField(label=_("상호명"), required=True, max_length=100)
+    registration_certificate = forms.ImageField(label=_("중개사무소 등록증"), required=True)
+    agency_license = forms.ImageField(label=_("공인중개사 자격증"), required=True)
+    stamp = forms.ImageField(label=_("인장"), required=True)
+    garantee_insurance = forms.ImageField(label=_("보증설정서류"), required=True)
+    old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+
+    def clean_registration_certificate(self):
+        image = self.cleaned_data['registration_certificate']
+        validate_image(image)
+        return image
+
+    def clean_agency_license(self):
+        image = self.cleaned_data['agency_license']
+        validate_image(image)
+        return image
+
+    def clean_stamp(self):
+        image = self.cleaned_data['stamp']
+        validate_image(image)
+        return image
+
+    def clean_garantee_insurance(self):
+        image = self.cleaned_data['garantee_insurance']
+        validate_image(image)
+        return image
+
+    @transaction.atomic
+    def save(self, commit=True):
+        profile = super(ExpertCustomUserForm, self).save(commit=commit)
+        expert = ExpertProfile.objects.create(profile=profile,
                                          registration_number=self.cleaned_data['registration_number'],
                                          shop_name=self.cleaned_data['shop_name'],
                                          registration_certificate=self.cleaned_data['registration_certificate'],
                                          agency_license=self.cleaned_data['agency_license'],
                                          stamp=self.cleaned_data['stamp'],
                                          garantee_insurance=self.cleaned_data['garantee_insurance'])
-        allowedUser = AllowedUser.objects.create(profile=profile)
-        allowedUser.allowed_users.add(user)
-        allowedUser.save()
-        return user
-
-class ExpertCustomUserForm(CustomUserForm):
-    is_expert = forms.BooleanField(label=_('사업자 계정으로 등록하길 원하시면 체크.'), initial=True, required=True, widget=forms.HiddenInput())
-    registration_number = forms.CharField(label=_("등록번호"), required=True, max_length=45)
-    shop_name = forms.CharField(label=_("상호명"), required=True, max_length=100)
-    registration_certificate = forms.ImageField(label=_("중개사 등록증"), required=True)
-    agency_license = forms.ImageField(label=_("중개사 자격증"), required=True)
-    stamp = forms.ImageField(label=_("인장"), required=True)
-    garantee_insurance = forms.ImageField(label=_("보증서류"), required=True)
-    old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+        return profile.user

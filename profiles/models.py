@@ -31,7 +31,7 @@ class CustomUser(AbstractUser):
     bio = models.CharField(max_length=240, blank=True)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('-id',)
 
 class Profile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -87,7 +87,7 @@ class ExpertProfile(models.Model):
         choices=STATUS_CATEGORY, default=REQUEST)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('-id',)
 
 class Mandate(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
