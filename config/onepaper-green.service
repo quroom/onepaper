@@ -7,9 +7,9 @@ User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu/onepaper-green
 ExecStart=/home/ubuntu/djangovenv/bin/gunicorn \
-        --workers 1 \
+        --workers 4 \
         --bind unix:/tmp/gunicorn-green.sock \
-	--error-logfile /home/ubuntu/log/gunicorn/green-error.log --capture-output --enable-stdio-inheritance \
+	--error-logfile /var/log/gunicorn/green-error.log --capture-output --enable-stdio-inheritance \
         onepaper.wsgi:application
 [Install]
 WantedBy=multi-user.target

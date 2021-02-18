@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-08 11:59+0900\n"
+"POT-Creation-Date: 2021-02-18 06:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,54 +266,54 @@ msgstr ""
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:210 .\papers\tests.py:339
+#: .\papers\serializers.py:203 .\papers\tests.py:316
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:222 .\papers\tests.py:466
+#: .\papers\serializers.py:215 .\papers\tests.py:413
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:229 .\papers\tests.py:514
+#: .\papers\serializers.py:222 .\papers\tests.py:451
 msgid "공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:235 .\papers\tests.py:591
+#: .\papers\serializers.py:228 .\papers\tests.py:508
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:239 .\papers\tests.py:553
+#: .\papers\serializers.py:232 .\papers\tests.py:480
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:243 .\papers\serializers.py:244
-#: .\papers\tests.py:300 .\papers\tests.py:301
+#: .\papers\serializers.py:236 .\papers\serializers.py:237
+#: .\papers\tests.py:287 .\papers\tests.py:288
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:430 .\papers\views.py:26
+#: .\papers\tests.py:387 .\papers\views.py:26
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:726 .\papers\views.py:171
+#: .\papers\tests.py:603 .\papers\views.py:171
 msgid "완료된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:800 .\papers\views.py:199
+#: .\papers\tests.py:657 .\papers\views.py:199
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1176 .\papers\tests.py:1265 .\papers\views.py:50
+#: .\papers\tests.py:989 .\papers\tests.py:1078 .\papers\views.py:50
 #: .\papers\views.py:227
 msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1186 .\papers\tests.py:1275 .\papers\views.py:57
+#: .\papers\tests.py:999 .\papers\tests.py:1088 .\papers\views.py:57
 #: .\papers\views.py:234
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1218 .\papers\tests.py:1307 .\papers\views.py:74
+#: .\papers\tests.py:1031 .\papers\tests.py:1120 .\papers\views.py:74
 #: .\papers\views.py:248
 msgid "완료된 계약서의 서명은 수정할 수 없습니다."
 msgstr ""
@@ -461,96 +461,100 @@ msgstr "The delegate and delegate cannot be the same."
 msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
-#: .\profiles\tests.py:89 .\profiles\views.py:48
+#: .\profiles\tests.py:111 .\profiles\views.py:48
 msgid "자기 자신의 아이디는 추가할 수 없습니다."
 msgstr "You cannot add your own ID."
 
-#: .\profiles\tests.py:94 .\profiles\views.py:53
+#: .\profiles\tests.py:116 .\profiles\views.py:53
 msgid "회원 아이디가 없습니다."
 msgstr "There is no member ID."
 
-#: .\profiles\tests.py:99 .\profiles\views.py:58
+#: .\profiles\tests.py:121 .\profiles\views.py:58
 msgid "이름이 일치하지 않습니다."
 msgstr "The names do not match."
 
-#: .\profiles\tests.py:113 .\profiles\views.py:60
+#: .\profiles\tests.py:135 .\profiles\views.py:60
 msgid "이미 추가된 회원입니다."
 msgstr "This member has already been added."
 
-#: .\profiles\tests.py:124 .\profiles\views.py:74
+#: .\profiles\tests.py:146 .\profiles\views.py:74
 msgid "자신의 아이디는 삭제할 수 없습니다."
 msgstr "You cannot delete your ID."
 
-#: .\profiles\tests.py:129 .\profiles\tests.py:138 .\profiles\views.py:79
+#: .\profiles\tests.py:151 .\profiles\tests.py:160 .\profiles\views.py:79
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 "Members who have not been added to the quick transaction list cannot be "
 "deleted."
 
-#: .\profiles\tests.py:294 .\profiles\views.py:156
+#: .\profiles\tests.py:310 .\profiles\views.py:156
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
-#: .\profiles\tests.py:350 .\profiles\tests.py:356 .\profiles\views.py:99
+#: .\profiles\tests.py:366 .\profiles\tests.py:372 .\profiles\views.py:99
 #: .\profiles\views.py:118
 msgid "전문가가 선택되지 않았습니다."
 msgstr "No expert was chosen."
 
-#: .\profiles\tests.py:353 .\profiles\views.py:104
+#: .\profiles\tests.py:369 .\profiles\views.py:104
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
-#: .\profiles\tests.py:508 .\profiles\views.py:182
+#: .\profiles\tests.py:498 .\profiles\views.py:182
 msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\profiles\tests.py:551 .\profiles\views.py:159
+#: .\profiles\tests.py:531 .\profiles\views.py:159
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have a contract paper, you cannot edit your profile."
 
-#: .\profiles\tests.py:587 .\profiles\views.py:162
+#: .\profiles\tests.py:570 .\profiles\views.py:162
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: .\profiles\tests.py:619 .\profiles\views.py:185
+#: .\profiles\tests.py:605 .\profiles\views.py:185
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
-#: .\profiles\tests.py:631 .\profiles\views.py:301
+#: .\profiles\tests.py:617 .\profiles\views.py:301
 msgid "성함, 연락처 모두 입력해야 합니다."
 msgstr "You must enter both your name and contact information."
 
-#: .\profiles\tests.py:763 .\profiles\views.py:211
+#: .\profiles\tests.py:723 .\profiles\views.py:211
 msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
 msgstr "If there is a contract, the member information cannot be modified."
 
-#: .\profiles\tests.py:775 .\profiles\views.py:237
+#: .\profiles\tests.py:735 .\profiles\views.py:237
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 "Withdrawal has been processed. Account information has also been completely "
 "deleted."
 
-#: .\profiles\tests.py:818 .\profiles\views.py:234
+#: .\profiles\tests.py:768 .\profiles\views.py:234
 msgid "탈퇴처리 되었습니다."
 msgstr "Withdrawal has been processed."
 
-#: .\profiles\tests.py:828 .\profiles\views.py:230
+#: .\profiles\tests.py:778 .\profiles\views.py:230
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr "Please enter all the information of the member to withdraw from."
 
-#: .\profiles\tests.py:839 .\profiles\views.py:228
+#: .\profiles\tests.py:789 .\profiles\views.py:228
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 "The information entered does not match the current member's information."
 
-#: .\profiles\tests.py:948 .\profiles\tests.py:981 .\profiles\views.py:273
+#: .\profiles\tests.py:885 .\profiles\tests.py:918 .\profiles\views.py:273
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\tests.py:996 .\profiles\views.py:290
+#: .\profiles\tests.py:933 .\profiles\views.py:290
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
+
+#: .\templates\index.html:6
+msgid "Onepaper"
+msgstr ""
 
 #: .\templates\registration\activate.html:4
 #: .\templates\registration\activate.html:7

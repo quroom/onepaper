@@ -5,11 +5,11 @@ After=network.target
 [Service]
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/home/ubuntu/onepaper
+WorkingDirectory=/home/ubuntu/onepaper-green
 ExecStart=/home/ubuntu/djangovenv/bin/gunicorn \
         --workers 4 \
-        --bind unix:/tmp/gunicorn.sock \
-	--error-logfile /var/log/gunicorn/error.log --capture-output --enable-stdio-inheritance \
+        --bind 0:8000 \
+	--error-logfile /var/log/gunicorn/local8000-error.log --capture-output --enable-stdio-inheritance \
         onepaper.wsgi:application
 [Install]
 WantedBy=multi-user.target

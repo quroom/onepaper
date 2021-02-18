@@ -257,7 +257,8 @@ SUMMERNOTE_CONFIG = {
 
 ADMINS = [('quroom', 'quroom@naver.com')]
 
-if DEBUG == False:
+DJANGO_SSL = os.environ.get("DJANGO_HTTP", 'False') != 'True'
+if DJANGO_SSL == True:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT= True

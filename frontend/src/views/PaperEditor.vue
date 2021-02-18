@@ -334,7 +334,7 @@
                     v-slot:item="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("search") }} </v-btn>
+                    <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("manual_search") }} </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
@@ -368,7 +368,7 @@
                   <template v-slot:item="{ item }"
                   >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("search") }} </v-btn>
+                    <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("manual_search") }} </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
@@ -495,7 +495,7 @@ export default {
       panels: [0,1,2],
       land_category: 7,
       lot_area: null,
-      building_structure: null,
+      building_structure: '',
       building_category: 80,
       building_area: null,
       trade_category: 0,
