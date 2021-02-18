@@ -38,8 +38,7 @@ server {
 	listen [::]:80;
 	access_log  /var/log/nginx/access-green.log;
 	error_log  /var/log/nginx/error-green.log;
-
-	server_name 3.35.255.254, dev.onepaper.biz;
+	server_name 3.35.255.254 dev.onepaper.biz;
 
 # this is for the rest backend
 	location /{
@@ -89,7 +88,7 @@ server {
 #	listen [::]:80;
 	access_log  /var/log/nginx/access.log;
 	error_log  /var/log/nginx/error.log;
-	server_name 3.35.255.254, dev.onepaper.biz;
+	server_name 3.35.255.254 dev.onepaper.biz;
 
 # this is for the rest backend
 	location /{
