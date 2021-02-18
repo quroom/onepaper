@@ -170,6 +170,20 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("is_active",)
 
+    def validate_image(self, image, field_name):
+        file_size = image.size
+        max_size = 1024*1024
+        if file_size > max_size:
+            raise serializers.ValidationError({
+                field_name: _("Max size of file is %(size)s KB") % {'size': limit_kb}
+            })
+
+    def validate(self, data):
+        for key, value in data['expert_profile'].items():
+            if hasattr(data['expert_profile'][key], 'file'):
+                self.validate_image(value, key)
+        return data
+
     @transaction.atomic
     def create(self, validated_data):
         address_data = validated_data.pop('address')

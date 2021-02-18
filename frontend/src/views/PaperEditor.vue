@@ -739,7 +739,7 @@ export default {
                 input.click();
                 input.onchange = () => {
                     const file = input.files[0];
-                    const max_size = 512000
+                    const max_size = 1024*1024
                     const max_count = 2
                     if (/^image\/(jpe?g|png|bmp)$/.test(file.type)) {
                       if(file.size > max_size){

@@ -30,7 +30,9 @@ upstream backend {
 
 upstream green {
 	server unix:/tmp/gunicorn.sock down;
-	server unix:/tmp/gunicorn-green.sock;
+	server unix:/tmp/gunicorn-green.sock down;
+	server 0.0.0.0:8000;
+
 }
 
 server {
@@ -39,6 +41,7 @@ server {
 	access_log  /var/log/nginx/access-green.log;
 	error_log  /var/log/nginx/error-green.log;
 	server_name 3.35.255.254 dev.onepaper.biz;
+	client_max_body_size 5m;
 
 # this is for the rest backend
 	location /{
@@ -50,7 +53,8 @@ server {
 
 	}
 	location /media/ {
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
+		autoindex on;
+		alias /home/ubuntu/onepaper-green/media/;
 		expires 365d;
 	}
 	location /static/ {
@@ -84,11 +88,12 @@ server {
 	}
 }
 server {
-#	listen 80;
-#	listen [::]:80;
+	listen 80;
+	listen [::]:80;
 	access_log  /var/log/nginx/access.log;
 	error_log  /var/log/nginx/error.log;
-	server_name 3.35.255.254 dev.onepaper.biz;
+#	server_name 3.35.255.254 dev.onepaper.biz;
+	client_max_body_size 5m;
 
 # this is for the rest backend
 	location /{

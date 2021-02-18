@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 06:31+0900\n"
+"POT-Creation-Date: 2021-02-18 15:35+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,83 +334,92 @@ msgstr ""
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:12 .\profiles\forms.py:20
+#: .\profiles\forms.py:13 .\profiles\forms.py:21
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr ""
 
-#: .\profiles\forms.py:18
+#: .\profiles\forms.py:19
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: .\profiles\forms.py:19
+#: .\profiles\forms.py:20
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: .\profiles\forms.py:20
+#: .\profiles\forms.py:21
 msgid "성함"
 msgstr "FullName"
 
-#: .\profiles\forms.py:21
+#: .\profiles\forms.py:22
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:22
+#: .\profiles\forms.py:23
 msgid "휴대폰 번호"
 msgstr "Mobile Number"
 
-#: .\profiles\forms.py:23
+#: .\profiles\forms.py:24
 msgid "은행명"
 msgstr "Bank Name"
 
-#: .\profiles\forms.py:24
+#: .\profiles\forms.py:25
 msgid "계좌번호"
 msgstr "Account Number"
 
-#: .\profiles\forms.py:25
+#: .\profiles\forms.py:26
 msgid "주소"
 msgstr "Address"
 
-#: .\profiles\forms.py:35
+#: .\profiles\forms.py:36
 msgid "동"
 msgstr "Dong"
 
-#: .\profiles\forms.py:36
+#: .\profiles\forms.py:37
 msgid "호"
 msgstr "Ho"
 
-#: .\profiles\forms.py:41
+#: .\profiles\forms.py:42
 msgid "username"
 msgstr ""
 
-#: .\profiles\forms.py:84
+#: .\profiles\forms.py:85 .\profiles\serializers.py:178
+#, python-format
+msgid "Max size of file is %(size)s KB"
+msgstr ""
+
+#: .\profiles\forms.py:88
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
-#: .\profiles\forms.py:85
+#: .\profiles\forms.py:89
 msgid "등록번호"
 msgstr "Registration Number"
 
-#: .\profiles\forms.py:86
+#: .\profiles\forms.py:90
 msgid "상호명"
 msgstr "Shop Name"
 
-#: .\profiles\forms.py:87
-msgid "중개사 등록증"
+#: .\profiles\forms.py:91
+#, fuzzy
+#| msgid "중개사 등록증"
+msgid "중개사무소 등록증"
 msgstr "Registration Certificate"
 
-#: .\profiles\forms.py:88
-msgid "중개사 자격증"
+#: .\profiles\forms.py:92
+#, fuzzy
+#| msgid "중개사 자격증"
+msgid "공인중개사 자격증"
 msgstr "Agency License"
 
-#: .\profiles\forms.py:89
+#: .\profiles\forms.py:93
 msgid "인장"
 msgstr "Stamp"
 
-#: .\profiles\forms.py:90
-msgid "보증서류"
-msgstr "Brokerage Garantee Insurance"
+#: .\profiles\forms.py:94
+msgid "보증설정서류"
+msgstr ""
 
-#: .\profiles\forms.py:91
+#: .\profiles\forms.py:95
 msgid "사무실 주소"
 msgstr "Shop Address"
 
@@ -430,34 +439,34 @@ msgstr "Denied"
 msgid "폐업"
 msgstr "Closed"
 
-#: .\profiles\serializers.py:261
+#: .\profiles\serializers.py:275
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: .\profiles\serializers.py:267
+#: .\profiles\serializers.py:281
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:272 .\profiles\serializers.py:273
+#: .\profiles\serializers.py:286 .\profiles\serializers.py:287
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 "Users who are not approved as a real estate agent cannot register on the "
 "power of attorney."
 
-#: .\profiles\serializers.py:278
+#: .\profiles\serializers.py:292
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr "Please check Allow Profile View to Create Power of Attorney"
 
-#: .\profiles\serializers.py:281
+#: .\profiles\serializers.py:295
 msgid "위임인만 서명이 가능합니다."
 msgstr "Only delegates can sign."
 
-#: .\profiles\serializers.py:284
+#: .\profiles\serializers.py:298
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr "The delegate and delegate cannot be the same."
 
-#: .\profiles\serializers.py:286
+#: .\profiles\serializers.py:300
 msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
@@ -552,7 +561,8 @@ msgstr "A signed power of attorney cannot be modified."
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
-#: .\templates\index.html:6
+#: .\templates\auth_layout.html:24 .\templates\index-dev.html:5
+#: .\templates\index.html:8
 msgid "Onepaper"
 msgstr ""
 
@@ -585,7 +595,7 @@ msgstr ""
 #: .\templates\registration\login.html:6
 #: .\templates\registration\login.html:11
 #: .\templates\registration\password_reset_complete.html:8
-#: .\templates\registration\registration_complete.html:11
+#: .\templates\registration\registration_complete.html:10
 #: .\templates\registration\registration_form.html:88
 msgid "Log in"
 msgstr ""
@@ -665,14 +675,15 @@ msgstr ""
 #: .\templates\registration\login.html:18
 #: .\templates\registration\password_reset_complete.html:4
 #: .\templates\registration\password_reset_complete.html:6
-#: .\templates\registration\password_reset_form.html:6
+#: .\templates\registration\password_reset_form.html:5
+#: .\templates\registration\password_reset_form.html:8
 msgid "Password reset"
 msgstr ""
 
 #: .\templates\registration\login.html:19
-#: .\templates\registration\registration_complete.html:10
+#: .\templates\registration\registration_complete.html:9
 #: .\templates\registration\resend_activation_form.html:5
-#: .\templates\registration\resend_activation_form.html:8
+#: .\templates\registration\resend_activation_form.html:7
 msgid "Resend Activation Email"
 msgstr ""
 
@@ -755,13 +766,13 @@ msgstr ""
 msgid "Management"
 msgstr ""
 
-#: .\templates\registration\password_reset_form.html:8
+#: .\templates\registration\password_reset_form.html:10
 msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
 msgstr ""
 
-#: .\templates\registration\password_reset_form.html:12
+#: .\templates\registration\password_reset_form.html:14
 msgid "Reset my password"
 msgstr ""
 
@@ -775,11 +786,11 @@ msgid "Sorry, but registration is closed at this moment. Come back later."
 msgstr ""
 
 #: .\templates\registration\registration_complete.html:4
-#: .\templates\registration\registration_complete.html:7
+#: .\templates\registration\registration_complete.html:6
 msgid "Activation email sent"
 msgstr ""
 
-#: .\templates\registration\registration_complete.html:8
+#: .\templates\registration\registration_complete.html:7
 msgid "Please check your email to complete the registration process."
 msgstr ""
 
@@ -1087,11 +1098,11 @@ msgid "확인"
 msgstr "Confirm"
 
 #: .\templates\registration\resend_activation_complete.html:4
-#: .\templates\registration\resend_activation_complete.html:7
+#: .\templates\registration\resend_activation_complete.html:6
 msgid "Account Activation Resent"
 msgstr ""
 
-#: .\templates\registration\resend_activation_complete.html:9
+#: .\templates\registration\resend_activation_complete.html:8
 #, python-format
 msgid ""
 "\n"
@@ -1099,9 +1110,12 @@ msgid ""
 "  "
 msgstr ""
 
-#: .\templates\registration\resend_activation_form.html:13
+#: .\templates\registration\resend_activation_form.html:12
 msgid "Submit"
 msgstr ""
+
+#~ msgid "보증서류"
+#~ msgstr "Brokerage Garantee Insurance"
 
 #~ msgid "아이디"
 #~ msgstr "User ID"
