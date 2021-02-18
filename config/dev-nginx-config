@@ -24,8 +24,8 @@ proxy_cache_key "$scheme$request_method$host$request_uri";
 
 
 upstream backend {
-	server unix:/tmp/gunicorn.sock;
-	server unix:/tmp/gunicorn-green.sock down;
+	server unix:/tmp/gunicorn.sock down;
+	server unix:/tmp/gunicorn-green.sock;
 }
 
 upstream green {
@@ -36,12 +36,60 @@ upstream green {
 server {
 	listen 80;
 	listen [::]:80;
+	access_log  /var/log/nginx/access-green.log;
+	error_log  /var/log/nginx/error-green.log;
+
+	server_name 3.35.255.254, dev.onepaper.biz;
+
+# this is for the rest backend
+	location /{
+		proxy_pass http://green;
+		proxy_set_header host $host;
+		proxy_set_header x-real-ip $remote_addr;
+		proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
+		proxy_set_header x-forwarded-proto $scheme;
+
+	}
+	location /media/ {
+		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
+		expires 365d;
+	}
+	location /static/ {
+		proxy_cache            s3_green_cache;
+		proxy_http_version     1.1;
+		proxy_hide_header      x-amz-id-2;
+		proxy_hide_header      x-amz-request-id;
+		proxy_hide_header      x-amz-meta-server-side-encryption;
+		proxy_hide_header      x-amz-server-side-encryption;
+		proxy_hide_header      Set-Cookie;
+		proxy_ignore_headers   Set-Cookie;
+		proxy_cache_revalidate on;
+		proxy_intercept_errors on;
+		proxy_cache_use_stale  error timeout updating http_500 http_502 http_503 http_504;
+		proxy_cache_lock       on;
+		proxy_cache_valid      200 304 60m;
+		add_header             Cache-Control max-age=31536000;
+		add_header X-Proxy-Cache $upstream_cache_status;
+
+		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
+		gzip on;
+		gzip_disable "msie6";
+
+		gzip_vary on;
+		gzip_proxied any;
+		gzip_comp_level 6;
+		gzip_buffers 16 8k;
+		gzip_http_version 1.1;
+		gzip_min_length 256;
+		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+	}
+}
+server {
+#	listen 80;
+#	listen [::]:80;
 	access_log  /var/log/nginx/access.log;
 	error_log  /var/log/nginx/error.log;
-
-	listen 443 ssl; # managed by certbot
-	listen [::]:443 ssl; # managed by certbot
-	server_name onepaper.biz;
+	server_name 3.35.255.254, dev.onepaper.biz;
 
 # this is for the rest backend
 	location /{
@@ -124,58 +172,6 @@ server {
 #location ~ /\.ht {
 #	deny all;
 #}
-}
-
-server {
-	listen 5555 ssl;
-	listen [::]:5555 ssl;
-	access_log  /var/log/nginx/access-green.log;
-	error_log  /var/log/nginx/error-green.log;
-	
-	server_name onepaper.biz;
-
-# this is for the rest backend
-	location /{
-		proxy_pass http://green;
-		proxy_set_header host $host;
-		proxy_set_header x-real-ip $remote_addr;
-		proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
-		proxy_set_header x-forwarded-proto $scheme;
-
-	}
-	location /media/ {
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
-		expires 365d;
-	}
-	location /static/ {
-		proxy_cache            s3_green_cache;
-		proxy_http_version     1.1;
-		proxy_hide_header      x-amz-id-2;
-		proxy_hide_header      x-amz-request-id;
-		proxy_hide_header      x-amz-meta-server-side-encryption;
-		proxy_hide_header      x-amz-server-side-encryption;
-		proxy_hide_header      Set-Cookie;
-		proxy_ignore_headers   Set-Cookie;
-		proxy_cache_revalidate on;
-		proxy_intercept_errors on;
-		proxy_cache_use_stale  error timeout updating http_500 http_502 http_503 http_504;
-		proxy_cache_lock       on;
-		proxy_cache_valid      200 304 60m;
-		add_header             Cache-Control max-age=31536000;
-		add_header X-Proxy-Cache $upstream_cache_status;
-
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
-		gzip on;
-		gzip_disable "msie6";
-
-		gzip_vary on;
-		gzip_proxied any;
-		gzip_comp_level 6;
-		gzip_buffers 16 8k;
-		gzip_http_version 1.1;
-		gzip_min_length 256;
-		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
-	}
 }
 
 # Virtual Host configuration for example.com
