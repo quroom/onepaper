@@ -269,4 +269,5 @@ if DJANGO_SSL == True:
     SECURE_HSTS_SECONDS = 60 #FIXME Update more long seconds later. 365 * 24 * 60 * 60
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# INTERNAL_IPS = ["127.0.0.1"]
+
+INTERNAL_IPS = os.environ.get('DJANGO_INTERNAL_IPS',"").split(",")
