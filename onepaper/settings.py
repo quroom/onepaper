@@ -178,7 +178,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 SITE_ID = 1
 
 # django.registration.redux
-ACCOUNT_ACTIVATION_DAYS = 1 # One-week activation window; you may, of course, use a different value.
+ACCOUNT_ACTIVATION_DAYS = 3 # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 # Phonenumber Field setting
