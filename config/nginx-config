@@ -48,10 +48,10 @@ server {
 	server_name onepaper.biz;
 	client_max_body_size 5m;
 
-	location = /robots.txt {
-		alias /home/ubuntu/web-info/robots.txt;
-	}
 # this is for the rest backend
+	location ~ ^/(robots.txt|sitemap.xml) {
+	    root /home/ubuntu/web-info;
+	}
 	location /{
 		proxy_pass http://backend;
 		proxy_set_header host $host;
