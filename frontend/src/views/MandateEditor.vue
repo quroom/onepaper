@@ -116,13 +116,13 @@
                   :placeholder="$t('quick_trade_user')+ ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:item="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designator">
-                <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info") }} {{`(${designator.user.username})`}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info") }} {{`(${designator.user.email})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ContractorItem :contractor="designator" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
@@ -150,13 +150,13 @@
                   :placeholder="$t('quick_trade_user')+ ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:item="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + ' / ' + item.mobile_number + ")" }}</template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="designee">
-                <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}} {{`(${designee.user.username})`}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}} {{`(${designee.user.email})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ContractorItem :contractor="designee" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
@@ -292,7 +292,7 @@ export default {
       return this.author === this.requestUser;
     },
     isDesignator() {
-      return this.designator ? this.designator.user.username === this.requestUser : false;
+      return this.designator ? this.designator.user.email === this.requestUser : false;
     },
     readonly() {
       return this.id != null ? this.readonly_flag : false;
@@ -313,14 +313,14 @@ export default {
     },
     customFilter(item, queryText) {
       const name = item.user.name.toLowerCase();
-      const username = item.user.username.toLowerCase();
+      const email = item.user.email.toLowerCase();
       const birthday = item.user.birthday.toLowerCase();
       const shop_name = item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
             
       return (
         name.indexOf(searchText) > -1 ||
-        username.indexOf(searchText) > -1 ||
+        email.indexOf(searchText) > -1 ||
         shop_name.indexOf(searchText) > -1 ||
         birthday.indexOf(searchText) > -1
       );
@@ -410,7 +410,7 @@ export default {
     }
   },
   created() {
-    this.requestUser = window.localStorage.getItem("username");
+    this.requestUser = window.localStorage.getItem("email");
     this.getAllowedProfiles();
   }
 }

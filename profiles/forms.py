@@ -38,9 +38,6 @@ class CustomUserForm(RegistrationFormUniqueEmail):
 
     class Meta(RegistrationFormUniqueEmail.Meta):
         model = CustomUser
-        labels = {
-            'username': _('username')
-        }
 
     @transaction.atomic
     def save(self, commit=True):

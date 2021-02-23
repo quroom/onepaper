@@ -6,7 +6,7 @@
       v-model="selected_users"
       :headers="headers"
       :items="allowed_users"
-      item-key="username"
+      item-key="email"
       show-select
       :server-items-length="items_length"
       @update:page="updatePagination"
@@ -15,7 +15,7 @@
     <template v-slot:top>
       <v-row>
         <v-col cols="5">
-          <LazyTextField v-on:keyup.enter="addUser" ref="username_text" :label="$t('username')" outlined v-model="new_user.username"></LazyTextField>
+          <LazyTextField v-on:keyup.enter="addUser" ref="email_text" :label="$t('email')" outlined v-model="new_user.email"></LazyTextField>
         </v-col>
         <v-col cols="7">
           <LazyTextField v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
@@ -71,13 +71,13 @@ export default {
       next: null,
       new_user: {
         name: null,
-        username: null,
+        email: null,
       },
       headers: [{
-        text: `${this.$i18n.t("allow")} ${this.$i18n.t("username")}`,
+        text: `${this.$i18n.t("allow")} ${this.$i18n.t("email")}`,
         align: 'start',
         sortable: true,
-        value: 'username'
+        value: 'email'
       },
       {
         text: `${this.$i18n.t("name")}`,

@@ -10,14 +10,14 @@
           color="primary"
           :to="{ name: 'allowed-user-editor', params: { id: id } }"
         >
-          {{$t("trade") + $t("add_user") }}
+          {{$t("add_quick_trade_user") }}
         </v-btn>
       </v-row>
       <v-row>
         <v-col cols="4" md="2">
           <LazyTextField
-            v-model="username"
-            :label="$t('username')"
+            v-model="email"
+            :label="$t('email')"
             readonly
           ></LazyTextField>
         </v-col>
@@ -320,7 +320,7 @@ export default {
   data() {
     return {
       is_expert: false,
-      username: null,
+      email: null,
       name: null,
       birthday: null,
       mobile_number: null,
@@ -435,7 +435,7 @@ export default {
       if (data.id != undefined) {
         if (data.user.is_expert) {
           return next((vm) => {
-            vm.username = data.user.username;
+            vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
             vm.address = data.address;
@@ -453,7 +453,7 @@ export default {
           });
         } else {
           return next((vm) => {
-            vm.username = data.user.username;
+            vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
             vm.address = data.address;
@@ -467,7 +467,7 @@ export default {
       }
     } else {
       return next((vm) => {
-        vm.username = window.localStorage.getItem("username");
+        vm.email = window.localStorage.getItem("username");
         vm.name = window.localStorage.getItem("name");
         vm.birthday = window.localStorage.getItem("birthday");
       });
