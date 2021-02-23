@@ -54,7 +54,7 @@ server {
 	}
 	location /media/ {
 		autoindex on;
-		alias /home/ubuntu/onepaper-green/media/;
+		alias /home/ubuntu/web-info/media/;
 		expires 365d;
 	}
 	location /static/ {
