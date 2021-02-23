@@ -5,7 +5,8 @@ from django.db.models import Exists
 from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin, UserManager
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.functional import cached_property
 import phonenumbers
@@ -18,7 +19,51 @@ def get_file_path(instance, filename):
     filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
     return os.path.join('', filename)
 
-class CustomUser(AbstractUser):
+class UserManager(UserManager):
+    def _create_user(self, email, password, **extra_fields):
+        """
+        Create and save a user with the given email, and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
+
+    def create_superuser(self, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email, password, **extra_fields)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_('email address'), unique=True)
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     ip_address = models.GenericIPAddressField(null=True)
     average_response_time = models.FloatField(default=0)
@@ -30,6 +75,23 @@ class CustomUser(AbstractUser):
     is_expert = models.BooleanField(default=False)
     bio = models.CharField(max_length=240, blank=True)
 
+    objects = UserManager()
+
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'email'
+
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+        abstract = True
+
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
     class Meta:
         ordering = ('-id',)
 
@@ -48,7 +110,7 @@ class Profile(models.Model):
     is_active = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
     class Meta:
         ordering = ('-is_active',)
@@ -87,7 +149,7 @@ class ExpertProfile(models.Model):
         choices=STATUS_CATEGORY, default=REQUEST)
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ('id',)
 
 class Mandate(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,

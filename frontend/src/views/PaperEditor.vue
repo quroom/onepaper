@@ -43,14 +43,14 @@
           <v-card>
             <v-card-text>
                 <v-row>
-                  <v-col cols="3">
+                  <v-col cols="8">
                     <LazyTextField
-                      v-model="search.name"
-                      :label="$t('name')"
+                      v-model="search.email"
+                      :label="$t('email')"
                       @keyup.enter="searchProfile()"
                     ></LazyTextField>
                   </v-col>
-                  <v-col cols="9">
+                  <v-col cols="4">
                     <LazyTextField
                       v-model="search.mobile_number"
                       :label="$t('mobile_number')"
@@ -329,17 +329,17 @@
                 >
                   <template
                     v-slot:selection="{ }"
-                  >{{ seller.user.username + ' (#' + seller.id + ' / ' + seller.user.name + ' / ' + seller.mobile_number + ")" }}</template>
+                  >{{ seller.user.email + ' (' + seller.user.name + ' / ' + seller.mobile_number + ")" }}</template>
                   <template
                     v-slot:item="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:append-outer>
                     <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("manual_search") }} </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="seller">
-                <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}} ({{seller.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
@@ -364,16 +364,16 @@
                   :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
                   <template v-slot:selection="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:item="{ item }"
-                  >{{ item.user.username + ' (#' + item.id + ' / ' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
                   <template v-slot:append-outer>
                     <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("manual_search") }} </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="buyer">
-                <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}} ({{buyer.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
@@ -522,8 +522,8 @@ export default {
       default_special_agreement: '<br/><p><strong>&nbsp;제1조(입주 전 수리) </strong>임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다.</p><p>&nbsp;<strong>제2조(임차주택의 사용·관리·수선) </strong>① 임차인은 임대인의 동의 없이 임차주택의 구조변경 및 전대나 임차권 양도를 할 수 없으며, 임대차 목적인 주거 이외의 용도로 사용할 수 없다.</p><p>② 임대인은 계약 존속 중 임차주택을 사용·수익에 필요한 상태로 유지하여야 하고, 임차인은 임대인이 임차주택의 보존에 필요한 행위를 하는 때 이를 거절하지 못한다.</p><p>③ 임대인과 임차인은 계약 존속 중에 발생하는 임차주택의 수리 및 비용부담에 관하여 다음과 같이 합의한다. 다만, 합의되지 아니한 기타 수선비용에 관한 부담은 민법, 판례 기타 관습에 따른다.&nbsp;</p><p>&nbsp;④ 임차인이 임대인의 부담에 속하는 수선비용을 지출한 때에는 임대인에게 그 상환을 청구할 수 있다.</p><p><strong>제3조(계약의 해제)</strong> 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지급하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 이 계약을 해제할 수 있다.</p><p><strong>제4조(채무불이행과 손해배상</strong>) 당사자 일방이 채무를 이행하지 아니하는 때에는 상대방은 상당한 기간을 정하여 그 이행을 최고하고 계약을 해제할 수 있으며, 그로 인한 손해배상을 청구할 수 있다. 다만, 채무자가 미리 이행하지 아니할 의사를 표시한 경우의 계약해제는 최고를 요하지 아니한다.</p><p><strong>제5조(계약의 해지)</strong> ① 임차인은 본인의 과실 없이 임차주택의 일부가 멸실 기타 사유로 인하여 임대차의 목적대로 사용할 수 없는 경우에는 계약을 해지할 수 있다.</p><p>② 임대인은 임차인이 2기의 차임액에 달하도록 연체하거나, 제2조 제1항을 위반한 경우 계약을 해지할 수 있다.</p><p><strong>제6조(계약의 종료) </strong>임대차계약이 종료된 경우에 임차인은 임차주택을 원래의 상태로 복구하여 임대인에게 반환하고, 이와 동시에 임대인은 보증금을 임차인에게 반환하여야 한다. 다만, 시설물의 노후화나 통상 생길 수 있는 파손 등은 임차인의 원상복구의무에 포함되지 아니한다.</p><p><strong>제7조(비용의 정산) </strong>① 임차인은 계약종료 시 공과금과 관리비를 정산하여야 한다.</p><p>② 임차인은 이미 납부한 관리비 중 장기수선충당금을 소유자에게 반환 청구할 수 있다. 다만, 관리사무소 등 관리주체가 장기수선충당금을 정산하는 경우에는 그 관리주체에게 청구할 수 있다.</p><br/>',
       special_agreement: '',
       search: {
-        mobile_number: "",
-        name: ""
+        email: "",
+        mobile_number: ""
       },
       search_contractor_category: null,
       searched_profiles: [],
@@ -783,8 +783,8 @@ export default {
           sortable: true,
         },
         {
-          text: `${this.$i18n.t("username")}`,
-          value: "user.username"
+          text: `${this.$i18n.t("email")}`,
+          value: "user.email"
         },
         {
           text: `${this.$i18n.t("name")}`,
@@ -840,14 +840,14 @@ export default {
     },
     customFilter(item, queryText) {
       const name = item.user.name.toLowerCase();
-      const username = item.user.username.toLowerCase();
+      const email = item.user.email.toLowerCase();
       const mobile_number = item.mobile_number.toLowerCase();
       const shop_name = item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
 
       return (
         name.indexOf(searchText) > -1 ||
-        username.indexOf(searchText) > -1 ||
+        email.indexOf(searchText) > -1 ||
         mobile_number.indexOf(searchText) > -1 ||
         mobile_number.replaceAll("-", "").indexOf(searchText) > -1 ||
         shop_name.indexOf(searchText) > -1
@@ -902,7 +902,7 @@ export default {
         if(data.id != undefined) {
           for(const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index]
-            if(contractor.profile.user.username==that.requestUser){
+            if(contractor.profile.user.email==that.requestUser){
               that.contractors.push(contractor)
               that.$data[that.$getConst("contractor_category", contractor.group)]=contractor.profile
             }
@@ -1023,7 +1023,19 @@ export default {
       });
     },
     searchProfile(){
-      let endpoint = `/api/open-profiles/`+`?name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`;
+      let endpoint = "/api/open-profiles/"
+      let is_first_option = false;
+      Object.entries(this.search).forEach(function(entry){
+        const [key, value] = entry;
+        if(value !== ''){
+          if(is_first_option) {
+            endpoint += `&${key}=${value}`
+          } else {
+            endpoint += `?${key}=${value}`
+          }
+          is_first_option = true;
+        }
+      })
       apiService(endpoint).then(data => {
         if(!data.count){
           applyValidation(data)
@@ -1135,7 +1147,7 @@ export default {
   },
   created() {
     document.title = this.$i18n.t("create_paper");
-    this.requestUser = window.localStorage.getItem("username");
+    this.requestUser = window.localStorage.getItem("email");
     this.getAllowedProfiles();
     this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
     if(this.is_expert){
