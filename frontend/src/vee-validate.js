@@ -1,6 +1,6 @@
 import i18n from "@/plugins/i18n";
 import { extend, configure } from "vee-validate";
-import { required, max_value, regex } from "vee-validate/dist/rules";
+import { required, max_value, regex, size } from "vee-validate/dist/rules";
 
 configure({
   defaultMessage: (_, values) => {
@@ -10,6 +10,7 @@ configure({
 extend("required", required);
 extend("max_value", max_value);
 extend("regex", regex);
+extend("size", size);
 extend("mobile", {
   validate(value) {
     // return /(^01.{1}|[0|1|6|7|8|9]{3})([0-9]+)([0-9]{4})/g.test(value);

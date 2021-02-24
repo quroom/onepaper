@@ -45,7 +45,7 @@ server {
 
 # this is for the rest backend
 	location /{
-		proxy_pass http://green;
+		proxy_pass http://backend;
 		proxy_set_header host $host;
 		proxy_set_header x-real-ip $remote_addr;
 		proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
@@ -54,7 +54,7 @@ server {
 	}
 	location /media/ {
 		autoindex on;
-		alias /home/ubuntu/onepaper-green/media/;
+		alias /home/ubuntu/web-info/media/;
 		expires 365d;
 	}
 	location /static/ {
@@ -97,7 +97,7 @@ server {
 
 # this is for the rest backend
 	location /{
-		proxy_pass http://backend;
+		proxy_pass http://green;
 		proxy_set_header host $host;
 		proxy_set_header x-real-ip $remote_addr;
 		proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;

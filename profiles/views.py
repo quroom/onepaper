@@ -44,11 +44,11 @@ class AllowedUserDetail(APIView, PageNumberPagination):
     def post(self, request, pk):
         allowedUser = self.get_object(pk)
 
-        if request.data['allowed_users']['username'] == request.user.username:
+        if request.data['allowed_users']['email'] == request.user.email:
             return Response({"detail": ValidationError(_("자기 자신의 아이디는 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         user_queryset = CustomUser.objects.filter(
-            username=request.data['allowed_users']['username'])
+            email=request.data['allowed_users']['email'])
         if user_queryset.count() == 0:
             return Response({"detail": ValidationError(_("회원 아이디가 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         try:
@@ -70,10 +70,10 @@ class AllowedUserDetail(APIView, PageNumberPagination):
     def delete(self, request, pk):
         allowedUser = self.get_object(pk)
 
-        if request.user.username in request.data['allowed_users']:
+        if request.user.email in request.data['allowed_users']:
             return Response({"detail": ValidationError(_("자신의 아이디는 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        user_list = allowedUser.allowed_users.filter(username__in=request.data['allowed_users'])
+        user_list = allowedUser.allowed_users.filter(email__in=request.data['allowed_users'])
 
         if user_list.count() != len(request.data['allowed_users']):
             return Response({"detail": ValidationError(_("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
@@ -224,7 +224,7 @@ class CustomUserViewset(mixins.CreateModelMixin,
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         try:
-            if not (instance.username == request.data['username'] and instance.email == request.data['email'] and instance.name == request.data['name']):
+            if not (instance.email == request.data['email'] and instance.name == request.data['name']):
                 return Response({"detail": ValidationError(_("입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             return Response({"detail": ValidationError(_("탈퇴할 회원의 정보를 모두 입력해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
@@ -294,13 +294,18 @@ class MandateViewset(ModelViewSet):
 
 class OpenProfileList(APIView, PageNumberPagination):
     def get(self, request, format=None):
-        name = self.request.query_params.get("name")
+        email = self.request.query_params.get("email")
         mobile_number = self.request.query_params.get("mobile_number")
 
-        if name == '' or mobile_number == '':
-            return Response({"detail": ValidationError(_("성함, 연락처 모두 입력해야 합니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        if email and mobile_number:
+            profiles = Profile.objects.filter(user__email=email, mobile_number=mobile_number, is_active=True)
+        elif email:
+            profiles = Profile.objects.filter(user__email=email, is_active=True)
+        elif mobile_number:
+            profiles = Profile.objects.filter(mobile_number=mobile_number, is_active=True)
+        else:
+            return Response({"detail": ValidationError(_("이메일 또는 연락처를 입력해야 합니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        profiles = Profile.objects.filter(user__name=name, mobile_number=mobile_number, is_active=True)
         page = self.paginate_queryset(profiles, request, view=self)
         serializer = ProfileBasicInfoSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)

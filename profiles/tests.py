@@ -58,8 +58,7 @@ class AllowedUserTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="test",
-                                                   email="test@naver.com",
+        self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
                                                    name="김주영",
@@ -71,8 +70,7 @@ class AllowedUserTestCase(APITestCase):
         self.create_user(2)
 
     def create_user(self, id):
-        user = CustomUser.objects.create_user(username="test"+str(id),
-                                                   email="test@naver.com",
+        user = CustomUser.objects.create_user(email="test"+ str(id) +"@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
                                                    name="김주영"+str(id),
@@ -90,9 +88,9 @@ class AllowedUserTestCase(APITestCase):
 
     def test_allowed_profile_list(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test2", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
         profiles = Profile.objects.filter(
             allowed_user__allowed_users=self.user1).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
         self.assertEqual(profiles.count(), 1)
@@ -106,56 +104,56 @@ class AllowedUserTestCase(APITestCase):
     def test_allowed_user_create(self):
         # print(reverse("allowed-user-detail", args=(1,)))
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com", "name":"김주영"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("자기 자신의 아이디는 추가할 수 없습니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test3", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test3@naver.com", "name":"김주영"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("회원 아이디가 없습니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("이름이 일치하지 않습니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test2", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test2", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("이미 추가된 회원입니다."))
 
     def test_allowed_profile_delete(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"username":"test1", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
         profile = Profile.objects.get(id=1)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 2)
 
         response = self.client.delete(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": ["test"]}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("자신의 아이디는 삭제할 수 없습니다."))
 
         response = self.client.delete(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": ["test3"]}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test3@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))
 
         response = self.client.delete(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": ["test1"]}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test1@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 1)
         response = self.client.delete(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": ["test1"]}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": ["test1@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."))
 
@@ -179,8 +177,7 @@ class ExpertProfileTestCase(APITestCase):
         self.image1 = self._create_image()
         self.image2 = self._create_image()
         self.image3 = self._create_image()
-        self.user = CustomUser.objects.create_user(username="test",
-                                                   email="test@naver.com",
+        self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
                                                    name="김주영",
@@ -203,7 +200,6 @@ class ExpertProfileTestCase(APITestCase):
         response = self.client.get("/api/user/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], 1)
-        self.assertEqual(response.data["username"], "test")
         self.assertEqual(response.data["email"], "test@naver.com")
         self.assertEqual(response.data["is_expert"], True)
         self.assertEqual(response.data["is_staff"], False)
@@ -213,7 +209,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.data["birthday"], "1955-02-12")
 
     def create_user_profile(self, id=0, is_expert=False):
-        user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
         profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
@@ -318,7 +314,7 @@ class ExpertProfileTestCase(APITestCase):
 
     def test_expert_profile_update_by_random_user(self):
         random_user = CustomUser.objects.create_user(
-            username="random", password="psw123123123")
+            email="random@naver.com", password="psw123123123")
         self.create_expert_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
@@ -335,7 +331,7 @@ class ExpertProfileTestCase(APITestCase):
         expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
-        self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
+        self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[1]}, format="json")
@@ -358,7 +354,7 @@ class ExpertProfileTestCase(APITestCase):
         expert_profile = self.create_user_profile(is_expert=True)
         self.assertEqual(expert_profile.status, 0)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
-        self.superuser = CustomUser.objects.create_superuser("admin", "admin@naver.com", '1234')
+        self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[]}, format="json")
@@ -381,7 +377,7 @@ class ProfileTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="test", email="test@naver.com", password="some_strong_password",
+        self.user = CustomUser.objects.create_user(email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
@@ -436,7 +432,7 @@ class ProfileTestCase(APITestCase):
         self.create_profile()
         response = self.client.get(reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["user"]["username"], "test")
+        self.assertEqual(response.data["user"]["email"], "test@naver.com")
 
     def test_profile_update_by_owner(self):
         self.create_profile()
@@ -456,7 +452,7 @@ class ProfileTestCase(APITestCase):
 
     def test_profile_update_by_random_user(self):
         random_user = CustomUser.objects.create_user(
-            username="random", password="psw123123123")
+            email="random@naver.com", password="psw123123123")
         self.create_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
@@ -532,12 +528,11 @@ class ProfileTestCase(APITestCase):
 
     def test_profile_update_with_mandate(self):
         response = self.create_profile()
-        user = CustomUser.objects.create_user(username="test"+str(id),
-                                                   email="test@naver.com",
-                                                   password="some_strong_password",
-                                                   bio="bio",
-                                                   name="김주영"+str(id),
-                                                   birthday="1955-02-12")
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com",
+                                              password="some_strong_password",
+                                              bio="bio",
+                                              name="김주영"+str(id),
+                                              birthday="1955-02-12")
         self.token = Token.objects.create(user=user)
         self.api_authentication()
         response2 = self.create_profile()
@@ -571,12 +566,11 @@ class ProfileTestCase(APITestCase):
 
     def test_profile_delete_with_mandate(self):
         response = self.create_profile()
-        user = CustomUser.objects.create_user(username="test"+str(id),
-                                                   email="test@naver.com",
-                                                   password="some_strong_password",
-                                                   bio="bio",
-                                                   name="김주영"+str(id),
-                                                   birthday="1955-02-12")
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com",
+                                              password="some_strong_password",
+                                              bio="bio",
+                                              name="김주영"+str(id),
+                                              birthday="1955-02-12")
         self.token = Token.objects.create(user=user)
         self.api_authentication()
         response2 = self.create_profile()
@@ -606,15 +600,15 @@ class ProfileTestCase(APITestCase):
 
     def test_open_profile_list(self):
         self.create_profile()
-        response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": "010-1234-1234"})
+        response = self.client.get("/api/open-profiles/", {"email": "test@naver.com", "mobile_number": "010-1234-1234"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'][0]['mobile_number'], '010-1234-12##')
         self.assertEqual(response.data['results'][0]['address']['old_address'], '서울 강동구 성내동')
-        self.assertEqual(response.data['results'][0]['user']['username'], 'test')
+        self.assertEqual(response.data['results'][0]['user']['email'], 'test@naver.com')
         self.assertEqual(response.data['results'][0]['user']['name'], '김#영')
-        response = self.client.get("/api/open-profiles/", {"name": "김주영", "mobile_number": ""})
+        response = self.client.get("/api/open-profiles/")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['detail'].message, _("성함, 연락처 모두 입력해야 합니다."))
+        self.assertEqual(response.data['detail'].message, _("이메일 또는 연락처를 입력해야 합니다."))
 
     def test_open_profile_detail(self):
         response = self.create_profile()
@@ -622,7 +616,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['mobile_number'], '010-1234-12##')
         self.assertEqual(response.data['address']['old_address'], '서울 강동구 성내동')
-        self.assertEqual(response.data['user']['username'], 'test')
+        self.assertEqual(response.data['user']['email'], 'test@naver.com')
         self.assertEqual(response.data['user']['name'], '김#영')
 
     def test_set_default_profile(self):
@@ -644,7 +638,7 @@ class CustomUserTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="test", email="test@naver.com", password="some_strong_password",
+        self.user = CustomUser.objects.create_user(email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
@@ -660,7 +654,7 @@ class CustomUserTestCase(APITestCase):
         return response
 
     def test_user_registration(self):
-        data = {"username": "testcase", "email": "testcase@naver.com",
+        data = {"email": "test@naver.com",
                 "password1": "some_strong_password", "password2": "some_strong_password",
                 "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False,
                 "mobile_number": "010-1234-1234",
@@ -674,7 +668,6 @@ class CustomUserTestCase(APITestCase):
     def test_customuser(self):
         response = self.client.get("/api/user/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["username"], "test")
         self.assertEqual(response.data["email"], "test@naver.com")
         self.assertEqual(response.data["bio"], "bio")
         self.assertEqual(response.data["name"], "김주영")
@@ -725,7 +718,6 @@ class CustomUserTestCase(APITestCase):
     def test_user_delete_with_profile(self):
         self.create_profile()
         data = {
-            "username": "test",
             "name": "김주영",
             "email": "test@naver.com"
         }
@@ -758,7 +750,6 @@ class CustomUserTestCase(APITestCase):
         }
         self.client.post(reverse("papers-list"), data=data, format="json")
         data = {
-            "username": "test",
             "name": "김주영",
             "email": "test@naver.com"
         }
@@ -769,7 +760,6 @@ class CustomUserTestCase(APITestCase):
 
     def test_user_delete_key_error(self):
         data = {
-            "username": "test",
             "email": "test@naver.com"
         }
         response = self.client.delete(
@@ -779,7 +769,6 @@ class CustomUserTestCase(APITestCase):
 
     def test_user_delete_unmatched(self):
         data = {
-            "username": "test",
             "name": "김주영11",
             "email": "test@naver.com"
         }
@@ -804,7 +793,7 @@ class MandateTestCase(APITestCase):
 
     def setUp(self):
         self.image = self._create_image()
-        self.user = CustomUser.objects.create_user(username="test", email="test@naver.com", password="some_strong_password",
+        self.user = CustomUser.objects.create_user(email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
@@ -827,8 +816,8 @@ class MandateTestCase(APITestCase):
         return response
 
     def create_user_profile(self, id=0, is_expert=False):
-        user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
-                                                   bio="bio", name="김주영", birthday="1955-02-12")
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com", password="some_strong_password",
+                                              bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
         profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))

@@ -10,7 +10,7 @@
           {{ `${$t("quick_trade_user")} ${$t("info")}` }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
-          <LazyTextField :label="$t('username')" v-model="username" readonly></LazyTextField>
+          <LazyTextField :label="$t('email')" v-model="email" readonly></LazyTextField>
           <LazyTextField :label="$t('name')" v-model="name" readonly></LazyTextField>
         </v-card-text>
         <v-card-actions>
@@ -64,7 +64,7 @@
                 <span class="pa-1"> {{ profile.bank_name }} </span>
                 <span class="pa-1"> {{ profile.account_number }} </span>
               </v-card-subtitle>
-              <v-card-actions v-if="username != undefined && name != undefined">
+              <v-card-actions v-if="email != undefined && name != undefined">
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click.prevent="addUser(profile)">
                   <v-icon>person_add</v-icon>
@@ -110,7 +110,7 @@ import { applyValidation } from "@/common/common_api";
 export default {
   name: "Profiles",
   props: {
-    username: {
+    email: {
       type: [String],
       required: false
     },
@@ -148,7 +148,7 @@ export default {
       let data = {
         "allowed_users" : {
           "name": this.name,
-          "username": this.username
+          "email": this.email
         }
       }
       endpoint = `/api/profiles/${profile.id}/allowed-users/`
@@ -180,7 +180,7 @@ export default {
           applyValidation(data)
         }
         this.isLoading = false;
-        if(this.username != undefined && this.name != undefined){
+        if(this.email != undefined && this.name != undefined){
           this.dialog = true;
         }
       });
