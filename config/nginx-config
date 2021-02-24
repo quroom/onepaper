@@ -21,7 +21,7 @@
 proxy_cache_path   /home/ubuntu/web-info/cache/nginx levels=1:2 keys_zone=s3_cache:10m max_size=500m inactive=60m use_temp_path=off;
 proxy_cache_path   /home/ubuntu/web-info/cache/nginx-green levels=1:2 keys_zone=s3_green_cache:10m max_size=500m inactive=60m use_temp_path=off;
 proxy_cache_key "$scheme$request_method$host$request_uri";
-
+include /etc/nginx/conf.d/blockips.conf;
 
 upstream backend {
 	server unix:/tmp/gunicorn.sock;
@@ -49,6 +49,9 @@ server {
 	client_max_body_size 5m;
 
 # this is for the rest backend
+	location ~ ^/(robots.txt|sitemap.xml) {
+	    root /home/ubuntu/web-info;
+	}
 	location /{
 		proxy_pass http://backend;
 		proxy_set_header host $host;
