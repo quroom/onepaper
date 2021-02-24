@@ -10,14 +10,14 @@
           color="primary"
           :to="{ name: 'allowed-user-editor', params: { id: id } }"
         >
-          {{$t("trade") + $t("add_user") }}
+          {{$t("add_quick_trade_user") }}
         </v-btn>
       </v-row>
       <v-row>
         <v-col cols="4" md="2">
           <LazyTextField
-            v-model="username"
-            :label="$t('username')"
+            v-model="email"
+            :label="$t('email')"
             readonly
           ></LazyTextField>
         </v-col>
@@ -165,13 +165,13 @@
               mode="passive"
               ref="registration_certificate"
               :name="$t('registration_certificate')"
-              :rules="{ required }"
+              :rules="`required:${required}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
                 v-model="expert_profile.registration_certificate"
                 :label="$t('registration_certificate')"
-                accept="['image/png, image/jpeg, image/bmp']"
+                accept="image/*"
                 @click.stop
                 @change="preview_image('registration_certificate')"
                 :error-messages="errors"
@@ -183,13 +183,13 @@
               mode="passive"
               ref="agency_license"
               :name="$t('agency_license')"
-              :rules="{ required }"
+              :rules="`required:${required}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
                 v-model="expert_profile.agency_license"
                 :label="$t('agency_license')"
-                accept="['image/png, image/jpeg, image/bmp']"
+                accept="image/*"
                 @click.stop
                 @change="preview_image('agency_license')"
                 :error-messages="errors"
@@ -201,13 +201,13 @@
               mode="passive"
               ref="garantee_insurance"
               :name="$t('garantee_insurance')"
-              :rules="{ required }"
+              :rules="`required:${required}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
                 v-model="expert_profile.garantee_insurance"
                 :label="$t('garantee_insurance')"
-                accept="['image/png, image/jpeg, image/bmp']"
+                accept="image/*"
                 @click.stop
                 @change="preview_image('garantee_insurance')"
                 :error-messages="errors"
@@ -219,13 +219,14 @@
               mode="passive"
               ref="stamp"
               :name="$t('stamp')"
-              :rules="{ required }"
+              :rules="`required:${required}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
                 v-model="expert_profile.stamp"
                 :label="$t('stamp')"
-                accept="['image/png, image/jpeg, image/bmp']"
+                accept="image/*"
+                :required="required"
                 @click.stop
                 @change="preview_image('stamp')"
                 :error-messages="errors"
@@ -313,12 +314,13 @@ export default {
     },
   },
   computed: {
+    //Only new expert-profile should have image field required.
     required(){ return this.id==undefined }
   },
   data() {
     return {
       is_expert: false,
-      username: null,
+      email: null,
       name: null,
       birthday: null,
       mobile_number: null,
@@ -362,6 +364,9 @@ export default {
       } else {
         this[name + "_url"] = ''
       }
+      this.$nextTick(()=> {
+        this.$refs[name].validate();
+      })
     },
     onSubmit() {
       const that = this;
@@ -430,7 +435,7 @@ export default {
       if (data.id != undefined) {
         if (data.user.is_expert) {
           return next((vm) => {
-            vm.username = data.user.username;
+            vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
             vm.address = data.address;
@@ -448,7 +453,7 @@ export default {
           });
         } else {
           return next((vm) => {
-            vm.username = data.user.username;
+            vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
             vm.address = data.address;
@@ -462,7 +467,7 @@ export default {
       }
     } else {
       return next((vm) => {
-        vm.username = window.localStorage.getItem("username");
+        vm.email = window.localStorage.getItem("username");
         vm.name = window.localStorage.getItem("name");
         vm.birthday = window.localStorage.getItem("birthday");
       });

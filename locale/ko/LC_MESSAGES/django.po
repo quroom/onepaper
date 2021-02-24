@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 06:31+0900\n"
+"POT-Creation-Date: 2021-02-18 15:35+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,83 +335,88 @@ msgstr ""
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:12 .\profiles\forms.py:20
+#: .\profiles\forms.py:13 .\profiles\forms.py:21
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr "성함은 공백없이 한글이나 영어 문자만 입력 가능합니다."
 
-#: .\profiles\forms.py:18
+#: .\profiles\forms.py:19
 msgid "이용약관 동의"
 msgstr ""
 
-#: .\profiles\forms.py:19
+#: .\profiles\forms.py:20
 msgid "개인정보 처리방침 동의"
 msgstr ""
 
-#: .\profiles\forms.py:20
+#: .\profiles\forms.py:21
 msgid "성함"
 msgstr ""
 
-#: .\profiles\forms.py:21
+#: .\profiles\forms.py:22
 msgid "생년월일"
 msgstr ""
 
-#: .\profiles\forms.py:22
+#: .\profiles\forms.py:23
 msgid "휴대폰 번호"
 msgstr ""
 
-#: .\profiles\forms.py:23
+#: .\profiles\forms.py:24
 msgid "은행명"
 msgstr ""
 
-#: .\profiles\forms.py:24
+#: .\profiles\forms.py:25
 msgid "계좌번호"
 msgstr ""
 
-#: .\profiles\forms.py:25
+#: .\profiles\forms.py:26
 msgid "주소"
 msgstr ""
 
-#: .\profiles\forms.py:35
+#: .\profiles\forms.py:36
 msgid "동"
 msgstr ""
 
-#: .\profiles\forms.py:36
+#: .\profiles\forms.py:37
 msgid "호"
 msgstr ""
 
-#: .\profiles\forms.py:41
+#: .\profiles\forms.py:42
 msgid "username"
 msgstr "아이디"
 
-#: .\profiles\forms.py:84
+#: .\profiles\forms.py:85 .\profiles\serializers.py:178
+#, python-format
+msgid "Max size of file is %(size)s KB"
+msgstr "%(size)sKB까지 업로드 가능합니다."
+
+#: .\profiles\forms.py:88
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr ""
 
-#: .\profiles\forms.py:85
+#: .\profiles\forms.py:89
 msgid "등록번호"
 msgstr ""
 
-#: .\profiles\forms.py:86
+#: .\profiles\forms.py:90
 msgid "상호명"
 msgstr ""
 
-#: .\profiles\forms.py:87
-msgid "중개사 등록증"
+#: .\profiles\forms.py:91
+msgid "중개사무소 등록증"
 msgstr ""
 
-#: .\profiles\forms.py:88
-msgid "중개사 자격증"
+#: .\profiles\forms.py:92
+msgid "공인중개사 자격증"
 msgstr ""
 
-#: .\profiles\forms.py:89
+#: .\profiles\forms.py:93
 msgid "인장"
 msgstr ""
 
-#: .\profiles\forms.py:90
-msgid "보증서류"
+#: .\profiles\forms.py:94
+msgid "보증설정서류"
 msgstr ""
 
-#: .\profiles\forms.py:91
+#: .\profiles\forms.py:95
 msgid "사무실 주소"
 msgstr ""
 
@@ -431,32 +436,32 @@ msgstr ""
 msgid "폐업"
 msgstr ""
 
-#: .\profiles\serializers.py:261
+#: .\profiles\serializers.py:275
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr ""
 
-#: .\profiles\serializers.py:267
+#: .\profiles\serializers.py:281
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:272 .\profiles\serializers.py:273
+#: .\profiles\serializers.py:286 .\profiles\serializers.py:287
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:278
+#: .\profiles\serializers.py:292
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr ""
 
-#: .\profiles\serializers.py:281
+#: .\profiles\serializers.py:295
 msgid "위임인만 서명이 가능합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:284
+#: .\profiles\serializers.py:298
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:286
+#: .\profiles\serializers.py:300
 msgid "사용자가 존재하지 않습니다."
 msgstr ""
 
@@ -545,7 +550,8 @@ msgstr ""
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
-#: .\templates\index.html:6
+#: .\templates\auth_layout.html:24 .\templates\index-dev.html:5
+#: .\templates\index.html:8
 msgid "Onepaper"
 msgstr "원페이퍼"
 
@@ -578,7 +584,7 @@ msgstr "로그인 할 수 있습니다."
 #: .\templates\registration\login.html:6
 #: .\templates\registration\login.html:11
 #: .\templates\registration\password_reset_complete.html:8
-#: .\templates\registration\registration_complete.html:11
+#: .\templates\registration\registration_complete.html:10
 #: .\templates\registration\registration_form.html:88
 msgid "Log in"
 msgstr "로그인"
@@ -672,14 +678,15 @@ msgstr "중개사회원 가입"
 #: .\templates\registration\login.html:18
 #: .\templates\registration\password_reset_complete.html:4
 #: .\templates\registration\password_reset_complete.html:6
-#: .\templates\registration\password_reset_form.html:6
+#: .\templates\registration\password_reset_form.html:5
+#: .\templates\registration\password_reset_form.html:8
 msgid "Password reset"
 msgstr "비밀번호 초기화"
 
 #: .\templates\registration\login.html:19
-#: .\templates\registration\registration_complete.html:10
+#: .\templates\registration\registration_complete.html:9
 #: .\templates\registration\resend_activation_form.html:5
-#: .\templates\registration\resend_activation_form.html:8
+#: .\templates\registration\resend_activation_form.html:7
 msgid "Resend Activation Email"
 msgstr "활성화 이메일 재전송"
 
@@ -777,7 +784,7 @@ msgstr "감사합니다"
 msgid "Management"
 msgstr "관리자"
 
-#: .\templates\registration\password_reset_form.html:8
+#: .\templates\registration\password_reset_form.html:10
 msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
@@ -785,7 +792,7 @@ msgstr ""
 "    비밀번호를 잃어버리셨나요? 아래 양식에 이메일을 입력해주세요.새로운 비밀"
 "번호를 설정하는 절차를 이메일로 보내드리겠습니다."
 
-#: .\templates\registration\password_reset_form.html:12
+#: .\templates\registration\password_reset_form.html:14
 msgid "Reset my password"
 msgstr "비밀번호 초기화"
 
@@ -799,11 +806,11 @@ msgid "Sorry, but registration is closed at this moment. Come back later."
 msgstr "죄송합니다. 등록이 마감되었습니다. 나중에 다시오세요."
 
 #: .\templates\registration\registration_complete.html:4
-#: .\templates\registration\registration_complete.html:7
+#: .\templates\registration\registration_complete.html:6
 msgid "Activation email sent"
 msgstr "활성화 이메일 전송"
 
-#: .\templates\registration\registration_complete.html:8
+#: .\templates\registration\registration_complete.html:7
 msgid "Please check your email to complete the registration process."
 msgstr "등록을 완료하기 위해 당신의 메일을 확인해주세요."
 
@@ -1211,11 +1218,11 @@ msgid "확인"
 msgstr ""
 
 #: .\templates\registration\resend_activation_complete.html:4
-#: .\templates\registration\resend_activation_complete.html:7
+#: .\templates\registration\resend_activation_complete.html:6
 msgid "Account Activation Resent"
 msgstr "활성화 이메일 재전송"
 
-#: .\templates\registration\resend_activation_complete.html:9
+#: .\templates\registration\resend_activation_complete.html:8
 #, python-format
 msgid ""
 "\n"
@@ -1226,7 +1233,7 @@ msgstr ""
 "  추가 절차가 포함 된 이메일을 %(email)s 로 보냈습니다.\n"
 "  "
 
-#: .\templates\registration\resend_activation_form.html:13
+#: .\templates\registration\resend_activation_form.html:12
 msgid "Submit"
 msgstr "제출"
 

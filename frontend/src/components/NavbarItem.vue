@@ -132,7 +132,7 @@
     </template>
     <v-spacer></v-spacer>
     <v-btn class="pa-0" text color="grey" :to="{name: 'profiles'}">
-      <span class="font-weight-bold">[{{ username }}]</span>
+      <span class="font-weight-bold">[{{ email }}]</span>
     </v-btn>
     <v-btn class="pa-0" min-width="0px" text color="grey" href="/accounts/logout/">
       <v-icon >exit_to_app</v-icon>
@@ -144,7 +144,7 @@ export default {
   name: "NavbarItem",
   data() {
     return {
-      username: null,
+      email: null,
       drawer: false,
       items: [
         {
@@ -177,7 +177,7 @@ export default {
       success: false,
       messages: ""
     };
-  },
+},
   mounted() {
     this.$root.$on('link_dialog', data => {
         this.dialog = data;
@@ -185,8 +185,8 @@ export default {
   },
   created() {
     const name = window.localStorage.getItem("name")
-    this.username = window.localStorage.getItem("username")
-    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.username + "/" + name;
+    this.email = window.localStorage.getItem("email")
+    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.email + "/" + name;
     this.user_category = window.localStorage.getItem("user_category")
   },
   methods: {

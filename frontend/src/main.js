@@ -16,6 +16,16 @@ import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
+const DEFAULT_TITLE = '원페이퍼';
+router.afterEach((to) => {
+    // Use next tick to handle router history correctly
+    // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+    Vue.nextTick(() => {
+      console.log
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
+
 //Components
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)

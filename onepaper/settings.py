@@ -178,7 +178,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 SITE_ID = 1
 
 # django.registration.redux
-ACCOUNT_ACTIVATION_DAYS = 1 # One-week activation window; you may, of course, use a different value.
+ACCOUNT_ACTIVATION_DAYS = 3 # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 # Phonenumber Field setting
@@ -194,6 +194,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -233,8 +236,8 @@ if USE_S3:
     AWS_REGION = 'ap-northeast-2'
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
-
-    DEFAULT_FILE_STORAGE = '%s.storages.S3DefaultStorage' % AWS_STORAGE_BUCKET_NAME
+    if DEBUG == False:
+        DEFAULT_FILE_STORAGE = '%s.storages.S3DefaultStorage' % AWS_STORAGE_BUCKET_NAME
     STATICFILES_STORAGE = '%s.storages.S3StaticStorage' % AWS_STORAGE_BUCKET_NAME
 
 if 'RDS_HOSTNAME' in os.environ:
@@ -266,4 +269,5 @@ if DJANGO_SSL == True:
     SECURE_HSTS_SECONDS = 60 #FIXME Update more long seconds later. 365 * 24 * 60 * 60
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# INTERNAL_IPS = ["127.0.0.1"]
+
+INTERNAL_IPS = os.environ.get('DJANGO_INTERNAL_IPS',"").split(",")

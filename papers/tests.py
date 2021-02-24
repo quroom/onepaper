@@ -162,8 +162,7 @@ class PaperTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="test",
-                                                   email="test@naver.com",
+        self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
                                                    name="김주영",
@@ -172,17 +171,16 @@ class PaperTestCase(APITestCase):
         self.profile = Profile.objects.create(user=self.user, address=address, bank_name="광주은행",
         account_number="120982711", mobile_number="010-1234-5678")
 
-        user1 = CustomUser.objects.create_user(username="test9",
-                                                   email="test9@naver.com",
-                                                   password="some_strong_password",
-                                                   bio="bio",
-                                                   name="김주영",
-                                                   birthday="1955-02-12")
+        user1 = CustomUser.objects.create_user(email="test9@naver.com",
+                                               password="some_strong_password",
+                                               bio="bio",
+                                               name="김주영",
+                                               birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
         self.profile1 = Profile.objects.create(user=user1, address=address, bank_name="국민은행",
         account_number="120982711", mobile_number="010-3456-7890")
 
-        expert_user = CustomUser.objects.create_user(username="expert",
+        expert_user = CustomUser.objects.create_user(
                                             email="expert@naver.com",
                                             password="some_strong_password",
                                             bio="bio",
@@ -218,7 +216,7 @@ class PaperTestCase(APITestCase):
         return response
 
     def create_user_profile(self, id=0, is_expert=False):
-        user = CustomUser.objects.create_user(username="test"+str(id), email="test@naver.com", password="some_strong_password",
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com", password="some_strong_password",
                                               bio="bio", name="김주영", birthday="1955-02-12")
         if is_expert:
             user.is_expert=True
@@ -722,8 +720,7 @@ class SignatureTestCase(APITestCase):
         self.image3 = self._create_image()
         self.image4 = self._create_image()
         self.image5 = self._create_image()
-        expert_user = CustomUser.objects.create_user(username="expert",
-                                                    email="expert@naver.com",
+        expert_user = CustomUser.objects.create_user(email="expert@naver.com",
                                                     password="some_strong_password",
                                                     bio="bio",
                                                     name="서주은",
@@ -734,8 +731,7 @@ class SignatureTestCase(APITestCase):
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
         self.expert_profile.status = ExpertProfile.APPROVED
         self.expert_profile.save()
-        self.user = CustomUser.objects.create_user(username="test",
-                                                    email="test@naver.com",
+        self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                     password="some_strong_password",
                                                     bio="bio",
                                                     name="김주영",
@@ -745,12 +741,11 @@ class SignatureTestCase(APITestCase):
         self.profile = Profile.objects.create(user=self.user, address=address, bank_name="국민은행", account_number="1908281111", mobile_number="010-3982-1111")
         profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
-        user = CustomUser.objects.create_user(username="test1",
-                                                    email="test1@naver.com",
-                                                    password="some_strong_password",
-                                                    bio="bio",
-                                                    name="김길동",
-                                                    birthday="1955-02-12")
+        user = CustomUser.objects.create_user(email="test1@naver.com",
+                                              password="some_strong_password",
+                                              bio="bio",
+                                              name="김길동",
+                                              birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
         self.profile1 = Profile.objects.create(user=user, address=address, bank_name="서울은행", account_number="1111111", mobile_number="010-3982-2222")
         profile1_allowed_user = AllowedUser.objects.create(profile=self.profile1)

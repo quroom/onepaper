@@ -56,7 +56,7 @@ export default {
       if(data.id == undefined){
         applyValidation(data, this)
       }
-      window.localStorage.setItem("username", data["username"]);
+      window.localStorage.setItem("email", data["email"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);
       this.has_profile = data["has_profile"];

@@ -23,92 +23,108 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    meta: { title: "계약서리스트(홈)-Onepaper"}
   },
   {
     path: "/approve-expert",
     name: "approve-expert",
-    component: ApproveExpert
+    component: ApproveExpert,
+    meta: { title: "전문가 승인-Onepaper"}
   },
   {
     path: "/service-intro",
     name: "service-intro",
-    component: ServiceIntro
+    component: ServiceIntro,
+    meta: { title: "서비스 소개-Onepaper"}
   },
   {
     path: "/papers/:id",
     name: "paper-detail",
     component: PaperDetail,
-    props: true
+    props: true,
+    meta: { title: "계약서 조회-Onepaper"}
   },
   {
     path: "/create/paper/:id?",
     name: "paper-editor",
     component: PaperEditor,
-    props: true
+    props: true,
+    meta: { title: "계약서 작성-Onepaper"}
   },
   {
     path: "/profiles/:id?/allowed-users",
     name: "allowed-user-editor",
     component: AllowedUserEditor,
-    props: true
+    props: true,
+    meta: { title: "빠른거래회원 추가-Onepaper"}
   },
   {
-    path: "/profiles/:username?/:name?",
+    path: "/profiles/:email?/:name?",
     name: "profiles",
     component: Profiles,
-    props: true
+    props: true,
+    meta: { title: "프로필 리스트-Onepaper"}
   },
   {
     path: "/create/profiles/:id?",
     name: "profile-editor",
     component: ProfileEditor,
-    props: true
+    props: true,
+    meta: { title: "프로필 작성-Onepaper"}
   },
   {
     path: "/mandates/",
     name: "mandates",
-    component: Mandates
+    component: Mandates,
+    meta: { title: "위임장 리스트-Onepaper"}
   },
   {
     path: "/mandates/:id?",
     name: "mandate-detail",
     component: MandateEditor,
-    props: true
+    props: true,
+    meta: { title: "위임장 조회-Onepaper"}
   },
   {
     path: "/create/mandates/",
     name: "mandates-editor",
     component: MandateEditor,
-    props: true
+    props: true,
+    meta: { title: "위임장 작성-Onepaper"}
   },
   {
     path: "/notices/",
     name: "notices",
-    component: NoticeList
+    component: NoticeList,
+    meta: { title: "공지사항-Onepaper"}
   },
   {
     path: "/notices/:id",
     name: "notice-detail",
     component: NoticeDetail,
-    props: true
+    props: true,
+    meta: { title: "공지사항 조회-Onepaper"}
   },
   {
     path: "/manuals/",
     name: "manuals",
     component: ManualList,
-    props: true
+    props: true,
+    meta: { title: "이용방법 리스트-Onepaper"}
   },
   {
     path: "/manuals/:id",
     name: "manual-detail",
     component: ManualDetail,
-    props: true
+    props: true,
+    meta: { title: "이용방법 조회-Onepaper"}
   },
   {
     path: "/edit/user/",
     name: "user-editor",
-    component: UserEditor
+    component: UserEditor,
+    meta: { title: "회원정보 수정-Onepaper"}
   }
 ];
 

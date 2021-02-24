@@ -22,7 +22,6 @@
     <form method="POST">
     {% endif %}
         {% csrf_token %}
-        {{ form.username|as_crispy_field }}
         {{ form.email|as_crispy_field }}
         {{ form.password1|as_crispy_field }}
         {{ form.password2|as_crispy_field }}

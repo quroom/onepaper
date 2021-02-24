@@ -47,6 +47,7 @@ server {
 	listen 443 ssl; # managed by certbot
 	listen [::]:443 ssl; # managed by certbot
 	server_name onepaper.biz;
+	client_max_body_size 5m;
 
 # this is for the rest backend
 	location /{
@@ -144,12 +145,13 @@ server {
 	listen [::]:5555 ssl;
 	access_log  /var/log/nginx/access-green.log;
 	error_log  /var/log/nginx/error-green.log;
+	server_name onepaper.biz;
+	client_max_body_size 5m;
+
 	ssl_certificate /etc/letsencrypt/live/onepaper.biz/fullchain.pem; # managed by certbot
 	ssl_certificate_key /etc/letsencrypt/live/onepaper.biz/privkey.pem; # managed by certbot
 	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by certbot
 	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by certbot
-
-	server_name onepaper.biz;
 
 # this is for the rest backend
 	location /{

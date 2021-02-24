@@ -471,13 +471,13 @@ export default {
       return this.buyer.is_allowed
     },
     isExpert: function(){
-      return this.requestUser === this.expert.profile.user.username
+      return this.requestUser === this.expert.profile.user.email
     },
     isSeller: function(){
-      return this.requestUser === this.seller.profile.user.username
+      return this.requestUser === this.seller.profile.user.email
     },
     isBuyer: function(){
-      return this.requestUser === this.buyer.profile.user.username
+      return this.requestUser === this.buyer.profile.user.email
     },
     isExpertSigned: function() {
       return this.expert.signature != undefined && this.paper.updated_at <= this.expert.signature.updated_at ;
@@ -526,7 +526,7 @@ export default {
     currentContractor: function() {
       if(this.paper.paper_contractors != undefined){
         for (let i = 0; i < this.paper.paper_contractors.length; i++) {
-          if(this.paper.paper_contractors[i].profile.user.username == this.requestUser ) {
+          if(this.paper.paper_contractors[i].profile.user.email == this.requestUser ) {
             return this.paper.paper_contractors[i]
           }
         }
@@ -728,7 +728,7 @@ export default {
   },
   created() {
     this.getPaperData();
-    this.requestUser = window.localStorage.getItem("username");
+    this.requestUser = window.localStorage.getItem("email");
   }
 };
 </script>
