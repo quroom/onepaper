@@ -93,9 +93,9 @@ export default {
         value: 'updated_at'
       },
       {
-        text: `${this.$i18n.t("username")}`,
+        text: `${this.$i18n.t("email")}`,
         align: 'start',
-        value: 'username'
+        value: 'email'
       },
       {
         text: `${this.$i18n.t("name")}`,

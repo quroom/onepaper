@@ -19,11 +19,6 @@
         </v-card-title>
         <v-card-text>
           <LazyTextField
-            v-model="deleted_username"
-            :label="`${$t('deleted')} ${$t('username')}`"
-            hide-details="auto"
-          ></LazyTextField>
-          <LazyTextField
             v-model="deleted_email"
             :label="`${$t('deleted')} ${$t('user')} ${$t('email')}`"
             hide-details="auto"
@@ -130,7 +125,6 @@ export default {
       birthday: null,
       birthday_menu: false,
       dialog: false,
-      deleted_username: '',
       deleted_email: '',
       deleted_name: ''
     }
@@ -159,7 +153,6 @@ export default {
       let endpoint = `/api/user/${this.id}/`;
       let that = this;
       apiService(endpoint, "DELETE", {
-        username: this.deleted_username,
         email: this.deleted_email,
         name: this.deleted_name
       }).then(data => {

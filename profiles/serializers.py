@@ -14,10 +14,10 @@ from onepaper.serializers import ReadOnlyModelSerializer
 class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["name", 'username', 'is_expert']
+        fields = ["name", 'email', 'is_expert']
 
 class ApproveExpertSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
     birthday = serializers.SerializerMethodField()
 
@@ -27,8 +27,8 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
         read_only_fields = ('profile', 'registration_number', 'shop_name',
                             'registration_certificate', 'agency_license', 'stamp', 'garantee_insurance')
 
-    def get_username(self, obj):
-        return obj.profile.user.username
+    def get_email(self, obj):
+        return obj.profile.user.email
 
     def get_name(self, obj):
         return obj.profile.user.name
@@ -41,8 +41,8 @@ class BasicCustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'updated_at', 'username', 'is_expert', 'email', 'bio', 'name', 'birthday']
-        read_only_fields = ('id', 'updated_at', 'is_expert', 'username', 'email')
+        fields = ['id', 'updated_at', 'is_expert', 'email', 'bio', 'name', 'birthday']
+        read_only_fields = ('id', 'updated_at', 'is_expert', 'email')
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
@@ -53,8 +53,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'updated_at', 'username', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday']
-        read_only_fields = ('id', 'updated_at', 'username', 'email', 'is_expert', 'is_staff', 'has_profile')
+        fields = ['id', 'updated_at', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday']
+        read_only_fields = ('id', 'updated_at', 'email', 'is_expert', 'is_staff', 'has_profile')
 
     def get_has_profile(self, obj):
         return obj.profiles.exists()
@@ -68,7 +68,7 @@ class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ["birthday", "name", 'username']
+        fields = ["birthday", "name", 'email']
 
     def get_birthday(self, obj):
         return len(str(obj.birthday)[0:4])*"#"+str(obj.birthday)[4:]

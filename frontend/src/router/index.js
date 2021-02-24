@@ -60,7 +60,7 @@ const routes = [
     meta: { title: "빠른거래회원 추가-Onepaper"}
   },
   {
-    path: "/profiles/:username?/:name?",
+    path: "/profiles/:email?/:name?",
     name: "profiles",
     component: Profiles,
     props: true,

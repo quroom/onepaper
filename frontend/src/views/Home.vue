@@ -223,17 +223,17 @@ export default {
   methods: {
     async getPapersWithOptions(){
       let endpoint = "/api/papers/";
-      let is_options = false;
+      let is_first_option = false;
       if(this.is_mine){
         Object.entries(this.options).forEach(function(entry){
           const [key, value] = entry;
           if(value !== ''){
-            if(is_options) {
+            if(is_first_option) {
               endpoint += `&${key}=${value}`
             } else {
               endpoint += `?${key}=${value}`
             }
-            is_options = true;
+            is_first_option = true;
           }
         })
       } else {
@@ -241,12 +241,12 @@ export default {
           const [key, value] = entry;
           endpoint = "/api/all-papers/"
           if(value !== ''){
-            if(is_options) {
+            if(is_first_option) {
               endpoint += `&${key}=${value}`
             } else {
               endpoint += `?${key}=${value}`
             }
-            is_options = true;
+            is_first_option = true;
           }
         })
       }
@@ -280,7 +280,7 @@ export default {
   },
   created() {
     this.getPapers();
-    this.requestUser = window.localStorage.getItem("username");
+    this.requestUser = window.localStorage.getItem("email");
   }
 };
 </script>
