@@ -30,8 +30,8 @@ upstream backend {
 
 upstream green {
 	server unix:/tmp/gunicorn.sock down;
-	server unix:/tmp/gunicorn-green.sock down;
-	server dev.onepaper.biz:8000;
+	server unix:/tmp/gunicorn-green.sock;
+	server dev.onepaper.biz:8000 down;
 }
 
 server {
