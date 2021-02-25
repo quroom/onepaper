@@ -19,7 +19,7 @@ def get_file_path(instance, filename):
     filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
     return os.path.join('', filename)
 
-class UserManager(UserManager):
+class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         """
         Create and save a user with the given email, and password.
@@ -75,7 +75,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_expert = models.BooleanField(default=False)
     bio = models.CharField(max_length=240, blank=True)
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
