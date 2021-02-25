@@ -7,9 +7,10 @@
             {{ $t("onepaper") }}
             <span class="notice_date">{{ notice.created_at }}</span>
           </v-card-subtitle>
-          <v-card-title class="py-1">
+          <v-card-title class="py-1" style="border-bottom:1px solid lightgrey">
             <span>{{ notice.title }}</span>
           </v-card-title>
+          <v-card-text class="py-1" v-html="filterImage(notice.body)"/>
         </v-card>
       </v-col>
     </v-row>
@@ -30,6 +31,9 @@ export default {
     }
   },
   methods: {
+    filterImage(text){
+      return text.replace(/<img .*?>/g,"[그림]");
+    },
     getNotices(){
       let endpoint = "/api/notices/";
       if(this.next) {
