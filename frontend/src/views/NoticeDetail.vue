@@ -3,7 +3,7 @@
     <v-row v-if="notice" justify="center">
       <v-card>
         <v-card-subtitle class="py-1">
-          {{ notice.author }}
+          {{ $t("onepaper") }}
           <span class="notice_date">{{ notice.created_at }}</span>
         </v-card-subtitle>
         <v-card-title class="py-1" style="border-bottom:1px solid lightgrey"> {{ notice.title }} </v-card-title>

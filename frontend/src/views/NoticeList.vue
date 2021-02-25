@@ -4,7 +4,7 @@
       <v-col v-for="notice in notices" :key="notice.id" cols="12" md="6" lg="4" xl="3">
         <v-card :to="{name: 'notice-detail', params: { id: notice.id } }">
           <v-card-subtitle class="py-1">
-            {{ notice.author }}
+            {{ $t("onepaper") }}
             <span class="notice_date">{{ notice.created_at }}</span>
           </v-card-subtitle>
           <v-card-title class="py-1">
@@ -49,7 +49,6 @@ export default {
   },
   created() {
     this.getNotices();
-
   }
 
 }
