@@ -165,7 +165,7 @@
               mode="passive"
               ref="registration_certificate"
               :name="$t('registration_certificate')"
-              :rules="`required:${required}|size:1024`"
+              :rules="`${required?'required':''}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
@@ -183,7 +183,7 @@
               mode="passive"
               ref="agency_license"
               :name="$t('agency_license')"
-              :rules="`required:${required}|size:1024`"
+              :rules="`${required?'required':''}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
@@ -201,7 +201,7 @@
               mode="passive"
               ref="garantee_insurance"
               :name="$t('garantee_insurance')"
-              :rules="`required:${required}|size:1024`"
+              :rules="`${required?'required':''}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
@@ -219,14 +219,13 @@
               mode="passive"
               ref="stamp"
               :name="$t('stamp')"
-              :rules="`required:${required}|size:1024`"
+              :rules="`${required?'required':''}|size:1024`"
               v-slot="{ errors }"
             >
               <v-file-input
                 v-model="expert_profile.stamp"
                 :label="$t('stamp')"
                 accept="image/*"
-                :required="required"
                 @click.stop
                 @change="preview_image('stamp')"
                 :error-messages="errors"
