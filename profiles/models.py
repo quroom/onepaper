@@ -12,6 +12,13 @@ from django.utils.functional import cached_property
 import phonenumbers
 from phonenumber_field.modelfields import PhoneNumberField
 
+def get_file_path(instance, filename):
+    splited_filename = filename.split('.')
+    filename = splited_filename[0]
+    ext = splited_filename[-1]
+    filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
+    return os.path.join('', filename)
+
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         """
@@ -117,13 +124,6 @@ class AllowedUser(models.Model):
                                    related_name="allowed_user")
 
 class ExpertProfile(models.Model):
-    def get_file_path(instance, filename):
-        splited_filename = filename.split('.')
-        filename = splited_filename[0]
-        ext = splited_filename[-1]
-        filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
-        return os.path.join('', filename)
-
     REQUEST = 0
     APPROVED = 1
     DENIED = 2
