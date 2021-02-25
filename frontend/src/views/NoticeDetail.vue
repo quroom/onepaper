@@ -2,12 +2,12 @@
   <v-container>
     <v-row v-if="notice" justify="center">
       <v-card>
-        <v-card-subtitle class="py-1">
-          {{ notice.author }}
+        <v-card-subtitle class="text-body-1 py-1">
+          {{ $t("onepaper") }}
           <span class="notice_date">{{ notice.created_at }}</span>
         </v-card-subtitle>
         <v-card-title class="py-1" style="border-bottom:1px solid lightgrey"> {{ notice.title }} </v-card-title>
-        <v-card-text  class="py-1" v-html="notice.body"/>
+        <v-card-text  class="text-body-1 py-1" v-html="notice.body"/>
       </v-card>
     </v-row>
   </v-container>
@@ -48,6 +48,9 @@ export default {
 </script>
 
 <style scoped>
+  .v-card {
+    min-width: 240px;
+  }
   .notice_date {
     display: inline-block;
     position: absolute;

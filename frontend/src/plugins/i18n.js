@@ -472,7 +472,7 @@ const i18n = new VueI18n({
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
       none: "없음",
       number: "번호",
-      onepaper: "한장",
+      onepaper: "원페이퍼",
       only_my_papers: "내 계약서",
       ordering: "정렬",
       password_change: "비밀번호 변경",
