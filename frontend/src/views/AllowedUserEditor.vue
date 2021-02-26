@@ -123,14 +123,14 @@ export default {
           this.allowed_users = data.results;
           alert(this.$i18n.t("request_success"))
         }
-        this.new_user = {name: null, username: null};
+        this.new_user = {name: null, email: null};
       })
     },
     async deleteUser() {
       const that = this;
       let selected_user_list = []
       for(var i=0; i<this.selected_users.length; i++){
-        selected_user_list.push(this.selected_users[i].username)
+        selected_user_list.push(this.selected_users[i].email)
       }
 
       let data = {

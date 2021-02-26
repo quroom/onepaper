@@ -96,6 +96,38 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ordering = ('-id',)
 
 class Profile(models.Model):
+    # 개설기관.표준코드 bank_code_std
+    # 리브 앱 참고했으나, 은행이 너무 많아서 아래 링크 참고후 재작성.
+    # http://callcenter.kftc.or.kr/finance/finance_info_inquiry.jsp
+
+    BANK_CATEGORY = (
+        ('', _('은행명')),
+        ('002', _('산업은행')),
+        ('032', _('부산은행')),
+        ('003', _('기업은행')),
+        ('034', _('광주은행')),
+        ('004', _('국민은행')),
+        ('035', _('제주은행')),
+        ('007', _('수협')),
+        ('037', _('전북은행')),
+        ('011', _('농협은행')),
+        ('039', _('경남은행')),
+        ('012', _('지역농축협')),
+        ('045', _('새마을금고')),
+        ('020', _('우리은행')),
+        ('048', _('신용협동조합')),
+        ('023', _('SC제일은행')),
+        ('050', _('상호저축은행')),
+        ('027', _('한국씨티은행')),
+        ('064', _('산림조합')),
+        ('081', _('KEB하나은행')),
+        ('071', _('우체국')),
+        ('088', _('신한은행')),
+        ('089', _('K뱅크')),
+        ('031', _('대구은행')),
+        ('090', _('카카오뱅크')),
+    )
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name="profiles")
@@ -105,7 +137,7 @@ class Profile(models.Model):
                                    null=True,
                                    on_delete=models.SET_NULL,
                                    related_name="profile")
-    bank_name = models.CharField(max_length=45, blank=True)
+    bank_name = models.CharField(max_length=3, choices=BANK_CATEGORY, blank=True)
     account_number = models.CharField(max_length=45, blank=True)
     is_active = models.BooleanField(default=True, blank=True)
 

@@ -147,10 +147,16 @@
           </ValidationProvider>
         </v-col>
         <v-col cols="6" md="2">
-          <LazyTextField
-            v-model="bank_name"
+          <v-select
+            v-model='bank_name'
+            :items="$getConstList('BANK_CATEGORY_LIST')"
+            item-text="text"
+            item-value="value"
             :label="$t('bank_name')"
-          ></LazyTextField>
+          >
+            <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+            <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+          </v-select>
         </v-col>
         <v-col cols="6" md="2">
           <LazyTextField
@@ -314,7 +320,13 @@ export default {
   },
   computed: {
     //Only new expert-profile should have image field required.
-    required(){ return this.id==undefined }
+    required(){ return this.id==undefined },
+    bank_name_3digits() {
+      if( this.bank_name != 0){
+        return ('000' + this.bank_name).substr(-3)
+      }
+      return ''
+    }
   },
   data() {
     return {
@@ -333,7 +345,7 @@ export default {
         dong: '',
         ho: '',
       },
-      bank_name: null,
+      bank_name: 0,
       account_number: null,
       expert_profile: {
         registration_number: null,
@@ -387,7 +399,7 @@ export default {
             formData.append("address.dong", that.address['dong']);
             formData.append("address.ho", that.address['ho']);
           }
-          if (that.bank_name) formData.append("bank_name", that.bank_name);
+          if (that.bank_name) formData.append("bank_name", that.bank_name_3digits);
           if (that.account_number)
             formData.append("account_number", that.account_number);
           if (that.is_expert) {
@@ -439,7 +451,7 @@ export default {
             vm.birthday = data.user.birthday;
             vm.address = data.address;
             vm.mobile_number = data.mobile_number;
-            vm.bank_name = data.bank_name;
+            vm.bank_name = parseInt(data.bank_name);
             vm.account_number = data.account_number;
             vm.expert_profile.registration_number =
               data.expert_profile.registration_number;
@@ -457,7 +469,7 @@ export default {
             vm.birthday = data.user.birthday;
             vm.address = data.address;
             vm.mobile_number = data.mobile_number;
-            vm.bank_name = data.bank_name;
+            vm.bank_name = parseInt(data.bank_name);
             vm.account_number = data.account_number;
           });
         }
@@ -466,7 +478,7 @@ export default {
       }
     } else {
       return next((vm) => {
-        vm.email = window.localStorage.getItem("username");
+        vm.email = window.localStorage.getItem("email");
         vm.name = window.localStorage.getItem("name");
         vm.birthday = window.localStorage.getItem("birthday");
       });
