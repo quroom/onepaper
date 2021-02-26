@@ -61,7 +61,7 @@
                 <span class="pa-1"> {{ profile.mobile_number }} </span>
               </v-card-subtitle>
               <v-card-subtitle v-if="profile.bank_name || profile.account_number" class="pt-0 pb-0">
-                <span class="pa-1"> {{ profile.bank_name }} </span>
+                <span class="pa-1"> {{ $getConstI18('bank_category', profile.bank_name) }} </span>
                 <span class="pa-1"> {{ profile.account_number }} </span>
               </v-card-subtitle>
               <v-card-actions v-if="email != undefined && name != undefined">
