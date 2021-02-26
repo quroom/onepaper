@@ -10,7 +10,7 @@ django-filter==2.4.0
 django-ipware==3.0.2
 django-multiselectfield==0.1.12
 django-phonenumber-field==5.0.0
-django-registration-redux==2.9
+-e git+https://github.com/macropin/django-registration.git@d770e7fb8c6cbac1c06feab8b10a935c54aa6fad#egg=django_registration_redux
 django-storages==1.11.1
 -e git+https://github.com/summernote/django-summernote.git@699db68dc33b782775369813034f8b2a0e17e377#egg=django_summernote
 django-webpack-loader==0.7.0
