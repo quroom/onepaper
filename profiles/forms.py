@@ -21,7 +21,7 @@ class CustomUserForm(RegistrationFormUniqueEmail):
     name = forms.CharField(label=_('성함'), required=True, max_length=150, validators=[name_validator], help_text=_("Your name strings only contain Kor or Eng characters without space."))
     birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
-    bank_name = forms.CharField(label=_('은행명'), required=False, max_length=45)
+    bank_name = forms.ChoiceField(choices=Profile.BANK_CATEGORY, label=_('은행명'), required=False)
     account_number = forms.CharField(label=_('계좌번호'), required=False, max_length=45)
     old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
     old_address_eng = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())

@@ -177,7 +177,7 @@ class PaperTestCase(APITestCase):
                                                name="김주영",
                                                birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        self.profile1 = Profile.objects.create(user=user1, address=address, bank_name="국민은행",
+        self.profile1 = Profile.objects.create(user=user1, address=address, bank_name="004",
         account_number="120982711", mobile_number="010-3456-7890")
 
         expert_user = CustomUser.objects.create_user(
@@ -208,7 +208,7 @@ class PaperTestCase(APITestCase):
     def create_profile(self):
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "국민은행",
+            "bank_name": "004",
             "account_number": "94334292963",
             **address_form
         }
@@ -222,7 +222,7 @@ class PaperTestCase(APITestCase):
             user.is_expert=True
             user.save()
         address = Address.objects.create(**address_vars)
-        profile = Profile.objects.create(user=user, address=address, bank_name="국민은행", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
         AllowedUser.objects.create(profile=profile)
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
@@ -738,7 +738,7 @@ class SignatureTestCase(APITestCase):
                                                     birthday="1955-02-12")
         self.api_authentication(user=self.user)
         address = Address.objects.create(**address_vars)
-        self.profile = Profile.objects.create(user=self.user, address=address, bank_name="국민은행", account_number="1908281111", mobile_number="010-3982-1111")
+        self.profile = Profile.objects.create(user=self.user, address=address, bank_name="004", account_number="1908281111", mobile_number="010-3982-1111")
         profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
         user = CustomUser.objects.create_user(email="test1@naver.com",

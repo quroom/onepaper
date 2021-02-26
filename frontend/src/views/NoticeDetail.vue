@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
   .v-card {
-    min-width: 240px;
+    min-width: 280px;
   }
   .notice_date {
     display: inline-block;
