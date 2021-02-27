@@ -345,8 +345,10 @@ export default {
         dong: '',
         ho: '',
       },
+      //Bank_CATEGORY_LIST has value as integer.
+      //That's why bnak_name default value is not '' 0 is computed to ''.
       bank_name: 0,
-      account_number: null,
+      account_number: '',
       expert_profile: {
         registration_number: null,
         shop_name: null,
@@ -399,9 +401,8 @@ export default {
             formData.append("address.dong", that.address['dong']);
             formData.append("address.ho", that.address['ho']);
           }
-          if (that.bank_name) formData.append("bank_name", that.bank_name_3digits);
-          if (that.account_number)
-            formData.append("account_number", that.account_number);
+          formData.append("bank_name", that.bank_name_3digits);
+          formData.append("account_number", that.account_number);
           if (that.is_expert) {
             Object.keys(that.expert_profile).forEach(function (key) {
               if (that.expert_profile[key] != null) {
