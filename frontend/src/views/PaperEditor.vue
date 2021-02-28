@@ -729,7 +729,8 @@ export default {
         modules: {
           toolbar: {
             container: [
-              ['bold', 'underline', {'list': 'ordered'}, { 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'underline', ],
+              [{'list': 'ordered'}, { 'align': []},],
               ['image', 'link']
             ],
             handlers: {
