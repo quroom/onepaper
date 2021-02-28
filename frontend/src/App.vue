@@ -82,7 +82,6 @@ input::-webkit-inner-spin-button {
 -webkit-appearance: none;
 margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
 -moz-appearance: textfield;
@@ -105,13 +104,11 @@ a:hover {
     display: none;
   }
 }
-
 .signature-dialog {
   width: 90vw !important;
   min-width: 280px !important;
   max-width: 400px !important;
 }
-
 .signature-pad {
   width: 100% !important;
   min-width: 280px;
@@ -123,7 +120,6 @@ a:hover {
 .root_tag {
    min-width:360px;
 }
-
 /* Notion Style */
 .notion-page-offset{
   margin-top: 0px;
@@ -134,5 +130,8 @@ a:hover {
 .notion-page img {
    padding:1px;
    border:1px solid #021a40;
+}
+.ql-container {
+   font-size: 16px !important;
 }
 </style>
