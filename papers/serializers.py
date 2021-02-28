@@ -153,7 +153,19 @@ class PaperSerializer(serializers.ModelSerializer):
         address.save()
 
         for contractor_data in contractors_data:
-            Contractor.objects.update_or_create(profile=contractor_data['profile'], paper=instance, group=contractor_data['group'], defaults={'is_allowed': contractor_data['is_allowed']})
+            try:
+                obj = Contractor.objects.get(profile=contractor_data['profile'], paper=instance)
+                setattr(obj, 'group', contractor_data['group'])
+                setattr(obj, 'is_allowed', contractor_data['is_allowed'])
+                obj.save()
+            except Contractor.DoesNotExist:
+                try:
+                    obj = Contractor.objects.get(paper=instance, group=contractor_data['group'])
+                    setattr(obj, 'profile', contractor_data['profile'])
+                except Contractor.DoesNotExist:
+                    obj = Contractor.objects.create(**contractor_data)
+                    obj.save()
+
             if is_paper_requsting == False and contractor_data['is_allowed'] == False:
                 status_instance.status = PaperStatus.REQUESTING
                 status_instance.save()

@@ -125,7 +125,7 @@
       </v-col>
       <v-col class="text-center" cols="9" sm="10">
         <v-card outlined tile
-          >{{ seller.profile.bank_name }} {{ seller.profile.user.name }}
+          >{{ $getConstI18('bank_category', seller.profile.bank_name) }} {{ seller.profile.user.name }}
           {{ seller.profile.account_number }}</v-card
         >
       </v-col>
@@ -600,7 +600,8 @@ export default {
           , cols:"9", sm:"3", md:"2"}, 
         { name: "mobile_number"
           , cols:"9", sm:"3", md:"2"}, 
-        { name: "bank_name"
+        { name: "bank_name",
+          const_name: "bank_category"
           , cols:"9", sm:"3", md:"2"}, 
         { name: "account_number"
           , cols:"9", sm:"3", md:"2"}
