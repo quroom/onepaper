@@ -498,8 +498,8 @@ export default {
       return this.buyer.explanation_signature != undefined && this.paper.updated_at <= this.buyer.explanation_signature.updated_at ;
     },
     deadlineToModify: function() {
-      let firstTime = "";
-      let deadlineToModify = null;
+      let firstTime = this.paper.updated_at;
+      let deadline = null;
       if(this.paper.paper_contractors != undefined){
         for(const contractor of this.paper.paper_contractors){
           if (contractor.signature != null && contractor.signature.updated_at > firstTime) {
@@ -509,16 +509,16 @@ export default {
             firstTime = contractor.explanation_signature.updated_at
           }
         }
-        if(firstTime == "") {
+        if(this.paper.updated_at == firstTime){
           return null;
         }
         firstTime = new Date(firstTime)
-        deadlineToModify = new Date(firstTime)
-        deadlineToModify.setTime(firstTime.getTime()+(12*60*60*1000))
-        if(deadlineToModify - new Date() < 0){
+        deadline = firstTime
+        deadline.setTime(firstTime.getTime()+(12*60*60*1000))
+        if(new Date() > deadline){
           return -1
         }
-        return `${deadlineToModify.getFullYear()}-${deadlineToModify.getMonth()+1}-${deadlineToModify.getDate()} ${deadlineToModify.getHours()}:${deadlineToModify.getMinutes()}:${deadlineToModify.getSeconds()}`
+        return `${deadline.getFullYear()}-${deadline.getMonth()+1}-${deadline.getDate()} ${deadline.getHours()}:${deadline.getMinutes()}:${deadline.getSeconds()}`
       } else {
         return null;
       }
@@ -624,7 +624,8 @@ export default {
           , cols:"9", sm:"3", md:"2" },
         { name: "mobile_number"
           , cols:"9", sm:"3", md:"2" },
-        { name: "bank_name"
+        { name: "bank_name",
+          const_name: "bank_category"
           , cols:"9", sm:"3", md:"2" },
         { name: "account_number"
           , cols:"9", sm:"3", md:"2" }

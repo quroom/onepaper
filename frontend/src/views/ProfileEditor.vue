@@ -321,12 +321,6 @@ export default {
   computed: {
     //Only new expert-profile should have image field required.
     required(){ return this.id==undefined },
-    bank_name_3digits() {
-      if( this.bank_name != 0){
-        return ('000' + this.bank_name).substr(-3)
-      }
-      return ''
-    }
   },
   data() {
     return {
@@ -401,7 +395,7 @@ export default {
             formData.append("address.dong", that.address['dong']);
             formData.append("address.ho", that.address['ho']);
           }
-          formData.append("bank_name", that.bank_name_3digits);
+          formData.append("bank_name", that.bank_name);
           formData.append("account_number", that.account_number);
           if (that.is_expert) {
             Object.keys(that.expert_profile).forEach(function (key) {
@@ -452,7 +446,7 @@ export default {
             vm.birthday = data.user.birthday;
             vm.address = data.address;
             vm.mobile_number = data.mobile_number;
-            vm.bank_name = parseInt(data.bank_name);
+            vm.bank_name = data.bank_name;
             vm.account_number = data.account_number;
             vm.expert_profile.registration_number =
               data.expert_profile.registration_number;
@@ -470,7 +464,7 @@ export default {
             vm.birthday = data.user.birthday;
             vm.address = data.address;
             vm.mobile_number = data.mobile_number;
-            vm.bank_name = parseInt(data.bank_name);
+            vm.bank_name = data.bank_name;
             vm.account_number = data.account_number;
           });
         }
