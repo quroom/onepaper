@@ -82,7 +82,6 @@ input::-webkit-inner-spin-button {
 -webkit-appearance: none;
 margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
 -moz-appearance: textfield;
@@ -109,13 +108,11 @@ a:hover {
     -webkit-print-color-adjust:exact;
   }
 }
-
 .signature-dialog {
   width: 90vw !important;
   min-width: 280px !important;
   max-width: 400px !important;
 }
-
 .signature-pad {
   width: 100% !important;
   min-width: 280px;
@@ -145,5 +142,8 @@ a:hover {
 .notion-page img {
    padding:1px;
    border:1px solid #021a40;
+}
+.ql-container {
+   font-size: 16px !important;
 }
 </style>
