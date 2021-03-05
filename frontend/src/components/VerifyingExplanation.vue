@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow-x:auto" class="mt-2 pa-0" v-once>
+  <div class="ve mt-2 pa-0" v-once>
     <table
       border="1"
       style="border-collapse:collapse;"
@@ -12,7 +12,7 @@
         <td class="caption" style="border:0;" width="510" colspan="14" valign="top">
           <div>
             ■ 공인중개사법 시행규칙 [별지 제20호서식]
-            <span class="blue--text text--accent-4">&lt;개정 2020. 10. 27.&gt;</span>
+            <span class="blue--text text--accent-4">&lt;{{$t("ve_amendment_updated_date")}}&gt;</span>
           </div>
         </td>
         <td class="caption" style="border:0;" width="128" colspan="4" valign="bottom" align="right" >
@@ -27,7 +27,7 @@
       <tr>
         <td style="border:0;" colspan="18">
           <div align="center">
-            <b>(    ［{{0 in ve.paper_categories ? '√' :''}}］단독주택［{{1 in ve.paper_categories ? '√' :''}}］공동주택［{{2 in ve.paper_categories ? '√' :''}}］매매·교환［{{3 in ve.paper_categories ? '√' :''}}］임대    )</b>
+            <b style="font-size: 12pt">(    ［{{ve.paper_categories.includes(1) ? '√' :''}}］단독주택［{{ve.paper_categories.includes(2) ? '√' :''}}］공동주택［{{ve.paper_categories.includes(3) ? '√' :''}}］매매·교환［{{ve.paper_categories.includes(4) ? '√' :''}}］임대    )</b>
           </div>
         </td>
       </tr>
@@ -38,23 +38,23 @@
       </tr>
       <tr>
         <td class="border-trb" width="102" colspan="3" rowspan="2">
-          <div>확인·설명 자료</div>
+          <div align="center">확인·설명 <br/> 자료</div>
         </td>
         <td width="92" colspan="2">
-          <div>확인·설명 근거자료 등</div>
+          <div class="label">확인·설명 <br/> 근거자료 등</div>
         </td>
         <td class="border-tbl" width="444" colspan="13">
           <div>
-            ［{{0 in ve.explanation_evidences ? '√' :''}}］등기권리증［{{1 in ve.explanation_evidences ? '√' :''}}］등기사항증명서［{{2 in ve.explanation_evidences ? '√' :''}}］토지대장［{{3 in ve.explanation_evidences ? '√' :''}}
-            ］건축물대장 ［{{4 in ve.explanation_evidences ? '√' :''}}］지적도 <br/>［{{5 in ve.explanation_evidences ? '√' :''}}］임야도 ［{{6 in ve.explanation_evidences ? '√' :''}}
-            ］토지이용계획확인서 ［{{7 in ve.explanation_evidences ? '√' :''}}］그 밖의 자료({{ve.explanation_evidence_info}})
+            ［{{ve.explanation_evidences.includes(1) ? '√' :''}}］등기권리증［{{ve.explanation_evidences.includes(2) ? '√' :''}}］등기사항증명서［{{ve.explanation_evidences.includes(3) ? '√' :''}}］토지대장［{{ve.explanation_evidences.includes(4) ? '√' :''}}
+            ］건축물대장 ［{{ve.explanation_evidences.includes(5) ? '√' :''}}］지적도 <br/>［{{ve.explanation_evidences.includes(6) ? '√' :''}}］임야도 ［{{ve.explanation_evidences.includes(7) ? '√' :''}}
+            ］토지이용계획확인서 ［{{ve.explanation_evidences.includes(99) ? '√' :''}}］그 밖의 자료({{ve.explanation_evidence_info}})
           </div>
         </td>
       </tr>
       <tr>
         <td width="92" colspan="2">
-          <div>
-            대상물건의 상태에 관한 자료요구 사항
+          <div class="label">
+            대상물건의 <br/> 상태에 관한 <br/> 자료요구 사항
           </div>
         </td>
         <td class="border-tbl" width="444" colspan="13">
@@ -64,9 +64,8 @@
         </td>
       </tr>
       <tr>
-        <td class="border-tb" width="800" colspan="18">
-          <div>
-            
+        <td class="border-tb pt-2" width="800" colspan="18">
+          <div style="padding:0px; border-color:#535353; border-style:solid; border-bottom-width: 4px;">
           </div>
         </td>
       </tr>
@@ -76,8 +75,8 @@
         </td>
       </tr>
       <tr>
-        <td class="border-trb" width="102" colspan="3">
-          <div>개업공인중개사의 확인·설명 의무</div>
+        <td class="border-trb" width="152" colspan="3">
+          <div class="label">개업공인중개사의 <br/> 확인·설명 의무</div>
         </td>
         <td class="border-tbl" width="536" colspan="15">
           <div>
@@ -88,8 +87,8 @@
         </td>
       </tr>
       <tr>
-        <td class="border-trb" width="102" colspan="3">
-          <div>실제 거래가격 신고</div>
+        <td class="border-trb" width="152" colspan="3">
+          <div class="label">실제 거래가격 <br/> 신고</div>
         </td>
         <td class="border-tbl" width="536" colspan="15">
           <div>
@@ -103,16 +102,15 @@
         </td>
       </tr>
       <tr>
-        <td class="border-tb" width="800" colspan="18" valign="bottom">
-          <div>
-            <br/>
+        <td class="border-tb" width="800" colspan="21" valign="bottom">
+          <div class="mt-1">
             <b>Ⅰ</b><b>. </b><b>개업공인중개사 기본 확인사항</b>
           </div>
         </td>
       </tr>
       <tr>
         <td class="label border-trb" width="75" rowspan="9">
-          <div>① 대상물건의 표시</div>
+          <div class="label">①대상물건의<br/>표시</div>
         </td>
         <td class="label" width="70" colspan="3" rowspan="3">
           <div>토지</div>
@@ -130,12 +128,12 @@
         <td class="label" width="93" colspan="2" rowspan="2">
           <div>면적(㎡)</div>
         </td>
-        <td width="110" colspan="2" rowspan="2">
+        <td width="110" colspan="3" rowspan="2">
           <div>
             {{ ve.land_area }}㎡
           </div>
         </td>
-        <td class="label" width="55" colspan="2" rowspan="2">
+        <td class="label" width="55" colspan="1" rowspan="2">
           <div>지목</div>
         </td>
         <td class="label" width="98" colspan="3">
@@ -180,14 +178,14 @@
       </tr>
       <tr>
         <td class="label" width="93" colspan="2" rowspan="2">
-          <div>준공년도 (증개축년도)</div>
+          <div>준공년도<br/>(증개축년도)</div>
         </td>
-        <td width="110" colspan="2" rowspan="2">
+        <td width="110" colspan="3" rowspan="2">
           <div>
             {{ ve.year_of_completion }}년
           </div>
         </td>
-        <td class="label" width="55" colspan="2" rowspan="2">
+        <td class="label" width="55" colspan="1" rowspan="2">
           <div>용도</div>
         </td>
         <td class="label" width="98" colspan="3">
@@ -213,12 +211,12 @@
         <td class="label" width="93" colspan="2">
           <div>구조</div>
         </td>
-        <td width="110" colspan="2">
+        <td width="110" colspan="3">
           <div>
             {{ ve.building_structure }}
           </div>
         </td>
-        <td class="label" width="153" colspan="5">
+        <td class="label" width="153" colspan="4">
           <div>방향</div>
         </td>
         <td class="border-tbl" width="137" colspan="5">
@@ -231,12 +229,12 @@
         <td class="label" width="93" colspan="2">
           <div>내진설계 적용여부</div>
         </td>
-        <td width="110" colspan="2">
+        <td width="110" colspan="3">
           <div>
             {{ ve.seismic_design }}
           </div>
         </td>
-        <td class="label" width="153" colspan="5">
+        <td class="label" width="153" colspan="4">
           <div>내진능력</div>
         </td>
         <td class="border-tbl" width="137" colspan="5">
@@ -247,12 +245,12 @@
       </tr>
       <tr>
         <td class="label" width="93" colspan="2">
-          <div>건축물대장상 위반건축물 여부</div>
+          <div>건축물대장상 <br/> 위반건축물 여부</div>
         </td>
-        <td width="110" colspan="2">
+        <td width="110" colspan="3">
           <div>［{{ ve.legal_status? '':'√' }}］위반［{{ ve.legal_status?'√':'' }}］적법</div>
         </td>
-        <td class="label" width="55" colspan="2">
+        <td class="label" width="55" colspan="1">
           <div>위반내용</div>
         </td>
         <td class="border-tbl" width="235" colspan="8">
@@ -262,23 +260,23 @@
         </td>
       </tr>
       <tr>
-        <td class="border-tb" width="800" colspan="18">
+        <td class="border-tb" width="800" colspan="20">
           <div>
             
           </div>
         </td>
       </tr>
       <tr>
-        <td class="label border-trb" width="75" rowspan="4">
-          <div>② 권리관계</div>
+        <td class="label border-trb" width="75" rowspan="7">
+          <div>②권리관계</div>
         </td>
         <td class="label" width="70" colspan="3" rowspan="3">
-          <div>등기부 기재사항</div>
+          <div>등기부<br/>기재사항</div>
         </td>
         <td class="label" width="258" colspan="6">
           <div>소유권에 관한 사항</div>
         </td>
-        <td class="label border-tbl" width="235" colspan="8">
+        <td class="label border-tbl" width="235" colspan="9">
           <div>소유권 외의 권리사항</div>
         </td>
       </tr>
@@ -294,7 +292,7 @@
         <td class="label" width="75">
           <div>토지</div>
         </td>
-        <td class="border-tbl" width="160" colspan="7">
+        <td class="border-tbl" width="160" colspan="8">
           <div>
             {{ ve.land_other }}
           </div>
@@ -312,21 +310,54 @@
         <td class="label" width="75">
           <div>건축물</div>
         </td>
-        <td class="border-tbl" width="160" colspan="7">
+        <td class="border-tbl" width="160" colspan="8">
           <div>
             {{ ve.building_other }}
           </div>
         </td>
       </tr>
       <tr>
-        <td class="label" width="70" colspan="3">
-          <div>민간임대 등록여부</div>
+        <td class="label" width="70" colspan="2" rowspan="3">
+          <div>민간<br/>임대<br/> 등록<br/>여부</div>
         </td>
-        <td class="border-tbl" width="494" colspan="14">
+        <td class="label" width="35" rowspan="2">
+          <div>등록</div>
+        </td>
+        <td class="border-tbl" width="495" colspan="15">
           <div>
-            ［ {{ ve.rental_housing_registration==0 ? '√' : '' }} ］장기일반민간임대주택 ［ {{ ve.rental_housing_registration==1 ? '√' : '' }} ］공공지원민간임대주택 
-            ［ {{ ve.rental_housing_registration==2 ? '√' : '' }} ］단기민간임대주택 ［ {{ ve.rental_housing_registration==3 ? '√' : '' }} ］해당 사항 없음
+            ［ {{ ve.rental_housing_registration==1 ? '√' : '' }} ］장기일반민간임대주택 ［ {{ ve.rental_housing_registration==2 ? '√' : '' }} ］공공지원민간임대주택
+            ［ {{ ve.rental_housing_registration==99 ? '√' : '' }} ］<br/> 그 밖의 유형 ({{ ve.rental_housing_registration==99 ? ve.rental_housing_registration_info : '' }})
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div>임대의무기간</div>
+        </td>
+        <td class="border-tbl" colspan="4">
+          <div>{{ `${ ve.rental_housing_registration!=0 ? ve.mandatory_lease_period+$t("year") : ''}`}}</div>
+        </td>
+        <td colspan="2">
+          <div>임대개시일</div>
+        </td>
+        <td class="border-tbl" colspan="7">
+          <div>{{ `${ ve.rental_housing_registration!=0 ? ve.lease_initiation_date : '' }`}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label" width="35">
+          <div>미등록</div>
+        </td>
+        <td class="border-tbl" width="495" colspan="15">
+          <div>[ {{ ve.rental_housing_registration==0 ? '√' : '' }} ］해당사항 없음</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label" width="70" colspan="3">
+          <div>계약갱신<br/>요구권<br/>행사 여부</div>
+        </td>
+        <td class="border-tbl" width="495" colspan="15">
+          <div>[ {{ is_right_to_lease_contract_renewal_true }} ] 확인(확인서류 첨부) [ {{ is_right_to_lease_contract_renewal_false }} ] 미확인</div>
         </td>
       </tr>
       <tr>
@@ -339,12 +370,11 @@
       <tr>
         <td class="label border-trb" width="75" rowspan="6">
           <div>
-            ③ 토지이용계획, 공법상 이용제한 및 거래규제에 관한
-            사항(토지)
+            ③토지이용<br/> 계획, <br/> 공법상 이용<br/>제한 및 거래<br/>규제에 관한<br/>사항(토지)
           </div>
         </td>
         <td class="label" width="70" colspan="3" rowspan="3">
-          <div>지역·지구</div>
+          <div>지역 · 지구</div>
         </td>
         <td class="label" width="93" colspan="2">
           <div>용도지역</div>
@@ -370,10 +400,10 @@
             {{ ve.use_district }}
           </div>
         </td>
-        <td width="79" colspan="5" rowspan="2">
+        <td class="text-right" width="79" colspan="5" rowspan="2">
           <div>{{ ve.building_coverage_limit }}%</div>
         </td>
-        <td class="border-tbl" width="81" colspan="2" rowspan="2">
+        <td class="border-tbl text-right" width="81" colspan="2" rowspan="2">
           <div>{{ ve.floor_area_limit }}%</div>
         </td>
       </tr>
@@ -389,7 +419,7 @@
       </tr>
       <tr>
         <td class="label" width="70" colspan="3" rowspan="2">
-          <div>도시·군계획 시설</div>
+          <div>도시 · 군계획<br/> 시설</div>
         </td>
         <td width="123" colspan="3" rowspan="2">
           <div>
@@ -397,7 +427,7 @@
           </div>
         </td>
         <td class="label" width="80">
-          <div>허가·신고 구역 여부</div>
+          <div>허가·신고<br/> 구역 여부</div>
         </td>
         <td class="border-tbl" width="290" colspan="10">
           <div>
@@ -413,13 +443,13 @@
         <td class="border-tbl" width="290" colspan="10">
           <div>
             
-            ［{{ ve.speculatvie_area == 0 ? "√" : "" }}］토지투기지역［{{ ve.speculatvie_area == 1 ? "√" : "" }}］주택투기지역［{{ ve.speculatvie_area == 2 ? "√" : "" }}］투기과열지구
+            ［{{ ve.speculative_area == 1 ? "√" : "" }}］토지투기지역［{{ ve.speculative_area == 2 ? "√" : "" }}］주택투기지역［{{ ve.speculative_area == 3 ? "√" : "" }}］투기과열지구
           </div>
         </td>
       </tr>
       <tr>
         <td class="label" width="163" colspan="5">
-          <div>지구단위계획구역, 그 밖의 도시·군관리계획</div>
+          <div>지구단위계획구역,<br/> 그 밖의 도시·군관리계획</div>
         </td>
         <td width="133" colspan="3">
           <div>
@@ -427,7 +457,7 @@
           </div>
         </td>
         <td class="label" width="115" colspan="3">
-          <div>그 밖의 이용제한 및 거래규제사항</div>
+          <div>그 밖의 이용제한 및<br/> 거래규제사항</div>
         </td>
         <td class="border-tbl" width="153" colspan="6">
           <div>
@@ -448,27 +478,27 @@
         </td>
       </tr>
       <tr height="0">
-        <td width="75"></td>
-        <td width="24"></td>
-        <td width="3"></td>
-        <td width="43"></td>
-        <td width="50"></td>
-        <td width="43"></td>
-        <td width="30"></td>
-        <td width="80"></td>
-        <td width="23"></td>
-        <td width="32"></td>
-        <td width="75"></td>
-        <td width="7"></td>
-        <td width="16"></td>
-        <td width="9"></td>
-        <td width="24"></td>
-        <td width="23"></td>
-        <td width="20"></td>
-        <td width="61"></td>
+        <td style="border:0" width="75"></td>
+        <td style="border:0" width="24"></td>
+        <td style="border:0" width="3"></td>
+        <td style="border:0" width="43"></td>
+        <td style="border:0" width="50"></td>
+        <td style="border:0" width="43"></td>
+        <td style="border:0" width="30"></td>
+        <td style="border:0" width="80"></td>
+        <td style="border:0" width="23"></td>
+        <td style="border:0" width="32"></td>
+        <td style="border:0" width="75"></td>
+        <td style="border:0" width="7"></td>
+        <td style="border:0" width="16"></td>
+        <td style="border:0" width="9"></td>
+        <td style="border:0" width="24"></td>
+        <td style="border:0" width="23"></td>
+        <td style="border:0" width="20"></td>
+        <td style="border:0" width="61"></td>
       </tr>
     </table>
-    <div>
+    <div class="page-divide">
       
       <br clear="all" />
       
@@ -476,7 +506,7 @@
     <table
       border="1"
       style="border-collapse:collapse"
-      class="a4 MsoNormalTable"
+      class="page2 a4 MsoNormalTable"
       cellspacing="0"
       cellpadding="0"
       width="800"
@@ -488,9 +518,9 @@
       </tr>
       <tr>
         <td class="label border-trb" width="75" colspan="2" rowspan="9">
-          <div>④ 입지조건</div>
+          <div>④입지조건</div>
         </td>
-        <td width="77" colspan="3">
+        <td class="label" width="77" colspan="3">
           <div>
             도로와의 관계
           </div>
@@ -504,7 +534,7 @@
         <td class="label" width="84" colspan="2">
           <div>접근성</div>
         </td>
-        <td class="border-tbl" width="160">
+        <td class="border-tbl text-center" width="160">
           <div>［{{ ve.accessibility ? '√' : ''}}］용이함 ［{{ ve.accessiblity ? '√' : ''}}］불편함</div>
         </td>
       </tr>
@@ -538,8 +568,8 @@
         </td>
         <td class="border-tbl" width="486" colspan="14">
           <div>
-            ［{{ ve.parking_lot == 0 ? '√' : '' }}］없음 ［{{ ve.parking_lot == 1 ? '√' : '' }}］전용주차시설 ［{{ ve.parking_lot == 2 ? '√' : '' }}］공동주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］그
-            밖의 주차시설 ( {{ ve.parking_lot == 4 ? ve.parking_lot_info : '' }} )
+            ［{{ ve.parking_lot == 1 ? '√' : '' }}］없음 ［{{ ve.parking_lot == 2 ? '√' : '' }}］전용주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］공동주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］그
+            밖의 주차시설 ( {{ ve.parking_lot == 99 ? ve.parking_lot_info : '' }} )
           </div>
         </td>
       </tr>
@@ -579,10 +609,10 @@
       </tr>
       <tr>
         <td class="label" width="77" colspan="3" rowspan="2">
-          <div>판매 및 의료시설</div>
+          <div>판매 및<br/> 의료시설</div>
         </td>
         <td class="label" width="67" colspan="2">
-          <div>백화점 및 할인매장</div>
+          <div>백화점 및<br/> 할인매장</div>
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
@@ -611,7 +641,7 @@
       </tr>
       <tr>
         <td class="label border-trb"  width="75" colspan="2">
-          <div>⑤ 관리에 관한사항</div>
+          <div>⑤관리에<br/> 관한사항</div>
         </td>
         <td class="label" width="85" colspan="3">
           <div>경비실</div>
@@ -623,7 +653,7 @@
           <div>관리주체</div>
         </td>
         <td class="border-tbl" width="278" colspan="7">
-          <div>［{{ ve.management == 0 ? '√' : '' }}］위탁관리 ［{{ ve.management == 1 ? '√' : '' }}］자체관리 ［{{ ve.management == 2 ? '√' : '' }}］그 밖의 유형</div>
+          <div>［{{ ve.management == 1 ? '√' : '' }}］위탁관리 ［{{ ve.management == 2 ? '√' : '' }}］자체관리 ［{{ ve.management == 99 ? '√' : '' }}］그 밖의 유형</div>
         </td>
       </tr>
       <tr>
@@ -634,8 +664,8 @@
         </td>
       </tr>
       <tr>
-        <td class="label border-trb"  width="159" colspan="5">
-          <div>⑥ 비선호시설(1km이내)</div>
+        <td class="border-trb"  width="159" colspan="5">
+          <div>⑥비선호시설(1km이내)</div>
         </td>
         <td class="border-tbl" width="478" colspan="13">
           <div>
@@ -653,7 +683,7 @@
       </tr>
       <tr>
         <td class="label border-trb"  width="109" colspan="3" rowspan="2">
-          <div>⑦ 거래예정금액 등</div>
+          <div>⑦거래예정금액 등</div>
         </td>
         <td class="label" width="122" colspan="4">
           <div>거래예정금액</div>
@@ -674,7 +704,7 @@
           </div>
         </td>
         <td class="label" width="85" colspan="3">
-          <div>건물(주택) 공시가격</div>
+          <div>건물(주택)<br/> 공시가격</div>
         </td>
         <td class="border-tbl" width="162" colspan="2">
           <div>
@@ -691,24 +721,24 @@
       </tr>
       <tr>
         <td class="label border-trb" width="109" colspan="3" rowspan="2">
-          <div>⑧ 취득 시 부담할 조세의 종류 및 세율</div>
+          <div>⑧취득 시 부담할 <br/> 조세의 종류 및 세율</div>
         </td>
         <td class="label" width="50" colspan="2">
           <div>취득세</div>
         </td>
-        <td width="72" colspan="2">
+        <td class="text-right pr-1" width="72" colspan="2">
           <div>{{ ve.acquisition_tax }}%</div>
         </td>
         <td class="label" width="74" colspan="2">
           <div>농어촌특별세</div>
         </td>
-        <td width="85" colspan="4">
+        <td class="text-right pr-1" width="85" colspan="4">
           <div>{{ ve.special_tax }}%</div>
         </td>
         <td class="label" width="85" colspan="3">
           <div>지방교육세</div>
         </td>
-        <td class="border-tbl" width="162" colspan="2">
+        <td class="border-tbl text-right pr-1" width="162" colspan="2">
           <div>{{ ve.local_education_tax }}%</div>
         </td>
       </tr>
@@ -736,8 +766,8 @@
       </tr>
       <tr>
         <td class="border-tb" width="800" colspan="18" valign="top">
-          <div>
-            ⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리 사항
+          <div style="height:110px">
+            ⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리 사항<br/>
             
           </div>
         </td>
@@ -750,13 +780,13 @@
         </td>
       </tr>
       <tr>
-        <td class="label border-tb" width="71" rowspan="10">
-          <div>⑩ 내부·외부 시설물의 상태 (건축물)</div>
+        <td class="border-tb" width="71" rowspan="10">
+          <div>⑩ 내부 ·<br/>외부 시설물<br/>의 상태 <br/>(건축물)</div>
         </td>
         <td class="label" width="81" colspan="4" rowspan="2">
           <div>수도</div>
         </td>
-        <td width="67" colspan="2">
+        <td class="label" width="67" colspan="2">
           <div>파손 여부</div>
         </td>
         <td class="border-tbl" width="419" colspan="12">
@@ -814,10 +844,8 @@
         </td>
         <td width="127" colspan="4">
           <div>
-            
             ［{{ ve.is_fire_alarm_detector ? '' : '√' }}］없음
-
-            
+            <br/>
             ［{{ ve.is_fire_alarm_detector ? '√' : '' }}］있음(수량: {{ ve.is_fire_alarm_detector ? ve.fire_alarm_detector_quantity : '' }}개)
           </div>
         </td>
@@ -832,7 +860,7 @@
       </tr>
       <tr>
         <td class="label" width="81" colspan="4" rowspan="2">
-          <div>난방방식 및 연료공급</div>
+          <div>난방방식 및<br/> 연료공급</div>
         </td>
         <td class="label" width="67" colspan="2">
           <div>공급방식</div>
@@ -840,7 +868,7 @@
         <td width="157" colspan="6">
           <div>
             
-            ［{{ ve.heating_supply_method == 0 ? '√' : '' }}］중앙공급 ［{{ ve.heating_supply_method == 1 ? '√' : '' }}］개별공급
+            ［{{ ve.heating_supply_method == 1 ? '√' : '' }}］중앙공급 ［{{ ve.heating_supply_method == 2 ? '√' : '' }}］개별공급
           </div>
         </td>
         <td class="label" width="52" colspan="4">
@@ -857,8 +885,8 @@
         <td class="border-tbl" width="419" colspan="12">
           <div>
             
-            ［{{ ve.heating_type == 0 ? '√' : '' }}］도시가스 ［{{ ve.heating_type == 1 ? '√' : '' }}］기름 ［{{ ve.heating_type == 2 ? '√' : '' }}］프로판가스 ［{{ ve.heating_type == 3 ? '√' : '' }}］연탄 ［{{ ve.heating_type == 4 ? '√' : '' }}］그 밖의
-            종류 ({{ ve.heating_type == 4 ? ve.heating_type_info : '' }})
+            ［{{ ve.heating_type == 1 ? '√' : '' }}］도시가스 ［{{ ve.heating_type == 2 ? '√' : '' }}］기름 ［{{ ve.heating_type == 3 ? '√' : '' }}］프로판가스 ［{{ ve.heating_type == 4 ? '√' : '' }}］연탄 ［{{ ve.heating_type == 99 ? '√' : '' }}］그 밖의
+            종류 ({{ ve.heating_type == 99 ? ve.heating_type_info : '' }})
           </div>
         </td>
       </tr>
@@ -885,7 +913,7 @@
         </td>
       </tr>
       <tr>
-        <td class="border-tbl" width="81" colspan="4">
+        <td class="label border-tbl" width="81" colspan="4">
           <div>그 밖의 시설물</div>
         </td>
         <td class="border-tbl" width="486" colspan="14">
@@ -894,224 +922,215 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="border-tb" width="800" colspan="18" valign="bottom">
-          <div>
-            
-          </div>
-        </td>
-      </tr>
       <tr height="0">
-        <td width="71"></td>
-        <td width="4"></td>
-        <td width="34"></td>
-        <td width="43"></td>
-        <td width="8"></td>
-        <td width="59"></td>
-        <td width="13"></td>
-        <td width="64"></td>
-        <td width="10"></td>
-        <td width="41"></td>
-        <td width="14"></td>
-        <td width="16"></td>
-        <td width="15"></td>
-        <td width="3"></td>
-        <td width="35"></td>
-        <td width="48"></td>
-        <td width="2"></td>
-        <td width="160"></td>
+        <td style="border:0" width="71"></td>
+        <td style="border:0" width="4"></td>
+        <td style="border:0" width="34"></td>
+        <td style="border:0" width="43"></td>
+        <td style="border:0" width="8"></td>
+        <td style="border:0" width="59"></td>
+        <td style="border:0" width="13"></td>
+        <td style="border:0" width="64"></td>
+        <td style="border:0" width="10"></td>
+        <td style="border:0" width="41"></td>
+        <td style="border:0" width="14"></td>
+        <td style="border:0" width="16"></td>
+        <td style="border:0" width="15"></td>
+        <td style="border:0" width="3"></td>
+        <td style="border:0" width="35"></td>
+        <td style="border:0" width="48"></td>
+        <td style="border:0" width="2"></td>
+        <td style="border:0" width="160"></td>
       </tr>
     </table>
-    <div>
+    <div class="page-divide">
       
       <br clear="all" />
       
     </div>
-    <table
-      border="1"
-      style="border-collapse:collapse"
-      class="a4 MsoNormalTable"
-      cellspacing="0"
-      cellpadding="0"
-      width="800"
-    >
-      <tr>
-        <td class="caption" style="border:0" width="278" colspan="12" valign="bottom" align="right">
-          <div>(4쪽 중 제3쪽)</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label border-trb" width="71" colspan="2" rowspan="3">
-          <div>
-            ⑪ 벽면 및 
-            도배상태
-          </div>
-        </td>
-        <td class="label" width="89" colspan="1" rowspan="2">
-          <div>벽면</div>
-        </td>
-        <td class="label" width="56" colspan="2">
-          <div>균열</div>
-        </td>
-        <td class="border-tbl" width="422" colspan="6">
-          <div>
-            
-            ［{{ ve.wall_crack_status ? '' : '√' }}］없음 ［{{ ve.wall_crack_status ? '√' : '' }}］있음 (위치: {{ ve.wall_crack_status ? ve.wall_crack_status_info : '' }})
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="56" colspan="2">
-          <div>누수</div>
-        </td>
-        <td class="border-tbl" width="422" colspan="6">
-          <div>
-            
-            ［{{ ve.water_leak_status ? '' : '√' }}］없음 ［{{ ve.water_leak_status ? '√' : '' }}］있음 (위치: {{ ve.water_leak ? ve.water_leak_status_info : '' }})
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="89" colspan="1">
-          <div>도배</div>
-        </td>
-        <td class="border-tbl" width="478" colspan="8">
-          <div>
-            
-            ［{{ ve.wall_paper_status == true ? '√' : '' }}］깨끗함 ［{{ ve.wall_paper_status == null ? '√' : '' }}］보통임 ［{{ ve.wall_paper_status == false ? '√' : '' }}］도배 필요
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="border-tb" width="800" colspan="12">
-          <div>
-            
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label border-trb" width="71" colspan="2" rowspan="2">
-          <div>⑫ 환경 조건</div>
-        </td>
-        <td class="label" width="89" colspan="1">
-          <div>일조량</div>
-        </td>
-        <td class="border-tbl" width="478" colspan="8">
-          <div>
-            
-            ［{{ ve.sunshine_status == true ? '√' : '' }}］풍부함 ［{{ ve.sunshine_status == null ? '√' : '' }}］보통임 ［{{ ve.sunshine_status == false ? '√' : '' }}］불충분 (이유: {{ ve.sunshine_status == false ? ve.sunshine_status_info : '' }})
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="69" colspan="1">
-          <div>소음</div>
-        </td>
-        <td width="239" colspan="6">
-          <div>
-            ［{{ ve.nosie_status == true ? '√' : '' }}］미미함 ［{{ ve.nosie_status == null ? '√' : '' }}］보통임 ［{{ ve.nosie_status == false ? '√' : '' }}］심한 편임
-          </div>
-        </td>
-        <td class="label" width="45" colspan="1">
-          <div>진동</div>
-        </td>
-        <td class="border-tbl" width="214" colspan="2">
-          <div>
-            ［{{ ve.vibration == true ? '√' : '' }}］미미함 ［{{ ve.vibration == null ? '√' : '' }}］보통임 ［{{ ve.vibration == false ? '√' : '' }}］심한 편임
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="border-tb" width="800" colspan="12">
-          <div>
-            
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label border-tb" width="800" colspan="12" valign="bottom">
-          <div><b>Ⅲ</b><b>. </b><b>중개보수 등에 관한 사항</b></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label border-trb" width="71" colspan="2" rowspan="4">
-          <div>⑬ 중개보수 및 실비의 금액과 산출내역</div>
-        </td>
-        <td class="label" width="93" colspan="3">
-          <div>중개보수</div>
-        </td>
-        <td width="219" colspan="4">
-          <div>
-            {{ `${ve.comission}${$t('won')}` }} 
-          </div>
-        </td>
-        <td class="border-tbl" width="255" colspan="3" rowspan="4">
-          <div>
-            &lt;산출내역&gt; 
-            <br/><br/>
-            중개보수: {{ `${ve.comission}${$t('won')}` }} 
-            <br/><br/>
-            실 비: {{ `${ve.actual_expenses}${$t('won')}` }}
-            <br/><br/>
-            ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도
-            조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로
-            협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로
-            부과될 수 있습니다.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="93" colspan="3">
-          <div>실비</div>
-        </td>
-        <td width="219" colspan="4">
-          <div>
-            {{ `${ve.actual_expenses}${$t('won')}` }}
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="93" colspan="3">
-          <div>계</div>
-        </td>
-        <td width="219" colspan="4">
-          <div>
-            {{ `${ve.comission + ve.actual_expenses}${$t('won')}` }}
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" width="93" colspan="3">
-          <div>지급시기</div>
-        </td>
-        <td width="219" colspan="4">
-          <div>
-            {{ ve.payment_period }}
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="border-tb" width="800" colspan="12">
-          <div><s> </s></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="border-tb" width="800" colspan="12">
-          <div>
-              공인중개사법」 제25조제3항 및 제30조제5항에 따라
-            거래당사자는 개업공인중개사로부터 위 중개대상물에 관한
-            확인·설명 및 손해배상책임의 보장에 관한 설명을 듣고, 같은 법
-            시행령 제21조제3항에 따른 본 확인·설명서와 같은 법 시행령
-            제24조제2항에 따른 손해배상책임 보장 증명서류(사본 또는
-            전자문서)를 수령합니다.
-            <br/>
-          </div>
-          <div align="right">
-            {{ year }}년 {{ month }}월 {{ day }}일
-          </div>
-        </td>
-      </tr>
-    </table>
+    <div class="a4">
+      <table
+        border="1"
+        style="border-collapse:collapse"
+        class="MsoNormalTable"
+        cellspacing="0"
+        cellpadding="0"
+        width="800"
+      >
+        <tr>
+          <td class="caption" style="border:0" width="278" colspan="12" valign="bottom" align="right">
+            <div>(4쪽 중 제3쪽)</div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label border-trb" width="71" colspan="2" rowspan="3">
+            <div>
+              ⑪ 벽면 및<br/> 도배상태
+            </div>
+          </td>
+          <td class="label" width="89" colspan="1" rowspan="2">
+            <div>벽면</div>
+          </td>
+          <td class="label" width="56" colspan="2">
+            <div>균열</div>
+          </td>
+          <td class="border-tbl" width="422" colspan="6">
+            <div>
+              ［{{ ve.wall_crack_status ? '' : '√' }}］없음 ［{{ ve.wall_crack_status ? '√' : '' }}］있음 (위치: {{ ve.wall_crack_status ? ve.wall_crack_status_info : '' }})
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="56" colspan="2">
+            <div>누수</div>
+          </td>
+          <td class="border-tbl" width="422" colspan="6">
+            <div>
+              ［{{ ve.water_leak_status ? '' : '√' }}］없음 ［{{ ve.water_leak_status ? '√' : '' }}］있음 (위치: {{ ve.water_leak ? ve.water_leak_status_info : '' }})
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="89" colspan="1">
+            <div>도배</div>
+          </td>
+          <td class="border-tbl" width="478" colspan="8">
+            <div>
+              ［{{ ve.wall_paper_status == true ? '√' : '' }}］깨끗함 ［{{ ve.wall_paper_status == null ? '√' : '' }}］보통임 ［{{ ve.wall_paper_status == false ? '√' : '' }}］도배 필요
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-tb" width="800" colspan="12">
+            <div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label border-trb" width="71" colspan="2" rowspan="2">
+            <div>⑫ 환경 <br/>조건</div>
+          </td>
+          <td class="label" width="89" colspan="1">
+            <div>일조량</div>
+          </td>
+          <td class="border-tbl" width="478" colspan="8">
+            <div>
+              ［{{ ve.sunshine_status == true ? '√' : '' }}］풍부함 ［{{ ve.sunshine_status == null ? '√' : '' }}］보통임 ［{{ ve.sunshine_status == false ? '√' : '' }}］불충분 (이유: {{ ve.sunshine_status == false ? ve.sunshine_status_info : '' }})
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="69" colspan="1">
+            <div>소음</div>
+          </td>
+          <td width="239" colspan="6">
+            <div>
+              ［{{ ve.nosie_status == true ? '√' : '' }}］미미함 ［{{ ve.nosie_status == null ? '√' : '' }}］보통임 ［{{ ve.nosie_status == false ? '√' : '' }}］심한 편임
+            </div>
+          </td>
+          <td class="label" width="45" colspan="1">
+            <div>진동</div>
+          </td>
+          <td class="border-tbl" width="214" colspan="2">
+            <div>
+              ［{{ ve.vibration == true ? '√' : '' }}］미미함 ［{{ ve.vibration == null ? '√' : '' }}］보통임 ［{{ ve.vibration == false ? '√' : '' }}］심한 편임
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-tb" width="800" colspan="12">
+            <div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label border-tb" width="800" colspan="12" valign="bottom">
+            <div><b>Ⅲ</b><b>. </b><b>중개보수 등에 관한 사항</b></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label border-trb" width="71" colspan="2" rowspan="4">
+            <div>⑬ 중개보수 <br/>및 실비의 <br/>금액과 <br/>산출내역</div>
+          </td>
+          <td class="label" width="93" colspan="3">
+            <div>중개보수</div>
+          </td>
+          <td width="219" colspan="4">
+            <div>
+              {{ `${ve.comission}${$t('won')}` }}
+            </div>
+          </td>
+          <td class="border-tbl" width="255" colspan="3" rowspan="4">
+            <div>
+              &lt;산출내역&gt;
+              <br/><br/>
+              중개보수: {{ `${ve.comission}${$t('won')}` }}
+              <br/><br/>
+              실 비: {{ `${ve.actual_expenses}${$t('won')}` }}
+              <br/><br/>
+              ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도
+              조례로 정한 요율한도에서 중개의뢰인과 개업공인중개사가 서로
+              협의하여 결정하도록 한 요율에 따르며 부가가치세는 별도로
+              부과될 수 있습니다.
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="93" colspan="3">
+            <div>실비</div>
+          </td>
+          <td width="219" colspan="4">
+            <div>
+              {{ `${ve.actual_expenses}${$t('won')}` }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="93" colspan="3">
+            <div>계</div>
+          </td>
+          <td width="219" colspan="4">
+            <div>
+              {{ `${ve.comission + ve.actual_expenses}${$t('won')}` }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="93" colspan="3">
+            <div>지급시기</div>
+          </td>
+          <td width="219" colspan="4">
+            <div>
+              {{ ve.payment_period }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-tb" width="800" colspan="12">
+            <div><s> </s></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="border-tb" width="800" colspan="12">
+            <div>
+               「공인중개사법」 제25조제3항 및 제30조제5항에 따라
+              거래당사자는 개업공인중개사로부터 위 중개대상물에 관한
+              확인·설명 및 손해배상책임의 보장에 관한 설명을 듣고, 같은 법
+              시행령 제21조제3항에 따른 본 확인·설명서와 같은 법 시행령
+              제24조제2항에 따른 손해배상책임 보장 증명서류(사본 또는
+              전자문서)를 수령합니다.
+              <br/>
+            </div>
+            <div class="created_date" align="right">
+              {{ year }}년 {{ month }}월 {{ day }}일
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div style="width:800px; margin:auto;">
+        <slot name="footer"></slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1129,6 +1148,18 @@ export default {
     }
   },
   computed: {
+    is_right_to_lease_contract_renewal_true() {
+      if (this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == true) {
+        return '√'
+      }
+      return ''
+    },
+    is_right_to_lease_contract_renewal_false() {
+      if (this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == false) {
+        return '√'
+      }
+      return ''
+    },
     year() {
       return this.updated_at.split("-")[0]
     },
@@ -1143,14 +1174,37 @@ export default {
 </script>
 
 <style scoped>
+  @media print{
+    @page { margin-top: 20px; margin-bottom: 20px;}
+    .a4 {
+      height: 29.7cm !important;
+      width: 21cm !important;
+      margin: auto;
+    }
+  }
+  .created_date {
+    margin-right: 80px;
+  }
+  .label {
+    text-align: center;
+  }
+  .ve {
+    min-width: 790px;
+  }
+  .page2 .label {
+    padding: 3.8px 0px 3.8px 0px;
+  }
   table {
-    min-width: 800px !important;
-    width: 99.9%;
-    border-width: 1px 0px;
+    width: 790px;
+    border-width: 0px;
+    margin: auto;
+    margin-top: 30px;
   }
   div {
-    padding-left: 4px;
-    word-spacing: 2px; 
+    padding: 3px 0px 3px 1px;
+    word-spacing: 2px;
+    font-size: 14.6px;
+    letter-spacing: -2px;
   }
   .border-tb {
     border-width: 1px 0px 1px 0px;

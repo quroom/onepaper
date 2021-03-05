@@ -171,10 +171,13 @@ const i18n = new VueI18n({
       user: "User",
       username: "User ID",
       use_profile_after_approval: "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
+      view_mobile_version: "View Mobile Ver",
+      view_pc_version: "View PC Ver",
       writing: "writing",
       written: "Written",
       won: "Won",
       won_paid_recieved: "won paid upon visit and received",
+      year: "year",
 
       //Service Intro
       service_intro_title: "OnePaper's value is reducing the risk and time of real estate transactions through technology.",
@@ -259,7 +262,7 @@ const i18n = new VueI18n({
 
       //for verifying_explanation
       enforcement_rules: "■ 공인중개사법 시행규칙 [별지 제20호서식]",
-      ve_updated_date: "Updated 2020. 10. 27.",
+      ve_amendment_updated_date: "Updated 2021. 1. 12.",
       ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
       materials_for_ve: "확인ㆍ설명자료",
       explanation_evidence: "확인ㆍ설명 근거자료 등",
@@ -525,10 +528,13 @@ const i18n = new VueI18n({
       user: "회원",
       username: "회원 아이디",
       use_profile_after_approval: "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
+      view_mobile_version: "모바일 버전 보기",
+      view_pc_version: "원래대로 보기",
       writing: "작성",
       written: "작성한",
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
+      year: "년",
 
       //Service Intro
       service_intro_title: "원페이퍼는 기술을 통해 부동산 거래 위험과 시간을 줄이는데 가치를 두고 있습니다.",
@@ -610,7 +616,7 @@ const i18n = new VueI18n({
 
       //for verifying_explanation
       enforcement_rules: "■ 공인중개사법 시행규칙 [별지 제20호서식]",
-      ve_updated_date: "개정 2020. 10. 27.",
+      ve_amendment_updated_date: "개정 2021. 1. 12.",
       ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
       materials_for_ve: "확인ㆍ설명자료",
       explanation_evidence: "확인ㆍ설명 근거자료 등",
@@ -666,7 +672,7 @@ const i18n = new VueI18n({
       department_store: "백화점",
       department_store_by_foot: "백화점 도보 이용여부",
       department_store_required_time: "백화점 도착 소요시간",
-      medical_center: "병운",
+      medical_center: "병원",
       medical_center_by_foot: "병원 도보 이용여부",
       medical_center_required_time: "병원 도착 소요시간",
       is_security_office: "경비실 여부",

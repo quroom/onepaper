@@ -31,14 +31,14 @@ const Constants = {
   },
   LAND_CATEGORY : {
     7: 'buildingland',
-    100: "etc"
+    99: "etc"
   },
   BUILDING_CATEGORY: {
     70: "c1neighborfacility",
     71: "c2neighborfacility",
     80: "house",
     81: "apartment",
-    100: "etc",
+    99: "etc",
   },
   // REALESTATE_CATEGORY: {
   //   0: "oneroom",
@@ -56,27 +56,27 @@ const Constants = {
   //   99: "etc",
   // },
   TRADE_CATEGORY: {
-    0: "rent",
-    1: "depositloan",
+    1: "rent",
+    2: "depositloan",
     // 2: "purchase",
     // 3: "exchange",
   },
   STATUS_CATEGORY: {
-    0: "requesting",
-    1: "draft",
-    2: "progress",
-    3: "done",
+    1: "requesting",
+    2: "draft",
+    3: "progress",
+    4: "done",
   },
   CONTRACTOR_CATEGORY: {
-    0: "seller",
-    1: "buyer",
-    2: "expert"
+    1: "seller",
+    2: "buyer",
+    3: "expert"
   },
   EXPERT_STATUS: {
-    0: "requesting",
-    1: "approved",
-    2: "denied",
-    3: "closed"
+    1: "requesting",
+    2: "approved",
+    3: "denied",
+    4: "closed"
   },
   BANK_CATEGORY_LIST: [],
   LAND_CATEGORY_LIST: [],

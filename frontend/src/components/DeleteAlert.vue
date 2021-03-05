@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="400px">
       <template v-slot:activator="{ on }">
         <v-btn 
-          class="ma-1 auto"
+          class="ma-1 auto no-print"
           color="error"
           @click.prevent=""
           v-on.prevent="on">

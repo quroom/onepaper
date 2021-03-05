@@ -1,10 +1,10 @@
 <template>
   <v-app app>
-    <NavbarItem class="navbar root_tag" v-if="!isLoading" :user_category="user_category"/>
+    <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category"/>
     <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
-    <Footer class="root_tag"/>
+    <Footer class="no-print root_tag"/>
   </v-app>
 </template>
 
@@ -96,13 +96,17 @@ a:hover {
 .float_right {
   float: right;
 }
+
 /* For print paper setting. */
 @media print {
-  .navbar {
+  .page-divide {
+    page-break-after: always;
+  }
+  .no-print {
     display: none;
   }
-  .v-footer {
-    display: none;
+  html {
+    -webkit-print-color-adjust:exact;
   }
 }
 
@@ -122,6 +126,13 @@ a:hover {
 }
 .root_tag {
    min-width:360px;
+}
+
+/* Progress circular Style*/
+.v-progress-circular {
+    display: block;
+    width: 100px;
+    margin: 0 auto;
 }
 
 /* Notion Style */

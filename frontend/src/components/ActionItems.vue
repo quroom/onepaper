@@ -3,7 +3,7 @@
     <DeleteAlert :id="this.id" :url="this.delete_url" :router_name="this.delete_router_name"></DeleteAlert>
     <v-spacer></v-spacer>
     <router-link :to="{name: this.editor_router_name, params: {id: this.id, readonly: false}}">
-      <v-btn class="ma-1 auto" color="green" dark>
+      <v-btn class="ma-1 auto no-print" color="green" dark>
         {{$t('edit')}}
       </v-btn>
     </router-link>
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-    }    
+    }
   },
 }
 </script>
