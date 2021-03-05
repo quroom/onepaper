@@ -79,7 +79,7 @@ class AllowedUserTestCase(APITestCase):
     def create_profile(self):
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form
         }
@@ -212,7 +212,7 @@ class ExpertProfileTestCase(APITestCase):
         user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
@@ -223,7 +223,7 @@ class ExpertProfileTestCase(APITestCase):
         #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form,
             "expert_profile.registration_number": "2020118181-11",
@@ -240,7 +240,7 @@ class ExpertProfileTestCase(APITestCase):
         response = self.create_expert_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["mobile_number"], "010-1234-1234")
-        self.assertEqual(response.data["bank_name"], "004")
+        self.assertEqual(response.data["bank_name"], 4)
         self.assertEqual(response.data["account_number"], "94334292963")
         self.assertEqual(response.data["address"], { 
             "id": 1,
@@ -270,7 +270,7 @@ class ExpertProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho": "1층",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963_",
             "expert_profile.registration_number": "2020118181-11_",
             "expert_profile.shop_name": "광주부동산중개_",
@@ -280,7 +280,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"]["ho"], "1층")
-        self.assertEqual(response.data["bank_name"], "004")
+        self.assertEqual(response.data["bank_name"], 4)
         self.assertEqual(response.data["account_number"], "94334292963_")
         self.assertEqual(
             response.data["expert_profile"]["registration_number"], "2020118181-11_")
@@ -292,7 +292,7 @@ class ExpertProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho": "1층",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963_",
             "expert_profile.registration_number": "2020118181-11_",
             "expert_profile.shop_name": "광주부동산중개_",
@@ -309,7 +309,7 @@ class ExpertProfileTestCase(APITestCase):
         self.create_expert_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_expert_profile_update_by_random_user(self):
@@ -318,7 +318,7 @@ class ExpertProfileTestCase(APITestCase):
         self.create_expert_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_expert_profile_delete(self):
@@ -386,7 +386,7 @@ class ProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963"
         }
         response = self.client.post(self.list_url, data=data)
@@ -396,7 +396,7 @@ class ProfileTestCase(APITestCase):
         #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form,
             "expert_profile.registration_number": "2020118181-11",
@@ -439,7 +439,7 @@ class ProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho":'1층',
-            "bank_name": "020",
+            "bank_name": 20,
             "account_number": "938271122121"
         }
         response = self.client.put(
@@ -447,7 +447,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"]["ho"], "1층")
-        self.assertEqual(response.data["bank_name"], "020")
+        self.assertEqual(response.data["bank_name"], 20)
         self.assertEqual(response.data["account_number"], "938271122121")
 
     def test_profile_update_by_random_user(self):
@@ -456,7 +456,7 @@ class ProfileTestCase(APITestCase):
         self.create_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_profile_delete(self):
@@ -478,14 +478,14 @@ class ProfileTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data["id"], "paper": None, "group": "0"},
+                {"profile": response.data["id"], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -506,14 +506,14 @@ class ProfileTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data["id"], "paper": None, "group": "0"},
+                {"profile": response.data["id"], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -647,7 +647,7 @@ class CustomUserTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963"
         }
         response = self.client.post(self.profiles_list_url, data=data)
@@ -659,7 +659,7 @@ class CustomUserTestCase(APITestCase):
                 "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False,
                 "mobile_number": "010-1234-1234",
                 **address_form,
-                "bank_name": "004",
+                "bank_name": 4,
                 "account_number": "94334292963"}
         response = self.client.post(reverse("registration_register"), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -696,14 +696,14 @@ class CustomUserTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data['id'], "paper": None, "group": "0"},
+                {"profile": response.data['id'], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         self.client.post(reverse("papers-list"), data=data, format="json")
 
@@ -739,14 +739,14 @@ class CustomUserTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data['id'], "paper": None, "group": "0"},
+                {"profile": response.data['id'], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         self.client.post(reverse("papers-list"), data=data, format="json")
         data = {
@@ -809,7 +809,7 @@ class MandateTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
         }
         response = self.client.post(self.profile_list_url, data=data)
@@ -820,7 +820,7 @@ class MandateTestCase(APITestCase):
                                               bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
-        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
