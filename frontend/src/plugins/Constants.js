@@ -73,10 +73,10 @@ const Constants = {
     3: "expert"
   },
   EXPERT_STATUS: {
+    0: "closed",
     1: "requesting",
     2: "approved",
-    3: "denied",
-    4: "closed"
+    3: "denied"
   },
   BANK_CATEGORY_LIST: [],
   LAND_CATEGORY_LIST: [],

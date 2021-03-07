@@ -457,7 +457,6 @@
               outlined
               auto-grow
               rows="2"
-             
             >
             </LazyTextArea>
           </v-col>
@@ -614,6 +613,21 @@
     <div>
       <slot name="footer"></slot>
     </div>
+    <div class="text-subtitle font-weight-bold mt-4 text-center">확인설명서 별지</div>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <LazyTextArea
+          class="mt-4"
+          v-model="ve.additional_info"
+          label="확인설명서 별지 내용"
+          placeholder="확인설명서 별지 내용"
+          outlined
+          auto-grow
+          rows="2"
+        >
+        </LazyTextArea>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -647,11 +661,11 @@ export default {
 </script>
 
 <style scoped>
-.flex-text-verical-center {
-  align-items:center;
-}
 legend {
   font-weight: bold;
+}
+.flex-text-verical-center {
+  align-items:center;
 }
 .ve-radio-group legend:after {
   content: ":"

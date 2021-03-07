@@ -156,10 +156,10 @@ class AllowedUser(models.Model):
                                    related_name="allowed_user")
 
 class ExpertProfile(models.Model):
-    REQUEST = 0
-    APPROVED = 1
-    DENIED = 2
-    CLOSED = 3
+    CLOSED = 0
+    REQUEST = 1
+    APPROVED = 2
+    DENIED = 3
 
     STATUS_CATEGORY = (
         (REQUEST, _('요청')),

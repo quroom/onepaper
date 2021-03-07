@@ -400,10 +400,10 @@
             {{ ve.use_district }}
           </div>
         </td>
-        <td class="text-right" width="79" colspan="5" rowspan="2">
+        <td class="text-right pr-1" width="79" colspan="5" rowspan="2">
           <div>{{ ve.building_coverage_limit }}%</div>
         </td>
-        <td class="border-tbl text-right" width="81" colspan="2" rowspan="2">
+        <td class="border-tbl text-right pr-1" width="81" colspan="2" rowspan="2">
           <div>{{ ve.floor_area_limit }}%</div>
         </td>
       </tr>
@@ -499,9 +499,7 @@
       </tr>
     </table>
     <div class="page-divide">
-      
       <br clear="all" />
-      
     </div>
     <table
       border="1"
@@ -944,9 +942,7 @@
       </tr>
     </table>
     <div class="page-divide">
-      
       <br clear="all" />
-      
     </div>
     <div class="a4">
       <table
@@ -1126,11 +1122,196 @@
             </div>
           </td>
         </tr>
+        <tr class="contractor">
+          <td class="label border-tb" width="63" rowspan="2">
+            <div>매도인<br/>(임대인)</div>
+          </td>
+          <td class="label" width="82" colspan="2">
+            <div>주소</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>성명</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 또는 날인)</div>
+          </td>
+          <slot name="seller-signature"></slot>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>생년월일</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>전화번호</div>
+          </td>
+          <td class="border-tb" width="211" valign="bottom">
+            <div></div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label border-tb" width="63" rowspan="2">
+            <div>매수인<br/>(임차인)</div>
+          </td>
+          <td class="label" width="82" colspan="2">
+            <div>주소</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>성명</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 또는 날인)</div>
+          </td>
+          <slot name="buyer-signature"></slot>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>생년월일</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>전화번호</div>
+          </td>
+          <td class="border-tb" width="211" valign="bottom">
+            <div></div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label border-tb" width="63" rowspan="3">
+            <div>개업<br/>공인중개사</div>
+          </td>
+          <td class="label" width="82" colspan="2">
+            <div>등록번호</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>성명(대표자)</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 및 날인)</div>
+          </td>
+          <slot name="expert-signature"></slot>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>사무소 명칭</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>소속<br/>공인중개사</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 및 날인)</div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>사무소 소재지</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>전화번호</div>
+          </td>
+          <td class="border-tb" width="211" valign="bottom">
+            <div></div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label border-tb" width="63" rowspan="3">
+            <div>개업<br/>공인중개사</div>
+          </td>
+          <td class="label" width="82" colspan="2">
+            <div>등록번호</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>성명(대표자)</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 및 날인)</div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>사무소 명칭</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>소속<br/>공인중개사</div>
+          </td>
+          <td class="text-right border-tb" width="211" valign="bottom">
+            <div>(서명 및 날인)</div>
+          </td>
+        </tr>
+        <tr class="contractor">
+          <td class="label" width="82" colspan="2">
+            <div>사무소 소재지</div>
+          </td>
+          <td width="215" colspan="4">
+            <div></div>
+          </td>
+          <td class="label" width="68" colspan="4">
+            <div>전화번호</div>
+          </td>
+          <td class="border-tb" width="211" valign="bottom">
+            <div></div>
+          </td>
+        </tr>
+        <tr>
+          <td width="638" colspan="12" valign="bottom">
+            <div></div>
+          </td>
+        </tr>
+        <tr height="0">
+          <td width="63"></td>
+          <td width="8"></td>
+          <td width="74"></td>
+          <td width="15"></td>
+          <td width="4"></td>
+          <td width="52"></td>
+          <td width="144"></td>
+          <td width="19"></td>
+          <td width="4"></td>
+          <td width="41"></td>
+          <td width="4"></td>
+          <td width="210"></td>
+        </tr>
       </table>
       <div style="width:800px; margin:auto;">
         <slot name="footer"></slot>
       </div>
     </div>
+    <div class="page-divide">
+      <v-divider></v-divider>
+    </div>
+    <template v-if="ve.additional_info">
+      <div class="text-center font-weight-bold" style="font-size:16px;">확인설명서 별지</div>
+      <div class="label" style="border:1px solid #ccc;">
+        <div>
+          {{ve.additional_info}}
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -1174,16 +1355,12 @@ export default {
 </script>
 
 <style scoped>
-  @media print{
-    @page { margin-top: 20px; margin-bottom: 20px;}
-    .a4 {
-      height: 29.7cm !important;
-      width: 21cm !important;
-      margin: auto;
-    }
-  }
   .created_date {
     margin-right: 80px;
+  }
+  .contractor td {
+    height: 60px;
+    vertical-align: middle;
   }
   .label {
     text-align: center;
@@ -1201,7 +1378,7 @@ export default {
     margin-top: 30px;
   }
   div {
-    padding: 3px 0px 3px 1px;
+    padding: 2.5px 0px 2.5px 1px;
     word-spacing: 2px;
     font-size: 14.6px;
     letter-spacing: -2px;

@@ -131,8 +131,88 @@
       </v-col>
     </v-row>
     <div class="mt-5">3. {{ $t("contractor_info") }}</div>
-    <div>{{ $t("contractor_info_intro") }}</div>
     <div v-if="$getConstByName('status_category', 'requesting') == paper.status" class="text-caption red--text"> {{ $t("paper_requesting_subtitle") }}</div>
+    <div>{{ $t("contractor_info_intro") }}</div>
+    <template v-if="!isLoading && seller != null">
+      <v-row no-gutters>
+        <v-col class="text-center font-weight-bold">
+          <v-card outlined tile color="blue lighten-4">{{ $t("landlord") }}</v-card>
+        </v-col>
+        <v-col class="text-center" cols="auto">
+          <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
+            <v-btn
+              v-if="!isPaperRequest && !isSellerSigned && isSeller"
+              class="signature-button"
+              @click="open(false)"
+              color="red"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ $t("signature") }}
+            </v-btn>
+            <template v-else>
+              {{ $t("sign") }}
+            </template>
+            <a v-if="isSellerSigned" v-bind:href="seller.signature.image" target="_blank">
+              <img class="signature-img" :src="seller.signature.image" />
+            </a>
+          </v-card>
+          <v-card v-else>
+            <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="deep-purple" dark>
+              <v-icon>done</v-icon>
+              {{ $t("approve") }}
+            </v-btn>
+            <template v-else>
+              <v-icon>donut_large</v-icon>
+              {{ $t("requesting") }}
+            </template>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
+      </v-row>
+    </template>
+    <template v-if="!isLoading && buyer != null" >
+      <v-row no-gutters>
+        <v-col class="text-center font-weight-bold">
+          <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
+        </v-col>
+        <v-col class="text-center" cols="auto">
+          <v-card v-if="isBuyerAllowed" class="pa-0" outlined tile>
+            <v-btn
+              v-if="!isPaperRequest && !isBuyerSigned && isBuyer"
+              class="signature-button"
+              @click="open(false)"
+              color="red"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ $t("signature") }}
+            </v-btn>
+            <template v-else>
+              {{ $t("sign") }}
+            </template>
+            <a v-if="isBuyerSigned" v-bind:href="buyer.signature.image" target="_blank">
+              <img class="signature-img" :src="buyer.signature.image" />
+            </a>
+          </v-card>
+          <v-card v-else>
+            <v-btn v-if="isBuyer" class="signature-button" @click="allowPaper" color="deep-purple" dark>
+              <v-icon>done</v-icon>
+              {{ $t("approve") }}
+            </v-btn>
+            <div v-else>
+              <v-icon>donut_large</v-icon>
+              {{ $t("requesting") }}
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
+      </v-row>
+    </template>
     <template v-if="expert != null && !isLoading">
       <v-row no-gutters>
         <v-col class="contractor-title text-center font-weight-bold">
@@ -175,88 +255,7 @@
         <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
       </v-row>
     </template>
-    <template v-if="!isLoading && seller != null">
-      <v-row class="mt-5" no-gutters>
-        <v-col class="text-center font-weight-bold">
-          <v-card outlined tile color="blue lighten-4">{{ $t("landlord") }}</v-card>
-        </v-col>
-        <v-col class="text-center" cols="auto">
-          <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
-            <v-btn
-              v-if="!isPaperRequest && !isSellerSigned && isSeller"
-              class="signature-button"
-              @click="open(false)"
-              color="red"
-              dark
-            >
-              <v-icon>create</v-icon>
-              {{ $t("signature") }}
-            </v-btn>
-            <template v-else>
-              {{ $t("sign") }}
-            </template>
-            <a v-if="isSellerSigned" v-bind:href="seller.signature.image" target="_blank">
-              <img class="signature-img" :src="seller.signature.image" />
-            </a>
-          </v-card>
-          <v-card v-else>
-            <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-              <v-icon>done</v-icon>
-              {{ $t("approve") }}
-            </v-btn>
-            <template v-else>
-              <v-icon>donut_large</v-icon>
-              {{ $t("requesting") }}
-            </template>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
-      </v-row>
-    </template>
-    <template v-if="!isLoading && buyer != null" >
-      <v-row class="mt-5" no-gutters>
-        <v-col class="text-center font-weight-bold">
-          <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
-        </v-col>
-        <v-col class="text-center" cols="auto">
-          <v-card v-if="isBuyerAllowed" class="pa-0" outlined tile>
-            <v-btn
-              v-if="!isPaperRequest && !isBuyerSigned && isBuyer"
-              class="signature-button"
-              @click="open(false)"
-              color="red"
-              dark
-            >
-              <v-icon>create</v-icon>
-              {{ $t("signature") }}
-            </v-btn>
-            <template v-else>
-              {{ $t("sign") }}
-            </template>
-            <a v-if="isBuyerSigned" v-bind:href="buyer.signature.image" target="_blank">
-              <img class="signature-img" :src="buyer.signature.image" />
-            </a>
-          </v-card>
-          <v-card v-else>
-            <v-btn v-if="isBuyer" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-              <v-icon>done</v-icon>
-              {{ $t("approve") }}
-            </v-btn>
-            <div v-else>
-              <v-icon>donut_large</v-icon>
-              {{ $t("requesting") }}
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
-      </v-row>
-    </template>
     <div class="mt-5">4. {{ $t("special_agreement") }}</div>
-
     <quill-editor
       ref="myQuillEditor"
       v-model="paper.special_agreement"
@@ -288,8 +287,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <div class="page-divide"></div>
     <template v-if="!isLoading && expert != undefined">
+      <div class="page-divide mt-4">
+        <v-divider></v-divider>
+      </div>
       <v-spacer></v-spacer>
       <v-btn class="no-print mt-4" color="black" dark @click="isMobile=!isMobile">
         <span v-if="isMobile">{{$t("view_pc_version")}}</span>
@@ -297,6 +298,88 @@
       </v-btn>
       <VerifyingExplanationEditor v-show="isMobile" class="mt-4" :ve="paper.verifying_explanation" :validation_check="true">
         <template v-slot:footer>
+          <template v-if="!isLoading && seller != null">
+            <v-row no-gutters>
+              <v-col class="text-center font-weight-bold">
+                <v-card outlined tile color="blue lighten-4">{{
+                  $t("landlord")
+                }}</v-card>
+              </v-col>
+              <v-col class="text-center" cols="auto">
+                <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
+                  <v-btn
+                    v-if="!isPaperRequest && !isSellerExplanationSigned && isSeller"
+                    class="signature-button"
+                    @click="open(true)"
+                    color="blue"
+                    dark
+                  >
+                    <v-icon>create</v-icon>
+                    {{ $t("signature") }}
+                  </v-btn>
+                  <template v-else>
+                    {{ $t("sign") }}
+                  </template>
+                  <a v-if="isSellerExplanationSigned" v-bind:href="seller.explanation_signature.image" target="_blank">
+                    <img class="signature-img" :src="seller.explanation_signature.image" />
+                  </a>
+                </v-card>
+                <v-card v-else>
+                  <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="deep-purple" dark>
+                    <v-icon>done</v-icon>
+                    {{ $t("approve") }}
+                  </v-btn>
+                  <template v-else>
+                    <v-icon>donut_large</v-icon>
+                    {{ $t("requesting") }}
+                  </template>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
+            </v-row>
+          </template>
+          <template v-if="!isLoading && buyer != null">
+            <v-row no-gutters>
+              <v-col class="text-center font-weight-bold">
+                <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
+              </v-col>
+              <v-col class="text-center" cols="auto">
+                <v-card v-if="isBuyerAllowed"  class="pa-0" outlined tile>
+                  <v-btn
+                    v-if="!isPaperRequest && !isBuyerExplanationSigned && isBuyer"
+                    class="signature-button"
+                    @click="open(true)"
+                    color="blue"
+                    dark
+                  >
+                    <v-icon>create</v-icon>
+                    {{ $t("signature") }}
+                  </v-btn>
+                  <template v-else>
+                    {{ $t("sign") }}
+                  </template>
+                  <a v-if="isBuyerExplanationSigned" v-bind:href="buyer.explanation_signature.image" target="_blank">
+                    <img class="signature-img" :src="buyer.explanation_signature.image" />
+                  </a>
+                </v-card>
+                <v-card v-else>
+                  <v-btn  v-if="isBuyer" class="signature-button" @click="allowPaper" color="deep-purple" dark>
+                    <v-icon>done</v-icon>
+                    {{ $t("approve") }}
+                  </v-btn>
+                  <template v-else>
+                    <v-icon>donut_large</v-icon>
+                    {{ $t("requesting") }}
+                  </template>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
+            </v-row>
+          </template>
           <template v-if="expert != null && !isLoading">
             <v-row no-gutters>
               <v-col class="contractor-title text-center font-weight-bold">
@@ -346,234 +429,21 @@
             </v-row>
             <v-row no-gutters>
               <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
-            </v-row>
-          </template>
-          <template v-if="!isLoading && seller != null">
-            <v-row class="mt-5" no-gutters>
-              <v-col class="text-center font-weight-bold">
-                <v-card outlined tile color="blue lighten-4">{{
-                  $t("landlord")
-                }}</v-card>
-              </v-col>
-              <v-col class="text-center" cols="auto">
-                <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
-                  <v-btn
-                    v-if="!isPaperRequest && !isSellerExplanationSigned && isSeller"
-                    class="signature-button"
-                    @click="open(true)"
-                    color="blue"
-                    dark
-                  >
-                    <v-icon>create</v-icon>
-                    {{ $t("signature") }}
-                  </v-btn>
-                  <template v-else>
-                    {{ $t("sign") }}
-                  </template>
-                  <a v-if="isSellerExplanationSigned" v-bind:href="seller.explanation_signature.image" target="_blank">
-                    <img class="signature-img" :src="seller.explanation_signature.image" />
-                  </a>
-                </v-card>
-                <v-card v-else>
-                  <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-                    <v-icon>done</v-icon>
-                    {{ $t("approve") }}
-                  </v-btn>
-                  <template v-else>
-                    <v-icon>donut_large</v-icon>
-                    {{ $t("requesting") }}
-                  </template>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
-            </v-row>
-          </template>
-          <template v-if="!isLoading && buyer != null">
-            <v-row class="mt-5" no-gutters>
-              <v-col class="text-center font-weight-bold">
-                <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
-              </v-col>
-              <v-col class="text-center" cols="auto">
-                <v-card v-if="isBuyerAllowed"  class="pa-0" outlined tile>
-                  <v-btn
-                    v-if="!isPaperRequest && !isBuyerExplanationSigned && isBuyer"
-                    class="signature-button"
-                    @click="open(true)"
-                    color="blue"
-                    dark
-                  >
-                    <v-icon>create</v-icon>
-                    {{ $t("signature") }}
-                  </v-btn>
-                  <template v-else>
-                    {{ $t("sign") }}
-                  </template>
-                  <a v-if="isBuyerExplanationSigned" v-bind:href="buyer.explanation_signature.image" target="_blank">
-                    <img class="signature-img" :src="buyer.explanation_signature.image" />
-                  </a>
-                </v-card>
-                <v-card v-else>
-                  <v-btn  v-if="isBuyer" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-                    <v-icon>done</v-icon>
-                    {{ $t("approve") }}
-                  </v-btn>
-                  <template v-else>
-                    <v-icon>donut_large</v-icon>
-                    {{ $t("requesting") }}
-                  </template>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
             </v-row>
           </template>
         </template>
       </VerifyingExplanationEditor>
       <VerifyingExplanation v-if="isMobile==false" class="mt-4" :ve="paper.verifying_explanation" :updated_at="paper.updated_at">
-        <template v-slot:footer>
-          <template v-if="expert != null && !isLoading">
-            <v-row no-gutters>
-              <v-col class="contractor-title text-center font-weight-bold">
-                <v-card outlined tile color="blue lighten-4">
-                  {{ $t("realestate_agency") }}
-                    <a
-                      v-if="expert.profile.expert_profile.stamp"
-                      v-bind:href="expert.profile.expert_profile.stamp"
-                      target="_blank"
-                    >
-                      <img
-                        class="stamp-img"
-                        :src="expert.profile.expert_profile.stamp"
-                      />
-                    </a>
-                </v-card>
-              </v-col>
-              <v-col class="text-center" cols="auto">
-                <v-card v-if="isExpertAllowed" class="pa-0" outlined tile>
-                  <v-btn
-                    v-if="!isPaperRequest && !isExpertExplanationSigned && isExpert"
-                    class="signature-button"
-                    @click="open(true)"
-                    color="blue"
-                    dark>
-                  <v-icon>create</v-icon>
-                  {{ $t("signature") }}
-                </v-btn>
-                <template v-else>
-                  {{ $t("sign") }}
-                </template>
-                <a v-if="isExpertExplanationSigned" v-bind:href="expert.explanation_signature.image" target="_blank">
-                  <img class="signature-img" :src="expert.explanation_signature.image" />
-                </a>
-                </v-card>
-                <v-card v-else>
-                  <v-btn  v-if="isExpert" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-                    <v-icon>done</v-icon>
-                    {{ $t("approve") }}
-                  </v-btn>
-                  <template v-else>
-                    <v-icon>donut_large</v-icon>
-                    {{ $t("requesting") }}
-                  </template>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <ContractorItem :contractor="expert.profile" :fields="fields_names.expert_profile_fields"></ContractorItem>
-            </v-row>
-          </template>
-          <template v-if="!isLoading && seller != null">
-            <v-row class="mt-5" no-gutters>
-              <v-col class="text-center font-weight-bold">
-                <v-card outlined tile color="blue lighten-4">{{
-                  $t("landlord")
-                }}</v-card>
-              </v-col>
-              <v-col class="text-center" cols="auto">
-                <v-card v-if="isSellerAllowed" class="pa-0" outlined tile>
-                  <v-btn
-                    v-if="!isPaperRequest && !isSellerExplanationSigned && isSeller"
-                    class="signature-button"
-                    @click="open(true)"
-                    color="blue"
-                    dark
-                  >
-                    <v-icon>create</v-icon>
-                    {{ $t("signature") }}
-                  </v-btn>
-                  <template v-else>
-                    {{ $t("sign") }}
-                  </template>
-                  <a v-if="isSellerExplanationSigned" v-bind:href="seller.explanation_signature.image" target="_blank">
-                    <img class="signature-img" :src="seller.explanation_signature.image" />
-                  </a>
-                </v-card>
-                <v-card v-else>
-                  <v-btn  v-if="isSeller" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-                    <v-icon>done</v-icon>
-                    {{ $t("approve") }}
-                  </v-btn>
-                  <template v-else>
-                    <v-icon>donut_large</v-icon>
-                    {{ $t("requesting") }}
-                  </template>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <ContractorItem :contractor="seller.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
-            </v-row>
-          </template>
-          <template v-if="!isLoading && buyer != null">
-            <v-row class="mt-5" no-gutters>
-              <v-col class="text-center font-weight-bold">
-                <v-card outlined tile color="blue lighten-4">{{ $t("tenant") }}</v-card>
-              </v-col>
-              <v-col class="text-center" cols="auto">
-                <v-card v-if="isBuyerAllowed"  class="pa-0" outlined tile>
-                  <v-btn
-                    v-if="!isPaperRequest && !isBuyerExplanationSigned && isBuyer"
-                    class="signature-button"
-                    @click="open(true)"
-                    color="blue"
-                    dark
-                  >
-                    <v-icon>create</v-icon>
-                    {{ $t("signature") }}
-                  </v-btn>
-                  <template v-else>
-                    {{ $t("sign") }}
-                  </template>
-                  <a v-if="isBuyerExplanationSigned" v-bind:href="buyer.explanation_signature.image" target="_blank">
-                    <img class="signature-img" :src="buyer.explanation_signature.image" />
-                  </a>
-                </v-card>
-                <v-card v-else>
-                  <v-btn  v-if="isBuyer" class="signature-button" @click="allowPaper" color="deep-purple" dark>
-                    <v-icon>done</v-icon>
-                    {{ $t("approve") }}
-                  </v-btn>
-                  <template v-else>
-                    <v-icon>donut_large</v-icon>
-                    {{ $t("requesting") }}
-                  </template>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
-              <ContractorItem :contractor="buyer.profile" :fields="fields_names.basic_profile_fields"></ContractorItem>
-            </v-row>
-          </template>
-        </template>
       </VerifyingExplanation>
-      <div class="page-divide"></div>
-      <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
-      <v-row justify="center">
-        <img class="img" :src="expert.profile.expert_profile.garantee_insurance" aspect-ratio="1" />
-      </v-row>
+      <div class="page-divide">
+        <v-divider></v-divider>
+      </div>
+      <div class="a4">
+        <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
+        <v-row justify="center">
+          <img :src="expert.profile.expert_profile.garantee_insurance" aspect-ratio="1" />
+        </v-row>
+      </div>
     </template>
   </v-container>
 </template>

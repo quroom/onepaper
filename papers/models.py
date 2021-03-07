@@ -425,3 +425,4 @@ class VerifyingExplanation(models.Model):
     actual_expenses = models.PositiveIntegerField(blank=True)
     payment_period = models.CharField(max_length=200, blank=True)
     calculation_info = models.CharField(max_length=200, blank=True)
+    additional_info = models.TextField(blank=True)

@@ -98,6 +98,12 @@ a:hover {
 
 /* For print paper setting. */
 @media print {
+  @page { margin-top: 20px; margin-bottom: 20px;}
+  .a4 {
+    height: 29.7cm !important;
+    width: 21cm !important;
+    margin: auto;
+  }
   .page-divide {
     page-break-after: always;
   }
