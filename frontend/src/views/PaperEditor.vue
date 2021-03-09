@@ -279,7 +279,7 @@
               <ValidationProvider
                 ref="seller"
                 v-slot="{ errors }"
-                :name="$t('landlord')"
+                :name="$t('seller')"
               >
                 <v-autocomplete
                   v-model="seller"
@@ -290,7 +290,7 @@
                   item-value="id"
                   return-object
                   class="mt-2"
-                  :label="$t('landlord')"
+                  :label="$t('seller')"
                   :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
                   <template
@@ -305,9 +305,9 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="seller">
-                <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}} ({{seller.user.email}})</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("seller")}} {{$t("detail")}} {{$t("info")}} ({{seller.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                  <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -315,7 +315,7 @@
               <ValidationProvider
                 ref="buyer"
                 v-slot="{ errors }"
-                :name="$t('tenant')"
+                :name="$t('buyer')"
               >
                 <v-autocomplete
                   v-model="buyer"
@@ -326,7 +326,7 @@
                   item-value="id"
                   class="mt-2"
                   return-object
-                  :label="$t('tenant')"
+                  :label="$t('buyer')"
                   :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
                   <template v-slot:selection="{ item }"
@@ -339,9 +339,9 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="buyer">
-                <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}} ({{buyer.user.email}})</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("buyer")}} {{$t("detail")}} {{$t("info")}} ({{buyer.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                  <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -373,9 +373,9 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="expert">
-                <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}} ({{expert.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
+                  <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -408,21 +408,21 @@
         <template v-if="seller">
           <v-col class="contractor-title text-center font-weight-bold" cols="12">
             <v-card outlined tile color="blue lighten-4">
-              {{ $t("landlord") }}
+              {{ $t("seller") }}
             </v-card>
           </v-col>
           <v-col cols="12">
-            <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
+            <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
           </v-col>
         </template>
         <template v-if="buyer">
           <v-col class="contractor-title text-center font-weight-bold" cols="12">
             <v-card outlined tile color="blue lighten-4">
-              {{ $t("tenant") }}
+              {{ $t("buyer") }}
             </v-card>
           </v-col>
           <v-col cols="12">
-            <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+            <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
           </v-col>
         </template>
         <v-col class="contractor-title text-center font-weight-bold" cols="12">
@@ -431,7 +431,7 @@
           </v-card>
         </v-col>
         <v-col v-if="expert" cols="12">
-          <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
+          <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
         </v-col>
       </v-row>
       <template v-if="is_expert">
@@ -1113,11 +1113,11 @@ export default {
             for(const contractor_index in data.paper_contractors) {
               var contractor = data.paper_contractors[contractor_index]
               if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")){
-                (vm.expert = contractor.profile)
+                vm.expert = contractor.profile;
               }else if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")){
-                (vm.seller = contractor.profile)
+                vm.seller = contractor.profile;
               }else {
-                (vm.buyer = contractor.profile)
+                vm.buyer = contractor.profile
               }
             }
             vm.land_category = data.land_category;

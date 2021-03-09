@@ -838,7 +838,7 @@
           <div>소방</div>
         </td>
         <td class="label" width="67" colspan="2">
-          <div>단독경보형 감지기</div>
+          <div>단독경보형 <br/> 감지기</div>
         </td>
         <td width="127" colspan="4">
           <div>
@@ -964,7 +964,7 @@
               ⑪ 벽면 및<br/> 도배상태
             </div>
           </td>
-          <td class="label" width="89" colspan="1" rowspan="2">
+          <td class="label" width="89" colspan="2" rowspan="2">
             <div>벽면</div>
           </td>
           <td class="label" width="56" colspan="2">
@@ -987,7 +987,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label" width="89" colspan="1">
+          <td class="label" width="89" colspan="2">
             <div>도배</div>
           </td>
           <td class="border-tbl" width="478" colspan="8">
@@ -1006,7 +1006,7 @@
           <td class="label border-trb" width="71" colspan="2" rowspan="2">
             <div>⑫ 환경 <br/>조건</div>
           </td>
-          <td class="label" width="89" colspan="1">
+          <td class="label" width="89" colspan="2">
             <div>일조량</div>
           </td>
           <td class="border-tbl" width="478" colspan="8">
@@ -1016,7 +1016,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label" width="69" colspan="1">
+          <td class="label" width="69" colspan="2">
             <div>소음</div>
           </td>
           <td width="239" colspan="6">
@@ -1040,7 +1040,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label border-tb" width="800" colspan="12" valign="bottom">
+          <td class="border-tb" width="800" colspan="12" valign="bottom">
             <div><b>Ⅲ</b><b>. </b><b>중개보수 등에 관한 사항</b></div>
           </td>
         </tr>
@@ -1130,28 +1130,29 @@
             <div>주소</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(seller, "profile.address.old_address") } ${ $get(seller, "profile.address.dong") } ${ $get(seller, "profile.address.ho") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>성명</div>
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
-            <div>(서명 또는 날인)</div>
+            <div>
+              <span style="float:left">{{ `${ $get(seller, "profile.user.name") }` }}</span> (서명 또는 날인)
+            </div>
           </td>
-          <slot name="seller-signature"></slot>
         </tr>
         <tr class="contractor">
           <td class="label" width="82" colspan="2">
             <div>생년월일</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(seller, "profile.user.birthday") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>전화번호</div>
           </td>
           <td class="border-tb" width="211" valign="bottom">
-            <div></div>
+            <div>{{ `${ $get(seller, "profile.mobile_number") }` }}</div>
           </td>
         </tr>
         <tr class="contractor">
@@ -1162,13 +1163,15 @@
             <div>주소</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(buyer, "profile.address.old_address") } ${ $get(buyer, "profile.address.dong") } ${ $get(buyer, "profile.address.ho") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>성명</div>
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
-            <div>(서명 또는 날인)</div>
+            <div>
+              <span style="float:left">{{ `${ $get(buyer, "profile.user.name") }` }}</span> (서명 또는 날인)
+            </div>
           </td>
           <slot name="buyer-signature"></slot>
         </tr>
@@ -1177,13 +1180,13 @@
             <div>생년월일</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(buyer, "profile.user.birthday") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>전화번호</div>
           </td>
           <td class="border-tb" width="211" valign="bottom">
-            <div></div>
+            <div>{{ `${ $get(buyer, "profile.mobile_number") }` }}</div>
           </td>
         </tr>
         <tr class="contractor">
@@ -1194,13 +1197,15 @@
             <div>등록번호</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(expert, "profile.expert_profile.registration_number") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>성명(대표자)</div>
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
-            <div>(서명 및 날인)</div>
+            <div>
+              <span style="float:left">{{ `${ $get(expert, "profile.user.name") }` }}</span> (서명 및 날인)
+            </div>
           </td>
           <slot name="expert-signature"></slot>
         </tr>
@@ -1209,7 +1214,7 @@
             <div>사무소 명칭</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(expert, "profile.expert_profile.shop_name") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>소속<br/>공인중개사</div>
@@ -1223,13 +1228,13 @@
             <div>사무소 소재지</div>
           </td>
           <td width="215" colspan="4">
-            <div></div>
+            <div>{{ `${ $get(expert, "profile.address.old_address") } ${ $get(expert, "profile.address.dong") } ${ $get(expert, "profile.address.ho") }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>전화번호</div>
           </td>
           <td class="border-tb" width="211" valign="bottom">
-            <div></div>
+            <div>{{ `${ $get(expert, "profile.mobile_number") }` }}</div>
           </td>
         </tr>
         <tr class="contractor">
@@ -1277,24 +1282,19 @@
             <div></div>
           </td>
         </tr>
-        <tr>
-          <td width="638" colspan="12" valign="bottom">
-            <div></div>
-          </td>
-        </tr>
         <tr height="0">
-          <td width="63"></td>
-          <td width="8"></td>
-          <td width="74"></td>
-          <td width="15"></td>
-          <td width="4"></td>
-          <td width="52"></td>
-          <td width="144"></td>
-          <td width="19"></td>
-          <td width="4"></td>
-          <td width="41"></td>
-          <td width="4"></td>
-          <td width="210"></td>
+          <td style="border:0" width="70"></td>
+          <td style="border:0" width="8"></td>
+          <td style="border:0" width="80"></td>
+          <td style="border:0" width="15"></td>
+          <td style="border:0" width="26"></td>
+          <td style="border:0" width="54"></td>
+          <td style="border:0" width="144"></td>
+          <td style="border:0" width="19"></td>
+          <td style="border:0" width="4"></td>
+          <td style="border:0" width="41"></td>
+          <td style="border:0" width="4"></td>
+          <td style="border:0" width="203"></td>
         </tr>
       </table>
       <div style="width:800px; margin:auto;">
@@ -1302,7 +1302,6 @@
       </div>
     </div>
     <div class="page-divide">
-      <v-divider></v-divider>
     </div>
     <template v-if="ve.additional_info">
       <div class="text-center font-weight-bold" style="font-size:16px;">확인설명서 별지</div>
@@ -1319,37 +1318,44 @@
 export default {
   name: "VerifyingExplanation",
   props: {
-    ve: {
+    paper: {
       type: Object,
       required: true
-    },
-    updated_at: {
-      type: String,
-      reuiqred: true
+    }
+  },
+  data() {
+    return {
+      ve: null
     }
   },
   computed: {
     is_right_to_lease_contract_renewal_true() {
-      if (this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == true) {
-        return '√'
-      }
-      return ''
+      return this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == true ? '√' : '';
     },
     is_right_to_lease_contract_renewal_false() {
-      if (this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == false) {
-        return '√'
-      }
-      return ''
+      return this.ve.rental_housing_registration!=0 && this.ve.right_to_lease_contract_renewal == false ? '√' : '';
     },
     year() {
-      return this.updated_at.split("-")[0]
+      return this.paper.updated_at.split("-")[0];
     },
     month() {
-      return this.updated_at.split("-")[1]
+      return this.paper.updated_at.split("-")[1];
     },
     day() {
-      return this.updated_at.split("-")[2].split(" ")[0]
+      return this.paper.updated_at.split("-")[2].split(" ")[0];
+    },
+    expert: function() {
+      return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert"));
+    },
+    seller: function() {
+      return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "seller"));
+    },
+    buyer: function() {
+      return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer"));
     }
+  },
+  created() {
+    this.ve = this.paper.verifying_explanation;
   }
 }
 </script>
