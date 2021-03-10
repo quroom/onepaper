@@ -651,10 +651,7 @@ export default {
   data() {
     return {
       lease_initiation_date_dialog: false,
-      valid: true,
-      rules: {
-       required: [value => !!value || "Required."]
-      }
+      valid: true
     }
   }
 }

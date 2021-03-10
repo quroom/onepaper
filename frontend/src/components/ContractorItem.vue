@@ -4,14 +4,14 @@
       <v-col v-if="contractor.group==$getConstByName('CONTRACTOR_CATEGORY', 'expert')" class=" text-center font-weight-bold">
         <v-card outlined tile color="grey lighten-2">
           {{ $t("realestate_agency") }}
-            <img class="stamp-img" :src="contractor.profile.expert_profile.stamp"/>
+            <img v-if="isSigned" class="stamp-img" :src="contractor.profile.expert_profile.stamp"/>
         </v-card>
       </v-col>
       <v-col v-else class="text-center font-weight-bold">
         <v-card outlined tile color="grey lighten-2">{{ $getConstI18('CONTRACTOR_CATEGORY', contractor.group) }}</v-card>
       </v-col>
       <v-col class="text-center" cols="auto">
-        <v-card v-if="isAllowed" class="pa-0" outlined tile>
+        <v-card v-if="isAllowed" class="pa-0" outlined tile min-width="80">
           <template v-if="!isVerifyingExplanation">
             <v-btn
               v-if="!isPaperRequest && !isSigned && isContractor"
@@ -26,9 +26,7 @@
             <template v-else>
               {{ $t("sign") }}
             </template>
-            <a v-if="isSigned" v-bind:href="contractor.signature.image" target="_blank">
-              <img class="signature-img" :src="contractor.signature.image" />
-            </a>
+            <img v-if="isSigned" class="signature-img" :src="contractor.signature.image" />
           </template>
           <template v-else>
             <v-btn
@@ -44,9 +42,7 @@
             <template v-else>
               {{ $t("sign") }}
             </template>
-            <a v-if="isVerifyingExplanationSigned" v-bind:href="contractor.explanation_signature.image" target="_blank">
-              <img class="signature-img" :src="contractor.explanation_signature.image" />
-            </a>
+            <img v-if="isVerifyingExplanationSigned" class="signature-img" :src="contractor.explanation_signature.image" />
           </template>
         </v-card>
         <v-card v-else>
@@ -183,19 +179,17 @@ export default {
   width: 100% !important;
 }
 .signature-img {
-  height: 30px;
+  width: 80px;
   z-index: 1;
   position: absolute;
-  top: -3px;
-  left: -5px;
-  cursor: pointer;
-}
-.stamp-img {
-  height: 60px;
-  z-index: 1;
-  position: absolute;
+  top: -8px;
   right: 0px;
-  top: -15px;
-  cursor: pointer;
+} 
+.stamp-img {
+  height: 50px;
+  z-index: 1;
+  position: absolute;
+  top: -8px;
+  right: 0px;
 }
 </style>

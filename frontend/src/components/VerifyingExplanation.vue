@@ -1,5 +1,5 @@
 <template>
-  <div class="ve mt-2 pa-0" v-once>
+  <div class="ve mt-2 pa-0">
     <table
       border="1"
       style="border-collapse:collapse;"
@@ -1137,6 +1137,7 @@
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
             <div>
+              <img v-if="isSellerSigned" class="signature-img" :src="$get(seller, 'explanation_signature.image')"/>
               <span style="float:left">{{ `${ $get(seller, "profile.user.name") }` }}</span> (서명 또는 날인)
             </div>
           </td>
@@ -1170,10 +1171,10 @@
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
             <div>
+              <img v-if="isBuyerSigned" class="signature-img" :src="$get(buyer, 'explanation_signature.image')"/>
               <span style="float:left">{{ `${ $get(buyer, "profile.user.name") }` }}</span> (서명 또는 날인)
             </div>
           </td>
-          <slot name="buyer-signature"></slot>
         </tr>
         <tr class="contractor">
           <td class="label" width="82" colspan="2">
@@ -1204,10 +1205,11 @@
           </td>
           <td class="text-right border-tb" width="211" valign="bottom">
             <div>
+              <img v-if="isExpertSigned" class="signature-img" :src="$get(expert, 'explanation_signature.image')"/>
+              <img v-if="isExpertSigned" class="stamp-img" :src="$get(expert, 'profile.expert_profile.stamp')"/>
               <span style="float:left">{{ `${ $get(expert, "profile.user.name") }` }}</span> (서명 및 날인)
             </div>
           </td>
-          <slot name="expert-signature"></slot>
         </tr>
         <tr class="contractor">
           <td class="label" width="82" colspan="2">
@@ -1297,9 +1299,9 @@
           <td style="border:0" width="203"></td>
         </tr>
       </table>
-      <div style="width:800px; margin:auto;">
-        <slot name="footer"></slot>
-      </div>
+    </div>
+    <div style="width:790px; margin:auto; overflow:auto;">
+      <slot name="footer"></slot>
     </div>
     <div class="page-divide">
     </div>
@@ -1344,15 +1346,25 @@ export default {
     day() {
       return this.paper.updated_at.split("-")[2].split(" ")[0];
     },
-    expert: function() {
-      return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert"));
-    },
     seller: function() {
       return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "seller"));
     },
     buyer: function() {
       return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer"));
+    },
+    expert: function() {
+      return this.paper.paper_contractors.find(item => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert"));
+    },
+    isSellerSigned: function() {
+      return this.seller ? this.seller.explanation_signature && this.paper.updated_at <= this.seller.explanation_signature.updated_at : undefined;
+    },
+    isBuyerSigned: function() {
+      return this.buyer ? this.buyer.explanation_signature && this.paper.updated_at <= this.buyer.explanation_signature.updated_at : undefined;
+    },
+    isExpertSigned: function() {
+      return this.expert ? this.expert.explanation_signature && this.paper.updated_at <= this.expert.explanation_signature.updated_at : undefined;
     }
+
   },
   created() {
     this.ve = this.paper.verifying_explanation;
@@ -1367,6 +1379,9 @@ export default {
   .contractor td {
     height: 60px;
     vertical-align: middle;
+  }
+  .contractor td div {
+    position: relative;
   }
   .label {
     text-align: center;
@@ -1397,5 +1412,19 @@ export default {
   }
   .border-tbl {
     border-width: 1px 0px 1px 1px;
+  }
+  .signature-img {
+    height: 40px;
+    z-index: 1;
+    right: 0px;
+    top: -7px;
+    position: absolute;
+  }
+  .stamp-img {
+    height: 60px;
+    z-index: 1;
+    right: 80px;
+    top: -17px;
+    position: absolute;
   }
 </style>

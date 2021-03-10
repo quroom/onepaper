@@ -183,12 +183,8 @@
             </div>
           </div>
         </ValidationProvider>
-        <div class="mt-3" align="end">
-          <template v-if="designator_signature_url">
-            <a v-bind:href="designator_signature_url" target="_blank">
-              <img class="signature-img" :src="designator_signature_url" />
-            </a>
-          </template>
+        <div class="mt-3" align="end" style="position:relative;">
+          <img v-if="designator_signature_url" class="signature-img" :src="designator_signature_url" />
           ({{ $t("designator") }} {{ $t("signature") }})
         </div>
       </ValidationObserver>
@@ -422,9 +418,9 @@ export default {
 <style scoped>
 .signature-img {
   height: 40px;
-  left: 95px;
   z-index: 1;
-  position: relative;
-  cursor: pointer;
+  position: absolute;
+  top: -7px;
+  right: 7px;
 }
 </style>

@@ -19,7 +19,7 @@
       </v-col>
     </v-row>
     <ActionItems v-if="isPaperAuthor && !isPaperDone && (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
-    <div v-if="isPaperAuthor" class="text-right text-caption white--text">
+    <div v-if="isPaperAuthor" class="text-right text-caption white--text no-print">
       <span v-if="deadlineToModify > '0001-1-1'" class="red">
         {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
       </span>
@@ -197,6 +197,22 @@
         </template>
       </VerifyingExplanationEditor>
       <VerifyingExplanation v-if="isMobile==false" class="mt-4" :paper="paper">
+        <template v-slot:footer>
+          <v-btn
+              class="no-print"
+              v-if="!isPaperRequest && !isVerifyingExplanationSigned"
+              @click="open(true)"
+              color="red"
+              dark
+              style="float:right;"
+            >
+              <v-icon>create</v-icon>
+              {{ `${ $t("verifying_explanation")} ${$t("signature")}` }}
+            </v-btn>
+            <template v-else>
+              {{ $t("sign") }}
+            </template>
+        </template>
       </VerifyingExplanation>
       <div class="page-divide">
         <v-divider></v-divider>
@@ -240,6 +256,12 @@ export default {
     isPaperDone: function() {
       return this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'DONE')
     },
+    isPaperRequest: function() {
+      return this.paper ? this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'REQUESTING') : undefined;
+    },
+    isVerifyingExplanationSigned: function() {
+      return this.currentContractor ? this.currentContractor.explanation_signature && this.paper.updated_at <= this.currentContractor.explanation_signature.updated_at : undefined;
+    },
     deadlineToModify: function() {
       let firstTime = this.paper.updated_at;
       let deadline = undefined;
@@ -267,14 +289,7 @@ export default {
       }
     },
     currentContractor: function() {
-      if(this.paper.paper_contractors != undefined){
-        for (let i = 0; i < this.paper.paper_contractors.length; i++) {
-          if(this.paper.paper_contractors[i].profile.user.email == this.requestUser ) {
-            return this.paper.paper_contractors[i]
-          }
-        }
-      }
-      return null;
+      return this.paper.paper_contractors.find(item=>item.profile.user.email == this.requestUser)
     },
     expert: function() {
       if(this.paper.paper_contractors != undefined){
