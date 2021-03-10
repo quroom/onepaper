@@ -21,7 +21,7 @@ class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=request.user).filter(is_active=True).select_related('user')
+            allowed_user__allowed_users=request.user).filter(is_active=True).filter(expert_profile=None).select_related('user', 'address', 'expert_profile')
         serializer = ProfileReadonlySerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -45,17 +45,12 @@ class AllowedUserDetail(APIView, PageNumberPagination):
         allowedUser = self.get_object(pk)
 
         if request.data['allowed_users']['email'] == request.user.email:
-            return Response({"detail": ValidationError(_("자기 자신의 아이디는 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
-        user_queryset = CustomUser.objects.filter(
-            email=request.data['allowed_users']['email'])
-        if user_queryset.count() == 0:
-            return Response({"detail": ValidationError(_("회원 아이디가 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("자기 자신의 이메일은 추가할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            user = user_queryset.get(
-                name=request.data['allowed_users']['name'])
+            user = CustomUser.objects.get(
+                email=request.data['allowed_users']['email'])
         except CustomUser.DoesNotExist:
-            return Response({"detail": ValidationError(_("이름이 일치하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"detail": ValidationError(_("존재하지 않는 이메일 입니다."))}, status=status.HTTP_400_BAD_REQUEST)
         if user in allowedUser.allowed_users.all():
             return Response({"detail": ValidationError(_("이미 추가된 회원입니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -71,7 +66,7 @@ class AllowedUserDetail(APIView, PageNumberPagination):
         allowedUser = self.get_object(pk)
 
         if request.user.email in request.data['allowed_users']:
-            return Response({"detail": ValidationError(_("자신의 아이디는 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("자신의 이메일은 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         user_list = allowedUser.allowed_users.filter(email__in=request.data['allowed_users'])
 

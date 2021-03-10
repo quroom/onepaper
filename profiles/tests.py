@@ -88,60 +88,55 @@ class AllowedUserTestCase(APITestCase):
 
     def test_allowed_profile_list(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com"}}, format="json")
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
+            allowed_user__allowed_users=self.user1).filter(is_active=True)
         self.assertEqual(profiles.count(), 1)
         self.token = Token.objects.create(user=self.user1)
         self.api_authentication()
         self.create_profile()
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
+            allowed_user__allowed_users=self.user1).filter(is_active=True)
         self.assertEqual(profiles.count(), 2)
 
     def test_allowed_user_create(self):
         # print(reverse("allowed-user-detail", args=(1,)))
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("자기 자신의 아이디는 추가할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("자기 자신의 이메일은 추가할 수 없습니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test3@naver.com", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test3@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("회원 아이디가 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("존재하지 않는 이메일 입니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영"}}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("이름이 일치하지 않습니다."))
-
-        response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("이미 추가된 회원입니다."))
 
     def test_allowed_profile_delete(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         profile = Profile.objects.get(id=1)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 2)
 
         response = self.client.delete(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": ["test@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("자신의 아이디는 삭제할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("자신의 이메일은 삭제할 수 없습니다."))
 
         response = self.client.delete(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": ["test3@naver.com"]}, format="json")
@@ -262,7 +257,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개")
         self.assertEqual(
-            response.data["expert_profile"]["status"], 0)
+            response.data["expert_profile"]["status"], ExpertProfile.REQUEST)
         #FIXME: Need to add image test code
 
     def test_expert_profile_update(self):
@@ -329,30 +324,30 @@ class ExpertProfileTestCase(APITestCase):
 
     def test_approve_expert_post_delete(self):
         expert_profile = self.create_user_profile(is_expert=True)
-        self.assertEqual(expert_profile.status, 0)
+        self.assertEqual(expert_profile.status, ExpertProfile.REQUEST)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[1]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 1)
-        self.assertEqual(response.data['results'][1]['status'], 0)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.REQUEST)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1]}, format="json")
-        self.assertEqual(response.data['results'][0]['status'], 2)
-        self.assertEqual(response.data['results'][1]['status'], 0)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.REQUEST)
         response = self.client.put("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 1)
-        self.assertEqual(response.data['results'][1]['status'], 1)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.APPROVED)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 2)
-        self.assertEqual(response.data['results'][1]['status'], 2)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.DENIED)
 
     def test_approve_expert_with_no_profiles(self):
         expert_profile = self.create_user_profile(is_expert=True)
-        self.assertEqual(expert_profile.status, 0)
+        self.assertEqual(expert_profile.status, ExpertProfile.REQUEST)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)

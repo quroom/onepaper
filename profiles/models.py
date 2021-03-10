@@ -49,7 +49,6 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -63,17 +62,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    is_expert = models.BooleanField(default=False)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    email = models.EmailField(_('email address'), unique=True)
+    name = models.CharField(max_length=150)
+    birthday = models.DateField(null=True, blank=False)
+    bio = models.CharField(max_length=240, blank=True)
+    used_count = models.PositiveSmallIntegerField(blank=True, default=0)
     ip_address = models.GenericIPAddressField(null=True)
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
-    used_count = models.PositiveSmallIntegerField(blank=True, default=0)
-    name = models.CharField(max_length=150)
-    birthday = models.DateField(null=True, blank=False)
-    is_expert = models.BooleanField(default=False)
-    bio = models.CharField(max_length=240, blank=True)
 
     objects = CustomUserManager()
 
@@ -162,10 +162,10 @@ class ExpertProfile(models.Model):
     DENIED = 3
 
     STATUS_CATEGORY = (
+        (CLOSED, _('폐업')),
         (REQUEST, _('요청')),
         (APPROVED, _('승인')),
-        (DENIED, _('거부')),
-        (CLOSED, _('폐업'))
+        (DENIED, _('거부'))
     )
 
     profile = models.OneToOneField(Profile,

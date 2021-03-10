@@ -11,7 +11,6 @@
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
           <LazyTextField :label="$t('email')" v-model="email" readonly></LazyTextField>
-          <LazyTextField :label="$t('name')" v-model="name" readonly></LazyTextField>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -64,7 +63,7 @@
                 <span class="pa-1"> {{ $getConstI18('bank_category', profile.bank_name) }} </span>
                 <span class="pa-1"> {{ profile.account_number }} </span>
               </v-card-subtitle>
-              <v-card-actions v-if="email != undefined && name != undefined">
+              <v-card-actions v-if="email != undefined">
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click.prevent="addUser(profile)">
                   <v-icon>person_add</v-icon>
@@ -113,11 +112,7 @@ export default {
     email: {
       type: [String],
       required: false
-    },
-    name: {
-      type: [String],
-      required: false
-    },
+    }
   },
   computed: {
     profile_length: function(){
@@ -147,7 +142,6 @@ export default {
       let endpoint = ``;
       let data = {
         "allowed_users" : {
-          "name": this.name,
           "email": this.email
         }
       }
@@ -180,7 +174,7 @@ export default {
           applyValidation(data)
         }
         this.isLoading = false;
-        if(this.email != undefined && this.name != undefined){
+        if(this.email != undefined){
           this.dialog = true;
         }
       });

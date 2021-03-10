@@ -182,9 +182,8 @@ export default {
     });
   },
   created() {
-    const name = window.localStorage.getItem("name")
     this.email = window.localStorage.getItem("email")
-    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.email + "/" + name;
+    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.email;
     this.user_category = window.localStorage.getItem("user_category")
   },
   methods: {
