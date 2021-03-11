@@ -149,31 +149,6 @@
       :options="options"
       :disabled="true"
     />
-    <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
-      <v-card>
-        <VueSignaturePad
-          class="signature-pad"
-          ref="signaturePad"
-          :customStyle="{ border: 'black 2px solid' }"
-          :options="{...signature_pad_options}"
-        />
-        <v-card-title class="justify-center">
-          {{ $t("please_sign") }}
-        </v-card-title>
-        <v-card-actions>
-          <v-btn color="blue darken-1" text @click="dialog = false">{{
-            $t("close")
-          }}</v-btn>
-          <v-btn color="blue darken-1" text @click="clear()">{{
-            `${$t("signature")} ${$t("clear")}`
-          }}</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="save()">{{
-            `${$t("signature")} ${$t("save")}`
-          }}</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <template v-if="expert != undefined">
       <div class="page-divide mt-4">
         <v-divider></v-divider>
@@ -224,6 +199,31 @@
         </v-row>
       </div>
     </template>
+    <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
+      <v-card>
+        <VueSignaturePad
+          class="signature-pad"
+          ref="signaturePad"
+          :customStyle="{ border: 'black 2px solid' }"
+          :options="{...signature_pad_options}"
+        />
+        <v-card-title class="justify-center">
+          {{ $t("please_sign") }}
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="blue darken-1" text @click="dialog = false">{{
+            $t("close")
+          }}</v-btn>
+          <v-btn color="blue darken-1" text @click="clear()">{{
+            `${$t("signature")} ${$t("clear")}`
+          }}</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="save()">{{
+            `${$t("signature")} ${$t("save")}`
+          }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 

@@ -12,38 +12,20 @@
       </v-col>
       <v-col class="text-center" cols="auto">
         <v-card v-if="isAllowed" class="pa-0" outlined tile min-width="80">
-          <template v-if="!isVerifyingExplanation">
-            <v-btn
-              v-if="!isPaperRequest && !isSigned && isContractor"
-              class="signature-button"
-              @click="openSignaturePad(isVerifyingExplanation)"
-              color="red"
-              dark
-            >
-              <v-icon>create</v-icon>
-              {{ $t("signature") }}
-            </v-btn>
-            <template v-else>
-              {{ $t("sign") }}
-            </template>
-            <img v-if="isSigned" class="signature-img" :src="contractor.signature.image" />
-          </template>
+          <v-btn
+            v-if="!isPaperRequest && !isSigned && isContractor"
+            class="signature-button"
+            @click="openSignaturePad(isVerifyingExplanation)"
+            color="red"
+            dark
+          >
+            <v-icon>create</v-icon>
+            {{ $t("signature") }}
+          </v-btn>
           <template v-else>
-            <v-btn
-              v-if="!isPaperRequest && !isVerifyingExplanationSigned && isContractor"
-              class="signature-button"
-              @click="openSignaturePad(isVerifyingExplanation)"
-              color="red"
-              dark
-            >
-              <v-icon>create</v-icon>
-              {{ $t("signature") }}
-            </v-btn>
-            <template v-else>
-              {{ $t("sign") }}
-            </template>
-            <img v-if="isVerifyingExplanationSigned" class="signature-img" :src="contractor.explanation_signature.image" />
+            {{ $t("sign") }}
           </template>
+          <img v-if="isSigned" class="signature-img" :src="signature_src" />
         </v-card>
         <v-card v-else>
           <v-btn  v-if="isContractor" class="signature-button" @click="allowPaper" color="deep-purple" dark>
@@ -125,19 +107,20 @@ export default {
   },
   computed: {
     isAllowed: function() {
-      return this.contractor ? this.contractor.is_allowed : undefined;
+      return this.$get(this.contractor, "is_allowed", false)
     },
     isSigned: function() {
-      return this.contractor ? this.contractor.signature && this.paper.updated_at <= this.contractor.signature.updated_at : undefined;
+      if(this.isVerifyingExplanation) {
+        return this.contractor ? this.contractor.explanation_signature && this.paper.updated_at <= this.contractor.explanation_signature.updated_at : false;
+      } else {
+        return this.contractor ? this.contractor.signature && this.paper.updated_at <= this.contractor.signature.updated_at : false;
+      }
     },
     isPaperRequest: function() {
-      return this.paper ? this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'REQUESTING') : undefined;
+      return this.paper ? this.paper.status == this.$getConstByName('STATUS_CATEGORY', 'REQUESTING') : false;
     },
     isContractor: function() {
-      return this.contractor ? this.requestUser === this.contractor.profile.user.email : undefined;
-    },
-    isVerifyingExplanationSigned: function() {
-      return this.contractor ? this.contractor.explanation_signature && this.paper.updated_at <= this.contractor.explanation_signature.updated_at : undefined;
+      return this.contractor ? this.requestUser === this.contractor.profile.user.email : false;
     },
     computed_profile: function() {
       return this.profile ? this.profile : this.contractor.profile;
@@ -158,6 +141,13 @@ export default {
         }
       }
       return fullAddress
+    },
+    signature_src: function(){
+      if(this.isSigned) {
+        return this.isVerifyingExplanation ? this.$get(this.contractor, "explanation_signature.image", null) : this.$get(this.contractor, "signature.image", null);
+      } else {
+        return null;
+      }
     }
   },
   methods: {
