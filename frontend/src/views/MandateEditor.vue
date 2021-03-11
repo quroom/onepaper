@@ -256,7 +256,8 @@ export default {
       label_cols: {cols: "3", md:"2", lg: "2"},
       basic_profile_fields: [
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"10"},
         { name: "name"
           , key: "user.name"

@@ -689,7 +689,8 @@ export default {
         ],
         basic_profile_fields: [
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"11" },
         { name: "name"
           , key: "user.name"
@@ -713,7 +714,8 @@ export default {
           , key: "expert_profile.shop_name"
           , cols:"9", md:"10", lg:"6"},
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"11" },
         { name: "name"
           , key: "user.name"

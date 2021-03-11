@@ -16,7 +16,7 @@
             <v-btn
               v-if="!isPaperRequest && !isSigned && isContractor"
               class="signature-button"
-              @click="openSignaturePad()"
+              @click="openSignaturePad(isVerifyingExplanation)"
               color="red"
               dark
             >
@@ -32,7 +32,7 @@
             <v-btn
               v-if="!isPaperRequest && !isVerifyingExplanationSigned && isContractor"
               class="signature-button"
-              @click="openSignaturePad()"
+              @click="openSignaturePad(isVerifyingExplanation)"
               color="red"
               dark
             >
@@ -59,36 +59,11 @@
     </v-row>
     <v-row no-gutters>
       <template v-for="(field, index) in fields">
-        <template v-if="field.key && $get(computed_profile, field.key)">
-          <v-col class="text-center font-weight-bold" :cols="label_cols ? label_cols.cols : '3' " :md="label_cols ? label_cols.md : '2'" :lg="label_cols ? label_cols.lg : '1'" :key="`name`+index">
-            <v-card outlined tile>{{ $t(field.name) }}</v-card>
-          </v-col>
-          <v-col
-            class="text-center"
-            :cols="field.cols"
-            :xs="field.xs"
-            :md="field.md"
-            :lg="field.lg"
-            :key="`value-` + index"
-          >
-            <v-card outlined tile>{{ $get(computed_profile, field.key) }}</v-card>
-          </v-col>
-        </template>
-        <template v-else-if="computed_profile[field.name]">
-          <v-col class="text-center font-weight-bold" :cols="label_cols ? label_cols.cols : '3' " :md="label_cols ? label_cols.md : '2'" :lg="label_cols ? label_cols.lg : '1'" :key="`name`+index">
+        <v-col class="text-center font-weight-bold" :cols="label_cols ? label_cols.cols : '3' " :md="label_cols ? label_cols.md : '2'" :lg="label_cols ? label_cols.lg : '1'" :key="`name`+index">
           <v-card outlined tile>{{ $t(field.name) }}</v-card>
-          </v-col>
-          <v-col v-if="field.const_name"
-            class="text-center"
-            :cols="field.cols"
-            :xs="field.xs"
-            :md="field.md"
-            :lg="field.lg"
-            :key="`value-` + index">
-            <v-card outlined tile>{{ $getConstI18(field.const_name, computed_profile[field.name]) }}</v-card>
-          </v-col>
+        </v-col>
+        <template>
           <v-col
-            v-else
             class="text-center"
             :cols="field.cols"
             :xs="field.xs"
@@ -96,7 +71,17 @@
             :lg="field.lg"
             :key="`value-` + index"
           >
-            <v-card outlined tile>{{ computed_profile[field.name] }}</v-card>
+            <v-card outlined tile>
+              {{
+                field.is_computed ? getComputed(field.key) :
+                (field.key && $get(computed_profile, field.key)) ? $get(computed_profile, field.key) :
+                computed_profile[field.name] ? (
+                  field.const_name ? $getConstI18(field.const_name, computed_profile[field.name]) :
+                  computed_profile[field.name]
+                  )
+                : ''
+              }}
+            </v-card>
           </v-col>
         </template>
       </template>
@@ -156,14 +141,34 @@ export default {
     },
     computed_profile: function() {
       return this.profile ? this.profile : this.contractor.profile;
+    },
+    full_address: function() {
+      const address = this.computed_profile.address;
+      var fullAddress = address.old_address;
+      var dongExist = false;
+      if(address.dong){
+        fullAddress += `, ${address.dong}${this.$i18n.t('dong')}`;
+        dongExist = true;
+      }
+      if(address.ho) {
+        if(dongExist) {
+          fullAddress += ` ${address.ho}${this.$i18n.t('ho')}`
+        } else {
+          fullAddress += `, ${address.ho}${this.$i18n.t('ho')}`;
+        }
+      }
+      return fullAddress
     }
   },
   methods: {
+    getComputed(key){
+      return this[key]
+    },
     allowPaper() {
       this.$emit("allowPaper")
     },
-    openSignaturePad() {
-      this.$emit("openSignaturePad", this.isVerifyingExplanation)
+    openSignaturePad(isVE) {
+      this.$emit("openSignaturePad", isVE)
     }
   },
   created() {
