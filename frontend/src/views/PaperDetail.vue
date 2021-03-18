@@ -42,13 +42,13 @@
       <v-col class="text-center font-weight-bold" cols="2" sm="1">
         <v-card outlined tile>{{ $t("address") }}</v-card>
       </v-col>
-      <v-col cols="10" sm="6">
+      <v-col cols="10" sm="7">
         <v-card outlined tile>{{ paper.address.old_address }}</v-card>
       </v-col>
-      <v-col class="text-center font-weight-bold" cols="3" sm="3">
+      <v-col class="text-center font-weight-bold" cols="2" sm="1">
         <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
       </v-col>
-      <v-col cols="9" sm="2">
+      <v-col cols="10" sm="3">
         <v-card outlined tile height="100%">
           <span v-if="!!paper.address.dong" >
             {{ paper.address.dong }} {{ $t("dong") }}
@@ -195,7 +195,7 @@
       <div class="a4">
         <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
         <v-row justify="center">
-          <img :src="expert.profile.expert_profile.garantee_insurance" aspect-ratio="1" />
+          <img :src="paper.insurance.image" aspect-ratio="1" />
         </v-row>
       </div>
     </template>

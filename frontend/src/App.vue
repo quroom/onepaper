@@ -53,6 +53,7 @@ export default {
   methods: {
     async setUserInfo() {
       const data = await apiService("/api/user/");
+      console.log(data)
       if(data.id == undefined){
         applyValidation(data, this)
       }

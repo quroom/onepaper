@@ -136,6 +136,7 @@ export default {
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       await apiService(endpoint, "DELETE", data).then(data => {
+        console.log("delete")
         if(data == undefined) {
           alert(that.$i18n.t("delete_success"))
           for(var i=0; i < that.selected_users.length; i++){

@@ -55,6 +55,8 @@
             {{ form.agency_license|as_crispy_field }}
             {{ form.stamp|as_crispy_field }}
             {{ form.garantee_insurance|as_crispy_field }}
+            {{ form.from_date|as_crispy_field }}
+            {{ form.to_date|as_crispy_field }}
             {{ form.is_expert|as_crispy_field }}
         {% endif %}
         {{ form.old_address_eng }}
@@ -175,7 +177,7 @@
                 document.getElementById("id_ji").value = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : ""
 
                 // 커서를 휴대폰번호 필드로 이동한다.
-                document.getElementById("id_mobile_number").focus();
+                document.getElementById("id_dong").focus();
 
                 // iframe을 넣은 element를 안보이게 한다.
                 // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)

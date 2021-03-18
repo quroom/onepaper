@@ -505,6 +505,7 @@ export default {
         ho: '',
       },
       down_payment: 0,
+      insurance: null,
       security_deposit: 0,
       maintenance_fee: 0,
       monthly_fee: 0,
@@ -998,6 +999,7 @@ export default {
             special_agreement: that.special_agreement,
           }
             if(that.is_expert){
+              data.insurance = that.insurance.id;
               data.verifying_explanation = that.ve;
             }
           try {
@@ -1141,6 +1143,7 @@ export default {
             vm.contractors = data.paper_contractors;
             vm.status = data.status;
             if(data.verifying_explanation != null) {
+              vm.insurance = data.insurance;
               vm.ve = data.verifying_explanation;
             }
           }

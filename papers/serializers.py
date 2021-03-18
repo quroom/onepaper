@@ -5,8 +5,8 @@ from rest_framework import fields
 from rest_framework import serializers
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
-from profiles.models import Profile, ExpertProfile, AllowedUser
-from profiles.serializers import ProfileSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
+from profiles.models import Profile, ExpertProfile, AllowedUser, Insurance
+from profiles.serializers import InsuranceSerializer, ProfileSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
 from onepaper.serializers import ReadOnlyModelSerializer
 
@@ -24,7 +24,7 @@ class VerifyingExplanationSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     paper_categories = fields.MultipleChoiceField(choices=VerifyingExplanation.PAPER_CATEGORY)
     explanation_evidences = fields.MultipleChoiceField(choices=VerifyingExplanation.EXPLANATION_EVIDENCE_CATEGORY)
-    
+
     class Meta:
         model = VerifyingExplanation
         fields = "__all__"
@@ -175,7 +175,7 @@ class PaperSerializer(serializers.ModelSerializer):
             verifying_explanation = instance.verifying_explanation
             verifying_explanation_address = instance.verifying_explanation.address
             verifying_explanation_address_data = verifying_explanation_data.pop('address') if not verifying_explanation_data.get('address') is None else {}
-            
+
             for key in ['dong', 'ho']:
                 if not key in verifying_explanation_address_data:
                     setattr(verifying_explanation_address, key, '')
@@ -205,7 +205,15 @@ class PaperSerializer(serializers.ModelSerializer):
                 key = "buyer"
             elif contractor['group'] == Contractor.EXPERT:
                 key = "expert"
-            
+
+            if key == "expert":
+                insurance = data.get('insurance')
+                if not insurance is None:
+                    if not Insurance.objects.filter(expert_profile__profile=contractor['profile'], id=insurance.id).exists():
+                        raise serializers.ValidationError({
+                            "insurance": _("중개사가 보유하지 않은 보증서류가 추가되었습니다."),
+                        })
+
             users_id_list.append(contractor['profile'].user.id)
 
             if users_id_list.count(contractor['profile'].user.id) > 1:
@@ -278,6 +286,7 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
+    insurance = InsuranceSerializer()
 
     class Meta:
         model = Paper

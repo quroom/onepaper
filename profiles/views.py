@@ -1,8 +1,11 @@
+# from pytz import timezone
+from datetime import datetime
 from django.db import transaction
 from django.db.models import Exists, Q
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from rest_framework import mixins, generics, status
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
@@ -13,15 +16,15 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
 from papers.models import Contractor, Paper
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Mandate
-from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
+from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, ExpertProfileReadonlySerializer, InsuranceSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
 
 class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=request.user).filter(is_active=True).filter(expert_profile=None).select_related('user', 'address', 'expert_profile')
+            allowed_user__allowed_users=request.user).filter(is_default=True).filter(expert_profile=None).select_related('user', 'address', 'expert_profile')
         serializer = ProfileReadonlySerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -122,10 +125,63 @@ class ApproveExpert(mixins.ListModelMixin,
 
 class ExpertProfileList(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
+
     def get(self, request):
         queryset = Profile.objects.filter(user=self.request.user, expert_profile__status=ExpertProfile.APPROVED).select_related('user', 'address', 'expert_profile')
         serializer = ProfileReadonlySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class InsuranceViewset(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InsuranceSerializer
+
+    def get_queryset(self):
+        return Insurance.objects.filter(expert_profile__profile__user=self.request.user, expert_profile__profile=self.kwargs['profile_pk'])
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        if not self.request.method in SAFE_METHODS:
+            context["profile_pk"] = self.kwargs['profile_pk']
+            context['pk'] = self.kwargs.get('pk')
+        return context
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        expert_profile = ExpertProfile.objects.get(profile__id=self.kwargs['profile_pk'])
+        serializer.save(expert_profile=expert_profile)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        
+        from_date = datetime.combine(instance.from_date, datetime.min.time(), tzinfo=timezone.localtime().tzinfo)
+        to_date = datetime.combine(instance.from_date, datetime.max.time(), tzinfo=timezone.localtime().tzinfo)
+
+        if Contractor.objects.filter(profile__expert_profile=instance.expert_profile, paper__updated_at__gte=from_date, paper__updated_at__lte=to_date).exists():
+            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 보증서류 정보를 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
+        # expert_profile = ExpertProfile.objects.get(profile__id=self.kwargs['profile_pk'])
+        # if insurances.filter(expert_profile=expert_profile, from_date__gte=from_date, from_date__lte=to_date).exists():
+            # return Response({"detail": ValidationError(_("기존 보증서류와 기간이 중복될 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if Contractor.objects.filter(profile__expert_profile=instance.expert_profile, paper__updated_at__gte=from_date, paper__updated_at__lte=to_date).exists():
+            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ProfileViewset(ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
@@ -138,41 +194,65 @@ class ProfileViewset(ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.user.is_expert:
-            return ExpertProfileSerializer
+            if self.request.method in SAFE_METHODS:
+                return ExpertProfileReadonlySerializer
+            else:
+                return ExpertProfileSerializer
         else:
             return ProfileSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        if not self.request.method in SAFE_METHODS:
+            context["profile_pk"] = self.kwargs['pk']
+        return context
+
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
-        instance = self.get_object()
-        expert_profile = getattr(instance, 'expert_profile', None)
+        obj = self.get_object()
+        expert_profile = getattr(obj, 'expert_profile', None)
         if not expert_profile is None:
             if expert_profile.status != ExpertProfile.REQUEST and expert_profile.status != ExpertProfile.DENIED :
                 return Response({"detail": ValidationError(_("승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."))}, status=status.HTTP_400_BAD_REQUEST)
-               
-        if Contractor.objects.filter(profile=instance).exists():
+
+        if Contractor.objects.filter(profile=obj).exists():
             return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        if Mandate.objects.filter(designator=instance).exists() or Mandate.objects.filter(designee=instance).exists():
+        if Mandate.objects.filter(designator=obj).exists() or Mandate.objects.filter(designee=obj).exists():
             return Response({"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(
-            instance, data=request.data, partial=partial)
+            obj, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        instance = self.perform_update(serializer)
+        instance_serializer = ExpertProfileReadonlySerializer(instance)
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
-        return Response(serializer.data)
+        return Response(instance_serializer.data)
+
+    def perform_update(self, serializer):
+        return serializer.save()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+        instance_serializer = ExpertProfileReadonlySerializer(instance)
+        headers = self.get_success_headers(instance_serializer.data)
+        return Response(instance_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @transaction.atomic
     def perform_create(self, serializer):
-        Profile.objects.filter(user=self.request.user).update(is_active=False)
-        serializer.save(user=self.request.user)
+        Profile.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
+        return serializer.save(user=self.request.user, is_default=True)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        if instance.is_default:
+            return Response({"detail": ValidationError(_("활성 프로필은 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+
         if Contractor.objects.filter(profile=instance).exists():
             return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -224,7 +304,7 @@ class CustomUserViewset(mixins.CreateModelMixin,
         except KeyError:
             return Response({"detail": ValidationError(_("탈퇴할 회원의 정보를 모두 입력해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
         if Paper.objects.filter(paper_contractors__profile__user=instance).exists():
-            instance.is_active = False
+            instance.is_default = False
             instance.save()
             return Response({"user_delete": _("탈퇴처리 되었습니다.")}, status=status.HTTP_200_OK)
         else:
@@ -293,11 +373,11 @@ class OpenProfileList(APIView, PageNumberPagination):
         mobile_number = self.request.query_params.get("mobile_number")
 
         if email and mobile_number:
-            profiles = Profile.objects.filter(user__email=email, mobile_number=mobile_number, is_active=True)
+            profiles = Profile.objects.filter(user__email=email, mobile_number=mobile_number, is_default=True)
         elif email:
-            profiles = Profile.objects.filter(user__email=email, is_active=True)
+            profiles = Profile.objects.filter(user__email=email, is_default=True)
         elif mobile_number:
-            profiles = Profile.objects.filter(mobile_number=mobile_number, is_active=True)
+            profiles = Profile.objects.filter(mobile_number=mobile_number, is_default=True)
         else:
             return Response({"detail": ValidationError(_("이메일 또는 연락처를 입력해야 합니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -321,11 +401,10 @@ class SetDefaultProfile(APIView):
     def post(self, request, pk):
         profile = get_object_or_404(Profile, pk=pk)
         self.check_object_permissions(self.request, profile)
-        profiles = Profile.objects.filter(user=self.request.user)
-        active_profiles = profiles.filter(is_active=True)
+        active_profiles = Profile.objects.filter(user=self.request.user, is_default=True)
         with transaction.atomic():
-            active_profiles.update(is_active=False)
-            profile.is_active = True
+            active_profiles.update(is_default=False)
+            profile.is_default = True
             profile.save()
-        serializer = ProfileSerializer(profile)
+        serializer = ProfileReadonlySerializer(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)

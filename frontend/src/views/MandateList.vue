@@ -38,6 +38,7 @@
           v-show="next"
           @click="getMandates"
           color="grey"
+          dark
         >
           {{$t("load_more")}}
         </v-btn>

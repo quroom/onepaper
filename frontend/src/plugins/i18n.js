@@ -11,6 +11,7 @@ const i18n = new VueI18n({
     en: {
       validation: en.messages,
       //Default message
+      add_garantee_insurance: "ADd garantee insurance",
       add_quick_trade_user: "Add quick trade user",
       add_quick_trade_user_directly: "Add quick trade user directly",
       add_quick_trader_link: "Quick trade request link",
@@ -76,10 +77,12 @@ const i18n = new VueI18n({
       etc: "ETC",
       error: "There is a request error",
       exact_correct_match: "Exactly Correct is Matched",
+      expiry_date: "expiry date",
       general: "General",
       hide: "Hide",
       how_to_use: "How to use",
       id: "ID",
+      initialize: "Initialize",
       image_file_size_error: "Image file size can't be over %{0} KB.",
       image_file_count_error: "You can't upload over %{0} images.",
       image_file_type_error: "This file extension is not supported.",
@@ -95,7 +98,8 @@ const i18n = new VueI18n({
       link: "Link",
       list: "List",
       link_is_copied: "Link is copied",
-      load: "Load",
+      load: "Load",      
+      load_list: "Load List",
       load_default: "Load Default",
       load_more: "Load More",
       lookup_scope: "Lookup Scope",
@@ -182,6 +186,7 @@ const i18n = new VueI18n({
       year: "year",
 
       //Bank List
+      '--선택--': "--Choose--",
       산업은행: "(KDB)KoreaDevelopmentBank",
       부산은행: "(BNK)BusanBank",
       기업은행: "(IBK)IndustrialBank",
@@ -232,6 +237,7 @@ const i18n = new VueI18n({
       shop_address: "Shop Address",
       registration_certificate: "Registration Certificate",
       agency_license: "Agency License",
+      insurnace: "insurance",
       garantee_insurance: "Brokerage Garantee Insurance",
 
       //Realestate basic message
@@ -397,6 +403,7 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
+      add_garantee_insurance: "중개보증서류 추가",
       add_quick_trade_user: "빠른거래회원 추가",
       add_quick_trade_user_directly: "빠른거래회원 즉시추가",
       add_quick_trader_link: "빠른거래 등록 요청 링크",
@@ -461,10 +468,12 @@ const i18n = new VueI18n({
       etc: "기타",
       error: "요청에 오류가 있습니다.",
       exact_correct_match: "완벽히 일치 해야 검색됨",
+      expiry_date: "만료일",
       general: "일반",
       hide: "숨김",
       how_to_use: "이용방법",
       id: "ID",
+      initialize: "초기화",
       image_file_size_error: "이미지 크기는 %{0}KB를 넘을 수 없습니다.",
       image_file_count_error: "%{0}개 이상의 이미지를 첨부할 수 없습니다.",
       image_file_type_error: "지원하지 않는 파일 종류 입니다.",
@@ -482,6 +491,7 @@ const i18n = new VueI18n({
       list: "목록",
       link_is_copied: "링크가 복사 되었습니다.",
       load: "불러오기",
+      load_list: "목록보기",
       load_default: "기본값 불러오기",
       load_more: "더 보기",
       lookup_scope: "조회 범위",
@@ -567,6 +577,7 @@ const i18n = new VueI18n({
       year: "년",
 
       //Bank List
+      '--선택--': "--선택--",
       산업은행: "산업은행",
       부산은행: "부산은행",
       기업은행: "기업은행",
@@ -618,7 +629,8 @@ const i18n = new VueI18n({
       registration_certificate: "중개사 등록증",
       agency_license: "자격증",
       stamp: "인장",
-      garantee_insurance: "중개 보증 서류",
+      insurance: "보증서",
+      garantee_insurance: "중개보증서류",
 
       area: "면적",
       address: "주소",

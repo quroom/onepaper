@@ -93,7 +93,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id',]
 
 class Profile(models.Model):
     # 개설기관.표준코드 bank_code_std
@@ -139,13 +139,13 @@ class Profile(models.Model):
                                    related_name="profile")
     bank_name = models.SmallIntegerField(choices=BANK_CATEGORY, default=0)
     account_number = models.CharField(max_length=45, blank=True)
-    is_active = models.BooleanField(default=True, blank=True)
+    is_default = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.user.email
 
     class Meta:
-        ordering = ('-is_active',)
+        ordering = ['-is_default',]
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -181,7 +181,18 @@ class ExpertProfile(models.Model):
         choices=STATUS_CATEGORY, default=REQUEST)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ['-id',]
+
+class Insurance(models.Model):
+    expert_profile = models.ForeignKey(ExpertProfile,
+                                    on_delete=models.CASCADE,
+                                    related_name="insurances")
+    image = models.ImageField(upload_to=get_file_path)
+    from_date = models.DateField()
+    to_date = models.DateField()
+
+    class Meta:
+        ordering = ['-to_date',]
 
 class Mandate(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -36,7 +36,7 @@
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor' , params: { id: profile.id } }">
             <v-card>
-              <v-chip class="ma-1" v-if="profile.is_active" color="primary">{{ profile.id }}</v-chip>
+              <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{ profile.id }}</v-chip>
               <template v-else>
                 <v-chip class="ma-1"> {{ profile.id }}</v-chip>
                 <v-btn class="mt-1 mr-2 pa-1" color="primary" style="float: right;" @click.prevent="setDefault(profile)">
@@ -63,7 +63,7 @@
                 <span class="pa-1"> {{ $getConstI18('bank_category', profile.bank_name) }} </span>
                 <span class="pa-1"> {{ profile.account_number }} </span>
               </v-card-subtitle>
-              <v-card-actions v-if="email != undefined">
+              <v-card-actions v-if="email">
                 <v-spacer></v-spacer>
                 <v-btn color="primary" @click.prevent="addUser(profile)">
                   <v-icon>person_add</v-icon>
@@ -73,10 +73,6 @@
               <v-card-actions v-else>
                 <v-btn color="green" dark :to="{ name: 'profile-editor', params: { id: profile.id } }"> {{ $t("edit") }} </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: profile.id } }">
-                  <v-icon>person_add</v-icon>
-                  {{ $t("add_quick_trade_user") }}
-                </v-btn>
               </v-card-actions>
             </v-card>
           </router-link>
@@ -87,6 +83,7 @@
           v-show="next"
           @click="getProfiles"
           color="grey"
+          dark
         >
           {{$t("load_more")}}
         </v-btn>
@@ -120,7 +117,7 @@ export default {
     },
     default_profile: function(){
       for(let i=0; i<this.profiles.length; i++){
-        if(this.profiles[i].is_active==true){
+        if(this.profiles[i].is_default==true){
           return this.profiles[i]
         }
       }
@@ -184,7 +181,7 @@ export default {
       apiService(endpoint, "POST").then(data=> {
         if(data.id != undefined){
           if(this.default_profile != undefined){
-            this.default_profile.is_active = false;
+            this.default_profile.is_default = false;
           }
           this.$set(this.profiles, this.profiles.indexOf(profile), data);
         }

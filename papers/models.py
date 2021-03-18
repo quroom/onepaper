@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from profiles.models import ExpertProfile, Profile
+from profiles.models import ExpertProfile, Profile, Insurance
 from addresses.models import Address
 
 class PaperStatus(models.Model):
@@ -112,8 +112,11 @@ class Paper(models.Model):
                                    null=True,
                                    on_delete=models.SET_NULL,
                                    related_name="paper")
-
     down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
+    insurance = models.ForeignKey(Insurance, 
+                                  on_delete=models.CASCADE,
+                                  null=True, blank=True,
+                                  related_name="insurances")
     security_deposit = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
@@ -160,10 +163,10 @@ class Contractor(models.Model):
         choices=CONTRACTOR_CATEGORY)
         
     class Meta:
-       constraints = [
-                     models.UniqueConstraint(fields=['profile', 'paper'],
-                     name="unique_profile_paper")
-                     ]
+        constraints = [
+                        models.UniqueConstraint(fields=['profile', 'paper'],
+                        name="unique_profile_paper")
+                    ]
 
 class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

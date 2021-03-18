@@ -92,13 +92,13 @@ class AllowedUserTestCase(APITestCase):
         self.client.post(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(is_active=True)
+            allowed_user__allowed_users=self.user1).filter(is_default=True)
         self.assertEqual(profiles.count(), 1)
         self.token = Token.objects.create(user=self.user1)
         self.api_authentication()
         self.create_profile()
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(is_active=True)
+            allowed_user__allowed_users=self.user1).filter(is_default=True)
         self.assertEqual(profiles.count(), 2)
 
     def test_allowed_user_create(self):
@@ -172,6 +172,7 @@ class ExpertProfileTestCase(APITestCase):
         self.image1 = self._create_image()
         self.image2 = self._create_image()
         self.image3 = self._create_image()
+        self.image4 = self._create_image()
         self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
@@ -190,6 +191,8 @@ class ExpertProfileTestCase(APITestCase):
         os.remove(self.image2.name)
         self.image3.close()
         os.remove(self.image3.name)
+        self.image4.close()
+        os.remove(self.image4.name)
 
     def test_customuser(self):
         response = self.client.get("/api/user/")
@@ -226,7 +229,10 @@ class ExpertProfileTestCase(APITestCase):
             "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3
+            "expert_profile.garantee_insurance": self.image3,
+            "expert_profile.insurance.image": self.image4,
+            "expert_profile.insurance.from_date": "2021-3-13",
+            "expert_profile.insurance.to_date": "2022-3-13"
         }
         response = self.client.post(self.list_url, data=data)
         return response
@@ -331,19 +337,19 @@ class ExpertProfileTestCase(APITestCase):
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[1]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
-        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.REQUEST)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.REQUEST)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1]}, format="json")
-        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
-        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.REQUEST)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.REQUEST)
         response = self.client.put("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
         self.assertEqual(response.data['results'][1]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
         self.assertEqual(response.data['results'][1]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
 
     def test_approve_expert_with_no_profiles(self):
         expert_profile = self.create_user_profile(is_expert=True)
@@ -399,7 +405,10 @@ class ProfileTestCase(APITestCase):
             "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3
+            "expert_profile.garantee_insurance": self.image3,
+            "expert_profile.insurance.image": self.image4,
+            "expert_profile.insurance.from_date": "2021-3-13",
+            "expert_profile.insurance.to_date": "2022-3-13"
         }
         response = self.client.post(self.list_url, data=data)
         return response
@@ -617,14 +626,14 @@ class ProfileTestCase(APITestCase):
     def test_set_default_profile(self):
         response = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_active"], True)
+        self.assertEqual(response.data["is_default"], True)
         response2 = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_active"], True)
-        self.assertEqual(Profile.objects.filter(is_active=False).count(), 1)
+        self.assertEqual(response.data["is_default"], True)
+        self.assertEqual(Profile.objects.filter(is_default=False).count(), 1)
 
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
-        self.assertEqual(response.data["is_active"], True)
+        self.assertEqual(response.data["is_default"], True)
 
 class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")
