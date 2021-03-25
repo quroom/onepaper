@@ -14,11 +14,8 @@
     >
     <template v-slot:top>
       <v-row>
-        <v-col cols="5">
-          <LazyTextField v-on:keyup.enter="addUser" ref="email_text" :label="$t('email')" outlined v-model="new_user.email"></LazyTextField>
-        </v-col>
-        <v-col cols="7">
-          <LazyTextField v-on:keyup.enter="addUser" ref="name_text" :label="$t('name')" outlined v-model="new_user.name">
+        <v-col cols="12">
+          <LazyTextField v-on:keyup.enter="addUser" ref="email_text" :label="$t('email')" outlined v-model="new_user.email">
             <template v-slot:append-outer>
               <v-btn
                 color="primary"
@@ -139,6 +136,7 @@ export default {
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`
       await apiService(endpoint, "DELETE", data).then(data => {
+        console.log("delete")
         if(data == undefined) {
           alert(that.$i18n.t("delete_success"))
           for(var i=0; i < that.selected_users.length; i++){

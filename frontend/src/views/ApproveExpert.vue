@@ -9,6 +9,8 @@
       show-expand
       single-expand
       show-select
+      :server-items-length="items_length"
+      @update:page="updatePagination"
     >
       <template v-slot:top>
         <v-chip-group>
@@ -88,6 +90,10 @@ export default {
   data() {
     return {
       headers: [{
+        text: `${this.$i18n.t("number")}`,
+        align: 'start',
+        value: 'profile'
+      },{
         text: `${this.$i18n.t("updated_at")}`,
         align: 'start',
         value: 'updated_at'
@@ -133,7 +139,9 @@ export default {
       selected_profiles: [],
       new_profiles: [],
       item: null,
+      items_length: null,
       dialog: false,
+      page_num: 1,
     }
   },
   methods: {
@@ -145,6 +153,7 @@ export default {
           this.$router.push({name:'home'})
         } else {
           this.profiles=data.results;
+          this.items_length = data.count;
         }
       })
     },
@@ -160,7 +169,7 @@ export default {
       let data = {
         "profiles" : this.new_profiles
       }
-      let endpoint = `/api/approve-experts/`
+      let endpoint = `/api/approve-experts/?page=${this.page_num}`
       apiService(endpoint, "PUT", data).then(data => {
         if(!data.count) {
           applyValidation(data)
@@ -187,6 +196,18 @@ export default {
           this.profiles = data.results;
           alert(this.$i18n.t("delete_success"))
           this.selected_profile_list = []
+        }
+      })
+    },
+    updatePagination (pagination) {
+      this.page_num = pagination;
+      let endpoint = `/api/approve-experts/?page=${pagination}`
+      apiService(endpoint).then(data => {
+        if(data != undefined) {
+          this.profiles = data.results;
+          this.items_length = data.count;
+        } else {
+          applyValidation(data)
         }
       })
     }

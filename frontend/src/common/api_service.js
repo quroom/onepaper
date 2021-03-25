@@ -1,7 +1,11 @@
 import { CSRF_TOKEN } from "./csrf_token.js";
 
 async function getJSON(response) {
-  return response.json();
+  if (response.status === 204) {
+    return undefined;
+  } else {
+    return response.json();
+  }
 }
 
 function apiService(endpoint, method, data) {

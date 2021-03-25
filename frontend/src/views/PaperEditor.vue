@@ -29,6 +29,7 @@
             item-key="id"
             :server-items-length="items_length"
             @update:page="updatePagination"
+            :page="paper_pagination"
           >
             <template
               v-slot:[`item.trade_category`]="{ item }">
@@ -72,6 +73,7 @@
                   item-key="usenrame"
                   :server-items-length="items_length"
                   @update:page="updatePagination"
+                  :page="profile_pagination"
                 >
                   <template v-slot:[`item.select`]="{ item }">
                     <v-btn class="primary" @click="loadProfile(item)"> {{$t("select")}} </v-btn>
@@ -275,6 +277,76 @@
           :readonly="true"
           multiple>
           <v-row no-gutters>
+            <v-col v-if="!isLoading" cols="12">
+              <ValidationProvider
+                ref="seller"
+                v-slot="{ errors }"
+                :name="$t('seller')"
+              >
+                <v-autocomplete
+                  v-model="seller"
+                  :error-messages="errors"
+                  :filter="customFilter"
+                  :items="allowed_profiles"
+                  item-text="name"
+                  item-value="id"
+                  return-object
+                  class="mt-2"
+                  :label="$t('seller')"
+                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
+                >
+                  <template
+                    v-slot:selection="{ }"
+                  >{{ seller.user.email + ' (' + seller.user.name + ' / ' + seller.mobile_number + ")" }}</template>
+                  <template
+                    v-slot:item="{ item }"
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:append-outer>
+                    <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("manual_search") }} </v-btn>
+                  </template>
+                </v-autocomplete>
+              </ValidationProvider>
+              <v-expansion-panel v-if="seller">
+                <v-expansion-panel-header>{{$t("seller")}} {{$t("detail")}} {{$t("info")}} ({{seller.user.email}})</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-col>
+            <v-col v-if="!isLoading" class="mt-3" cols="12">
+              <ValidationProvider
+                ref="buyer"
+                v-slot="{ errors }"
+                :name="$t('buyer')"
+              >
+                <v-autocomplete
+                  v-model="buyer"
+                  :error-messages="errors"
+                  :filter="customFilter"
+                  :items="allowed_profiles"
+                  item-text="name"
+                  item-value="id"
+                  class="mt-2"
+                  return-object
+                  :label="$t('buyer')"
+                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
+                >
+                  <template v-slot:selection="{ item }"
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:item="{ item }"
+                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
+                  <template v-slot:append-outer>
+                    <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("manual_search") }} </v-btn>
+                  </template>
+                </v-autocomplete>
+              </ValidationProvider>
+              <v-expansion-panel v-if="buyer">
+                <v-expansion-panel-header>{{$t("buyer")}} {{$t("detail")}} {{$t("info")}} ({{buyer.user.email}})</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-col>
             <v-col v-if="is_expert" cols="12">
               <ValidationProvider
                 ref="expert"
@@ -303,86 +375,15 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="expert">
-                <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}}</v-expansion-panel-header>
+                <v-expansion-panel-header>{{$t("realestate_agency")}} {{$t("detail")}} {{$t("info")}} ({{expert.user.email}})</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-col>
-            <v-col v-if="!isLoading" cols="12">
-              <ValidationProvider
-                ref="seller"
-                v-slot="{ errors }"
-                :name="$t('landlord')"
-              >
-                <v-autocomplete
-                  v-model="seller"
-                  :error-messages="errors"
-                  :filter="customFilter"
-                  :items="allowed_profiles"
-                  item-text="name"
-                  item-value="id"
-                  return-object
-                  class="mt-2"
-                  :label="$t('landlord')"
-                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
-                >
-                  <template
-                    v-slot:selection="{ }"
-                  >{{ seller.user.email + ' (' + seller.user.name + ' / ' + seller.mobile_number + ")" }}</template>
-                  <template
-                    v-slot:item="{ item }"
-                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
-                  <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('seller')"> {{ $t("manual_search") }} </v-btn>
-                  </template>
-                </v-autocomplete>
-              </ValidationProvider>
-              <v-expansion-panel v-if="seller">
-                <v-expansion-panel-header>{{$t("landlord")}} {{$t("detail")}} {{$t("info")}} ({{seller.user.email}})</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-col>
-            <v-col v-if="!isLoading" class="mt-3" cols="12">
-              <ValidationProvider
-                ref="buyer"
-                v-slot="{ errors }"
-                :name="$t('tenant')"
-              >
-                <v-autocomplete
-                  v-model="buyer"
-                  :error-messages="errors"
-                  :filter="customFilter"
-                  :items="allowed_profiles"
-                  item-text="name"
-                  item-value="id"
-                  class="mt-2"
-                  return-object
-                  :label="$t('tenant')"
-                  :placeholder="$t('quick_trade_user')+' '+$t('select')"
-                >
-                  <template v-slot:selection="{ item }"
-                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
-                  <template v-slot:item="{ item }"
-                  >{{ item.user.email + ' (' + item.user.name + ' / ' + item.mobile_number + ")" }}</template>
-                  <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('buyer')"> {{ $t("manual_search") }} </v-btn>
-                  </template>
-                </v-autocomplete>
-              </ValidationProvider>
-              <v-expansion-panel v-if="buyer">
-                <v-expansion-panel-header>{{$t("tenant")}} {{$t("detail")}} {{$t("info")}} ({{buyer.user.email}})</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                  <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
           </v-row>
         </v-expansion-panels>
         <div class="mt-3">4. {{ $t("special_agreement") }}</div>
-        <v-btn @click="loadSpecialAgreement" style="float:right"> {{ $t("load_default") }}</v-btn>
         <ValidationProvider
           ref="special_agreement"
           v-slot="{ errors }"
@@ -404,48 +405,65 @@
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
-      <VerifyingExplanationEditor ref="verifying_explanation" v-if="is_expert" :ve.sync="ve" :step="step" :validation_check.sync="validation_check"></VerifyingExplanationEditor>
-      <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert ">
-        <v-col class="contractor-title text-center font-weight-bold" cols="12">
-          <v-card outlined tile color="blue lighten-4">
-            {{ $t("realestate_agency") }}
-          </v-card>
-        </v-col>
-        <v-col v-if="expert" cols="12">
-          <ContractorItem :contractor="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
-        </v-col>
-        <template v-if="seller">
-          <v-col class="contractor-title text-center font-weight-bold" cols="12">
-            <v-card outlined tile color="blue lighten-4">
-              {{ $t("landlord") }}
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <ContractorItem :contractor="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
-          </v-col>
-        </template>
-        <template v-if="buyer">
-          <v-col class="contractor-title text-center font-weight-bold" cols="12">
-            <v-card outlined tile color="blue lighten-4">
-              {{ $t("tenant") }}
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <ContractorItem :contractor="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
-          </v-col>
-        </template>
-      </v-row>
-      <template v-if="is_expert">
-        <v-row>
-          <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
+      <template v-if="is_expert&&expert">
+        <VerifyingExplanationEditor ref="verifying_explanation" :ve.sync="ve" :step="step" :validation_check.sync="validation_check">
+          <template v-slot:footer>
+            <v-row class="mt-4" no-gutters v-if="step==max_step">
+              <template v-if="seller">
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                  <v-card outlined tile color="blue lighten-4">
+                    {{ $t("seller") }}
+                  </v-card>
+                </v-col>
+                <v-col cols="12">
+                  <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-col>
+              </template>
+              <template v-if="buyer">
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                  <v-card outlined tile color="blue lighten-4">
+                    {{ $t("buyer") }}
+                  </v-card>
+                </v-col>
+                <v-col cols="12">
+                  <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-col>
+              </template>
+              <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                <v-card outlined tile color="blue lighten-4">
+                  {{ $t("realestate_agency") }}
+                </v-card>
+              </v-col>
+              <v-col v-if="expert" cols="12">
+                <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-if="expert.expert_profile.insurance.image && step==max_step" v-slot:insurance>
+            <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
+            <v-row justify="center">
+              <img :src="expert.expert_profile.insurance.image" aspect-ratio="1" />
+            </v-row>
+          </template>
+        </VerifyingExplanationEditor>
+        <v-row v-if="expert.expert_profile.insurance.image" >
+          <v-btn v-if="step!=1" class="mt-3 float-right" @click="backStep()">{{$t("back")}}</v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="mt-3" style="float:right" color="green" v-if="step!=max_step" dark @click="nextStep()">{{$t("next")}}</v-btn>
-          <v-btn v-if="step==max_step" class="mt-3 float_right primary" @click="onSubmit()"> {{$t('submit')}} </v-btn>
+          <v-btn v-if="step!=max_step" class="mt-3 float-right white--text" color="green" @click="nextStep()">{{$t("next")}}</v-btn>
+          <v-btn v-if="step==max_step" class="mt-3 float-right primary white--text" @click="submit()"> {{$t('submit')}} </v-btn>
         </v-row>
+        <template v-else>
+          <div class="text-right red--text">{{ $t("please_available_garantee_insurance") }}</div>
+          <v-row class="mt-3" justify="end">
+            <v-btn class="primary" dark :to="{name: 'profile-editor', params: { id: expert.id } }">
+              {{`${$t("add_garantee_insurance")}`}}
+            </v-btn>
+          </v-row>
+        </template>
       </template>
       <v-row v-else>
         <v-col cols="12" class="text-right">
-          <v-btn class="primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+          <v-btn class="primary" @click="submit()">{{$t('submit')}}</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -478,6 +496,8 @@ export default {
   data() {
     return {
       dialog_category: 'paper',
+      paper_pagination: 1,
+      profile_pagination: 1,
       requestUser: null,
       load_dialog: false,
       isLoading: false,
@@ -499,7 +519,7 @@ export default {
       building_structure: '',
       building_category: 80,
       building_area: null,
-      trade_category: 0,
+      trade_category: 1,
       address: {
         old_address: null,
         dong: '',
@@ -518,9 +538,8 @@ export default {
       expert: null,
       seller: null,
       buyer: null,
-      options: [0,1,2],
-      default_special_agreement: '<br/><p><strong>&nbsp;제1조(입주 전 수리) </strong>임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다.</p><p>&nbsp;<strong>제2조(임차주택의 사용·관리·수선) </strong>① 임차인은 임대인의 동의 없이 임차주택의 구조변경 및 전대나 임차권 양도를 할 수 없으며, 임대차 목적인 주거 이외의 용도로 사용할 수 없다.</p><p>② 임대인은 계약 존속 중 임차주택을 사용·수익에 필요한 상태로 유지하여야 하고, 임차인은 임대인이 임차주택의 보존에 필요한 행위를 하는 때 이를 거절하지 못한다.</p><p>③ 임대인과 임차인은 계약 존속 중에 발생하는 임차주택의 수리 및 비용부담에 관하여 다음과 같이 합의한다. 다만, 합의되지 아니한 기타 수선비용에 관한 부담은 민법, 판례 기타 관습에 따른다.&nbsp;</p><p>&nbsp;④ 임차인이 임대인의 부담에 속하는 수선비용을 지출한 때에는 임대인에게 그 상환을 청구할 수 있다.</p><p><strong>제3조(계약의 해제)</strong> 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지급하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 이 계약을 해제할 수 있다.</p><p><strong>제4조(채무불이행과 손해배상</strong>) 당사자 일방이 채무를 이행하지 아니하는 때에는 상대방은 상당한 기간을 정하여 그 이행을 최고하고 계약을 해제할 수 있으며, 그로 인한 손해배상을 청구할 수 있다. 다만, 채무자가 미리 이행하지 아니할 의사를 표시한 경우의 계약해제는 최고를 요하지 아니한다.</p><p><strong>제5조(계약의 해지)</strong> ① 임차인은 본인의 과실 없이 임차주택의 일부가 멸실 기타 사유로 인하여 임대차의 목적대로 사용할 수 없는 경우에는 계약을 해지할 수 있다.</p><p>② 임대인은 임차인이 2기의 차임액에 달하도록 연체하거나, 제2조 제1항을 위반한 경우 계약을 해지할 수 있다.</p><p><strong>제6조(계약의 종료) </strong>임대차계약이 종료된 경우에 임차인은 임차주택을 원래의 상태로 복구하여 임대인에게 반환하고, 이와 동시에 임대인은 보증금을 임차인에게 반환하여야 한다. 다만, 시설물의 노후화나 통상 생길 수 있는 파손 등은 임차인의 원상복구의무에 포함되지 아니한다.</p><p><strong>제7조(비용의 정산) </strong>① 임차인은 계약종료 시 공과금과 관리비를 정산하여야 한다.</p><p>② 임차인은 이미 납부한 관리비 중 장기수선충당금을 소유자에게 반환 청구할 수 있다. 다만, 관리사무소 등 관리주체가 장기수선충당금을 정산하는 경우에는 그 관리주체에게 청구할 수 있다.</p><br/>',
-      special_agreement: '',
+      options: [1,2,3],
+      special_agreement: '<p><strong>제1조(입주 전 수리) </strong>임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다.</p><p><strong>제2조(임차주택의 사용·관리·수선) </strong>① 임차인은 임대인의 동의 없이 임차주택의 구조변경 및 전대나 임차권 양도를 할 수 없으며, 임대차 목적인 주거 이외의 용도로 사용할 수 없다.</p><p>② 임대인은 계약 존속 중 임차주택을 사용·수익에 필요한 상태로 유지하여야 하고, 임차인은 임대인이 임차주택의 보존에 필요한 행위를 하는 때 이를 거절하지 못한다.</p><p>③ 임대인과 임차인은 계약 존속 중에 발생하는 임차주택의 수리 및 비용부담에 관하여 다음과 같이 합의한다. 다만, 합의되지 아니한 기타 수선비용에 관한 부담은 민법, 판례 기타 관습에 따른다.</p><p>④ 임차인이 임대인의 부담에 속하는 수선비용을 지출한 때에는 임대인에게 그 상환을 청구할 수 있다.</p><p><strong>제3조(계약의 해제)</strong> 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지급하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 이 계약을 해제할 수 있다.</p><p><strong>제4조(채무불이행과 손해배상</strong>) 당사자 일방이 채무를 이행하지 아니하는 때에는 상대방은 상당한 기간을 정하여 그 이행을 최고하고 계약을 해제할 수 있으며, 그로 인한 손해배상을 청구할 수 있다. 다만, 채무자가 미리 이행하지 아니할 의사를 표시한 경우의 계약해제는 최고를 요하지 아니한다.</p><p><strong>제5조(계약의 해지)</strong> ① 임차인은 본인의 과실 없이 임차주택의 일부가 멸실 기타 사유로 인하여 임대차의 목적대로 사용할 수 없는 경우에는 계약을 해지할 수 있다.</p><p>② 임대인은 임차인이 2기의 차임액에 달하도록 연체하거나, 제2조 제1항을 위반한 경우 계약을 해지할 수 있다.</p><p><strong>제6조(계약의 종료) </strong>임대차계약이 종료된 경우에 임차인은 임차주택을 원래의 상태로 복구하여 임대인에게 반환하고, 이와 동시에 임대인은 보증금을 임차인에게 반환하여야 한다. 다만, 시설물의 노후화나 통상 생길 수 있는 파손 등은 임차인의 원상복구의무에 포함되지 아니한다.</p><p><strong>제7조(비용의 정산) </strong>① 임차인은 계약종료 시 공과금과 관리비를 정산하여야 한다.</p><p>② 임차인은 이미 납부한 관리비 중 장기수선충당금을 소유자에게 반환 청구할 수 있다. 다만, 관리사무소 등 관리주체가 장기수선충당금을 정산하는 경우에는 그 관리주체에게 청구할 수 있다.</p><br/>',
       search: {
         email: "",
         mobile_number: ""
@@ -554,7 +573,11 @@ export default {
         building_ownership: '',
         land_other: '',
         building_other: '',
-        rental_housing_registration: 3,
+        rental_housing_registration: 0,
+        rental_housing_registration_info: '',
+        mandatory_lease_period: null,
+        lease_initiation_date: null,
+        right_to_lease_contract_renewal: null,
         use_area: '',
         use_district: '',
         use_zone: '',
@@ -565,7 +588,7 @@ export default {
         speculative_area: null,
         unit_planning_area_others: '',
         other_use_restriction: '',
-        relative_with_roads: '( m × m ) 도로에 접함',
+        relative_with_roads: '( m × m ) ',
         is_paved_rode: true,
         accessibility: true,
         bus_stop: '',
@@ -592,7 +615,7 @@ export default {
         medical_center_by_foot: false,
         medical_center_required_time: 10,
         is_security_office: false,
-        management: 1,
+        management: 2,
         undesirable_facilities: false,
         undesirable_facilities_info: '',
         expected_transaction_price: null,
@@ -601,6 +624,7 @@ export default {
         acquisition_tax: null,
         special_tax: null,
         local_education_tax: null,
+        actual_legal_right_relationship: '',
         water_damage_status: false,
         water_damage_status_info: '',
         water_capacity_status: true,
@@ -686,7 +710,8 @@ export default {
         ],
         basic_profile_fields: [
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"11" },
         { name: "name"
           , key: "user.name"
@@ -696,7 +721,8 @@ export default {
           , cols:"9", sm:"3", md:"2"}, 
         { name: "mobile_number"
           , cols:"9", sm:"3", md:"2"}, 
-        { name: "bank_name"
+        { name: "bank_name",
+          const_name: "bank_category"
           , cols:"9", sm:"3", md:"2"}, 
         { name: "account_number"
           , cols:"9", sm:"3", md:"2"}
@@ -709,7 +735,8 @@ export default {
           , key: "expert_profile.shop_name"
           , cols:"9", md:"10", lg:"6"},
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"11" },
         { name: "name"
           , key: "user.name"
@@ -719,7 +746,8 @@ export default {
           , cols:"9", sm:"3", md:"2"}, 
         { name: "mobile_number"
           , cols:"9", sm:"3", md:"2"}, 
-        { name: "bank_name"
+        { name: "bank_name",
+          const_name: "bank_category"
           , cols:"9", sm:"3", md:"2"}, 
         { name: "account_number"
           , cols:"9", sm:"3", md:"2"}
@@ -729,7 +757,8 @@ export default {
         modules: {
           toolbar: {
             container: [
-              ['bold', 'underline', {'list': 'ordered'}, { 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'underline', ],
+              [{'list': 'ordered'}, { 'align': []},],
               ['image', 'link']
             ],
             handlers: {
@@ -870,6 +899,7 @@ export default {
       apiService(endpoint).then(data => {
         if(data.length != undefined){
           this.expert_profiles = data;
+          this.expert = data[0];
         } else {
           applyValidation(data)
         }
@@ -880,7 +910,7 @@ export default {
       this.dialog_category = 'paper';
       this.load_dialog = true;
       this.isLoading = true;
-      let endpoint = `/api/papers/`;
+      let endpoint = `/api/papers/?page=${this.paper_pagination}`;
       apiService(endpoint).then(data => {
         if(data != undefined) {
           this.items_length = data.count;
@@ -944,9 +974,6 @@ export default {
       this.load_dialog = true;
       this.items_length = 0;
     },
-    loadSpecialAgreement(){
-      this.special_agreement += this.default_special_agreement
-    },
     nextStep(){
       const that = this;
       this.$refs.verifying_explanation.$refs.form.validate()
@@ -958,9 +985,11 @@ export default {
         }
       })
     },
-    onSubmit() {
+    submit() {
       const that = this;
-      this.validation_check = true
+      // FIXME: This will be used later when we check validation for VerifyingExplanation.
+      // this.validation_check = true
+      // This code makes reflow. So we need to make anotehr code to check validation.
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           let endpoint = "/api/papers/";
@@ -992,6 +1021,7 @@ export default {
           }
             if(that.is_expert){
               data.verifying_explanation = that.ve;
+              data.verifying_explanation['insurance'] = that.expert.expert_profile.insurance.id;
             }
           try {
             apiService(endpoint, method, data).then(data => {
@@ -1023,7 +1053,7 @@ export default {
       });
     },
     searchProfile(){
-      let endpoint = "/api/open-profiles/"
+      let endpoint = `/api/open-profiles/?page=${this.profile_pagination}`
       let is_first_option = false;
       Object.entries(this.search).forEach(function(entry){
         const [key, value] = entry;
@@ -1079,9 +1109,13 @@ export default {
       }
     },
     updatePagination (pagination) {
-      let endpoint = `/api/papers/?page=${pagination}`
-      if(this.dialog_category == 'profile'){
+      let endpoint = ``;
+      if(this.dialog_category == 'paper'){
+        endpoint = `/api/papers/?page=${pagination}`
+        this.paper_pagination = pagination
+      } else {
         endpoint = `/api/open-profiles/?page=${pagination}`+`&name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`
+        this.profile_pagination = pagination
       }
 
       apiService(endpoint).then(data => {
@@ -1108,11 +1142,11 @@ export default {
             for(const contractor_index in data.paper_contractors) {
               var contractor = data.paper_contractors[contractor_index]
               if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")){
-                (vm.expert = contractor.profile)
+                vm.expert = contractor.profile;
               }else if(contractor.group==vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")){
-                (vm.seller = contractor.profile)
+                vm.seller = contractor.profile;
               }else {
-                (vm.buyer = contractor.profile)
+                vm.buyer = contractor.profile
               }
             }
             vm.land_category = data.land_category;

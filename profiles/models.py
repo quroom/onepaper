@@ -49,7 +49,6 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -63,17 +62,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    is_expert = models.BooleanField(default=False)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    email = models.EmailField(_('email address'), unique=True)
+    name = models.CharField(max_length=150)
+    birthday = models.DateField(null=True, blank=False)
+    bio = models.CharField(max_length=240, blank=True)
+    used_count = models.PositiveSmallIntegerField(blank=True, default=0)
     ip_address = models.GenericIPAddressField(null=True)
     average_response_time = models.FloatField(default=0)
     response_rate = models.FloatField(default=0)
     contract_success_rate = models.FloatField(default=0)
-    used_count = models.PositiveSmallIntegerField(blank=True, default=0)
-    name = models.CharField(max_length=150)
-    birthday = models.DateField(null=True, blank=False)
-    is_expert = models.BooleanField(default=False)
-    bio = models.CharField(max_length=240, blank=True)
 
     objects = CustomUserManager()
 
@@ -93,7 +93,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id',]
 
 class Profile(models.Model):
     # 개설기관.표준코드 bank_code_std
@@ -101,31 +101,31 @@ class Profile(models.Model):
     # http://callcenter.kftc.or.kr/finance/finance_info_inquiry.jsp
 
     BANK_CATEGORY = (
-        ('', _('은행명')),
-        ('002', _('산업은행')),
-        ('032', _('부산은행')),
-        ('003', _('기업은행')),
-        ('034', _('광주은행')),
-        ('004', _('국민은행')),
-        ('035', _('제주은행')),
-        ('007', _('수협')),
-        ('037', _('전북은행')),
-        ('011', _('농협은행')),
-        ('039', _('경남은행')),
-        ('012', _('지역농축협')),
-        ('045', _('새마을금고')),
-        ('020', _('우리은행')),
-        ('048', _('신용협동조합')),
-        ('023', _('SC제일은행')),
-        ('050', _('상호저축은행')),
-        ('027', _('한국씨티은행')),
-        ('064', _('산림조합')),
-        ('081', _('KEB하나은행')),
-        ('071', _('우체국')),
-        ('088', _('신한은행')),
-        ('089', _('K뱅크')),
-        ('031', _('대구은행')),
-        ('090', _('카카오뱅크')),
+        (0, _('은행명')),
+        (2, _('산업은행')),
+        (32, _('부산은행')),
+        (3, _('기업은행')),
+        (34, _('광주은행')),
+        (4, _('국민은행')),
+        (35, _('제주은행')),
+        (7, _('수협')),
+        (37, _('전북은행')),
+        (11, _('농협은행')),
+        (39, _('경남은행')),
+        (12, _('지역농축협')),
+        (45, _('새마을금고')),
+        (20, _('우리은행')),
+        (48, _('신용협동조합')),
+        (23, _('SC제일은행')),
+        (50, _('상호저축은행')),
+        (27, _('한국씨티은행')),
+        (64, _('산림조합')),
+        (81, _('KEB하나은행')),
+        (71, _('우체국')),
+        (88, _('신한은행')),
+        (89, _('K뱅크')),
+        (31, _('대구은행')),
+        (90, _('카카오뱅크')),
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -137,15 +137,15 @@ class Profile(models.Model):
                                    null=True,
                                    on_delete=models.SET_NULL,
                                    related_name="profile")
-    bank_name = models.CharField(max_length=3, choices=BANK_CATEGORY, blank=True)
+    bank_name = models.SmallIntegerField(choices=BANK_CATEGORY, default=0)
     account_number = models.CharField(max_length=45, blank=True)
-    is_active = models.BooleanField(default=True, blank=True)
+    is_default = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.user.email
 
     class Meta:
-        ordering = ('-is_active',)
+        ordering = ['-is_default', '-updated_at']
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -156,16 +156,16 @@ class AllowedUser(models.Model):
                                    related_name="allowed_user")
 
 class ExpertProfile(models.Model):
-    REQUEST = 0
-    APPROVED = 1
-    DENIED = 2
-    CLOSED = 3
+    CLOSED = 0
+    REQUEST = 1
+    APPROVED = 2
+    DENIED = 3
 
     STATUS_CATEGORY = (
+        (CLOSED, _('폐업')),
         (REQUEST, _('요청')),
         (APPROVED, _('승인')),
-        (DENIED, _('거부')),
-        (CLOSED, _('폐업'))
+        (DENIED, _('거부'))
     )
 
     profile = models.OneToOneField(Profile,
@@ -176,12 +176,22 @@ class ExpertProfile(models.Model):
     registration_certificate = models.ImageField(upload_to=get_file_path)
     agency_license = models.ImageField(upload_to=get_file_path)
     stamp = models.ImageField(upload_to=get_file_path)
-    garantee_insurance = models.ImageField(upload_to=get_file_path)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CATEGORY, default=REQUEST)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ['-id',]
+
+class Insurance(models.Model):
+    expert_profile = models.ForeignKey(ExpertProfile,
+                                    on_delete=models.CASCADE,
+                                    related_name="insurances")
+    image = models.ImageField(upload_to=get_file_path)
+    from_date = models.DateField()
+    to_date = models.DateField()
+
+    class Meta:
+        ordering = ['-to_date',]
 
 class Mandate(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -79,7 +79,7 @@ class AllowedUserTestCase(APITestCase):
     def create_profile(self):
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form
         }
@@ -88,60 +88,55 @@ class AllowedUserTestCase(APITestCase):
 
     def test_allowed_profile_list(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com"}}, format="json")
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
+            allowed_user__allowed_users=self.user1).filter(is_default=True)
         self.assertEqual(profiles.count(), 1)
         self.token = Token.objects.create(user=self.user1)
         self.api_authentication()
         self.create_profile()
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=self.user1).filter(Q(expert_profile=None) | Q(expert_profile__status=ExpertProfile.APPROVED))
+            allowed_user__allowed_users=self.user1).filter(is_default=True)
         self.assertEqual(profiles.count(), 2)
 
     def test_allowed_user_create(self):
         # print(reverse("allowed-user-detail", args=(1,)))
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("자기 자신의 아이디는 추가할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("자기 자신의 이메일은 추가할 수 없습니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test3@naver.com", "name":"김주영"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test3@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("회원 아이디가 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("존재하지 않는 이메일 입니다."))
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영"}}, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("이름이 일치하지 않습니다."))
-
-        response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
         response = self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com", "name":"김주영2"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test2@naver.com"}}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("이미 추가된 회원입니다."))
 
     def test_allowed_profile_delete(self):
         self.client.post(reverse(
-            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com", "name":"김주영1"}}, format="json")
+            "allowed-user-detail", args=(1,)), {"allowed_users": {"email":"test1@naver.com"}}, format="json")
         profile = Profile.objects.get(id=1)
         self.assertEqual(profile.allowed_user.allowed_users.all().count(), 2)
 
         response = self.client.delete(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": ["test@naver.com"]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("자신의 아이디는 삭제할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("자신의 이메일은 삭제할 수 없습니다."))
 
         response = self.client.delete(reverse(
             "allowed-user-detail", args=(1,)), {"allowed_users": ["test3@naver.com"]}, format="json")
@@ -173,10 +168,6 @@ class ExpertProfileTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.image = self._create_image()
-        self.image1 = self._create_image()
-        self.image2 = self._create_image()
-        self.image3 = self._create_image()
         self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
@@ -185,16 +176,6 @@ class ExpertProfileTestCase(APITestCase):
                                                    is_expert=True)
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
-
-    def tearDown(self):
-        self.image.close()
-        os.remove(self.image.name)
-        self.image1.close()
-        os.remove(self.image1.name)
-        self.image2.close()
-        os.remove(self.image2.name)
-        self.image3.close()
-        os.remove(self.image3.name)
 
     def test_customuser(self):
         response = self.client.get("/api/user/")
@@ -212,7 +193,7 @@ class ExpertProfileTestCase(APITestCase):
         user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
@@ -220,27 +201,41 @@ class ExpertProfileTestCase(APITestCase):
         return profile
 
     def create_expert_profile(self):
+        image = self._create_image()
+        image1 = self._create_image()
+        image2 = self._create_image()
+        image3 = self._create_image()
         #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form,
             "expert_profile.registration_number": "2020118181-11",
             "expert_profile.shop_name": "광주부동산중개",
-            "expert_profile.registration_certificate": self.image,
-            "expert_profile.agency_license": self.image1,
-            "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3
+            "expert_profile.registration_certificate": image,
+            "expert_profile.agency_license": image1,
+            "expert_profile.stamp": image2,
+            "expert_profile.insurance.image": image3,
+            "expert_profile.insurance.from_date": "2021-3-13",
+            "expert_profile.insurance.to_date": "2022-3-13"
         }
         response = self.client.post(self.list_url, data=data)
+        image.close()
+        os.remove(image.name)
+        image1.close()
+        os.remove(image1.name)
+        image2.close()
+        os.remove(image2.name)
+        image3.close()
+        os.remove(image3.name)
         return response
 
     def test_expert_profile_create(self):
         response = self.create_expert_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["mobile_number"], "010-1234-1234")
-        self.assertEqual(response.data["bank_name"], "004")
+        self.assertEqual(response.data["bank_name"], 4)
         self.assertEqual(response.data["account_number"], "94334292963")
         self.assertEqual(response.data["address"], { 
             "id": 1,
@@ -262,7 +257,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(
             response.data["expert_profile"]["shop_name"], "광주부동산중개")
         self.assertEqual(
-            response.data["expert_profile"]["status"], 0)
+            response.data["expert_profile"]["status"], ExpertProfile.REQUEST)
         #FIXME: Need to add image test code
 
     def test_expert_profile_update(self):
@@ -270,7 +265,7 @@ class ExpertProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho": "1층",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963_",
             "expert_profile.registration_number": "2020118181-11_",
             "expert_profile.shop_name": "광주부동산중개_",
@@ -280,7 +275,7 @@ class ExpertProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"]["ho"], "1층")
-        self.assertEqual(response.data["bank_name"], "004")
+        self.assertEqual(response.data["bank_name"], 4)
         self.assertEqual(response.data["account_number"], "94334292963_")
         self.assertEqual(
             response.data["expert_profile"]["registration_number"], "2020118181-11_")
@@ -292,7 +287,7 @@ class ExpertProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho": "1층",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963_",
             "expert_profile.registration_number": "2020118181-11_",
             "expert_profile.shop_name": "광주부동산중개_",
@@ -309,7 +304,7 @@ class ExpertProfileTestCase(APITestCase):
         self.create_expert_profile()
         self.client.force_authenticate(user=None)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_expert_profile_update_by_random_user(self):
@@ -318,41 +313,57 @@ class ExpertProfileTestCase(APITestCase):
         self.create_expert_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_default_expert_profile_delete(self):
+        self.create_expert_profile()
+        response = self.client.delete(
+            reverse("profiles-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
+
     def test_expert_profile_delete(self):
+        response = self.create_expert_profile()
         self.create_expert_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    def test_insurance_update(self):
+        profile_response = self.create_expert_profile()
+        response = self.client.put(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": profile_response.data['id'], "pk": profile_response.data['expert_profile']['insurance']['id']})
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("보증서류 시작일과 종료일을 모두 입력해주세요."))
+
     def test_approve_expert_post_delete(self):
         expert_profile = self.create_user_profile(is_expert=True)
-        self.assertEqual(expert_profile.status, 0)
+        self.assertEqual(expert_profile.status, ExpertProfile.REQUEST)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
         self.api_authentication()
         response = self.client.put("/api/approve-experts/", data={"profiles":[1]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 1)
-        self.assertEqual(response.data['results'][1]['status'], 0)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.REQUEST)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1]}, format="json")
-        self.assertEqual(response.data['results'][0]['status'], 2)
-        self.assertEqual(response.data['results'][1]['status'], 0)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.REQUEST)
         response = self.client.put("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 1)
-        self.assertEqual(response.data['results'][1]['status'], 1)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.APPROVED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.APPROVED)
         response = self.client.delete("/api/approve-experts/", data={"profiles":[1,2]}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]['status'], 2)
-        self.assertEqual(response.data['results'][1]['status'], 2)
+        self.assertEqual(response.data['results'][1]['status'], ExpertProfile.DENIED)
+        self.assertEqual(response.data['results'][0]['status'], ExpertProfile.DENIED)
 
     def test_approve_expert_with_no_profiles(self):
         expert_profile = self.create_user_profile(is_expert=True)
-        self.assertEqual(expert_profile.status, 0)
+        self.assertEqual(expert_profile.status, ExpertProfile.REQUEST)
         expert_profile2 = self.create_user_profile(is_expert=True, id=1)
         self.superuser = CustomUser.objects.create_superuser("admin@naver.com", '1234')
         self.token = Token.objects.create(user=self.superuser)
@@ -386,7 +397,7 @@ class ProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963"
         }
         response = self.client.post(self.list_url, data=data)
@@ -396,7 +407,7 @@ class ProfileTestCase(APITestCase):
         #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form,
             "expert_profile.registration_number": "2020118181-11",
@@ -404,7 +415,9 @@ class ProfileTestCase(APITestCase):
             "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3
+            "expert_profile.insurance.image": self.image4,
+            "expert_profile.insurance.from_date": "2021-3-13",
+            "expert_profile.insurance.to_date": "2022-3-13"
         }
         response = self.client.post(self.list_url, data=data)
         return response
@@ -439,7 +452,7 @@ class ProfileTestCase(APITestCase):
         data = {
             "mobile_number": "010-4334-2929",
             "address.ho":'1층',
-            "bank_name": "020",
+            "bank_name": 20,
             "account_number": "938271122121"
         }
         response = self.client.put(
@@ -447,7 +460,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["mobile_number"], "010-4334-2929")
         self.assertEqual(response.data["address"]["ho"], "1층")
-        self.assertEqual(response.data["bank_name"], "020")
+        self.assertEqual(response.data["bank_name"], 20)
         self.assertEqual(response.data["account_number"], "938271122121")
 
     def test_profile_update_by_random_user(self):
@@ -456,10 +469,18 @@ class ProfileTestCase(APITestCase):
         self.create_profile()
         self.client.force_authenticate(user=random_user)
         response = self.client.put(reverse("profiles-detail", kwargs={"pk": 1}),
-                                   {"bank_name": "hacked!!!"})
+                                   {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_default_profile_delete(self):
+        self.create_profile()
+        response = self.client.delete(
+            reverse("profiles-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
+
     def test_profile_delete(self):
+        self.create_profile()
         self.create_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
@@ -478,17 +499,19 @@ class ProfileTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data["id"], "paper": None, "group": "0"},
+                {"profile": response.data["id"], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        #Make default profile to False.
+        self.create_profile()
         response = self.client.delete(reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
@@ -506,14 +529,14 @@ class ProfileTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data["id"], "paper": None, "group": "0"},
+                {"profile": response.data["id"], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -592,7 +615,8 @@ class ProfileTestCase(APITestCase):
         }
         response = self.client.post(self.mandate_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
+        #Make default profile to False
+        self.create_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 2}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -622,14 +646,14 @@ class ProfileTestCase(APITestCase):
     def test_set_default_profile(self):
         response = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_active"], True)
+        self.assertEqual(response.data["is_default"], True)
         response2 = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_active"], True)
-        self.assertEqual(Profile.objects.filter(is_active=False).count(), 1)
+        self.assertEqual(response.data["is_default"], True)
+        self.assertEqual(Profile.objects.filter(is_default=False).count(), 1)
 
         response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
-        self.assertEqual(response.data["is_active"], True)
+        self.assertEqual(response.data["is_default"], True)
 
 class CustomUserTestCase(APITestCase):
     profiles_list_url = reverse("profiles-list")
@@ -647,7 +671,7 @@ class CustomUserTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963"
         }
         response = self.client.post(self.profiles_list_url, data=data)
@@ -659,7 +683,7 @@ class CustomUserTestCase(APITestCase):
                 "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False,
                 "mobile_number": "010-1234-1234",
                 **address_form,
-                "bank_name": "004",
+                "bank_name": 4,
                 "account_number": "94334292963"}
         response = self.client.post(reverse("registration_register"), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -696,14 +720,14 @@ class CustomUserTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data['id'], "paper": None, "group": "0"},
+                {"profile": response.data['id'], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         self.client.post(reverse("papers-list"), data=data, format="json")
 
@@ -739,14 +763,14 @@ class CustomUserTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": response.data['id'], "paper": None, "group": "0"},
+                {"profile": response.data['id'], "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         self.client.post(reverse("papers-list"), data=data, format="json")
         data = {
@@ -809,7 +833,7 @@ class MandateTestCase(APITestCase):
         data = {
             "mobile_number": "010-1234-1234",
             **address_form,
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
         }
         response = self.client.post(self.profile_list_url, data=data)
@@ -820,7 +844,7 @@ class MandateTestCase(APITestCase):
                                               bio="bio", name="김주영", birthday="1955-02-12")
         address = Address.objects.create(old_address='광주 광산구 명도동 169', new_address='광주광역시 광산구 가마길 2-21', 
         sigunguCd = '29170', bjdongCd = '29170', platGbCd = '', bun = '973', ji = '17', dong = '202', ho='307')
-        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")

@@ -7,19 +7,21 @@ from django.core.validators import RegexValidator
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from addresses.models import Address
-from profiles.models import CustomUser, ExpertProfile, Profile, AllowedUser
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Insurance
 from registration.forms import RegistrationFormUniqueEmail
 from datetime import datetime
+
 name_validator = RegexValidator(r"^[가-힣a-zA-Z]+$", _("Your name strings only contain Kor or Eng characters without space."))
 
 date_range = 100
-this_year = datetime.now().year
+today = datetime.now()
+initial_date = datetime(today.year - 30, 1, 1)
 User = get_user_model()
 class CustomUserForm(RegistrationFormUniqueEmail):
     terms_service = forms.BooleanField(label=_('이용약관 동의'))
     personal_info = forms.BooleanField(label=_('개인정보 처리방침 동의'))
     name = forms.CharField(label=_('성함'), required=True, max_length=150, validators=[name_validator], help_text=_("Your name strings only contain Kor or Eng characters without space."))
-    birthday = forms.DateField(label=_('생년월일'), required=True, widget=forms.SelectDateWidget(years=range(this_year - date_range, this_year), attrs = {'class': 'form-control snps-inline-select'}))
+    birthday = forms.DateField(label=_('생년월일'), required=True, initial=initial_date, widget=forms.SelectDateWidget(years=range(today.year - date_range, today.year), attrs = {'class': 'form-control snps-inline-select'}))
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
     bank_name = forms.ChoiceField(choices=Profile.BANK_CATEGORY, label=_('은행명'), required=False)
     account_number = forms.CharField(label=_('계좌번호'), required=False, max_length=45)
@@ -88,8 +90,10 @@ class ExpertCustomUserForm(CustomUserForm):
     registration_certificate = forms.ImageField(label=_("중개사무소 등록증"), required=True)
     agency_license = forms.ImageField(label=_("공인중개사 자격증"), required=True)
     stamp = forms.ImageField(label=_("인장"), required=True)
-    garantee_insurance = forms.ImageField(label=_("보증설정서류"), required=True)
+    insurance = forms.ImageField(label=_("보증설정서류"), required=True)
     old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+    from_date = forms.DateField(label=_('보증서류 시작일'), initial=datetime(today.year, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
+    to_date = forms.DateField(label=_('보증서류 만료일'), initial=datetime(today.year+1, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
 
     def clean_registration_certificate(self):
         image = self.cleaned_data['registration_certificate']
@@ -106,19 +110,22 @@ class ExpertCustomUserForm(CustomUserForm):
         validate_image(image)
         return image
 
-    def clean_garantee_insurance(self):
-        image = self.cleaned_data['garantee_insurance']
+    def clean_insurance(self):
+        image = self.cleaned_data['insurance']
         validate_image(image)
         return image
 
     @transaction.atomic
     def save(self, commit=True):
         profile = super(ExpertCustomUserForm, self).save(commit=commit)
-        expert = ExpertProfile.objects.create(profile=profile,
+        expert_profile = ExpertProfile.objects.create(profile=profile,
                                          registration_number=self.cleaned_data['registration_number'],
                                          shop_name=self.cleaned_data['shop_name'],
                                          registration_certificate=self.cleaned_data['registration_certificate'],
                                          agency_license=self.cleaned_data['agency_license'],
-                                         stamp=self.cleaned_data['stamp'],
-                                         garantee_insurance=self.cleaned_data['garantee_insurance'])
+                                         stamp=self.cleaned_data['stamp'])
+        Insurance.objects.create(expert_profile=expert_profile,
+                            image=self.cleaned_data['insurance'],
+                            from_date=self.cleaned_data['from_date'],
+                            to_date=self.cleaned_data['to_date'])
         return profile.user
