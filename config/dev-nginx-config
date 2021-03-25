@@ -38,8 +38,16 @@ upstream green {
 server {
 	listen 80;
 	listen [::]:80;
-	access_log  /var/log/nginx/access-green.log;
-	error_log  /var/log/nginx/error-green.log;
+	server_name 3.35.255.254 dev.onepaper.biz;
+        return 301 https://$host$request_uri;
+}
+
+server {
+	listen 443 ssl; # managed by Certbot
+	listen [::]:443 ssl; # managed by Certbot
+
+	access_log  /var/log/nginx/access.log;
+	error_log  /var/log/nginx/error.log;
 	server_name 3.35.255.254 dev.onepaper.biz;
 	client_max_body_size 5m;
 
@@ -54,7 +62,7 @@ server {
 	}
 	location /media/ {
 		autoindex on;
-		alias /home/ubuntu/web-info/media/;
+		alias /home/ubuntu/onepaper-green/media/;
 		expires 365d;
 	}
 	location /static/ {
@@ -74,7 +82,7 @@ server {
 		add_header             Cache-Control max-age=31536000;
 		add_header X-Proxy-Cache $upstream_cache_status;
 
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
+		proxy_pass http://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
 		gzip on;
 		gzip_disable "msie6";
 
@@ -86,12 +94,17 @@ server {
 		gzip_min_length 256;
 		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
 	}
+
+    ssl_certificate /etc/letsencrypt/live/dev.onepaper.biz/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/dev.onepaper.biz/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 server {
-	listen 80;
-	listen [::]:80;
-	access_log  /var/log/nginx/access.log;
-	error_log  /var/log/nginx/error.log;
+	listen 5555;
+	access_log  /var/log/nginx/access-green.log;
+	error_log  /var/log/nginx/error-green.log;
 #	server_name 3.35.255.254 dev.onepaper.biz;
 	client_max_body_size 5m;
 
@@ -196,6 +209,9 @@ server {
 #		try_files $uri $uri/ =404;
 #	}
 #}
+
+
+
 
 
 
