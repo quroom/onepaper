@@ -168,11 +168,6 @@ class ExpertProfileTestCase(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
-        self.image = self._create_image()
-        self.image1 = self._create_image()
-        self.image2 = self._create_image()
-        self.image3 = self._create_image()
-        self.image4 = self._create_image()
         self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
@@ -181,18 +176,6 @@ class ExpertProfileTestCase(APITestCase):
                                                    is_expert=True)
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
-
-    def tearDown(self):
-        self.image.close()
-        os.remove(self.image.name)
-        self.image1.close()
-        os.remove(self.image1.name)
-        self.image2.close()
-        os.remove(self.image2.name)
-        self.image3.close()
-        os.remove(self.image3.name)
-        self.image4.close()
-        os.remove(self.image4.name)
 
     def test_customuser(self):
         response = self.client.get("/api/user/")
@@ -218,6 +201,10 @@ class ExpertProfileTestCase(APITestCase):
         return profile
 
     def create_expert_profile(self):
+        image = self._create_image()
+        image1 = self._create_image()
+        image2 = self._create_image()
+        image3 = self._create_image()
         #FIXME: Need to create objects with model directely
         data = {
             "mobile_number": "010-1234-1234",
@@ -226,15 +213,22 @@ class ExpertProfileTestCase(APITestCase):
             **address_form,
             "expert_profile.registration_number": "2020118181-11",
             "expert_profile.shop_name": "광주부동산중개",
-            "expert_profile.registration_certificate": self.image,
-            "expert_profile.agency_license": self.image1,
-            "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3,
-            "expert_profile.insurance.image": self.image4,
+            "expert_profile.registration_certificate": image,
+            "expert_profile.agency_license": image1,
+            "expert_profile.stamp": image2,
+            "expert_profile.insurance.image": image3,
             "expert_profile.insurance.from_date": "2021-3-13",
             "expert_profile.insurance.to_date": "2022-3-13"
         }
         response = self.client.post(self.list_url, data=data)
+        image.close()
+        os.remove(image.name)
+        image1.close()
+        os.remove(image1.name)
+        image2.close()
+        os.remove(image2.name)
+        image3.close()
+        os.remove(image3.name)
         return response
 
     def test_expert_profile_create(self):
@@ -322,11 +316,27 @@ class ExpertProfileTestCase(APITestCase):
                                    {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_default_expert_profile_delete(self):
+        self.create_expert_profile()
+        response = self.client.delete(
+            reverse("profiles-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
+
     def test_expert_profile_delete(self):
+        response = self.create_expert_profile()
         self.create_expert_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_insurance_update(self):
+        profile_response = self.create_expert_profile()
+        response = self.client.put(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": profile_response.data['id'], "pk": profile_response.data['expert_profile']['insurance']['id']})
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("보증서류 시작일과 종료일을 모두 입력해주세요."))
 
     def test_approve_expert_post_delete(self):
         expert_profile = self.create_user_profile(is_expert=True)
@@ -405,7 +415,6 @@ class ProfileTestCase(APITestCase):
             "expert_profile.registration_certificate": self.image,
             "expert_profile.agency_license": self.image1,
             "expert_profile.stamp": self.image2,
-            "expert_profile.garantee_insurance": self.image3,
             "expert_profile.insurance.image": self.image4,
             "expert_profile.insurance.from_date": "2021-3-13",
             "expert_profile.insurance.to_date": "2022-3-13"
@@ -463,7 +472,15 @@ class ProfileTestCase(APITestCase):
                                    {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_default_profile_delete(self):
+        self.create_profile()
+        response = self.client.delete(
+            reverse("profiles-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
+
     def test_profile_delete(self):
+        self.create_profile()
         self.create_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
@@ -493,6 +510,8 @@ class ProfileTestCase(APITestCase):
         }
         response = self.client.post(self.paper_list, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        #Make default profile to False.
+        self.create_profile()
         response = self.client.delete(reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
@@ -596,7 +615,8 @@ class ProfileTestCase(APITestCase):
         }
         response = self.client.post(self.mandate_list, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
+        #Make default profile to False
+        self.create_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 2}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

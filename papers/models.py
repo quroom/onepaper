@@ -113,10 +113,6 @@ class Paper(models.Model):
                                    on_delete=models.SET_NULL,
                                    related_name="paper")
     down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
-    insurance = models.ForeignKey(Insurance, 
-                                  on_delete=models.CASCADE,
-                                  null=True, blank=True,
-                                  related_name="insurances")
     security_deposit = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
@@ -313,6 +309,9 @@ class VerifyingExplanation(models.Model):
     paper = models.OneToOneField(Paper,
                                 on_delete=models.CASCADE,
                                 related_name="verifying_explanation")
+    insurance = models.ForeignKey(Insurance,
+                                  on_delete=models.CASCADE,
+                                  related_name="verifying_explanations")
     paper_categories = MultiSelectField(choices=PAPER_CATEGORY)
     explanation_evidences = MultiSelectField(choices=EXPLANATION_EVIDENCE_CATEGORY)
     explanation_evidence_info = models.CharField(max_length=15, blank=True)
@@ -333,7 +332,7 @@ class VerifyingExplanation(models.Model):
     actual_building_category = models.PositiveSmallIntegerField(
         choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
     building_structure = models.CharField(max_length=12)
-    building_direction = models.CharField(max_length=12)
+    building_direction = models.CharField(max_length=15)
     seismic_design = models.CharField(max_length=12)
     seismic_capacity = models.CharField(max_length=12)
     legal_status = models.BooleanField()

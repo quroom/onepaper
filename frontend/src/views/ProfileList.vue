@@ -44,9 +44,11 @@
                     {{ $t("activate") }}
                 </v-btn>
               </template>
-              <v-chip class="ma-1" color="primary" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
-              <v-chip class="ma-1" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'requesting')"> {{$t("reviewing")}} </v-chip>
-              <v-chip class="ma-1" color="error" v-if="is_expert && profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
+              <template v-if="is_expert">
+                <v-chip class="ma-1" color="primary" v-if="profile.expert_profile.status == $getConstByName('expert_status', 'approved')"> {{$t("approved")}} </v-chip>
+                <v-chip class="ma-1" v-if="profile.is_default && profile.expert_profile.status == $getConstByName('expert_status', 'requesting')"> {{$t("reviewing")}} </v-chip>
+                <v-chip class="ma-1" color="error" v-if="profile.expert_profile.status == $getConstByName('expert_status', 'denied')"> {{$t("denied")}} </v-chip>
+              </template>
               <v-card-title class="pb-2">
                 {{ profile.address.old_address }}
               </v-card-title>

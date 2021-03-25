@@ -29,6 +29,7 @@
             item-key="id"
             :server-items-length="items_length"
             @update:page="updatePagination"
+            :page="paper_pagination"
           >
             <template
               v-slot:[`item.trade_category`]="{ item }">
@@ -72,6 +73,7 @@
                   item-key="usenrame"
                   :server-items-length="items_length"
                   @update:page="updatePagination"
+                  :page="profile_pagination"
                 >
                   <template v-slot:[`item.select`]="{ item }">
                     <v-btn class="primary" @click="loadProfile(item)"> {{$t("select")}} </v-btn>
@@ -403,48 +405,65 @@
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
-      <VerifyingExplanationEditor ref="verifying_explanation" v-if="is_expert" :ve.sync="ve" :step="step" :validation_check.sync="validation_check"></VerifyingExplanationEditor>
-      <v-row class="mt-4" no-gutters v-if="step==max_step && is_expert ">
-        <template v-if="seller">
-          <v-col class="contractor-title text-center font-weight-bold" cols="12">
-            <v-card outlined tile color="blue lighten-4">
-              {{ $t("seller") }}
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
-          </v-col>
-        </template>
-        <template v-if="buyer">
-          <v-col class="contractor-title text-center font-weight-bold" cols="12">
-            <v-card outlined tile color="blue lighten-4">
-              {{ $t("buyer") }}
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
-          </v-col>
-        </template>
-        <v-col class="contractor-title text-center font-weight-bold" cols="12">
-          <v-card outlined tile color="blue lighten-4">
-            {{ $t("realestate_agency") }}
-          </v-card>
-        </v-col>
-        <v-col v-if="expert" cols="12">
-          <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
-        </v-col>
-      </v-row>
-      <template v-if="is_expert">
-        <v-row>
-          <v-btn class="mt-3" style="float:left" v-if="step!=1" dark @click="backStep()">{{$t("back")}}</v-btn>
+      <template v-if="is_expert&&expert">
+        <VerifyingExplanationEditor ref="verifying_explanation" :ve.sync="ve" :step="step" :validation_check.sync="validation_check">
+          <template v-slot:footer>
+            <v-row class="mt-4" no-gutters v-if="step==max_step">
+              <template v-if="seller">
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                  <v-card outlined tile color="blue lighten-4">
+                    {{ $t("seller") }}
+                  </v-card>
+                </v-col>
+                <v-col cols="12">
+                  <ContractorItem :profile="seller" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-col>
+              </template>
+              <template v-if="buyer">
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                  <v-card outlined tile color="blue lighten-4">
+                    {{ $t("buyer") }}
+                  </v-card>
+                </v-col>
+                <v-col cols="12">
+                  <ContractorItem :profile="buyer" :fields="fields_names.basic_profile_fields"></ContractorItem>
+                </v-col>
+              </template>
+              <v-col class="contractor-title text-center font-weight-bold" cols="12">
+                <v-card outlined tile color="blue lighten-4">
+                  {{ $t("realestate_agency") }}
+                </v-card>
+              </v-col>
+              <v-col v-if="expert" cols="12">
+                <ContractorItem :profile="expert" :fields="fields_names.expert_profile_fields"></ContractorItem>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-if="expert.expert_profile.insurance.image && step==max_step" v-slot:insurance>
+            <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
+            <v-row justify="center">
+              <img :src="expert.expert_profile.insurance.image" aspect-ratio="1" />
+            </v-row>
+          </template>
+        </VerifyingExplanationEditor>
+        <v-row v-if="expert.expert_profile.insurance.image" >
+          <v-btn v-if="step!=1" class="mt-3 float-right" @click="backStep()">{{$t("back")}}</v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="mt-3" style="float:right" color="green" v-if="step!=max_step" dark @click="nextStep()">{{$t("next")}}</v-btn>
-          <v-btn v-if="step==max_step" class="mt-3 float_right primary" @click="onSubmit()"> {{$t('submit')}} </v-btn>
+          <v-btn v-if="step!=max_step" class="mt-3 float-right white--text" color="green" @click="nextStep()">{{$t("next")}}</v-btn>
+          <v-btn v-if="step==max_step" class="mt-3 float-right primary white--text" @click="submit()"> {{$t('submit')}} </v-btn>
         </v-row>
+        <template v-else>
+          <div class="text-right red--text">{{ $t("please_available_garantee_insurance") }}</div>
+          <v-row class="mt-3" justify="end">
+            <v-btn class="primary" dark :to="{name: 'profile-editor', params: { id: expert.id } }">
+              {{`${$t("add_garantee_insurance")}`}}
+            </v-btn>
+          </v-row>
+        </template>
       </template>
       <v-row v-else>
         <v-col cols="12" class="text-right">
-          <v-btn class="primary" @click="onSubmit()">{{$t('submit')}}</v-btn>
+          <v-btn class="primary" @click="submit()">{{$t('submit')}}</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -477,6 +496,8 @@ export default {
   data() {
     return {
       dialog_category: 'paper',
+      paper_pagination: 1,
+      profile_pagination: 1,
       requestUser: null,
       load_dialog: false,
       isLoading: false,
@@ -498,14 +519,13 @@ export default {
       building_structure: '',
       building_category: 80,
       building_area: null,
-      trade_category: 0,
+      trade_category: 1,
       address: {
         old_address: null,
         dong: '',
         ho: '',
       },
       down_payment: 0,
-      insurance: null,
       security_deposit: 0,
       maintenance_fee: 0,
       monthly_fee: 0,
@@ -879,6 +899,7 @@ export default {
       apiService(endpoint).then(data => {
         if(data.length != undefined){
           this.expert_profiles = data;
+          this.expert = data[0];
         } else {
           applyValidation(data)
         }
@@ -889,7 +910,7 @@ export default {
       this.dialog_category = 'paper';
       this.load_dialog = true;
       this.isLoading = true;
-      let endpoint = `/api/papers/`;
+      let endpoint = `/api/papers/?page=${this.paper_pagination}`;
       apiService(endpoint).then(data => {
         if(data != undefined) {
           this.items_length = data.count;
@@ -964,7 +985,7 @@ export default {
         }
       })
     },
-    onSubmit() {
+    submit() {
       const that = this;
       // FIXME: This will be used later when we check validation for VerifyingExplanation.
       // this.validation_check = true
@@ -999,8 +1020,8 @@ export default {
             special_agreement: that.special_agreement,
           }
             if(that.is_expert){
-              data.insurance = that.insurance.id;
               data.verifying_explanation = that.ve;
+              data.verifying_explanation['insurance'] = that.expert.expert_profile.insurance.id;
             }
           try {
             apiService(endpoint, method, data).then(data => {
@@ -1032,7 +1053,7 @@ export default {
       });
     },
     searchProfile(){
-      let endpoint = "/api/open-profiles/"
+      let endpoint = `/api/open-profiles/?page=${this.profile_pagination}`
       let is_first_option = false;
       Object.entries(this.search).forEach(function(entry){
         const [key, value] = entry;
@@ -1088,9 +1109,13 @@ export default {
       }
     },
     updatePagination (pagination) {
-      let endpoint = `/api/papers/?page=${pagination}`
-      if(this.dialog_category == 'profile'){
+      let endpoint = ``;
+      if(this.dialog_category == 'paper'){
+        endpoint = `/api/papers/?page=${pagination}`
+        this.paper_pagination = pagination
+      } else {
         endpoint = `/api/open-profiles/?page=${pagination}`+`&name=${this.search.name}`+`&mobile_number=${this.search.mobile_number}`
+        this.profile_pagination = pagination
       }
 
       apiService(endpoint).then(data => {
@@ -1143,7 +1168,6 @@ export default {
             vm.contractors = data.paper_contractors;
             vm.status = data.status;
             if(data.verifying_explanation != null) {
-              vm.insurance = data.insurance;
               vm.ve = data.verifying_explanation;
             }
           }

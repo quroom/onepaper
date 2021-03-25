@@ -9,7 +9,7 @@
         <div class="caption">
           {{ $t("enforcement_rules") }}
           <span class="blue--text text--accent-4">&lt;{{$t("ve_amendment_updated_date")}}&gt;</span>
-          <span class="float_right">(4쪽 중 제1쪽)</span>
+          <span class="float-right">(4쪽 중 제1쪽)</span>
         </div>
         <div class="text-h6 font-weight-bold" align="center">중개대상물 확인ㆍ설명서[Ⅰ] (주거용 건축물)</div>
         <v-row justify="center" align="center">
@@ -268,7 +268,7 @@
       </template>
       <template v-if="step==3 || validation_check">
         <div class="caption">
-          <span class="float_right">(4쪽 중 제2쪽)</span>
+          <span class="float-right">(4쪽 중 제2쪽)</span>
         </div>
         <div class="border pl-2 pr-2 mt-4">
           <div class="text-body font-weight-bold">
@@ -444,7 +444,7 @@
       </template>
       <template v-if="step==4 || validation_check">
         <div class="caption">
-          <span class="float_right">(4쪽 중 제2쪽)</span>
+          <span class="float-right">(4쪽 중 제2쪽)</span>
         </div>
         <div class="text-subtitle font-weight-bold mt-4">Ⅱ. 개업공인중개사 세부 확인사항</div>
         <v-row no-gutters>
@@ -534,7 +534,7 @@
           </div>
         </div>
         <div class="caption">
-          <span class="float_right">(4쪽 중 제3쪽)</span>
+          <span class="float-right">(4쪽 중 제3쪽)</span>
         </div>
         <div class="border pl-2 pr-2 mt-4">
           <div class="text-body font-weight-bold">
@@ -613,21 +613,24 @@
     <div>
       <slot name="footer"></slot>
     </div>
-    <div class="text-subtitle font-weight-bold mt-4 text-center">확인설명서 별지</div>
-    <v-row no-gutters>
-      <v-col cols="12">
-        <LazyTextArea
-          class="mt-4"
-          v-model="ve.additional_info"
-          label="확인설명서 별지 내용"
-          placeholder="확인설명서 별지 내용"
-          outlined
-          auto-grow
-          rows="2"
-        >
-        </LazyTextArea>
-      </v-col>
-    </v-row>
+    <template v-if="step!=1">
+      <div class="text-subtitle font-weight-bold mt-4 text-center">확인설명서 별지</div>
+      <v-row no-gutters>
+        <v-col cols="12">
+          <LazyTextArea
+            class="mt-4"
+            v-model="ve.additional_info"
+            label="확인설명서 별지 내용"
+            placeholder="확인설명서 별지 내용"
+            outlined
+            auto-grow
+            rows="2"
+          >
+          </LazyTextArea>
+        </v-col>
+      </v-row>
+    </template>
+    <slot name="insurance"></slot>
   </div>
 </template>
 

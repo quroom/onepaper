@@ -85,7 +85,7 @@ class ApproveExpert(mixins.ListModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     generics.GenericAPIView):
-    queryset = ExpertProfile.objects.all()
+    queryset = ExpertProfile.objects.filter(profile__is_default=True)
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = ApproveExpertSerializer
 
@@ -96,11 +96,12 @@ class ApproveExpert(mixins.ListModelMixin,
         if len(request.data['profiles']) == 0:
             return Response({"detail": ValidationError(_("전문가가 선택되지 않았습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        expert_profiles = ExpertProfile.objects.filter(
-            id__in=request.data['profiles']).exclude(status=ExpertProfile.APPROVED)
+        queryset = self.get_queryset()
+        expert_profiles = queryset.filter(id__in=request.data['profiles']).exclude(status=ExpertProfile.APPROVED)
         if expert_profiles.exists() is False:
             return Response({"detail": ValidationError(_("승인 가능한 전문가가 선택되지 않았습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         expert_profiles.update(status=ExpertProfile.APPROVED)
+
         queryset = self.get_queryset()
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -110,8 +111,7 @@ class ApproveExpert(mixins.ListModelMixin,
         return paginator.get_paginated_response(serializer.data)
 
     def delete(self, request):
-        expert_profiles = ExpertProfile.objects.filter(
-            id__in=request.data['profiles'])
+        expert_profiles = ExpertProfile.objects.filter(id__in=request.data['profiles'])
         if expert_profiles.exists() is False:
             return Response({"detail": ValidationError(_("전문가가 선택되지 않았습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         expert_profiles.update(status=ExpertProfile.DENIED)
@@ -127,7 +127,7 @@ class ExpertProfileList(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get(self, request):
-        queryset = Profile.objects.filter(user=self.request.user, expert_profile__status=ExpertProfile.APPROVED).select_related('user', 'address', 'expert_profile')
+        queryset = Profile.objects.filter(user=self.request.user, expert_profile__status=ExpertProfile.APPROVED, is_default=True).select_related('user', 'address', 'expert_profile')
         serializer = ProfileReadonlySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -152,17 +152,31 @@ class InsuranceViewset(ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
+        from_date = request.data.get('from_date')
+        to_date = request.data.get('to_date')
         instance = self.get_object()
-        
-        from_date = datetime.combine(instance.from_date, datetime.min.time(), tzinfo=timezone.localtime().tzinfo)
-        to_date = datetime.combine(instance.from_date, datetime.max.time(), tzinfo=timezone.localtime().tzinfo)
 
-        if Contractor.objects.filter(profile__expert_profile=instance.expert_profile, paper__updated_at__gte=from_date, paper__updated_at__lte=to_date).exists():
-            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 보증서류 정보를 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        if from_date == None or to_date == None:
+            return Response({"detail": ValidationError(_("보증서류 시작일과 종료일을 모두 입력해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            from_date = datetime.strptime(from_date, "%Y-%m-%d")
+            to_date = datetime.strptime(to_date, "%Y-%m-%d")
+            if from_date.date() != instance.from_date or to_date.date() != instance.to_date:
+                local_time = timezone.localtime()
+                tzinfo = local_time.tzinfo
+                from_date_time = datetime.combine(from_date, datetime.min.time(), tzinfo=tzinfo)
+                to_date_time = datetime.combine(to_date, datetime.max.time(), tzinfo=tzinfo)
+                instance_from_date_time = datetime.combine(instance.from_date, datetime.min.time(), tzinfo=tzinfo)
+                instance_to_date_time = datetime.combine(instance.to_date, datetime.max.time(), tzinfo=tzinfo)
+                related_papers = Paper.objects.filter(verifying_explanation__insurance=instance, updated_at__gte=instance_from_date_time, updated_at__lte=instance_to_date_time)
+                if related_papers.exists() and from_date.date() != instance.from_date:
+                    return Response({"detail": ValidationError(_("보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        # expert_profile = ExpertProfile.objects.get(profile__id=self.kwargs['profile_pk'])
-        # if insurances.filter(expert_profile=expert_profile, from_date__gte=from_date, from_date__lte=to_date).exists():
-            # return Response({"detail": ValidationError(_("기존 보증서류와 기간이 중복될 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+                after_updated_related_papers = Paper.objects.filter(verifying_explanation__insurance=instance, updated_at__gte=from_date_time, updated_at__lte=to_date_time)
+
+                #FIXME Need to add test code for this logic.
+                if related_papers.count() != after_updated_related_papers.count():
+                    return Response({"detail": ValidationError(_("수정 후 보증서류 기간에 제외되는 계약서가 없도록 기간을 다시 수정해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -177,9 +191,14 @@ class InsuranceViewset(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        local_time = timezone.localtime()
+        tzinfo = local_time.tzinfo
+        instance_from_date_time = datetime.combine(instance.from_date, datetime.min.time(), tzinfo=tzinfo)
+        instance_to_date_time = datetime.combine(instance.to_date, datetime.max.time(), tzinfo=tzinfo)
+        related_papers = Paper.objects.filter(verifying_explanation__insurance=instance, updated_at__gte=instance_from_date_time, updated_at__lte=instance_to_date_time)
 
-        if Contractor.objects.filter(profile__expert_profile=instance.expert_profile, paper__updated_at__gte=from_date, paper__updated_at__lte=to_date).exists():
-            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        if related_papers.exists():
+            return Response({"detail": ValidationError(_("보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -200,12 +219,6 @@ class ProfileViewset(ModelViewSet):
                 return ExpertProfileSerializer
         else:
             return ProfileSerializer
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        if not self.request.method in SAFE_METHODS:
-            context["profile_pk"] = self.kwargs['pk']
-        return context
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)

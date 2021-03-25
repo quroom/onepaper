@@ -90,7 +90,7 @@ class ExpertCustomUserForm(CustomUserForm):
     registration_certificate = forms.ImageField(label=_("중개사무소 등록증"), required=True)
     agency_license = forms.ImageField(label=_("공인중개사 자격증"), required=True)
     stamp = forms.ImageField(label=_("인장"), required=True)
-    garantee_insurance = forms.ImageField(label=_("보증설정서류"), required=True)
+    insurance = forms.ImageField(label=_("보증설정서류"), required=True)
     old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
     from_date = forms.DateField(label=_('보증서류 시작일'), initial=datetime(today.year, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
     to_date = forms.DateField(label=_('보증서류 만료일'), initial=datetime(today.year+1, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
@@ -110,8 +110,8 @@ class ExpertCustomUserForm(CustomUserForm):
         validate_image(image)
         return image
 
-    def clean_garantee_insurance(self):
-        image = self.cleaned_data['garantee_insurance']
+    def clean_insurance(self):
+        image = self.cleaned_data['insurance']
         validate_image(image)
         return image
 
@@ -123,10 +123,9 @@ class ExpertCustomUserForm(CustomUserForm):
                                          shop_name=self.cleaned_data['shop_name'],
                                          registration_certificate=self.cleaned_data['registration_certificate'],
                                          agency_license=self.cleaned_data['agency_license'],
-                                         stamp=self.cleaned_data['stamp'],
-                                         garantee_insurance=self.cleaned_data['garantee_insurance'])
+                                         stamp=self.cleaned_data['stamp'])
         Insurance.objects.create(expert_profile=expert_profile,
-                            image=self.cleaned_data['garantee_insurance'],
+                            image=self.cleaned_data['insurance'],
                             from_date=self.cleaned_data['from_date'],
                             to_date=self.cleaned_data['to_date'])
         return profile.user

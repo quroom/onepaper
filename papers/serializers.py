@@ -30,6 +30,16 @@ class VerifyingExplanationSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ('paper',)
 
+class VerifyingExplanationReadonlySerializer(ReadOnlyModelSerializer):
+    address = AddressSerializer()
+    paper_categories = fields.MultipleChoiceField(choices=VerifyingExplanation.PAPER_CATEGORY)
+    explanation_evidences = fields.MultipleChoiceField(choices=VerifyingExplanation.EXPLANATION_EVIDENCE_CATEGORY)
+    insurance = InsuranceSerializer()
+
+    class Meta:
+        model = VerifyingExplanation
+        fields = "__all__"
+
 class VerifyingEveryoneExplanationSerializer(VerifyingExplanationSerializer):
     address = serializers.SerializerMethodField()
 
@@ -194,8 +204,8 @@ class PaperSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         author = self.context['request'].user
-        is_author_expert = ExpertProfile.objects.filter(profile__user=author).exists()
         exist_expert = False
+        expert_profile = None
         contractors = data['paper_contractors'] if not data.get('paper_contractors') is None else []
         users_id_list = []
         for index, contractor in enumerate(contractors):
@@ -206,22 +216,14 @@ class PaperSerializer(serializers.ModelSerializer):
             elif contractor['group'] == Contractor.EXPERT:
                 key = "expert"
 
-            if key == "expert":
-                insurance = data.get('insurance')
-                if not insurance is None:
-                    if not Insurance.objects.filter(expert_profile__profile=contractor['profile'], id=insurance.id).exists():
-                        raise serializers.ValidationError({
-                            "insurance": _("중개사가 보유하지 않은 보증서류가 추가되었습니다."),
-                        })
-
             users_id_list.append(contractor['profile'].user.id)
-
             if users_id_list.count(contractor['profile'].user.id) > 1:
                 #FIXME Need to be updated
                 #거래자 여러명 되면, key + id로 수정해줘야함.
                 raise serializers.ValidationError({
                     key: _("같은 회원을 중복해서 등록할 수 없습니다."),
                 })
+
             if author != contractor['profile'].user:
                 if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
                     contractor['is_allowed'] = False
@@ -229,28 +231,39 @@ class PaperSerializer(serializers.ModelSerializer):
                     contractor['is_allowed'] = True
             else:
                 contractor['is_allowed'] = True
+
             if contractor['group'] == Contractor.SELLER or contractor['group'] == Contractor.BUYER:
                 if ExpertProfile.objects.filter(profile=contractor['profile']).exists():
                     raise serializers.ValidationError({
                         key: _("공인중개사는 거래자로 등록할 수 없습니다."),
                     })
             if contractor['group'] == Contractor.EXPERT:
-                if ExpertProfile.objects.filter(profile=contractor['profile'], status=ExpertProfile.APPROVED).exists():
+                if ExpertProfile.objects.filter(profile=contractor['profile'], profile__is_default=True, status=ExpertProfile.APPROVED).exists():
                     exist_expert = True
+                    if contractor['profile'].user == author:
+                        expert_profile = contractor['profile']
                 else:
                     raise serializers.ValidationError({
-                        key: _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."),
+                        key: _("승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."),
                     })
+
         if self.context['request'].method in ["PUT", "POST"]:
-            if author.is_expert==True:
+            if author.is_expert == True:
                 if exist_expert == False:
                     raise serializers.ValidationError({
                         "expert": _("작성자가 공인중개사인 경우 비워둘 수 없습니다."),
                     })
-                if data.get("verifying_explanation") is None:
+                ve = data.get("verifying_explanation")
+                if ve is None:
                     raise serializers.ValidationError({
                         "verifying_explanation": _("작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."),
                     })
+                else:
+                    insurance = ve.get('insurance')
+                    if not insurance.expert_profile.profile.id == expert_profile.id:
+                        raise serializers.ValidationError({
+                            "insurance": _("보유하지 않은 중개보증서류가 추가되었습니다."),
+                        })
             if not author.id in users_id_list:
                 raise serializers.ValidationError({
                     "seller": _("작성자가 포함되지 않았습니다."),
@@ -285,8 +298,7 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
-    verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
-    insurance = InsuranceSerializer()
+    verifying_explanation = VerifyingExplanationReadonlySerializer()
 
     class Meta:
         model = Paper

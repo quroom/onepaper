@@ -189,15 +189,6 @@
             </template>
         </template>
       </VerifyingExplanation>
-      <div class="page-divide">
-        <v-divider></v-divider>
-      </div>
-      <div class="a4">
-        <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
-        <v-row justify="center">
-          <img :src="paper.insurance.image" aspect-ratio="1" />
-        </v-row>
-      </div>
     </template>
     <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
       <v-card>

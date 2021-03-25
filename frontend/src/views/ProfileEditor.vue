@@ -218,27 +218,28 @@
               ></v-file-input>
             </ValidationProvider>
           </v-col>
-          <template v-if="!dialog.flag">
-            <v-col cols="4" md="2">
+          <template>
+            <v-col  v-if="!dialog.flag && id==undefined" cols="4" md="2">
               <ValidationProvider
                 mode="passive"
-                ref="garantee_insurance"
+                ref="insurance"
                 :name="$t('garantee_insurance')"
                 :rules="`${required?'required':''}|size:1024`"
                 v-slot="{ errors }"
               >
                 <v-file-input
-                  v-model="expert_profile.garantee_insurance"
+                  v-model="expert_profile.insurance.image"
                   :label="$t('garantee_insurance')"
                   accept="image/*"
                   @click.stop
-                  @change="preview_image('garantee_insurance')"
+                  @change="preview_image('insurance')"
                   :error-messages="errors"
                 ></v-file-input>
               </ValidationProvider>
             </v-col>
-            <v-col cols="auto">
+            <v-col v-if="!dialog.flag&&isInsuranceValid" cols="auto">
               <v-menu
+                :disabled="id!=undefined"
                 v-model="to_date_menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
@@ -247,7 +248,7 @@
                 min-width="290px"
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <ValidationProvider ref="dates"  :name="`${$t('garantee_insurance')} ${$t('period')}`" v-slot="{ errors }" rules="required|date_required|period">
+                  <ValidationProvider ref="dates" :name="`${$t('garantee_insurance')} ${$t('period')}`" v-slot="{ errors }" rules="required|date_required|period">
                     <LazyTextField
                       v-model="dates"
                       :error-messages="errors"
@@ -256,23 +257,6 @@
                       readonly
                       v-bind="attrs"
                       v-on="on">
-                      <template v-if="count > 0" v-slot:append-outer>
-                        <v-menu
-                          offset-y
-                        >
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              v-bind="attrs"
-                              v-on="on"
-                              dark
-                              color="indigo"
-                              @click="dialog.flag=true; getInsurances(true)"
-                            >
-                              {{`${$t("insurance")}${$t("manage")}`}}
-                            </v-btn>
-                          </template>
-                        </v-menu>
-                      </template>
                     </LazyTextField>
                   </ValidationProvider>
                 </template>
@@ -285,6 +269,21 @@
               </v-menu>
             </v-col>
           </template>
+            <v-col cols="auto">
+              <v-btn
+                v-if="id != undefined"
+                dark
+                color="indigo"
+                @click="dialog.flag=true"
+              >
+                <span v-if="isInsuranceValid">
+                  {{`${$t("garantee_insurance")} ${$t("manage")}`}}
+                </span>
+                <span v-else>
+                  {{`${$t("add_garantee_insurance")}`}}
+                </span>
+              </v-btn>
+            </v-col>
         </template>
       </v-row>
       <template v-if="is_expert">
@@ -332,11 +331,11 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="text-right">
-            <v-btn class="mr-4" color="primary" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+            <v-btn class="mr-4" color="primary" :disabled="!isInsuranceValid" @click="onSubmit()">{{ $t("submit") }}</v-btn>
           </v-col>
         </v-row>
       </template>
-      <v-dialog v-if="dialog.flag&&dialog.insurances" v-model="dialog.flag" max-width="700px">
+      <v-dialog v-if="dialog.flag&&dialog.insurances" v-model="dialog.flag" max-width="750px">
         <v-card>
           <v-card-text>
             <v-row justify="center">
@@ -383,14 +382,14 @@
               </v-row>
               <v-row no-gutters class="ml-4 mr-4" justify="center">
                 <v-col class="pa-0 ml-4 mr-4" cols="auto" style="min-width:300px">
-                  <ValidationProvider ref="garantee_insurance" :name="$t('garantee_insurance')" :rules="`${dialog.insurance.id==undefined?'required':''}|size:1024`" v-slot="{ errors }">
+                  <ValidationProvider mode="passive" ref="insurance" :name="$t('garantee_insurance')" :rules="`${dialog.insurance.id==undefined?'required':''}|size:1024`" v-slot="{ errors }">
                     <v-file-input
                       v-model="dialog.new_insurance"
                       :label="$t('garantee_insurance')"
                       accept="image/*"
                       @click.stop
                       :error-messages="errors"
-                      @change="preview_image('dialog')"
+                      @change="preview_image('insurance', 'dialog')"
                       truncate-length="12"
                     ></v-file-input>
                   </ValidationProvider>
@@ -405,7 +404,7 @@
                     min-width="290px"
                   >
                     <template v-slot:activator="{ on, attrs }">
-                      <ValidationProvider ref="dates" :name="`${$t('garantee_insurance')}${$t('period')}`" v-slot="{ errors }" rules="required|date_required|period">
+                      <ValidationProvider mode="passive" ref="dates" :name="`${$t('garantee_insurance')}${$t('period')}`" v-slot="{ errors }" rules="required|date_required|period">
                         <LazyTextField
                           v-model="dialog.dates"
                           :label="`${$t('garantee_insurance')}${$t('period')}`"
@@ -472,13 +471,17 @@ export default {
   },
   computed: {
     //Only new expert-profile should have image field required.
-    required(){ return this.id==undefined || !this.isInsuranceValid },
+    required(){ return this.id==undefined },
     isInsuranceValid(){
       if(this.id && this.is_expert) {
-        const to_date = new Date(this.current_to_date + "T23:59:59")
-        const from_date = new Date(this.current_from_date + "T00:00:00")
-        const current_time = new Date()
-        return to_date >= current_time && from_date <= current_time ? true : false;
+        if(this.dates){
+          const to_date = new Date(this.dates[1] + "T23:59:59")
+          const from_date = new Date(this.dates[0] + "T00:00:00")
+          const current_time = new Date()
+          return to_date >= current_time && from_date <= current_time ? true : false;
+        } else {
+          return false;
+        }
       // When create new profile, insurance is empty so it has to return valid.
       } else {
         return true
@@ -505,9 +508,6 @@ export default {
       to_date_menu: false,
       count: undefined,
       dates: null,
-      //This is for checking insurance valid.
-      current_from_date: null,
-      current_to_date: null,
       email: null,
       name: null,
       birthday: null,
@@ -532,7 +532,9 @@ export default {
         registration_certificate: null,
         agency_license: null,
         stamp: null,
-        garantee_insurance: null,
+        insurance: {
+          image: null
+        },
       },
       current_registration_certificate: null,
       current_agency_license: null,
@@ -546,23 +548,32 @@ export default {
       this.mobile_number = local_mobile_number.replace(/(^01.{1}|[0|1|6|7|8|9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")
       this.$refs.mobile_number_input.lazyValue = this.mobile_number
     },
-    preview_image(name) {
-      if(name=="dialog") {
-        if(this.dialog.new_insurance){
-          this.dialog.insurance.image = window.URL.createObjectURL(this.dialog.new_insurance)
-        }
-      } else {
-        if(this["expert_profile"][name] != null){
-          this["current_"+ name] = window.URL.createObjectURL(
-            this["expert_profile"][name]
-          );
-        } else {
-          this["current_" + name] = ''
-        }
-        this.$nextTick(()=> {
-          this.$refs[name].validate();
+    preview_image(name, parent) {
+      this.$nextTick(()=> {
+        this.$refs[name].validate().then((v)=>{
+          if (v.valid == true) {
+            if(parent) {
+              if(this.dialog.new_insurance){
+                this[parent].insurance.image = window.URL.createObjectURL(this.dialog.new_insurance)
+              }
+            } else if(name=="insurance"){
+              if(this["expert_profile"]["insurance"]["image"] != null){
+                this["current_"+ name] = window.URL.createObjectURL(
+                  this["expert_profile"]["insurance"]["image"]
+                );
+              } else {
+                this["current_" + name] = ''
+              }
+            }else {
+              if(this["expert_profile"][name] != null){
+                this["current_"+ name] = window.URL.createObjectURL(this["expert_profile"][name]);
+              } else {
+                this["current_" + name] = ''
+              }
+            }
+          }
         })
-      }
+      })
     },
     async deleteInsurance(insurance_id){
         let endpoint = `/api/profiles/${this.id}/insurances/${insurance_id}/`
@@ -574,7 +585,6 @@ export default {
           } else {
             applyValidation(data)
           }
-          this.init_insurance()
         })
     },
     init_insurance(){
@@ -586,6 +596,7 @@ export default {
       };
       this.dialog.dates = [];
       this.dialog.new_insurance = null;
+      this.dialog.period_menu = false;
     },
     loadInsurnace(insurance_id){
       let endpoint = `/api/profiles/${this.id}/insurances/${insurance_id}/`;
@@ -601,14 +612,14 @@ export default {
         }
       });
     },
-    getInsurances(dialog){
+    getInsurances(init){
       let endpoint = `/api/profiles/${this.id}/insurances/`;
       if(this.next) {
         endpoint = this.next;
       }
       apiService(endpoint).then(data => {
         if(data.count != undefined){
-          if(dialog == true){
+          if(init== true){
             this.init_insurance();
             this.dialog.insurances = data.results;
           } else {
@@ -621,10 +632,8 @@ export default {
       });
     },
     submitInsurance() {
-      console.log("submit")
       const that = this;
       this.$refs.obs.validate().then((v)=>{
-        console.log(v)
         if (v == true) {
           const formData = new FormData();
           let endpoint = `/api/profiles/${that.id}/insurances/`;
@@ -641,18 +650,20 @@ export default {
           apiService_formData(endpoint, method, formData).then(function(data){
             try{
               if (data.id != undefined) {
-                  if(data.is_default){
-                    let foundIndex = that.dialog.insurances.findIndex(x => x.is_default == true);
-                    that.dialog.insurances[foundIndex].is_default = false;
-                  }
                 if(method=="PATCH") {
                   let foundIndex = that.dialog.insurances.findIndex(x => x.id == data.id);
                   that.$set(that.dialog.insurances, foundIndex, data);
                 } else {
                   that.dialog.insurances.unshift(data)
                 }
-                //If insurance exists, update insurance with this data. 
-                //If it doesn't exist, Add insurance to insurances.
+                const to_date = new Date(data.to_date + "T23:59:59")
+                const from_date = new Date(data.from_date + "T00:00:00")
+                const current_time = new Date()
+                //Update current insurance, If this insurance is valid today.
+                if(to_date >= current_time && from_date <= current_time) {
+                  that.current_garantee_insurance = data.image;
+                  that.dates = [data.from_date, data.to_date];
+                }
                 alert(that.$i18n.t("request_success"));
               } else {
                 applyValidation(data, that);
@@ -691,12 +702,11 @@ export default {
             formData.append("bank_name", that.bank_name);
             formData.append("account_number", that.account_number);
             if (that.is_expert) {
-              if(that.expert_profile.garantee_insurance){
-                formData.append("expert_profile.insurance.image", that.expert_profile.garantee_insurance);
+              if(that.id == undefined){
+                formData.append("expert_profile.insurance.image", that.expert_profile.insurance.image);
+                formData.append("expert_profile.insurance.from_date", that.dates[0]);
+                formData.append("expert_profile.insurance.to_date", that.dates[1]);
               }
-              formData.append("expert_profile.insurance.id", that.expert_profile.insurance.id);
-              formData.append("expert_profile.insurance.from_date", that.dates[0]);
-              formData.append("expert_profile.insurance.to_date", that.dates[1]);
               Object.keys(that.expert_profile).forEach(function (key) {
                 if (that.expert_profile[key] != null) {
                   formData.append(
@@ -714,24 +724,18 @@ export default {
               method = "PATCH";
             }
           } else {
-              formData.append("image", that.expert_profile.garantee_insurance);
-              formData.append("from_date", that.dates[0]);
-              formData.append("to_date", that.dates[1]);
-              endpoint = "/api/profiles/";
-
-              if (that.id !== undefined) {
-                endpoint += `${that.id}/insurances/`;
-                method = "POST";
-              }
+            alert("please_available_garantee_insurance")
           }
           apiService_formData(endpoint, method, formData).then((data) => {
             try{
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"));
                 that.$emit("update:has_profile", data.has_profile)
-                that.$router.push({
-                  name: "profiles"
-                });
+                if(method == "POST"){
+                  that.$router.push({
+                    name: "profiles"
+                  });
+                }
               } else {
                 applyValidation(data, that);
               }
@@ -796,6 +800,9 @@ export default {
   },
   created() {
     this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
+    if(this.id){
+      this.getInsurances(true);
+    }
   },
 };
 </script>

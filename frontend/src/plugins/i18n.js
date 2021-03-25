@@ -11,7 +11,7 @@ const i18n = new VueI18n({
     en: {
       validation: en.messages,
       //Default message
-      add_garantee_insurance: "ADd garantee insurance",
+      add_garantee_insurance: "Add garantee insurance",
       add_quick_trade_user: "Add quick trade user",
       add_quick_trade_user_directly: "Add quick trade user directly",
       add_quick_trader_link: "Quick trade request link",
@@ -135,6 +135,7 @@ const i18n = new VueI18n({
       permanence: "Permanence",
       period: "Period",
       please_add_trade_user: "Please add user allowed to view profile",
+      please_available_garantee_insurance: "Please add available garantee insurance today.",
       please_sign: "Please sign here.",
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
@@ -527,6 +528,7 @@ const i18n = new VueI18n({
       period: "기간",
       please_add_trade_user:
         "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
+      please_available_garantee_insurance: "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
       pease_select_default_profile: "기본 프로필을 선택해주세요.",
       profile_name: "프로필명",

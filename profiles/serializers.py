@@ -6,7 +6,7 @@ from django.utils import timezone
 import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
-from papers.models import Contractor
+from papers.models import Contractor, Paper
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
@@ -92,17 +92,13 @@ class InsuranceSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         from_date = data.get('from_date')
-        to_date = data.get('to_date')
-        profile_pk = self.context['profile_pk']
+        profile_pk = self.context.get('profile_pk')
         pk = self.context.get("pk")
-
-        if from_date != None or to_date != None:
-            insurnaces = Insurance.objects.filter(expert_profile__profile=profile_pk, to_date__gte=from_date, to_date__lte=to_date)
-            if pk != None:
-                insurnaces = insurnaces.exclude(id=pk)
-            if insurnaces.exists():
-                raise serializers.ValidationError({"dates": _("기존 보증서류와 기간이 중복될 수 없습니다.")})
-
+        insurnaces = Insurance.objects.filter(expert_profile__profile=profile_pk, from_date__lte=from_date, to_date__gte=from_date)
+        if pk != None:
+            insurnaces = insurnaces.exclude(id=pk)
+        if insurnaces.exists():
+            raise serializers.ValidationError({"dates": _("기존 보증서류와 기간이 중복될 수 없습니다.")})
         return data
 
 class ExpertSerializer(serializers.ModelSerializer):
@@ -121,9 +117,9 @@ class ExpertReadonlySerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
     def get_insurance(self, obj):
-        current_date = timezone.localtime().strftime("%Y-%m-%d")
+        date = timezone.localtime().strftime("%Y-%m-%d")
         try:
-            return InsuranceSerializer(obj.insurances.get(from_date__lte=current_date, to_date__gte=current_date)).data
+            return InsuranceSerializer(obj.insurances.get(from_date__lte=date, to_date__gte=date)).data
         except Insurance.DoesNotExist:
             return InsuranceSerializer(None).data
 

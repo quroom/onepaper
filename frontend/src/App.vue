@@ -93,13 +93,16 @@ a {
 a:hover {
   text-decoration: none;
 }
-.float_right {
+.float-right {
   float: right;
 }
 
 /* For print paper setting. */
 @media print {
   @page { margin-top: 20px; margin-bottom: 20px;}
+  .v-main {
+    padding: 0px !important;
+  }
   .a4 {
     height: 29.7cm !important;
     width: 21cm !important;
@@ -131,14 +134,12 @@ a:hover {
 .root_tag {
    min-width:360px;
 }
-
 /* Progress circular Style*/
 .v-progress-circular {
     display: block;
     width: 100px;
     margin: 0 auto;
 }
-
 /* Notion Style */
 .notion-page-offset{
   margin-top: 0px;

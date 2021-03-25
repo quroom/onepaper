@@ -145,7 +145,7 @@ class Profile(models.Model):
         return self.user.email
 
     class Meta:
-        ordering = ['-is_default',]
+        ordering = ['-is_default', '-updated_at']
 
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
@@ -176,7 +176,6 @@ class ExpertProfile(models.Model):
     registration_certificate = models.ImageField(upload_to=get_file_path)
     agency_license = models.ImageField(upload_to=get_file_path)
     stamp = models.ImageField(upload_to=get_file_path)
-    garantee_insurance = models.ImageField(upload_to=get_file_path)
     status = models.PositiveSmallIntegerField(
         choices=STATUS_CATEGORY, default=REQUEST)
 

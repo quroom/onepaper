@@ -6,14 +6,15 @@ from profiles.models import Profile
 def change_bankname_to_bankcode(apps, schema_editor):
     bank_category_dict = dict((y, x) for x, y in Profile.BANK_CATEGORY)
 
-    for profile in Profile.objects.all():
-        if profile.bank_name == '신한' or profile.bank_name == '국민':
-            profile.bank_name = bank_category_dict[profile.bank_name+"은행"]
-        elif profile.bank_name == '':
-            profile.bank_name = ''
-        else:
-            profile.bank_name = bank_category_dict[profile.bank_name]
-        profile.save()
+    if Profile.objects.all().exists():
+        for profile in Profile.objects.all():
+            if profile.bank_name == '신한' or profile.bank_name == '국민':
+                profile.bank_name = bank_category_dict[profile.bank_name+"은행"]
+            elif profile.bank_name == '':
+                profile.bank_name = ''
+            else:
+                profile.bank_name = bank_category_dict[profile.bank_name]
+            profile.save()
 
 
 class Migration(migrations.Migration):

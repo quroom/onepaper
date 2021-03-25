@@ -1303,14 +1303,24 @@
     <div style="width:790px; margin:auto; overflow:auto;">
       <slot name="footer"></slot>
     </div>
-    <div class="page-divide">
-    </div>
     <template v-if="ve.additional_info">
+      <div class="page-divide">
+      </div>
       <div class="text-center font-weight-bold" style="font-size:16px;">확인설명서 별지</div>
       <div class="label" style="border:1px solid #ccc;">
         <div>
           {{ve.additional_info}}
         </div>
+      </div>
+    </template>
+    <template v-if="ve.insurance.image" >
+      <div class="page-divide">
+      </div>
+      <div class="a4">
+        <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
+        <v-row justify="center">
+          <img :src="ve.insurance.image" aspect-ratio="1" />
+        </v-row>
       </div>
     </template>
   </div>
