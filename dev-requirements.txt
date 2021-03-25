@@ -20,6 +20,7 @@ django-storages==1.11.1
 -e git+https://github.com/summernote/django-summernote.git@699db68dc33b782775369813034f8b2a0e17e377#egg=django_summernote
 django-webpack-loader==0.7.0
 djangorestframework==3.12.2
+drf-nested-routers==0.93.3
 Flask==1.1.2
 Flask-BasicAuth==0.2.0
 gevent==21.1.2
