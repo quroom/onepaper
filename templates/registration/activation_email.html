@@ -8,13 +8,12 @@
     {% blocktrans with site_name=site.name %}
     You (or someone pretending to be you) have asked to register an account at
     {{ site_name }}.  If this wasn't you, please ignore this email
-    and your address will be removed from our records.
+    and your address will be removed from our records within the next {{ expiration_days }} days.
     {% endblocktrans %}
 </pre>
 <pre>
     {% blocktrans %}
-    To activate this account, please click the following link within the next
-    {{ expiration_days }} days:
+    To activate this account, please click the following link within the next {{ expiration_days }} days:
     {% endblocktrans %}
 </pre>
 
