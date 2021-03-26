@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="400px">
       <template v-slot:activator="{ on }">
         <v-btn 
-          class="ma-1 auto"
+          class="ma-1 auto no-print"
           color="error"
           @click.prevent=""
           v-on.prevent="on">
@@ -64,7 +64,9 @@ export default {
           await apiService(endpoint, "DELETE").then(data => {
             if(data == undefined){
               alert(this.$i18n.t("delete_success"));
-              this.$router.push({name:this.router_name}); 
+              if(this.router_name){
+                this.$router.push({name:this.router_name}); 
+              }
             }
             else{
               applyValidation(data, that);
@@ -74,7 +76,7 @@ export default {
           alert(err);
         }
       } else {
-        this.callback()
+        this.id ? this.callback(this.id) : this.callback()
       }
     }
   }

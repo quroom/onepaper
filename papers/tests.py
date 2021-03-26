@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import tempfile
 import os
 
@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 
 from addresses.models import Address
-from profiles.models import AllowedUser, CustomUser, Profile, ExpertProfile
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Profile
 from papers.models import Paper, PaperStatus
 
 address_vars = {
@@ -89,7 +89,7 @@ class PaperTestCase(APITestCase):
                 "heating_status": True,
                 "heating_status_info": "",
                 "heating_supply_method": 1,
-                "heating_type": 0,
+                "heating_type": 1,
                 "heating_type_info": "",
                 "high_school": "전남대사범대학부설고등",
                 "high_school_by_foot": True,
@@ -107,7 +107,7 @@ class PaperTestCase(APITestCase):
                 "land_share": "",
                 "legal_status": True,
                 "local_education_tax": None,
-                "management": 1,
+                "management": 2,
                 "matters_of_violation": "",
                 "medical_center": "전남대병원",
                 "medical_center_by_foot": False,
@@ -127,7 +127,7 @@ class PaperTestCase(APITestCase):
                 "permission_report_zone": None,
                 "planning_facilities": "",
                 "relative_with_roads": "( 4m × 2m ) 도로에 접함",
-                "rental_housing_registration": 3,
+                "rental_housing_registration": 2,
                 "requesting_condition_info": "",
                 "seismic_capacity": "해당사항없음",
                 "seismic_design": "해당사항없음",
@@ -157,18 +157,27 @@ class PaperTestCase(APITestCase):
                 "water_leak_status_info": "",
                 "year_of_completion": 1995
             }
+
+    def _create_image(self):
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as f:
+            image = Image.new('RGB', (200, 200), 'white')
+            image.save(f, 'PNG')
+
+        return open(f.name, mode='rb')
+
     def api_authentication(self, user):
         self.token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
     def setUp(self):
+        self.image = self._create_image()
         self.user = CustomUser.objects.create_user(email="test@naver.com",
                                                    password="some_strong_password",
                                                    bio="bio",
                                                    name="김주영",
                                                    birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        self.profile = Profile.objects.create(user=self.user, address=address, bank_name="광주은행",
+        self.profile = Profile.objects.create(user=self.user, address=address, bank_name=34,
         account_number="120982711", mobile_number="010-1234-5678")
 
         user1 = CustomUser.objects.create_user(email="test9@naver.com",
@@ -177,7 +186,7 @@ class PaperTestCase(APITestCase):
                                                name="김주영",
                                                birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        self.profile1 = Profile.objects.create(user=user1, address=address, bank_name="004",
+        self.profile1 = Profile.objects.create(user=user1, address=address, bank_name=4,
         account_number="120982711", mobile_number="010-3456-7890")
 
         expert_user = CustomUser.objects.create_user(
@@ -188,8 +197,10 @@ class PaperTestCase(APITestCase):
                                             birthday="1955-02-12",
                                             is_expert=True)
         address = Address.objects.create(**address_vars)
-        profile2 = Profile.objects.create(user=expert_user, address=address, bank_name="충북은행", account_number="1111111", mobile_number="010-3982-5555")
+        profile2 = Profile.objects.create(user=expert_user, address=address, bank_name=7, account_number="1111111", mobile_number="010-3982-5555")
+        today = datetime.today().date()
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
+        Insurance.objects.create(expert_profile=self.expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
         self.expert_profile.status = ExpertProfile.APPROVED
         self.expert_profile.save()
 
@@ -205,10 +216,14 @@ class PaperTestCase(APITestCase):
         self.api_authentication(self.user)
         self.create_profile()
 
+    def tearDown(self):
+        self.image.close()
+        os.remove(self.image.name)
+
     def create_profile(self):
         data = {
             "mobile_number": "010-1234-1234",
-            "bank_name": "004",
+            "bank_name": 4,
             "account_number": "94334292963",
             **address_form
         }
@@ -222,11 +237,13 @@ class PaperTestCase(APITestCase):
             user.is_expert=True
             user.save()
         address = Address.objects.create(**address_vars)
-        profile = Profile.objects.create(user=user, address=address, bank_name="004", account_number="98373737372", mobile_number="010-9827-111"+str(id))
+        profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         AllowedUser.objects.create(profile=profile)
         if is_expert:
+            today = datetime.today().date()
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
+            Insurance.objects.create(expert_profile=expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
             return expert_profile
         return profile
 
@@ -242,15 +259,15 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -271,14 +288,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": profile2.id, "paper": None, "group": "0"},
+                {"profile": profile2.id, "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -299,15 +316,15 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": response.data['id'], "paper": None, "group": "1"}
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": response.data['id'], "paper": None, "group": "2"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -315,6 +332,7 @@ class PaperTestCase(APITestCase):
 
     def test_paper_create_with_expert(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
+        self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
         data = {
             "address": address_vars,
             "building_area": 1111,
@@ -326,16 +344,16 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
             "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
@@ -345,6 +363,7 @@ class PaperTestCase(APITestCase):
     def test_paper_create_with_expert_unallowed_paper_requsting_status(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         profile2 = self.create_user_profile(id=2)
+        self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
         
         data = {
             "address": address_vars,
@@ -357,16 +376,16 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": profile2.id, "paper": None, "group": "1"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": profile2.id, "paper": None, "group": "2"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
             "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
@@ -396,15 +415,15 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -433,20 +452,20 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": profile2.id, "paper": None, "group": "1"},
-                {"profile": expert_profile.profile.id, "paper": None, "group": "2"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": profile2.id, "paper": None, "group": "2"},
+                {"profile": expert_profile.profile.id, "paper": None, "group": "3"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["expert"][0], _("공인중개사로 승인되지 않은 사용자는 계약서에 등록할 수 없습니다."))
+        self.assertEqual(response.data["expert"][0], _("승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."))
     
     def test_paper_create_with_expert_without_verifying_explnation(self):
         self.api_authentication(user=self.expert_profile.profile.user)
@@ -462,16 +481,16 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -491,15 +510,15 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"}
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -517,14 +536,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"}
+                {"profile": self.profile.id, "paper": None, "group": "1"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
@@ -538,14 +557,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 99,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"}
+                {"profile": self.profile.id, "paper": None, "group": "1"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.put(reverse('papers-detail', kwargs={'pk':response.data['id']}), data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -563,14 +582,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"}
+                {"profile": self.profile.id, "paper": None, "group": "1"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         data = {
@@ -584,14 +603,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 99,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"}
+                {"profile": self.profile.id, "paper": None, "group": "1"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         paper_status = Paper.objects.get(id=1).status
         paper_status.status = PaperStatus.DONE
@@ -612,14 +631,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
+                {"profile": self.profile.id, "paper": None, "group": "1"},
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         response = self.client.delete(reverse('papers-detail', kwargs={'pk':response.data['id']}))
@@ -637,14 +656,14 @@ class PaperTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"}
+                {"profile": self.profile.id, "paper": None, "group": "1"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         response = self.client.post(self.list_url, data=data, format="json")
         paper_status = Paper.objects.get(id=1).status
@@ -654,8 +673,22 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("완료된 계약서는 삭제할 수 없습니다."))
 
-    def test_verifying_explanation_create(self):
-        self.client.force_authenticate(user=self.expert_profile.profile.user)
+    def test_insurance_update(self):
+        self.api_authentication(user=self.expert_profile.profile.user)
+        today = datetime.today().date()
+        data = {
+            'from_date': today.replace(year=today.year-1),
+            'to_date': today.replace(year=today.year+2)
+        }
+        response = self.client.patch(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": self.expert_profile.profile.id, "pk": self.expert_profile.insurances.first().id}),
+            data
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_insurance_update_invalid_date(self):
+        self.api_authentication(user=self.expert_profile.profile.user)
+        self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
         data ={
             "address": address_vars,
             "building_area": 22,
@@ -667,15 +700,92 @@ class PaperTestCase(APITestCase):
             "lot_area": 222,
             "maintenance_fee": 0,
             "monthly_fee": 20,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"}
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"}
             ],
             "security_deposit": 1000,
             "special_agreement": "<p>ㅎㅎ</p>",
             "to_date": "2020-12-31",
-            "trade_category": 0,
+            "trade_category": 1,
+            "verifying_explanation": self.verifying_explanation
+        }
+        response = self.client.post(self.list_url, data=data, format="json")
+
+        today = datetime.today().date()
+        data = {
+            'from_date': today.replace(year=today.year-1),
+            'to_date': today.replace(year=today.year+1)
+        }
+        
+        response = self.client.patch(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": self.expert_profile.profile.id, "pk": self.expert_profile.insurances.first().id}),
+            {}
+        )
+        self.assertEqual(response.data['detail'].message, _("보증서류 시작일과 종료일을 모두 입력해주세요."))
+
+        response = self.client.patch(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": self.expert_profile.profile.id, "pk": self.expert_profile.insurances.first().id}),
+            data
+        )
+        self.assertEqual(response.data['detail'].message, _("보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니다."))
+
+    def test_used_insurance_delete(self):
+        self.api_authentication(user=self.expert_profile.profile.user)
+        self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
+        data ={
+            "address": address_vars,
+            "building_area": 22,
+            "building_category": 80,
+            "building_structure": "222",
+            "down_payment": 50,
+            "from_date": "2020-12-24",
+            "land_category": 7,
+            "lot_area": 222,
+            "maintenance_fee": 0,
+            "monthly_fee": 20,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"}
+            ],
+            "security_deposit": 1000,
+            "special_agreement": "<p>ㅎㅎ</p>",
+            "to_date": "2020-12-31",
+            "trade_category": 1,
+            "verifying_explanation": self.verifying_explanation
+        }
+        response = self.client.post(self.list_url, data=data, format="json")
+        response = self.client.delete(
+            reverse("profile-insurances-detail", kwargs={"profile_pk": self.expert_profile.profile.id, "pk": self.expert_profile.insurances.first().id})
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'].message, _("보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."))
+
+    def test_verifying_explanation_create(self):
+        self.client.force_authenticate(user=self.expert_profile.profile.user)
+        self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
+        data ={
+            "address": address_vars,
+            "building_area": 22,
+            "building_category": 80,
+            "building_structure": "222",
+            "down_payment": 50,
+            "from_date": "2020-12-24",
+            "land_category": 7,
+            "lot_area": 222,
+            "maintenance_fee": 0,
+            "monthly_fee": 20,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"}
+            ],
+            "security_deposit": 1000,
+            "special_agreement": "<p>ㅎㅎ</p>",
+            "to_date": "2020-12-31",
+            "trade_category": 1,
             "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
@@ -696,6 +806,38 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['verifying_explanation']['water_capacity_status'], False)
 
+    def test_verifying_explanation_create_without_insurance(self):
+        self.client.force_authenticate(user=self.expert_profile.profile.user)
+        data ={
+            "address": address_vars,
+            "building_area": 22,
+            "building_category": 80,
+            "building_structure": "222",
+            "down_payment": 50,
+            "from_date": "2020-12-24",
+            "land_category": 7,
+            "lot_area": 222,
+            "maintenance_fee": 0,
+            "monthly_fee": 20,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"}
+            ],
+            "security_deposit": 1000,
+            "special_agreement": "<p>ㅎㅎ</p>",
+            "to_date": "2020-12-31",
+            "trade_category": 1,
+            "verifying_explanation": self.verifying_explanation
+        }
+        response = self.client.post(self.list_url, data=data, format="json")
+
+        expert_profile = self.create_user_profile(id=1, is_expert=True)
+        data['verifying_explanation']['insurance'] = expert_profile.insurances.first().id
+
+        response = self.client.post(self.list_url, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["insurance"][0], _("보유하지 않은 중개보증서류가 추가되었습니다."))
     #FIXME: ADD verifying_explanation testcode.
 
 MEDIA_ROOT = tempfile.mkdtemp()
@@ -727,8 +869,10 @@ class SignatureTestCase(APITestCase):
                                                     birthday="1955-02-12",
                                                     is_expert=True)
         address = Address.objects.create(**address_vars)
-        profile2 = Profile.objects.create(user=expert_user, address=address, bank_name="충북은행", account_number="1111111", mobile_number="010-3982-5555")
+        profile2 = Profile.objects.create(user=expert_user, address=address, bank_name=2, account_number="1111111", mobile_number="010-3982-5555")
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
+        today = datetime.today().date()
+        Insurance.objects.create(expert_profile=self.expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
         self.expert_profile.status = ExpertProfile.APPROVED
         self.expert_profile.save()
         self.user = CustomUser.objects.create_user(email="test@naver.com",
@@ -738,7 +882,7 @@ class SignatureTestCase(APITestCase):
                                                     birthday="1955-02-12")
         self.api_authentication(user=self.user)
         address = Address.objects.create(**address_vars)
-        self.profile = Profile.objects.create(user=self.user, address=address, bank_name="004", account_number="1908281111", mobile_number="010-3982-1111")
+        self.profile = Profile.objects.create(user=self.user, address=address, bank_name=4, account_number="1908281111", mobile_number="010-3982-1111")
         profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
         user = CustomUser.objects.create_user(email="test1@naver.com",
@@ -747,7 +891,7 @@ class SignatureTestCase(APITestCase):
                                               name="김길동",
                                               birthday="1955-02-12")
         address = Address.objects.create(**address_vars)
-        self.profile1 = Profile.objects.create(user=user, address=address, bank_name="서울은행", account_number="1111111", mobile_number="010-3982-2222")
+        self.profile1 = Profile.objects.create(user=user, address=address, bank_name=7, account_number="1111111", mobile_number="010-3982-2222")
         profile1_allowed_user = AllowedUser.objects.create(profile=self.profile1)
         profile1_allowed_user.allowed_users.add(self.user)
         profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
@@ -763,15 +907,15 @@ class SignatureTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"}
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
         }
         self.paper = self.client.post(self.list_url, data=data, format="json").data
         self.client.force_authenticate(user=self.expert_profile.profile.user)
@@ -786,16 +930,16 @@ class SignatureTestCase(APITestCase):
             "lot_area": 11,
             "maintenance_fee": 111,
             "monthly_fee": None,
-            "options": [0, 1, 2],
+            "options": [1, 2, 3],
             "paper_contractors": [
-                {"profile": self.profile.id, "paper": None, "group": "0"},
-                {"profile": self.profile1.id, "paper": None, "group": "1"},
-                {"profile": self.expert_profile.profile.id, "paper": None, "group": "2"}
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"},
+                {"profile": self.expert_profile.profile.id, "paper": None, "group": "3"}
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
             "to_date": "2020-11-30",
-            "trade_category": 1,
+            "trade_category": 2,
             'verifying_explanation': {
                     "accessibility": True,
                     "acquisition_tax": None,
@@ -836,12 +980,12 @@ class SignatureTestCase(APITestCase):
                     "heating_status": True,
                     "heating_status_info": "",
                     "heating_supply_method": 1,
-                    "heating_type": 0,
+                    "heating_type": 1,
                     "heating_type_info": "",
                     "high_school": "전남대사범대학부설고등",
                     "high_school_by_foot": True,
                     "high_school_required_time": 10,
-                    "id": 28,
+                    "insurance": self.expert_profile.insurances.first().id,
                     "is_elevator": False,
                     "is_fire_alarm_detector": False,
                     "is_paved_rode": True,
@@ -854,7 +998,7 @@ class SignatureTestCase(APITestCase):
                     "land_share": "",
                     "legal_status": True,
                     "local_education_tax": None,
-                    "management": 1,
+                    "management": 2,
                     "matters_of_violation": "",
                     "medical_center": "전남대병원",
                     "medical_center_by_foot": False,
@@ -874,7 +1018,7 @@ class SignatureTestCase(APITestCase):
                     "permission_report_zone": None,
                     "planning_facilities": "",
                     "relative_with_roads": "( 4m × 2m ) 도로에 접함",
-                    "rental_housing_registration": 3,
+                    "rental_housing_registration": 2,
                     "requesting_condition_info": "",
                     "seismic_capacity": "해당사항없음",
                     "seismic_design": "해당사항없음",
@@ -921,7 +1065,7 @@ class SignatureTestCase(APITestCase):
         os.remove(self.image4.name)
         self.image5.close()
         os.remove(self.image5.name)
-    
+
     def test_explanation_signature_create(self):
         data = {
             'contractor': self.paper_with_verifying_explanation['paper_contractors'][0]['id'],

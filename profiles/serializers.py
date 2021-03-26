@@ -2,10 +2,12 @@ import datetime
 from django.db import transaction
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Mandate, Profile
+from papers.models import Contractor, Paper
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
@@ -76,16 +78,53 @@ class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
     def get_name(self, obj):
         return obj.name[0:1] + len(obj.name[1:2])*"#" + obj.name[2:]
 
+class InsuranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Insurance
+        fields = "__all__"
+        read_only_fields = ('expert_profile',)
+        extra_kwargs = {
+            "id": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+
+    def validate(self, data):
+        from_date = data.get('from_date')
+        profile_pk = self.context.get('profile_pk')
+        pk = self.context.get("pk")
+        insurnaces = Insurance.objects.filter(expert_profile__profile=profile_pk, from_date__lte=from_date, to_date__gte=from_date)
+        if pk != None:
+            insurnaces = insurnaces.exclude(id=pk)
+        if insurnaces.exists():
+            raise serializers.ValidationError({"dates": _("기존 보증서류와 기간이 중복될 수 없습니다.")})
+        return data
+
 class ExpertSerializer(serializers.ModelSerializer):
+    insurance = InsuranceSerializer()
     class Meta:
         model = ExpertProfile
         fields = "__all__"
-        read_only_fields = ('profile', 'status')
+        read_only_fields = ('profile', 'status',)
 
 class ExpertReadonlySerializer(ReadOnlyModelSerializer):
+    insurance = serializers.SerializerMethodField()
+    insurance_count = serializers.SerializerMethodField()
+
     class Meta:
         model = ExpertProfile
-        fields = ['registration_number', 'shop_name', 'stamp', 'status', 'garantee_insurance']
+        fields = "__all__"
+
+    def get_insurance(self, obj):
+        date = timezone.localtime().strftime("%Y-%m-%d")
+        try:
+            return InsuranceSerializer(obj.insurances.get(from_date__lte=date, to_date__gte=date)).data
+        except Insurance.DoesNotExist:
+            return InsuranceSerializer(None).data
+
+    def get_insurance_count(self, obj):
+        return obj.insurances.count()
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
     address = serializers.SerializerMethodField()
@@ -114,7 +153,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_active",)
+        read_only_fields = ("is_default",)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -147,14 +186,28 @@ class ProfileSerializer(serializers.ModelSerializer):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
 
 class ProfileReadonlySerializer(ReadOnlyModelSerializer):
-    address = AddressSerializer(read_only=True)
+    address = AddressSerializer()
     updated_at = serializers.SerializerMethodField()
-    user = BasicCustomUserSerializer(read_only=True)
-    expert_profile = ExpertReadonlySerializer(read_only=True)
+    user = BasicCustomUserSerializer()
+    expert_profile = ExpertReadonlySerializer()
 
     class Meta:
         model = Profile
         fields = "__all__"
+
+    def get_updated_at(self, instance):
+        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+
+class ExpertProfileReadonlySerializer(ReadOnlyModelSerializer):
+    address = AddressSerializer()
+    expert_profile = ExpertReadonlySerializer()
+    updated_at = serializers.SerializerMethodField()
+    user = BasicCustomUserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        read_only_fields = ("is_default",)
 
     def get_updated_at(self, instance):
         return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
@@ -168,7 +221,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_active",)
+        read_only_fields = ("is_default",)
 
     def validate_image(self, image, field_name):
         file_size = image.size
@@ -188,11 +241,13 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address_data = validated_data.pop('address')
         expert_profile = validated_data.pop('expert_profile')
-        address = Address.objects.create(**address_data)
+        insurance_data = expert_profile.pop('insurance')
 
         with transaction.atomic():
+            address = Address.objects.create(**address_data)
             profile = Profile.objects.create(**validated_data, address=address)
-            ExpertProfile.objects.create(profile=profile, **expert_profile)
+            expert_profile = ExpertProfile.objects.create(profile=profile, **expert_profile)
+            Insurance.objects.create(**insurance_data, expert_profile=expert_profile)
             allowedUser = AllowedUser.objects.create(profile=profile)
             allowedUser.allowed_users.add(validated_data['user'])
             allowedUser.save()
@@ -202,6 +257,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
         expert_profile_data = validated_data.pop('expert_profile') if not validated_data.get('expert_profile') is None else {}
+        insurance_data = expert_profile_data.pop('insurance') if not expert_profile_data.get('insurance') is None else {}
 
         address = instance.address
         for key in ['dong', 'ho']:
@@ -215,6 +271,14 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         for key, val in expert_profile_data.items():
             setattr(expert_profile, key, val)
         expert_profile.save()
+
+        # today = datetime.datetime.now().strftime("%Y-%m-%d")
+        insurance_id = insurance_data.get("id")
+        if insurance_id:
+            insurance = Insurance.objects.get(id=insurance_id)
+            for key, value in insurance_data.items():
+                setattr(insurance, key, value)
+            insurance.save()
 
         for key, val in validated_data.items():
             setattr(instance, key, val)

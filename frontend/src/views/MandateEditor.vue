@@ -9,7 +9,7 @@
             :options="{
               minWidth: 3,
               maxWidth: 3,
-              penColor: 'red'
+              penColor: 'black'
             }"
           />
           <v-card-title class="justify-center">
@@ -124,7 +124,7 @@
               <v-expansion-panel v-if="designator">
                 <v-expansion-panel-header>{{$t("designator")}} {{$t("detail")}} {{$t("info") }} {{`(${designator.user.email})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="designator" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
+                  <ContractorItem :profile="designator" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -158,7 +158,7 @@
               <v-expansion-panel v-if="designee">
                 <v-expansion-panel-header>{{$t("designee")}} {{$t("detail")}} {{$t("info")}} {{`(${designee.user.email})`}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <ContractorItem :contractor="designee" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
+                  <ContractorItem :profile="designee" :fields="basic_profile_fields" :label_cols="label_cols"></ContractorItem>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-col>
@@ -183,12 +183,8 @@
             </div>
           </div>
         </ValidationProvider>
-        <div class="mt-3" align="end">
-          <template v-if="designator_signature_url">
-            <a v-bind:href="designator_signature_url" target="_blank">
-              <img class="signature-img" :src="designator_signature_url" />
-            </a>
-          </template>
+        <div class="mt-3" align="end" style="position:relative;">
+          <img v-if="designator_signature_url" class="signature-img" :src="designator_signature_url" />
           ({{ $t("designator") }} {{ $t("signature") }})
         </div>
       </ValidationObserver>
@@ -260,7 +256,8 @@ export default {
       label_cols: {cols: "3", md:"2", lg: "2"},
       basic_profile_fields: [
         { name: "address"
-          , key: "address.old_address"
+          , key: "full_address"
+          , is_computed: true
           , cols:"9", md:"10", lg:"10"},
         { name: "name"
           , key: "user.name"
@@ -279,7 +276,9 @@ export default {
         modules: {
           toolbar: {
             container: [
-              ['bold', 'underline', {'list': 'ordered'}, { 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'underline', ],
+              [{'list': 'ordered'}, { 'align': []},],
+              ['image', 'link']
             ],
           }
         },
@@ -420,9 +419,9 @@ export default {
 <style scoped>
 .signature-img {
   height: 40px;
-  left: 95px;
   z-index: 1;
-  position: relative;
-  cursor: pointer;
+  position: absolute;
+  top: -7px;
+  right: 7px;
 }
 </style>

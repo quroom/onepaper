@@ -1,10 +1,10 @@
 <template>
   <v-app app>
-    <NavbarItem class="navbar root_tag" v-if="!isLoading" :user_category="user_category"/>
+    <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category"/>
     <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
-    <Footer class="root_tag"/>
+    <Footer class="no-print root_tag"/>
   </v-app>
 </template>
 
@@ -82,7 +82,6 @@ input::-webkit-inner-spin-button {
 -webkit-appearance: none;
 margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
 -moz-appearance: textfield;
@@ -93,25 +92,36 @@ a {
 a:hover {
   text-decoration: none;
 }
-.float_right {
+.float-right {
   float: right;
 }
+
 /* For print paper setting. */
 @media print {
-  .navbar {
+  @page { margin-top: 20px; margin-bottom: 20px;}
+  .v-main {
+    padding: 0px !important;
+  }
+  .a4 {
+    height: 29.7cm !important;
+    width: 21cm !important;
+    margin: auto;
+  }
+  .page-divide {
+    page-break-after: always;
+  }
+  .no-print {
     display: none;
   }
-  .v-footer {
-    display: none;
+  html {
+    -webkit-print-color-adjust:exact;
   }
 }
-
 .signature-dialog {
   width: 90vw !important;
   min-width: 280px !important;
   max-width: 400px !important;
 }
-
 .signature-pad {
   width: 100% !important;
   min-width: 280px;
@@ -123,7 +133,12 @@ a:hover {
 .root_tag {
    min-width:360px;
 }
-
+/* Progress circular Style*/
+.v-progress-circular {
+    display: block;
+    width: 100px;
+    margin: 0 auto;
+}
 /* Notion Style */
 .notion-page-offset{
   margin-top: 0px;
@@ -134,5 +149,8 @@ a:hover {
 .notion-page img {
    padding:1px;
    border:1px solid #021a40;
+}
+.ql-container {
+   font-size: 16px !important;
 }
 </style>
