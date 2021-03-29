@@ -1,13 +1,18 @@
 const getSafe = {
   install(Vue){
     Vue.prototype.$get = function(obj, key, default_value = "") {
-      return key.split(".").reduce(function(o, x) {
+      const value = key.split(".").reduce(function(o, x) {
         if(default_value != undefined){
           return !o ? default_value : o[x];
         } else {
           return !o ? o : o[x];
         }
       }, obj);
+      if(!value){
+        return default_value == "" ? default_value : value;
+      } else {
+        return value;
+      }
     }
   }
 }
