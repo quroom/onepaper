@@ -1054,16 +1054,10 @@ export default {
     },
     searchProfile(){
       let endpoint = `/api/open-profiles/?page=${this.profile_pagination}`
-      let is_first_option = false;
       Object.entries(this.search).forEach(function(entry){
         const [key, value] = entry;
         if(value !== ''){
-          if(is_first_option) {
-            endpoint += `&${key}=${value}`
-          } else {
-            endpoint += `?${key}=${value}`
-          }
-          is_first_option = true;
+          endpoint += `&${key}=${value}`
         }
       })
       apiService(endpoint).then(data => {
