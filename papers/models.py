@@ -9,10 +9,10 @@ from profiles.models import ExpertProfile, Profile, Insurance
 from addresses.models import Address
 
 class PaperStatus(models.Model):
+    DONE = 0
     REQUESTING = 1
     DRAFT = 2
     PROGRESS = 3
-    DONE = 4
 
     STATUS_CATEGORY = (
         (REQUESTING, _('요청중')),

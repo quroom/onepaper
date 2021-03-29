@@ -62,10 +62,10 @@ const Constants = {
     // 3: "exchange",
   },
   STATUS_CATEGORY: {
+    0: "done",
     1: "requesting",
     2: "draft",
     3: "progress",
-    4: "done",
   },
   CONTRACTOR_CATEGORY: {
     1: "seller",
