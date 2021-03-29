@@ -329,12 +329,12 @@
             </a>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12" class="text-right">
-            <v-btn class="mr-4" color="primary" :disabled="!isInsuranceValid" @click="onSubmit()">{{ $t("submit") }}</v-btn>
-          </v-col>
-        </v-row>
       </template>
+      <v-row>
+        <v-col cols="12" class="text-right">
+          <v-btn class="mr-4" color="primary" :disabled="!isInsuranceValid" @click="onSubmit()">{{ $t("submit") }}</v-btn>
+        </v-col>
+      </v-row>
       <v-dialog v-if="dialog.flag&&dialog.insurances" v-model="dialog.flag" max-width="750px">
         <v-card>
           <v-card-text>

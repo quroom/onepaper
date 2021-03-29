@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.views import APIView
 from profiles.forms import CustomUserForm
-from papers.models import Contractor, Paper
+from papers.models import Contractor, Paper, PaperStatus
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
 from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, ExpertProfileReadonlySerializer, InsuranceSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
@@ -228,7 +228,7 @@ class ProfileViewset(ModelViewSet):
             if expert_profile.status != ExpertProfile.REQUEST and expert_profile.status != ExpertProfile.DENIED :
                 return Response({"detail": ValidationError(_("승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        if Contractor.objects.filter(profile=obj).exists():
+        if Contractor.objects.filter(profile=obj).exclude(paper__status__status=PaperStatus.REQUESTING).exists():
             return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Mandate.objects.filter(designator=obj).exists() or Mandate.objects.filter(designee=obj).exists():
@@ -266,7 +266,7 @@ class ProfileViewset(ModelViewSet):
         if instance.is_default:
             return Response({"detail": ValidationError(_("활성 프로필은 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
-        if Contractor.objects.filter(profile=instance).exists():
+        if Contractor.objects.filter(profile=instance).exclude(paper__status__status=PaperStatus.REQUESTING).exists():
             return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Mandate.objects.filter(designator=instance).exists() or Mandate.objects.filter(designee=instance).exists():

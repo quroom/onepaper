@@ -390,6 +390,8 @@ class ProfileTestCase(APITestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(email="test@naver.com", password="some_strong_password",
                                                    bio="bio", name="김주영", birthday="1955-02-12")
+        self.user1 = CustomUser.objects.create_user(email="test1@naver.com", password="some_strong_password",
+                                                   bio="bio", name="김주영", birthday="1955-02-12")
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
 
@@ -486,6 +488,37 @@ class ProfileTestCase(APITestCase):
             reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    def test_profile_update_with_requesting_paper(self):
+        response = self.create_profile()
+        self.client.force_authenticate(user=self.user1)
+        self.create_profile()
+        response1 = self.create_profile()
+        data = {
+            "address": address_vars,
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": response.data["id"], "paper": None, "group": "1"},
+                {"profile": response1.data["id"], "paper": None, "group": "2"},
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "to_date": "2020-11-30",
+            "trade_category": 2,
+        }
+        response = self.client.post(self.paper_list, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.delete(reverse("profiles-detail", kwargs={"pk": response1.data["id"]}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_profile_delete_with_paper(self):
         response = self.create_profile()
         data = {
@@ -512,9 +545,44 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         #Make default profile to False.
         self.create_profile()
-        response = self.client.delete(reverse("profiles-detail", kwargs={"pk": 1}))
+        response = self.client.delete(reverse("profiles-detail", kwargs={"pk": response.data["id"]}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
+
+    def test_profile_update_with_requesting_paper(self):
+        response = self.create_profile()
+        self.client.force_authenticate(user=self.user1)
+        response1 = self.create_profile()
+        data = {
+            "address": address_vars,
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": response.data["id"], "paper": None, "group": "1"},
+                {"profile": response1.data["id"], "paper": None, "group": "2"},
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "to_date": "2020-11-30",
+            "trade_category": 2,
+        }
+        response = self.client.post(self.paper_list, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.put(
+            reverse("profiles-detail", kwargs={"pk": response1.data["id"]}),
+            data={
+                "mobile_number": "010-1234-5678"
+            }
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_profile_update_with_paper(self):
         response = self.create_profile()

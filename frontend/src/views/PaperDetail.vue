@@ -184,9 +184,6 @@
               <v-icon>create</v-icon>
               {{ `${ $t("verifying_explanation")} ${$t("signature")}` }}
             </v-btn>
-            <template v-else>
-              {{ $t("sign") }}
-            </template>
         </template>
       </VerifyingExplanation>
     </template>
@@ -254,27 +251,36 @@ export default {
       return this.currentContractor ? this.currentContractor.explanation_signature && this.paper.updated_at <= this.currentContractor.explanation_signature.updated_at : undefined;
     },
     deadlineToModify: function() {
-      let firstTime = this.paper.updated_at;
+      let paper_updated_at = this.paper.updated_at;
       let deadline = undefined;
       if(this.paper.paper_contractors != undefined){
-        for(const contractor of this.paper.paper_contractors){
-          if (contractor.signature != null && contractor.signature.updated_at > firstTime) {
-            firstTime = contractor.signature.updated_at
+        const min_sign_updated_at_str = this.paper.paper_contractors.reduce((acc, loc)=>{
+          let min_updated_at = acc;
+          let signature_updated_at = this.$get(loc,"signature.updated_at")
+          let explanation_signature_updated_at = this.$get(loc, "explanation_signature.updated_at")
+          console.log(signature_updated_at, ":", explanation_signature_updated_at)
+          if(signature_updated_at && signature_updated_at < min_updated_at){
+            min_updated_at = signature_updated_at;
           }
-          if (contractor.explanation_signature != null && contractor.explanation_signature.updated_at > firstTime) {
-            firstTime = contractor.explanation_signature.updated_at
+          if(explanation_signature_updated_at && explanation_signature_updated_at < min_updated_at){
+            min_updated_at = explanation_signature_updated_at;
           }
-        }
-        if(this.paper.updated_at == firstTime){
+          return min_updated_at
+        }, "9999-12-31")
+
+        if(paper_updated_at > min_sign_updated_at_str){
           return undefined;
         }
-        firstTime = new Date(firstTime)
-        deadline = firstTime
-        deadline.setTime(firstTime.getTime()+(12*60*60*1000))
+        console.log(min_sign_updated_at_str)
+        const min_sign_updated_at = new Date(min_sign_updated_at_str)
+        console.log(min_sign_updated_at)
+        deadline = min_sign_updated_at
+        deadline.setTime(min_sign_updated_at.getTime()+(12*60*60*1000))
         if(new Date() > deadline){
           return '0000-00-00';
         }
-        return `${deadline.getFullYear()}-${deadline.getMonth()+1}-${deadline.getDate()} ${deadline.getHours()}:${deadline.getMinutes()}:${deadline.getSeconds()}`
+        console.log(deadline)
+        return `${deadline.getFullYear()}-${deadline.getMonth()+1}-${deadline.getDate()} ${('0'+deadline.getHours()).slice(-2)}:${('0'+deadline.getMinutes()).slice(-2)}:${('0'+deadline.getSeconds()).slice(-2)}`
       } else {
         return undefined;
       }

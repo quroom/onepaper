@@ -1,5 +1,6 @@
 import datetime
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from rest_framework import fields
 from rest_framework import serializers
@@ -18,7 +19,7 @@ class ExplanationSignatureSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class VerifyingExplanationSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -59,7 +60,7 @@ class SignatureSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_paper_status(self, instance):
         return instance.contractor.paper.status.status
@@ -99,7 +100,7 @@ class PaperListSerializer(ReadOnlyModelSerializer):
         exclude = ["special_agreement"]
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -272,7 +273,7 @@ class PaperSerializer(serializers.ModelSerializer):
         return data
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -289,7 +290,7 @@ class PaperLoadSerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class PaperReadonlySerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -305,7 +306,7 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -324,7 +325,7 @@ class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -349,7 +350,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status

@@ -1,8 +1,8 @@
 import datetime
 from django.db import transaction
 from django.http import JsonResponse
-from django.utils.translation import ugettext as _
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
@@ -19,9 +19,10 @@ class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
         fields = ["name", 'email', 'is_expert']
 
 class ApproveExpertSerializer(serializers.ModelSerializer):
+    birthday = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
-    birthday = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
 
     class Meta:
         model = ExpertProfile
@@ -29,14 +30,17 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
         read_only_fields = ('profile', 'registration_number', 'shop_name',
                             'registration_certificate', 'agency_license', 'stamp', 'garantee_insurance')
 
+    def get_birthday(self, obj):
+        return obj.profile.user.birthday
+
     def get_email(self, obj):
         return obj.profile.user.email
 
     def get_name(self, obj):
         return obj.profile.user.name
 
-    def get_birthday(self, obj):
-        return obj.profile.user.birthday
+    def get_updated_at(self, obj):
+        return obj.profile.updated_at.strftime("%Y-%m-%d %H:%M:%S")
 
 class BasicCustomUserSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -47,7 +51,7 @@ class BasicCustomUserSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'updated_at', 'is_expert', 'email')
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class CustomUserSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
@@ -62,7 +66,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return obj.profiles.exists()
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
     birthday = serializers.SerializerMethodField()
@@ -183,7 +187,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class ProfileReadonlySerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
@@ -196,7 +200,7 @@ class ProfileReadonlySerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertProfileReadonlySerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
@@ -210,7 +214,7 @@ class ExpertProfileReadonlySerializer(ReadOnlyModelSerializer):
         read_only_fields = ("is_default",)
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -286,7 +290,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         return instance
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class MandateEveryoneSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -300,7 +304,7 @@ class MandateEveryoneSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class MandateReadOnlySerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -314,7 +318,7 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class MandateSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -394,4 +398,4 @@ class MandateSerializer(serializers.ModelSerializer):
         return instance
 
     def get_updated_at(self, instance):
-        return (instance.updated_at+datetime.timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S")
+        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")

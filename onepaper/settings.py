@@ -224,7 +224,7 @@ if EMAIL_HOST_PASSWORD != '':
 
 USE_S3 = os.environ.get("USE_S3", 'False') != 'False'
 
-if USE_S3:
+if USE_S3 and DEBUG == False:
     AWS_IS_GZIPPED = True
     GZIP_CONTENT_TYPES = (
     'text/css',
