@@ -9,7 +9,7 @@ const getSafe = {
         }
       }, obj);
       if(!value){
-        return default_value == "" ? default_value : value;
+        return default_value;
       } else {
         return value;
       }

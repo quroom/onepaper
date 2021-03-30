@@ -19,7 +19,7 @@
       </v-col>
     </v-row>
     <ActionItems v-if="isPaperAuthor && !isPaperDone && (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
-    <div v-if="isPaperAuthor" class="text-right text-caption white--text no-print">
+    <div v-if="isPaperAuthor && !isPaperDone" class="text-right text-caption white--text no-print">
       <span v-if="deadlineToModify > '0001-1-1'" class="red">
         {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
       </span>
@@ -267,19 +267,19 @@ export default {
           }
           return min_updated_at
         }, "9999-12-31")
-
+        //Initial date so it returns undefined.
+        if (min_sign_updated_at_str == "9999-12-31"){
+          return undefined;
+        }
         if(paper_updated_at > min_sign_updated_at_str){
           return undefined;
         }
-        console.log(min_sign_updated_at_str)
         const min_sign_updated_at = new Date(min_sign_updated_at_str)
-        console.log(min_sign_updated_at)
         deadline = min_sign_updated_at
         deadline.setTime(min_sign_updated_at.getTime()+(12*60*60*1000))
         if(new Date() > deadline){
           return '0000-00-00';
         }
-        console.log(deadline)
         return `${deadline.getFullYear()}-${deadline.getMonth()+1}-${deadline.getDate()} ${('0'+deadline.getHours()).slice(-2)}:${('0'+deadline.getMinutes()).slice(-2)}:${('0'+deadline.getSeconds()).slice(-2)}`
       } else {
         return undefined;
