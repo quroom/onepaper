@@ -12,14 +12,9 @@ from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingEx
 from onepaper.serializers import ReadOnlyModelSerializer
 
 class ExplanationSignatureSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
-
     class Meta:
         model = ExplanationSignature
         fields = "__all__"
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class VerifyingExplanationSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -52,15 +47,12 @@ class VerifyingEveryoneExplanationSerializer(VerifyingExplanationSerializer):
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
 
 class SignatureSerializer(serializers.ModelSerializer):
-    updated_at = serializers.SerializerMethodField()
     paper_status = serializers.SerializerMethodField()
 
     class Meta:
         model = Signature
         fields = "__all__"
 
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_paper_status(self, instance):
         return instance.contractor.paper.status.status
@@ -90,7 +82,6 @@ class ContractorUnalloweUserSerializer(serializers.ModelSerializer):
 
 class PaperListSerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
-    updated_at = serializers.SerializerMethodField()
     author = serializers.StringRelatedField(read_only=True)
     status = serializers.SerializerMethodField()
     answer_count = serializers.SerializerMethodField()
@@ -98,9 +89,6 @@ class PaperListSerializer(ReadOnlyModelSerializer):
     class Meta:
         model = Paper
         exclude = ["special_agreement"]
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -110,7 +98,6 @@ class PaperListSerializer(ReadOnlyModelSerializer):
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    updated_at = serializers.SerializerMethodField()
     address = AddressSerializer()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorSerializer(many=True)
@@ -272,9 +259,6 @@ class PaperSerializer(serializers.ModelSerializer):
                 })
         return data
 
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
-
     def get_status(self, instance):
         return instance.status.status
 
@@ -282,15 +266,11 @@ class PaperLoadSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
-    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
         fields = "__all__"
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class PaperReadonlySerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -298,15 +278,11 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     paper_contractors = ContractorReadonlySerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
-    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationReadonlySerializer()
 
     class Meta:
         model = Paper
         fields = "__all__"
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -317,15 +293,11 @@ class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
     paper_contractors = ContractorUnalloweUserSerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
-    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
         fields = "__all__"
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
@@ -335,7 +307,6 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     address = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
-    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False, read_only=True)
 
     class Meta:
@@ -348,9 +319,6 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
         old_address_eng = instance.address.old_address_eng
         hidden_address_eng = old_address_eng[old_address_eng.index(" ")+1:len(old_address_eng)]
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
-
-    def get_updated_at(self, instance):
-        return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
 
     def get_status(self, instance):
         return instance.status.status
