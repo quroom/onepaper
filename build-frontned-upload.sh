@@ -22,5 +22,7 @@ if [ $ARG2 != "--no-build" ]; then
     cd frontend&&npm run build&&cd ..
 fi
 export DJANGO_DEBUG=False
+export USE_S3=True
 python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*
 unset DJANGO_DEBUG
+unset USE_S3
