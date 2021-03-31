@@ -258,7 +258,6 @@ export default {
           let min_updated_at = acc;
           let signature_updated_at = this.$get(loc,"signature.updated_at")
           let explanation_signature_updated_at = this.$get(loc, "explanation_signature.updated_at")
-          console.log(signature_updated_at, ":", explanation_signature_updated_at)
           if(signature_updated_at && signature_updated_at < min_updated_at){
             min_updated_at = signature_updated_at;
           }
