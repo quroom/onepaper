@@ -18,17 +18,16 @@ class CustomUserIDNameSerializer(ReadOnlyModelSerializer):
         model = CustomUser
         fields = ["name", 'email', 'is_expert']
 
-class ApproveExpertSerializer(serializers.ModelSerializer):
+class ApproveExpertSerializer(ReadOnlyModelSerializer):
     birthday = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
     updated_at = serializers.DateTimeField(source="profile.updated_at")
+    insurance = serializers.SerializerMethodField()
 
     class Meta:
         model = ExpertProfile
         fields = "__all__"
-        read_only_fields = ('profile', 'registration_number', 'shop_name',
-                            'registration_certificate', 'agency_license', 'stamp', 'garantee_insurance')
 
     def get_birthday(self, obj):
         return obj.profile.user.birthday
@@ -38,6 +37,13 @@ class ApproveExpertSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         return obj.profile.user.name
+
+    def get_insurance(self, obj):
+        date = timezone.localtime().strftime("%Y-%m-%d")
+        try:
+            return InsuranceSerializer(obj.insurances.get(from_date__lte=date, to_date__gte=date)).data
+        except Insurance.DoesNotExist:
+            return InsuranceSerializer({None}).data
 
 class BasicCustomUserSerializer(serializers.ModelSerializer):
     class Meta:

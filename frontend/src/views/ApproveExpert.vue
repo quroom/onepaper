@@ -46,29 +46,35 @@
       <template v-slot:expanded-item="{headers, item}">
         <td :colspan="headers.length">
           <div class="mt-5 row sp-details">
-            <v-col class="d-flex child-flex" cols="6" xl="3">
-              <a v-bind:href="item.registration_certificate" target="_blank">
-                <div class="absolute_text"> {{ $t("registration_certificate") }} </div>
-                <img class="img" :src="item.registration_certificate" aspect-ratio="1" />
-              </a>
+            <v-col class="d-flex child-flex text-center" cols="6" xl="3">
+              <div class="text-center"> {{ $t("registration_certificate") }}
+                <a v-bind:href="item.registration_certificate" target="_blank">
+                  <img class="img" :src="item.registration_certificate" aspect-ratio="1" />
+                </a>
+               </div>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <a v-bind:href="item.agency_license" target="_blank">
-                <div class="absolute_text"> {{ $t("agency_license") }} </div>
-                <img class="img" :src="item.agency_license" aspect-ratio="1" />
-              </a>
+              <div class="text-center"> {{ $t("agency_license") }}
+                <a v-bind:href="item.agency_license" target="_blank">
+                  <img class="img" :src="item.agency_license" aspect-ratio="1" />
+                </a>
+               </div>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <a v-bind:href="item.garantee_insurance" target="_blank">
-                <div class="absolute_text"> {{ $t("garantee_insurance") }} </div>
-                <img class="img" :src="item.garantee_insurance" aspect-ratio="1" />
-              </a>
+              <div class="text-center">
+                {{ $t("garantee_insurance") }}
+                <div class="text-left"> {{`${$t("garantee_insurance")} ${ $t("period") }`}} : {{ item.insurance.from_date }} ~ {{ item.insurance.to_date }} </div>
+                <a v-if="item.insurance" v-bind:href="item.insurance.image" target="_blank">
+                  <img class="img" :src="item.insurance.image" aspect-ratio="1" />
+                </a>
+               </div>
             </v-col>
             <v-col class="d-flex child-flex" cols="6" xl="3">
-              <a v-bind:href="item.stamp" target="_blank">
-                <div class="absolute_text"> {{ $t("stamp") }} </div>
-                <img class="img" :src="item.stamp" aspect-ratio="1" />
-              </a>
+              <div class="text-center"> {{ $t("stamp") }}
+                <a v-bind:href="item.stamp" target="_blank">
+                  <img class="img" :src="item.stamp" aspect-ratio="1" />
+                </a>
+              </div>
             </v-col>
           </div>
         </td>
