@@ -3,6 +3,7 @@
     <v-row>
       <v-col v-for="notice in notices" :key="notice.id" cols="12" md="6" lg="4" xl="3">
         <v-card :to="{name: 'notice-detail', params: { id: notice.id } }">
+          <v-chip class="ma-1" v-if="notice.is_pinned" color="primary">{{ $t("notice") }}</v-chip>
           <v-card-subtitle class="py-1">
             {{ $t("onepaper") }}
             <span class="notice_date">{{ notice.created_at }}</span>
