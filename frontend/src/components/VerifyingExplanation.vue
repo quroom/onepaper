@@ -1130,7 +1130,7 @@
             <div>주소</div>
           </td>
           <td width="215" colspan="4">
-            <div>{{ `${ $get(seller, "profile.address.old_address") } ${ $get(seller, "profile.address.dong") } ${ $get(seller, "profile.address.ho") }` }}</div>
+            <div>{{ `${ $get(seller, "profile.address.old_address") } ${ $get(seller, "profile.address.dong") ? $get(seller, "profile.address.dong") + $t("dong"): '' } ${ $get(seller, "profile.address.ho") ? $get(seller, "profile.address.ho") + $t("ho") : "" }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>성명</div>
@@ -1164,7 +1164,7 @@
             <div>주소</div>
           </td>
           <td width="215" colspan="4">
-            <div>{{ `${ $get(buyer, "profile.address.old_address") } ${ $get(buyer, "profile.address.dong") } ${ $get(buyer, "profile.address.ho") }` }}</div>
+            <div>{{ `${ $get(buyer, "profile.address.old_address") } ${ $get(buyer, "profile.address.dong") ? $get(buyer, "profile.address.dong") + $t("dong"): '' } ${ $get(buyer, "profile.address.ho") ? $get(buyer, "profile.address.ho") + $t("ho") : "" }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>성명</div>
@@ -1230,7 +1230,7 @@
             <div>사무소 소재지</div>
           </td>
           <td width="215" colspan="4">
-            <div>{{ `${ $get(expert, "profile.address.old_address") } ${ $get(expert, "profile.address.dong") } ${ $get(expert, "profile.address.ho") }` }}</div>
+            <div>{{ `${ $get(expert, "profile.address.old_address") } ${ $get(expert, "profile.address.dong") ? $get(expert, "profile.address.dong") + $t("dong"): '' } ${ $get(expert, "profile.address.ho") ? $get(expert, "profile.address.ho") + $t("ho") : "" }` }}</div>
           </td>
           <td class="label" width="68" colspan="4">
             <div>전화번호</div>
@@ -1319,7 +1319,7 @@
       <div class="a4">
         <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
         <v-row justify="center">
-          <img :src="ve.insurance.image" aspect-ratio="1" />
+          <img :src="ve.insurance.image" aspect-ratio="1" style="width:100%"/>
         </v-row>
       </div>
     </template>
