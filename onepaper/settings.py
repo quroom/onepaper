@@ -237,9 +237,8 @@ if USE_S3 and DEBUG == False:
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_REGION = 'ap-northeast-2'
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
-    if DEBUG == False:
-        DEFAULT_FILE_STORAGE = '%s.storages.S3DefaultStorage' % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_CUSTOM_DOMAIN = 'onepaper.biz'
+    DEFAULT_FILE_STORAGE = '%s.storages.S3DefaultStorage' % AWS_STORAGE_BUCKET_NAME
     STATICFILES_STORAGE = '%s.storages.S3StaticStorage' % AWS_STORAGE_BUCKET_NAME
 
 if 'RDS_HOSTNAME' in os.environ:
