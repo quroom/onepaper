@@ -442,7 +442,7 @@
           <template v-if="expert.expert_profile.insurance.image && step==max_step" v-slot:insurance>
             <div class="text-center font-weight-bold">{{ $t("garantee_insurance") }}</div>
             <v-row justify="center">
-              <img :src="expert.expert_profile.insurance.image" aspect-ratio="1" />
+              <img :src="expert.expert_profile.insurance.image" aspect-ratio="1" style="width:100%" />
             </v-row>
           </template>
         </VerifyingExplanationEditor>

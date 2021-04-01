@@ -1,8 +1,7 @@
 <template>
   <v-container>
-    <v-menu v-model="menu"
+    <RightMenu v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="280"
     >
       <template
         v-slot:activator="{ on, attrs }"
@@ -110,7 +109,7 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-menu>
+    </RightMenu>
     <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
     <div v-if="papers.length == 0 && !isLoading" class="text-h5 text-center">
       {{$t("no_paper")}}

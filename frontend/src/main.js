@@ -9,6 +9,7 @@ import Constants from "@/plugins/Constants";
 import AddressSearch from "@/components/AddressSearch";
 import LazyTextArea from "@/components/LazyTextArea";
 import LazyTextField from "@/components/LazyTextField";
+import RightMenu from "@/components/RightMenu";
 import "./vee-validate";
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import VueQuillEditor from 'vue-quill-editor'
@@ -29,9 +30,10 @@ router.afterEach((to) => {
 //Components
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
+Vue.component('AddressSearch', AddressSearch)
 Vue.component('LazyTextArea', LazyTextArea)
 Vue.component('LazyTextField', LazyTextField)
-Vue.component('AddressSearch', AddressSearch)
+Vue.component('RightMenu', RightMenu)
 //Plugins
 Vue.use(getSafe);
 Vue.use(Constants);
