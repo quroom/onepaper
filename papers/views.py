@@ -97,10 +97,10 @@ class AllPaperList(APIView, PageNumberPagination):
     def get(self, request, format=None):
         bjdong = self.request.query_params.get("bjdong")
         if not bjdong:
-            papers = Paper.objects.all()
+            papers = Paper.objects.filter(status__status=PaperStatus.DONE)
         else:
             bjdong = bjdong.strip()
-            papers = Paper.objects.filter(address__bjdongName__icontains=bjdong)
+            papers = Paper.objects.filter(status__status=PaperStatus.DONE, address__bjdongName__icontains=bjdong)
         page = self.paginate_queryset(papers, request, view=self)
         serializer = PaperEveryoneSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)

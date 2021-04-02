@@ -23,7 +23,7 @@ const i18n = new VueI18n({
       answer: "Answer",
       attached_document: "Attached Document",
       allow: "Allowed",
-      all_papers: "All Papers",
+      all_papers: "All Papers(Done)",
       company_info: "Company",
       quick_trade_user_list: "List of quick trading members",
       quick_trade_user_list_subtitle: "Please add quick trade memebers. You can add your profile without the contract request·approval step. \
@@ -423,7 +423,7 @@ const i18n = new VueI18n({
       ascending: "오름차순",
       add_user: "회원 추가",
       all: "전체",
-      all_papers: "전체 계약서",
+      all_papers: "전체 계약서(완료 상태)",
       author: "작성자",
       back: "뒤로",
       bank_account: "입금계좌",
