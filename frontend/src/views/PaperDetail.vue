@@ -478,11 +478,6 @@ export default {
       this.$nextTick(() => {
         this.$refs.signaturePad.resizeCanvas();
       });
-    },
-    newtab(image) {
-      let newTab = window.open();
-      newTab.document.body.innerHTML =
-        "<img src=" + image + ' width="500px" height="500px">';
     }
   },
   created() {
