@@ -19,7 +19,7 @@
       </v-col>
     </v-row>
     <ActionItems v-if="isPaperAuthor && !isPaperDone && (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)" :id="paper.id" delete_url="/api/papers/" delete_router_name="home" editor_router_name="paper-editor"/>
-    <div v-if="isPaperAuthor && !isPaperDone" class="text-right text-caption white--text no-print">
+    <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
       <span v-if="deadlineToModify > '0001-1-1'" class="red">
         {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
       </span>
