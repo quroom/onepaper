@@ -273,7 +273,8 @@ if DJANGO_SSL == True:
 
 INTERNAL_IPS = os.environ.get('DJANGO_INTERNAL_IPS',"").split(",")
 
-if DEBUG == False:
+PRODUCT = os.environ.get("DJANGO_PRODUCT", 'True') == 'True'
+if DEBUG == False and PRODUCT:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
