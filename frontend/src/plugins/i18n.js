@@ -6,7 +6,7 @@ import ko from "vee-validate/dist/locale/ko.json";
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({
-  locale: "ko",
+  locale: navigator.language,
   messages: {
     en: {
       validation: en.messages,
