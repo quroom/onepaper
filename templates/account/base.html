@@ -1,0 +1,127 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="naver-site-verification" content="8d2d62b1f70dd5cbdda7784ccf0445a2ed90ab22" />
+  <meta name="robots" content="All"/>
+  <meta name="robots" content="index" />
+  <meta name="robots" content="follow" />
+  <meta property="og:title" content="원페이퍼 - 온라인 부동산 계약">
+  <meta name="description" content="비대면 부동산 온라인 계약 서비스. 분실걱정 NO, 계약서 공유 OK. 당신의 계약서를 이제는 온라인으로 관리해보세요.">
+  <meta property="og:description" content="비대면 부동산 온라인 계약 서비스. 분실걱정 NO, 계약서 공유 OK. 당신의 계약서를 이제는 온라인으로 관리해보세요.">
+  {% block style %}
+  {% endblock %}
+  <title>{% block title %}{% endblock %}</title> 
+  <link rel="canonical" href="https://onepaper.biz/">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52ZPPHH0S4"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140030302-3');
+  gtag('config', 'G-52ZPPHH0S4');
+  </script>
+  <title>{% block head_title %}{% endblock %}</title>
+
+</head>
+
+<style>
+    h3 {
+        margin-top: 16px;
+        text-align: center;
+    }
+    .auth-box {
+        width: 360px;
+        margin: auto;
+    }
+    .outer-area {
+        margin-top: 100px;
+    }    
+    .snps-inline-select {
+        width: auto;
+        min-width: 100px;
+        display: inline-block;
+    }
+    pre {
+        font-size: 14px;
+    }
+    .icon-kakao {
+        background-image: url(/static/image/kakao.png);
+    }
+    .icon-naver {
+        background-image: url(/static/image/naver.png);
+    }
+    .icon-google {
+        background-image: url(/static/image/google.png);
+    }
+    .btn-kakao {
+      background-color: #FEE500;
+    }
+    .btn-google {
+      background-color: #dc3545;
+    }
+    .btn-naver {
+      background-color: #1EC800; 
+    }
+    .icon-button {
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-top: 3px;
+        height: 18px;
+        width: 18px;
+        display: inline-block;
+        vertical-align: text-top;
+    }
+    .btn-registor {
+        width: 177px;
+    }
+</style>
+<body>
+
+{% block body %}
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% block erros %}
+{% endblock %}
+<div class="auth-box text-center">
+  <h3 class="text-center">
+    <a href="/">{% trans "Onepaper" %}</a>
+  </h3>
+{% block content %}
+{% endblock %}
+</div>
+{% endblock %}
+{% block extra_body %}
+{% endblock %}
+
+{% block endofpage %}
+{% endblock %}
+<div class="fixed-bottom text-center pt-3 pb-2" style="background-color: #f5f5f5; color: rgba(0, 0, 0, 0.87);">
+  {% blocktrans %}Company: quroom | Registration Number: 246-86-01161
+  <br/>
+  Copyright © Onepaper. All Rights Reserved.
+  {% endblocktrans %}
+</div>
+</body>
+</html>

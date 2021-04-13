@@ -31,6 +31,8 @@
         </v-btn>
       </template>
       <v-col class="text-center" cols="12">
+        {{ $t("footer_info") }}
+        <br/>
         Copyright © ONEPAPER. All Rights Reserved.
       </v-col>
     </v-row>

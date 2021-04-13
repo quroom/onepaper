@@ -4,9 +4,9 @@ import random
 import os
 
 from PIL import Image
+from datetime import datetime
 from django.db.models import Q
 from django.contrib.auth.models import User
-from django.core.files.images import ImageFile
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
@@ -18,8 +18,9 @@ from urllib.request import urlopen
 
 from profiles.serializers import ProfileSerializer
 from addresses.models import Address
-from profiles.models import CustomUser, Profile, ExpertProfile
+from profiles.models import CustomUser, Profile, ExpertProfile, Insurance
 
+today = datetime.today().date()
 address_vars = {
             "old_address": '광주 광산구 명도동 169',
             "old_address_eng": '169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea',
@@ -197,6 +198,7 @@ class ExpertProfileTestCase(APITestCase):
         if is_expert:
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
+            Insurance.objects.create(expert_profile=expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
             return expert_profile
         return profile
 
@@ -753,7 +755,7 @@ class CustomUserTestCase(APITestCase):
                 **address_form,
                 "bank_name": 4,
                 "account_number": "94334292963"}
-        response = self.client.post(reverse("registration_register"), data)
+        response = self.client.post(reverse("django_registration_register"), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(response.context['form'].is_valid())
 

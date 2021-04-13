@@ -14,21 +14,21 @@
         </v-btn>
       </v-row>
       <v-row>
-        <v-col cols="4" md="2">
+        <v-col cols="12" sm="4">
           <LazyTextField
             v-model="email"
             :label="$t('email')"
             readonly
           ></LazyTextField>
         </v-col>
-        <v-col cols="4" md="2">
+        <v-col cols="6" md="4">
           <LazyTextField
             v-model="name"
             :label="$t('name')"
             readonly
           ></LazyTextField>
         </v-col>
-        <v-col cols="4" md="2">
+        <v-col cols="6" md="4">
           <LazyTextField
             v-model="birthday"
             :label="$t('birthday')"

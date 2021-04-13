@@ -23,10 +23,16 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn align="center" color="green" dark :to="{ name: 'user-editor'}">
-      <v-icon>account_box</v-icon>
-      {{$t("edit_registor_info")}}
-    </v-btn>
+    <v-row>
+      <v-btn align="center" color="green" dark :to="{ name: 'user-editor'}">
+        <v-icon>account_box</v-icon>
+        {{$t("edit_registor_info")}}
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn align="center" color="green" dark href="accounts/social/connections/">
+        {{$t("connect_social")}}
+      </v-btn>
+    </v-row>
     <div v-if="profiles.length == 0 && !isLoading" class="text-h5 text-center">
       <div class="text-h5 text-center">{{$t("no_profile")}}</div>
     </div>
@@ -91,13 +97,11 @@
         </v-btn>
       </v-row>
     </template>
-    <v-row>
-      <v-col cols="12" class="text-right">
-        <v-btn :to="{ name: 'profile-editor' }" color="primary" dark right>
-          <v-icon>add</v-icon>
-          {{$t("create_profile")}}
-        </v-btn>
-      </v-col>
+    <v-row justify="end">
+      <v-btn :to="{ name: 'profile-editor' }" color="primary" dark>
+        <v-icon>add</v-icon>
+        {{$t("create_profile")}}
+      </v-btn>
     </v-row>
   </v-container>
 </template>

@@ -15,6 +15,7 @@ from addresses.models import Address
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Profile
 from papers.models import Paper, PaperStatus
 
+today = datetime.today().date()
 address_vars = {
             "old_address": '광주 광산구 명도동 169',
             "old_address_eng": '169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea',
@@ -198,7 +199,6 @@ class PaperTestCase(APITestCase):
                                             is_expert=True)
         address = Address.objects.create(**address_vars)
         profile2 = Profile.objects.create(user=expert_user, address=address, bank_name=7, account_number="1111111", mobile_number="010-3982-5555")
-        today = datetime.today().date()
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
         Insurance.objects.create(expert_profile=self.expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
         self.expert_profile.status = ExpertProfile.APPROVED
@@ -675,7 +675,6 @@ class PaperTestCase(APITestCase):
 
     def test_insurance_update(self):
         self.api_authentication(user=self.expert_profile.profile.user)
-        today = datetime.today().date()
         data = {
             'from_date': today.replace(year=today.year-1),
             'to_date': today.replace(year=today.year+2)
@@ -713,7 +712,6 @@ class PaperTestCase(APITestCase):
         }
         response = self.client.post(self.list_url, data=data, format="json")
 
-        today = datetime.today().date()
         data = {
             'from_date': today.replace(year=today.year-1),
             'to_date': today.replace(year=today.year+1)
@@ -871,7 +869,6 @@ class SignatureTestCase(APITestCase):
         address = Address.objects.create(**address_vars)
         profile2 = Profile.objects.create(user=expert_user, address=address, bank_name=2, account_number="1111111", mobile_number="010-3982-5555")
         self.expert_profile = ExpertProfile.objects.create(profile=profile2, registration_number="2020118181-11", shop_name="효암중개사")
-        today = datetime.today().date()
         Insurance.objects.create(expert_profile=self.expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
         self.expert_profile.status = ExpertProfile.APPROVED
         self.expert_profile.save()
