@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.naver',
 
     'rest_framework',
-    'rest_framework.authtoken',
 
     'crispy_forms',
     'phonenumber_field',
@@ -217,7 +216,6 @@ PHONENUMBER_DEFAULT_REGION = "KR"
 # Django-REST-Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
