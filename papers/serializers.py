@@ -82,7 +82,7 @@ class ContractorUnalloweUserSerializer(serializers.ModelSerializer):
 
 class PaperListSerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     status = serializers.SerializerMethodField()
     answer_count = serializers.SerializerMethodField()
 
@@ -97,7 +97,7 @@ class PaperListSerializer(ReadOnlyModelSerializer):
         return instance.paper_contractors.get(profile__user=self.context['request'].user).contractor_answers.count()
 
 class PaperSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorSerializer(many=True)
@@ -263,7 +263,7 @@ class PaperSerializer(serializers.ModelSerializer):
         return instance.status.status
 
 class PaperLoadSerializer(ReadOnlyModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
@@ -273,7 +273,7 @@ class PaperLoadSerializer(ReadOnlyModelSerializer):
         fields = "__all__"
 
 class PaperReadonlySerializer(ReadOnlyModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
     paper_contractors = ContractorReadonlySerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)

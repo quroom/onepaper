@@ -272,7 +272,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         return instance
 
 class MandateEveryoneSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     designator = ProfileBasicInfoSerializer(read_only=True)
     designee = ProfileBasicInfoSerializer(read_only=True)
     address = AddressSerializer(read_only=True)
@@ -282,7 +282,7 @@ class MandateEveryoneSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MandateReadOnlySerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     designator = ProfileReadonlySerializer(read_only=True)
     designee = ProfileReadonlySerializer(read_only=True)
     address = AddressSerializer(read_only=True)
@@ -292,7 +292,7 @@ class MandateReadOnlySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MandateSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField(source="author.name", read_only=True)
+    author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
 
     class Meta:
