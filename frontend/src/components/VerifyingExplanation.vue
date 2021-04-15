@@ -193,7 +193,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ $getConstI18("BUILDING_CATEGORY", ve.ledger_building_category) }}
+            {{ ve.ledger_building_category }}
           </div>
         </td>
       </tr>
@@ -203,7 +203,7 @@
         </td>
         <td class="border-tbl" width="137" colspan="5">
           <div>
-            {{ $getConstI18("BUILDING_CATEGORY", ve.actual_building_category) }}
+            {{ ve.actual_building_category }}
           </div>
         </td>
       </tr>
