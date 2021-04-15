@@ -31,7 +31,7 @@ urlpatterns = [
             ), name="django_registration_register"),
     path("expert-accounts/register/",
         SignupView.as_view(
-            template_name = 'account/signup.html',
+            template_name = 'account/signup-expert.html',
             form_class=ExpertCustomUserForm,
             ), name="django_expert_registration_register"),
     path("api/", include("profiles.urls")),

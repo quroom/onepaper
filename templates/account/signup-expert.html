@@ -4,18 +4,6 @@
 {% load i18n %}
 
 {% block content %}
-<div class="mt-4 flex flex-col w-full">
-    <!-- receiving from django-allauth -->
-    <a class="btn btn-naver" href="{% provider_login_url "naver" %}">
-        <i class="icon-button icon-naver"></i>
-    </a>
-    <a class="btn btn-kakao" href="{% provider_login_url "kakao" %}" >
-        <i class="icon-button icon-kakao"></i>
-    </a>
-    <a class="btn btn-google" href="{% provider_login_url "google" %}" >
-        <i class="icon-button icon-google"></i>
-    </a>
-</div>
 <h3> {%trans "Create Account" %} </h3>
 <div class="bg-modal">
     <div class="modal-content">
@@ -28,7 +16,7 @@
         </div>
     </div>
 </div>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.email|as_crispy_field }}
     {{ form.password1|as_crispy_field }}
@@ -56,6 +44,15 @@
             {{ form.account_number|as_crispy_field }}
         </div>
     </div>
+    {{ form.registration_number|as_crispy_field }}
+    {{ form.shop_name|as_crispy_field }}
+    {{ form.registration_certificate|as_crispy_field }}
+    {{ form.agency_license|as_crispy_field }}
+    {{ form.stamp|as_crispy_field }}
+    {{ form.insurance|as_crispy_field }}
+    {{ form.from_date|as_crispy_field }}
+    {{ form.to_date|as_crispy_field }}
+    {{ form.is_expert|as_crispy_field }}
     {{ form.old_address_eng }}
     {{ form.new_address }}
     {{ form.bjdongName }}
