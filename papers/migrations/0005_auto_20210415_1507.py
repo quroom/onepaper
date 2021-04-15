@@ -10,25 +10,41 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='verifyingexplanation',
+            name='noise_status',
+        ),
+        migrations.RemoveField(
+            model_name='verifyingexplanation',
+            name='sunshine_status',
+        ),
+        migrations.RemoveField(
+            model_name='verifyingexplanation',
+            name='vibration',
+        ),
+        migrations.RemoveField(
+            model_name='verifyingexplanation',
+            name='wall_paper_status',
+        ),
+        migrations.AddField(
             model_name='verifyingexplanation',
             name='noise_status',
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='verifyingexplanation',
             name='sunshine_status',
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='verifyingexplanation',
             name='vibration',
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
-        migrations.AlterField(
+        migrations.AddField(
             model_name='verifyingexplanation',
             name='wall_paper_status',
             field=models.PositiveSmallIntegerField(default=1),

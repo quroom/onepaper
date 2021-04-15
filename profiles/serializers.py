@@ -43,7 +43,7 @@ class ApproveExpertSerializer(ReadOnlyModelSerializer):
         try:
             return InsuranceSerializer(obj.insurances.get(from_date__lte=date, to_date__gte=date)).data
         except Insurance.DoesNotExist:
-            return InsuranceSerializer({None}).data
+            return InsuranceSerializer(None).data
 
 class BasicCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
