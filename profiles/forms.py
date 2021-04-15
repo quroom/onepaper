@@ -60,8 +60,9 @@ class SocialCustomUserForm(SocialForm):
             kakao_account = extra_data.get("kakao_account")
             if kakao_account:
                 self.fields['name'].initial = kakao_account.get('profile').get('nickname')
-                parsed_phone_number = phonenumbers.parse(kakao_account.get('phone_number'))
-                self.fields['mobile_number'].initial = phonenumbers.format_number(parsed_phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
+                if kakao_account.get('phone_number'):
+                    parsed_phone_number = phonenumbers.parse(kakao_account.get('phone_number'))
+                    self.fields['mobile_number'].initial = phonenumbers.format_number(parsed_phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
                 self.fields['birthday'].initial = datetime(int(kakao_account.get("birthyear")), int(kakao_account.get("birthday")[0:2]), int(kakao_account.get("birthday")[2:4]))
         self.fields['email'].widget.attrs['readonly'] = True
 
