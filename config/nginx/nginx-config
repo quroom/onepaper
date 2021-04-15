@@ -177,7 +177,7 @@ server {
 		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
 		expires 365d;
 	}
-	location /static/ {
+	location /static-green/ {
 		proxy_cache            s3_green_cache;
 		proxy_http_version     1.1;
 		proxy_hide_header      x-amz-id-2;
