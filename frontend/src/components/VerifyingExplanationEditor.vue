@@ -535,9 +535,9 @@
                 </v-radio-group>
                 <LazyTextField v-if="ve.water_leak_status==true" class="d-flex ve-input" v-model="ve.water_leak_status_info" label="위치"></LazyTextField>
                 <v-radio-group class="d-flex ve-input ve-radio-group" v-model="ve.wall_paper_status" label="도배" row mandatory>
-                    <v-radio label="깨끗함" :value="true"></v-radio>
-                    <v-radio label="보통임" value=null></v-radio>
-                    <v-radio label="도배필요" :value="false"></v-radio>
+                    <v-radio label="깨끗함" :value="2"></v-radio>
+                    <v-radio label="보통임" :value="1"></v-radio>
+                    <v-radio label="도배필요" :value="0"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -551,20 +551,20 @@
             <v-row>
               <v-col class="d-flex flex-wrap">
                 <v-radio-group class="d-flex ve-input ve-radio-group" v-model="ve.sunshine_status" label="일조량" row mandatory>
-                    <v-radio label="풍부함" :value="true"></v-radio>
-                    <v-radio label="보통임" value=null></v-radio>
-                    <v-radio label="불충분" :value="false"></v-radio>
+                    <v-radio label="풍부함" :value="2"></v-radio>
+                    <v-radio label="보통임" :value="1"></v-radio>
+                    <v-radio label="불충분" :value="0"></v-radio>
                 </v-radio-group>
-                <LazyTextField v-if="ve.sunshine_status==false" class="d-flex ve-input" v-model="ve.sunshine_status_info" label="불충분 이유"></LazyTextField>
+                <LazyTextField v-if="ve.sunshine_status==0" class="d-flex ve-input" v-model="ve.sunshine_status_info" label="불충분 이유"></LazyTextField>
                 <v-radio-group class="d-flex ve-input ve-radio-group" v-model="ve.noise_status" label="소음" row mandatory>
-                    <v-radio label="미미함" :value="true"></v-radio>
-                    <v-radio label="보통임" value=null></v-radio>
-                    <v-radio label="심한편임" :value="false"></v-radio>
+                    <v-radio label="미미함" :value="2"></v-radio>
+                    <v-radio label="보통임" :value="1"></v-radio>
+                    <v-radio label="심한편임" :value="0"></v-radio>
                 </v-radio-group>
                 <v-radio-group class="d-flex ve-input ve-radio-group" v-model="ve.vibration" label="진동" row mandatory>
-                    <v-radio label="미미함" :value="true"></v-radio>
-                    <v-radio label="보통임" value=null></v-radio>
-                    <v-radio label="심한편임" :value="false"></v-radio>
+                    <v-radio label="미미함" :value="2"></v-radio>
+                    <v-radio label="보통임" :value="1"></v-radio>
+                    <v-radio label="심한편임" :value="0"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>

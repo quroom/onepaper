@@ -992,7 +992,7 @@
           </td>
           <td class="border-tbl" width="478" colspan="8">
             <div>
-              ［{{ ve.wall_paper_status == true ? '√' : '' }}］깨끗함 ［{{ ve.wall_paper_status == null ? '√' : '' }}］보통임 ［{{ ve.wall_paper_status == false ? '√' : '' }}］도배 필요
+              ［{{ ve.wall_paper_status == 2 ? '√' : '' }}］깨끗함 ［{{ ve.wall_paper_status == 1 ? '√' : '' }}］보통임 ［{{ ve.wall_paper_status == 0 ? '√' : '' }}］도배 필요
             </div>
           </td>
         </tr>
@@ -1011,7 +1011,7 @@
           </td>
           <td class="border-tbl" width="478" colspan="8">
             <div>
-              ［{{ ve.sunshine_status == true ? '√' : '' }}］풍부함 ［{{ ve.sunshine_status == null ? '√' : '' }}］보통임 ［{{ ve.sunshine_status == false ? '√' : '' }}］불충분 (이유: {{ ve.sunshine_status == false ? ve.sunshine_status_info : '' }})
+              ［{{ ve.sunshine_status == 2 ? '√' : '' }}］풍부함 ［{{ ve.sunshine_status == 1 ? '√' : '' }}］보통임 ［{{ ve.sunshine_status == 0 ? '√' : '' }}］불충분 (이유: {{ ve.sunshine_status == false ? ve.sunshine_status_info : '' }})
             </div>
           </td>
         </tr>
@@ -1021,7 +1021,7 @@
           </td>
           <td width="239" colspan="6">
             <div>
-              ［{{ ve.nosie_status == true ? '√' : '' }}］미미함 ［{{ ve.nosie_status == null ? '√' : '' }}］보통임 ［{{ ve.nosie_status == false ? '√' : '' }}］심한 편임
+              ［{{ ve.nosie_status == 2 ? '√' : '' }}］미미함 ［{{ ve.nosie_status == 1 ? '√' : '' }}］보통임 ［{{ ve.nosie_status == 0 ? '√' : '' }}］심한 편임
             </div>
           </td>
           <td class="label" width="45" colspan="1">
@@ -1029,7 +1029,7 @@
           </td>
           <td class="border-tbl" width="214" colspan="2">
             <div>
-              ［{{ ve.vibration == true ? '√' : '' }}］미미함 ［{{ ve.vibration == null ? '√' : '' }}］보통임 ［{{ ve.vibration == false ? '√' : '' }}］심한 편임
+              ［{{ ve.vibration == 2 ? '√' : '' }}］미미함 ［{{ ve.vibration == 1 ? '√' : '' }}］보통임 ［{{ ve.vibration == 0 ? '√' : '' }}］심한 편임
             </div>
           </td>
         </tr>
