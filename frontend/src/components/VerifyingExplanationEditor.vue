@@ -140,7 +140,6 @@
                 <LazyTextField class="d-flex ve-input" v-model="ve.net_area" type="Number" step="0.01" label="전용면적"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.land_share" label="대지지분"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.year_of_completion" label="준공년도(증개축년도)"></LazyTextField>
-                <LazyTextField class="d-flex ve-input" v-model="ve.building_structure" label="구조"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.ledger_building_category" label="건축물대장상 용도"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.actual_building_category" label="실제 용도"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.building_structure" label="구조"></LazyTextField>

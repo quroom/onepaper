@@ -1021,7 +1021,7 @@
           </td>
           <td width="239" colspan="6">
             <div>
-              ［{{ ve.nosie_status == 2 ? '√' : '' }}］미미함 ［{{ ve.nosie_status == 1 ? '√' : '' }}］보통임 ［{{ ve.nosie_status == 0 ? '√' : '' }}］심한 편임
+              ［{{ ve.noise_status == 2 ? '√' : '' }}］미미함 ［{{ ve.noise_status == 1 ? '√' : '' }}］보통임 ［{{ ve.noise_status == 0 ? '√' : '' }}］심한 편임
             </div>
           </td>
           <td class="label" width="45" colspan="1">
