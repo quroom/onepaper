@@ -25,7 +25,7 @@
       </v-chip>
       <div class="text-body-2 mt-2 pr-1" style="float:right">
         {{ $t("updated_at") }}: {{ paper.updated_at }}
-        <div>
+        <div v-if="paper.author">
           <div class="author-name-position">
             {{ $t("author") }}:
             <span class="author-name-font"> {{ paper.author }} </span>

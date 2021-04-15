@@ -327,10 +327,8 @@ class VerifyingExplanation(models.Model):
     net_area = models.FloatField()
     land_share = models.CharField(max_length=12, blank=True)
     year_of_completion = models.SmallIntegerField()
-    ledger_building_category = models.PositiveSmallIntegerField(
-        choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
-    actual_building_category = models.PositiveSmallIntegerField(
-        choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
+    ledger_building_category = models.CharField(max_length=13, blank=True)
+    actual_building_category = models.CharField(max_length=13, blank=True)
     building_structure = models.CharField(max_length=12)
     building_direction = models.CharField(max_length=15)
     seismic_design = models.CharField(max_length=12)

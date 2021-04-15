@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -34,7 +35,6 @@ CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS',"*").split("
 # Application definition
 
 INSTALLED_APPS = [
-    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,9 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver',
 
     'rest_framework',
-    'rest_framework.authtoken',
 
     'crispy_forms',
     'phonenumber_field',
@@ -93,6 +98,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'onepaper.wsgi.application'
@@ -160,9 +170,30 @@ LOGOUT_REDIRECT_URL = "/"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'frontend/dist')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+ACCOUNT_ADAPTER = "profiles.adapters.CustomAccountAdapter"
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_MAX_EMAIL_ADDRESSES = 1
+ACCOUNT_SESSION_REMEMBER = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_FORMS = {
+    'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
+    'signup': 'profiles.forms.SocialCustomUserForm',
+}
 
 AUTH_USER_MODEL = "profiles.CustomUser"
 
@@ -177,10 +208,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 # django.contrib.sites
 SITE_ID = 1
 
-# django.registration.redux
-ACCOUNT_ACTIVATION_DAYS = 3 # One-week activation window; you may, of course, use a different value.
-REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
-
 # Phonenumber Field setting
 PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
@@ -189,7 +216,6 @@ PHONENUMBER_DEFAULT_REGION = "KR"
 # Django-REST-Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -273,7 +299,8 @@ if DJANGO_SSL == True:
 
 INTERNAL_IPS = os.environ.get('DJANGO_INTERNAL_IPS',"").split(",")
 
-if DEBUG == False:
+PRODUCT = os.environ.get("DJANGO_PRODUCT", 'True') == 'True'
+if DEBUG == False and PRODUCT:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -302,3 +329,41 @@ if DEBUG == False:
             },
         }
     }
+
+KAKAO_CLIENT_ID = os.environ.get("KAKAO_CLIENT_ID", '')
+KAKAO_CLIENT_SECRET = os.environ.get("KAKAO_CLIENT_SECRET", '')
+NAVER_CLIENT_ID = os.environ.get("NAVER_CLIENT_ID", '')
+NAVER_CLIENT_SECRET = os.environ.get("NAVER_CLIENT_SECRET", '')
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", '')
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", '')
+SOCIALACCOUNT_PROVIDERS = {
+    'naver': {
+        'APP': {
+            'client_id': NAVER_CLIENT_ID,
+            'secret': NAVER_CLIENT_SECRET,
+            'key': ''
+        }
+    },
+    'kakao': {
+        'APP': {
+            'client_id': KAKAO_CLIENT_ID,
+            'secret': '',
+            'key': ''
+        }
+    },
+    'google': {
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': GOOGLE_CLIENT_SECRET,
+            'key': '',
+        }
+    },
+}
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}

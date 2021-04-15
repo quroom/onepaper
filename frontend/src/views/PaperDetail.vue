@@ -2,7 +2,7 @@
   <v-container v-if="!isLoading">
     <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
     <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
-    <v-row class="mt-4 no-print">
+    <v-row v-if="paper.author" class="mt-4 no-print">
       <v-col class="pa-0 pr-1" cols="12" md="8">
         <div style="float:right">
           <v-icon left color="blue">person</v-icon>

@@ -1,5 +1,6 @@
 # from pytz import timezone
 from datetime import datetime
+from allauth.account.views import SignupView
 from django.db import transaction
 from django.db.models import Exists, Q
 from django.core.exceptions import ValidationError
@@ -14,8 +15,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.views import APIView
-from profiles.forms import CustomUserForm
 from papers.models import Contractor, Paper, PaperStatus
+from profiles.forms import CustomUserForm
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
 from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, ExpertProfileReadonlySerializer, InsuranceSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly

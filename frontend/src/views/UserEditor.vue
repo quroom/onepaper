@@ -56,7 +56,7 @@
       style="float:right"
       color="green"
       dark
-      href="/accounts/password_change/"
+      href="/accounts/password/change/"
     >
       {{$t('password_change')}}
     </v-btn>

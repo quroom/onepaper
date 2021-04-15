@@ -140,28 +140,9 @@
                 <LazyTextField class="d-flex ve-input" v-model="ve.net_area" type="Number" step="0.01" label="전용면적"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.land_share" label="대지지분"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.year_of_completion" label="준공년도(증개축년도)"></LazyTextField>
-                <v-select
-                  class="d-flex ve-input"
-                  v-model="ve.ledger_building_category"
-                  :items="$getConstList('BUILDING_CATEGORY_LIST')"
-                  item-text="text"
-                  item-value="value"
-                  label="건축물대장상 용도"
-                >
-                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-                </v-select>
-                <v-select
-                  class="d-flex ve-input"
-                  v-model="ve.actual_building_category"
-                  :items="$getConstList('BUILDING_CATEGORY_LIST')"
-                  item-text="text"
-                  item-value="value"
-                  label="실제 용도"
-                >
-                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-                </v-select>
+                <LazyTextField class="d-flex ve-input" v-model="ve.building_structure" label="구조"></LazyTextField>
+                <LazyTextField class="d-flex ve-input" v-model="ve.ledger_building_category" label="건축물대장상 용도"></LazyTextField>
+                <LazyTextField class="d-flex ve-input" v-model="ve.actual_building_category" label="실제 용도"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.building_structure" label="구조"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.building_direction" label="방향"></LazyTextField>
                 <LazyTextField class="d-flex ve-input" v-model="ve.seismic_design" label="내진설계 적용여부"></LazyTextField>

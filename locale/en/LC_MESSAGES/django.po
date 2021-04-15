@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-26 15:02+0900\n"
+"POT-Creation-Date: 2021-04-13 15:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,298 +17,298 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: onepaper/settings.py:135
+#: .\onepaper\settings.py:146
 msgid "Korean"
 msgstr ""
 
-#: onepaper/settings.py:136
+#: .\onepaper\settings.py:147
 msgid "English"
 msgstr ""
 
-#: papers/models.py:18
+#: .\papers\models.py:18
 msgid "요청중"
 msgstr "Requesting"
 
-#: papers/models.py:19
+#: .\papers\models.py:19
 msgid "작성중"
 msgstr "Draft"
 
-#: papers/models.py:20
+#: .\papers\models.py:20
 msgid "서명중"
 msgstr "Progress"
 
-#: papers/models.py:21
+#: .\papers\models.py:21
 msgid "완료"
 msgstr "Done"
 
-#: papers/models.py:35 papers/models.py:234
+#: .\papers\models.py:35 .\papers\models.py:234
 msgid "대"
 msgstr "Building Land"
 
-#: papers/models.py:36 papers/models.py:52 papers/models.py:230
-#: papers/models.py:247
+#: .\papers\models.py:36 .\papers\models.py:52 .\papers\models.py:230
+#: .\papers\models.py:247
 msgid "기타"
 msgstr "Etc"
 
-#: papers/models.py:48 papers/models.py:243
+#: .\papers\models.py:48 .\papers\models.py:243
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: papers/models.py:49 papers/models.py:244
+#: .\papers\models.py:49 .\papers\models.py:244
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: papers/models.py:50 papers/models.py:208 papers/models.py:245
+#: .\papers\models.py:50 .\papers\models.py:208 .\papers\models.py:245
 msgid "단독주택"
 msgstr ""
 
-#: papers/models.py:51 papers/models.py:246
+#: .\papers\models.py:51 .\papers\models.py:246
 msgid "아파트"
 msgstr ""
 
-#: papers/models.py:61
+#: .\papers\models.py:61
 msgid "월세"
 msgstr ""
 
-#: papers/models.py:62
+#: .\papers\models.py:62
 msgid "전세"
 msgstr ""
 
-#: papers/models.py:63 papers/models.py:210
+#: .\papers\models.py:63 .\papers\models.py:210
 msgid "매매"
 msgstr ""
 
-#: papers/models.py:64
+#: .\papers\models.py:64
 msgid "교환"
 msgstr ""
 
-#: papers/models.py:81
+#: .\papers\models.py:81
 msgid "티비"
 msgstr ""
 
-#: papers/models.py:82
+#: .\papers\models.py:82
 msgid "냉장고"
 msgstr ""
 
-#: papers/models.py:83
+#: .\papers\models.py:83
 msgid "세탁기"
 msgstr ""
 
-#: papers/models.py:84
+#: .\papers\models.py:84
 msgid "에어컨"
 msgstr ""
 
-#: papers/models.py:85
+#: .\papers\models.py:85
 msgid "침대"
 msgstr ""
 
-#: papers/models.py:86
+#: .\papers\models.py:86
 msgid "책상"
 msgstr ""
 
-#: papers/models.py:87
+#: .\papers\models.py:87
 msgid "옷장"
 msgstr ""
 
-#: papers/models.py:88
+#: .\papers\models.py:88
 msgid "신발장"
 msgstr ""
 
-#: papers/models.py:89
+#: .\papers\models.py:89
 msgid "가스렌지"
 msgstr ""
 
-#: papers/models.py:90
+#: .\papers\models.py:90
 msgid "전자렌지"
 msgstr ""
 
-#: papers/models.py:91
+#: .\papers\models.py:91
 msgid "도어락"
 msgstr ""
 
-#: papers/models.py:92
+#: .\papers\models.py:92
 msgid "비데"
 msgstr ""
 
-#: papers/models.py:93
+#: .\papers\models.py:93
 msgid "추가물품"
 msgstr ""
 
-#: papers/models.py:139
+#: .\papers\models.py:139
 msgid "임대인(매도인)"
 msgstr ""
 
-#: papers/models.py:140
+#: .\papers\models.py:140
 msgid "임차인(매수인)"
 msgstr ""
 
-#: papers/models.py:141
+#: .\papers\models.py:141
 msgid "공인중개사"
 msgstr ""
 
-#: papers/models.py:209
+#: .\papers\models.py:209
 msgid "공동주택"
 msgstr ""
 
-#: papers/models.py:211
+#: .\papers\models.py:211
 msgid "임대"
 msgstr ""
 
-#: papers/models.py:223
+#: .\papers\models.py:223
 msgid "등기권리증"
 msgstr ""
 
-#: papers/models.py:224
+#: .\papers\models.py:224
 msgid "등기사항증명서"
 msgstr ""
 
-#: papers/models.py:225
+#: .\papers\models.py:225
 msgid "토지대장"
 msgstr ""
 
-#: papers/models.py:226
+#: .\papers\models.py:226
 msgid "건축물대장"
 msgstr ""
 
-#: papers/models.py:227
+#: .\papers\models.py:227
 msgid "지적도"
 msgstr ""
 
-#: papers/models.py:228
+#: .\papers\models.py:228
 msgid "임야도"
 msgstr ""
 
-#: papers/models.py:229
+#: .\papers\models.py:229
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: papers/models.py:255
+#: .\papers\models.py:255
 msgid "해당사항없음"
 msgstr ""
 
-#: papers/models.py:256
+#: .\papers\models.py:256
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: papers/models.py:257
+#: .\papers\models.py:257
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: papers/models.py:258 papers/models.py:287
+#: .\papers\models.py:258 .\papers\models.py:287
 msgid "그 밖의 유형"
 msgstr ""
 
-#: papers/models.py:265
+#: .\papers\models.py:265
 msgid "토기투기지역"
 msgstr ""
 
-#: papers/models.py:266
+#: .\papers\models.py:266
 msgid "주택투기지역"
 msgstr ""
 
-#: papers/models.py:267
+#: .\papers\models.py:267
 msgid "투기과열지구"
 msgstr ""
 
-#: papers/models.py:275
+#: .\papers\models.py:275
 msgid "없음"
 msgstr "None"
 
-#: papers/models.py:276
+#: .\papers\models.py:276
 msgid "전용주차시설"
 msgstr ""
 
-#: papers/models.py:277
+#: .\papers\models.py:277
 msgid "공동주차시설"
 msgstr ""
 
-#: papers/models.py:278
+#: .\papers\models.py:278
 msgid "그 밖의 주차시설"
 msgstr ""
 
-#: papers/models.py:285
+#: .\papers\models.py:285
 msgid "위탁관리"
 msgstr ""
 
-#: papers/models.py:286
+#: .\papers\models.py:286
 msgid "자체관리"
 msgstr ""
 
-#: papers/models.py:293
+#: .\papers\models.py:293
 msgid "중앙공급"
 msgstr ""
 
-#: papers/models.py:294
+#: .\papers\models.py:294
 msgid "개별공급"
 msgstr ""
 
-#: papers/models.py:302
+#: .\papers\models.py:302
 msgid "도시가스"
 msgstr ""
 
-#: papers/models.py:303
+#: .\papers\models.py:303
 msgid "기름"
 msgstr ""
 
-#: papers/models.py:304
+#: .\papers\models.py:304
 msgid "프로판가스"
 msgstr ""
 
-#: papers/models.py:305
+#: .\papers\models.py:305
 msgid "연탄"
 msgstr ""
 
-#: papers/models.py:306
+#: .\papers\models.py:306
 msgid "그밖의종류"
 msgstr ""
 
-#: papers/serializers.py:224 papers/tests.py:331
+#: .\papers\serializers.py:212 .\papers\tests.py:331
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: papers/serializers.py:238 papers/tests.py:430
+#: .\papers\serializers.py:226 .\papers\tests.py:430
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: papers/serializers.py:247 papers/tests.py:468
+#: .\papers\serializers.py:235 .\papers\tests.py:468
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: papers/serializers.py:254 papers/tests.py:525
+#: .\papers\serializers.py:242 .\papers\tests.py:525
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: papers/serializers.py:259 papers/tests.py:497
+#: .\papers\serializers.py:247 .\papers\tests.py:497
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: papers/serializers.py:265 papers/tests.py:840
+#: .\papers\serializers.py:253 .\papers\tests.py:838
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: papers/serializers.py:269 papers/serializers.py:270 papers/tests.py:302
-#: papers/tests.py:303
+#: .\papers\serializers.py:257 .\papers\serializers.py:258
+#: .\papers\tests.py:302 .\papers\tests.py:303
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: papers/tests.py:404 papers/views.py:26
+#: .\papers\tests.py:404 .\papers\views.py:26
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: papers/tests.py:620 papers/views.py:171
+#: .\papers\tests.py:620 .\papers\views.py:171
 msgid "완료된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: papers/tests.py:674 papers/views.py:199
+#: .\papers\tests.py:674 .\papers\views.py:199
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: papers/tests.py:726 profiles/tests.py:339 profiles/views.py:160
+#: .\papers\tests.py:724 .\profiles\tests.py:342 .\profiles\views.py:166
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: papers/tests.py:732 profiles/views.py:173
+#: .\papers\tests.py:730 .\profiles\views.py:179
 #, fuzzy
 #| msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgid ""
@@ -316,669 +316,746 @@ msgid ""
 "다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: papers/tests.py:764 profiles/views.py:201
+#: .\papers\tests.py:762 .\profiles\views.py:207
 #, fuzzy
 #| msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: papers/tests.py:1128 papers/tests.py:1217 papers/views.py:50
-#: papers/views.py:227
+#: .\papers\tests.py:1125 .\papers\tests.py:1214 .\papers\views.py:50
+#: .\papers\views.py:227
 msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: papers/tests.py:1138 papers/tests.py:1227 papers/views.py:57
-#: papers/views.py:234
+#: .\papers\tests.py:1135 .\papers\tests.py:1224 .\papers\views.py:57
+#: .\papers\views.py:234
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: papers/tests.py:1170 papers/tests.py:1259 papers/views.py:74
-#: papers/views.py:248
+#: .\papers\tests.py:1167 .\papers\tests.py:1256 .\papers\views.py:74
+#: .\papers\views.py:248
 msgid "완료된 계약서의 서명은 수정할 수 없습니다."
 msgstr ""
 
-#: papers/views.py:89
+#: .\papers\views.py:89
 msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
 msgstr ""
 
-#: papers/views.py:91
+#: .\papers\views.py:91
 msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
 msgstr ""
 
-#: papers/views.py:182
+#: .\papers\views.py:182
 msgid "최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: papers/views.py:210
+#: .\papers\views.py:210
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: profiles/forms.py:14 profiles/forms.py:23
+#: .\profiles\forms.py:18 .\profiles\forms.py:28 .\profiles\forms.py:103
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr ""
 
-#: profiles/forms.py:21
+#: .\profiles\forms.py:26 .\profiles\forms.py:101
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: profiles/forms.py:22
+#: .\profiles\forms.py:27 .\profiles\forms.py:102
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: profiles/forms.py:23
+#: .\profiles\forms.py:28 .\profiles\forms.py:103
 msgid "성함"
 msgstr "FullName"
 
-#: profiles/forms.py:24
+#: .\profiles\forms.py:29 .\profiles\forms.py:104
 msgid "생년월일"
 msgstr "Birthday"
 
-#: profiles/forms.py:25
+#: .\profiles\forms.py:30 .\profiles\forms.py:105
 msgid "휴대폰 번호"
 msgstr "Mobile Number"
 
-#: profiles/forms.py:26 profiles/models.py:104
+#: .\profiles\forms.py:31 .\profiles\forms.py:106 .\profiles\models.py:105
 msgid "은행명"
 msgstr "Bank Name"
 
-#: profiles/forms.py:27
+#: .\profiles\forms.py:32 .\profiles\forms.py:107
 msgid "계좌번호"
 msgstr "Account Number"
 
-#: profiles/forms.py:28
+#: .\profiles\forms.py:33 .\profiles\forms.py:108
 msgid "주소"
 msgstr "Address"
 
-#: profiles/forms.py:38
+#: .\profiles\forms.py:43 .\profiles\forms.py:118
 msgid "동"
 msgstr "Dong"
 
-#: profiles/forms.py:39
+#: .\profiles\forms.py:44 .\profiles\forms.py:119
 msgid "호"
 msgstr "Ho"
 
-#: profiles/forms.py:84 profiles/serializers.py:231
+#: .\profiles\forms.py:124
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+#: .\profiles\forms.py:166 .\profiles\serializers.py:217
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr ""
 
-#: profiles/forms.py:87
+#: .\profiles\forms.py:169
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
-#: profiles/forms.py:88
+#: .\profiles\forms.py:170
 msgid "등록번호"
 msgstr "Registration Number"
 
-#: profiles/forms.py:89
+#: .\profiles\forms.py:171
 msgid "상호명"
 msgstr "Shop Name"
 
-#: profiles/forms.py:90
+#: .\profiles\forms.py:172
 #, fuzzy
 #| msgid "중개사 등록증"
 msgid "중개사무소 등록증"
 msgstr "Registration Certificate"
 
-#: profiles/forms.py:91
+#: .\profiles\forms.py:173
 #, fuzzy
 #| msgid "중개사 자격증"
 msgid "공인중개사 자격증"
 msgstr "Agency License"
 
-#: profiles/forms.py:92
+#: .\profiles\forms.py:174
 msgid "인장"
 msgstr "Stamp"
 
-#: profiles/forms.py:93
+#: .\profiles\forms.py:175
 msgid "보증설정서류"
 msgstr ""
 
-#: profiles/forms.py:94
+#: .\profiles\forms.py:176
 msgid "사무실 주소"
 msgstr "Shop Address"
 
-#: profiles/forms.py:95
+#: .\profiles\forms.py:177
 #, fuzzy
 #| msgid "보증서류"
 msgid "보증서류 시작일"
 msgstr "Brokerage Garantee Insurance"
 
-#: profiles/forms.py:96
+#: .\profiles\forms.py:178
 #, fuzzy
 #| msgid "보증서류"
 msgid "보증서류 만료일"
 msgstr "Brokerage Garantee Insurance"
 
-#: profiles/models.py:53
+#: .\profiles\models.py:53
 msgid "staff status"
 msgstr ""
 
-#: profiles/models.py:55
+#: .\profiles\models.py:55
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: profiles/models.py:58
+#: .\profiles\models.py:58
 msgid "active"
 msgstr ""
 
-#: profiles/models.py:61
+#: .\profiles\models.py:61
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: profiles/models.py:66
+#: .\profiles\models.py:66
 msgid "date joined"
 msgstr ""
 
-#: profiles/models.py:68
+#: .\profiles\models.py:68
 msgid "email address"
 msgstr ""
 
-#: profiles/models.py:84
+#: .\profiles\models.py:84
 msgid "user"
 msgstr ""
 
-#: profiles/models.py:85
+#: .\profiles\models.py:85
 msgid "users"
 msgstr ""
 
-#: profiles/models.py:105
+#: .\profiles\models.py:106
 msgid "산업은행"
 msgstr ""
 
-#: profiles/models.py:106
+#: .\profiles\models.py:107
 msgid "부산은행"
 msgstr ""
 
-#: profiles/models.py:107
+#: .\profiles\models.py:108
 msgid "기업은행"
 msgstr ""
 
-#: profiles/models.py:108
+#: .\profiles\models.py:109
 msgid "광주은행"
 msgstr ""
 
-#: profiles/models.py:109
+#: .\profiles\models.py:110
 msgid "국민은행"
 msgstr ""
 
-#: profiles/models.py:110
+#: .\profiles\models.py:111
 msgid "제주은행"
 msgstr ""
 
-#: profiles/models.py:111
+#: .\profiles\models.py:112
 msgid "수협"
 msgstr ""
 
-#: profiles/models.py:112
+#: .\profiles\models.py:113
 msgid "전북은행"
 msgstr ""
 
-#: profiles/models.py:113
+#: .\profiles\models.py:114
 msgid "농협은행"
 msgstr ""
 
-#: profiles/models.py:114
+#: .\profiles\models.py:115
 msgid "경남은행"
 msgstr ""
 
-#: profiles/models.py:115
+#: .\profiles\models.py:116
 msgid "지역농축협"
 msgstr ""
 
-#: profiles/models.py:116
+#: .\profiles\models.py:117
 msgid "새마을금고"
 msgstr ""
 
-#: profiles/models.py:117
+#: .\profiles\models.py:118
 msgid "우리은행"
 msgstr ""
 
-#: profiles/models.py:118
+#: .\profiles\models.py:119
 msgid "신용협동조합"
 msgstr ""
 
-#: profiles/models.py:119
+#: .\profiles\models.py:120
 msgid "SC제일은행"
 msgstr ""
 
-#: profiles/models.py:120
+#: .\profiles\models.py:121
 msgid "상호저축은행"
 msgstr ""
 
-#: profiles/models.py:121
+#: .\profiles\models.py:122
 msgid "한국씨티은행"
 msgstr ""
 
-#: profiles/models.py:122
+#: .\profiles\models.py:123
 msgid "산림조합"
 msgstr ""
 
-#: profiles/models.py:123
+#: .\profiles\models.py:124
 msgid "KEB하나은행"
 msgstr ""
 
-#: profiles/models.py:124
+#: .\profiles\models.py:125
 #, fuzzy
 #| msgid "요청"
 msgid "우체국"
 msgstr "Request"
 
-#: profiles/models.py:125
+#: .\profiles\models.py:126
 msgid "신한은행"
 msgstr ""
 
-#: profiles/models.py:126
+#: .\profiles\models.py:127
 msgid "K뱅크"
 msgstr ""
 
-#: profiles/models.py:127
+#: .\profiles\models.py:128
 msgid "대구은행"
 msgstr ""
 
-#: profiles/models.py:128
+#: .\profiles\models.py:129
 msgid "카카오뱅크"
 msgstr ""
 
-#: profiles/models.py:165
+#: .\profiles\models.py:166
 msgid "폐업"
 msgstr "Closed"
 
-#: profiles/models.py:166
+#: .\profiles\models.py:167
 msgid "요청"
 msgstr "Request"
 
-#: profiles/models.py:167
+#: .\profiles\models.py:168
 msgid "승인"
 msgstr "Approved"
 
-#: profiles/models.py:168
+#: .\profiles\models.py:169
 msgid "거부"
 msgstr "Denied"
 
-#: profiles/serializers.py:101
+#: .\profiles\serializers.py:99
 #, fuzzy
 #| msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
 msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: profiles/serializers.py:339
+#: .\profiles\serializers.py:313
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: profiles/serializers.py:345
+#: .\profiles\serializers.py:319
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: profiles/serializers.py:350 profiles/serializers.py:351
+#: .\profiles\serializers.py:324 .\profiles\serializers.py:325
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 "Users who are not approved as a real estate agent cannot register on the "
 "power of attorney."
 
-#: profiles/serializers.py:356
+#: .\profiles\serializers.py:330
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr "Please check Allow Profile View to Create Power of Attorney"
 
-#: profiles/serializers.py:359
+#: .\profiles\serializers.py:333
 msgid "위임인만 서명이 가능합니다."
 msgstr "Only delegates can sign."
 
-#: profiles/serializers.py:362
+#: .\profiles\serializers.py:336
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr "The delegate and delegate cannot be the same."
 
-#: profiles/serializers.py:364
+#: .\profiles\serializers.py:338
 msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
-#: profiles/tests.py:109 profiles/views.py:51
+#: .\profiles\tests.py:111 .\profiles\views.py:57
 #, fuzzy
 #| msgid "자기 자신의 아이디는 추가할 수 없습니다."
 msgid "자기 자신의 이메일은 추가할 수 없습니다."
 msgstr "You cannot add your own ID."
 
-#: profiles/tests.py:114 profiles/views.py:56
+#: .\profiles\tests.py:116 .\profiles\views.py:62
 #, fuzzy
 #| msgid "사용자가 존재하지 않습니다."
 msgid "존재하지 않는 이메일 입니다."
 msgstr "User does not exist."
 
-#: profiles/tests.py:128 profiles/views.py:58
+#: .\profiles\tests.py:130 .\profiles\views.py:64
 msgid "이미 추가된 회원입니다."
 msgstr "This member has already been added."
 
-#: profiles/tests.py:139 profiles/views.py:72
+#: .\profiles\tests.py:141 .\profiles\views.py:78
 #, fuzzy
 #| msgid "자신의 아이디는 삭제할 수 없습니다."
 msgid "자신의 이메일은 삭제할 수 없습니다."
 msgstr "You cannot delete your ID."
 
-#: profiles/tests.py:144 profiles/tests.py:153 profiles/views.py:77
+#: .\profiles\tests.py:146 .\profiles\tests.py:155 .\profiles\views.py:83
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 "Members who have not been added to the quick transaction list cannot be "
 "deleted."
 
-#: profiles/tests.py:301 profiles/views.py:229
+#: .\profiles\tests.py:304 .\profiles\views.py:235
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
-#: profiles/tests.py:324 profiles/tests.py:480 profiles/views.py:267
+#: .\profiles\tests.py:327 .\profiles\tests.py:485 .\profiles\views.py:273
 #, fuzzy
 #| msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgid "활성 프로필은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
-#: profiles/tests.py:373 profiles/tests.py:379 profiles/views.py:97
-#: profiles/views.py:116
+#: .\profiles\tests.py:376 .\profiles\tests.py:382 .\profiles\views.py:103
+#: .\profiles\views.py:122
 msgid "전문가가 선택되지 않았습니다."
 msgstr "No expert was chosen."
 
-#: profiles/tests.py:376 profiles/views.py:102
+#: .\profiles\tests.py:379 .\profiles\views.py:108
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
-#: profiles/tests.py:517 profiles/views.py:270
+#: .\profiles\tests.py:553 .\profiles\views.py:276
 msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: profiles/tests.py:550 profiles/views.py:232
+#: .\profiles\tests.py:621 .\profiles\views.py:238
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have a contract paper, you cannot edit your profile."
 
-#: profiles/tests.py:588 profiles/views.py:235
+#: .\profiles\tests.py:659 .\profiles\views.py:241
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: profiles/tests.py:623 profiles/views.py:273
+#: .\profiles\tests.py:694 .\profiles\views.py:279
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
-#: profiles/tests.py:635 profiles/views.py:395
+#: .\profiles\tests.py:706 .\profiles\views.py:401
 #, fuzzy
 #| msgid "성함, 연락처 모두 입력해야 합니다."
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr "You must enter both your name and contact information."
 
-#: profiles/tests.py:740 profiles/views.py:299
+#: .\profiles\tests.py:811 .\profiles\views.py:305
 msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
 msgstr "If there is a contract, the member information cannot be modified."
 
-#: profiles/tests.py:751 profiles/views.py:325
+#: .\profiles\tests.py:822 .\profiles\views.py:331
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 "Withdrawal has been processed. Account information has also been completely "
 "deleted."
 
-#: profiles/tests.py:783 profiles/views.py:322
+#: .\profiles\tests.py:854 .\profiles\views.py:328
 msgid "탈퇴처리 되었습니다."
 msgstr "Withdrawal has been processed."
 
-#: profiles/tests.py:792 profiles/views.py:318
+#: .\profiles\tests.py:863 .\profiles\views.py:324
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr "Please enter all the information of the member to withdraw from."
 
-#: profiles/tests.py:802 profiles/views.py:316
+#: .\profiles\tests.py:873 .\profiles\views.py:322
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 "The information entered does not match the current member's information."
 
-#: profiles/tests.py:898 profiles/tests.py:931 profiles/views.py:361
+#: .\profiles\tests.py:969 .\profiles\tests.py:1002 .\profiles\views.py:367
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: profiles/tests.py:946 profiles/views.py:378
+#: .\profiles\tests.py:1017 .\profiles\views.py:384
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
-#: profiles/views.py:179
+#: .\profiles\views.py:185
 msgid ""
 "수정 후 보증서류 기간에 제외되는 계약서가 없도록 기간을 다시 수정해주세요."
 msgstr ""
 
-#: templates/auth_layout.html:27 templates/index-dev.html:5
-#: templates/index.html:8 templates/registration/login.html:6
+#: .\templates\account\account_inactive.html:5
+#: .\templates\account\account_inactive.html:8
+msgid "Account Inactive"
+msgstr ""
+
+#: .\templates\account\account_inactive.html:10
+msgid "This account is inactive."
+msgstr ""
+
+#: .\templates\account\base.html:109 .\templates\auth_layout.html:30
+#: .\templates\auth_layout.html:33 .\templates\index-dev.html:5
+#: .\templates\index.html:8
 msgid "Onepaper"
 msgstr ""
 
-#: templates/registration/activate.html:4
-#: templates/registration/activate.html:7
-msgid "Activation Failure"
+#: .\templates\account\base.html:121
+msgid ""
+"Company: quroom | Registration Number: 246-86-01161\n"
+"  <br/>\n"
+"  Copyright © Onepaper. All Rights Reserved.\n"
+"  "
 msgstr ""
 
-#: templates/registration/activate.html:8
-msgid "Account activation failed."
+#: .\templates\account\email.html:6 .\templates\account\email.html:9
+msgid "E-mail Addresses"
 msgstr ""
 
-#: templates/registration/activation_complete.html:4
-#: templates/registration/activation_complete.html:7
-#: templates/registration/activation_complete_admin_pending.html:4
-#: templates/registration/activation_complete_admin_pending.html:7
-msgid "Account Activated"
+#: .\templates\account\email.html:11
+msgid "The following e-mail addresses are associated with your account:"
 msgstr ""
 
-#: templates/registration/activation_complete.html:9
-#: templates/registration/activation_complete_admin_pending.html:9
-msgid "Your account is now activated."
+#: .\templates\account\email.html:25
+msgid "Verified"
 msgstr ""
 
-#: templates/registration/activation_complete.html:11
-msgid "You can log in."
+#: .\templates\account\email.html:27
+msgid "Unverified"
 msgstr ""
 
-#: templates/registration/activation_complete.html:13
-#: templates/registration/login.html:11
-#: templates/registration/password_reset_complete.html:8
-#: templates/registration/registration_complete.html:10
-#: templates/registration/registration_form.html:89
+#: .\templates\account\email.html:29
+msgid "Primary"
+msgstr ""
+
+#: .\templates\account\email.html:35
+msgid "Make Primary"
+msgstr ""
+
+#: .\templates\account\email.html:36
+msgid "Re-send Verification"
+msgstr ""
+
+#: .\templates\account\email.html:37
+#: .\templates\socialaccount\connections.html:49
+msgid "Remove"
+msgstr ""
+
+#: .\templates\account\email.html:44
+msgid "Warning:"
+msgstr ""
+
+#: .\templates\account\email.html:44
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: .\templates\account\email.html:49
+msgid "Add E-mail Address"
+msgstr ""
+
+#: .\templates\account\email.html:54
+msgid "Add E-mail"
+msgstr ""
+
+#: .\templates\account\email.html:64
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: .\templates\account\email\base_message.txt:1
+#, python-format
+msgid "Hello from %(site_name)s!"
+msgstr ""
+
+#: .\templates\account\email\base_message.txt:5
+#, python-format
+msgid ""
+"Thank you for using %(site_name)s!\n"
+"%(site_domain)s"
+msgstr ""
+
+#: .\templates\account\email\email_confirmation_message.txt:5
+#, python-format
+msgid ""
+"You're receiving this e-mail because user %(user_display)s has given your e-"
+"mail address to register an account on %(site_domain)s.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s in %(expiration_days)s "
+"days"
+msgstr ""
+
+#: .\templates\account\email\email_confirmation_subject.txt:3
+msgid "Please Confirm Your E-mail Address"
+msgstr ""
+
+#: .\templates\account\email\password_reset_key_message.txt:4
+msgid ""
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+
+#: .\templates\account\email\password_reset_key_message.txt:9
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr ""
+
+#: .\templates\account\email\password_reset_key_subject.txt:3
+msgid "Password Reset E-mail"
+msgstr ""
+
+#: .\templates\account\email_confirm.html:6
+#: .\templates\account\email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: .\templates\account\email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: .\templates\account\email_confirm.html:20
+msgid "Confirm"
+msgstr ""
+
+#: .\templates\account\email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: .\templates\account\login.html:10 .\templates\account\login.html:24
+#: .\templates\account\login.html:28 .\templates\account\login.html:32
+#: .\templates\account\signup.html:88 .\templates\socialaccount\signup.html:87
 msgid "Log in"
 msgstr ""
 
-#: templates/registration/activation_complete_admin_pending.html:11
-msgid "Once a site administrator activates your account you can login."
-msgstr ""
-
-#: templates/registration/activation_email.html:4
-msgid "registration"
-msgstr ""
-
-#: templates/registration/activation_email.html:8
-#, python-format
-msgid ""
-"\n"
-"You (or someone pretending to be you) have asked to register an account at\n"
-"%(site_name)s.  If this wasn't you, please ignore this email\n"
-"and your address will be removed from our records within the next "
-"%(expiration_days)s days.\n"
-msgstr ""
-
-#: templates/registration/activation_email.html:15
-#, python-format
-msgid ""
-"\n"
-"To activate this account, please click the following link within the next "
-"%(expiration_days)s days:\n"
-msgstr ""
-
-#: templates/registration/activation_email.html:21
-msgid "Account activation on"
-msgstr ""
-
-#: templates/registration/activation_email.html:24
-#, python-format
-msgid ""
-"\n"
-"Sincerely,\n"
-"%(site_name)s Management\n"
-msgstr ""
-
-#: templates/registration/activation_email_subject.txt:2
-msgid "Send Activation Email"
-msgstr ""
-
-#: templates/registration/admin_approve.html:4
-#: templates/registration/admin_approve.html:7
-msgid "Approval Failure"
-msgstr ""
-
-#: templates/registration/admin_approve.html:8
-msgid "Account Approval failed."
-msgstr ""
-
-#: templates/registration/admin_approve_complete.html:4
-#: templates/registration/admin_approve_complete.html:7
-msgid "Account Approved"
-msgstr ""
-
-#: templates/registration/admin_approve_complete.html:9
-msgid "The user's account is now approved."
-msgstr ""
-
-#: templates/registration/login.html:14
-msgid "User Registration"
-msgstr ""
-
-#: templates/registration/login.html:15
-msgid "Agency Registration"
-msgstr ""
-
-#: templates/registration/login.html:18
-#: templates/registration/password_reset_complete.html:4
-#: templates/registration/password_reset_complete.html:6
-#: templates/registration/password_reset_form.html:5
-#: templates/registration/password_reset_form.html:8
+#: .\templates\account\login.html:13
 msgid "Password reset"
 msgstr ""
 
-#: templates/registration/login.html:19
-#: templates/registration/registration_complete.html:9
-#: templates/registration/resend_activation_form.html:5
-#: templates/registration/resend_activation_form.html:7
-msgid "Resend Activation Email"
+#: .\templates\account\login.html:17
+msgid "User Registration"
 msgstr ""
 
-#: templates/registration/password_change_done.html:8
-msgid "Your password was changed."
+#: .\templates\account\login.html:18
+msgid "Agency Registration"
 msgstr ""
 
-#: templates/registration/password_change_done.html:9
-msgid "Home"
+#: .\templates\account\login.html:24
+msgid "Naver"
 msgstr ""
 
-#: templates/registration/password_change_form.html:5
-#: templates/registration/password_change_form.html:7
-msgid "Password change"
+#: .\templates\account\login.html:28
+msgid "Kakao"
 msgstr ""
 
-#: templates/registration/password_change_form.html:9
+#: .\templates\account\login.html:32
+msgid "Google"
+msgstr ""
+
+#: .\templates\account\logout.html:5 .\templates\account\logout.html:8
+#: .\templates\account\logout.html:18
+msgid "Sign Out"
+msgstr ""
+
+#: .\templates\account\logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr ""
+
+#: .\templates\account\messages\cannot_delete_primary_email.txt:2
+#, python-format
+msgid "You cannot remove your primary e-mail address (%(email)s)."
+msgstr ""
+
+#: .\templates\account\messages\email_confirmation_sent.txt:2
+#, python-format
+msgid "Confirmation e-mail sent to %(email)s."
+msgstr ""
+
+#: .\templates\account\messages\email_confirmed.txt:2
+#, python-format
+msgid "You have confirmed %(email)s."
+msgstr ""
+
+#: .\templates\account\messages\email_deleted.txt:2
+#, python-format
+msgid "Removed e-mail address %(email)s."
+msgstr ""
+
+#: .\templates\account\messages\logged_in.txt:4
+#, python-format
+msgid "Successfully signed in as %(name)s."
+msgstr ""
+
+#: .\templates\account\messages\logged_out.txt:2
+msgid "You have signed out."
+msgstr ""
+
+#: .\templates\account\messages\password_changed.txt:2
+msgid "Password successfully changed."
+msgstr ""
+
+#: .\templates\account\messages\password_set.txt:2
+msgid "Password successfully set."
+msgstr ""
+
+#: .\templates\account\messages\primary_email_set.txt:2
+msgid "Primary e-mail address set."
+msgstr ""
+
+#: .\templates\account\messages\unverified_primary_email.txt:2
+msgid "Your primary e-mail address must be verified."
+msgstr ""
+
+#: .\templates\account\password_change.html:5
+#: .\templates\account\password_change.html:8
+#: .\templates\account\password_change.html:14
+#: .\templates\account\password_reset_from_key.html:5
+#: .\templates\account\password_reset_from_key.html:8
+#: .\templates\account\password_reset_from_key_done.html:4
+#: .\templates\account\password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr ""
+
+#: .\templates\account\password_change.html:16
+msgid "Forgot Password?"
+msgstr ""
+
+#: .\templates\account\password_reset.html:7
+#: .\templates\account\password_reset.html:11
+#: .\templates\account\password_reset_done.html:6
+#: .\templates\account\password_reset_done.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: .\templates\account\password_reset.html:16
 msgid ""
-"Please enter your old password, for security’s sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 
-#: templates/registration/password_change_form.html:13
-#: templates/registration/password_reset_confirm.html:13
-msgid "Change my password"
+#: .\templates\account\password_reset.html:22
+msgid "Reset My Password"
 msgstr ""
 
-#: templates/registration/password_reset_complete.html:7
-msgid "Your password has been set.  You may go ahead and log in now."
+#: .\templates\account\password_reset.html:26
+msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
 
-#: templates/registration/password_reset_confirm.html:9
+#: .\templates\account\password_reset_done.html:15
 msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
-#: templates/registration/password_reset_done.html:7
-msgid ""
-"We’ve emailed you instructions for setting your password, if an account "
-"exists with the email you entered. You should receive them shortly."
+#: .\templates\account\password_reset_from_key.html:8
+msgid "Bad Token"
 msgstr ""
 
-#: templates/registration/password_reset_done.html:8
-msgid ""
-"If you don’t receive an email, please make sure you’ve entered the address "
-"you registered with, and check your spam folder."
-msgstr ""
-
-#: templates/registration/password_reset_email.html:3
-msgid "Greetings"
-msgstr ""
-
-#: templates/registration/password_reset_email.html:5
+#: .\templates\account\password_reset_from_key.html:12
 #, python-format
 msgid ""
-"\n"
-"You are receiving this email because you (or someone pretending to be you)\n"
-"requested that your password be reset on the %(domain)s site. If you do not\n"
-"wish to reset your password, please ignore this message.\n"
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
 
-#: templates/registration/password_reset_email.html:11
-msgid ""
-"\n"
-"To reset your password, please click the following link, or copy and paste "
-"it\n"
-"into your web browser:\n"
+#: .\templates\account\password_reset_from_key.html:19
+msgid "change password"
 msgstr ""
 
-#: templates/registration/password_reset_email.html:18
-msgid "Best regards"
+#: .\templates\account\password_reset_from_key.html:23
+#: .\templates\account\password_reset_from_key_done.html:8
+msgid "Your password is now changed."
 msgstr ""
 
-#: templates/registration/password_reset_email.html:19
-msgid "Management"
+#: .\templates\account\password_set.html:6
+#: .\templates\account\password_set.html:9
+#: .\templates\account\password_set.html:15
+msgid "Set Password"
 msgstr ""
 
-#: templates/registration/password_reset_form.html:10
-msgid ""
-"Forgotten your password? Enter your email address below, and we’ll email "
-"instructions for setting a new one."
-msgstr ""
-
-#: templates/registration/password_reset_form.html:14
-msgid "Reset my password"
-msgstr ""
-
-#: templates/registration/registration_closed.html:4
-#: templates/registration/registration_closed.html:7
-msgid "Registration is closed"
-msgstr ""
-
-#: templates/registration/registration_closed.html:8
-msgid "Sorry, but registration is closed at this moment. Come back later."
-msgstr ""
-
-#: templates/registration/registration_complete.html:4
-#: templates/registration/registration_complete.html:6
-msgid "Activation email sent"
-msgstr ""
-
-#: templates/registration/registration_complete.html:7
-msgid "Please check your email to complete the registration process."
-msgstr ""
-
-#: templates/registration/registration_form.html:6
-#: templates/registration/registration_form.html:87
+#: .\templates\account\signup.html:6 .\templates\account\signup.html:86
+#: .\templates\socialaccount\signup.html:6
+#: .\templates\socialaccount\signup.html:85
 msgid "Create Account"
 msgstr ""
 
-#: templates/registration/registration_form.html:9
+#: .\templates\account\signup.html:9 .\templates\socialaccount\signup.html:9
 msgid "terms_service_text"
 msgstr ""
 "Article 1 (Purpose) These terms and conditions are in the use of Internet-"
 "related services (hereinafter referred to as 'Services') provided by One "
-"Paper Cyber ​​Mall (hereinafter referred to as “Mall”) operated by Qroom Co., "
-"Ltd. (e-commerce business operator). It aims to stipulate the rights, duties "
-"and responsibilities of cyber malls and users.\n"
+"Paper Cyber   Mall (hereinafter referred to as “Mall”) operated by Qroom "
+"Co., Ltd. (e-commerce business operator). It aims to stipulate the rights, "
+"duties and responsibilities of cyber malls and users.\n"
 "  ※「This agreement applies mutatis mutandis to e-commerce transactions "
 "using PC communication, wireless, etc.」\n"
 "Article 2 (Definition)\n"
@@ -1000,7 +1077,7 @@ msgstr ""
 "address of the place where consumer complaints can be handled), telephone "
 "number, copy transmission number, e-mail address, business registration "
 "number, communication The sales report number, personal information manager, "
-"etc., are posted on the initial service screen (front) of 00 Cyber ​​Mall so "
+"etc., are posted on the initial service screen (front) of 00 Cyber   Mall so "
 "that users can easily know. However, the contents of the terms and "
 "conditions can be viewed by the user through the connection screen.\n"
 "  ② “The mall provides a separate connection screen or pop-up screen to "
@@ -1163,7 +1240,7 @@ msgstr ""
 "    2. A minor may seek goods and services prohibited by the Youth "
 "Protection Act, such as tobacco and alcohol."
 
-#: templates/registration/registration_form.html:10
+#: .\templates\account\signup.html:10 .\templates\socialaccount\signup.html:10
 msgid "personal_info_text"
 msgstr ""
 "Qroom Co., Ltd. establishes and discloses the following personal information "
@@ -1265,43 +1342,125 @@ msgstr ""
 " 11. Changes to the privacy policy This privacy policy will be applied from "
 "January 17, 2021."
 
-#: templates/registration/registration_form.html:13
+#: .\templates\account\signup.html:13 .\templates\socialaccount\signup.html:13
 msgid "확인"
 msgstr "Confirm"
 
-#: templates/registration/resend_activation_complete.html:4
-#: templates/registration/resend_activation_complete.html:6
-msgid "Account Activation Resent"
+#: .\templates\account\signup_closed.html:5
+#: .\templates\account\signup_closed.html:8
+msgid "Sign Up Closed"
 msgstr ""
 
-#: templates/registration/resend_activation_complete.html:8
+#: .\templates\account\signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: .\templates\account\snippets\already_logged_in.html:5
+msgid "Note"
+msgstr ""
+
+#: .\templates\account\snippets\already_logged_in.html:5
+#, python-format
+msgid "you are already logged in as %(user_display)s."
+msgstr ""
+
+#: .\templates\account\verification_sent.html:5
+#: .\templates\account\verification_sent.html:8
+#: .\templates\account\verified_email_required.html:5
+#: .\templates\account\verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: .\templates\account\verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:20
 #, python-format
 msgid ""
-"\n"
-"  We have sent an email to %(email)s with further instructions.\n"
-"  "
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
 msgstr ""
 
-#: templates/registration/resend_activation_form.html:12
-msgid "Submit"
+#: .\templates\socialaccount\authentication_error.html:5
+#: .\templates\socialaccount\authentication_error.html:8
+msgid "Social Network Login Failure"
 msgstr ""
 
-#~ msgid "회원 아이디가 없습니다."
-#~ msgstr "There is no member ID."
+#: .\templates\socialaccount\authentication_error.html:10
+msgid ""
+"An error occurred while attempting to login via your social network account."
+msgstr ""
 
-#~ msgid "이름이 일치하지 않습니다."
-#~ msgstr "The names do not match."
+#: .\templates\socialaccount\connections.html:5
+msgid "Account Connections"
+msgstr ""
 
-#~ msgid "아이디"
-#~ msgstr "User ID"
+#: .\templates\socialaccount\connections.html:22
+msgid "Social Account Connections"
+msgstr ""
 
-#~ msgid "land_area"
-#~ msgstr "land_area"
+#: .\templates\socialaccount\connections.html:25
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
+msgstr ""
 
-#~ msgid "이메일은 이미 사용중입니다. 다른 이메일을 입력 해주세요."
-#~ msgstr ""
-#~ "This email address is already in use. Please supply a different email "
-#~ "address."
+#: .\templates\socialaccount\connections.html:27
+msgid "E-mail"
+msgstr ""
 
-#~ msgid "원룸"
-#~ msgstr "Single Room"
+#: .\templates\socialaccount\connections.html:57
+msgid ""
+"You currently have no social network accounts connected to this account."
+msgstr ""
+
+#: .\templates\socialaccount\connections.html:60
+msgid "Add a 3rd Party Account"
+msgstr ""
+
+#: .\templates\socialaccount\login_cancelled.html:5
+#: .\templates\socialaccount\login_cancelled.html:9
+msgid "Login Cancelled"
+msgstr ""
+
+#: .\templates\socialaccount\login_cancelled.html:13
+#, python-format
+msgid ""
+"You decided to cancel logging in to our site using one of your existing "
+"accounts. If this was a mistake, please proceed to <a href=\"%(login_url)s"
+"\">sign in</a>."
+msgstr ""
+
+#: .\templates\socialaccount\messages\account_connected.txt:2
+msgid "The social account has been connected."
+msgstr ""
+
+#: .\templates\socialaccount\messages\account_connected_other.txt:2
+msgid "The social account is already connected to a different account."
+msgstr ""
+
+#: .\templates\socialaccount\messages\account_disconnected.txt:2
+msgid "The social account has been disconnected."
+msgstr ""
+
+#: .\templates\socialaccount\snippets\provider_list.html:20
+msgid "connect"
+msgstr ""

@@ -16,30 +16,27 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path, re_path
-from django.views.generic import TemplateView
-
-from registration.backends.default.views import RegistrationView
-
 from core.views import IndexTemplateView
+from allauth.account.views import SignupView
 from profiles.forms import CustomUserForm, ExpertCustomUserForm
 #https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path("accounts/register/",
-        RegistrationView.as_view(
+        SignupView.as_view(
+            template_name = 'account/signup.html',
             form_class=CustomUserForm,
             ), name="django_registration_register"),
     path("expert-accounts/register/",
-        RegistrationView.as_view(
+        SignupView.as_view(
+            template_name = 'account/signup-expert.html',
             form_class=ExpertCustomUserForm,
             ), name="django_expert_registration_register"),
-    path('accounts/', include('registration.backends.default.urls')),
-    path("accounts/", include("django.contrib.auth.urls")),
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
     path("api/", include("helps.urls")),
-    path("api-auth/", include("rest_framework.urls")),
     path('__debug__/', include(debug_toolbar.urls)),
     path('summernote/', include('django_summernote.urls')),
 ]
