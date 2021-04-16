@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-13 15:00+0900\n"
+"POT-Creation-Date: 2021-04-16 13:19+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,17 +305,17 @@ msgstr ""
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:724 .\profiles\tests.py:342 .\profiles\views.py:166
+#: .\papers\tests.py:724 .\profiles\tests.py:341 .\profiles\views.py:161
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:730 .\profiles\views.py:179
+#: .\papers\tests.py:730 .\profiles\views.py:174
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr ""
 
-#: .\papers\tests.py:762 .\profiles\views.py:207
+#: .\papers\tests.py:762 .\profiles\views.py:202
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
@@ -351,96 +351,96 @@ msgstr ""
 msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:18 .\profiles\forms.py:28 .\profiles\forms.py:103
+#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:111
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr "성함은 공백없이 한글이나 영어 문자만 입력 가능합니다."
 
-#: .\profiles\forms.py:26 .\profiles\forms.py:101
+#: .\profiles\forms.py:25 .\profiles\forms.py:109
 msgid "이용약관 동의"
 msgstr ""
 
-#: .\profiles\forms.py:27 .\profiles\forms.py:102
+#: .\profiles\forms.py:26 .\profiles\forms.py:110
 msgid "개인정보 처리방침 동의"
 msgstr ""
 
-#: .\profiles\forms.py:28 .\profiles\forms.py:103
+#: .\profiles\forms.py:27 .\profiles\forms.py:111
 msgid "성함"
 msgstr ""
 
-#: .\profiles\forms.py:29 .\profiles\forms.py:104
+#: .\profiles\forms.py:28 .\profiles\forms.py:112
 msgid "생년월일"
 msgstr ""
 
-#: .\profiles\forms.py:30 .\profiles\forms.py:105
+#: .\profiles\forms.py:29 .\profiles\forms.py:113
 msgid "휴대폰 번호"
 msgstr ""
 
-#: .\profiles\forms.py:31 .\profiles\forms.py:106 .\profiles\models.py:105
+#: .\profiles\forms.py:30 .\profiles\forms.py:114 .\profiles\models.py:105
 msgid "은행명"
 msgstr ""
 
-#: .\profiles\forms.py:32 .\profiles\forms.py:107
+#: .\profiles\forms.py:31 .\profiles\forms.py:115
 msgid "계좌번호"
 msgstr ""
 
-#: .\profiles\forms.py:33 .\profiles\forms.py:108
+#: .\profiles\forms.py:32 .\profiles\forms.py:116
 msgid "주소"
 msgstr ""
 
-#: .\profiles\forms.py:43 .\profiles\forms.py:118
+#: .\profiles\forms.py:42 .\profiles\forms.py:126
 msgid "동"
 msgstr ""
 
-#: .\profiles\forms.py:44 .\profiles\forms.py:119
+#: .\profiles\forms.py:43 .\profiles\forms.py:127
 msgid "호"
 msgstr ""
 
-#: .\profiles\forms.py:124
+#: .\profiles\forms.py:132
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:166 .\profiles\serializers.py:217
+#: .\profiles\forms.py:174 .\profiles\serializers.py:217
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr "%(size)sKB까지 업로드 가능합니다."
 
-#: .\profiles\forms.py:169
+#: .\profiles\forms.py:177
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr ""
 
-#: .\profiles\forms.py:170
+#: .\profiles\forms.py:178
 msgid "등록번호"
 msgstr ""
 
-#: .\profiles\forms.py:171
+#: .\profiles\forms.py:179
 msgid "상호명"
 msgstr ""
 
-#: .\profiles\forms.py:172
+#: .\profiles\forms.py:180
 msgid "중개사무소 등록증"
 msgstr ""
 
-#: .\profiles\forms.py:173
+#: .\profiles\forms.py:181
 msgid "공인중개사 자격증"
 msgstr ""
 
-#: .\profiles\forms.py:174
+#: .\profiles\forms.py:182
 msgid "인장"
 msgstr ""
 
-#: .\profiles\forms.py:175
+#: .\profiles\forms.py:183
 msgid "보증설정서류"
 msgstr ""
 
-#: .\profiles\forms.py:176
+#: .\profiles\forms.py:184
 msgid "사무실 주소"
 msgstr ""
 
-#: .\profiles\forms.py:177
+#: .\profiles\forms.py:185
 msgid "보증서류 시작일"
 msgstr ""
 
-#: .\profiles\forms.py:178
+#: .\profiles\forms.py:186
 msgid "보증서류 만료일"
 msgstr ""
 
@@ -627,92 +627,92 @@ msgstr ""
 msgid "사용자가 존재하지 않습니다."
 msgstr ""
 
-#: .\profiles\tests.py:111 .\profiles\views.py:57
+#: .\profiles\tests.py:110 .\profiles\views.py:52
 msgid "자기 자신의 이메일은 추가할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:116 .\profiles\views.py:62
+#: .\profiles\tests.py:115 .\profiles\views.py:57
 msgid "존재하지 않는 이메일 입니다."
 msgstr ""
 
-#: .\profiles\tests.py:130 .\profiles\views.py:64
+#: .\profiles\tests.py:129 .\profiles\views.py:59
 msgid "이미 추가된 회원입니다."
 msgstr ""
 
-#: .\profiles\tests.py:141 .\profiles\views.py:78
+#: .\profiles\tests.py:140 .\profiles\views.py:73
 msgid "자신의 이메일은 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:146 .\profiles\tests.py:155 .\profiles\views.py:83
+#: .\profiles\tests.py:145 .\profiles\tests.py:154 .\profiles\views.py:78
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:304 .\profiles\views.py:235
+#: .\profiles\tests.py:303 .\profiles\views.py:230
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr ""
 
-#: .\profiles\tests.py:327 .\profiles\tests.py:485 .\profiles\views.py:273
+#: .\profiles\tests.py:326 .\profiles\tests.py:484 .\profiles\views.py:268
 msgid "활성 프로필은 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:376 .\profiles\tests.py:382 .\profiles\views.py:103
-#: .\profiles\views.py:122
+#: .\profiles\tests.py:375 .\profiles\tests.py:381 .\profiles\views.py:98
+#: .\profiles\views.py:117
 msgid "전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\tests.py:379 .\profiles\views.py:108
+#: .\profiles\tests.py:378 .\profiles\views.py:103
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\tests.py:553 .\profiles\views.py:276
+#: .\profiles\tests.py:552 .\profiles\views.py:271
 msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:621 .\profiles\views.py:238
+#: .\profiles\tests.py:620 .\profiles\views.py:233
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:659 .\profiles\views.py:241
+#: .\profiles\tests.py:658 .\profiles\views.py:236
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:694 .\profiles\views.py:279
+#: .\profiles\tests.py:693 .\profiles\views.py:274
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:706 .\profiles\views.py:401
+#: .\profiles\tests.py:705 .\profiles\views.py:396
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr ""
 
-#: .\profiles\tests.py:811 .\profiles\views.py:305
+#: .\profiles\tests.py:810 .\profiles\views.py:300
 msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:822 .\profiles\views.py:331
+#: .\profiles\tests.py:821 .\profiles\views.py:326
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:854 .\profiles\views.py:328
+#: .\profiles\tests.py:853 .\profiles\views.py:323
 msgid "탈퇴처리 되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:863 .\profiles\views.py:324
+#: .\profiles\tests.py:862 .\profiles\views.py:319
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr ""
 
-#: .\profiles\tests.py:873 .\profiles\views.py:322
+#: .\profiles\tests.py:872 .\profiles\views.py:317
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\tests.py:969 .\profiles\tests.py:1002 .\profiles\views.py:367
+#: .\profiles\tests.py:968 .\profiles\tests.py:1001 .\profiles\views.py:362
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:1017 .\profiles\views.py:384
+#: .\profiles\tests.py:1016 .\profiles\views.py:379
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:185
+#: .\profiles\views.py:180
 msgid ""
 "수정 후 보증서류 기간에 제외되는 계약서가 없도록 기간을 다시 수정해주세요."
 msgstr ""
@@ -726,13 +726,12 @@ msgstr "계정 비활성화"
 msgid "This account is inactive."
 msgstr "당신의 계정이 비활성화 상태입니다."
 
-#: .\templates\account\base.html:109 .\templates\auth_layout.html:30
-#: .\templates\auth_layout.html:33 .\templates\index-dev.html:5
+#: .\templates\account\base.html:133 .\templates\index-dev.html:5
 #: .\templates\index.html:8
 msgid "Onepaper"
 msgstr "원페이퍼"
 
-#: .\templates\account\base.html:121
+#: .\templates\account\base.html:145
 #, fuzzy
 #| msgid ""
 #| "Company: Quroom | Registration Number: 246-86-01161\n"
@@ -820,6 +819,7 @@ msgstr ""
 "%(site_domain)s"
 
 #: .\templates\account\email\email_confirmation_message.txt:5
+#, python-format
 msgid ""
 "You're receiving this e-mail because user %(user_display)s has given your e-"
 "mail address to register an account on %(site_domain)s.\n"
@@ -829,7 +829,8 @@ msgid ""
 msgstr ""
 "%(user_display)s로부터 %(site_domain)s에 계정을 등록하기 위해 메일이 전송되었"
 "습니다.\n"
-"당신이 보낸것이 맞다면 확인을 위해 %(expiration_days)s일 내로 링크를 눌러주세요. %(activate_url)s"
+"당신이 보낸것이 맞다면 확인을 위해 %(expiration_days)s일 내로 링크를 눌러주세"
+"요. %(activate_url)s"
 
 #: .\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
@@ -883,9 +884,10 @@ msgstr ""
 "이 이메일 확인 링크는 만료되었거나 유효하지 않습니다. <a href=\"%(email_url)s"
 "\">새로운 이메일 확인 링크를 요청</a>하세요."
 
-#: .\templates\account\login.html:10 .\templates\account\login.html:24
-#: .\templates\account\login.html:28 .\templates\account\login.html:32
-#: .\templates\account\signup.html:88 .\templates\socialaccount\signup.html:87
+#: .\templates\account\login.html:10 .\templates\account\login.html:23
+#: .\templates\account\login.html:27 .\templates\account\login.html:31
+#: .\templates\account\signup-expert.html:83 .\templates\account\signup.html:86
+#: .\templates\socialaccount\signup.html:87
 msgid "Log in"
 msgstr "로그인"
 
@@ -895,21 +897,17 @@ msgstr "비밀번호 초기화"
 
 #: .\templates\account\login.html:17
 msgid "User Registration"
-msgstr "개인회원 가입"
+msgstr "회원가입"
 
-#: .\templates\account\login.html:18
-msgid "Agency Registration"
-msgstr "중개사회원 가입"
-
-#: .\templates\account\login.html:24
+#: .\templates\account\login.html:23
 msgid "Naver"
 msgstr "네이버"
 
-#: .\templates\account\login.html:28
+#: .\templates\account\login.html:27
 msgid "Kakao"
 msgstr "카카오"
 
-#: .\templates\account\login.html:32
+#: .\templates\account\login.html:31
 msgid "Google"
 msgstr "구글"
 
@@ -1041,13 +1039,15 @@ msgstr "당신의 비밀번호가 변경되었습니다."
 msgid "Set Password"
 msgstr "비밀번호 변경"
 
-#: .\templates\account\signup.html:6 .\templates\account\signup.html:86
+#: .\templates\account\signup-expert.html:7
+#: .\templates\account\signup-expert.html:81 .\templates\account\signup.html:19
 #: .\templates\socialaccount\signup.html:6
 #: .\templates\socialaccount\signup.html:85
 msgid "Create Account"
 msgstr "회원 가입"
 
-#: .\templates\account\signup.html:9 .\templates\socialaccount\signup.html:9
+#: .\templates\account\signup-expert.html:10 .\templates\account\signup.html:22
+#: .\templates\socialaccount\signup.html:9
 msgid "terms_service_text"
 msgstr ""
 "제1조(목적) 이 약관 ㈜큐룸 회사(전자상거래 사업자)가 운영하는 원페이퍼 사이"
@@ -1365,7 +1365,8 @@ msgstr ""
 "주자의 경우에는 민사소송법상의 관할법원에 제기합니다.\n"
 "  ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다."
 
-#: .\templates\account\signup.html:10 .\templates\socialaccount\signup.html:10
+#: .\templates\account\signup-expert.html:11 .\templates\account\signup.html:23
+#: .\templates\socialaccount\signup.html:10
 msgid "personal_info_text"
 msgstr ""
 " ㈜큐룸(은)는 개인정보 보호법 제30조에 따라 정보주체(고객)의 개인정보를 보호"
@@ -1441,9 +1442,14 @@ msgstr ""
 " 11. 개인정보 처리방침 변경 이 개인정보 처리방침은 2021. 1. 17.부터 적용됩니"
 "다."
 
-#: .\templates\account\signup.html:13 .\templates\socialaccount\signup.html:13
+#: .\templates\account\signup-expert.html:14 .\templates\account\signup.html:26
+#: .\templates\socialaccount\signup.html:13
 msgid "확인"
 msgstr ""
+
+#: .\templates\account\signup.html:84
+msgid "Sign Up"
+msgstr "가입하기"
 
 #: .\templates\account\signup_closed.html:5
 #: .\templates\account\signup_closed.html:8
@@ -1563,3 +1569,6 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr "연결"
+
+#~ msgid "Agency Registration"
+#~ msgstr "중개사회원 가입"
