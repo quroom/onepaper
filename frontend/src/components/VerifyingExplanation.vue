@@ -566,7 +566,7 @@
         </td>
         <td class="border-tbl" width="486" colspan="14">
           <div>
-            ［{{ ve.parking_lot == 1 ? '√' : '' }}］없음 ［{{ ve.parking_lot == 2 ? '√' : '' }}］전용주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］공동주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］그
+            ［{{ ve.parking_lot == 0 ? '√' : '' }}］없음 ［{{ ve.parking_lot == 1 ? '√' : '' }}］전용주차시설 ［{{ ve.parking_lot == 2 ? '√' : '' }}］공동주차시설 ［{{ ve.parking_lot == 3 ? '√' : '' }}］그
             밖의 주차시설 ( {{ ve.parking_lot == 99 ? ve.parking_lot_info : '' }} )
           </div>
         </td>
