@@ -36,7 +36,7 @@
 <input id="id_account_{{ base_account.id }}" type="radio" name="account" value="{{ base_account.id }}"/>
 <span class="socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">{%trans account.get_brand.name %}</span>
 {% if account.account.provider == 'kakao' %}
-{{ account.account.kakao_account.extra_data.email }}
+{{ account.account.extra_data.kakao_account.email }}
 {% else %}
 {{ account.account.extra_data.email }}
 {% endif %}
