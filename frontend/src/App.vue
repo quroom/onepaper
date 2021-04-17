@@ -118,6 +118,8 @@ a:hover {
   }
 }
 .signature-dialog {
+  left: 0;
+  position: absolute;
   width: 90vw !important;
   min-width: 280px !important;
   max-width: 400px !important;

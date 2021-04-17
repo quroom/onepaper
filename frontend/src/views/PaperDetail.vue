@@ -179,7 +179,6 @@
               @click="open(true)"
               color="red"
               dark
-              style="float:right;"
             >
               <v-icon>create</v-icon>
               {{ `${ $t("verifying_explanation")} ${$t("signature")}` }}
