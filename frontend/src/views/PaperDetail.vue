@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="!isLoading" fluid>
-    <template v-if="!is_next_page">
+    <template>
       <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">{{ `${$t('realestate')} ${$getConstI18('TRADE_CATEGORY', paper.trade_category)} ${$t('contract')}` }}</div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-row v-if="paper.author" class="mt-4 no-print">
@@ -150,14 +150,13 @@
         :options="options"
         :disabled="true"
       />
-      <v-btn v-if="expert" class="mt-3 mb-3 float-right white--text" color="green" @click="is_next_page=true">{{$t("view_verifying_explanation")}}</v-btn>
     </template>
-    <template v-if="expert != undefined && is_next_page">
+    <template v-if="expert != undefined">
       <div class="page-divide mt-4">
         <v-divider></v-divider>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="no-print mt-4" color="black" dark @click="isMobile=!isMobile">
+      <v-btn class="mt-4 no-print" color="black" dark @click="isMobile=!isMobile">
         <span v-if="isMobile">{{$t("view_pc_version")}}</span>
         <span v-if="isMobile==false">{{$t("view_mobile_version")}}</span>
       </v-btn>
@@ -188,7 +187,6 @@
             </v-btn>
         </template>
       </VerifyingExplanation>
-      <v-btn class="mt-3" @click="is_next_page=false">{{$t("back")}}</v-btn>
     </template>
     <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
       <v-card>
@@ -321,22 +319,6 @@ export default {
       return undefined
     }
   },
-  watch: {
-    is_next_page: function(){
-      window.scrollTo(0,0);
-    },
-    //Fixme: v-dialog has to be centered in viewport with overflow paper.
-    dialog: function(val) {
-      if(val == true && this.expert){
-        const signature_dialog = document.getElementsByClassName("signature-dialog");
-        setTimeout(() => {
-          signature_dialog[0].scrollIntoView({
-            behavior: 'smooth'
-          })
-        }, 400)
-      }
-    }
-  },
   data() {
     return {
       refresh_key: 0,
@@ -344,7 +326,6 @@ export default {
       isMobile: false,
       dialog: false,
       paper: { trade_category : null },
-      is_next_page: false,
       is_explanation_signature: false,
       fields_names: {
         realestate_fields_name: [
