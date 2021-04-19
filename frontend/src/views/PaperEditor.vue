@@ -284,14 +284,15 @@
                 :name="$t('seller')"
               >
                 <v-autocomplete
+                  class="mt-2"
                   v-model="seller"
+                  clearable
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"
                   item-text="name"
                   item-value="id"
                   return-object
-                  class="mt-2"
                   :label="$t('seller')"
                   :placeholder="$t('quick_trade_user')+' '+$t('select')"
                 >
@@ -320,13 +321,14 @@
                 :name="$t('buyer')"
               >
                 <v-autocomplete
+                  class="mt-2"
                   v-model="buyer"
+                  clearable
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"
                   item-text="name"
                   item-value="id"
-                  class="mt-2"
                   return-object
                   :label="$t('buyer')"
                   :placeholder="$t('quick_trade_user')+' '+$t('select')"
@@ -447,7 +449,7 @@
           </template>
         </VerifyingExplanationEditor>
         <v-row v-if="expert.expert_profile.insurance.image" >
-          <v-btn v-if="step!=1" class="mt-3 float-right" @click="backStep()">{{$t("back")}}</v-btn>
+          <v-btn v-if="step!=1" class="mt-3" @click="backStep()">{{$t("back")}}</v-btn>
           <v-spacer></v-spacer>
           <v-btn v-if="step!=max_step" class="mt-3 float-right white--text" color="green" @click="nextStep()">{{$t("next")}}</v-btn>
           <v-btn v-if="step==max_step" class="mt-3 float-right primary white--text" @click="submit()"> {{$t('submit')}} </v-btn>
