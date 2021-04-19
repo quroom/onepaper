@@ -24,6 +24,6 @@ fi
 export DJANGO_DEBUG=False
 export USE_S3=True
 export DJANGO_PRODUCT=False
-python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*
+python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons* -i static/image/google.png -i static/image/kakao.png -i static/image/naver.png
 unset DJANGO_DEBUG
 unset USE_S3
