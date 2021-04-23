@@ -1,9 +1,9 @@
 #!/bin/bash
 die(){
-	local m="$1"  # the first arg
-	local e=$2    # the second arg
-	echo "$m"
-	exit $e
+    local m="$1"  # the first arg
+    local e=$2    # the second arg
+    echo "$m"
+    exit $e
 }
 
 ARG2=${2:--build}
@@ -14,6 +14,7 @@ ARG2=${2:--build}
 # Rest of script goes here
 if [ $1 = "b" ]; then
     export Green=False
+    export DJANGO_HTTP=False
 elif [ $1 = "g" ]; then
     unset Green
 fi
