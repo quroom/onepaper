@@ -106,6 +106,7 @@
                 <v-autocomplete
                   v-if="readonly==false"
                   v-model="designator"
+                  clearable
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"
@@ -140,6 +141,7 @@
                 <v-autocomplete
                   v-if="readonly==false"
                   v-model="designee"
+                  clearable
                   :error-messages="errors"
                   :filter="customFilter"
                   :items="allowed_profiles"

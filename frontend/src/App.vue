@@ -1,5 +1,5 @@
 <template>
-  <v-app app>
+  <v-app app style="overflow-x:auto">
     <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category"/>
     <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
@@ -99,7 +99,8 @@ a:hover {
 /* For print paper setting. */
 @media print {
   @page { margin-top: 20px; margin-bottom: 20px;}
-  .v-main {
+  .v-application {
+    overflow: visible !important;
     padding: 0px !important;
   }
   .a4 {
