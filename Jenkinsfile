@@ -15,6 +15,7 @@ pipeline {
     }
     stages {
         stage('Build') { 
+            when { not { branch 'master' } }
             steps {
                 echo 'Jenkins Build'
                 sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
@@ -30,6 +31,7 @@ pipeline {
             }
         }
         stage('Test') {
+            when { not { branch 'master' } }
             steps {
                 echo 'Jenkins Test'
                 sh 'export DJANGO_HTTP=True; \
@@ -45,6 +47,7 @@ pipeline {
             }
         }
         stage('Deploy to Staging') {
+            when { not { branch 'master' } }
             steps {
                 echo 'Jenkins Staging'
                 sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
