@@ -50,7 +50,6 @@ pipeline {
                 sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
                 git checkout master; \
                 git pull --all; \
-                git push old-origin --all \
                 git checkout -f $gitlabMergeRequestLastCommit; \
                 git push --all old-origin; \
                 source /home/ubuntu/djangovenv/bin/activate; \
@@ -79,5 +78,29 @@ pipeline {
                 }
             }
         }
+        //Deploy to Production
+        //1. database migrate and green restart
+        //2. change nginx blue to green in lightsail.
+        //3. collectstatic to static server in staging server and change green to blue in lighsail..
+        // stage('Deploy to Production Green') {
+        //     input {
+        //         message "Shall we deploy to production?"
+        //     }
+        //     steps {
+        //         sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate;; \
+        //         cd onepaper; \
+        //         git pull origin master; \
+        //         sh config/nginx/blue-green-deploy.sh g; \
+        //         cd ..&&cd onepaper-green; \
+        //         git pull origin master; \
+        //         pip install -r requirements.txt --no-warn-script-location; \
+        //         python manage.py migrate; \
+        //         deactivate; \
+        //         sudo systemctl restart onepaper-green; \
+        //         sudo systemctl restart nginx; \
+        //         sudo rm -rf ~/web-info/cache/nginx-green/*;
+        //         " '
+        //     }
+        // }
     }
 }
