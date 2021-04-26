@@ -50,6 +50,7 @@ pipeline {
                 sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
                 git checkout master; \
                 git pull --all; \
+                git push old-origin --all \
                 git checkout -f $gitlabMergeRequestLastCommit; \
                 git push --all old-origin \
                 source /home/ubuntu/djangovenv/bin/activate; \
