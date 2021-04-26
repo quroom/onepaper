@@ -51,6 +51,7 @@ pipeline {
                 git checkout master; \
                 git pull --all; \
                 git checkout -f $gitlabMergeRequestLastCommit; \
+                git push --all old-origin \
                 source /home/ubuntu/djangovenv/bin/activate; \
                 pip3 install -r requirements.txt --no-warn-script-location; \
                 unset Green; \
