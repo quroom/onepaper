@@ -103,6 +103,35 @@ server {
 		gzip_min_length 256;
 		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
 	}
+	location /static-green/ {
+		proxy_cache            s3_green_cache;
+		proxy_http_version     1.1;
+		proxy_hide_header      x-amz-id-2;
+		proxy_hide_header      x-amz-request-id;
+		proxy_hide_header      x-amz-meta-server-side-encryption;
+		proxy_hide_header      x-amz-server-side-encryption;
+		proxy_hide_header      Set-Cookie;
+		proxy_ignore_headers   Set-Cookie;
+		proxy_cache_revalidate on;
+		proxy_intercept_errors on;
+		proxy_cache_use_stale  error timeout updating http_500 http_502 http_503 http_504;
+		proxy_cache_lock       on;
+		proxy_cache_valid      200 304 60m;
+		add_header             Cache-Control max-age=31536000;
+		add_header X-Proxy-Cache $upstream_cache_status;
+
+		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
+		gzip on;
+		gzip_disable "msie6";
+
+		gzip_vary on;
+		gzip_proxied any;
+		gzip_comp_level 6;
+		gzip_buffers 16 8k;
+		gzip_http_version 1.1;
+		gzip_min_length 256;
+		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+	}
 # ssl configuration
 #
 # listen 443 ssl default_server;
@@ -176,35 +205,6 @@ server {
 	location /media/ {
 		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
 		expires 365d;
-	}
-	location /static-green/ {
-		proxy_cache            s3_green_cache;
-		proxy_http_version     1.1;
-		proxy_hide_header      x-amz-id-2;
-		proxy_hide_header      x-amz-request-id;
-		proxy_hide_header      x-amz-meta-server-side-encryption;
-		proxy_hide_header      x-amz-server-side-encryption;
-		proxy_hide_header      Set-Cookie;
-		proxy_ignore_headers   Set-Cookie;
-		proxy_cache_revalidate on;
-		proxy_intercept_errors on;
-		proxy_cache_use_stale  error timeout updating http_500 http_502 http_503 http_504;
-		proxy_cache_lock       on;
-		proxy_cache_valid      200 304 60m;
-		add_header             Cache-Control max-age=31536000;
-		add_header X-Proxy-Cache $upstream_cache_status;
-
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
-		gzip on;
-		gzip_disable "msie6";
-
-		gzip_vary on;
-		gzip_proxied any;
-		gzip_comp_level 6;
-		gzip_buffers 16 8k;
-		gzip_http_version 1.1;
-		gzip_min_length 256;
-		gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
 	}
 }
 
