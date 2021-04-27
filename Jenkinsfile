@@ -90,7 +90,7 @@ pipeline {
                 message "Shall we deploy to green production?"
             }
             steps {
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate;; \
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
                 cd onepaper-green; \
                 git pull origin master; \
                 pip install -r requirements.txt --no-warn-script-location; \
@@ -110,7 +110,7 @@ pipeline {
                 message "Shall we switch blue to green?"
             }
             steps {
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate;; \
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
                 cd onepaper; \
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh g; \
