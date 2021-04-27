@@ -3,7 +3,6 @@ pipeline {
     agent any
     options {
       gitLabConnection('gitlab-jenkins')
-      gitlabBuilds(builds: ['build', 'test', 'deploy'])
     }
     post {
         failure {
