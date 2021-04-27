@@ -77,9 +77,6 @@ pipeline {
             }
         }
         // Deploy to Production
-        // 1. database migrate and green restart
-        // 2. change nginx blue to green in lightsail.
-        // 3. collectstatic to static server in staging server and change green to blue in lighsail..
         stage('Deploy to Green') {
             when { 
                 beforeInput true
@@ -87,7 +84,6 @@ pipeline {
             }
             input {
                 message "Shall we deploy to green production?"
-                ok 'Yes'
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
@@ -113,7 +109,6 @@ pipeline {
             }
             input {
                 message "Shall we switch blue to green?"
-                ok 'Yes'
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
@@ -135,7 +130,6 @@ pipeline {
             }
             input {
                 message "Shall we deploy to blue production?"
-                ok 'Yes'
             }
             steps {
                 sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
@@ -169,7 +163,6 @@ pipeline {
             }
             input {
                 message "Shall we switch blue to green?"
-                ok 'Yes'
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
