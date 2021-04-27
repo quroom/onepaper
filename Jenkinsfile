@@ -11,6 +11,9 @@ pipeline {
         success {
             updateGitlabCommitStatus name: 'jenkins', state: 'success'
         }
+        aborted {
+            updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+        }
     }
     stages {
         stage('Build') {
