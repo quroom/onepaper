@@ -100,6 +100,11 @@ pipeline {
                 sudo systemctl reload nginx; \
                 sudo rm -rf ~/web-info/cache/nginx-green/*;" '
             }
+            post {
+                aborted {
+                    updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+                }
+            }
         }
         stage('Switch Blue to Green') {
             when { 
@@ -116,6 +121,11 @@ pipeline {
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh g; \
                 sudo systemctl reload nginx;" '
+            }
+            post {
+                aborted {
+                    updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+                }
             }
         }
         stage('Deploy to Blue') {
@@ -146,6 +156,11 @@ pipeline {
                 sudo systemctl reload nginx; \
                 sudo rm -rf ~/web-info/cache/nginx/*;" '
             }
+            post {
+                aborted {
+                    updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+                }
+            }
         }
         stage('Switch Green to Blue') {
             when { 
@@ -162,6 +177,11 @@ pipeline {
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh b; \
                 sudo systemctl reload nginx;" '
+            }
+            post {
+                aborted {
+                    updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
+                }
             }
         }
     }
