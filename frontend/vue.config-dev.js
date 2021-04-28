@@ -1,17 +1,21 @@
 const BundleTracker = require("webpack-bundle-tracker");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
   // publicPath: "http://125.183.143.159:8080/",
-  publicPath: process.env.NODE_ENV === 'production' ? "/static/" : "http://125.183.143.159:8080/",
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "/static/"
+      : "http://125.183.143.159:8080/",
   outputDir: "./dist/",
-  chainWebpack: (config) => {
-    config.resolve.extensions.add('.ts');
+  chainWebpack: config => {
+    config.resolve.extensions.add(".ts");
     config.module
-          .rule('eslint')
-          .use('eslint-loader')
-          .options({quiet: true});
+      .rule("eslint")
+      .use("eslint-loader")
+      .options({ quiet: true });
     config.plugin("BundleAnalyzerPlugin").use(BundleAnalyzerPlugin);
     config
       .plugin("BundleTracker")
@@ -37,11 +41,10 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   lintOnSave: true,
 
-
   // uncomment before executing 'npm run build'
   css: {
     extract: {
-      filename: 'bundle.css',
-    },
+      filename: "bundle.css"
+    }
   }
 };

@@ -25,7 +25,7 @@
           <v-card-text class="pa-0 pt-2">
             <DaumPostcode
               :autoMapping="false"
-              :on-complete=handleAddress
+              :on-complete="handleAddress"
               :key="key"
             />
           </v-card-text>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import DaumPostcode from 'vuejs-daum-postcode'
+import DaumPostcode from "vuejs-daum-postcode";
 
 export default {
   name: "AddressSearch",
@@ -74,16 +74,20 @@ export default {
     };
   },
   methods: {
-    handleAddress(data)  {
+    handleAddress(data) {
       this.address.old_address = data.jibunAddress;
       this.address.old_address_eng = data.jibunAddressEnglish;
       this.address.new_address = data.address;
       this.address.bjdongName = data.bname;
       this.address.bjdongName_eng = data.bnameEnglish;
-      this.address.sigunguCd = data.bcode.substring(0,5);
-      this.address.bjdongCd = data.bcode.substring(0,5);
-      this.address.bun = data.jibunAddress.split("-")[0].split(" ")[data.jibunAddress.split("-")[0].split(" ").length - 1]
-      this.address.ji = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : "";
+      this.address.sigunguCd = data.bcode.substring(0, 5);
+      this.address.bjdongCd = data.bcode.substring(0, 5);
+      this.address.bun = data.jibunAddress.split("-")[0].split(" ")[
+        data.jibunAddress.split("-")[0].split(" ").length - 1
+      ];
+      this.address.ji = data.jibunAddress.split("-")[1]
+        ? data.jibunAddress.split("-")[1].split(" ")[0]
+        : "";
       this.$emit("update:address", this.address);
       this.dialog = false;
       this.key += 1;

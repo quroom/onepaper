@@ -20,6 +20,7 @@ pipeline {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
                 echo 'Jenkins Build'
+                sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
                 sh 'pip3 install -r requirements.txt;'
                 sh 'cd frontend; npm install; npm run build;'
             }
@@ -37,7 +38,8 @@ pipeline {
             steps {
                 echo 'Jenkins Test'
                 sh 'export DJANGO_HTTP=True; \
-                python3 manage.py test;'
+                python3 manage.py test; \
+                cd frontend; npm run lint -- --no-fix;'
             }
             post {
                 failure {

@@ -1,9 +1,16 @@
 <template>
   <v-app-bar app width="100%">
-    <v-dialog v-model="dialog" max-width="400px" @click:outside="messages = []; success = false;">
+    <v-dialog
+      v-model="dialog"
+      max-width="400px"
+      @click:outside="
+        messages = [];
+        success = false;
+      "
+    >
       <v-card>
         <v-card-title>
-          {{ `${ $t("add_quick_trade_user")} ${$t('link')}` }}
+          {{ `${$t("add_quick_trade_user")} ${$t("link")}` }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
           <LazyTextField
@@ -48,16 +55,14 @@
             </template>
           </router-link>
           <v-divider></v-divider>
-          <v-list-item
-            key="link"
-            @click="dialog = true;"
-          >
+          <v-list-item key="link" @click="dialog = true">
             <v-list-item-icon>
               <v-icon> link </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title
-                >{{ $t("add_quick_trader_link") }}</v-list-item-title>
+              <v-list-item-title>{{
+                $t("add_quick_trader_link")
+              }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="switchLoc()">
@@ -70,31 +75,27 @@
               </span>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title
-                >{{ $t("language_change") }}</v-list-item-title
-              >
+              <v-list-item-title>{{ $t("language_change") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item
-            :to="{ name: 'user-editor'}"
-          >
+          <v-list-item :to="{ name: 'user-editor' }">
             <v-list-item-icon>
               <v-icon>account_box</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>
-                {{$t("edit_registor_info")}}
+                {{ $t("edit_registor_info") }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-row class="close-icon" justify="center" @click="drawer=false">
+      <v-row class="close-icon" justify="center" @click="drawer = false">
         <v-icon>
           keyboard_backspace
         </v-icon>
-        {{$t("close")}}
+        {{ $t("close") }}
       </v-row>
     </v-navigation-drawer>
     <template v-if="this.$root.$el.clientWidth > 500">
@@ -123,17 +124,20 @@
       </template>
     </template>
     <template v-else>
-      <router-link
-        class="ma-4"
-        :to="{ name: 'home' }"
-      >
+      <router-link class="ma-4" :to="{ name: 'home' }">
         {{ $t("paper") }}
       </router-link>
     </template>
     <v-spacer></v-spacer>
-    <v-btn class="pa-0" min-width="0px" text color="grey" href="/accounts/logout/">
-      <span>{{$t("logout")}}</span>
-      <v-icon >exit_to_app</v-icon>
+    <v-btn
+      class="pa-0"
+      min-width="0px"
+      text
+      color="grey"
+      href="/accounts/logout/"
+    >
+      <span>{{ $t("logout") }}</span>
+      <v-icon>exit_to_app</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -148,19 +152,19 @@ export default {
         {
           title: "paper",
           icon: "description",
-          route: { name: "home" },
+          route: { name: "home" }
         },
         {
           title: "profile",
           icon: "account_box",
-          route: { name: "profiles" },
+          route: { name: "profiles" }
         },
         {
           title: "mandate_paper",
           icon: "description",
           route: { name: "mandates" },
           user_category: "expert",
-          expert_only: true,
+          expert_only: true
         },
         {
           title: "approve",
@@ -175,16 +179,16 @@ export default {
       success: false,
       messages: ""
     };
-},
+  },
   mounted() {
-    this.$root.$on('link_dialog', data => {
-        this.dialog = data;
+    this.$root.$on("link_dialog", data => {
+      this.dialog = data;
     });
   },
   created() {
-    this.email = window.localStorage.getItem("email")
-    this.link = window.location.protocol + "//" + window.location.host + "/" + "profiles" + "/" + this.email;
-    this.user_category = window.localStorage.getItem("user_category")
+    this.email = window.localStorage.getItem("email");
+    this.link = `${window.location.protocol}//${window.location.host}/profiles/${this.email}`;
+    this.user_category = window.localStorage.getItem("user_category");
   },
   methods: {
     switchLoc() {
@@ -195,17 +199,23 @@ export default {
       link.select();
       document.execCommand("copy");
       this.success = true;
-      this.messages = this.$i18n.t("link_is_copied") + "" + "<br>" +"" + this.$i18n.t("send_your_link");
+      this.messages = `${this.$i18n.t("link_is_copied")}<br>${this.$i18n.t(
+        "send_your_link"
+      )}`;
     },
-    isShown(item){
-      return !item.user_category || this.user_category=='staff' || item.user_category == this.user_category;
+    isShown(item) {
+      return (
+        !item.user_category ||
+        this.user_category == "staff" ||
+        item.user_category == this.user_category
+      );
     }
   }
 };
 </script>
 
 <style scoped>
-.close-icon{
-  cursor: pointer
+.close-icon {
+  cursor: pointer;
 }
 </style>

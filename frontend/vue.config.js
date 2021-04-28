@@ -3,14 +3,12 @@ const BundleTracker = require("webpack-bundle-tracker");
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
   // To access site from outside. publicPath: "http://125.183.143.159:8080/",
-  publicPath: process.env.NODE_ENV === 'production' ? "/static/" : "http://127.0.0.1:8080/",
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "/static/"
+      : "http://127.0.0.1:8080/",
   outputDir: "./dist/",
-  chainWebpack: (config) => {
-    config.resolve.extensions.add('.ts');
-    config.module
-          .rule('eslint')
-          .use('eslint-loader')
-          .options({quiet: true});
+  chainWebpack: config => {
     config
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
@@ -33,13 +31,11 @@ module.exports = {
       .headers({ "Access-Control-Allow-Origin": ["*"] });
   },
   transpileDependencies: ["vuetify"],
-  lintOnSave: true,
-
 
   // uncomment before executing 'npm run build'
   css: {
     extract: {
-      filename: 'bundle.css',
-    },
+      filename: "bundle.css"
+    }
   }
 };

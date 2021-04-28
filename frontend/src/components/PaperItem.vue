@@ -11,9 +11,12 @@
         class="ma-2 pa-2"
         :color="
           paper.status == $getConstByName('status_category', 'progress')
-          ? 'success' : paper.status == $getConstByName('status_category', 'done')
-          ? 'primary' : paper.status == $getConstByName('status_category', 'draft')
-          ? '' : 'deep-purple'
+            ? 'success'
+            : paper.status == $getConstByName('status_category', 'done')
+            ? 'primary'
+            : paper.status == $getConstByName('status_category', 'draft')
+            ? ''
+            : 'deep-purple'
         "
         dark
         label
@@ -33,36 +36,68 @@
         </div>
       </div>
       <v-card-title class="card-title pa-0 pl-4">
-        {{ $getConstI18("trade_category", paper.trade_category) }} {{`${paper.from_date}~${paper.to_date}`}}
+        {{ $getConstI18("trade_category", paper.trade_category) }}
+        {{ `${paper.from_date} ~ ${paper.to_date}` }}
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
-          [{{ $getConstI18("building_category", paper.building_category) }}] {{ paper.address.old_address }}
-          <span v-if="!!paper.address.dong"> {{ paper.address.dong }}{{ $t("dong") }}</span>
-          <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }}</span>
+          [{{ $getConstI18("building_category", paper.building_category) }}]
+          {{ paper.address.old_address }}
+          <span v-if="!!paper.address.dong">
+            {{ paper.address.dong }}{{ $t("dong") }}</span
+          >
+          <span v-if="!!paper.address.ho">
+            {{ paper.address.ho }}{{ $t("ho") }}</span
+          >
         </div>
         <span>
-          <template v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
-            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("won")}` }}</div>
-            <div>{{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("won")}` }}</div>
-            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
+          <template
+            v-if="
+              paper.trade_category == $getConstByName('trade_category', 'rent')
+            "
+          >
+            <div>
+              {{
+                `${$t("security_deposit")}: 
+                  ${paper.security_deposit}${$t("won")}`
+              }}
+            </div>
+            <div>
+              {{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("won")}` }}
+            </div>
+            <span>{{
+              `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}`
+            }}</span>
           </template>
           <template
-            v-else-if="paper.trade_category==$getConstByName('trade_category', 'depositloan')"
+            v-else-if="
+              paper.trade_category ==
+                $getConstByName('trade_category', 'depositloan')
+            "
           >
-            <div>{{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("won")}` }}</div>
-            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
+            <div>
+              {{
+                `${$t("security_deposit")}: ${paper.security_deposit}${$t(
+                  "won"
+                )}`
+              }}
+            </div>
+            <span>{{
+              `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}`
+            }}</span>
           </template>
           <!-- #FIXME to be updated -->
           <template
             v-else-if="
-              paper.trade_category == $getConstByName('trade_category', 'purchase')
+              paper.trade_category ==
+                $getConstByName('trade_category', 'purchase')
             "
           >
           </template>
           <template
             v-else-if="
-              paper.trade_category == $getConstByName('trade_category', 'exchange')
+              paper.trade_category ==
+                $getConstByName('trade_category', 'exchange')
             "
           >
           </template>
@@ -76,7 +111,6 @@
 </template>
 
 <script>
-
 export default {
   name: "PaperItem",
   props: {
@@ -104,7 +138,7 @@ export default {
         "<img src=" + image + ' width="500px" height="500px">';
     }
   }
-}
+};
 </script>
 
 <style scoped>

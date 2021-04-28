@@ -1,16 +1,16 @@
 <script>
-import VTextField from 'vuetify/lib/components/VTextField/VTextField.js'
+import VTextField from "vuetify/lib/components/VTextField/VTextField.js";
 export default {
-  name: 'LazyTextField',
+  name: "LazyTextField",
   props: {
     hideDetails: {
       type: [Boolean, String],
-      default:"auto"
+      default: "auto"
     }
   },
   extends: VTextField,
   model: {
-    event: 'change'
-  },
-}
+    event: "change"
+  }
+};
 </script>

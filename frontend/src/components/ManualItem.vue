@@ -1,5 +1,10 @@
 <template>
-  <NotionRenderer :blockMap="blockMap" :mapPageUrl=mapPageUrl :pageLinkOptions="pageLinkOptions" fullPage />
+  <NotionRenderer
+    :blockMap="blockMap"
+    :mapPageUrl="mapPageUrl"
+    :pageLinkOptions="pageLinkOptions"
+    fullPage
+  />
 </template>
 
 <script>
@@ -9,17 +14,17 @@ export default {
   name: "ManualItem",
   props: {
     id: {
-      required: true,
+      required: true
     }
   },
   components: { NotionRenderer },
-  data(){
-    return { 
-      pageLinkOptions: { component: 'router-link', href: 'to' },
-      blockMap: null 
-    }
+  data() {
+    return {
+      pageLinkOptions: { component: "router-link", href: "to" },
+      blockMap: null
+    };
   },
-  methods:{
+  methods: {
     mapPageUrl(pageId = "") {
       pageId = pageId.replace(/-/g, "");
       return `/manuals/${pageId}`;
@@ -28,7 +33,7 @@ export default {
   async created() {
     // get Notion blocks from the API via a Notion pageId
     this.blockMap = await getPageBlocks(this.id);
-  },
+  }
 };
 </script>
 
