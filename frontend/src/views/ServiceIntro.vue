@@ -28,7 +28,9 @@
       <v-col cols="12" sm="4">
         <v-card class="elevation-0 transparent">
           <v-card-text class="text-center">
-            <v-icon x-large class="blue--text text--lighten-2">hourglass_full</v-icon>
+            <v-icon x-large class="blue--text text--lighten-2"
+              >hourglass_full</v-icon
+            >
           </v-card-text>
           <v-card-title primary-title class="layout justify-center">
             <div class="text-h5 text-center">{{ $t("permanence") }}</div>

@@ -38,8 +38,7 @@ pipeline {
             steps {
                 echo 'Jenkins Test'
                 sh 'export DJANGO_HTTP=True; \
-                python3 manage.py test; \
-                cd frontend; npm run lint -- --no-fix;'
+                python3 manage.py test; '
             }
             post {
                 failure {

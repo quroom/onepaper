@@ -12,7 +12,10 @@ module.exports = {
     config
       .plugin("BundleTracker")
       .use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
-
+    config.module
+      .rule('eslint')
+      .use('eslint-loader')
+      .tap(opts => ({ ...opts, failOnError: true, failOnWarning: true }))
     config.optimization.splitChunks(false);
 
     config.output.filename("bundle.js");
