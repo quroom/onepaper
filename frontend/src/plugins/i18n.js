@@ -26,7 +26,8 @@ const i18n = new VueI18n({
       all_papers: "All Papers(Done)",
       company_info: "Company",
       quick_trade_user_list: "List of quick trading members",
-      quick_trade_user_list_subtitle: "Please add quick trade memebers. You can add your profile without the contract request·approval step. \
+      quick_trade_user_list_subtitle:
+        "Please add quick trade memebers. You can add your profile without the contract request·approval step. \
       Please ask additional members for the'Trade Member Registration Request Link' through the menu. You can easily add members.",
       add_user: "Add User",
       approve: "Approve",
@@ -66,7 +67,8 @@ const i18n = new VueI18n({
       deleted: "Deleted",
       delete_account: "Delete Account",
       delete_confirm: "Do you really want to delete?",
-      delete_profile_subtitle: "Member ID, e-mail, and name must be exactly the same for withdrawal processing, and account DB will be completely deleted only if there is no created profile. \
+      delete_profile_subtitle:
+        "Member ID, e-mail, and name must be exactly the same for withdrawal processing, and account DB will be completely deleted only if there is no created profile. \
       If there is a profile created, the account will no longer be available, and the database will be preserved for future legal disputes. You can rest assured that the preserved data is only provided to you.",
       delete_success: "It has been deleted.",
       deny: "Deny",
@@ -96,11 +98,11 @@ const i18n = new VueI18n({
       language: "Language",
       language_change: "언어 변경",
       last: "Last",
-      learn_how_to_use:"Learn how to use",
+      learn_how_to_use: "Learn how to use",
       link: "Link",
       list: "List",
       link_is_copied: "Link is copied",
-      load: "Load",      
+      load: "Load",
       load_list: "Load List",
       load_default: "Load Default",
       load_more: "Load More",
@@ -109,7 +111,8 @@ const i18n = new VueI18n({
       manage: "Manage",
       manual_search: "Manual Search",
       mandate: "Mandate",
-      mandate_subtitle: "During the delegation period, the contract written by the mandate is completed without the signature of the mandate.",
+      mandate_subtitle:
+        "During the delegation period, the contract written by the mandate is completed without the signature of the mandate.",
       mandate_paper: "Power of Attorney",
       manwon: "ten thousand Won",
       modify: "Modify",
@@ -131,18 +134,22 @@ const i18n = new VueI18n({
       password_change: "Password Change",
       partial_correct_match: "Partially Correct is Matched",
       paper: "Paper",
-      paper_subtitle: "This contract can be viewed by anyone to create a better contract culture, excluding personal information (name, contact number, lot number, etc.).",
-      paper_requesting_subtitle: "Contracts in the requesting state can be signed and contractor information can be checked after all contractors requiring the request press the Approve button.",
+      paper_subtitle:
+        "This contract can be viewed by anyone to create a better contract culture, excluding personal information (name, contact number, lot number, etc.).",
+      paper_requesting_subtitle:
+        "Contracts in the requesting state can be signed and contractor information can be checked after all contractors requiring the request press the Approve button.",
       profile: "Profile",
       permanence: "Permanence",
       period: "Period",
       please_add_trade_user: "Please add user allowed to view profile",
-      please_available_garantee_insurance: "Please add available garantee insurance today.",
+      please_available_garantee_insurance:
+        "Please add available garantee insurance today.",
       please_sign: "Please sign here.",
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
       profile_number: "Profile Number",
-      profile_list_subtitle: "Only one profile can be activated and will be used when writing the contract. When adding a quick transaction member, the other party can add your profile without searching.",
+      profile_list_subtitle:
+        "Only one profile can be activated and will be used when writing the contract. When adding a quick transaction member, the other party can add your profile without searching.",
       quickness: "Quickness",
       quick_trade_user: "Quick tradeuser",
       read_mode: "Read Mode",
@@ -179,7 +186,8 @@ const i18n = new VueI18n({
       term_of_lease: "Term of Lease",
       updated_at: "Updated",
       user: "User",
-      use_profile_after_approval: "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
+      use_profile_after_approval:
+        "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
       view_mobile_version: "View Mobile Ver",
       view_pc_version: "View PC Ver(Printable)",
       writing: "writing",
@@ -189,7 +197,7 @@ const i18n = new VueI18n({
       year: "year",
 
       //Bank List
-      '--선택--': "--Choose--",
+      "--선택--": "--Choose--",
       산업은행: "(KDB)KoreaDevelopmentBank",
       부산은행: "(BNK)BusanBank",
       기업은행: "(IBK)IndustrialBank",
@@ -216,15 +224,19 @@ const i18n = new VueI18n({
       카카오뱅크: "KakaoBank",
 
       //Service Intro
-      service_intro_title: "OnePaper's value is reducing the risk and time of real estate transactions through technology.",
-      service_intro_text1: "Are you still having trouble filling out the contract by hand?\
+      service_intro_title:
+        "OnePaper's value is reducing the risk and time of real estate transactions through technology.",
+      service_intro_text1:
+        "Are you still having trouble filling out the contract by hand?\
       Are you writing what you wrote again? Now, read the content you wrote once and write the contract.\
       With a mobile phone and a PC, you can write a contract anytime, anywhere.\
       <br/>I will narrow the distance between you and others.",
-      service_intro_text2: "No more worrying about losing your contract. Check your contract anytime, anywhere.\
+      service_intro_text2:
+        "No more worrying about losing your contract. Check your contract anytime, anywhere.\
       Contract data written on mobile phones and PCs is safely stored on AWS RDS for the duration of the service.\
       <br/>Keep your contract permanent",
-      service_intro_text3:"Not sure how to write the contract?\
+      service_intro_text3:
+        "Not sure how to write the contract?\
       Are you worried that the contract I wrote is well written?\
       Share your contracts, and share contracts from friends.\
       And refer to the well-written contract.<br/>You can write a better contract.",
@@ -402,7 +414,7 @@ const i18n = new VueI18n({
       actual_expenses: "actual expenses",
       payment_period: "payment period",
       calculation_info: "calculation info",
-      verifying_explanation: "Verifying Explanation Manual",
+      verifying_explanation: "Verifying Explanation Manual"
     },
     ko: {
       validation: ko.messages,
@@ -420,7 +432,8 @@ const i18n = new VueI18n({
       approve: "승인",
       approved: "승인됨",
       quick_trade_user_list: "빠른거래회원 리스트",
-      quick_trade_user_list_subtitle: "빠른 거래 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
+      quick_trade_user_list_subtitle:
+        "빠른 거래 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\
                                  추가하실 회원에게 메뉴를 통해 생성가능한 '거래회원 등록 요청 링크'를 요청하세요. 손 쉽게 회원 추가가 가능합니다.",
       ascending: "오름차순",
       add_user: "회원 추가",
@@ -457,7 +470,8 @@ const i18n = new VueI18n({
       deleted: "삭제할",
       delete_account: "회원 탈퇴",
       delete_confirm: "정말 삭제 하시겠습니까?",
-      delete_profile_subtitle: "회원 아이디, 이메일, 성함이 정확히 일치해야 탈퇴 처리 되며, 작성된 프로필이 없는 경우에만 계정 DB는 완전히 삭제됩니다.\
+      delete_profile_subtitle:
+        "회원 아이디, 이메일, 성함이 정확히 일치해야 탈퇴 처리 되며, 작성된 프로필이 없는 경우에만 계정 DB는 완전히 삭제됩니다.\
       작성된 프로필이 있는 경우 계정은 더이상 이용할 수 없도록 처리되며, 데이터베이스를 향후 법적 분쟁 시 활용하기 위해 보존 됩니다. 보존되는 데이터는 본인에게만 제공되니 안심하셔도 됩니다.",
       delete_success: "정상적으로 삭제되었습니다.",
       deny: "거절",
@@ -504,7 +518,8 @@ const i18n = new VueI18n({
       manage: "관리",
       manual_search: "직접 회원검색",
       mandate: "위임",
-      mandate_subtitle: "위임 기간 동안 위임인의 서명이 없어도 수임인이 작성한 계약서는 완료됩니다.",
+      mandate_subtitle:
+        "위임 기간 동안 위임인의 서명이 없어도 수임인이 작성한 계약서는 완료됩니다.",
       mandate_paper: "위임장",
       manwon: "만원",
       modify: "편집",
@@ -525,14 +540,17 @@ const i18n = new VueI18n({
       password_change: "비밀번호 변경",
       partial_correct_match: "일부 일치해도 검색됨",
       paper: "계약서",
-      paper_subtitle: "본 계약서는 개인정보(성함, 연락처, 지번 등)를 제외하고 더 나은 계약 문화를 만들기 위해 누구나 조회 할 수 있습니다.",
-      paper_requesting_subtitle: "요청 중 상태의 계약서는 요청이 필요한 모든 계약자가 승인 버튼을 누른 후 서명 및 계약자 정보를 확인할 수 있습니다.",
+      paper_subtitle:
+        "본 계약서는 개인정보(성함, 연락처, 지번 등)를 제외하고 더 나은 계약 문화를 만들기 위해 누구나 조회 할 수 있습니다.",
+      paper_requesting_subtitle:
+        "요청 중 상태의 계약서는 요청이 필요한 모든 계약자가 승인 버튼을 누른 후 서명 및 계약자 정보를 확인할 수 있습니다.",
       profile: "프로필",
       permanence: "영속성",
       period: "기간",
       please_add_trade_user:
         "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
-      please_available_garantee_insurance: "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
+      please_available_garantee_insurance:
+        "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
       pease_select_default_profile: "기본 프로필을 선택해주세요.",
       profile_name: "프로필명",
@@ -573,7 +591,8 @@ const i18n = new VueI18n({
       transaction_category: "거래종류(매매,전세 등)*",
       updated_at: "수정일",
       user: "회원",
-      use_profile_after_approval: "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
+      use_profile_after_approval:
+        "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
       view_mobile_version: "모바일 버전 보기",
       view_pc_version: "원래대로 보기(인쇄용)",
       writing: "작성",
@@ -583,7 +602,7 @@ const i18n = new VueI18n({
       year: "년",
 
       //Bank List
-      '--선택--': "--선택--",
+      "--선택--": "--선택--",
       산업은행: "산업은행",
       부산은행: "부산은행",
       기업은행: "기업은행",
@@ -610,15 +629,19 @@ const i18n = new VueI18n({
       카카오뱅크: "카카오뱅크",
 
       //Service Intro
-      service_intro_title: "원페이퍼는 기술을 통해 부동산 거래 위험과 시간을 줄이는데 가치를 두고 있습니다.",
-      service_intro_text1:"계약서 아직도 손으로 번거롭게 작성하고 계시나요?\
+      service_intro_title:
+        "원페이퍼는 기술을 통해 부동산 거래 위험과 시간을 줄이는데 가치를 두고 있습니다.",
+      service_intro_text1:
+        "계약서 아직도 손으로 번거롭게 작성하고 계시나요?\
       썼던 내용 또 쓰고 계세요? 이제는 한번 쓴 내용은 불러와서 계약서 작성해보세요.\
       휴대폰, PC만 있으면 언제 어디서든 계약서를 작성할 수 있답니다.\
       <br/>당신과 타인의 거리를 좁혀드리겠습니다.",
-      service_intro_text2:"계약서 분실을 더이상 걱정할 필요없습니다. 언제 어디서든 당신의 계약서를 확인하세요.\
+      service_intro_text2:
+        "계약서 분실을 더이상 걱정할 필요없습니다. 언제 어디서든 당신의 계약서를 확인하세요.\
       휴대폰, PC로 작성한 계약 데이터는 서비스 기간동안 AWS RDS에 안전하게 저장됩니다.\
       <br/>당신의 계약서를 영구히 보존해보세요.",
-      service_intro_text3:"계약서를 어떻게 작성해야할지 모르겠다구요?\
+      service_intro_text3:
+        "계약서를 어떻게 작성해야할지 모르겠다구요?\
       내가 쓴 계약서가 잘 작성되었는지 걱정 되시나요?\
       당신이 작성한 계약서를 공유하고, 친구가 작성한 계약서를 공유받으세요.\
       그리고 잘 작성된 계약서를 참고해보세요. \
@@ -793,9 +816,9 @@ const i18n = new VueI18n({
       actual_expenses: "실비",
       payment_period: "지급시기",
       calculation_info: "합계",
-      verifying_explanation: "확인설명서",
-    },
-  },
+      verifying_explanation: "확인설명서"
+    }
+  }
 });
 
 export default i18n;

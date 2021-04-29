@@ -1,17 +1,21 @@
 <template>
   <v-app app style="overflow-x:auto">
-    <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category"/>
+    <NavbarItem
+      class="no-print root_tag"
+      v-if="!isLoading"
+      :user_category="user_category"
+    />
     <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
-    <Footer class="no-print root_tag"/>
+    <Footer class="no-print root_tag" />
   </v-app>
 </template>
 
 <script>
 import NavbarItem from "./components/NavbarItem";
 import Footer from "./components/Footer";
-import { applyValidation } from "@/common/common_api"
+import { applyValidation } from "@/common/common_api";
 import { apiService } from "@/common/api_service";
 
 export default {
@@ -24,18 +28,22 @@ export default {
     isLoading: true,
     link_dialog: false,
     has_profile: true,
-/* user_category: user(general_user), expert, staff */
-    user_category: 'user'
+    /* user_category: user(general_user), expert, staff */
+    user_category: "user"
   }),
   computed: {
-    is_staff(){
-      return this.user_category == 'staff';
+    is_staff() {
+      return this.user_category == "staff";
     }
   },
   watch: {
     has_profile() {
       if (this.has_profile == false && this.is_staff == false) {
-        if (this.$router.name != "profile-editor" && this.$router.name != "profiles" && this.$router.name != "user-editor") {
+        if (
+          this.$router.name != "profile-editor" &&
+          this.$router.name != "profiles" &&
+          this.$router.name != "user-editor"
+        ) {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }
@@ -43,7 +51,11 @@ export default {
     },
     $route(to) {
       if (this.has_profile == false && this.is_staff == false) {
-        if (to.name != "profile-editor" && to.name != "profiles" && to.name != "user-editor") {
+        if (
+          to.name != "profile-editor" &&
+          to.name != "profiles" &&
+          to.name != "user-editor"
+        ) {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }
@@ -53,20 +65,20 @@ export default {
   methods: {
     async setUserInfo() {
       const data = await apiService("/api/user/");
-      if(data.id == undefined){
-        applyValidation(data, this)
+      if (data.id == undefined) {
+        applyValidation(data, this);
       }
       window.localStorage.setItem("email", data["email"]);
       window.localStorage.setItem("name", data["name"]);
       window.localStorage.setItem("birthday", data["birthday"]);
       this.has_profile = data["has_profile"];
-      if(data["is_expert"]){
-        this.user_category = 'expert'
+      if (data["is_expert"]) {
+        this.user_category = "expert";
       }
-      if(data['is_staff']){
-        this.user_category = 'staff'
+      if (data["is_staff"]) {
+        this.user_category = "staff";
       }
-      window.localStorage.setItem('user_category', this.user_category)
+      window.localStorage.setItem("user_category", this.user_category);
       this.isLoading = false;
     }
   },
@@ -79,12 +91,12 @@ export default {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
--webkit-appearance: none;
-margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 /* Firefox */
-input[type=number] {
--moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 a {
   text-decoration: none !important;
@@ -98,7 +110,10 @@ a:hover {
 
 /* For print paper setting. */
 @media print {
-  @page { margin-top: 20px; margin-bottom: 20px;}
+  @page {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
   .v-application {
     overflow: visible !important;
     padding: 0px !important;
@@ -115,7 +130,7 @@ a:hover {
     display: none;
   }
   html {
-    -webkit-print-color-adjust:exact;
+    -webkit-print-color-adjust: exact;
   }
 }
 .signature-dialog {
@@ -132,26 +147,26 @@ a:hover {
   max-height: 200px;
 }
 .root_tag {
-   min-width:360px;
+  min-width: 360px;
 }
 /* Progress circular Style*/
 .v-progress-circular {
-    display: block;
-    width: 100px;
-    margin: 0 auto;
+  display: block;
+  width: 100px;
+  margin: 0 auto;
 }
 /* Notion Style */
-.notion-page-offset{
+.notion-page-offset {
   margin-top: 0px;
 }
 .notion-title {
   text-align: center;
 }
 .notion-page img {
-   padding:1px;
-   border:1px solid #021a40;
+  padding: 1px;
+  border: 1px solid #021a40;
 }
 .ql-container {
-   font-size: 16px !important;
+  font-size: 16px !important;
 }
 </style>

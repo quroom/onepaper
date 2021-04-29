@@ -1,11 +1,6 @@
 <template>
   <v-footer absolute app width="auto" style="overflow:auto">
-    <v-row
-      color="lighten-1"
-      justify="center"
-      no-gutters
-      style="overflow:auto"
-    >
+    <v-row color="lighten-1" justify="center" no-gutters style="overflow:auto">
       <template v-for="link in links">
         <v-btn
           v-if="link.route != undefined"
@@ -27,12 +22,12 @@
           exact
           :href="`mailto:${link.email}`"
         >
-          {{ $t(link.title) }}:{{link.email}}
+          {{ $t(link.title) }}:{{ link.email }}
         </v-btn>
       </template>
       <v-col class="text-center" cols="12">
         {{ $t("footer_info") }}
-        <br/>
+        <br />
         Copyright © ONEPAPER. All Rights Reserved.
       </v-col>
     </v-row>
@@ -45,15 +40,13 @@ export default {
   data: () => ({
     links: [
       // 회사소개, 공지사항, 이용안내, 고객센터, 고객센터 만들기전까지 contact_us
-      {title: 'service_intro', route: {name: 'service-intro'} },
-      {title: 'how_to_use', route: {name: 'manuals'} },
-      {title: 'notice', route: {name: 'notices'} },
-      {title: 'contact_us', email: "quroom@naver.com" },
-    ],
-  }),
-}
+      { title: "service_intro", route: { name: "service-intro" } },
+      { title: "how_to_use", route: { name: "manuals" } },
+      { title: "notice", route: { name: "notices" } },
+      { title: "contact_us", email: "quroom@naver.com" }
+    ]
+  })
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

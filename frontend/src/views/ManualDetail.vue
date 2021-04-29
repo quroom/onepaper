@@ -1,5 +1,10 @@
 <template>
-  <NotionRenderer :blockMap="blockMap" :mapPageUrl=mapPageUrl :pageLinkOptions="pageLinkOptions" fullPage />
+  <NotionRenderer
+    :blockMap="blockMap"
+    :mapPageUrl="mapPageUrl"
+    :pageLinkOptions="pageLinkOptions"
+    fullPage
+  />
 </template>
 
 <script>
@@ -9,24 +14,24 @@ export default {
   name: "ManualDetail",
   props: {
     id: {
-      required: true,
+      required: true
     }
   },
   components: { NotionRenderer },
   watch: {
     //Update page from samepage, just with different pageid.
-    '$route.path': async function(){
+    "$route.path": async function() {
       console.log(this.$route.params.id);
-      this.blockMap = await getPageBlocks(this.$route.params.id)
+      this.blockMap = await getPageBlocks(this.$route.params.id);
     }
   },
-  data(){
-    return { 
-      pageLinkOptions: { component: 'router-link', href: 'to' },
-      blockMap: null 
-    }
+  data() {
+    return {
+      pageLinkOptions: { component: "router-link", href: "to" },
+      blockMap: null
+    };
   },
-  methods:{
+  methods: {
     mapPageUrl(pageId = "") {
       pageId = pageId.replace(/-/g, "");
       return `/manuals/${pageId}`;
@@ -34,7 +39,7 @@ export default {
   },
   async created() {
     this.blockMap = await getPageBlocks(this.id);
-  },
+  }
 };
 </script>
 

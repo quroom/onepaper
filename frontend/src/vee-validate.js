@@ -21,25 +21,25 @@ extend("mobile", {
   }
 });
 extend("date_required", {
-  validate(dates){
-    if(!dates || !dates[0] || !dates[1]){
-      return false
+  validate(dates) {
+    if (!dates || !dates[0] || !dates[1]) {
+      return false;
     }
-    return true
+    return true;
   },
-  message(){
+  message() {
     return "시작일과 종료일을 모두 입력해주세요.";
-  }  
-})
+  }
+});
 extend("period", {
-  validate(dates){
-    if(!dates || dates[1] < dates[0]){
-      return false
+  validate(dates) {
+    if (!dates || dates[1] < dates[0]) {
+      return false;
     } else {
-      return true
+      return true;
     }
   },
-  message(){
+  message() {
     return "보증서류 종료일이 시작일보다 작을 수 없습니다.";
   }
-})
+});

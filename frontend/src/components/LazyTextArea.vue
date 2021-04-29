@@ -1,16 +1,16 @@
 <script>
-import VTextArea from 'vuetify/lib/components/VTextarea/VTextarea.js'
+import VTextArea from "vuetify/lib/components/VTextarea/VTextarea.js";
 export default {
-  name: 'LazyTextArea',
+  name: "LazyTextArea",
   props: {
     hideDetails: {
       type: [Boolean, String],
-      default:"auto"
+      default: "auto"
     }
   },
   extends: VTextArea,
   model: {
-    event: 'change'
-  },
-}
+    event: "change"
+  }
+};
 </script>
