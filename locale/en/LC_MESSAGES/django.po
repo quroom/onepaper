@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-16 13:19+0900\n"
+"POT-Creation-Date: 2021-05-10 13:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -755,12 +755,16 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:133 .\templates\index-dev.html:5
+#: .\templates\account\base.html:135
+msgid "Online Realesate Contract"
+msgstr ""
+
+#: .\templates\account\base.html:138 .\templates\index-dev.html:5
 #: .\templates\index.html:8
 msgid "Onepaper"
 msgstr ""
 
-#: .\templates\account\base.html:145
+#: .\templates\account\base.html:150
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "  <br/>\n"
@@ -1041,7 +1045,6 @@ msgstr ""
 #: .\templates\account\signup-expert.html:7
 #: .\templates\account\signup-expert.html:81 .\templates\account\signup.html:19
 #: .\templates\socialaccount\signup.html:6
-#: .\templates\socialaccount\signup.html:85
 msgid "Create Account"
 msgstr ""
 
@@ -1346,7 +1349,7 @@ msgstr ""
 msgid "확인"
 msgstr "Confirm"
 
-#: .\templates\account\signup.html:84
+#: .\templates\account\signup.html:84 .\templates\socialaccount\signup.html:85
 msgid "Sign Up"
 msgstr ""
 
