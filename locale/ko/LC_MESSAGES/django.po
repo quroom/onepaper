@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-16 13:19+0900\n"
+"POT-Creation-Date: 2021-05-10 13:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -726,18 +726,16 @@ msgstr "계정 비활성화"
 msgid "This account is inactive."
 msgstr "당신의 계정이 비활성화 상태입니다."
 
-#: .\templates\account\base.html:133 .\templates\index-dev.html:5
+#: .\templates\account\base.html:135
+msgid "Online Realesate Contract"
+msgstr "온라인 부동산 계약 서비스"
+
+#: .\templates\account\base.html:138 .\templates\index-dev.html:5
 #: .\templates\index.html:8
 msgid "Onepaper"
 msgstr "원페이퍼"
 
-#: .\templates\account\base.html:145
-#, fuzzy
-#| msgid ""
-#| "Company: Quroom | Registration Number: 246-86-01161\n"
-#| "  <br/>\n"
-#| "  Copyright © Onepaper. All Rights Reserved.\n"
-#| "  "
+#: .\templates\account\base.html:150
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "  <br/>\n"
@@ -1042,7 +1040,6 @@ msgstr "비밀번호 변경"
 #: .\templates\account\signup-expert.html:7
 #: .\templates\account\signup-expert.html:81 .\templates\account\signup.html:19
 #: .\templates\socialaccount\signup.html:6
-#: .\templates\socialaccount\signup.html:85
 msgid "Create Account"
 msgstr "회원 가입"
 
@@ -1447,7 +1444,7 @@ msgstr ""
 msgid "확인"
 msgstr ""
 
-#: .\templates\account\signup.html:84
+#: .\templates\account\signup.html:84 .\templates\socialaccount\signup.html:85
 msgid "Sign Up"
 msgstr "가입하기"
 
