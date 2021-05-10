@@ -136,7 +136,7 @@ pipeline {
                 message "Shall we deploy to blue production?"
             }
             steps {
-                sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper/; \
+                sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
                 git checkout master; \
                 git pull origin master; \
                 source /home/ubuntu/djangovenv/bin/activate; \
