@@ -27,12 +27,7 @@
               v-model="new_user.email"
             >
               <template v-slot:append-outer>
-                <v-btn
-                  color="primary"
-                  :label="$t('add_user')"
-                  class="pa-3 btn"
-                  @click="addUser"
-                >
+                <v-btn color="primary" :label="$t('add_user')" class="pa-3 btn" @click="addUser">
                   {{ $t("add_user") }}
                 </v-btn>
               </template>
@@ -100,7 +95,7 @@ export default {
   methods: {
     updatePagination(pagination) {
       let endpoint = `/api/profiles/${this.id}/allowed-users/?page=${pagination}`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -111,7 +106,7 @@ export default {
     },
     getUsers() {
       let endpoint = `/api/profiles/${this.id}/allowed-users/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -125,7 +120,7 @@ export default {
         allowed_users: this.new_user
       };
       let endpoint = `/api/profiles/${this.id}/allowed-users/`;
-      apiService(endpoint, "POST", data).then(data => {
+      apiService(endpoint, "POST", data).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -148,15 +143,12 @@ export default {
       };
 
       let endpoint = `/api/profiles/${this.id}/allowed-users/`;
-      await apiService(endpoint, "DELETE", data).then(data => {
+      await apiService(endpoint, "DELETE", data).then((data) => {
         console.log("delete");
         if (data == undefined) {
           alert(that.$i18n.t("delete_success"));
           for (var i = 0; i < that.selected_users.length; i++) {
-            that.$delete(
-              that.allowed_users,
-              that.allowed_users.indexOf(that.selected_users[i])
-            );
+            that.$delete(that.allowed_users, that.allowed_users.indexOf(that.selected_users[i]));
           }
         } else {
           applyValidation(data);

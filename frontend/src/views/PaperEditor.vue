@@ -10,10 +10,7 @@
       </v-row>
       <div class="mt-4 text-h4 font-weight-bold text-center">
         {{
-          `${$t("realestate")} ${$getConstI18(
-            "TRADE_CATEGORY",
-            trade_category
-          )} ${$t("contract")}`
+          `${$t("realestate")} ${$getConstI18("TRADE_CATEGORY", trade_category)} ${$t("contract")}`
         }}
       </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
@@ -109,10 +106,7 @@
             ></AddressSearch>
           </v-col>
           <v-col cols="2">
-            <LazyTextField
-              v-model="address.dong"
-              :label="$t('dong')"
-            ></LazyTextField>
+            <LazyTextField v-model="address.dong" :label="$t('dong')"></LazyTextField>
           </v-col>
           <v-col cols="2">
             <LazyTextField
@@ -123,16 +117,12 @@
           </v-col>
         </v-row>
         <v-row>
-          <template
-            v-for="(realestate_field, index) in fields_names.realestate_fields"
-          >
+          <template v-for="(realestate_field, index) in fields_names.realestate_fields">
             <v-col cols="4" md="2" :key="`index` + index">
               <ValidationProvider
                 :ref="realestate_field.name"
                 :name="$t(realestate_field.name)"
-                :rules="
-                  `${realestate_field.required != false ? 'required' : ''}`
-                "
+                :rules="`${realestate_field.required != false ? 'required' : ''}`"
                 v-slot="{ errors }"
               >
                 <v-select
@@ -144,12 +134,8 @@
                   item-value="value"
                   :label="$t(realestate_field.name)"
                 >
-                  <template v-slot:selection="{ item }">{{
-                    $t(item.text)
-                  }}</template>
-                  <template v-slot:item="{ item }">{{
-                    $t(item.text)
-                  }}</template>
+                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
                 <LazyTextField
                   v-else-if="realestate_field.type == 'Number'"
@@ -194,9 +180,7 @@
                 item-value="value"
                 :label="$t('trade_category')"
               >
-                <template v-slot:selection="{ item }">{{
-                  $t(item.text)
-                }}</template>
+                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
                 <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
               </v-select>
             </ValidationProvider>
@@ -271,9 +255,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <template
-            v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')"
-          >
+          <template v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')">
             <v-col
               v-for="(contract_field, index) in fields_names.contract_fields"
               cols="6"
@@ -298,9 +280,7 @@
             </v-col>
           </template>
           <template v-else>
-            <template
-              v-for="(contract_field, index) in fields_names.contract_fields"
-            >
+            <template v-for="(contract_field, index) in fields_names.contract_fields">
               <v-col
                 v-if="contract_field.name != 'monthly_fee'"
                 cols="6"
@@ -330,11 +310,7 @@
         <v-expansion-panels v-model="panels" :readonly="true" multiple>
           <v-row no-gutters>
             <v-col v-if="!isLoading" cols="12">
-              <ValidationProvider
-                ref="seller"
-                v-slot="{ errors }"
-                :name="$t('seller')"
-              >
+              <ValidationProvider ref="seller" v-slot="{ errors }" :name="$t('seller')">
                 <v-autocomplete
                   class="mt-2"
                   v-model="seller"
@@ -357,12 +333,7 @@
                       ")"
                   }}</template>
                   <template v-slot:item="{ item }">{{
-                    item.user.email +
-                      " (" +
-                      item.user.name +
-                      " / " +
-                      item.mobile_number +
-                      ")"
+                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
                   }}</template>
                   <template v-slot:append-outer>
                     <v-btn @click.stop="loadSearchDialog('seller')">
@@ -386,11 +357,7 @@
               </v-expansion-panel>
             </v-col>
             <v-col v-if="!isLoading" class="mt-3" cols="12">
-              <ValidationProvider
-                ref="buyer"
-                v-slot="{ errors }"
-                :name="$t('buyer')"
-              >
+              <ValidationProvider ref="buyer" v-slot="{ errors }" :name="$t('buyer')">
                 <v-autocomplete
                   class="mt-2"
                   v-model="buyer"
@@ -405,20 +372,10 @@
                   :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }">{{
-                    item.user.email +
-                      " (" +
-                      item.user.name +
-                      " / " +
-                      item.mobile_number +
-                      ")"
+                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
                   }}</template>
                   <template v-slot:item="{ item }">{{
-                    item.user.email +
-                      " (" +
-                      item.user.name +
-                      " / " +
-                      item.mobile_number +
-                      ")"
+                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
                   }}</template>
                   <template v-slot:append-outer>
                     <v-btn @click.stop="loadSearchDialog('buyer')">
@@ -461,23 +418,16 @@
                   :placeholder="$t('realestate_agency') + ' ' + $t('select')"
                 >
                   <template v-slot:selection="{ item }">
-                    {{
-                      item.expert_profile.shop_name +
-                        ` (#${item.id} / ${item.user.name})`
-                    }}
+                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
                   </template>
                   <template v-slot:item="{ item }">
-                    {{
-                      item.expert_profile.shop_name +
-                        ` (#${item.id} / ${item.user.name})`
-                    }}
+                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="expert">
                 <v-expansion-panel-header
-                  >{{ $t("realestate_agency") }} {{ $t("detail") }}
-                  {{ $t("info") }} ({{
+                  >{{ $t("realestate_agency") }} {{ $t("detail") }} {{ $t("info") }} ({{
                     expert.user.email
                   }})</v-expansion-panel-header
                 >
@@ -523,10 +473,7 @@
           <template v-slot:footer>
             <v-row class="mt-4" no-gutters v-if="step == max_step">
               <template v-if="seller">
-                <v-col
-                  class="contractor-title text-center font-weight-bold"
-                  cols="12"
-                >
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
                   <v-card outlined tile color="blue lighten-4">
                     {{ $t("seller") }}
                   </v-card>
@@ -539,10 +486,7 @@
                 </v-col>
               </template>
               <template v-if="buyer">
-                <v-col
-                  class="contractor-title text-center font-weight-bold"
-                  cols="12"
-                >
+                <v-col class="contractor-title text-center font-weight-bold" cols="12">
                   <v-card outlined tile color="blue lighten-4">
                     {{ $t("buyer") }}
                   </v-card>
@@ -554,10 +498,7 @@
                   ></ContractorItem>
                 </v-col>
               </template>
-              <v-col
-                class="contractor-title text-center font-weight-bold"
-                cols="12"
-              >
+              <v-col class="contractor-title text-center font-weight-bold" cols="12">
                 <v-card outlined tile color="blue lighten-4">
                   {{ $t("realestate_agency") }}
                 </v-card>
@@ -587,9 +528,7 @@
           </template>
         </VerifyingExplanationEditor>
         <v-row v-if="expert.expert_profile.insurance.image">
-          <v-btn v-if="step != 1" class="mt-3" @click="backStep()">{{
-            $t("back")
-          }}</v-btn>
+          <v-btn v-if="step != 1" class="mt-3" @click="backStep()">{{ $t("back") }}</v-btn>
           <v-spacer></v-spacer>
           <v-btn
             v-if="step != max_step"
@@ -941,11 +880,7 @@ export default {
         modules: {
           toolbar: {
             container: [
-              [
-                { size: ["small", false, "large", "huge"] },
-                "bold",
-                "underline"
-              ],
+              [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
               [{ list: "ordered" }, { align: [] }],
               ["image", "link"]
             ],
@@ -953,10 +888,7 @@ export default {
               image: () => {
                 let that = this;
                 var input = document.createElement("input");
-                input.setAttribute(
-                  "accept",
-                  "image/png, image/jpeg, image/bmp"
-                );
+                input.setAttribute("accept", "image/png, image/jpeg, image/bmp");
                 input.setAttribute("type", "file");
                 input.click();
                 input.onchange = () => {
@@ -965,36 +897,29 @@ export default {
                   const max_count = 2;
                   if (/^image\/(jpe?g|png|bmp)$/.test(file.type)) {
                     if (file.size > max_size) {
-                      alert(
-                        that.$t("image_file_size_error", [max_size / 1024])
-                      );
+                      alert(that.$t("image_file_size_error", [max_size / 1024]));
                       return;
                     }
-                    const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName(
-                      "img"
-                    ).length;
+                    const file_count = that.$refs.myQuillEditor.$el.getElementsByTagName("img")
+                      .length;
                     if (file_count >= max_count) {
                       alert(that.$t("image_file_count_error", [max_count]));
                       return;
                     }
-                    const getBase64 = file =>
+                    const getBase64 = (file) =>
                       new Promise(function(resolve, reject) {
                         let reader = new FileReader();
                         reader.readAsDataURL(file);
                         reader.onload = () => resolve(reader.result);
-                        reader.onerror = error => reject("Error: ", error);
+                        reader.onerror = (error) => reject("Error: ", error);
                       });
                     const range = that.$refs.myQuillEditor.quill.getSelection();
                     getBase64(file)
-                      .then(result => {
+                      .then((result) => {
                         let encoded = result;
-                        that.$refs.myQuillEditor.quill.insertEmbed(
-                          range.index,
-                          "image",
-                          encoded
-                        );
+                        that.$refs.myQuillEditor.quill.insertEmbed(range.index, "image", encoded);
                       })
-                      .catch(e => alert(e));
+                      .catch((e) => alert(e));
                   } else {
                     alert(that.$t("image_file_type_error"));
                   }
@@ -1073,9 +998,7 @@ export default {
       const email = item.user.email.toLowerCase();
       const mobile_number = item.mobile_number.toLowerCase();
       const shop_name =
-        item.expert_profile == null
-          ? ""
-          : item.expert_profile.shop_name.toLowerCase();
+        item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
 
       return (
@@ -1089,7 +1012,7 @@ export default {
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.length != undefined) {
           this.allowed_profiles = data;
         } else {
@@ -1100,7 +1023,7 @@ export default {
     },
     getExpertProfiles() {
       let endpoint = `/api/expert-profiles/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.length != undefined) {
           this.expert_profiles = data;
           this.expert = data[0];
@@ -1115,7 +1038,7 @@ export default {
       this.load_dialog = true;
       this.isLoading = true;
       let endpoint = `/api/papers/?page=${this.paper_pagination}`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data != undefined) {
           this.items_length = data.count;
           this.papers.push(...data.results);
@@ -1132,15 +1055,14 @@ export default {
       that.quill_disabled = true;
       that.contractors = [];
       that.load_dialog = false;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.id != undefined) {
           for (const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index];
             if (contractor.profile.user.email == that.requestUser) {
               that.contractors.push(contractor);
-              that.$data[
-                that.$getConst("contractor_category", contractor.group)
-              ] = contractor.profile;
+              that.$data[that.$getConst("contractor_category", contractor.group)] =
+                contractor.profile;
             }
           }
           that.land_category = data.land_category;
@@ -1187,10 +1109,7 @@ export default {
         if (v == true) {
           that.step += 1;
         } else {
-          that.$vuetify.goTo(
-            that.$el.querySelector(".v-messages.error--text"),
-            { offset: 100 }
-          );
+          that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), { offset: 100 });
         }
       });
     },
@@ -1230,11 +1149,10 @@ export default {
           };
           if (that.is_expert) {
             data.verifying_explanation = that.ve;
-            data.verifying_explanation["insurance"] =
-              that.expert.expert_profile.insurance.id;
+            data.verifying_explanation["insurance"] = that.expert.expert_profile.insurance.id;
           }
           try {
-            apiService(endpoint, method, data).then(data => {
+            apiService(endpoint, method, data).then((data) => {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"));
                 that.$router.push({
@@ -1246,16 +1164,13 @@ export default {
                 if (!flag) {
                   that.$nextTick(() => {
                     try {
-                      that.$vuetify.goTo(
-                        that.$el.querySelector(".v-messages.error--text"),
-                        { offset: 100 }
-                      );
+                      that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), {
+                        offset: 100
+                      });
                       alert(that.$i18n.t("error"));
                       return;
                     } catch (error) {
-                      alert(
-                        `${that.$i18n.t("error")} : ${JSON.stringify(data)}`
-                      );
+                      alert(`${that.$i18n.t("error")} : ${JSON.stringify(data)}`);
                     }
                   });
                 }
@@ -1275,7 +1190,7 @@ export default {
           endpoint += `&${key}=${value}`;
         }
       });
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -1293,10 +1208,7 @@ export default {
       for (const index in local_contractor_list) {
         let matched = false;
         const local_group_name = local_contractor_list[index];
-        const local_group_constant = this.$getConstByName(
-          "CONTRACTOR_CATEGORY",
-          local_group_name
-        );
+        const local_group_constant = this.$getConstByName("CONTRACTOR_CATEGORY", local_group_name);
 
         if (this[local_group_name] != null) {
           for (const index in this.contractors) {
@@ -1316,9 +1228,7 @@ export default {
           for (const index in this.contractors) {
             if (this.contractors[index].group == local_group_constant) {
               this.contractors[index].paper = null;
-              this.contractors[index].profile = this.contractors[
-                index
-              ].profile.id;
+              this.contractors[index].profile = this.contractors[index].profile.id;
             }
           }
         }
@@ -1337,7 +1247,7 @@ export default {
         this.profile_pagination = pagination;
       }
 
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data != undefined) {
           if (this.dialog_category == "paper") {
             this.papers = data.results;
@@ -1356,18 +1266,12 @@ export default {
       let endpoint = `/api/papers/${to.params.id}/`;
       let data = await apiService(endpoint);
       if (data.id) {
-        return next(vm => {
+        return next((vm) => {
           for (const contractor_index in data.paper_contractors) {
             var contractor = data.paper_contractors[contractor_index];
-            if (
-              contractor.group ==
-              vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")
-            ) {
+            if (contractor.group == vm.$getConstByName("CONTRACTOR_CATEGORY", "expert")) {
               vm.expert = contractor.profile;
-            } else if (
-              contractor.group ==
-              vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")
-            ) {
+            } else if (contractor.group == vm.$getConstByName("CONTRACTOR_CATEGORY", "seller")) {
               vm.seller = contractor.profile;
             } else {
               vm.buyer = contractor.profile;
@@ -1406,8 +1310,7 @@ export default {
     document.title = this.$i18n.t("create_paper");
     this.requestUser = window.localStorage.getItem("email");
     this.getAllowedProfiles();
-    this.is_expert =
-      window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
     if (this.is_expert) {
       this.getExpertProfiles();
     }

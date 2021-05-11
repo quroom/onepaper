@@ -11,8 +11,7 @@ export default {
         minWidth: this.calculatedMinWidth,
         maxWidth: this.calculatedMaxWidth,
         top: this.calculatedTop,
-        right:
-          document.body.clientWidth - this.dimensions.activator.right + "px",
+        right: document.body.clientWidth - this.dimensions.activator.right + "px",
         transformOrigin: this.origin,
         zIndex: this.zIndex || this.activeZIndex
       };

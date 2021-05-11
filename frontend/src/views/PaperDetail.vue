@@ -1,15 +1,11 @@
 <template>
   <v-container v-if="!isLoading" fluid>
     <template>
-      <div
-        v-if="paper.trade_category != null"
-        class="mt-4 text-h4 font-weight-bold text-center"
-      >
+      <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">
         {{
-          `${$t("realestate")} ${$getConstI18(
-            "TRADE_CATEGORY",
-            paper.trade_category
-          )} ${$t("contract")}`
+          `${$t("realestate")} ${$getConstI18("TRADE_CATEGORY", paper.trade_category)} ${$t(
+            "contract"
+          )}`
         }}
       </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
@@ -40,10 +36,7 @@
         delete_router_name="home"
         editor_router_name="paper-editor"
       />
-      <div
-        v-if="!isPaperDone"
-        class="text-right text-caption white--text no-print"
-      >
+      <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
         <span v-if="deadlineToModify > '0001-1-1'" class="red">
           {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
         </span>
@@ -53,12 +46,9 @@
       </div>
       <v-divider></v-divider>
       <v-row>
-        <v-col
-          class="text-h4 text-center text-decoration-underline"
-          cols="12"
-          xs="12"
-          >{{ paper.title }}</v-col
-        >
+        <v-col class="text-h4 text-center text-decoration-underline" cols="12" xs="12">{{
+          paper.title
+        }}</v-col>
       </v-row>
       <div>{{ $t("intro") }}</div>
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
@@ -74,33 +64,20 @@
         </v-col>
         <v-col cols="10" sm="3">
           <v-card outlined tile height="100%">
-            <span v-if="!!paper.address.dong">
-              {{ paper.address.dong }} {{ $t("dong") }}
-            </span>
-            <span v-if="!!paper.address.ho">
-              {{ paper.address.ho }} {{ $t("ho") }}
-            </span>
+            <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
+            <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
           </v-card>
         </v-col>
       </v-row>
       <v-row no-gutters>
-        <template
-          v-for="(realestate_field_name,
-          index) in fields_names.realestate_fields_name"
-        >
-          <v-col
-            class="text-center font-weight-bold"
-            cols="3"
-            sm="2"
-            :key="`name` + index"
-          >
+        <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
+          <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
             <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
           </v-col>
           <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
             <v-card
               v-if="
-                realestate_field_name == 'building_area' ||
-                  realestate_field_name == 'lot_area'
+                realestate_field_name == 'building_area' || realestate_field_name == 'lot_area'
               "
               outlined
               tile
@@ -114,16 +91,9 @@
               outlined
               tile
             >
-              {{
-                $getConstI18(
-                  realestate_field_name,
-                  paper[realestate_field_name]
-                )
-              }}
+              {{ $getConstI18(realestate_field_name, paper[realestate_field_name]) }}
             </v-card>
-            <v-card v-else outlined tile>{{
-              paper[realestate_field_name]
-            }}</v-card>
+            <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
           </v-col>
         </template>
       </v-row>
@@ -134,27 +104,15 @@
           <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
         </v-col>
         <v-col class="text-center font-weight-bold" cols="9" sm="10">
-          <v-card outlined tile
-            >{{ paper.from_date }} ~ {{ paper.to_date }}</v-card
-          >
+          <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
         </v-col>
-        <template
-          v-for="(contract_field_name,
-          index) in fields_names.contract_fields_name"
-        >
+        <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
           <template v-if="paper[contract_field_name] != undefined">
-            <v-col
-              class="text-center font-weight-bold"
-              cols="3"
-              sm="2"
-              :key="`name` + index"
-            >
+            <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
               <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
             </v-col>
             <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-              <v-card outlined tile
-                >{{ paper[contract_field_name] }}{{ $t("won") }}</v-card
-              >
+              <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
             </v-col>
           </template>
         </template>
@@ -219,12 +177,7 @@
         <v-divider></v-divider>
       </div>
       <v-spacer></v-spacer>
-      <v-btn
-        class="mt-4 no-print"
-        color="black"
-        dark
-        @click="isMobile = !isMobile"
-      >
+      <v-btn class="mt-4 no-print" color="black" dark @click="isMobile = !isMobile">
         <span v-if="isMobile">{{ $t("view_pc_version") }}</span>
         <span v-if="isMobile == false">{{ $t("view_mobile_version") }}</span>
       </v-btn>
@@ -268,11 +221,7 @@
           </template>
         </template>
       </VerifyingExplanationEditor>
-      <VerifyingExplanation
-        v-if="isMobile == false"
-        class="mt-4"
-        :paper="paper"
-      >
+      <VerifyingExplanation v-if="isMobile == false" class="mt-4" :paper="paper">
         <template v-slot:footer>
           <v-btn
             class="no-print"
@@ -287,12 +236,7 @@
         </template>
       </VerifyingExplanation>
     </template>
-    <v-dialog
-      content-class="signature-dialog"
-      v-model="dialog"
-      persistent
-      eager
-    >
+    <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
       <v-card>
         <VueSignaturePad
           class="signature-pad"
@@ -304,9 +248,7 @@
           {{ $t("please_sign") }}
         </v-card-title>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="dialog = false">{{
-            $t("close")
-          }}</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">{{ $t("close") }}</v-btn>
           <v-btn color="blue darken-1" text @click="clear()">{{
             `${$t("signature")} ${$t("clear")}`
           }}</v-btn>
@@ -347,48 +289,41 @@ export default {
       return this.paper.author === this.requestUser;
     },
     isPaperDone: function() {
-      return (
-        this.paper.status == this.$getConstByName("STATUS_CATEGORY", "DONE")
-      );
+      return this.paper.status == this.$getConstByName("STATUS_CATEGORY", "DONE");
     },
     isPaperRequest: function() {
       return this.paper
-        ? this.paper.status ==
-            this.$getConstByName("STATUS_CATEGORY", "REQUESTING")
+        ? this.paper.status == this.$getConstByName("STATUS_CATEGORY", "REQUESTING")
         : undefined;
     },
     isVerifyingExplanationSigned: function() {
       return this.currentContractor
         ? this.currentContractor.explanation_signature &&
-            this.paper.updated_at <=
-              this.currentContractor.explanation_signature.updated_at
+            this.paper.updated_at <= this.currentContractor.explanation_signature.updated_at
         : undefined;
     },
     deadlineToModify: function() {
       let paper_updated_at = this.paper.updated_at;
       let deadline = undefined;
       if (this.paper.paper_contractors != undefined) {
-        const min_sign_updated_at_str = this.paper.paper_contractors.reduce(
-          (acc, loc) => {
-            let min_updated_at = acc;
-            let signature_updated_at = this.$get(loc, "signature.updated_at");
-            let explanation_signature_updated_at = this.$get(
-              loc,
-              "explanation_signature.updated_at"
-            );
-            if (signature_updated_at && signature_updated_at < min_updated_at) {
-              min_updated_at = signature_updated_at;
-            }
-            if (
-              explanation_signature_updated_at &&
-              explanation_signature_updated_at < min_updated_at
-            ) {
-              min_updated_at = explanation_signature_updated_at;
-            }
-            return min_updated_at;
-          },
-          "9999-12-31"
-        );
+        const min_sign_updated_at_str = this.paper.paper_contractors.reduce((acc, loc) => {
+          let min_updated_at = acc;
+          let signature_updated_at = this.$get(loc, "signature.updated_at");
+          let explanation_signature_updated_at = this.$get(
+            loc,
+            "explanation_signature.updated_at"
+          );
+          if (signature_updated_at && signature_updated_at < min_updated_at) {
+            min_updated_at = signature_updated_at;
+          }
+          if (
+            explanation_signature_updated_at &&
+            explanation_signature_updated_at < min_updated_at
+          ) {
+            min_updated_at = explanation_signature_updated_at;
+          }
+          return min_updated_at;
+        }, "9999-12-31");
         //Initial date so it returns undefined.
         if (min_sign_updated_at_str == "9999-12-31") {
           return undefined;
@@ -402,17 +337,18 @@ export default {
         if (new Date() > deadline) {
           return "0000-00-00";
         }
-        return `${deadline.getFullYear()}-${deadline.getMonth() +
-          1}-${deadline.getDate()} ${("0" + deadline.getHours()).slice(-2)}:${(
-          "0" + deadline.getMinutes()
-        ).slice(-2)}:${("0" + deadline.getSeconds()).slice(-2)}`;
+        return `${deadline.getFullYear()}-${deadline.getMonth() + 1}-${deadline.getDate()} ${(
+          "0" + deadline.getHours()
+        ).slice(-2)}:${("0" + deadline.getMinutes()).slice(-2)}:${(
+          "0" + deadline.getSeconds()
+        ).slice(-2)}`;
       } else {
         return undefined;
       }
     },
     currentContractor: function() {
       return this.paper.paper_contractors.find(
-        item => item.profile.user.email == this.requestUser
+        (item) => item.profile.user.email == this.requestUser
       );
     },
     expert: function() {
@@ -563,7 +499,7 @@ export default {
     allowPaper() {
       this.isLoading = true;
       let endpoint = `/api/contractors/${this.currentContractor.id}/allow-paper/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.id != undefined) {
           this.paper = data;
         } else {
@@ -575,7 +511,7 @@ export default {
     getPaperData() {
       this.isLoading = true;
       let endpoint = `/api/papers/${this.id}/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.id != undefined) {
           this.paper = data;
         } else {
@@ -616,7 +552,7 @@ export default {
         apiService(endpoint, method, {
           image: data,
           contractor: that.currentContractor.id
-        }).then(data => {
+        }).then((data) => {
           if (data.id != undefined) {
             alert(that.$i18n.t("request_success"));
             if (that.is_explanation_signature == true) {

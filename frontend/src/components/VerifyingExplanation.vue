@@ -9,13 +9,7 @@
       width="800"
     >
       <tr>
-        <td
-          class="caption"
-          style="border:0;"
-          width="510"
-          colspan="14"
-          valign="top"
-        >
+        <td class="caption" style="border:0;" width="510" colspan="14" valign="top">
           <div>
             ■ 공인중개사법 시행규칙 [별지 제20호서식]
             <span class="blue--text text--accent-4"
@@ -36,22 +30,16 @@
       </tr>
       <tr>
         <td style="border:0;" colspan="18" valign="top" align="center">
-          <b style="font-size: 16pt"
-            >중개대상물 확인 · 설명서[Ⅰ] (주거용 건축물)</b
-          >
+          <b style="font-size: 16pt">중개대상물 확인 · 설명서[Ⅰ] (주거용 건축물)</b>
         </td>
       </tr>
       <tr>
         <td style="border:0;" colspan="18">
           <div align="center">
             <b style="font-size: 12pt"
-              >( ［{{
-                ve.paper_categories.includes(1) ? "√" : ""
-              }}］단독주택［{{
+              >( ［{{ ve.paper_categories.includes(1) ? "√" : "" }}］단독주택［{{
                 ve.paper_categories.includes(2) ? "√" : ""
-              }}］공동주택［{{
-                ve.paper_categories.includes(3) ? "√" : ""
-              }}］매매·교환［{{
+              }}］공동주택［{{ ve.paper_categories.includes(3) ? "√" : "" }}］매매·교환［{{
                 ve.paper_categories.includes(4) ? "√" : ""
               }}］임대 )</b
             >
@@ -76,25 +64,17 @@
         </td>
         <td class="border-tbl" width="444" colspan="13">
           <div>
-            ［{{
-              ve.explanation_evidences.includes(1) ? "√" : ""
-            }}］등기권리증［{{
+            ［{{ ve.explanation_evidences.includes(1) ? "√" : "" }}］등기권리증［{{
               ve.explanation_evidences.includes(2) ? "√" : ""
-            }}］등기사항증명서［{{
-              ve.explanation_evidences.includes(3) ? "√" : ""
-            }}］토지대장［{{
+            }}］등기사항증명서［{{ ve.explanation_evidences.includes(3) ? "√" : "" }}］토지대장［{{
               ve.explanation_evidences.includes(4) ? "√" : ""
             }}
-            ］건축물대장 ［{{
-              ve.explanation_evidences.includes(5) ? "√" : ""
-            }}］지적도 <br />［{{
+            ］건축물대장 ［{{ ve.explanation_evidences.includes(5) ? "√" : "" }}］지적도 <br />［{{
               ve.explanation_evidences.includes(6) ? "√" : ""
-            }}］임야도 ［{{
-              ve.explanation_evidences.includes(7) ? "√" : ""
-            }}
-            ］토지이용계획확인서 ［{{
-              ve.explanation_evidences.includes(99) ? "√" : ""
-            }}］그 밖의 자료({{ ve.explanation_evidence_info }})
+            }}］임야도 ［{{ ve.explanation_evidences.includes(7) ? "√" : "" }} ］토지이용계획확인서
+            ［{{ ve.explanation_evidences.includes(99) ? "√" : "" }}］그 밖의 자료({{
+              ve.explanation_evidence_info
+            }})
           </div>
         </td>
       </tr>
@@ -133,9 +113,8 @@
         </td>
         <td class="border-tbl" width="536" colspan="15">
           <div>
-            개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게
-            성실·정확하게 설명하고, 토지대장 등본, 등기사항증명서 등 설명의
-            근거자료를 제시해야 합니다.
+            개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게 성실·정확하게
+            설명하고, 토지대장 등본, 등기사항증명서 등 설명의 근거자료를 제시해야 합니다.
           </div>
         </td>
       </tr>
@@ -148,19 +127,16 @@
         </td>
         <td class="border-tbl" width="536" colspan="15">
           <div>
-            「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1
-            제1호마목에 따른 실제 거래가격은 매수인이 매수한 부동산을 양도하는
-            경우 「소득세법」 제97조제1항 및 제7항과 같은 법 시행령
-            제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아
-            양도차익이 계산될 수 있음을 유의하시기 바랍니다.
+            「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1 제1호마목에 따른 실제
+            거래가격은 매수인이 매수한 부동산을 양도하는 경우 「소득세법」 제97조제1항 및 제7항과
+            같은 법 시행령 제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아 양도차익이
+            계산될 수 있음을 유의하시기 바랍니다.
           </div>
         </td>
       </tr>
       <tr>
         <td class="border-tb" width="800" colspan="21" valign="bottom">
-          <div class="mt-1">
-            <b>Ⅰ</b><b>. </b><b>개업공인중개사 기본 확인사항</b>
-          </div>
+          <div class="mt-1"><b>Ⅰ</b><b>. </b><b>개업공인중개사 기본 확인사항</b></div>
         </td>
       </tr>
       <tr>
@@ -301,9 +277,7 @@
         </td>
         <td width="110" colspan="3">
           <div>
-            ［{{ ve.legal_status ? "" : "√" }}］위반［{{
-              ve.legal_status ? "√" : ""
-            }}］적법
+            ［{{ ve.legal_status ? "" : "√" }}］위반［{{ ve.legal_status ? "√" : "" }}］적법
           </div>
         </td>
         <td class="label" width="55" colspan="1">
@@ -389,9 +363,7 @@
             ］공공지원민간임대주택 ［
             {{ ve.rental_housing_registration == 99 ? "√" : "" }} ］<br />
             그 밖의 유형 ({{
-              ve.rental_housing_registration == 99
-                ? ve.rental_housing_registration_info
-                : ""
+              ve.rental_housing_registration == 99 ? ve.rental_housing_registration_info : ""
             }})
           </div>
         </td>
@@ -404,9 +376,7 @@
           <div>
             {{
               `${
-                ve.rental_housing_registration != 0
-                  ? ve.mandatory_lease_period + $t("year")
-                  : ""
+                ve.rental_housing_registration != 0 ? ve.mandatory_lease_period + $t("year") : ""
               }`
             }}
           </div>
@@ -416,13 +386,7 @@
         </td>
         <td class="border-tbl" colspan="7">
           <div>
-            {{
-              `${
-                ve.rental_housing_registration != 0
-                  ? ve.lease_initiation_date
-                  : ""
-              }`
-            }}
+            {{ `${ve.rental_housing_registration != 0 ? ve.lease_initiation_date : ""}` }}
           </div>
         </td>
       </tr>
@@ -431,10 +395,7 @@
           <div>미등록</div>
         </td>
         <td class="border-tbl" width="495" colspan="15">
-          <div>
-            [ {{ ve.rental_housing_registration == 0 ? "√" : "" }} ］해당사항
-            없음
-          </div>
+          <div>[ {{ ve.rental_housing_registration == 0 ? "√" : "" }} ］해당사항 없음</div>
         </td>
       </tr>
       <tr>
@@ -443,8 +404,8 @@
         </td>
         <td class="border-tbl" width="495" colspan="15">
           <div>
-            [ {{ is_right_to_lease_contract_renewal_true }} ] 확인(확인서류
-            첨부) [ {{ is_right_to_lease_contract_renewal_false }} ] 미확인
+            [ {{ is_right_to_lease_contract_renewal_true }} ] 확인(확인서류 첨부) [
+            {{ is_right_to_lease_contract_renewal_false }} ] 미확인
           </div>
         </td>
       </tr>
@@ -491,12 +452,7 @@
         <td class="text-right pr-1" width="79" colspan="5" rowspan="2">
           <div>{{ ve.building_coverage_limit }}%</div>
         </td>
-        <td
-          class="border-tbl text-right pr-1"
-          width="81"
-          colspan="2"
-          rowspan="2"
-        >
+        <td class="border-tbl text-right pr-1" width="81" colspan="2" rowspan="2">
           <div>{{ ve.floor_area_limit }}%</div>
         </td>
       </tr>
@@ -529,9 +485,7 @@
           </div>
         </td>
         <td class="border-tbl" width="290" colspan="10">
-          <div>
-            ［{{ ve.permission_report_zone ? "√" : "" }}］토지거래허가구역
-          </div>
+          <div>［{{ ve.permission_report_zone ? "√" : "" }}］토지거래허가구역</div>
         </td>
       </tr>
       <tr>
@@ -542,9 +496,7 @@
           <div>
             ［{{ ve.speculative_area == 1 ? "√" : "" }}］토지투기지역［{{
               ve.speculative_area == 2 ? "√" : ""
-            }}］주택투기지역［{{
-              ve.speculative_area == 3 ? "√" : ""
-            }}］투기과열지구
+            }}］주택투기지역［{{ ve.speculative_area == 3 ? "√" : "" }}］투기과열지구
           </div>
         </td>
       </tr>
@@ -578,13 +530,7 @@
         </td>
       </tr>
       <tr>
-        <td
-          style="border:0"
-          width="800"
-          colspan="18"
-          valign="bottom"
-          align="right"
-        >
+        <td style="border:0" width="800" colspan="18" valign="bottom" align="right">
           <div>210mm×297mm[백상지(80g/㎡) 또는 중질지(80g/㎡)</div>
         </td>
       </tr>
@@ -622,13 +568,7 @@
       width="800"
     >
       <tr>
-        <td
-          style="border:0"
-          width="247"
-          colspan="18"
-          valign="bottom"
-          align="right"
-        >
+        <td style="border:0" width="247" colspan="18" valign="bottom" align="right">
           <div>(4쪽 중 제2쪽)</div>
         </td>
       </tr>
@@ -643,9 +583,9 @@
         </td>
         <td width="241" colspan="10">
           <div>
-            {{ ve.relative_with_roads }}도로에 접함 ［{{
-              ve.is_paved_rode ? "√" : ""
-            }}］포장 ［{{ ve.is_paved_rode ? "" : "√" }}］비포장
+            {{ ve.relative_with_roads }}도로에 접함 ［{{ ve.is_paved_rode ? "√" : "" }}］포장 ［{{
+              ve.is_paved_rode ? "" : "√"
+            }}］비포장
           </div>
         </td>
         <td class="label" width="84" colspan="2">
@@ -653,9 +593,7 @@
         </td>
         <td class="border-tbl text-center" width="160">
           <div>
-            ［{{ ve.accessibility ? "√" : "" }}］용이함 ［{{
-              ve.accessiblity ? "√" : ""
-            }}］불편함
+            ［{{ ve.accessibility ? "√" : "" }}］용이함 ［{{ ve.accessiblity ? "√" : "" }}］불편함
           </div>
         </td>
       </tr>
@@ -668,10 +606,9 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            ({{ ve.bus_stop }}) 정류장, 소요시간: (［{{
-              ve.bus_by_foot ? "√" : ""
-            }}］도보 ［{{ ve.bus_by_foot ? "" : "√" }}］차량) 약
-            {{ ve.bus_required_time }}분
+            ({{ ve.bus_stop }}) 정류장, 소요시간: (［{{ ve.bus_by_foot ? "√" : "" }}］도보 ［{{
+              ve.bus_by_foot ? "" : "√"
+            }}］차량) 약 {{ ve.bus_required_time }}분
           </div>
         </td>
       </tr>
@@ -696,10 +633,9 @@
           <div>
             ［{{ ve.parking_lot == 0 ? "√" : "" }}］없음 ［{{
               ve.parking_lot == 1 ? "√" : ""
-            }}］전용주차시설 ［{{
-              ve.parking_lot == 2 ? "√" : ""
-            }}］공동주차시설 ［{{ ve.parking_lot == 3 ? "√" : "" }}］그 밖의
-            주차시설 ( {{ ve.parking_lot == 99 ? ve.parking_lot_info : "" }} )
+            }}］전용주차시설 ［{{ ve.parking_lot == 2 ? "√" : "" }}］공동주차시설 ［{{
+              ve.parking_lot == 3 ? "√" : ""
+            }}］그 밖의 주차시설 ( {{ ve.parking_lot == 99 ? ve.parking_lot_info : "" }} )
           </div>
         </td>
       </tr>
@@ -738,9 +674,8 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            ({{ ve.high_school }}) 학교, 소요시간: (［{{
-              ve.high_school_by_foot ? "√" : ""
-            }}］도보 ［{{ ve.high_school_by_foot ? "" : "√" }}］차량) 약
+            ({{ ve.high_school }}) 학교, 소요시간: (［{{ ve.high_school_by_foot ? "√" : "" }}］도보
+            ［{{ ve.high_school_by_foot ? "" : "√" }}］차량) 약
             {{ ve.high_school_required_time }}분
           </div>
         </td>
@@ -827,9 +762,7 @@
             ［{{ ve.undesirable_facilities ? "" : "√" }}］없음 ［{{
               ve.undesirable_facilities ? "√" : ""
             }}］있음 (종류 및 위치:
-            {{
-              ve.undesirable_facilities ? ve.undesirable_facilities_info : ""
-            }})
+            {{ ve.undesirable_facilities ? ve.undesirable_facilities_info : "" }})
           </div>
         </td>
       </tr>
@@ -922,9 +855,7 @@
       </tr>
       <tr>
         <td class="border-tb" width="800" colspan="18" valign="top">
-          <div style="height:110px">
-            ⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리 사항<br />
-          </div>
+          <div style="height:110px">⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리 사항<br /></div>
         </td>
       </tr>
       <tr>
@@ -946,8 +877,7 @@
           <div>
             ［{{ ve.water_damage_status ? "" : "√" }}］없음 ［{{
               ve.water_damage_status ? "√" : ""
-            }}］있음 (위치:
-            {{ ve.water_damage_status ? ve.water_damage_status_info : "" }})
+            }}］있음 (위치: {{ ve.water_damage_status ? ve.water_damage_status_info : "" }})
           </div>
         </td>
       </tr>
@@ -959,8 +889,7 @@
           <div>
             ［{{ ve.water_capacity_status ? "√" : "" }}］정상 ［{{
               ve.water_capacity_status ? "" : "√"
-            }}］부족함 (위치:
-            {{ ve.water_capacity_status ? "" : ve.water_capacity_status_info }})
+            }}］부족함 (위치: {{ ve.water_capacity_status ? "" : ve.water_capacity_status_info }})
           </div>
         </td>
       </tr>
@@ -990,9 +919,7 @@
           <div>
             ［{{ ve.gas_supply_status ? "√" : "" }}］도시가스 ［{{
               ve.gas_supply_status ? "" : "√"
-            }}］그 밖의 방식 ({{
-              ve.gas_supply_status ? "" : ve.gas_supply_status_info
-            }})
+            }}］그 밖의 방식 ({{ ve.gas_supply_status ? "" : ve.gas_supply_status_info }})
           </div>
         </td>
       </tr>
@@ -1011,17 +938,14 @@
             ［{{ ve.is_fire_alarm_detector ? "" : "√" }}］없음
             <br />
             ［{{ ve.is_fire_alarm_detector ? "√" : "" }}］있음(수량:
-            {{
-              ve.is_fire_alarm_detector ? ve.fire_alarm_detector_quantity : ""
-            }}개)
+            {{ ve.is_fire_alarm_detector ? ve.fire_alarm_detector_quantity : "" }}개)
           </div>
         </td>
         <td class="border-tbl caption" width="292" colspan="8">
           <div>
-            ※「화재예방, 소방시설 설치 · 유지 및 안전관리에 관한 법률」 제8조 및
-            같은 법 시행령 제13조에 따른 주택용 소방시설로서 아파트(주택으로
-            사용하는 층수가 5개층 이상인 주택을 말한다)를 제외한 주택의 경우만
-            작성합니다.
+            ※「화재예방, 소방시설 설치 · 유지 및 안전관리에 관한 법률」 제8조 및 같은 법 시행령
+            제13조에 따른 주택용 소방시설로서 아파트(주택으로 사용하는 층수가 5개층 이상인 주택을
+            말한다)를 제외한 주택의 경우만 작성합니다.
           </div>
         </td>
       </tr>
@@ -1047,11 +971,8 @@
         </td>
         <td class="border-tbl" width="210" colspan="3">
           <div>
-            ［{{ ve.heating_status ? "√" : "" }}］정상［{{
-              ve.heating_status ? "" : "√"
-            }}］수선 필요 ({{
-              ve.heating_status ? "" : ve.heating_status_info
-            }})
+            ［{{ ve.heating_status ? "√" : "" }}］정상［{{ ve.heating_status ? "" : "√" }}］수선
+            필요 ({{ ve.heating_status ? "" : ve.heating_status_info }})
           </div>
         </td>
       </tr>
@@ -1079,9 +1000,9 @@
           <div>
             ［{{ ve.is_elevator ? "√" : "" }}］있음 (［{{
               ve.is_elevator ? (ve.elevator_status ? "√" : "") : ""
-            }}］양호 ［{{
-              ve.is_elevator ? (ve.elevator_status ? "" : "√") : ""
-            }}］불량) ［{{ ve.is_elevator ? "" : "√" }}］없음
+            }}］양호 ［{{ ve.is_elevator ? (ve.elevator_status ? "" : "√") : "" }}］불량) ［{{
+              ve.is_elevator ? "" : "√"
+            }}］없음
           </div>
         </td>
       </tr>
@@ -1091,10 +1012,8 @@
         </td>
         <td class="border-tbl" width="486" colspan="14">
           <div>
-            ［{{ ve.drainage_status ? "√" : "" }}］정상 ［{{
-              ve.drainage_status ? "" : "√"
-            }}］수선 필요 (
-            {{ ve.drainage_status ? "" : ve.drainage_status_info }} )
+            ［{{ ve.drainage_status ? "√" : "" }}］정상 ［{{ ve.drainage_status ? "" : "√" }}］수선
+            필요 ( {{ ve.drainage_status ? "" : ve.drainage_status_info }} )
           </div>
         </td>
       </tr>
@@ -1171,8 +1090,7 @@
             <div>
               ［{{ ve.wall_crack_status ? "" : "√" }}］없음 ［{{
                 ve.wall_crack_status ? "√" : ""
-              }}］있음 (위치:
-              {{ ve.wall_crack_status ? ve.wall_crack_status_info : "" }})
+              }}］있음 (위치: {{ ve.wall_crack_status ? ve.wall_crack_status_info : "" }})
             </div>
           </td>
         </tr>
@@ -1184,8 +1102,7 @@
             <div>
               ［{{ ve.water_leak_status ? "" : "√" }}］없음 ［{{
                 ve.water_leak_status ? "√" : ""
-              }}］있음 (위치:
-              {{ ve.water_leak ? ve.water_leak_status_info : "" }})
+              }}］있음 (위치: {{ ve.water_leak ? ve.water_leak_status_info : "" }})
             </div>
           </td>
         </tr>
@@ -1217,8 +1134,7 @@
             <div>
               ［{{ ve.sunshine_status == 2 ? "√" : "" }}］풍부함 ［{{
                 ve.sunshine_status == 1 ? "√" : ""
-              }}］보통임 ［{{ ve.sunshine_status == 0 ? "√" : "" }}］불충분
-              (이유:
+              }}］보통임 ［{{ ve.sunshine_status == 0 ? "√" : "" }}］불충분 (이유:
               {{ ve.sunshine_status == false ? ve.sunshine_status_info : "" }})
             </div>
           </td>
@@ -1273,10 +1189,9 @@
               <br /><br />
               중개보수: {{ `${ve.comission}${$t("won")}` }} <br /><br />
               실 비: {{ `${ve.actual_expenses}${$t("won")}` }} <br /><br />
-              ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도 조례로 정한
-              요율한도에서 중개의뢰인과 개업공인중개사가 서로 협의하여
-              결정하도록 한 요율에 따르며 부가가치세는 별도로 부과될 수
-              있습니다.
+              ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도 조례로 정한 요율한도에서
+              중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는
+              별도로 부과될 수 있습니다.
             </div>
           </td>
         </tr>
@@ -1318,16 +1233,13 @@
         <tr>
           <td class="border-tb" width="800" colspan="12">
             <div>
-              「공인중개사법」 제25조제3항 및 제30조제5항에 따라 거래당사자는
-              개업공인중개사로부터 위 중개대상물에 관한 확인·설명 및
-              손해배상책임의 보장에 관한 설명을 듣고, 같은 법 시행령
-              제21조제3항에 따른 본 확인·설명서와 같은 법 시행령 제24조제2항에
-              따른 손해배상책임 보장 증명서류(사본 또는 전자문서)를 수령합니다.
+              「공인중개사법」 제25조제3항 및 제30조제5항에 따라 거래당사자는 개업공인중개사로부터
+              위 중개대상물에 관한 확인·설명 및 손해배상책임의 보장에 관한 설명을 듣고, 같은 법
+              시행령 제21조제3항에 따른 본 확인·설명서와 같은 법 시행령 제24조제2항에 따른
+              손해배상책임 보장 증명서류(사본 또는 전자문서)를 수령합니다.
               <br />
             </div>
-            <div class="created_date" align="right">
-              {{ year }}년 {{ month }}월 {{ day }}일
-            </div>
+            <div class="created_date" align="right">{{ year }}년 {{ month }}월 {{ day }}일</div>
           </td>
         </tr>
         <tr class="contractor">
@@ -1362,9 +1274,7 @@
                 class="signature-img"
                 :src="$get(seller, 'explanation_signature.image')"
               />
-              <span style="float:left">{{
-                `${$get(seller, "profile.user.name")}`
-              }}</span>
+              <span style="float:left">{{ `${$get(seller, "profile.user.name")}` }}</span>
               (서명 또는 날인)
             </div>
           </td>
@@ -1415,9 +1325,7 @@
                 class="signature-img"
                 :src="$get(buyer, 'explanation_signature.image')"
               />
-              <span style="float:left">{{
-                `${$get(buyer, "profile.user.name")}`
-              }}</span>
+              <span style="float:left">{{ `${$get(buyer, "profile.user.name")}` }}</span>
               (서명 또는 날인)
             </div>
           </td>
@@ -1445,9 +1353,7 @@
           </td>
           <td width="215" colspan="4">
             <div>
-              {{
-                `${$get(expert, "profile.expert_profile.registration_number")}`
-              }}
+              {{ `${$get(expert, "profile.expert_profile.registration_number")}` }}
             </div>
           </td>
           <td class="label" width="68" colspan="4">
@@ -1465,9 +1371,7 @@
                 class="stamp-img"
                 :src="$get(expert, 'profile.expert_profile.stamp')"
               />
-              <span style="float:left">{{
-                `${$get(expert, "profile.user.name")}`
-              }}</span>
+              <span style="float:left">{{ `${$get(expert, "profile.user.name")}` }}</span>
               (서명 및 날인)
             </div>
           </td>
@@ -1641,27 +1545,23 @@ export default {
     },
     seller: function() {
       return this.paper.paper_contractors.find(
-        item =>
-          item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "seller")
+        (item) => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "seller")
       );
     },
     buyer: function() {
       return this.paper.paper_contractors.find(
-        item =>
-          item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer")
+        (item) => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer")
       );
     },
     expert: function() {
       return this.paper.paper_contractors.find(
-        item =>
-          item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert")
+        (item) => item.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert")
       );
     },
     isSellerSigned: function() {
       return this.seller
         ? this.seller.explanation_signature &&
-            this.paper.updated_at <=
-              this.seller.explanation_signature.updated_at
+            this.paper.updated_at <= this.seller.explanation_signature.updated_at
         : undefined;
     },
     isBuyerSigned: function() {
@@ -1673,8 +1573,7 @@ export default {
     isExpertSigned: function() {
       return this.expert
         ? this.expert.explanation_signature &&
-            this.paper.updated_at <=
-              this.expert.explanation_signature.updated_at
+            this.paper.updated_at <= this.expert.explanation_signature.updated_at
         : undefined;
     }
   },

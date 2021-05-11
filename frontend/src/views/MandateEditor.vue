@@ -19,12 +19,9 @@
           <v-btn color="blue darken-1" text @click="signature_dialog = false">{{
             $t("close")
           }}</v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="$refs.signaturePad.clearSignature()"
-            >{{ `${$t("signature")} ${$t("clear")}` }}</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="$refs.signaturePad.clearSignature()">{{
+            `${$t("signature")} ${$t("clear")}`
+          }}</v-btn>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="submit()">{{
             $t("mandate_paper") + " " + $t("submit")
@@ -34,20 +31,9 @@
     </v-dialog>
     <template v-if="id && isAuthor && !designator_signature_url">
       <v-chip-group>
-        <DeleteAlert
-          v-if="!readonly"
-          :id="id"
-          url="/api/mandates/"
-          router_name="mandates"
-        />
+        <DeleteAlert v-if="!readonly" :id="id" url="/api/mandates/" router_name="mandates" />
         <v-spacer></v-spacer>
-        <v-btn
-          v-if="readonly"
-          class="ma-1 auto"
-          color="green"
-          dark
-          @click="readonly_flag = false"
-        >
+        <v-btn v-if="readonly" class="ma-1 auto" color="green" dark @click="readonly_flag = false">
           {{ $t("edit") }}
         </v-btn>
         <v-btn v-else class="ma-1 auto" dark @click="readonly_flag = true">
@@ -65,14 +51,7 @@
           <AddressSearch
             ref_name="address"
             :readonly="readonly"
-            :label="
-              $t('mandate') +
-                ' ' +
-                $t('realestate') +
-                ' ' +
-                $t('address') +
-                $t('search')
-            "
+            :label="$t('mandate') + ' ' + $t('realestate') + ' ' + $t('address') + $t('search')"
             :address.sync="address"
           ></AddressSearch>
         </v-col>
@@ -142,20 +121,10 @@
                 :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
               >
                 <template v-slot:selection="{ item }">{{
-                  item.user.email +
-                    " (" +
-                    item.user.name +
-                    " / " +
-                    item.mobile_number +
-                    ")"
+                  item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
                 }}</template>
                 <template v-slot:item="{ item }">{{
-                  item.user.email +
-                    " (" +
-                    item.user.name +
-                    " / " +
-                    item.mobile_number +
-                    ")"
+                  item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
                 }}</template>
               </v-autocomplete>
             </ValidationProvider>
@@ -260,23 +229,11 @@
       </div>
     </ValidationObserver>
     <v-row v-if="!designator_signature_url" justify="end">
-      <v-btn
-        v-if="isDesignator"
-        class="mt-3"
-        @click="open()"
-        color="primary"
-        dark
-      >
+      <v-btn v-if="isDesignator" class="mt-3" @click="open()" color="primary" dark>
         <v-icon>create</v-icon>
         {{ $t("signature_and_submit") }}
       </v-btn>
-      <v-btn
-        v-else-if="!id || !readonly"
-        class="mt-3"
-        @click="submit()"
-        color="primary"
-        dark
-      >
+      <v-btn v-else-if="!id || !readonly" class="mt-3" @click="submit()" color="primary" dark>
         <v-icon>create</v-icon>
         {{ $t("submit") }}
       </v-btn>
@@ -345,11 +302,7 @@ export default {
         modules: {
           toolbar: {
             container: [
-              [
-                { size: ["small", false, "large", "huge"] },
-                "bold",
-                "underline"
-              ],
+              [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
               [{ list: "ordered" }, { align: [] }],
               ["image", "link"]
             ]
@@ -364,9 +317,7 @@ export default {
       return this.author === this.requestUser;
     },
     isDesignator() {
-      return this.designator
-        ? this.designator.user.email === this.requestUser
-        : false;
+      return this.designator ? this.designator.user.email === this.requestUser : false;
     },
     readonly() {
       return this.id != null ? this.readonly_flag : false;
@@ -376,7 +327,7 @@ export default {
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.length != undefined) {
           this.allowed_profiles = data;
           this.isLoading = false;
@@ -390,9 +341,7 @@ export default {
       const email = item.user.email.toLowerCase();
       const birthday = item.user.birthday.toLowerCase();
       const shop_name =
-        item.expert_profile == null
-          ? ""
-          : item.expert_profile.shop_name.toLowerCase();
+        item.expert_profile == null ? "" : item.expert_profile.shop_name.toLowerCase();
       const searchText = queryText.toLowerCase();
 
       return (
@@ -424,16 +373,10 @@ export default {
           }
           if (that.address) {
             formData.append("address.old_address", that.address.old_address);
-            formData.append(
-              "address.old_address_eng",
-              that.address.old_address_eng
-            );
+            formData.append("address.old_address_eng", that.address.old_address_eng);
             formData.append("address.new_address", that.address.new_address);
             formData.append("address.bjdongName", that.address.bjdongName);
-            formData.append(
-              "address.bjdongName_eng",
-              that.address.bjdongName_eng
-            );
+            formData.append("address.bjdongName_eng", that.address.bjdongName_eng);
             formData.append("address.sigunguCd", that.address.sigunguCd);
             formData.append("address.bjdongCd", that.address.bjdongCd);
             formData.append("address.bun", that.address.bun);
@@ -446,7 +389,7 @@ export default {
             endpoint += `${that.id}/`;
             method = "PATCH";
           }
-          apiService_formData(endpoint, method, formData).then(data => {
+          apiService_formData(endpoint, method, formData).then((data) => {
             if (data.id != undefined) {
               alert(that.$i18n.t("request_success"));
               that.$router.push({
@@ -472,7 +415,7 @@ export default {
       let endpoint = `/api/mandates/${to.params.id}/`;
       let data = await apiService(endpoint);
       if (data.id != undefined) {
-        return next(vm => {
+        return next((vm) => {
           vm.id = data.id;
           vm.author = data.author;
           vm.designator = data.designator;

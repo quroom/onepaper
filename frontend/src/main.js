@@ -18,7 +18,7 @@ import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.bubble.css"; // for bubble theme
 
 const DEFAULT_TITLE = "원페이퍼";
-router.afterEach(to => {
+router.afterEach((to) => {
   // Use next tick to handle router history correctly
   // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   Vue.nextTick(() => {
@@ -45,5 +45,5 @@ new Vue({
   i18n,
   router,
   vuetify,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount("#app");

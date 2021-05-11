@@ -102,7 +102,7 @@ Constants.install = function(Vue) {
     key = type.toLowerCase();
     return Constants[type][key];
   };
-  Vue.prototype.$getConstList = type => {
+  Vue.prototype.$getConstList = (type) => {
     type = type.toUpperCase();
     return Constants[type];
   };
@@ -114,7 +114,7 @@ Constants.install = function(Vue) {
     type = type.toUpperCase();
     val = val.toLowerCase();
     let object = Constants[type];
-    return Object.keys(object).find(key => object[key] === val);
+    return Object.keys(object).find((key) => object[key] === val);
   };
 };
 

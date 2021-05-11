@@ -1,12 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="400px">
     <template v-slot:activator="{ on }">
-      <v-btn
-        class="ma-1 auto no-print"
-        color="error"
-        @click.prevent=""
-        v-on.prevent="on"
-      >
+      <v-btn class="ma-1 auto no-print" color="error" @click.prevent="" v-on.prevent="on">
         {{ $t("delete") }}
       </v-btn>
     </template>
@@ -57,7 +52,7 @@ export default {
       if (this.callback == undefined) {
         try {
           let endpoint = this.url + `${this.id}/`;
-          await apiService(endpoint, "DELETE").then(data => {
+          await apiService(endpoint, "DELETE").then((data) => {
             if (data == undefined) {
               alert(this.$i18n.t("delete_success"));
               if (this.router_name) {
