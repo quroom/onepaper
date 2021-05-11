@@ -60,7 +60,7 @@ pipeline {
                 git push --all old-origin; \
                 source /home/ubuntu/djangovenv/bin/activate; \
                 pip3 install -r requirements.txt --no-warn-script-location; \
-                unset Green; \
+                unset GREEN; \
                 cd frontend; npm install; npm run build; cd ..; \
                 export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
                 python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons* -i img/* -i css/* -i js/*; \
@@ -140,9 +140,8 @@ pipeline {
                 git checkout master; \
                 git pull origin master; \
                 source /home/ubuntu/djangovenv/bin/activate; \
-                export Green=False; \
                 cd frontend; npm install; npm run build; cd ..; \
-                export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
+                export GREEN=False; export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
                 python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons* -i img/* -i css/* -i js/*; \
                 unset DJANGO_DEBUG; \
                 unset USE_S3;" '
