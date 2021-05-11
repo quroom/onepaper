@@ -2,12 +2,7 @@
   <v-container max-width="400px">
     <v-dialog v-model="dialog" max-width="400px">
       <template v-slot:activator="{ on }">
-        <v-btn
-          class="ma-1 auto"
-          color="error"
-          @click.prevent=""
-          v-on.prevent="on"
-        >
+        <v-btn class="ma-1 auto" color="error" @click.prevent="" v-on.prevent="on">
           {{ $t("delete_account") }}
         </v-btn>
       </template>
@@ -82,11 +77,7 @@
       min-width="290px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <ValidationProvider
-          ref="birthday"
-          :name="$t('birthday')"
-          v-slot="{ errors }"
-        >
+        <ValidationProvider ref="birthday" :name="$t('birthday')" v-slot="{ errors }">
           <LazyTextField
             ref="birthday_input"
             class="mt-4"
@@ -139,7 +130,7 @@ export default {
       apiService(endpoint, "PUT", {
         name: this.name,
         birthday: this.birthday
-      }).then(data => {
+      }).then((data) => {
         if (data.id != undefined) {
           this.id = data.id;
           this.email = data.email;
@@ -157,7 +148,7 @@ export default {
       apiService(endpoint, "DELETE", {
         email: this.deleted_email,
         name: this.deleted_name
-      }).then(data => {
+      }).then((data) => {
         if (data["user_delete"] != undefined) {
           alert(data["user_delete"]);
           window.location.href = "/accounts/logout/";
@@ -171,7 +162,7 @@ export default {
     let endpoint = `/api/user/`;
     let data = await apiService(endpoint);
     if (data.id != undefined) {
-      return next(vm => {
+      return next((vm) => {
         vm.id = data.id;
         vm.email = data.email;
         vm.name = data.name;

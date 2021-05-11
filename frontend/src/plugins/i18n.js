@@ -46,12 +46,11 @@ const i18n = new VueI18n({
       clear: "Clear",
       close: "Close",
       connect_social: "Connect Social",
-      contact_us: "Contact Us: quroom@naver.com",
+      contact_us: "Contact Us",
       content: "Content",
       contract: "Contract",
       contractor_info: "Contractor Info",
-      contractor_info_intro:
-        "The contractor details for the above real estate are as follows.",
+      contractor_info_intro: "The contractor details for the above real estate are as follows.",
       created_at: "Created Date",
       create_paper: "Create Paper",
       create_profile: "Create Profile",
@@ -126,8 +125,7 @@ const i18n = new VueI18n({
       no_mandate: "There is no mandate",
       no_paper: "There is no paper. Write your first paper.",
       no_profile: "There is no profile",
-      no_profile_cant_use_service:
-        "You must create profile before using service.",
+      no_profile_cant_use_service: "You must create profile before using service.",
       onepaper: "Onepaper",
       only_my_papers: "Only mine",
       ordering: "Ordering",
@@ -142,8 +140,7 @@ const i18n = new VueI18n({
       permanence: "Permanence",
       period: "Period",
       please_add_trade_user: "Please add user allowed to view profile",
-      please_available_garantee_insurance:
-        "Please add available garantee insurance today.",
+      please_available_garantee_insurance: "Please add available garantee insurance today.",
       please_sign: "Please sign here.",
       pease_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
@@ -179,8 +176,7 @@ const i18n = new VueI18n({
       trade: "Trade",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
-      terms_and_conditions_intro:
-        "The contract details for the above real estate are as follows.",
+      terms_and_conditions_intro: "The contract details for the above real estate are as follows.",
       title: "Title",
       transaction_category: "transaction category",
       term_of_lease: "Term of Lease",
@@ -498,8 +494,7 @@ const i18n = new VueI18n({
       image_file_type_error: "지원하지 않는 파일 종류 입니다.",
       info: "정보",
       insert_special_agreement: "특약을 입력해주세요.",
-      intro:
-        "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
+      intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       landlord: "임대인",
       landlord_or_tenant: "당신은 임대인입니까? 임차인입니까?",
       language: "언어",
@@ -547,10 +542,8 @@ const i18n = new VueI18n({
       profile: "프로필",
       permanence: "영속성",
       period: "기간",
-      please_add_trade_user:
-        "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
-      please_available_garantee_insurance:
-        "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
+      please_add_trade_user: "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
+      please_available_garantee_insurance: "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
       pease_select_default_profile: "기본 프로필을 선택해주세요.",
       profile_name: "프로필명",

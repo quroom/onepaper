@@ -38,11 +38,7 @@
     <v-navigation-drawer v-model="drawer" absolute temporary app>
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <router-link
-            v-for="item in items"
-            :to="item.route"
-            :key="item.title + `-nav`"
-          >
+          <router-link v-for="item in items" :to="item.route" :key="item.title + `-nav`">
             <template v-if="isShown(item)">
               <v-list-item>
                 <v-list-item-icon>
@@ -60,9 +56,7 @@
               <v-icon> link </v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{
-                $t("add_quick_trader_link")
-              }}</v-list-item-title>
+              <v-list-item-title>{{ $t("add_quick_trader_link") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="switchLoc()">
@@ -129,13 +123,7 @@
       </router-link>
     </template>
     <v-spacer></v-spacer>
-    <v-btn
-      class="pa-0"
-      min-width="0px"
-      text
-      color="grey"
-      href="/accounts/logout/"
-    >
+    <v-btn class="pa-0" min-width="0px" text color="grey" href="/accounts/logout/">
       <span>{{ $t("logout") }}</span>
       <v-icon>exit_to_app</v-icon>
     </v-btn>
@@ -181,7 +169,7 @@ export default {
     };
   },
   mounted() {
-    this.$root.$on("link_dialog", data => {
+    this.$root.$on("link_dialog", (data) => {
       this.dialog = data;
     });
   },
@@ -199,9 +187,7 @@ export default {
       link.select();
       document.execCommand("copy");
       this.success = true;
-      this.messages = `${this.$i18n.t("link_is_copied")}<br>${this.$i18n.t(
-        "send_your_link"
-      )}`;
+      this.messages = `${this.$i18n.t("link_is_copied")}<br>${this.$i18n.t("send_your_link")}`;
     },
     isShown(item) {
       return (

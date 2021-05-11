@@ -114,11 +114,7 @@
     <template v-else>
       <v-row>
         <template v-for="paper in papers">
-          <PaperItem
-            :requestUser="requestUser"
-            :paper="paper"
-            :key="paper.id"
-          />
+          <PaperItem :requestUser="requestUser" :paper="paper" :key="paper.id" />
         </template>
       </v-row>
       <v-row justify="center">
@@ -246,7 +242,7 @@ export default {
         });
       }
       this.isLoading = true;
-      await apiService(endpoint).then(data => {
+      await apiService(endpoint).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -262,7 +258,7 @@ export default {
         endpoint = this.next;
       }
       this.isLoading = true;
-      await apiService(endpoint).then(data => {
+      await apiService(endpoint).then((data) => {
         if (data.count != undefined) {
           this.papers.push(...data.results);
           this.isLoading = false;

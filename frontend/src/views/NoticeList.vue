@@ -1,18 +1,9 @@
 <template>
   <v-container min-width="250">
     <v-row>
-      <v-col
-        v-for="notice in notices"
-        :key="notice.id"
-        cols="12"
-        md="6"
-        lg="4"
-        xl="3"
-      >
+      <v-col v-for="notice in notices" :key="notice.id" cols="12" md="6" lg="4" xl="3">
         <v-card :to="{ name: 'notice-detail', params: { id: notice.id } }">
-          <v-chip class="ma-1" v-if="notice.is_pinned" color="primary">{{
-            $t("notice")
-          }}</v-chip>
+          <v-chip class="ma-1" v-if="notice.is_pinned" color="primary">{{ $t("notice") }}</v-chip>
           <v-card-subtitle class="py-1">
             {{ $t("onepaper") }}
             <span class="notice_date">{{ notice.created_at }}</span>
@@ -50,7 +41,7 @@ export default {
         endpoint = this.next;
       }
       this.isLoading = true;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.count != undefined) {
           this.notices.push(...data.results);
           this.next = data.next;

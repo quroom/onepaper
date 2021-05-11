@@ -9,11 +9,7 @@
           {{ `${$t("quick_trade_user")} ${$t("info")}` }}
         </v-card-title>
         <v-card-text class="text-body-1 text--primary">
-          <LazyTextField
-            :label="$t('email')"
-            v-model="email"
-            readonly
-          ></LazyTextField>
+          <LazyTextField :label="$t('email')" v-model="email" readonly></LazyTextField>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -29,12 +25,7 @@
         {{ $t("edit_registor_info") }}
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn
-        align="center"
-        color="green"
-        dark
-        href="accounts/social/connections/"
-      >
+      <v-btn align="center" color="green" dark href="accounts/social/connections/">
         {{ $t("connect_social") }}
       </v-btn>
     </v-row>
@@ -46,17 +37,8 @@
         {{ $t("profile_list_subtitle") }}
       </div>
       <v-row>
-        <v-col
-          cols="12"
-          md="6"
-          lg="4"
-          xs="3"
-          v-for="profile in profiles"
-          :key="profile.id"
-        >
-          <router-link
-            :to="{ name: 'profile-editor', params: { id: profile.id } }"
-          >
+        <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
+          <router-link :to="{ name: 'profile-editor', params: { id: profile.id } }">
             <v-card>
               <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{
                 profile.id
@@ -78,8 +60,7 @@
                   class="ma-1"
                   color="primary"
                   v-if="
-                    profile.expert_profile.status ==
-                      $getConstByName('expert_status', 'approved')
+                    profile.expert_profile.status == $getConstByName('expert_status', 'approved')
                   "
                 >
                   {{ $t("approved") }}
@@ -98,8 +79,7 @@
                   class="ma-1"
                   color="error"
                   v-if="
-                    profile.expert_profile.status ==
-                      $getConstByName('expert_status', 'denied')
+                    profile.expert_profile.status == $getConstByName('expert_status', 'denied')
                   "
                 >
                   {{ $t("denied") }}
@@ -209,7 +189,7 @@ export default {
         }
       };
       endpoint = `/api/profiles/${profile.id}/allowed-users/`;
-      apiService(endpoint, "POST", data).then(data => {
+      apiService(endpoint, "POST", data).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -224,7 +204,7 @@ export default {
         endpoint = this.next;
       }
       this.isLoading = true;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.count != undefined) {
           this.profiles.push(...data.results);
           this.next = data.next;
@@ -244,7 +224,7 @@ export default {
     },
     setDefault(profile) {
       let endpoint = `/api/profiles/${profile.id}/default/`;
-      apiService(endpoint, "POST").then(data => {
+      apiService(endpoint, "POST").then((data) => {
         if (data.id != undefined) {
           if (this.default_profile != undefined) {
             this.default_profile.is_default = false;
@@ -256,8 +236,7 @@ export default {
   },
   created() {
     this.getProfiles();
-    this.is_expert =
-      window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
   }
 };
 </script>

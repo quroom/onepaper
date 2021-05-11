@@ -6,14 +6,7 @@
     </div>
     <template v-else>
       <v-row>
-        <v-col
-          cols="12"
-          md="6"
-          lg="4"
-          xl="3"
-          v-for="mandate in mandates"
-          :key="mandate.id"
-        >
+        <v-col cols="12" md="6" lg="4" xl="3" v-for="mandate in mandates" :key="mandate.id">
           <v-card
             class="outlined tile"
             :to="{
@@ -25,17 +18,13 @@
             <v-chip v-if="mandate.designator_signature == ''" class="ma-1">{{
               $t("progress")
             }}</v-chip>
-            <v-chip v-else class="ma-1" color="primary">{{
-              $t("signature") + $t("done")
-            }}</v-chip>
+            <v-chip v-else class="ma-1" color="primary">{{ $t("signature") + $t("done") }}</v-chip>
             <v-card-title class="card-title pa-0 pl-4">
               {{ mandate.address.old_address }}
             </v-card-title>
             <v-card-text>
               <div>{{ mandate.from_date }} ~ {{ mandate.to_date }}</div>
-              <div>
-                {{ $t("designator") }} : {{ mandate.designator.user.name }}
-              </div>
+              <div>{{ $t("designator") }} : {{ mandate.designator.user.name }}</div>
               <div>{{ $t("designee") }} : {{ mandate.designee.user.name }}</div>
             </v-card-text>
           </v-card>
@@ -48,11 +37,7 @@
       </v-row>
     </template>
     <v-row height="100%" justify="end">
-      <v-btn
-        :to="{ name: 'mandates-editor', params: { readonly: false } }"
-        color="primary"
-        dark
-      >
+      <v-btn :to="{ name: 'mandates-editor', params: { readonly: false } }" color="primary" dark>
         <v-icon>add</v-icon>
         {{ $t("create_mandate") }}
       </v-btn>
@@ -80,7 +65,7 @@ export default {
         endpoint = this.next;
       }
       this.isLoading = true;
-      await apiService(endpoint).then(data => {
+      await apiService(endpoint).then((data) => {
         if (data.count != undefined) {
           this.next = data.next;
           this.mandates.push(...data.results);

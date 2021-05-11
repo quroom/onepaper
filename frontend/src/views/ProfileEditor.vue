@@ -20,25 +20,13 @@
       </v-row>
       <v-row>
         <v-col cols="12" sm="4">
-          <LazyTextField
-            v-model="email"
-            :label="$t('email')"
-            readonly
-          ></LazyTextField>
+          <LazyTextField v-model="email" :label="$t('email')" readonly></LazyTextField>
         </v-col>
         <v-col cols="6" md="4">
-          <LazyTextField
-            v-model="name"
-            :label="$t('name')"
-            readonly
-          ></LazyTextField>
+          <LazyTextField v-model="name" :label="$t('name')" readonly></LazyTextField>
         </v-col>
         <v-col cols="6" md="4">
-          <LazyTextField
-            v-model="birthday"
-            :label="$t('birthday')"
-            readonly
-          ></LazyTextField>
+          <LazyTextField v-model="birthday" :label="$t('birthday')" readonly></LazyTextField>
         </v-col>
         <!-- Expert Profile -->
         <template v-if="is_expert">
@@ -104,9 +92,7 @@
         </template>
         <template v-else>
           <v-col class="text-center" cols="12">
-            <div class="text-h5">
-              {{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}
-            </div>
+            <div class="text-h5">{{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}</div>
           </v-col>
           <v-col cols="8">
             <AddressSearch
@@ -281,12 +267,7 @@
             </v-col>
           </template>
           <v-col cols="auto">
-            <v-btn
-              v-if="id != undefined"
-              dark
-              color="indigo"
-              @click="dialog.flag = true"
-            >
+            <v-btn v-if="id != undefined" dark color="indigo" @click="dialog.flag = true">
               <span v-if="isInsuranceValid">
                 {{ `${$t("garantee_insurance")} ${$t("manage")}` }}
               </span>
@@ -299,10 +280,7 @@
       </v-row>
       <template v-if="is_expert">
         <v-row>
-          <v-divider
-            class="mx-4 text-center"
-            style="display: inline"
-          ></v-divider>
+          <v-divider class="mx-4 text-center" style="display: inline"></v-divider>
           <v-col class="text-center" cols="12">
             <div class="text-h5">
               {{ $t("attached_document") }}
@@ -319,20 +297,12 @@
               v-bind:href="current_registration_certificate"
               target="_blank"
             >
-              <img
-                class="img"
-                :src="current_registration_certificate"
-                aspect-ratio="1"
-              />
+              <img class="img" :src="current_registration_certificate" aspect-ratio="1" />
             </a>
           </v-col>
           <v-col class="d-flex child-flex img-col" cols="6" md="3">
             <div class="absolute_text">{{ $t("agency_license") }}</div>
-            <a
-              v-if="current_agency_license"
-              v-bind:href="current_agency_license"
-              target="_blank"
-            >
+            <a v-if="current_agency_license" v-bind:href="current_agency_license" target="_blank">
               <img class="img" :src="current_agency_license" aspect-ratio="1" />
             </a>
           </v-col>
@@ -349,39 +319,23 @@
               v-bind:href="current_garantee_insurance"
               target="_blank"
             >
-              <img
-                class="img"
-                :src="current_garantee_insurance"
-                aspect-ratio="1"
-              />
+              <img class="img" :src="current_garantee_insurance" aspect-ratio="1" />
             </a>
           </v-col>
         </v-row>
       </template>
       <v-row>
         <v-col cols="12" class="text-right">
-          <v-btn
-            class="mr-4"
-            color="primary"
-            :disabled="!isInsuranceValid"
-            @click="onSubmit()"
-            >{{ $t("submit") }}</v-btn
-          >
+          <v-btn class="mr-4" color="primary" :disabled="!isInsuranceValid" @click="onSubmit()">{{
+            $t("submit")
+          }}</v-btn>
         </v-col>
       </v-row>
-      <v-dialog
-        v-if="dialog.flag && dialog.insurances"
-        v-model="dialog.flag"
-        max-width="750px"
-      >
+      <v-dialog v-if="dialog.flag && dialog.insurances" v-model="dialog.flag" max-width="750px">
         <v-card>
           <v-card-text>
             <v-row justify="center">
-              <v-col
-                cols="auto"
-                v-for="insurance in dialog.insurances"
-                :key="insurance.id"
-              >
+              <v-col cols="auto" v-for="insurance in dialog.insurances" :key="insurance.id">
                 <v-card>
                   <v-chip class="ma-1"> {{ insurance.id }}</v-chip>
                   <v-card-subtitle>
@@ -391,10 +345,7 @@
                     {{ insurance.from_date }} ~ {{ insurance.to_date }}
                   </v-card-subtitle>
                   <v-card-actions>
-                    <DeleteAlert
-                      :id="insurance.id"
-                      :callback="deleteInsurance"
-                    ></DeleteAlert>
+                    <DeleteAlert :id="insurance.id" :callback="deleteInsurance"></DeleteAlert>
                     <v-spacer></v-spacer>
                     <v-btn
                       class="ma-1 auto no-print"
@@ -410,12 +361,7 @@
             </v-row>
           </v-card-text>
           <v-row no-gutters justify="center">
-            <v-btn
-              v-show="next"
-              @click="getInsurances(false)"
-              color="grey"
-              dark
-            >
+            <v-btn v-show="next" @click="getInsurances(false)" color="grey" dark>
               {{ $t("load_more") }}
             </v-btn>
           </v-row>
@@ -433,20 +379,12 @@
                 </v-col>
               </v-row>
               <v-row no-gutters class="ml-4 mr-4" justify="center">
-                <v-col
-                  class="pa-0 ml-4 mr-4"
-                  cols="auto"
-                  style="min-width:300px"
-                >
+                <v-col class="pa-0 ml-4 mr-4" cols="auto" style="min-width:300px">
                   <ValidationProvider
                     mode="passive"
                     ref="insurance"
                     :name="$t('garantee_insurance')"
-                    :rules="
-                      `${
-                        dialog.insurance.id == undefined ? 'required' : ''
-                      }|size:1024`
-                    "
+                    :rules="`${dialog.insurance.id == undefined ? 'required' : ''}|size:1024`"
                     v-slot="{ errors }"
                   >
                     <v-file-input
@@ -535,11 +473,7 @@
             <v-col v-if="dialog.insurance.image" class="img-col" cols="12">
               <div class="text-center">{{ $t("garantee_insurance") }}</div>
               <a v-bind:href="dialog.insurance.image" target="_blank">
-                <img
-                  class="img"
-                  :src="dialog.insurance.image"
-                  aspect-ratio="1"
-                />
+                <img class="img" :src="dialog.insurance.image" aspect-ratio="1" />
               </a>
             </v-col>
           </v-row>
@@ -576,9 +510,7 @@ export default {
           const to_date = new Date(this.dates[1] + "T23:59:59");
           const from_date = new Date(this.dates[0] + "T00:00:00");
           const current_time = new Date();
-          return to_date >= current_time && from_date <= current_time
-            ? true
-            : false;
+          return to_date >= current_time && from_date <= current_time ? true : false;
         } else {
           return false;
         }
@@ -653,7 +585,7 @@ export default {
     },
     preview_image(name, parent) {
       this.$nextTick(() => {
-        this.$refs[name].validate().then(v => {
+        this.$refs[name].validate().then((v) => {
           if (v.valid == true) {
             if (parent) {
               if (this.dialog.new_insurance) {
@@ -671,9 +603,7 @@ export default {
               }
             } else {
               if (this["expert_profile"][name] != null) {
-                this["current_" + name] = window.URL.createObjectURL(
-                  this["expert_profile"][name]
-                );
+                this["current_" + name] = window.URL.createObjectURL(this["expert_profile"][name]);
               } else {
                 this["current_" + name] = "";
               }
@@ -684,12 +614,10 @@ export default {
     },
     async deleteInsurance(insurance_id) {
       let endpoint = `/api/profiles/${this.id}/insurances/${insurance_id}/`;
-      await apiService(endpoint, "DELETE").then(data => {
+      await apiService(endpoint, "DELETE").then((data) => {
         if (data == undefined) {
           alert(this.$i18n.t("delete_success"));
-          const deleteInsuranceId = this.dialog.insurances.findIndex(
-            x => x.id == insurance_id
-          );
+          const deleteInsuranceId = this.dialog.insurances.findIndex((x) => x.id == insurance_id);
           this.$delete(this.dialog.insurances, deleteInsuranceId);
         } else {
           applyValidation(data);
@@ -709,7 +637,7 @@ export default {
     },
     loadInsurnace(insurance_id) {
       let endpoint = `/api/profiles/${this.id}/insurances/${insurance_id}/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         console.log(data);
         if (data.id != undefined) {
           this.dialog.dates = [data.from_date, data.to_date];
@@ -726,7 +654,7 @@ export default {
       if (this.next) {
         endpoint = this.next;
       }
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data.count != undefined) {
           if (init == true) {
             this.init_insurance();
@@ -742,7 +670,7 @@ export default {
     },
     submitInsurance() {
       const that = this;
-      this.$refs.obs.validate().then(v => {
+      this.$refs.obs.validate().then((v) => {
         if (v == true) {
           const formData = new FormData();
           let endpoint = `/api/profiles/${that.id}/insurances/`;
@@ -760,9 +688,7 @@ export default {
             try {
               if (data.id != undefined) {
                 if (method == "PATCH") {
-                  let foundIndex = that.dialog.insurances.findIndex(
-                    x => x.id == data.id
-                  );
+                  let foundIndex = that.dialog.insurances.findIndex((x) => x.id == data.id);
                   that.$set(that.dialog.insurances, foundIndex, data);
                 } else {
                   that.dialog.insurances.unshift(data);
@@ -795,26 +721,13 @@ export default {
         if (v == true) {
           const formData = new FormData();
           if (that.isInsuranceValid) {
-            if (that.mobile_number)
-              formData.append("mobile_number", that.mobile_number);
+            if (that.mobile_number) formData.append("mobile_number", that.mobile_number);
             if (that.address) {
-              formData.append(
-                "address.old_address",
-                that.address["old_address"]
-              );
-              formData.append(
-                "address.old_address_eng",
-                that.address["old_address_eng"]
-              );
-              formData.append(
-                "address.new_address",
-                that.address["new_address"]
-              );
+              formData.append("address.old_address", that.address["old_address"]);
+              formData.append("address.old_address_eng", that.address["old_address_eng"]);
+              formData.append("address.new_address", that.address["new_address"]);
               formData.append("address.bjdongName", that.address["bjdongName"]);
-              formData.append(
-                "address.bjdongName_eng",
-                that.address["bjdongName_eng"]
-              );
+              formData.append("address.bjdongName_eng", that.address["bjdongName_eng"]);
               formData.append("address.sigunguCd", that.address["sigunguCd"]);
               formData.append("address.bjdongCd", that.address["bjdongCd"]);
               formData.append("address.bun", that.address["bun"]);
@@ -830,21 +743,12 @@ export default {
                   "expert_profile.insurance.image",
                   that.expert_profile.insurance.image
                 );
-                formData.append(
-                  "expert_profile.insurance.from_date",
-                  that.dates[0]
-                );
-                formData.append(
-                  "expert_profile.insurance.to_date",
-                  that.dates[1]
-                );
+                formData.append("expert_profile.insurance.from_date", that.dates[0]);
+                formData.append("expert_profile.insurance.to_date", that.dates[1]);
               }
               Object.keys(that.expert_profile).forEach(function(key) {
                 if (that.expert_profile[key] != null) {
-                  formData.append(
-                    "expert_profile." + key,
-                    that.expert_profile[key]
-                  );
+                  formData.append("expert_profile." + key, that.expert_profile[key]);
                 }
               });
             }
@@ -858,7 +762,7 @@ export default {
           } else {
             alert("please_available_garantee_insurance");
           }
-          apiService_formData(endpoint, method, formData).then(data => {
+          apiService_formData(endpoint, method, formData).then((data) => {
             try {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"));
@@ -886,7 +790,7 @@ export default {
 
       if (data.id != undefined) {
         if (data.user.is_expert) {
-          return next(vm => {
+          return next((vm) => {
             vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
@@ -894,11 +798,9 @@ export default {
             vm.mobile_number = data.mobile_number;
             vm.bank_name = data.bank_name;
             vm.account_number = data.account_number;
-            vm.expert_profile.registration_number =
-              data.expert_profile.registration_number;
+            vm.expert_profile.registration_number = data.expert_profile.registration_number;
             vm.expert_profile.shop_name = data.expert_profile.shop_name;
-            vm.current_registration_certificate =
-              data.expert_profile.registration_certificate;
+            vm.current_registration_certificate = data.expert_profile.registration_certificate;
             vm.current_agency_license = data.expert_profile.agency_license;
             vm.current_stamp = data.expert_profile.stamp;
             vm.current_garantee_insurance = data.expert_profile.insurance.image;
@@ -912,7 +814,7 @@ export default {
             vm.expert_profile.insurance = data.expert_profile.insurance;
           });
         } else {
-          return next(vm => {
+          return next((vm) => {
             vm.email = data.user.email;
             vm.name = data.user.name;
             vm.birthday = data.user.birthday;
@@ -926,7 +828,7 @@ export default {
         applyValidation(data);
       }
     } else {
-      return next(vm => {
+      return next((vm) => {
         vm.email = window.localStorage.getItem("email");
         vm.name = window.localStorage.getItem("name");
         vm.birthday = window.localStorage.getItem("birthday");
@@ -934,8 +836,7 @@ export default {
     }
   },
   created() {
-    this.is_expert =
-      window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
     if (this.id) {
       this.getInsurances(true);
     }

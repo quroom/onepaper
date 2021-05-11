@@ -1,9 +1,6 @@
 <template>
   <v-col cols="12" md="6" lg="4" xl="3">
-    <v-card
-      class="outlined tile"
-      :to="{ name: 'paper-detail', params: { id: paper.id } }"
-    >
+    <v-card class="outlined tile" :to="{ name: 'paper-detail', params: { id: paper.id } }">
       <v-chip class="ma-2 mr-0">
         {{ paper.id }}
       </v-chip>
@@ -43,19 +40,11 @@
         <div>
           [{{ $getConstI18("building_category", paper.building_category) }}]
           {{ paper.address.old_address }}
-          <span v-if="!!paper.address.dong">
-            {{ paper.address.dong }}{{ $t("dong") }}</span
-          >
-          <span v-if="!!paper.address.ho">
-            {{ paper.address.ho }}{{ $t("ho") }}</span
-          >
+          <span v-if="!!paper.address.dong"> {{ paper.address.dong }}{{ $t("dong") }}</span>
+          <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }}</span>
         </div>
         <span>
-          <template
-            v-if="
-              paper.trade_category == $getConstByName('trade_category', 'rent')
-            "
-          >
+          <template v-if="paper.trade_category == $getConstByName('trade_category', 'rent')">
             <div>
               {{
                 `${$t("security_deposit")}: 
@@ -65,40 +54,23 @@
             <div>
               {{ `${$t("monthly_fee")}: ${paper.monthly_fee}${$t("won")}` }}
             </div>
-            <span>{{
-              `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}`
-            }}</span>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
           </template>
           <template
-            v-else-if="
-              paper.trade_category ==
-                $getConstByName('trade_category', 'depositloan')
-            "
+            v-else-if="paper.trade_category == $getConstByName('trade_category', 'depositloan')"
           >
             <div>
-              {{
-                `${$t("security_deposit")}: ${paper.security_deposit}${$t(
-                  "won"
-                )}`
-              }}
+              {{ `${$t("security_deposit")}: ${paper.security_deposit}${$t("won")}` }}
             </div>
-            <span>{{
-              `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}`
-            }}</span>
+            <span>{{ `${$t("maintenance_fee")}: ${paper.maintenance_fee}${$t("won")}` }}</span>
           </template>
           <!-- #FIXME to be updated -->
           <template
-            v-else-if="
-              paper.trade_category ==
-                $getConstByName('trade_category', 'purchase')
-            "
+            v-else-if="paper.trade_category == $getConstByName('trade_category', 'purchase')"
           >
           </template>
           <template
-            v-else-if="
-              paper.trade_category ==
-                $getConstByName('trade_category', 'exchange')
-            "
+            v-else-if="paper.trade_category == $getConstByName('trade_category', 'exchange')"
           >
           </template>
           <!-- <span class="answer_count">
@@ -134,8 +106,7 @@ export default {
     },
     newtab(image) {
       let newTab = window.open();
-      newTab.document.body.innerHTML =
-        "<img src=" + image + ' width="500px" height="500px">';
+      newTab.document.body.innerHTML = "<img src=" + image + ' width="500px" height="500px">';
     }
   }
 };

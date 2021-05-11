@@ -23,11 +23,7 @@
         <v-card>
           <v-icon class="address-close-btn" @click="close()">close</v-icon>
           <v-card-text class="pa-0 pt-2">
-            <DaumPostcode
-              :autoMapping="false"
-              :on-complete="handleAddress"
-              :key="key"
-            />
+            <DaumPostcode :autoMapping="false" :on-complete="handleAddress" :key="key" />
           </v-card-text>
         </v-card>
       </v-dialog>

@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <div class="text-h6 text-center ma-2">
-      {{ $t("realestate_agency") }} {{ $t("approve") }}
-    </div>
+    <div class="text-h6 text-center ma-2">{{ $t("realestate_agency") }} {{ $t("approve") }}</div>
     <v-data-table
       v-model="selected_profiles"
       :headers="headers"
@@ -16,12 +14,7 @@
     >
       <template v-slot:top>
         <v-chip-group>
-          <v-btn
-            color="error"
-            :label="$t('deny')"
-            class="pa-3 btn"
-            @click="denyProfiles()"
-          >
+          <v-btn color="error" :label="$t('deny')" class="pa-3 btn" @click="denyProfiles()">
             {{ $t("select") }} {{ $t("deny") }}
           </v-btn>
           <v-spacer></v-spacer>
@@ -59,11 +52,7 @@
               <div class="text-center">
                 {{ $t("registration_certificate") }}
                 <a v-bind:href="item.registration_certificate" target="_blank">
-                  <img
-                    class="img"
-                    :src="item.registration_certificate"
-                    aspect-ratio="1"
-                  />
+                  <img class="img" :src="item.registration_certificate" aspect-ratio="1" />
                 </a>
               </div>
             </v-col>
@@ -71,11 +60,7 @@
               <div class="text-center">
                 {{ $t("agency_license") }}
                 <a v-bind:href="item.agency_license" target="_blank">
-                  <img
-                    class="img"
-                    :src="item.agency_license"
-                    aspect-ratio="1"
-                  />
+                  <img class="img" :src="item.agency_license" aspect-ratio="1" />
                 </a>
               </div>
             </v-col>
@@ -86,16 +71,8 @@
                   {{ `${$t("garantee_insurance")} ${$t("period")}` }} :
                   {{ item.insurance.from_date }} ~ {{ item.insurance.to_date }}
                 </div>
-                <a
-                  v-if="item.insurance"
-                  v-bind:href="item.insurance.image"
-                  target="_blank"
-                >
-                  <img
-                    class="img"
-                    :src="item.insurance.image"
-                    aspect-ratio="1"
-                  />
+                <a v-if="item.insurance" v-bind:href="item.insurance.image" target="_blank">
+                  <img class="img" :src="item.insurance.image" aspect-ratio="1" />
                 </a>
               </div>
             </v-col>
@@ -185,7 +162,7 @@ export default {
   methods: {
     getProfiles() {
       let endpoint = `/api/approve-experts/`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (!data.count) {
           applyValidation(data);
           this.$router.push({ name: "home" });
@@ -208,7 +185,7 @@ export default {
         profiles: this.new_profiles
       };
       let endpoint = `/api/approve-experts/?page=${this.page_num}`;
-      apiService(endpoint, "PUT", data).then(data => {
+      apiService(endpoint, "PUT", data).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -227,7 +204,7 @@ export default {
       };
 
       let endpoint = `/api/approve-experts/`;
-      apiService(endpoint, "DELETE", data).then(data => {
+      apiService(endpoint, "DELETE", data).then((data) => {
         if (!data.count) {
           applyValidation(data);
         } else {
@@ -240,7 +217,7 @@ export default {
     updatePagination(pagination) {
       this.page_num = pagination;
       let endpoint = `/api/approve-experts/?page=${pagination}`;
-      apiService(endpoint).then(data => {
+      apiService(endpoint).then((data) => {
         if (data != undefined) {
           this.profiles = data.results;
           this.items_length = data.count;

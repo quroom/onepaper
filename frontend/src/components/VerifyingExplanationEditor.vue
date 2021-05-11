@@ -138,26 +138,22 @@
           </v-col>
         </v-row>
         <v-row class="mt-4" no-gutters>
-          <v-col class="grey lighten-1 border" cols="12" align="center"
-            >유의사항</v-col
-          >
+          <v-col class="grey lighten-1 border" cols="12" align="center">유의사항</v-col>
           <v-col class="border" cols="2" align="center">
             개업공인중개사의 확인·설명 의무
           </v-col>
           <v-col class="border" cols="10">
-            개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게
-            성실·정확하게 설명하고, 토지대장 등본, 등기사항증명서 등 설명의
-            근거자료를 제시해야 합니다.
+            개업공인중개사는 중개대상물에 관한 권리를 취득하려는 중개의뢰인에게 성실·정확하게
+            설명하고, 토지대장 등본, 등기사항증명서 등 설명의 근거자료를 제시해야 합니다.
           </v-col>
           <v-col class="border" cols="2" align="center">
             실제 거래가격 신고
           </v-col>
           <v-col class="border" cols="10">
-            「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1
-            제1호마목에 따른 실제 거래가격은 매수인이 매수한 부동산을 양도하는
-            경우 「소득세법」 제97조제1항 및 제7항과 같은 법 시행령
-            제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아
-            양도차익이 계산될 수 있음을 유의하시기 바랍니다.
+            「부동산 거래신고 등에 관한 법률」 제3조 및 같은 법 시행령 별표 1 제1호마목에 따른 실제
+            거래가격은 매수인이 매수한 부동산을 양도하는 경우 「소득세법」 제97조제1항 및 제7항과
+            같은 법 시행령 제163조제11항제2호에 따라 취득 당시의 실제 거래가액으로 보아 양도차익이
+            계산될 수 있음을 유의하시기 바랍니다.
           </v-col>
         </v-row>
         <div class="text-subtitle font-weight-bold mt-4">
@@ -198,12 +194,8 @@
                   label="공부상지목"
                   :readonly="readonly"
                 >
-                  <template v-slot:selection="{ item }">{{
-                    $t(item.text)
-                  }}</template>
-                  <template v-slot:item="{ item }">{{
-                    $t(item.text)
-                  }}</template>
+                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
                 <v-select
                   class="d-flex ve-input"
@@ -214,12 +206,8 @@
                   label="실제 이용 상태"
                   :readonly="readonly"
                 >
-                  <template v-slot:selection="{ item }">{{
-                    $t(item.text)
-                  }}</template>
-                  <template v-slot:item="{ item }">{{
-                    $t(item.text)
-                  }}</template>
+                  <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                  <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
               </v-col>
             </v-row>
@@ -293,16 +281,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="위반"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="적법"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="위반" :value="false" :readonly="readonly"></v-radio>
+                  <v-radio label="적법" :value="true" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="!ve.legal_status"
@@ -371,21 +351,9 @@
               row
               mandatory
             >
-              <v-radio
-                label="장기일반민간임대주택"
-                :value="1"
-                :readonly="readonly"
-              ></v-radio>
-              <v-radio
-                label="공공지원민간임대주택"
-                :value="2"
-                :readonly="readonly"
-              ></v-radio>
-              <v-radio
-                label="그 밖의 유형"
-                :value="99"
-                :readonly="readonly"
-              ></v-radio>
+              <v-radio label="장기일반민간임대주택" :value="1" :readonly="readonly"></v-radio>
+              <v-radio label="공공지원민간임대주택" :value="2" :readonly="readonly"></v-radio>
+              <v-radio label="그 밖의 유형" :value="99" :readonly="readonly"></v-radio>
               <LazyTextField
                 v-if="ve.rental_housing_registration == 99"
                 class="d-flex ve-input"
@@ -393,11 +361,7 @@
                 label="그 밖의 유형"
                 :readonly="readonly"
               ></LazyTextField>
-              <v-radio
-                label="해당 사항 없음"
-                :value="0"
-                :readonly="readonly"
-              ></v-radio>
+              <v-radio label="해당 사항 없음" :value="0" :readonly="readonly"></v-radio>
             </v-radio-group>
             <v-row no-gutters>
               <v-col class="d-flex flex-wrap">
@@ -449,11 +413,7 @@
                     :value="true"
                     :readonly="readonly"
                   ></v-radio>
-                  <v-radio
-                    label="미확인"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="미확인" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -522,21 +482,9 @@
                   v-model="ve.speculative_area"
                   row
                 >
-                  <v-radio
-                    label="토지투기지역"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="주택투기지역"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="투기과열지구"
-                    :value="3"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="토지투기지역" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="주택투기지역" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="투기과열지구" :value="3" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextArea
                   class="d-flex ve-input"
@@ -578,22 +526,9 @@
                   suffix="도로에 접함"
                   :readonly="readonly"
                 ></LazyTextField>
-                <v-radio-group
-                  class="ve-input"
-                  v-model="ve.is_paved_rode"
-                  row
-                  mandatory
-                >
-                  <v-radio
-                    label="포장"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="비포장"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                <v-radio-group class="ve-input" v-model="ve.is_paved_rode" row mandatory>
+                  <v-radio label="포장" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="비포장" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <v-radio-group
                   class=" ve-input ve-radio-group"
@@ -602,16 +537,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="용이함"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="불편함"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="용이함" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="불편함" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -636,16 +563,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -669,16 +588,8 @@
                   label="소요시간"
                   row
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -694,32 +605,11 @@
           <div class="border">
             <v-row class="ml-2" no-gutters>
               <v-col class="d-flex flex-wrap">
-                <v-radio-group
-                  v-model="ve.parking_lot"
-                  label="주차장"
-                  row
-                  mandatory
-                >
-                  <v-radio
-                    label="없음"
-                    :value="0"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="전용주차시설"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="공동주차시설"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="그 밖의 주차시설"
-                    :value="99"
-                    :readonly="readonly"
-                  ></v-radio>
+                <v-radio-group v-model="ve.parking_lot" label="주차장" row mandatory>
+                  <v-radio label="없음" :value="0" :readonly="readonly"></v-radio>
+                  <v-radio label="전용주차시설" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="공동주차시설" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="그 밖의 주차시설" :value="99" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.parking_lot == 99"
@@ -751,16 +641,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -785,16 +667,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -819,16 +693,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -860,16 +726,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -893,16 +751,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도보"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="차량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도보" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="차량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   class="d-flex ve-input site-condition-minute"
@@ -929,16 +779,8 @@
                 row
                 mandatory
               >
-                <v-radio
-                  label="있음"
-                  :value="true"
-                  :readonly="readonly"
-                ></v-radio>
-                <v-radio
-                  label="없음"
-                  :value="false"
-                  :readonly="readonly"
-                ></v-radio>
+                <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
+                <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
               </v-radio-group>
               <v-radio-group
                 class="ve-input ve-radio-group"
@@ -947,21 +789,9 @@
                 row
                 mandatory
               >
-                <v-radio
-                  label="위탁관리"
-                  :value="1"
-                  :readonly="readonly"
-                ></v-radio>
-                <v-radio
-                  label="자체관리"
-                  :value="2"
-                  :readonly="readonly"
-                ></v-radio>
-                <v-radio
-                  label="그 밖의 유형"
-                  :value="99"
-                  :readonly="readonly"
-                ></v-radio>
+                <v-radio label="위탁관리" :value="1" :readonly="readonly"></v-radio>
+                <v-radio label="자체관리" :value="2" :readonly="readonly"></v-radio>
+                <v-radio label="그 밖의 유형" :value="99" :readonly="readonly"></v-radio>
               </v-radio-group>
             </v-col>
           </v-row>
@@ -979,16 +809,8 @@
                 row
                 mandatory
               >
-                <v-radio
-                  label="없음"
-                  :value="false"
-                  :readonly="readonly"
-                ></v-radio>
-                <v-radio
-                  label="있음"
-                  :value="true"
-                  :readonly="readonly"
-                ></v-radio>
+                <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
+                <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
               </v-radio-group>
               <LazyTextField
                 v-if="ve.undesirable_facilities == true"
@@ -1106,16 +928,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="없음"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="있음"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
+                  <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.water_damage_status == true"
@@ -1131,16 +945,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="정상"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="부족함"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="정상" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="부족함" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.water_capacity_status == false"
@@ -1156,16 +962,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="정상"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="교체필요"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="정상" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="교체필요" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.electricity_supply_status == false"
@@ -1182,16 +980,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도시가스"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="그 밖의 방식"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도시가스" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="그 밖의 방식" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.gas_supply_status == false"
@@ -1207,16 +997,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="없음"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="있음"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
+                  <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.is_fire_alarm_detector == true"
@@ -1228,10 +1010,9 @@
                   :readonly="readonly"
                 ></LazyTextField>
                 <div class="d-flex text-caption">
-                  ※「화재예방, 소방시설 설치·유지 및 안전관리에 관한 법률」
-                  제8조 및 같은 법 시행령 제13조에 따른 주택용 소방시설로서
-                  아파트(주택으로 사용하는 층수가 5개층 이상인 주택을 말한다)를
-                  제외한 주택의 경우만 작성합니다.
+                  ※「화재예방, 소방시설 설치·유지 및 안전관리에 관한 법률」 제8조 및 같은 법 시행령
+                  제13조에 따른 주택용 소방시설로서 아파트(주택으로 사용하는 층수가 5개층 이상인
+                  주택을 말한다)를 제외한 주택의 경우만 작성합니다.
                 </div>
                 <v-radio-group
                   class="d-flex ve-input ve-radio-group"
@@ -1240,16 +1021,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="중앙공급"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="개별공급"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="중앙공급" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="개별공급" :value="2" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <v-radio-group
                   class="d-flex ve-input ve-radio-group"
@@ -1258,16 +1031,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="정상"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="수선필요"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="정상" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="수선필요" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.heating_status == false"
@@ -1283,31 +1048,11 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="도시가스"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="기름"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="프로판가스"
-                    :value="3"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="연탄"
-                    :value="4"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="그 밖의 종류"
-                    :value="99"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="도시가스" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="기름" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="프로판가스" :value="3" :readonly="readonly"></v-radio>
+                  <v-radio label="연탄" :value="4" :readonly="readonly"></v-radio>
+                  <v-radio label="그 밖의 종류" :value="99" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.heating_type == 5"
@@ -1324,16 +1069,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="있음"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="없음"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <v-radio-group
                   v-if="ve.is_elevator"
@@ -1343,16 +1080,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="양호"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="불량"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="양호" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="불량" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <v-radio-group
                   class="d-flex ve-input ve-radio-group"
@@ -1361,16 +1090,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="정상"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="수선필요"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="정상" :value="true" :readonly="readonly"></v-radio>
+                  <v-radio label="수선필요" :value="false" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.drainage_status == false"
@@ -1406,16 +1127,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="없음"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="있음"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
+                  <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.wall_crack_status == true"
@@ -1431,16 +1144,8 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="없음"
-                    :value="false"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="있음"
-                    :value="true"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="없음" :value="false" :readonly="readonly"></v-radio>
+                  <v-radio label="있음" :value="true" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.water_leak_status == true"
@@ -1456,21 +1161,9 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="깨끗함"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="보통임"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="도배필요"
-                    :value="0"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="깨끗함" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="보통임" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="도배필요" :value="0" :readonly="readonly"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -1490,21 +1183,9 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="풍부함"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="보통임"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="불충분"
-                    :value="0"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="풍부함" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="보통임" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="불충분" :value="0" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <LazyTextField
                   v-if="ve.sunshine_status == 0"
@@ -1520,21 +1201,9 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="미미함"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="보통임"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="심한편임"
-                    :value="0"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="미미함" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="보통임" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="심한편임" :value="0" :readonly="readonly"></v-radio>
                 </v-radio-group>
                 <v-radio-group
                   class="d-flex ve-input ve-radio-group"
@@ -1543,21 +1212,9 @@
                   row
                   mandatory
                 >
-                  <v-radio
-                    label="미미함"
-                    :value="2"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="보통임"
-                    :value="1"
-                    :readonly="readonly"
-                  ></v-radio>
-                  <v-radio
-                    label="심한편임"
-                    :value="0"
-                    :readonly="readonly"
-                  ></v-radio>
+                  <v-radio label="미미함" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="보통임" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="심한편임" :value="0" :readonly="readonly"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>

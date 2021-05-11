@@ -4,11 +4,7 @@
       <v-col v-if="isExpert" class="text-center font-weight-bold">
         <v-card outlined tile color="grey lighten-2">
           {{ $t("realestate_agency") }}
-          <img
-            v-if="isSigned"
-            class="stamp-img"
-            :src="contractor.profile.expert_profile.stamp"
-          />
+          <img v-if="isSigned" class="stamp-img" :src="contractor.profile.expert_profile.stamp" />
         </v-card>
       </v-col>
       <v-col v-else class="text-center font-weight-bold">
@@ -80,10 +76,7 @@
                   ? $get(computed_profile, field.key)
                   : computed_profile[field.name]
                   ? field.const_name
-                    ? $getConstI18(
-                        field.const_name,
-                        computed_profile[field.name]
-                      )
+                    ? $getConstI18(field.const_name, computed_profile[field.name])
                     : computed_profile[field.name]
                   : ""
               }}
@@ -134,17 +127,13 @@ export default {
       return this.$get(this.contractor, "is_allowed", false);
     },
     isExpert: function() {
-      return (
-        this.contractor.group ==
-        this.$getConstByName("CONTRACTOR_CATEGORY", "expert")
-      );
+      return this.contractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert");
     },
     isSigned: function() {
       if (this.isVerifyingExplanation) {
         return (
           this.contractor.explanation_signature &&
-          this.paper.updated_at <=
-            this.contractor.explanation_signature.updated_at
+          this.paper.updated_at <= this.contractor.explanation_signature.updated_at
         );
       } else {
         return (
@@ -154,15 +143,10 @@ export default {
       }
     },
     isPaperRequest: function() {
-      return (
-        this.paper.status ==
-        this.$getConstByName("STATUS_CATEGORY", "REQUESTING")
-      );
+      return this.paper.status == this.$getConstByName("STATUS_CATEGORY", "REQUESTING");
     },
     isContractor: function() {
-      return this.contractor
-        ? this.requestUser === this.contractor.profile.user.email
-        : false;
+      return this.contractor ? this.requestUser === this.contractor.profile.user.email : false;
     },
     computed_profile: function() {
       return this.profile ? this.profile : this.contractor.profile;

@@ -1,10 +1,6 @@
 <template>
   <v-app app style="overflow-x:auto">
-    <NavbarItem
-      class="no-print root_tag"
-      v-if="!isLoading"
-      :user_category="user_category"
-    />
+    <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category" />
     <v-main class="root_tag">
       <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
     </v-main>
@@ -51,11 +47,7 @@ export default {
     },
     $route(to) {
       if (this.has_profile == false && this.is_staff == false) {
-        if (
-          to.name != "profile-editor" &&
-          to.name != "profiles" &&
-          to.name != "user-editor"
-        ) {
+        if (to.name != "profile-editor" && to.name != "profiles" && to.name != "user-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }
