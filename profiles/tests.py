@@ -513,6 +513,7 @@ class ProfileTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -540,6 +541,7 @@ class ProfileTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -573,6 +575,7 @@ class ProfileTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -605,6 +608,7 @@ class ProfileTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -796,6 +800,7 @@ class CustomUserTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -839,6 +844,7 @@ class CustomUserTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }

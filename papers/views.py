@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
-from papers.serializers import PaperSerializer, PaperEveryoneSerializer, PaperListSerializer, PaperLoadSerializer, PaperReadonlySerializer, PaperUnalloweUserSerializer, SignatureSerializer, ExplanationSignatureSerializer
+from papers.serializers import PaperSerializer, PaperEveryoneSerializer, PaperEveryoneDetailSerializer, PaperListSerializer, PaperLoadSerializer, PaperReadonlySerializer, PaperUnalloweUserSerializer, PaperUnalloweUserDetailSerializer, SignatureSerializer, ExplanationSignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser, IsSignatureUser
 
 class AllowPaperAPIView(APIView):
@@ -29,7 +29,7 @@ class AllowPaperAPIView(APIView):
             contractor.is_allowed = True
             contractor.save()
         if contractor.paper.status.status == PaperStatus.DRAFT:
-            serializer = PaperReadonlySerializer(contractor.paper)
+            serializer = PaperReadonlySerializer(contractor.paper, context={'request': request})
         else:
             serializer = PaperUnalloweUserSerializer(contractor.paper)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -153,9 +153,9 @@ class PaperViewset(ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         if not Contractor.objects.filter(paper=instance, profile__user=self.request.user).exists():
-            serializer = PaperEveryoneSerializer(instance)
+            serializer = PaperEveryoneDetailSerializer(instance, context={'request': request} )
         elif Contractor.objects.filter(paper=instance, is_allowed=False).exists():
-            serializer = PaperUnalloweUserSerializer(instance)
+            serializer = PaperUnalloweUserDetailSerializer(instance, context={'request': request} )
         else:
             serializer = self.get_serializer(instance)
         return Response(serializer.data)

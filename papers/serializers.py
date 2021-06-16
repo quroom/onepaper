@@ -1,13 +1,11 @@
-import datetime
 from django.db import transaction
-from django.utils import timezone
 from django.utils.translation import ugettext as _
 from rest_framework import fields
 from rest_framework import serializers
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
-from profiles.models import Profile, ExpertProfile, AllowedUser, Insurance
-from profiles.serializers import InsuranceSerializer, ProfileSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
+from profiles.models import ExpertProfile, AllowedUser
+from profiles.serializers import InsuranceSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
 from onepaper.serializers import ReadOnlyModelSerializer
 
@@ -99,14 +97,16 @@ class PaperListSerializer(ReadOnlyModelSerializer):
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer()
+    likes_count = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorSerializer(many=True)
-    verifying_explanation = VerifyingExplanationSerializer(required=False)
     status = serializers.SerializerMethodField()
+    user_has_vote = serializers.SerializerMethodField()
+    verifying_explanation = VerifyingExplanationSerializer(required=False)
 
     class Meta:
         model = Paper
-        fields = "__all__"
+        exclude = ["voters"]
 
     @transaction.atomic
     def create(self, validated_data):
@@ -262,6 +262,13 @@ class PaperSerializer(serializers.ModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
+    def get_likes_count(self, instance):
+        return instance.voters.count()
+
+    def get_user_has_vote(self, instance):
+        request = self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+
 class PaperLoadSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
@@ -278,7 +285,9 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     paper_contractors = ContractorReadonlySerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationReadonlySerializer()
+    user_has_vote = serializers.SerializerMethodField()
 
     class Meta:
         model = Paper
@@ -287,20 +296,38 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     def get_status(self, instance):
         return instance.status.status
 
+    def get_likes_count(self, instance):
+        return instance.voters.count()
+
+    def get_user_has_vote(self, instance):
+        request = self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
+
 class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     address = AddressSerializer(read_only=True)
-    paper_contractors = ContractorUnalloweUserSerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
+    paper_contractors = ContractorUnalloweUserSerializer(many=True)
     status = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
-        fields = "__all__"
+        exclude = ["voters"]
 
     def get_status(self, instance):
         return instance.status.status
+
+class PaperUnalloweUserDetailSerializer(PaperUnalloweUserSerializer):
+    likes_count = serializers.SerializerMethodField()
+    user_has_vote = serializers.SerializerMethodField()
+
+    def get_likes_count(self, instance):
+        return instance.voters.count()
+
+    def get_user_has_vote(self, instance):
+        request = self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()
 
 class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     address = serializers.SerializerMethodField()
@@ -310,7 +337,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
 
     class Meta:
         model = Paper
-        exclude = ["author"]
+        exclude = ["author", "voters"]
 
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
@@ -321,3 +348,14 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
 
     def get_status(self, instance):
         return instance.status.status
+
+class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
+    likes_count = serializers.SerializerMethodField()
+    user_has_vote = serializers.SerializerMethodField()
+
+    def get_likes_count(self, instance):
+        return instance.voters.count()
+
+    def get_user_has_vote(self, instance):
+        request = self.context.get("request")
+        return instance.voters.filter(pk=request.user.pk).exists()

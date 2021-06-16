@@ -8,11 +8,6 @@
           </v-btn>
         </v-col>
       </v-row>
-      <div class="mt-4 text-h4 font-weight-bold text-center">
-        {{
-          `${$t("realestate")} ${$getConstI18("TRADE_CATEGORY", trade_category)} ${$t("contract")}`
-        }}
-      </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-progress-linear
         v-if="is_expert"
@@ -95,6 +90,26 @@
             </v-card-text>
           </v-card>
         </v-dialog>
+        <v-row>
+          <v-col cols="12">
+            <ValidationProvider
+              v-slot="{ errors }"
+              ref="title"
+              :name="`${$t('title')}`"
+              :rules="`required|max:25`"
+            >
+              <v-text-field
+                class="ma-auto"
+                v-model="title"
+                :error-messages="errors"
+                :label="`${$t('paper')} ${$t('title')}`"
+                type="String"
+                required
+                style="max-width:400px"
+              ></v-text-field>
+            </ValidationProvider>
+          </v-col>
+        </v-row>
         <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
         <v-row>
           <v-col cols="8">
@@ -613,6 +628,7 @@ export default {
       from_date_menu: false,
       to_date_menu: false,
       panels: [0, 1, 2],
+      title: "",
       land_category: 7,
       lot_area: null,
       building_structure: "",
@@ -772,7 +788,7 @@ export default {
           },
           {
             name: "building_structure",
-            tyep: "String",
+            type: "String",
             required: false
           },
           {
@@ -1081,6 +1097,7 @@ export default {
           that.to_date = data.to_date;
           that.realestate_category = data.realestate_category;
           that.special_agreement = data.special_agreement;
+          that.title = data.title;
           if (data.verifying_explanation != null) {
             that.ve = data.verifying_explanation;
           }
@@ -1140,8 +1157,8 @@ export default {
             maintenance_fee: that.maintenance_fee,
             monthly_fee: that.monthly_fee,
             from_date: that.from_date,
-            to_date: that.to_date,
             title: that.title,
+            to_date: that.to_date,
             realestate_category: that.realestate_category,
             paper_contractors: that.contractors,
             options: that.options,
@@ -1290,6 +1307,7 @@ export default {
           vm.maintenance_fee = data.maintenance_fee;
           vm.monthly_fee = data.monthly_fee;
           vm.from_date = data.from_date;
+          vm.title = data.title;
           vm.to_date = data.to_date;
           vm.realestate_category = data.realestate_category;
           vm.special_agreement = data.special_agreement;
@@ -1302,6 +1320,10 @@ export default {
       } else {
         applyValidation(data);
       }
+    } else if (to.params.special_agreement !== undefined) {
+      return next((vm) => {
+        vm.special_agreement = to.params.special_agreement;
+      });
     } else {
       return next();
     }

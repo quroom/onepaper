@@ -266,6 +266,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -294,6 +295,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -323,6 +325,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -352,6 +355,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
             "verifying_explanation": self.verifying_explanation
@@ -384,6 +388,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
             "verifying_explanation": self.verifying_explanation
@@ -422,6 +427,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -460,6 +466,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -489,6 +496,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -517,6 +525,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -542,6 +551,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -563,6 +573,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -588,6 +599,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -609,6 +621,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -637,6 +650,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -662,6 +676,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -706,6 +721,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1000,
             "special_agreement": "<p>ㅎㅎ</p>",
+            "title": "테스트",
             "to_date": "2020-12-31",
             "trade_category": 1,
             "verifying_explanation": self.verifying_explanation
@@ -750,6 +766,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1000,
             "special_agreement": "<p>ㅎㅎ</p>",
+            "title": "테스트",
             "to_date": "2020-12-31",
             "trade_category": 1,
             "verifying_explanation": self.verifying_explanation
@@ -782,6 +799,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1000,
             "special_agreement": "<p>ㅎㅎ</p>",
+            "title": "테스트",
             "to_date": "2020-12-31",
             "trade_category": 1,
             "verifying_explanation": self.verifying_explanation
@@ -824,6 +842,7 @@ class PaperTestCase(APITestCase):
             ],
             "security_deposit": 1000,
             "special_agreement": "<p>ㅎㅎ</p>",
+            "title": "테스트",
             "to_date": "2020-12-31",
             "trade_category": 1,
             "verifying_explanation": self.verifying_explanation
@@ -911,6 +930,7 @@ class SignatureTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
         }
@@ -935,6 +955,7 @@ class SignatureTestCase(APITestCase):
             ],
             "security_deposit": 1,
             "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트",
             "to_date": "2020-11-30",
             "trade_category": 2,
             'verifying_explanation': {
