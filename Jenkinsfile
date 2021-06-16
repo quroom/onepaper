@@ -20,8 +20,8 @@ pipeline {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
                 echo 'Jenkins Build'
-                sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
                 sh 'pip3 install -r requirements.txt;'
+                sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
                 sh 'cd frontend; npm install; npm run build;'
             }
             post {
