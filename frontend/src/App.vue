@@ -1,8 +1,11 @@
 <template>
   <v-app app style="overflow-x:auto">
     <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category" />
-    <v-main class="root_tag">
-      <router-view v-if="!isLoading" :has_profile.sync="has_profile" />
+    <v-main v-if="!isLoading" class="root_tag">
+      <keep-alive v-if="!$route.meta.isDestroied">
+        <router-view :has_profile.sync="has_profile" />
+      </keep-alive>
+      <router-view v-if="$route.meta.isDestroied" :has_profile.sync="has_profile" />
     </v-main>
     <Footer class="no-print root_tag" />
   </v-app>
@@ -139,7 +142,7 @@ a:hover {
   max-height: 200px;
 }
 .root_tag {
-  min-width: 360px;
+  min-width: 380px;
 }
 /* Progress circular Style*/
 .v-progress-circular {

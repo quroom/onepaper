@@ -132,9 +132,41 @@ const router = new VueRouter({
   mode: "history",
   // base: process.env.BASE_URL,
   routes,
-  scrollBehavior() {
-    return { x: 1, y: 1 };
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 1, y: 1 };
+    }
   }
 });
 
+window.popStateDetected = false;
+window.addEventListener("popstate", () => {
+  window.popStateDetected = true;
+});
+
+router.beforeEach((to, from, next) => {
+  const IsItABackButton = window.popStateDetected;
+  window.popStateDetected = false;
+  if (!IsItABackButton) {
+    if (to.name == "paper-detail") {
+      to.meta.isDestroied = false;
+    } else if (from.name == null && to.name == "home") {
+      to.meta.isDestroied = false;
+    } else {
+      to.meta.isDestroied = true;
+    }
+  } else {
+    if (
+      (from.name == "paper-detail" && to.name == "home") ||
+      (from.name == "home" && to.name == "paper-detail")
+    ) {
+      to.meta.isDestroied = false;
+    } else {
+      to.meta.isDestroied = true;
+    }
+  }
+  next();
+});
 export default router;
