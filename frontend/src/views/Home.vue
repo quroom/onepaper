@@ -276,13 +276,6 @@ export default {
 };
 </script>
 <style scoped>
-.author-name-position {
-  float: right;
-}
-.author-name-font {
-  font-weight: bold !important;
-  color: #dc3545;
-}
 .card-title {
   width: 100%;
 }

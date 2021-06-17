@@ -1,6 +1,6 @@
 import i18n from "@/plugins/i18n";
 import { extend, configure } from "vee-validate";
-import { required, max_value, regex, size } from "vee-validate/dist/rules";
+import { max, max_value, regex, required, size } from "vee-validate/dist/rules";
 
 configure({
   defaultMessage: (_, values) => {
@@ -8,6 +8,7 @@ configure({
   }
 });
 extend("required", required);
+extend("max", max);
 extend("max_value", max_value);
 extend("regex", regex);
 extend("size", size);

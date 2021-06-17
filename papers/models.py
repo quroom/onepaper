@@ -120,13 +120,15 @@ class Paper(models.Model):
                             null=True, blank=True)
     from_date = models.DateField()
     to_date = models.DateField()
+    title = models.CharField(max_length=25)
     special_agreement = models.TextField(blank=True)
     status = models.OneToOneField(
         PaperStatus,
         on_delete=models.CASCADE,
         related_name="paper"
     )
-
+    voters = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                    related_name="vote_papers")
     class Meta:
         ordering = ['-updated_at']
 
@@ -174,7 +176,7 @@ class Answer(models.Model):
     body = models.TextField()
     contractor = models.ForeignKey(Contractor, on_delete=models.CASCADE, related_name="contractor_answers")
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                    related_name="votes")
+                                    related_name="vote_answers")
 
 class ExplanationSignature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)

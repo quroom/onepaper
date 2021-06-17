@@ -1,12 +1,8 @@
 <template>
   <v-container v-if="!isLoading" fluid>
     <template>
-      <div v-if="paper.trade_category != null" class="mt-4 text-h4 font-weight-bold text-center">
-        {{
-          `${$t("realestate")} ${$getConstI18("TRADE_CATEGORY", paper.trade_category)} ${$t(
-            "contract"
-          )}`
-        }}
+      <div class="mt-4 text-h4 font-weight-bold text-center">
+        {{ paper.title }}
       </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-row v-if="paper.author" class="mt-4 no-print">
@@ -27,7 +23,7 @@
       </v-row>
       <ActionItems
         v-if="
-          isPaperAuthor &&
+          isAuthor &&
             !isPaperDone &&
             (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)
         "
@@ -45,11 +41,6 @@
         </span>
       </div>
       <v-divider></v-divider>
-      <v-row>
-        <v-col class="text-h4 text-center text-decoration-underline" cols="12" xs="12">{{
-          paper.title
-        }}</v-col>
-      </v-row>
       <div>{{ $t("intro") }}</div>
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
       <v-row no-gutters v-if="paper.address">
@@ -164,7 +155,20 @@
           @openSignaturePad="open"
         ></ContractorItem>
       </template>
-      <div class="mt-5">4. {{ $t("special_agreement") }}</div>
+
+      <v-row align="end">
+        <v-col cols="auto">
+          <div>4. {{ $t("special_agreement") }}</div>
+        </v-col>
+        <v-col class="text-right">
+          <v-btn
+            v-if="!isAuthor"
+            :to="{ name: 'paper-editor', params: { special_agreement: paper.special_agreement } }"
+            dark
+            >{{ $t("load_special_agreement") }}</v-btn
+          >
+        </v-col>
+      </v-row>
       <quill-editor
         ref="myQuillEditor"
         v-model="paper.special_agreement"
@@ -285,7 +289,7 @@ export default {
     VerifyingExplanationEditor
   },
   computed: {
-    isPaperAuthor: function() {
+    isAuthor: function() {
       return this.paper.author === this.requestUser;
     },
     isPaperDone: function() {
