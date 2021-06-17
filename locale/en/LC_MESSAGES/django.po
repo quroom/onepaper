@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-10 13:30+0900\n"
+"POT-Creation-Date: 2021-06-17 11:52+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,28 +41,28 @@ msgstr "Progress"
 msgid "완료"
 msgstr "Done"
 
-#: .\papers\models.py:35 .\papers\models.py:234
+#: .\papers\models.py:35 .\papers\models.py:236
 msgid "대"
 msgstr "Building Land"
 
-#: .\papers\models.py:36 .\papers\models.py:52 .\papers\models.py:230
-#: .\papers\models.py:247
+#: .\papers\models.py:36 .\papers\models.py:52 .\papers\models.py:232
+#: .\papers\models.py:249
 msgid "기타"
 msgstr "Etc"
 
-#: .\papers\models.py:48 .\papers\models.py:243
+#: .\papers\models.py:48 .\papers\models.py:245
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:49 .\papers\models.py:244
+#: .\papers\models.py:49 .\papers\models.py:246
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:50 .\papers\models.py:208 .\papers\models.py:245
+#: .\papers\models.py:50 .\papers\models.py:210 .\papers\models.py:247
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:51 .\papers\models.py:246
+#: .\papers\models.py:51 .\papers\models.py:248
 msgid "아파트"
 msgstr ""
 
@@ -74,7 +74,7 @@ msgstr ""
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:63 .\papers\models.py:210
+#: .\papers\models.py:63 .\papers\models.py:212
 msgid "매매"
 msgstr ""
 
@@ -134,206 +134,202 @@ msgstr ""
 msgid "추가물품"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:141
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:140
+#: .\papers\models.py:142
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:141
+#: .\papers\models.py:143
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\models.py:209
+#: .\papers\models.py:211
 msgid "공동주택"
 msgstr ""
 
-#: .\papers\models.py:211
+#: .\papers\models.py:213
 msgid "임대"
 msgstr ""
 
-#: .\papers\models.py:223
+#: .\papers\models.py:225
 msgid "등기권리증"
 msgstr ""
 
-#: .\papers\models.py:224
+#: .\papers\models.py:226
 msgid "등기사항증명서"
 msgstr ""
 
-#: .\papers\models.py:225
+#: .\papers\models.py:227
 msgid "토지대장"
 msgstr ""
 
-#: .\papers\models.py:226
+#: .\papers\models.py:228
 msgid "건축물대장"
 msgstr ""
 
-#: .\papers\models.py:227
+#: .\papers\models.py:229
 msgid "지적도"
 msgstr ""
 
-#: .\papers\models.py:228
+#: .\papers\models.py:230
 msgid "임야도"
 msgstr ""
 
-#: .\papers\models.py:229
+#: .\papers\models.py:231
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: .\papers\models.py:255
+#: .\papers\models.py:257
 msgid "해당사항없음"
 msgstr ""
 
-#: .\papers\models.py:256
+#: .\papers\models.py:258
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:257
+#: .\papers\models.py:259
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:258 .\papers\models.py:287
+#: .\papers\models.py:260 .\papers\models.py:289
 msgid "그 밖의 유형"
 msgstr ""
 
-#: .\papers\models.py:265
+#: .\papers\models.py:267
 msgid "토기투기지역"
 msgstr ""
 
-#: .\papers\models.py:266
+#: .\papers\models.py:268
 msgid "주택투기지역"
 msgstr ""
 
-#: .\papers\models.py:267
+#: .\papers\models.py:269
 msgid "투기과열지구"
 msgstr ""
 
-#: .\papers\models.py:275
+#: .\papers\models.py:277
 msgid "없음"
 msgstr "None"
 
-#: .\papers\models.py:276
+#: .\papers\models.py:278
 msgid "전용주차시설"
 msgstr ""
 
-#: .\papers\models.py:277
+#: .\papers\models.py:279
 msgid "공동주차시설"
 msgstr ""
 
-#: .\papers\models.py:278
+#: .\papers\models.py:280
 msgid "그 밖의 주차시설"
 msgstr ""
 
-#: .\papers\models.py:285
+#: .\papers\models.py:287
 msgid "위탁관리"
 msgstr ""
 
-#: .\papers\models.py:286
+#: .\papers\models.py:288
 msgid "자체관리"
 msgstr ""
 
-#: .\papers\models.py:293
+#: .\papers\models.py:295
 msgid "중앙공급"
 msgstr ""
 
-#: .\papers\models.py:294
+#: .\papers\models.py:296
 msgid "개별공급"
 msgstr ""
 
-#: .\papers\models.py:302
+#: .\papers\models.py:304
 msgid "도시가스"
 msgstr ""
 
-#: .\papers\models.py:303
+#: .\papers\models.py:305
 msgid "기름"
 msgstr ""
 
-#: .\papers\models.py:304
+#: .\papers\models.py:306
 msgid "프로판가스"
 msgstr ""
 
-#: .\papers\models.py:305
+#: .\papers\models.py:307
 msgid "연탄"
 msgstr ""
 
-#: .\papers\models.py:306
+#: .\papers\models.py:308
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:212 .\papers\tests.py:331
+#: .\papers\serializers.py:212 .\papers\tests.py:334
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:226 .\papers\tests.py:430
+#: .\papers\serializers.py:226 .\papers\tests.py:436
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:235 .\papers\tests.py:468
+#: .\papers\serializers.py:235 .\papers\tests.py:475
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:242 .\papers\tests.py:525
+#: .\papers\serializers.py:242 .\papers\tests.py:534
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:247 .\papers\tests.py:497
+#: .\papers\serializers.py:247 .\papers\tests.py:505
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:253 .\papers\tests.py:838
+#: .\papers\serializers.py:253 .\papers\tests.py:857
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
 #: .\papers\serializers.py:257 .\papers\serializers.py:258
-#: .\papers\tests.py:302 .\papers\tests.py:303
+#: .\papers\tests.py:304 .\papers\tests.py:305
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:404 .\papers\views.py:26
+#: .\papers\tests.py:409 .\papers\views.py:26
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:620 .\papers\views.py:171
+#: .\papers\tests.py:633 .\papers\views.py:171
 msgid "완료된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:674 .\papers\views.py:199
+#: .\papers\tests.py:689 .\papers\views.py:199
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:724 .\profiles\tests.py:341 .\profiles\views.py:161
+#: .\papers\tests.py:740 .\profiles\tests.py:341 .\profiles\views.py:161
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:730 .\profiles\views.py:174
-#, fuzzy
-#| msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+#: .\papers\tests.py:746 .\profiles\views.py:174
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:762 .\profiles\views.py:202
-#, fuzzy
-#| msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+#: .\papers\tests.py:779 .\profiles\views.py:202
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:1125 .\papers\tests.py:1214 .\papers\views.py:50
+#: .\papers\tests.py:1146 .\papers\tests.py:1235 .\papers\views.py:50
 #: .\papers\views.py:227
 msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1135 .\papers\tests.py:1224 .\papers\views.py:57
+#: .\papers\tests.py:1156 .\papers\tests.py:1245 .\papers\views.py:57
 #: .\papers\views.py:234
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1167 .\papers\tests.py:1256 .\papers\views.py:74
+#: .\papers\tests.py:1188 .\papers\tests.py:1277 .\papers\views.py:74
 #: .\papers\views.py:248
 msgid "완료된 계약서의 서명은 수정할 수 없습니다."
 msgstr ""
@@ -420,14 +416,10 @@ msgid "상호명"
 msgstr "Shop Name"
 
 #: .\profiles\forms.py:180
-#, fuzzy
-#| msgid "중개사 등록증"
 msgid "중개사무소 등록증"
 msgstr "Registration Certificate"
 
 #: .\profiles\forms.py:181
-#, fuzzy
-#| msgid "중개사 자격증"
 msgid "공인중개사 자격증"
 msgstr "Agency License"
 
@@ -444,16 +436,12 @@ msgid "사무실 주소"
 msgstr "Shop Address"
 
 #: .\profiles\forms.py:185
-#, fuzzy
-#| msgid "보증서류"
 msgid "보증서류 시작일"
-msgstr "Brokerage Garantee Insurance"
+msgstr "Start Date Brokerage Garantee Insurance"
 
 #: .\profiles\forms.py:186
-#, fuzzy
-#| msgid "보증서류"
 msgid "보증서류 만료일"
-msgstr "Brokerage Garantee Insurance"
+msgstr "Expired Date Brokerage Garantee Insurance"
 
 #: .\profiles\models.py:53
 msgid "staff status"
@@ -566,10 +554,8 @@ msgid "KEB하나은행"
 msgstr ""
 
 #: .\profiles\models.py:125
-#, fuzzy
-#| msgid "요청"
 msgid "우체국"
-msgstr "Request"
+msgstr ""
 
 #: .\profiles\models.py:126
 msgid "신한은행"
@@ -604,10 +590,8 @@ msgid "거부"
 msgstr "Denied"
 
 #: .\profiles\serializers.py:99
-#, fuzzy
-#| msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
-msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
+msgstr ""
 
 #: .\profiles\serializers.py:313
 #, python-format
@@ -687,57 +671,57 @@ msgstr "No expert was chosen."
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
-#: .\profiles\tests.py:552 .\profiles\views.py:271
+#: .\profiles\tests.py:554 .\profiles\views.py:271
 msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\profiles\tests.py:620 .\profiles\views.py:233
+#: .\profiles\tests.py:624 .\profiles\views.py:233
 msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have a contract paper, you cannot edit your profile."
 
-#: .\profiles\tests.py:658 .\profiles\views.py:236
+#: .\profiles\tests.py:662 .\profiles\views.py:236
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: .\profiles\tests.py:693 .\profiles\views.py:274
+#: .\profiles\tests.py:697 .\profiles\views.py:274
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
-#: .\profiles\tests.py:705 .\profiles\views.py:396
+#: .\profiles\tests.py:709 .\profiles\views.py:396
 #, fuzzy
 #| msgid "성함, 연락처 모두 입력해야 합니다."
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr "You must enter both your name and contact information."
 
-#: .\profiles\tests.py:810 .\profiles\views.py:300
+#: .\profiles\tests.py:815 .\profiles\views.py:300
 msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
 msgstr "If there is a contract, the member information cannot be modified."
 
-#: .\profiles\tests.py:821 .\profiles\views.py:326
+#: .\profiles\tests.py:826 .\profiles\views.py:326
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 "Withdrawal has been processed. Account information has also been completely "
 "deleted."
 
-#: .\profiles\tests.py:853 .\profiles\views.py:323
+#: .\profiles\tests.py:859 .\profiles\views.py:323
 msgid "탈퇴처리 되었습니다."
 msgstr "Withdrawal has been processed."
 
-#: .\profiles\tests.py:862 .\profiles\views.py:319
+#: .\profiles\tests.py:868 .\profiles\views.py:319
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr "Please enter all the information of the member to withdraw from."
 
-#: .\profiles\tests.py:872 .\profiles\views.py:317
+#: .\profiles\tests.py:878 .\profiles\views.py:317
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 "The information entered does not match the current member's information."
 
-#: .\profiles\tests.py:968 .\profiles\tests.py:1001 .\profiles\views.py:362
+#: .\profiles\tests.py:974 .\profiles\tests.py:1007 .\profiles\views.py:362
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\tests.py:1016 .\profiles\views.py:379
+#: .\profiles\tests.py:1022 .\profiles\views.py:379
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
@@ -755,21 +739,21 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:135
+#: .\templates\account\base.html:143
 msgid "Online Realesate Contract"
 msgstr ""
 
-#: .\templates\account\base.html:138 .\templates\index-dev.html:5
+#: .\templates\account\base.html:146 .\templates\index-dev.html:5
 #: .\templates\index.html:8
 msgid "Onepaper"
 msgstr ""
 
-#: .\templates\account\base.html:150
+#: .\templates\account\base.html:152
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
-"  <br/>\n"
-"  Copyright © Onepaper. All Rights Reserved.\n"
-"  "
+"    <br/>\n"
+"    Copyright © Onepaper. All Rights Reserved.\n"
+"    "
 msgstr ""
 
 #: .\templates\account\email.html:6 .\templates\account\email.html:9
