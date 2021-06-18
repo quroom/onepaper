@@ -2,7 +2,7 @@
   <v-app app style="overflow-x:auto">
     <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category" />
     <v-main v-if="!isLoading" class="root_tag">
-      <keep-alive v-if="!$route.meta.isDestroied">
+      <keep-alive v-if="!$route.meta.isDestroied" include="Home">
         <router-view :has_profile.sync="has_profile" />
       </keep-alive>
       <router-view v-if="$route.meta.isDestroied" :has_profile.sync="has_profile" />
