@@ -114,22 +114,21 @@
 <body>
 
 {% block body %}
-
-{% if messages %}
-<div>
-    {% for message in messages %}
-      <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {{ message }}
-      </div>
-    {% endfor %}
-</div>
-{% endif %}
-{% block erros %}
-{% endblock %}
 <div class="d-flex flex-column" style="min-height: 100vh;">
+  {% if messages %}
+  <div>
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{ message }}
+        </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+  {% block erros %}
+  {% endblock %}
   <div class="auth-box text-center container flex-grow-1">
     <h4 class="mt-4">
       <strong> {% trans "Online Realesate Contract" %} </strong>
