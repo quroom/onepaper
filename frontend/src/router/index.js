@@ -152,7 +152,7 @@ router.beforeEach((to, from, next) => {
   if (!IsItABackButton) {
     if (to.name == "paper-detail") {
       to.meta.isDestroied = false;
-    } else if (to.name == "home") {
+    } else if (from.name == null && to.name == "home") {
       to.meta.isDestroied = false;
     } else {
       to.meta.isDestroied = true;
