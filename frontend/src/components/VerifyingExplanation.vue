@@ -1184,14 +1184,8 @@
             </div>
           </td>
           <td class="border-tbl" width="255" colspan="3" rowspan="4">
-            <div>
-              &lt;산출내역&gt;
-              <br /><br />
-              중개보수: {{ `${ve.comission}${$t("won")}` }} <br /><br />
-              실 비: {{ `${ve.actual_expenses}${$t("won")}` }} <br /><br />
-              ※ 중개보수는 시·도 조례로 정한 요율에 따르거나, 시·도 조례로 정한 요율한도에서
-              중개의뢰인과 개업공인중개사가 서로 협의하여 결정하도록 한 요율에 따르며 부가가치세는
-              별도로 부과될 수 있습니다.
+            <div style="white-space: pre-line">
+              {{ `${ve.calculation_info}` }}
             </div>
           </td>
         </tr>
