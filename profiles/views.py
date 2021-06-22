@@ -230,7 +230,7 @@ class ProfileViewset(ModelViewSet):
                 return Response({"detail": ValidationError(_("승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Contractor.objects.filter(profile=obj).exclude(paper__status__status=PaperStatus.REQUESTING).exists():
-            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Mandate.objects.filter(designator=obj).exists() or Mandate.objects.filter(designee=obj).exists():
             return Response({"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
@@ -268,7 +268,7 @@ class ProfileViewset(ModelViewSet):
             return Response({"detail": ValidationError(_("활성 프로필은 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Contractor.objects.filter(profile=instance).exclude(paper__status__status=PaperStatus.REQUESTING).exists():
-            return Response({"detail": ValidationError(_("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": ValidationError(_("요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         if Mandate.objects.filter(designator=instance).exists() or Mandate.objects.filter(designee=instance).exists():
             return Response({"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
@@ -296,8 +296,8 @@ class CustomUserViewset(mixins.CreateModelMixin,
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
         instance = self.get_object()
-        if Paper.objects.filter(paper_contractors__profile__user=instance).exists():
-            return Response({"detail": ValidationError(_("계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+        if Paper.objects.filter(paper_contractors__profile__user=instance).exclude(status__status=PaperStatus.REQUESTING).exists():
+            return Response({"detail": ValidationError(_("요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(
             instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -317,7 +317,7 @@ class CustomUserViewset(mixins.CreateModelMixin,
                 return Response({"detail": ValidationError(_("입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             return Response({"detail": ValidationError(_("탈퇴할 회원의 정보를 모두 입력해주세요."))}, status=status.HTTP_400_BAD_REQUEST)
-        if Paper.objects.filter(paper_contractors__profile__user=instance).exists():
+        if Paper.objects.filter(paper_contractors__profile__user=instance).exclude(status__status=PaperStatus.REQUESTING).exists():
             instance.is_default = False
             instance.save()
             return Response({"user_delete": _("탈퇴처리 되었습니다.")}, status=status.HTTP_200_OK)

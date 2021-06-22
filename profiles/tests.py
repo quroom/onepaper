@@ -551,7 +551,7 @@ class ProfileTestCase(APITestCase):
         self.create_profile()
         response = self.client.delete(reverse("profiles-detail", kwargs={"pk": response.data["id"]}))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
+        self.assertEqual(response.data['detail'].message, _("요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))
 
     def test_profile_update_with_requesting_paper(self):
         response = self.create_profile()
@@ -621,7 +621,7 @@ class ProfileTestCase(APITestCase):
             }
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['detail'].message, _("거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."))
+        self.assertEqual(response.data['detail'].message, _("요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."))
 
     def test_profile_update_with_mandate(self):
         response = self.create_profile()
@@ -812,7 +812,7 @@ class CustomUserTestCase(APITestCase):
         response = self.client.put(
             reverse("user-detail", kwargs={"pk": response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."))
 
     def test_user_delete_with_profile(self):
         self.create_profile()

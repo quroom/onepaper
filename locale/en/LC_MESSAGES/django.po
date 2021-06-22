@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-17 11:52+0900\n"
+"POT-Creation-Date: 2021-06-22 13:54+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -672,12 +672,16 @@ msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
 #: .\profiles\tests.py:554 .\profiles\views.py:271
-msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
-msgstr "If you have a contract, you cannot delete your profile."
+msgid "요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+msgstr ""
+"If there is a contract after the request stage, you cannot delete your "
+"profile."
 
 #: .\profiles\tests.py:624 .\profiles\views.py:233
-msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
-msgstr "If you have a contract paper, you cannot edit your profile."
+msgid "요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."
+msgstr ""
+"If there is a contract after the request stage, you cannot delete your "
+"profile."
 
 #: .\profiles\tests.py:662 .\profiles\views.py:236
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
@@ -695,8 +699,10 @@ msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr "You must enter both your name and contact information."
 
 #: .\profiles\tests.py:815 .\profiles\views.py:300
-msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
-msgstr "If there is a contract, the member information cannot be modified."
+msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
+msgstr ""
+"If there is a contract after the request stage, the user information cannot "
+"be modified."
 
 #: .\profiles\tests.py:826 .\profiles\views.py:326
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
@@ -739,16 +745,16 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:143
+#: .\templates\account\base.html:134
 msgid "Online Realesate Contract"
 msgstr ""
 
-#: .\templates\account\base.html:146 .\templates\index-dev.html:5
+#: .\templates\account\base.html:137 .\templates\index-dev.html:5
 #: .\templates\index.html:8
 msgid "Onepaper"
 msgstr ""
 
-#: .\templates\account\base.html:152
+#: .\templates\account\base.html:143
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "    <br/>\n"
@@ -1455,3 +1461,12 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
+#~ msgstr "If you have a contract, you cannot delete your profile."
+
+#~ msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
+#~ msgstr "If you have a contract paper, you cannot edit your profile."
+
+#~ msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
+#~ msgstr "If there is a contract, the member information cannot be modified."
