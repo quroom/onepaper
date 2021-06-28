@@ -25,7 +25,7 @@ class AllowedProfileList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         profiles = Profile.objects.filter(
-            allowed_user__allowed_users=request.user).filter(is_default=True).filter(expert_profile=None).select_related('user', 'address', 'expert_profile')
+            allowed_user__allowed_users=request.user).filter(is_default=True).select_related('user', 'address', 'expert_profile')
         serializer = ProfileReadonlySerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
