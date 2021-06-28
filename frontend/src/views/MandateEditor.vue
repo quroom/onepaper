@@ -295,7 +295,7 @@ export default {
         { name: "name", key: "user.name", cols: "9", md: "4", lg: "4" },
         { name: "birthday", key: "user.birthday", cols: "9", md: "4", lg: "4" },
         { name: "mobile_number", cols: "9", md: "4", lg: "4" },
-        { name: "bank_name", cols: "9", md: "4", lg: "4" },
+        { name: "bank_name", const_name: "bank_category", cols: "9", md: "4", lg: "4" },
         { name: "account_number", cols: "9", md: "4" }
       ],
       editorOption: {
