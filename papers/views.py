@@ -178,8 +178,8 @@ class PaperViewset(ModelViewSet):
             explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
-                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 12:
-                    return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 24:
+                    return Response({"detail": ValidationError(_("최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
@@ -206,8 +206,8 @@ class PaperViewset(ModelViewSet):
             explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
-                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 12:
-                        return Response({"detail": ValidationError(_("최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
+                if (datetime.datetime.utcnow() - first_signature_time).total_seconds() / 3600 > 24:
+                        return Response({"detail": ValidationError(_("최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)

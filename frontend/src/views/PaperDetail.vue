@@ -337,7 +337,7 @@ export default {
         }
         const min_sign_updated_at = new Date(min_sign_updated_at_str);
         deadline = min_sign_updated_at;
-        deadline.setTime(min_sign_updated_at.getTime() + 12 * 60 * 60 * 1000);
+        deadline.setTime(min_sign_updated_at.getTime() + 24 * 60 * 60 * 1000);
         if (new Date() > deadline) {
           return "0000-00-00";
         }

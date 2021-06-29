@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-22 13:54+0900\n"
+"POT-Creation-Date: 2021-06-29 11:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,11 +344,11 @@ msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
 msgstr ""
 
 #: .\papers\views.py:182
-msgid "최초 서명 후 12시간이 지나면 계약서를 수정 할 수 없습니다."
+msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
 #: .\papers\views.py:210
-msgid "최초 서명 후 12시간이 지나면 계약서를 삭제 할 수 없습니다."
+msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
 #: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:111
