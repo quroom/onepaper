@@ -59,7 +59,7 @@
                     @keyup.enter="searchProfile()"
                   ></LazyTextField>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="auto">
                   <LazyTextField
                     v-model="search.mobile_number"
                     :label="$t('mobile_number')"
