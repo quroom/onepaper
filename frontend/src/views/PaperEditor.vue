@@ -52,14 +52,14 @@
           <v-card>
             <v-card-text>
               <v-row>
-                <v-col cols="8">
+                <v-col cols="12" sm="7">
                   <LazyTextField
                     v-model="search.email"
                     :label="$t('email')"
                     @keyup.enter="searchProfile()"
                   ></LazyTextField>
                 </v-col>
-                <v-col cols="auto">
+                <v-col cols="12" sm="5">
                   <LazyTextField
                     v-model="search.mobile_number"
                     :label="$t('mobile_number')"
