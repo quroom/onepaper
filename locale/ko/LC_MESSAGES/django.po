@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 11:31+0900\n"
+"POT-Creation-Date: 2021-07-05 09:55+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -727,11 +727,11 @@ msgid "Online Realesate Contract"
 msgstr "온라인 부동산 계약 서비스"
 
 #: .\templates\account\base.html:137 .\templates\index-dev.html:5
-#: .\templates\index.html:8
+#: .\templates\index.html:8 .\templates\intro.html:186
 msgid "Onepaper"
 msgstr "원페이퍼"
 
-#: .\templates\account\base.html:143
+#: .\templates\account\base.html:143 .\templates\intro.html:367
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "    <br/>\n"
@@ -1495,6 +1495,25 @@ msgstr ""
 msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
+msgstr ""
+
+#: .\templates\intro.html:188
+msgid ""
+"\n"
+"        부동산 온라인 계약 서비스를 통해\n"
+"        <br />\n"
+"        계약서 작성·관리시간을 획기적으로 줄여요.\n"
+"        <br />\n"
+"        줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
+"        "
+msgstr ""
+
+#: .\templates\intro.html:245
+msgid "사용자 리뷰"
+msgstr ""
+
+#: .\templates\intro.html:338
+msgid "회사연혁"
 msgstr ""
 
 #: .\templates\socialaccount\authentication_error.html:5
