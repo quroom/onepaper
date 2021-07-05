@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 14:48+0900\n"
+"POT-Creation-Date: 2021-07-05 15:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1497,7 +1497,7 @@ msgstr ""
 "Oh, it's good that you don't have to worry about losing it."
 
 #: .\templates\intro.html:342
-msgid "회사연혁"
+msgid "기업연혁"
 msgstr "Company History"
 
 #: .\templates\intro.html:349
@@ -1612,6 +1612,9 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid "회사연혁"
+#~ msgstr "Company History"
 
 #~ msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 #~ msgstr "If you have a contract, you cannot delete your profile."
