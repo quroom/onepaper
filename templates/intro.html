@@ -186,14 +186,11 @@
       <h1 class="display-4 font-weight-normal">{% trans "Onepaper" %}</h1>
       <p class="lead font-weight-normal">
         {% blocktrans %}
-        부동산 온라인 계약 서비스를 통해
-        <br />
-        계약서 작성·관리시간을 획기적으로 줄여요.
-        <br />
-        줄인시간은 삶 속 더 소중한 곳에 쓰세요.
+        부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으로 줄여요.
+        <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.
         {% endblocktrans %}
       </p>
-      <a class="btn btn-primary" href="accounts/login/">시작하기</a>
+      <a class="btn btn-primary" href="accounts/login/">{%trans '무료로 시작하기' %}</a>
     </div>
     <div class="product-device shadow-sm d-none d-md-block"></div>
     <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -201,7 +198,7 @@
   <!-- START THE FEATURETTES -->
   <div class="container">
     <hr class="featurette-divider">
-    <h2 class="text-center mb-4 font-weight-bold">원페이퍼 특징 3가지</h2>
+    <h2 class="text-center mb-4 font-weight-bold">{%trans '원페이퍼 특징 3가지' %}</h2>
     <div class="row gx-5 text-center">
       <div class="col-lg-4 mb-5 mb-lg-0">
         <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4"><svg
@@ -210,8 +207,10 @@
             class="feather feather-code">
             <polyline points="8 22 18 12 8 12 18 2"></polyline>
           </svg></div>
-        <h4>언제든 쉽고 빠르게</h4>
-        <p class="mb-0">계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보세요.</p>
+        <h4>{%trans '언제든 쉽고 빠르게' %}</h4>
+        <p class="mb-0">
+          {% blocktrans %}계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보세요.{% endblocktrans %}
+        </p>
       </div>
       <div class="col-lg-4 mb-5 mb-lg-0">
         <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4">
@@ -223,8 +222,11 @@
             <polyline points="2 12 12 17 22 12"></polyline>
           </svg>
         </div>
-        <h4>계약서 통합 관리</h4>
-        <p class="mb-0">분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세요.</p>
+        <h4>{%trans '계약서 통합 관리' %}</h4>
+        <p class="mb-0">
+          {% blocktrans %}분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세요.{% endblocktrans %}
+        </p>
+        
       </div>
       <div class="col-lg-4">
         <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4"><svg
@@ -234,8 +236,10 @@
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
             <line x1="12" y1="18" x2="12.01" y2="18"></line>
           </svg></div>
-        <h4>PC, 모바일 모두 지원</h4>
-        <p class="mb-0">브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어요.</p>
+        <h4>{%trans 'PC, 모바일 모두 지원' %}</h4>
+        <p class="mb-0">
+          {% blocktrans %}브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어요.{% endblocktrans %}
+        </p>
       </div>
     </div>
     <hr class="featurette-divider">
@@ -245,7 +249,7 @@
       <h2 class="mb-4 font-weight-bold">{%trans '사용자 리뷰' %}</h2>
       <div class="row">
         <div class="col-lg-4 mb-5 mb-lg-0">
-          <h4>마*경(임대인, 30대 직장인)</h4>
+          <h4>{%trans '마*경(임대인, 30대 직장인)' %}</h4>
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#ffc107" class="bi bi-star-fill"
             viewBox="0 0 24 24">
             <path
@@ -271,10 +275,10 @@
             <path
               d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
           </svg>
-          <p>불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도가 몇배는 빨라졌어요.</p>
+          <p>{%trans '불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도가 몇배는 빨라졌어요.' %}</p>
         </div>
         <div class="col-lg-4 mb-5 mb-lg-0">
-          <h4>김*현(임차인, 20대 대학생)</h4>
+          <h4>{%trans '김*현(임차인, 20대 대학생)' %}</h4>
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#ffc107" class="bi bi-star-fill"
             viewBox="0 0 24 24">
             <path
@@ -300,10 +304,10 @@
             <path
               d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
           </svg>
-          <p>시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋았습니다.</p>
+          <p>{%trans '시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋았습니다.' %}</p>
         </div>
         <div class="col-lg-4">
-          <h4>박*연(임대인, 40대 직장인)</h4>
+          <h4>{%trans '박*연(임대인, 40대 직장인)' %}</h4>
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#ffc107" class="bi bi-star-fill"
             viewBox="0 0 24 24">
             <path
@@ -329,7 +333,7 @@
             <path
               d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
           </svg>
-          <p>종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는것도 좋구요. </p>
+          <p>{%trans '종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는것도 좋구요.' %}</p>
         </div>
       </div>
     </div>
@@ -342,20 +346,20 @@
         <div class="timeline timeline-one">
           <!-- Timeline Item 1 -->
           <div class="timeline-item">
-            <h5 class="mt-3 mb-0">~현재</h5>
-            <p class="font-weight-bold">부동산 온라인 계약 원페이퍼 출시 및 운영</p>
-            <p>부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이다.</p>
+            <h5 class="mt-3 mb-0">{%trans '~현재' %}</h5>
+            <p class="font-weight-bold">{%trans '부동산 온라인 계약 원페이퍼 출시 및 운영' %}</p>
+            <p>{%trans '부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이다.' %}</p>
           </div>
           <div class="timeline-item">
             <h5 class="mt-3 mb-0">~2019</h5>
-            <p class="font-weight-bold">소셜벤처 설립 및 운영</p>
-            <p>한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 제공하는 것이 큐룸의 미션이다.</p>
+            <p class="font-weight-bold">{%trans '소셜벤처 설립 및 운영' %}</p>
+            <p>{%trans '한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 제공하는 것이 큐룸의 미션이다.' %}</p>
           </div>
           <!-- Timeline Item 3 -->
           <div class="timeline-item">
             <h5 class="mt-3 mb-0">2017</h5>
-            <p class="font-weight-bold"> 소셜그룹 혼족스 운영</p>
-            <p>혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다.</p>
+            <p class="font-weight-bold">{%trans '소셜그룹 혼족스 운영' %}</p>
+            <p>{%trans '혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다.' %}</p>
           </div>
         </div>
         <!--End of Timeline-->
