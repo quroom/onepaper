@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 09:55+0900\n"
+"POT-Creation-Date: 2021-07-05 14:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -756,7 +756,7 @@ msgstr ""
 msgid "Onepaper"
 msgstr ""
 
-#: .\templates\account\base.html:143 .\templates\intro.html:367
+#: .\templates\account\base.html:143 .\templates\intro.html:371
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "    <br/>\n"
@@ -1401,21 +1401,151 @@ msgstr ""
 #: .\templates\intro.html:188
 msgid ""
 "\n"
-"        부동산 온라인 계약 서비스를 통해\n"
-"        <br />\n"
-"        계약서 작성·관리시간을 획기적으로 줄여요.\n"
-"        <br />\n"
-"        줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
+"        부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으"
+"로 줄여요.\n"
+"        <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
 "        "
 msgstr ""
+"\n"
+" Significantly reduce the time for writing and managing contracts through "
+"real estate online contract serviceAbbreviated to.\n"
+" <br/>Use the time you save on something more precious in life.\n"
+" "
 
-#: .\templates\intro.html:245
+#: .\templates\intro.html:193
+msgid "무료로 시작하기"
+msgstr "Get Started for Free"
+
+#: .\templates\intro.html:201
+msgid "원페이퍼 특징 3가지"
+msgstr "Three features of Onepaper"
+
+#: .\templates\intro.html:210
+msgid "언제든 쉽고 빠르게"
+msgstr "Anytime and quickly"
+
+#: .\templates\intro.html:212
+msgid ""
+"계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보"
+"세요."
+msgstr ""
+"Provides various functions such as importing contracts! <br /> Please reduce "
+"contract writing timeby 1/10"
+
+#: .\templates\intro.html:225
+msgid "계약서 통합 관리"
+msgstr "Integrated contract management"
+
+#: .\templates\intro.html:227
+msgid ""
+"분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세"
+"요."
+msgstr ""
+"No worry losing paper. No repeated input. Yes easy management.<br /> Simple "
+"management with Onepaper."
+
+#: .\templates\intro.html:239
+msgid "PC, 모바일 모두 지원"
+msgstr "Supports both PC and mobile"
+
+#: .\templates\intro.html:241
+msgid ""
+"브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어"
+"요."
+msgstr ""
+"Anytime, anywhere as long as you have a browser. <br /> You can write "
+"regardless of PC or mobile."
+
+#: .\templates\intro.html:249
 msgid "사용자 리뷰"
-msgstr ""
+msgstr "User review"
 
-#: .\templates\intro.html:338
-msgid "회사연혁"
+#: .\templates\intro.html:252
+msgid "마*경(임대인, 30대 직장인)"
+msgstr "Ma*kyung(landrold, 30s salaryman)"
+
+#: .\templates\intro.html:278
+msgid ""
+"불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
+"가 몇배는 빨라졌어요."
 msgstr ""
+"I really like the import function. By entering the same information at once, "
+"the contract writing speed is several times faster."
+
+#: .\templates\intro.html:281
+msgid "김*현(임차인, 20대 대학생)"
+msgstr "Kim*Hyun(tenant, 20s student)"
+
+#: .\templates\intro.html:307
+msgid ""
+"시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
+"았습니다."
+msgstr ""
+"People living in the countryside had to schedule one day to sign a contract, "
+"but it was nice not to have to."
+
+#: .\templates\intro.html:310
+msgid "박*연(임대인, 40대 직장인)"
+msgstr "Park*Yeon(landlord, 40s salaryman)"
+
+#: .\templates\intro.html:336
+msgid ""
+"종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
+"것도 좋구요."
+msgstr ""
+"Unlike paper contracts, I like that you can check the contract at any time. "
+"Oh, it's good that you don't have to worry about losing it."
+
+#: .\templates\intro.html:342
+msgid "회사연혁"
+msgstr "Company History"
+
+#: .\templates\intro.html:349
+msgid "~현재"
+msgstr "~Now"
+
+#: .\templates\intro.html:350
+msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
+msgstr "Launch and operation of Onepaper for real estate online contract"
+
+#: .\templates\intro.html:351
+msgid ""
+"부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
+"로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
+"적이다."
+msgstr ""
+"The purpose of One Paper is to reduce the absolute time required for real "
+"estate transactions, spend time on more valuable places, and support safer "
+"real estate transactions by using long-term accumulated data."
+
+#: .\templates\intro.html:355
+msgid "소셜벤처 설립 및 운영"
+msgstr "Social venture establishment and operation"
+
+#: .\templates\intro.html:356
+msgid ""
+"한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
+"설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
+"경험을 제공하는 것이 큐룸의 미션이다."
+msgstr ""
+"After being selected as a Korean social entrepreneur nurturing project, "
+"Quroom Co., Ltd. was established for innovation in the real estate field. "
+"Quroom's mission is to solve the problems of the existing real estate market "
+"and provide a better experience to customers through Proptech."
+
+#: .\templates\intro.html:361
+msgid "소셜그룹 혼족스 운영"
+msgstr "Operate social group Honjoks"
+
+#: .\templates\intro.html:362
+msgid ""
+"혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
+"유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
+msgstr ""
+"Honjoks is a social group for single-person households and conducted various "
+"public interest activities such as real estate knowledge, legal knowledge "
+"sharing meetings, joint purchase of fruit, and sharing events for single-"
+"person households."
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
