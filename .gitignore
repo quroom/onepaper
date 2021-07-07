@@ -10,7 +10,6 @@ yarn-error.log*
 selenium-debug.log
 onehand/__pycache__
 staticfiles
-static
 webpack-stats.json
 
 # Editor directories and files
@@ -20,7 +19,6 @@ webpack-stats.json
 *.ntvs*
 *.njsproj
 *.sln
-*.png
 
 # Distribution / packaging
 .Python
