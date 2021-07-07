@@ -15,8 +15,6 @@
     <title>{% block title %}{% endblock %}</title> 
     <link rel="canonical" href="https://onepaper.biz/">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    {% block js %}
-    {% endblock %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-52ZPPHH0S4"></script>
     <script>
@@ -50,6 +48,8 @@
 </head>
 <body>
     {% block body %}
+    {% endblock %}
+    {% block js %}
     {% endblock %}
 </body>
 </html>
