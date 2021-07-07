@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 15:08+0900\n"
+"POT-Creation-Date: 2021-07-07 13:19+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -627,26 +627,20 @@ msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
 #: .\profiles\tests.py:110 .\profiles\views.py:52
-#, fuzzy
-#| msgid "자기 자신의 아이디는 추가할 수 없습니다."
 msgid "자기 자신의 이메일은 추가할 수 없습니다."
-msgstr "You cannot add your own ID."
+msgstr "You cannot add your account."
 
 #: .\profiles\tests.py:115 .\profiles\views.py:57
-#, fuzzy
-#| msgid "사용자가 존재하지 않습니다."
 msgid "존재하지 않는 이메일 입니다."
-msgstr "User does not exist."
+msgstr "Account does not exist."
 
 #: .\profiles\tests.py:129 .\profiles\views.py:59
 msgid "이미 추가된 회원입니다."
 msgstr "This member has already been added."
 
 #: .\profiles\tests.py:140 .\profiles\views.py:73
-#, fuzzy
-#| msgid "자신의 아이디는 삭제할 수 없습니다."
 msgid "자신의 이메일은 삭제할 수 없습니다."
-msgstr "You cannot delete your ID."
+msgstr "You cannot delete your account."
 
 #: .\profiles\tests.py:145 .\profiles\tests.py:154 .\profiles\views.py:78
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
@@ -659,10 +653,8 @@ msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로�
 msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
 #: .\profiles\tests.py:326 .\profiles\tests.py:484 .\profiles\views.py:268
-#, fuzzy
-#| msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgid "활성 프로필은 삭제할 수 없습니다."
-msgstr "A signed power of attorney cannot be deleted."
+msgstr "Active profile cannot be deleted."
 
 #: .\profiles\tests.py:375 .\profiles\tests.py:381 .\profiles\views.py:98
 #: .\profiles\views.py:117
@@ -695,10 +687,8 @@ msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
 #: .\profiles\tests.py:709 .\profiles\views.py:396
-#, fuzzy
-#| msgid "성함, 연락처 모두 입력해야 합니다."
 msgid "이메일 또는 연락처를 입력해야 합니다."
-msgstr "You must enter both your name and contact information."
+msgstr "You must enter email or phone number."
 
 #: .\profiles\tests.py:815 .\profiles\views.py:300
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
@@ -747,16 +737,17 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:134
-msgid "Online Realesate Contract"
-msgstr ""
-
-#: .\templates\account\base.html:137 .\templates\index-dev.html:5
-#: .\templates\index.html:8 .\templates\intro.html:186
+#: .\templates\account\base.html:85 .\templates\account\base.html:107
+#: .\templates\index-dev.html:5 .\templates\index.html:8
+#: .\templates\intro.html:147 .\templates\intro.html:152
 msgid "Onepaper"
 msgstr ""
 
-#: .\templates\account\base.html:143 .\templates\intro.html:371
+#: .\templates\account\base.html:104
+msgid "Online Realesate Contract"
+msgstr ""
+
+#: .\templates\account\base.html:113
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "    <br/>\n"
@@ -885,10 +876,8 @@ msgid ""
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
-#: .\templates\account\login.html:10 .\templates\account\login.html:23
-#: .\templates\account\login.html:27 .\templates\account\login.html:31
-#: .\templates\account\signup-expert.html:83 .\templates\account\signup.html:86
-#: .\templates\socialaccount\signup.html:87
+#: .\templates\account\login.html:10 .\templates\account\signup-expert.html:83
+#: .\templates\account\signup.html:86 .\templates\socialaccount\signup.html:87
 msgid "Log in"
 msgstr ""
 
@@ -896,20 +885,20 @@ msgstr ""
 msgid "Password reset"
 msgstr ""
 
-#: .\templates\account\login.html:17
-msgid "User Registration"
+#: .\templates\account\login.html:19
+msgid "Login with Naver"
 msgstr ""
 
 #: .\templates\account\login.html:23
-msgid "Naver"
+msgid "Login with Kakao"
 msgstr ""
 
 #: .\templates\account\login.html:27
-msgid "Kakao"
+msgid "Login with Google"
 msgstr ""
 
-#: .\templates\account\login.html:31
-msgid "Google"
+#: .\templates\account\login.html:32
+msgid "User Registration with Email"
 msgstr ""
 
 #: .\templates\account\logout.html:5 .\templates\account\logout.html:8
@@ -1398,13 +1387,13 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:188
+#: .\templates\intro.html:154
 msgid ""
 "\n"
-"        부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으"
-"로 줄여요.\n"
-"        <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
-"        "
+"      부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으로 "
+"줄여요.\n"
+"      <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
+"      "
 msgstr ""
 "\n"
 " Significantly reduce the time for writing and managing contracts through "
@@ -1412,19 +1401,19 @@ msgstr ""
 " <br/>Use the time you save on something more precious in life.\n"
 " "
 
-#: .\templates\intro.html:193
+#: .\templates\intro.html:159
 msgid "무료로 시작하기"
 msgstr "Get Started for Free"
 
-#: .\templates\intro.html:201
+#: .\templates\intro.html:167
 msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
-#: .\templates\intro.html:210
+#: .\templates\intro.html:176
 msgid "언제든 쉽고 빠르게"
 msgstr "Anytime and quickly"
 
-#: .\templates\intro.html:212
+#: .\templates\intro.html:178
 msgid ""
 "계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보"
 "세요."
@@ -1432,11 +1421,11 @@ msgstr ""
 "Provides various functions such as importing contracts! <br /> Please reduce "
 "contract writing timeby 1/10"
 
-#: .\templates\intro.html:225
+#: .\templates\intro.html:191
 msgid "계약서 통합 관리"
 msgstr "Integrated contract management"
 
-#: .\templates\intro.html:227
+#: .\templates\intro.html:193
 msgid ""
 "분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세"
 "요."
@@ -1444,11 +1433,11 @@ msgstr ""
 "No worry losing paper. No repeated input. Yes easy management.<br /> Simple "
 "management with Onepaper."
 
-#: .\templates\intro.html:239
+#: .\templates\intro.html:205
 msgid "PC, 모바일 모두 지원"
 msgstr "Supports both PC and mobile"
 
-#: .\templates\intro.html:241
+#: .\templates\intro.html:207
 msgid ""
 "브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어"
 "요."
@@ -1456,15 +1445,15 @@ msgstr ""
 "Anytime, anywhere as long as you have a browser. <br /> You can write "
 "regardless of PC or mobile."
 
-#: .\templates\intro.html:249
+#: .\templates\intro.html:215
 msgid "사용자 리뷰"
 msgstr "User review"
 
-#: .\templates\intro.html:252
+#: .\templates\intro.html:218
 msgid "마*경(임대인, 30대 직장인)"
 msgstr "Ma*kyung(landrold, 30s salaryman)"
 
-#: .\templates\intro.html:278
+#: .\templates\intro.html:244
 msgid ""
 "불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
 "가 몇배는 빨라졌어요."
@@ -1472,11 +1461,11 @@ msgstr ""
 "I really like the import function. By entering the same information at once, "
 "the contract writing speed is several times faster."
 
-#: .\templates\intro.html:281
+#: .\templates\intro.html:247
 msgid "김*현(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:307
+#: .\templates\intro.html:273
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
@@ -1484,11 +1473,11 @@ msgstr ""
 "People living in the countryside had to schedule one day to sign a contract, "
 "but it was nice not to have to."
 
-#: .\templates\intro.html:310
+#: .\templates\intro.html:276
 msgid "박*연(임대인, 40대 직장인)"
 msgstr "Park*Yeon(landlord, 40s salaryman)"
 
-#: .\templates\intro.html:336
+#: .\templates\intro.html:302
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
@@ -1496,19 +1485,19 @@ msgstr ""
 "Unlike paper contracts, I like that you can check the contract at any time. "
 "Oh, it's good that you don't have to worry about losing it."
 
-#: .\templates\intro.html:342
+#: .\templates\intro.html:308
 msgid "기업연혁"
 msgstr "Company History"
 
-#: .\templates\intro.html:349
+#: .\templates\intro.html:315
 msgid "~현재"
 msgstr "~Now"
 
-#: .\templates\intro.html:350
+#: .\templates\intro.html:316
 msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
 msgstr "Launch and operation of Onepaper for real estate online contract"
 
-#: .\templates\intro.html:351
+#: .\templates\intro.html:317
 msgid ""
 "부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
 "로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
@@ -1518,11 +1507,11 @@ msgstr ""
 "estate transactions, spend time on more valuable places, and support safer "
 "real estate transactions by using long-term accumulated data."
 
-#: .\templates\intro.html:355
+#: .\templates\intro.html:321
 msgid "소셜벤처 설립 및 운영"
 msgstr "Social venture establishment and operation"
 
-#: .\templates\intro.html:356
+#: .\templates\intro.html:322
 msgid ""
 "한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
 "설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
@@ -1533,11 +1522,11 @@ msgstr ""
 "Quroom's mission is to solve the problems of the existing real estate market "
 "and provide a better experience to customers through Proptech."
 
-#: .\templates\intro.html:361
+#: .\templates\intro.html:327
 msgid "소셜그룹 혼족스 운영"
 msgstr "Operate social group Honjoks"
 
-#: .\templates\intro.html:362
+#: .\templates\intro.html:328
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1546,6 +1535,14 @@ msgstr ""
 "public interest activities such as real estate knowledge, legal knowledge "
 "sharing meetings, joint purchase of fruit, and sharing events for single-"
 "person households."
+
+#: .\templates\intro.html:337
+msgid ""
+"Company: quroom | Registration Number: 246-86-01161\n"
+"  <br/>\n"
+"  Copyright © Onepaper. All Rights Reserved.\n"
+"  "
+msgstr ""
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
