@@ -1,119 +1,89 @@
+{% extends "base.html" %}
 {% load static %}
 {% load i18n %}
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="naver-site-verification" content="8d2d62b1f70dd5cbdda7784ccf0445a2ed90ab22" />
-  <meta name="robots" content="All"/>
-  <meta name="robots" content="index" />
-  <meta name="robots" content="follow" />
-  <meta property="og:title" content="원페이퍼 - 부동산 온라인 계약서">
-  <meta name="description" content="비대면 부동산 온라인 계약 서비스. 분실걱정 NO, 계약서 공유 OK. 당신의 계약서를 이제는 온라인으로 관리해보세요.">
-  <meta property="og:description" content="비대면 부동산 온라인 계약 서비스. 분실걱정 NO, 계약서 공유 OK. 당신의 계약서를 이제는 온라인으로 관리해보세요.">
-  {% block style %}
-  {% endblock %}
-  <title>{% block title %}{% endblock %}</title> 
-  <link rel="canonical" href="https://onepaper.biz/">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-52ZPPHH0S4"></script>
-  <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" crossorigin="anonymous">
-  <script src="{% static 'js/bootstrap.min.js' %}" crossorigin="anonymous"></script>
-
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-140030302-3');
-  gtag('config', 'G-52ZPPHH0S4');
-  </script>
-  <title>{% block head_title %}{% endblock %}</title>
-
-</head>
-
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR" rel="stylesheet">
 <style>
-    h3 {
-        margin-top: 16px;
-        text-align: center;
-    }
-    .auth-box {
-        width: 360px;
-        margin: auto;
-    }
-    .outer-area {
-        margin-top: 100px;
-    }    
-    .snps-inline-select {
-        width: auto;
-        min-width: 100px;
-        display: inline-block;
-    }
-    pre {
-        font-size: 14px;
-    }
-    .icon-kakao {
-        background-image: url("{% static 'img/kakao.png' %}");
-    }
-    .icon-naver {
-        background-image: url("{% static 'img/naver.png' %}");
-    }
-    .icon-google {
-        background-image: url("{% static 'img/google.png' %}");
-    }
-    .btn-kakao {
-      border: 0px;
-      border-radius: 3px;
-      color: black;
-      background-color: #FEE500;
-    }
-    .btn-kakao:active,
-    .btn-kakao:hover,
-    .btn-kakao:focus {
-      box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
-    }
-    .btn-google {
-      border: 1px solid #dddddd;
-      border-radius: 3px;
-      color: black;
-      background-color: white;
-    }
-    .btn-google:active,
-    .btn-google:hover,
-    .btn-google:focus {
-      box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
-    }
-    .btn-naver {
-      border: 0px;
-      border-radius: 3px;
-      color: black;
-      background-color: #1EC800; 
-    }
-    .btn-naver:active,
-    .btn-naver:hover,
-    .btn-naver:focus {
-      box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
-    }
-    .icon-button {
-        background-size: contain;
-        background-repeat: no-repeat;
-        margin-top: 3px;
-        height: 18px;
-        width: 18px;
-        display: inline-block;
-        vertical-align: text-top;
-    }
-    .btn-registor {
-        width: 177px;
-    }
+  h3 {
+      margin-top: 16px;
+      text-align: center;
+  }
+  .auth-box {
+      width: 360px;
+      margin: auto;
+  }
+  .outer-area {
+      margin-top: 100px;
+  }
+  .snps-inline-select {
+      width: auto;
+      min-width: 100px;
+      display: inline-block;
+  }
+  pre {
+      font-size: 14px;
+  }
+  .icon-kakao {
+      background-image: url("{% static 'img/kakao.png' %}");
+  }
+  .icon-naver {
+      background-image: url("{% static 'img/naver.png' %}");
+  }
+  .icon-google {
+      background-image: url("{% static 'img/google.png' %}");
+  }
+  .btn-kakao {
+    border: 0px;
+    border-radius: 3px;
+    color: black;
+    background-color: #FEE500;
+  }
+  .btn-kakao:active,
+  .btn-kakao:hover,
+  .btn-kakao:focus {
+    box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
+  }
+  .btn-google {
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+  }
+  .btn-google:active,
+  .btn-google:hover,
+  .btn-google:focus {
+    box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
+  }
+  .btn-naver {
+    border: 0px;
+    border-radius: 3px;
+    color: black;
+    background-color: #1EC800;
+  }
+  .btn-naver:active,
+  .btn-naver:hover,
+  .btn-naver:focus {
+    box-shadow: rgb(0 0 0 / 50%) 0px 2px 3px;
+  }
+  .icon-button {
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-top: 3px;
+      height: 18px;
+      width: 18px;
+      display: inline-block;
+      vertical-align: text-top;
+  }
+  .btn-registor {
+      width: 177px;
+  }
 </style>
-<body>
-
-{% block body %}
+{% endblock %}
+{% block title %}{% trans 'Onepaper' %}{% endblock %}
+{%block body%}
 <div class="d-flex flex-column" style="min-height: 100vh;">
   {% if messages %}
   <div>
@@ -152,5 +122,7 @@
 
 {% block endofpage %}
 {% endblock %}
-</body>
-</html>
+{% block js %}
+  <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
