@@ -63,7 +63,7 @@ pipeline {
                 unset GREEN; \
                 cd frontend; npm install; npm run build; cd ..; \
                 export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
-                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons* -i img/* -i css/* -i js/*; \
+                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*; \
                 unset DJANGO_DEBUG; unset USE_S3; \
                 python3 manage.py migrate; \
                 sudo service nginx reload; \
@@ -142,7 +142,7 @@ pipeline {
                 source /home/ubuntu/djangovenv/bin/activate; \
                 cd frontend; npm install; npm run build; cd ..; \
                 export GREEN=False; export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
-                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons* -i img/* -i css/* -i js/*; \
+                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*; \
                 unset DJANGO_DEBUG; \
                 unset USE_S3;" '
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
