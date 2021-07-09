@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-07 13:19+0900\n"
+"POT-Creation-Date: 2021-07-09 12:45+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1533,91 +1533,95 @@ msgid ""
 "요."
 msgstr ""
 
-#: .\templates\intro.html:205
+#: .\templates\intro.html:204
 msgid "PC, 모바일 모두 지원"
 msgstr ""
 
-#: .\templates\intro.html:207
+#: .\templates\intro.html:206
 msgid ""
 "브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어"
 "요."
 msgstr ""
 
-#: .\templates\intro.html:215
+#: .\templates\intro.html:214
 msgid "사용자 리뷰"
 msgstr ""
 
-#: .\templates\intro.html:218
+#: .\templates\intro.html:217
 msgid "마*경(임대인, 30대 직장인)"
 msgstr ""
 
-#: .\templates\intro.html:244
+#: .\templates\intro.html:243
 msgid ""
 "불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
 "가 몇배는 빨라졌어요."
 msgstr ""
 
-#: .\templates\intro.html:247
+#: .\templates\intro.html:246
 msgid "김*현(임차인, 20대 대학생)"
 msgstr ""
 
-#: .\templates\intro.html:273
+#: .\templates\intro.html:272
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
 msgstr ""
 
-#: .\templates\intro.html:276
+#: .\templates\intro.html:275
 msgid "박*연(임대인, 40대 직장인)"
 msgstr ""
 
-#: .\templates\intro.html:302
+#: .\templates\intro.html:301
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
 msgstr ""
 
-#: .\templates\intro.html:308
+#: .\templates\intro.html:307
+msgid "원페이퍼 사용법"
+msgstr ""
+
+#: .\templates\intro.html:313
 msgid "기업연혁"
 msgstr ""
 
-#: .\templates\intro.html:315
+#: .\templates\intro.html:320
 msgid "~현재"
 msgstr ""
 
-#: .\templates\intro.html:316
+#: .\templates\intro.html:321
 msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:317
+#: .\templates\intro.html:322
 msgid ""
 "부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
 "로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
 "적이다."
 msgstr ""
 
-#: .\templates\intro.html:321
+#: .\templates\intro.html:326
 msgid "소셜벤처 설립 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:322
+#: .\templates\intro.html:327
 msgid ""
 "한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
 "설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
 "경험을 제공하는 것이 큐룸의 미션이다."
 msgstr ""
 
-#: .\templates\intro.html:327
+#: .\templates\intro.html:332
 msgid "소셜그룹 혼족스 운영"
 msgstr ""
 
-#: .\templates\intro.html:328
+#: .\templates\intro.html:333
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
 msgstr ""
 
-#: .\templates\intro.html:337
+#: .\templates\intro.html:342
 msgid ""
 "Company: quroom | Registration Number: 246-86-01161\n"
 "  <br/>\n"
