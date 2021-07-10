@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-10 18:02+0900\n"
+"POT-Creation-Date: 2021-07-11 02:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -747,6 +747,17 @@ msgstr ""
 msgid "Online Realesate Contract"
 msgstr ""
 
+#: .\templates\account\base.html:113 .\templates\intro.html:341
+msgid ""
+"\n"
+"    Company: quroom | Registration Number: 246-86-01161\n"
+"    <br/>\n"
+"    CONTACT US: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</a>\n"
+"    <br/>\n"
+"    Copyright © Onepaper. All Rights Reserved.\n"
+"    "
+msgstr ""
+
 #: .\templates\account\email.html:6 .\templates\account\email.html:9
 msgid "E-mail Addresses"
 msgstr ""
@@ -1389,17 +1400,6 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\base.html:62
-msgid ""
-"Company: quroom | Registration Number: 246-86-01161\n"
-"        <br/>\n"
-"        CONTACT US: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</"
-"a>\n"
-"        <br/>\n"
-"        Copyright © Onepaper. All Rights Reserved.\n"
-"        "
-msgstr ""
-
 #: .\templates\intro.html:154
 msgid ""
 "\n"
@@ -1553,14 +1553,6 @@ msgstr ""
 "sharing meetings, joint purchase of fruit, and sharing events for single-"
 "person households."
 
-#: .\templates\intro.html:342
-msgid ""
-"Company: quroom | Registration Number: 246-86-01161\n"
-"  <br/>\n"
-"  Copyright © Onepaper. All Rights Reserved.\n"
-"  "
-msgstr ""
-
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
 msgid "Social Network Login Failure"
@@ -1626,15 +1618,3 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
-
-#~ msgid "회사연혁"
-#~ msgstr "Company History"
-
-#~ msgid "거래 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
-#~ msgstr "If you have a contract, you cannot delete your profile."
-
-#~ msgid "거래 계약서가 있는 경우 프로필을 수정할 수 없습니다."
-#~ msgstr "If you have a contract paper, you cannot edit your profile."
-
-#~ msgid "계약서가 존재하는 경우 회원 정보를 수정할 수 없습니다."
-#~ msgstr "If there is a contract, the member information cannot be modified."
