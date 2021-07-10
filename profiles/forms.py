@@ -29,10 +29,10 @@ class SocialCustomUserForm(SocialForm):
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
     bank_name = forms.ChoiceField(choices=Profile.BANK_CATEGORY, label=_('은행명'), required=False)
     account_number = forms.CharField(label=_('계좌번호'), required=False, max_length=45)
-    old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+    old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"autocomplete":"none", "onfocus":"execDaumPostcode()"}))
     old_address_eng = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
     new_address = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
-    bjdongName = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
+    bjdongName = forms.CharField(required=True, max_length=20, widget=forms.HiddenInput())
     bjdongName_eng = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
     sigunguCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
     bjdongCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
@@ -70,8 +70,6 @@ class SocialCustomUserForm(SocialForm):
     def save(self, request):
         adapter = get_adapter(request)
         user = adapter.save_user(request, self.sociallogin, form=self)
-        email = self.cleaned_data['email']
-        user.email = self.cleaned_data['email']
         user.name = self.cleaned_data['name']
         user.birthday = self.cleaned_data['birthday']
         if self.cleaned_data.get('is_expert') == None:
@@ -113,10 +111,10 @@ class CustomUserForm(SignupForm):
     mobile_number = PhoneNumberField(label=_('휴대폰 번호'), required=True)
     bank_name = forms.ChoiceField(choices=Profile.BANK_CATEGORY, label=_('은행명'), required=False)
     account_number = forms.CharField(label=_('계좌번호'), required=False, max_length=45)
-    old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+    old_address = forms.CharField(label=_('주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"autocomplete":"none", "onfocus":"execDaumPostcode()"}))
     old_address_eng = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
     new_address = forms.CharField(required=False, max_length=250, widget=forms.HiddenInput())
-    bjdongName = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
+    bjdongName = forms.CharField(required=True, max_length=20, widget=forms.HiddenInput())
     bjdongName_eng = forms.CharField(required=False, max_length=20, widget=forms.HiddenInput())
     sigunguCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
     bjdongCd = forms.CharField(required=False, max_length=5, widget=forms.HiddenInput())
@@ -171,7 +169,7 @@ def validate_image(image):
     file_size = image.size
     max_size = 1024*1024
     if file_size > max_size:
-        raise ValidationError(_("Max size of file is %(size)s KB"), params={'size': limit_kb})
+        raise ValidationError(_("Max size of file is %(size)s KB"), params={'size': max_size})
 
 class ExpertCustomUserForm(CustomUserForm):
     is_expert = forms.BooleanField(label=_('사업자 계정으로 등록하길 원하시면 체크.'), initial=True, required=True, widget=forms.HiddenInput())
@@ -181,7 +179,7 @@ class ExpertCustomUserForm(CustomUserForm):
     agency_license = forms.ImageField(label=_("공인중개사 자격증"), required=True)
     stamp = forms.ImageField(label=_("인장"), required=True)
     insurance = forms.ImageField(label=_("보증설정서류"), required=True)
-    old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"readonly":True, "onfocus":"execDaumPostcode()"}))
+    old_address = forms.CharField(label=_('사무실 주소'), required=True, max_length=250, widget=forms.TextInput(attrs={"autocomplete":"none", "onfocus":"execDaumPostcode()"}))
     from_date = forms.DateField(label=_('보증서류 시작일'), initial=datetime(today.year, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
     to_date = forms.DateField(label=_('보증서류 만료일'), initial=datetime(today.year+1, today.month, today.day), required=True, widget=forms.SelectDateWidget(years=range(today.year, today.year + date_range), attrs = {'class': 'form-control snps-inline-select'}))
 

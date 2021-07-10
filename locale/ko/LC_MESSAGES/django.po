@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 12:45+0900\n"
+"POT-Creation-Date: 2021-07-11 02:31+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -351,96 +351,96 @@ msgstr ""
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:111
+#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:109
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr "성함은 공백없이 한글이나 영어 문자만 입력 가능합니다."
 
-#: .\profiles\forms.py:25 .\profiles\forms.py:109
+#: .\profiles\forms.py:25 .\profiles\forms.py:107
 msgid "이용약관 동의"
 msgstr ""
 
-#: .\profiles\forms.py:26 .\profiles\forms.py:110
+#: .\profiles\forms.py:26 .\profiles\forms.py:108
 msgid "개인정보 처리방침 동의"
 msgstr ""
 
-#: .\profiles\forms.py:27 .\profiles\forms.py:111
+#: .\profiles\forms.py:27 .\profiles\forms.py:109
 msgid "성함"
 msgstr ""
 
-#: .\profiles\forms.py:28 .\profiles\forms.py:112
+#: .\profiles\forms.py:28 .\profiles\forms.py:110
 msgid "생년월일"
 msgstr ""
 
-#: .\profiles\forms.py:29 .\profiles\forms.py:113
+#: .\profiles\forms.py:29 .\profiles\forms.py:111
 msgid "휴대폰 번호"
 msgstr ""
 
-#: .\profiles\forms.py:30 .\profiles\forms.py:114 .\profiles\models.py:105
+#: .\profiles\forms.py:30 .\profiles\forms.py:112 .\profiles\models.py:105
 msgid "은행명"
 msgstr ""
 
-#: .\profiles\forms.py:31 .\profiles\forms.py:115
+#: .\profiles\forms.py:31 .\profiles\forms.py:113
 msgid "계좌번호"
 msgstr ""
 
-#: .\profiles\forms.py:32 .\profiles\forms.py:116
+#: .\profiles\forms.py:32 .\profiles\forms.py:114
 msgid "주소"
 msgstr ""
 
-#: .\profiles\forms.py:42 .\profiles\forms.py:126
+#: .\profiles\forms.py:42 .\profiles\forms.py:124
 msgid "동"
 msgstr ""
 
-#: .\profiles\forms.py:43 .\profiles\forms.py:127
+#: .\profiles\forms.py:43 .\profiles\forms.py:125
 msgid "호"
 msgstr ""
 
-#: .\profiles\forms.py:132
+#: .\profiles\forms.py:130
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:174 .\profiles\serializers.py:217
+#: .\profiles\forms.py:172 .\profiles\serializers.py:217
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr "%(size)sKB까지 업로드 가능합니다."
 
-#: .\profiles\forms.py:177
+#: .\profiles\forms.py:175
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr ""
 
-#: .\profiles\forms.py:178
+#: .\profiles\forms.py:176
 msgid "등록번호"
 msgstr ""
 
-#: .\profiles\forms.py:179
+#: .\profiles\forms.py:177
 msgid "상호명"
 msgstr ""
 
-#: .\profiles\forms.py:180
+#: .\profiles\forms.py:178
 msgid "중개사무소 등록증"
 msgstr ""
 
-#: .\profiles\forms.py:181
+#: .\profiles\forms.py:179
 msgid "공인중개사 자격증"
 msgstr ""
 
-#: .\profiles\forms.py:182
+#: .\profiles\forms.py:180
 msgid "인장"
 msgstr ""
 
-#: .\profiles\forms.py:183
+#: .\profiles\forms.py:181
 msgid "보증설정서류"
 msgstr ""
 
-#: .\profiles\forms.py:184
+#: .\profiles\forms.py:182
 msgid "사무실 주소"
 msgstr ""
 
-#: .\profiles\forms.py:185
+#: .\profiles\forms.py:183
 msgid "보증서류 시작일"
 msgstr ""
 
-#: .\profiles\forms.py:186
+#: .\profiles\forms.py:184
 msgid "보증서류 만료일"
 msgstr ""
 
@@ -732,17 +732,23 @@ msgstr "원페이퍼"
 msgid "Online Realesate Contract"
 msgstr "온라인 부동산 계약 서비스"
 
-#: .\templates\account\base.html:113
+#: .\templates\account\base.html:113 .\templates\intro.html:341
 msgid ""
-"Company: quroom | Registration Number: 246-86-01161\n"
+"\n"
+"    Company: quroom | Registration Number: 246-86-01161\n"
+"    <br/>\n"
+"    CONTACT US: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</a>\n"
 "    <br/>\n"
 "    Copyright © Onepaper. All Rights Reserved.\n"
 "    "
 msgstr ""
-"상호명: 주식회사 큐룸 | 사업자등록번호: 246-86-01161\n"
-"  <br/>\n"
-"  Copyright © 원페이퍼. All Rights Reserved.\n"
-"  "
+"\n"
+"    상호명: 주식회사 큐룸 | 사업자등록번호: 246-86-01161\n"
+"    <br/>\n"
+"    문의하기: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</a>\n"
+"    <br/>\n"
+"    Copyright © 원페이퍼. All Rights Reserved.\n"
+"    "
 
 #: .\templates\account\email.html:6 .\templates\account\email.html:9
 msgid "E-mail Addresses"
@@ -879,6 +885,16 @@ msgstr ""
 "이 이메일 확인 링크는 만료되었거나 유효하지 않습니다. <a href=\"%(email_url)s"
 "\">새로운 이메일 확인 링크를 요청</a>하세요."
 
+#: .\templates\account\email_confirmed.html:5
+#: .\templates\account\email_confirmed.html:8
+msgid "Email is confirmed"
+msgstr "이메일이 확인되었습니다"
+
+#: .\templates\account\email_confirmed.html:10
+msgid "Click the link below to log in. "
+msgstr "아래 링크를 클릭하여 로그인하세요."
+
+#: .\templates\account\email_confirmed.html:12
 #: .\templates\account\login.html:10 .\templates\account\signup-expert.html:83
 #: .\templates\account\signup.html:86 .\templates\socialaccount\signup.html:87
 msgid "Log in"
@@ -1621,18 +1637,6 @@ msgid ""
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
 msgstr ""
 
-#: .\templates\intro.html:342
-msgid ""
-"Company: quroom | Registration Number: 246-86-01161\n"
-"  <br/>\n"
-"  Copyright © Onepaper. All Rights Reserved.\n"
-"  "
-msgstr ""
-"상호명: 주식회사 큐룸 | 사업자등록번호: 246-86-01161\n"
-"  <br/>\n"
-"  Copyright © 원페이퍼. All Rights Reserved.\n"
-"  "
-
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
 msgid "Social Network Login Failure"
@@ -1698,15 +1702,3 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr "연결"
-
-#~ msgid "Naver"
-#~ msgstr "네이버"
-
-#~ msgid "Kakao"
-#~ msgstr "카카오"
-
-#~ msgid "Google"
-#~ msgstr "구글"
-
-#~ msgid "Agency Registration"
-#~ msgstr "중개사회원 가입"
