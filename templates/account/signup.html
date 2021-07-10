@@ -173,7 +173,7 @@
                 document.getElementById("id_ji").value = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : ""
 
                 // 커서를 휴대폰번호 필드로 이동한다.
-                document.getElementById("id_dong").focus();
+                document.getElementById("id_mobile_number").focus();
 
                 // iframe을 넣은 element를 안보이게 한다.
                 // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
@@ -211,6 +211,7 @@
             document.querySelector("#personal_info_text").style.display ='none';
             document.querySelector("#terms_service_text").style.display ='none';
         });
+        setTimeout(function(){document.querySelector('form').reset()}, 10);
     });
 </script>
 {% endblock %}

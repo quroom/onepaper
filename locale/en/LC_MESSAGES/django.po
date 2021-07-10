@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 12:45+0900\n"
+"POT-Creation-Date: 2021-07-10 18:02+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -352,96 +352,96 @@ msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없�
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
 
-#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:111
+#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:109
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr ""
 
-#: .\profiles\forms.py:25 .\profiles\forms.py:109
+#: .\profiles\forms.py:25 .\profiles\forms.py:107
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: .\profiles\forms.py:26 .\profiles\forms.py:110
+#: .\profiles\forms.py:26 .\profiles\forms.py:108
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: .\profiles\forms.py:27 .\profiles\forms.py:111
+#: .\profiles\forms.py:27 .\profiles\forms.py:109
 msgid "성함"
 msgstr "FullName"
 
-#: .\profiles\forms.py:28 .\profiles\forms.py:112
+#: .\profiles\forms.py:28 .\profiles\forms.py:110
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:29 .\profiles\forms.py:113
+#: .\profiles\forms.py:29 .\profiles\forms.py:111
 msgid "휴대폰 번호"
 msgstr "Mobile Number"
 
-#: .\profiles\forms.py:30 .\profiles\forms.py:114 .\profiles\models.py:105
+#: .\profiles\forms.py:30 .\profiles\forms.py:112 .\profiles\models.py:105
 msgid "은행명"
 msgstr "Bank Name"
 
-#: .\profiles\forms.py:31 .\profiles\forms.py:115
+#: .\profiles\forms.py:31 .\profiles\forms.py:113
 msgid "계좌번호"
 msgstr "Account Number"
 
-#: .\profiles\forms.py:32 .\profiles\forms.py:116
+#: .\profiles\forms.py:32 .\profiles\forms.py:114
 msgid "주소"
 msgstr "Address"
 
-#: .\profiles\forms.py:42 .\profiles\forms.py:126
+#: .\profiles\forms.py:42 .\profiles\forms.py:124
 msgid "동"
 msgstr "Dong"
 
-#: .\profiles\forms.py:43 .\profiles\forms.py:127
+#: .\profiles\forms.py:43 .\profiles\forms.py:125
 msgid "호"
 msgstr "Ho"
 
-#: .\profiles\forms.py:132
+#: .\profiles\forms.py:130
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:174 .\profiles\serializers.py:217
+#: .\profiles\forms.py:172 .\profiles\serializers.py:217
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr ""
 
-#: .\profiles\forms.py:177
+#: .\profiles\forms.py:175
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
-#: .\profiles\forms.py:178
+#: .\profiles\forms.py:176
 msgid "등록번호"
 msgstr "Registration Number"
 
-#: .\profiles\forms.py:179
+#: .\profiles\forms.py:177
 msgid "상호명"
 msgstr "Shop Name"
 
-#: .\profiles\forms.py:180
+#: .\profiles\forms.py:178
 msgid "중개사무소 등록증"
 msgstr "Registration Certificate"
 
-#: .\profiles\forms.py:181
+#: .\profiles\forms.py:179
 msgid "공인중개사 자격증"
 msgstr "Agency License"
 
-#: .\profiles\forms.py:182
+#: .\profiles\forms.py:180
 msgid "인장"
 msgstr "Stamp"
 
-#: .\profiles\forms.py:183
+#: .\profiles\forms.py:181
 msgid "보증설정서류"
 msgstr ""
 
-#: .\profiles\forms.py:184
+#: .\profiles\forms.py:182
 msgid "사무실 주소"
 msgstr "Shop Address"
 
-#: .\profiles\forms.py:185
+#: .\profiles\forms.py:183
 msgid "보증서류 시작일"
 msgstr "Start Date Brokerage Garantee Insurance"
 
-#: .\profiles\forms.py:186
+#: .\profiles\forms.py:184
 msgid "보증서류 만료일"
 msgstr "Expired Date Brokerage Garantee Insurance"
 
@@ -747,14 +747,6 @@ msgstr ""
 msgid "Online Realesate Contract"
 msgstr ""
 
-#: .\templates\account\base.html:113
-msgid ""
-"Company: quroom | Registration Number: 246-86-01161\n"
-"    <br/>\n"
-"    Copyright © Onepaper. All Rights Reserved.\n"
-"    "
-msgstr ""
-
 #: .\templates\account\email.html:6 .\templates\account\email.html:9
 msgid "E-mail Addresses"
 msgstr ""
@@ -876,6 +868,16 @@ msgid ""
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
+#: .\templates\account\email_confirmed.html:5
+#: .\templates\account\email_confirmed.html:8
+msgid "Email is confirmed"
+msgstr ""
+
+#: .\templates\account\email_confirmed.html:10
+msgid "Click the link below to log in. "
+msgstr ""
+
+#: .\templates\account\email_confirmed.html:12
 #: .\templates\account\login.html:10 .\templates\account\signup-expert.html:83
 #: .\templates\account\signup.html:86 .\templates\socialaccount\signup.html:87
 msgid "Log in"
@@ -1385,6 +1387,17 @@ msgstr ""
 msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
+msgstr ""
+
+#: .\templates\base.html:62
+msgid ""
+"Company: quroom | Registration Number: 246-86-01161\n"
+"        <br/>\n"
+"        CONTACT US: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</"
+"a>\n"
+"        <br/>\n"
+"        Copyright © Onepaper. All Rights Reserved.\n"
+"        "
 msgstr ""
 
 #: .\templates\intro.html:154
