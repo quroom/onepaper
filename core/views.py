@@ -11,7 +11,11 @@ from django.views.generic.base import TemplateView
 class IndexTemplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
-            return HttpResponseRedirect(reverse('onepaper_intro'))
+            q = request.META['QUERY_STRING']
+            path = reverse('onepaper_intro')
+            if q: 
+                path += '?' + q
+            return HttpResponseRedirect(path)
         else:
             context = self.get_context_data(**kwargs)
             return self.render_to_response(context)
