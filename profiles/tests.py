@@ -318,16 +318,8 @@ class ExpertProfileTestCase(APITestCase):
                                    {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_default_expert_profile_delete(self):
-        self.create_expert_profile()
-        response = self.client.delete(
-            reverse("profiles-detail", kwargs={"pk": 1}))
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
-
     def test_expert_profile_delete(self):
         response = self.create_expert_profile()
-        self.create_expert_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -476,15 +468,7 @@ class ProfileTestCase(APITestCase):
                                    {"bio": "hacked!!!"})
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_default_profile_delete(self):
-        self.create_profile()
-        response = self.client.delete(
-            reverse("profiles-detail", kwargs={"pk": 1}))
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data['detail'].message, _("활성 프로필은 삭제할 수 없습니다."))
-
     def test_profile_delete(self):
-        self.create_profile()
         self.create_profile()
         response = self.client.delete(
             reverse("profiles-detail", kwargs={"pk": 1}))
@@ -750,18 +734,6 @@ class CustomUserTestCase(APITestCase):
         }
         response = self.client.post(self.profiles_list_url, data=data)
         return response
-
-    def test_user_registration(self):
-        data = {"email": "test@naver.com",
-                "password1": "some_strong_password", "password2": "some_strong_password",
-                "bio": "test", "name": "김주영", "birthday": "1955-02-12", "is_expert": False,
-                "mobile_number": "010-1234-1234",
-                **address_form,
-                "bank_name": 4,
-                "account_number": "94334292963"}
-        response = self.client.post(reverse("django_registration_register"), data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertFalse(response.context['form'].is_valid())
 
     def test_customuser(self):
         response = self.client.get("/api/user/")

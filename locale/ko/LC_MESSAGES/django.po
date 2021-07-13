@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 02:31+0900\n"
+"POT-Creation-Date: 2021-07-13 13:49+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,17 +305,17 @@ msgstr ""
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:740 .\profiles\tests.py:341 .\profiles\views.py:161
+#: .\papers\tests.py:740 .\profiles\tests.py:341 .\profiles\views.py:159
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:746 .\profiles\views.py:174
+#: .\papers\tests.py:746 .\profiles\views.py:172
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr ""
 
-#: .\papers\tests.py:779 .\profiles\views.py:202
+#: .\papers\tests.py:779 .\profiles\views.py:200
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
@@ -643,16 +643,16 @@ msgstr ""
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:303 .\profiles\views.py:230
+#: .\profiles\tests.py:303 .\profiles\views.py:228
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr ""
 
-#: .\profiles\tests.py:326 .\profiles\tests.py:484 .\profiles\views.py:268
+#: .\profiles\tests.py:326 .\profiles\tests.py:484
 msgid "활성 프로필은 삭제할 수 없습니다."
 msgstr ""
 
 #: .\profiles\tests.py:375 .\profiles\tests.py:381 .\profiles\views.py:98
-#: .\profiles\views.py:117
+#: .\profiles\views.py:116
 msgid "전문가가 선택되지 않았습니다."
 msgstr ""
 
@@ -660,55 +660,55 @@ msgstr ""
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\tests.py:554 .\profiles\views.py:271
+#: .\profiles\tests.py:554 .\profiles\views.py:266
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:624 .\profiles\views.py:233
+#: .\profiles\tests.py:624 .\profiles\views.py:231
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:662 .\profiles\views.py:236
+#: .\profiles\tests.py:662 .\profiles\views.py:234
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:697 .\profiles\views.py:274
+#: .\profiles\tests.py:697 .\profiles\views.py:269
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:709 .\profiles\views.py:396
+#: .\profiles\tests.py:709 .\profiles\views.py:391
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr ""
 
-#: .\profiles\tests.py:815 .\profiles\views.py:300
+#: .\profiles\tests.py:815 .\profiles\views.py:295
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:826 .\profiles\views.py:326
+#: .\profiles\tests.py:826 .\profiles\views.py:321
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:859 .\profiles\views.py:323
+#: .\profiles\tests.py:859 .\profiles\views.py:318
 msgid "탈퇴처리 되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:868 .\profiles\views.py:319
+#: .\profiles\tests.py:868 .\profiles\views.py:314
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr ""
 
-#: .\profiles\tests.py:878 .\profiles\views.py:317
+#: .\profiles\tests.py:878 .\profiles\views.py:312
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\tests.py:974 .\profiles\tests.py:1007 .\profiles\views.py:362
+#: .\profiles\tests.py:974 .\profiles\tests.py:1007 .\profiles\views.py:357
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:1022 .\profiles\views.py:379
+#: .\profiles\tests.py:1022 .\profiles\views.py:374
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\views.py:180
+#: .\profiles\views.py:178
 msgid ""
 "수정 후 보증서류 기간에 제외되는 계약서가 없도록 기간을 다시 수정해주세요."
 msgstr ""
@@ -724,7 +724,7 @@ msgstr "당신의 계정이 비활성화 상태입니다."
 
 #: .\templates\account\base.html:85 .\templates\account\base.html:107
 #: .\templates\index-dev.html:5 .\templates\index.html:8
-#: .\templates\intro.html:147 .\templates\intro.html:152
+#: .\templates\intro.html:155 .\templates\intro.html:160
 msgid "Onepaper"
 msgstr "원페이퍼"
 
@@ -732,7 +732,7 @@ msgstr "원페이퍼"
 msgid "Online Realesate Contract"
 msgstr "온라인 부동산 계약 서비스"
 
-#: .\templates\account\base.html:113 .\templates\intro.html:341
+#: .\templates\account\base.html:113 .\templates\intro.html:349
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -895,30 +895,36 @@ msgid "Click the link below to log in. "
 msgstr "아래 링크를 클릭하여 로그인하세요."
 
 #: .\templates\account\email_confirmed.html:12
-#: .\templates\account\login.html:10 .\templates\account\signup-expert.html:83
+#: .\templates\account\login.html:30 .\templates\account\signup-expert.html:83
 #: .\templates\account\signup.html:86 .\templates\socialaccount\signup.html:87
 msgid "Log in"
 msgstr "로그인"
 
-#: .\templates\account\login.html:13
-msgid "Password reset"
-msgstr "비밀번호 초기화"
-
-#: .\templates\account\login.html:19
+#: .\templates\account\login.html:11
 msgid "Login with Naver"
 msgstr "네이버로 로그인"
 
-#: .\templates\account\login.html:23
+#: .\templates\account\login.html:15
 msgid "Login with Kakao"
 msgstr "카카오로 로그인"
 
-#: .\templates\account\login.html:27
+#: .\templates\account\login.html:19
 msgid "Login with Google"
 msgstr "구글로 로그인"
 
-#: .\templates\account\login.html:32
-msgid "User Registration with Email"
-msgstr "이메일로 회원가입"
+#: .\templates\account\login.html:24
+msgid "Login with Email"
+msgstr "이메일로 로그인"
+
+#: .\templates\account\login.html:33
+msgid "Password reset"
+msgstr "비밀번호 초기화"
+
+#: .\templates\account\login.html:35
+msgid ""
+"Email login will be deprecated. It is only supported until the end of 2021."
+msgstr ""
+"이메일 로그인은 더이상 사용되지 않을 예정입니다. 21년 연말까지만 지원됩니다."
 
 #: .\templates\account\logout.html:5 .\templates\account\logout.html:8
 #: .\templates\account\logout.html:18
@@ -1512,7 +1518,7 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:154
+#: .\templates\intro.html:162
 msgid ""
 "\n"
 "      부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으로 "
@@ -1521,117 +1527,117 @@ msgid ""
 "      "
 msgstr ""
 
-#: .\templates\intro.html:159
+#: .\templates\intro.html:167
 msgid "무료로 시작하기"
 msgstr ""
 
-#: .\templates\intro.html:167
+#: .\templates\intro.html:175
 msgid "원페이퍼 특징 3가지"
 msgstr ""
 
-#: .\templates\intro.html:176
+#: .\templates\intro.html:184
 msgid "언제든 쉽고 빠르게"
 msgstr ""
 
-#: .\templates\intro.html:178
+#: .\templates\intro.html:186
 msgid ""
 "계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보"
 "세요."
 msgstr ""
 
-#: .\templates\intro.html:191
+#: .\templates\intro.html:199
 msgid "계약서 통합 관리"
 msgstr ""
 
-#: .\templates\intro.html:193
+#: .\templates\intro.html:201
 msgid ""
 "분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세"
 "요."
 msgstr ""
 
-#: .\templates\intro.html:204
+#: .\templates\intro.html:212
 msgid "PC, 모바일 모두 지원"
 msgstr ""
 
-#: .\templates\intro.html:206
+#: .\templates\intro.html:214
 msgid ""
 "브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어"
 "요."
 msgstr ""
 
-#: .\templates\intro.html:214
+#: .\templates\intro.html:222
 msgid "사용자 리뷰"
 msgstr ""
 
-#: .\templates\intro.html:217
+#: .\templates\intro.html:225
 msgid "마*경(임대인, 30대 직장인)"
 msgstr ""
 
-#: .\templates\intro.html:243
+#: .\templates\intro.html:251
 msgid ""
 "불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
 "가 몇배는 빨라졌어요."
 msgstr ""
 
-#: .\templates\intro.html:246
+#: .\templates\intro.html:254
 msgid "김*현(임차인, 20대 대학생)"
 msgstr ""
 
-#: .\templates\intro.html:272
+#: .\templates\intro.html:280
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
 msgstr ""
 
-#: .\templates\intro.html:275
+#: .\templates\intro.html:283
 msgid "박*연(임대인, 40대 직장인)"
 msgstr ""
 
-#: .\templates\intro.html:301
+#: .\templates\intro.html:309
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
 msgstr ""
 
-#: .\templates\intro.html:307
+#: .\templates\intro.html:315
 msgid "원페이퍼 사용법"
 msgstr ""
 
-#: .\templates\intro.html:313
+#: .\templates\intro.html:321
 msgid "기업연혁"
 msgstr ""
 
-#: .\templates\intro.html:320
+#: .\templates\intro.html:328
 msgid "~현재"
 msgstr ""
 
-#: .\templates\intro.html:321
+#: .\templates\intro.html:329
 msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:322
+#: .\templates\intro.html:330
 msgid ""
 "부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
 "로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
 "적이다."
 msgstr ""
 
-#: .\templates\intro.html:326
+#: .\templates\intro.html:334
 msgid "소셜벤처 설립 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:327
+#: .\templates\intro.html:335
 msgid ""
 "한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
 "설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
 "경험을 제공하는 것이 큐룸의 미션이다."
 msgstr ""
 
-#: .\templates\intro.html:332
+#: .\templates\intro.html:340
 msgid "소셜그룹 혼족스 운영"
 msgstr ""
 
-#: .\templates\intro.html:333
+#: .\templates\intro.html:341
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1702,3 +1708,6 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr "연결"
+
+#~ msgid "User Registration with Email"
+#~ msgstr "이메일로 회원가입"
