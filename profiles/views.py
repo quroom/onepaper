@@ -107,9 +107,8 @@ class ApproveExpert(mixins.ListModelMixin,
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
     def delete(self, request):
         expert_profiles = ExpertProfile.objects.filter(id__in=request.data['profiles'])
@@ -120,9 +119,8 @@ class ApproveExpert(mixins.ListModelMixin,
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
 class ExpertProfileList(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
@@ -264,9 +262,6 @@ class ProfileViewset(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        if instance.is_default:
-            return Response({"detail": ValidationError(_("활성 프로필은 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
-
         if Contractor.objects.filter(profile=instance).exclude(paper__status__status=PaperStatus.REQUESTING).exists():
             return Response({"detail": ValidationError(_("요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
