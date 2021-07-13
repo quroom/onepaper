@@ -23,18 +23,8 @@ from profiles.forms import CustomUserForm, ExpertCustomUserForm
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/signup/",
-        SignupView.as_view(
-            template_name = 'account/signup.html',
-            form_class=CustomUserForm,
-            ), name="django_registration_register"),
     path('accounts/', include('allauth.urls')),
     path('accounts/email/confirmed/', EmailConfirmedView.as_view(), name="email_account_confirmed"),
-    path("expert-accounts/signup/",
-        SignupView.as_view(
-            template_name = 'account/signup-expert.html',
-            form_class=ExpertCustomUserForm,
-            ), name="django_expert_registration_register"),
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
     path("api/", include("helps.urls")),
