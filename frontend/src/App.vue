@@ -38,11 +38,7 @@ export default {
   watch: {
     has_profile() {
       if (this.has_profile == false && this.is_staff == false) {
-        if (
-          this.$router.name != "profile-editor" &&
-          this.$router.name != "profiles" &&
-          this.$router.name != "user-editor"
-        ) {
+        if (this.$router.name == "paper-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }
@@ -50,7 +46,7 @@ export default {
     },
     $route(to) {
       if (this.has_profile == false && this.is_staff == false) {
-        if (to.name != "profile-editor" && to.name != "profiles" && to.name != "user-editor") {
+        if (to.name == "paper-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }

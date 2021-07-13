@@ -4,6 +4,7 @@ from addresses.models import Address
 from django.db.models import Exists
 from django.db import models
 from django.conf import settings
+from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin, UserManager
 from django.utils import timezone

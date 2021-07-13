@@ -594,8 +594,9 @@ export default {
                 );
               }
             } else if (name == "insurance") {
+              console.log(name, this["expert_profile"]["insurance"]["image"]);
               if (this["expert_profile"]["insurance"]["image"] != null) {
-                this["current_" + name] = window.URL.createObjectURL(
+                this["current_garantee_" + name] = window.URL.createObjectURL(
                   this["expert_profile"]["insurance"]["image"]
                 );
               } else {

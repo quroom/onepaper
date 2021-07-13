@@ -21,7 +21,11 @@
     </div>
     <hr/>
     <a class="btn btn-block btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+<<<<<<< HEAD
       {% trans 'Login with Email' %}
+=======
+      이메일로 로그인
+>>>>>>> 9ab23f2 (Update registration simplify)
     </a>
     <div class="collapse" id="collapseExample">
     <form method="POST">
@@ -30,8 +34,14 @@
         <button type="submit" class="btn btn-block btn-primary">{%trans "Log in" %}</button>
     </form>
     <p class="mt-2 text-center">
+<<<<<<< HEAD
         <a href="{% url 'account_reset_password' %}">{% trans 'Password reset' %}</a>
     </p>
     <p class="text-danger">{% trans 'Email login will be deprecated. It is only supported until the end of 2021.' %}</p>
+=======
+        <a href="{% url 'account_reset_password' %}">{% trans 'Password reset' %}</a> 
+    </p>
+    <p>Email login is deprecated. It will be removed soon. </p>
+>>>>>>> 9ab23f2 (Update registration simplify)
     </div>
 {% endblock %}

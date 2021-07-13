@@ -23,45 +23,7 @@
     {{ form.password2|as_crispy_field }}
     {{ form.name|as_crispy_field }}
     {{ form.birthday|as_crispy_field }}
-    {{ form.old_address|as_crispy_field }}
-    <div id="wrap" style="display: none; border: 1px solid; top:-54px; max-height: 470px; margin: 5px 0px; position: relative;">
-        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-    </div>
-    <div class="form-row">
-        <div class="form-group col-6 mb-0">
-            {{ form.dong|as_crispy_field }}
-        </div>
-        <div class="form-group col-6 mb-0" >
-            {{ form.ho|as_crispy_field }}
-        </div>
-    </div>
-    {{ form.mobile_number|as_crispy_field }}
-    <div class="form-row">
-        <div class="form-group col-5 mb-0">
-            {{ form.bank_name|as_crispy_field }}
-        </div>
-        <div class="form-group col-7 mb-0" >
-            {{ form.account_number|as_crispy_field }}
-        </div>
-    </div>
-    {{ form.registration_number|as_crispy_field }}
-    {{ form.shop_name|as_crispy_field }}
-    {{ form.registration_certificate|as_crispy_field }}
-    {{ form.agency_license|as_crispy_field }}
-    {{ form.stamp|as_crispy_field }}
-    {{ form.insurance|as_crispy_field }}
-    {{ form.from_date|as_crispy_field }}
-    {{ form.to_date|as_crispy_field }}
     {{ form.is_expert|as_crispy_field }}
-    {{ form.old_address_eng }}
-    {{ form.new_address }}
-    {{ form.bjdongName }}
-    {{ form.bjdongName_eng }}
-    {{ form.sigunguCd }}
-    {{ form.bjdongCd }}
-    {{ form.platGbCd }}
-    {{ form.bun }}
-    {{ form.ji }}
     <div class="form-row">
         <div class="agreement-checkbox form-group col-8 mb-0">
             {{ form.terms_service|as_crispy_field }}

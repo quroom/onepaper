@@ -2,6 +2,8 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 
+{% block topcontent %}
+{% endblock %}
 {% block content %}
 <h3> {%trans "Create Account" %} </h3>
 <div class="bg-modal">
@@ -19,70 +21,21 @@
     {% if 'expert-account' in request.path %}
     <form class="signup" id="signup_form" method="POST" enctype="multipart/form-data" action="{% url 'socialaccount_signup' %}">
     {% else %}
-    <form class="signup" id="signup_form" method="POST" action="{% url 'socialaccount_signup' %}">
+    <form class="signup" id="signup_form" method="POST">
     {% endif %}
         {% csrf_token %}
         {{ form.email|as_crispy_field }}
+        {% block userform %}
+        {% endblock %}
         {{ form.name|as_crispy_field }}
         {{ form.birthday|as_crispy_field }}
-        {{ form.old_address|as_crispy_field }}
-        <div id="wrap" style="display: none; border: 1px solid; top:-54px; max-height: 470px; margin: 5px 0px; position: relative;">
-            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+        {{ form.terms_service }}
+        {{ form.personal_info }}
+        <button type="submit" class="btn btn-sm btn-primary">{%trans "Create after agreeing to the terms below" %}</button>
+        <div class="mt-2">
+            <span class="dialog-button" id="terms_service_dialog">이용약관 동의</span> / 
+            <span class="dialog-button" id="personal_info_dialog">개인정보처리방침</span>
         </div>
-        <div class="form-row">
-            <div class="form-group col-6 mb-0">
-                {{ form.dong|as_crispy_field }}
-            </div>
-            <div class="form-group col-6 mb-0" >
-                {{ form.ho|as_crispy_field }}
-            </div>
-        </div>
-        {{ form.mobile_number|as_crispy_field }}
-        <div class="form-row">
-            <div class="form-group col-5 mb-0">
-                {{ form.bank_name|as_crispy_field }}
-            </div>
-            <div class="form-group col-7 mb-0" >
-                {{ form.account_number|as_crispy_field }}
-            </div>
-        </div>
-        {% if 'expert-account' in request.path %}
-            {{ form.registration_number|as_crispy_field }}
-            {{ form.shop_name|as_crispy_field }}
-            {{ form.registration_certificate|as_crispy_field }}
-            {{ form.agency_license|as_crispy_field }}
-            {{ form.stamp|as_crispy_field }}
-            {{ form.insurance|as_crispy_field }}
-            {{ form.from_date|as_crispy_field }}
-            {{ form.to_date|as_crispy_field }}
-            {{ form.is_expert|as_crispy_field }}
-        {% endif %}
-        {{ form.old_address_eng }}
-        {{ form.new_address }}
-        {{ form.bjdongName }}
-        {{ form.bjdongName_eng }}
-        {{ form.sigunguCd }}
-        {{ form.bjdongCd }}
-        {{ form.platGbCd }}
-        {{ form.bun }}
-        {{ form.ji }}
-        <div class="form-row">
-            <div class="agreement-checkbox form-group col-8 mb-0">
-                {{ form.terms_service|as_crispy_field }}
-            </div>
-            <div class="form-group col-4 mb-0" >
-                <div class="dialog-button" id="terms_service_dialog" style="float:right">약관보기</div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="agreement-checkbox form-group col-8 mb-0">
-                {{ form.personal_info|as_crispy_field }}
-            </div>
-            <div class="form-group col-4 mb-0" >
-                <div class="dialog-button" id="personal_info_dialog" style="float:right">약관보기</div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-sm btn-primary">{%trans "Sign Up" %}</button>
     </form>
     <p class="mt-2">Or <a href="{% url 'account_login' %}">{%trans "Log in" %}</a></p>
 </div>
@@ -115,6 +68,7 @@
         background-color: rgba(0,0,0,0.5); /* make it half transparent */
         position: fixed;
         top:0px;
+        left:0px;
         z-index: 1;
         display: none;  /* It will remain invisible until you open */
         justify-content: center; /*center horizontally*/
@@ -147,55 +101,8 @@
         cursor: pointer;
     }
 </style>
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
-    const that = this;
-    // 우편번호 찾기 찾기 화면을 넣을 element
-    var element_wrap = document.getElementById('wrap');
-    function foldDaumPostcode() {
-        // iframe을 넣은 element를 안보이게 한다.
-        element_wrap.style.display = 'none';
-    }
-
-    function execDaumPostcode() {
-        // 현재 scroll 위치를 저장해놓는다.
-        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
-        var daumpost = new daum.Postcode({
-            autoMapping:false,
-            oncomplete: function(data) {
-
-                document.getElementById("id_old_address").value = data.jibunAddress
-                document.getElementById("id_old_address_eng").value = data.jibunAddressEnglish
-                document.getElementById("id_new_address").value = data.address
-                document.getElementById("id_bjdongName").value = data.bname;
-                document.getElementById("id_bjdongName_eng").value = data.bnameEnglish;
-                document.getElementById("id_sigunguCd").value = data.bcode.substring(0,5)
-                document.getElementById("id_bjdongCd").value = data.bcode.substring(0,5)
-                document.getElementById("id_bun").value = data.jibunAddress.split("-")[0].split(" ")[data.jibunAddress.split("-")[0].split(" ").length - 1]
-                document.getElementById("id_ji").value = data.jibunAddress.split("-")[1] ? data.jibunAddress.split("-")[1].split(" ")[0] : ""
-
-                // 커서를 휴대폰번호 필드로 이동한다.
-                document.getElementById("id_dong").focus();
-
-                // iframe을 넣은 element를 안보이게 한다.
-                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-                element_wrap.style.display = 'none';
-
-                // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-                document.body.scrollTop = currentScroll;
-            },
-            // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-            onresize : function(size) {
-                element_wrap.style.height = size.height+'px';
-                element_wrap.scrollIntoView()
-            },
-            width : '100%',
-            height : '101%'
-        }).embed(element_wrap);
-
-        // iframe을 넣은 element를 보이게 한다.
-        element_wrap.style.display = 'block';
-    }
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('terms_service_dialog').addEventListener('click', () => {
             document.querySelector(".bg-modal").style.display ='flex';
@@ -213,6 +120,7 @@
             document.querySelector("#personal_info_text").style.display ='none';
             document.querySelector("#terms_service_text").style.display ='none';
         });
+        setTimeout(function(){document.querySelector('form').reset()}, 10);
     });
 </script>
 {% endblock %}
