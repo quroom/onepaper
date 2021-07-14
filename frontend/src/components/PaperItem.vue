@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" md="6" lg="4" xl="3">
+  <v-col class="pa-1" cols="12" sm="6" lg="4" xl="3">
     <v-card class="outlined tile" :to="{ name: 'paper-detail', params: { id: paper.id } }">
       <v-chip class="ma-2 mr-0">
         {{ paper.id }}
@@ -24,10 +24,9 @@
         {{ $getConstI18("status_category", paper.status) }}
       </v-chip>
       <div class="text-body-2 mt-2 mr-1" style="float:right; max-width: 220px;">
-        {{ $t("updated_at") }}: {{ paper.updated_at }}
+        {{ paper.updated_at }}
         <div v-if="paper.author">
           <div class="author-name">
-            {{ $t("author") }}:
             <span> {{ paper.author }} </span>
           </div>
         </div>

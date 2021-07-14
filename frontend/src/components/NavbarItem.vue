@@ -91,42 +91,31 @@
         </v-icon>
         {{ $t("close") }}
       </v-row>
-    </v-navigation-drawer>
-    <template v-if="this.$root.$el.clientWidth > 500">
-      <router-link :to="{ name: 'home' }">
-        <v-toolbar-title class="text-uppercase grey--text">
-          OnePaper
-        </v-toolbar-title>
-      </router-link>
-      <router-link :to="{ name: 'home' }">
-        <v-icon>home</v-icon>
-      </router-link>
-      <v-spacer></v-spacer>
-      <template v-for="item in items">
-        <v-btn
-          color="primary"
-          v-if="isShown(item)"
-          class="my-2"
-          text
-          rounded
-          :to="item.route"
-          :key="item.title"
-          exact
-        >
-          {{ $t(item.title) }}
-        </v-btn>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block dark color="error" href="/accounts/logout/">
+            {{ $t("logout") }}
+            <v-icon>exit_to_app</v-icon>
+          </v-btn>
+        </div>
       </template>
-    </template>
-    <template v-else>
-      <router-link class="ma-4" :to="{ name: 'home' }">
-        {{ $t("paper") }}
-      </router-link>
+    </v-navigation-drawer>
+    <v-spacer></v-spacer>
+    <template v-for="item in items">
+      <v-btn
+        color="primary"
+        v-if="isShown(item)"
+        class="my-2"
+        text
+        rounded
+        :to="item.route"
+        :key="item.title"
+        exact
+      >
+        {{ $t(item.title) }}
+      </v-btn>
     </template>
     <v-spacer></v-spacer>
-    <v-btn class="pa-0" min-width="0px" text color="grey" href="/accounts/logout/">
-      <span>{{ $t("logout") }}</span>
-      <v-icon>exit_to_app</v-icon>
-    </v-btn>
   </v-app-bar>
 </template>
 <script>
