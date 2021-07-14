@@ -81,9 +81,11 @@
       width: 177px;
   }
 </style>
+{% block account_style %}
+{% endblock %}
 {% endblock %}
 {% block title %}{% trans 'Onepaper' %}{% endblock %}
-{%block body%}
+{% block body %}
 <div class="d-flex flex-column" style="min-height: 100vh;">
   {% if messages %}
   <div>
@@ -99,12 +101,12 @@
   {% endif %}
   {% block erros %}
   {% endblock %}
-  <div class="auth-box text-center container flex-grow-1">
-    <h4 class="mt-4">
+  <div class="auth-box text-center align-items-center">
+    <h4 class="mt-4 title-color">
       <strong> {% trans "Online Realesate Contract" %} </strong>
     </h4>
     <h3 class="text-center">
-      <a href="/">{% trans "Onepaper" %}</a>
+      <a class="title-color" href="/">{% trans "Onepaper" %}</a>
     </h3>
   {% block content %}
   {% endblock %}

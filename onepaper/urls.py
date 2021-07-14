@@ -23,8 +23,8 @@ from profiles.forms import CustomUserForm, ExpertCustomUserForm
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/signup/", IntroPageView.as_view()),
     path('accounts/', include('allauth.urls')),
-    path('accounts/email/confirmed/', EmailConfirmedView.as_view(), name="email_account_confirmed"),
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),
     path("api/", include("helps.urls")),
