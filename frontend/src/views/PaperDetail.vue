@@ -251,6 +251,7 @@
         <v-card-title class="justify-center">
           {{ $t("please_sign") }}
         </v-card-title>
+        <v-card-text class="red--text">{{ $t("signature_effect") }}</v-card-text>
         <v-card-actions>
           <v-btn color="blue darken-1" text @click="dialog = false">{{ $t("close") }}</v-btn>
           <v-btn color="blue darken-1" text @click="clear()">{{

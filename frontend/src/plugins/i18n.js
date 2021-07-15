@@ -171,6 +171,8 @@ const i18n = new VueI18n({
       share: "Share",
       sign: "Signature",
       signature: "Sign",
+      signature_effect:
+        "If you agree that this signature will have the same effect as the conclusion of a paper contract, please sign it.",
       signature_empty_warning: "Signature can't be empty",
       stamp: "Stamp",
       submit: "Submit",
@@ -575,6 +577,8 @@ const i18n = new VueI18n({
       share: "공유",
       sign: "(서명)",
       signature: "서명",
+      signature_effect:
+        "본 서명을 통해 종이계약 체결과 동일한 효력이 발생함에 동의하시면 서명해주세요.",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
       status: "상태",
       submit: "제출",
