@@ -126,6 +126,8 @@ const i18n = new VueI18n({
       number: "Number",
       no_mandate: "There is no mandate",
       no_paper: "There is no paper.",
+      no_paper_redirect_to_all_paper:
+        "There is no contract included as a contractor, so the entire contract is searched.",
       no_profile: "There is no profile",
       no_profile_cant_use_service: "You must create profile before using service.",
       onepaper: "Onepaper",
@@ -531,6 +533,7 @@ const i18n = new VueI18n({
       notice: "공지사항",
       no_mandate: "작성된 위임장이 없습니다.",
       no_paper: "작성된 계약서가 없습니다.",
+      no_paper_redirect_to_all_paper: "계약자로 포함된 계약서가 없어 전체 계약서를 조회합니다.",
       no_profile: "생성된 프로필이 없습니다.",
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
       none: "없음",
