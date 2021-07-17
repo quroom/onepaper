@@ -309,7 +309,6 @@ class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorUnalloweUserSerializer(many=True)
     status = serializers.SerializerMethodField()
-    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
