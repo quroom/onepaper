@@ -35,7 +35,7 @@ function applyValidation(data, that) {
     if (that.$refs[vp_key]) {
       const ref =
         that.$refs[vp_key].length == undefined ? that.$refs[vp_key] : that.$refs[vp_key][0];
-      if (ref._isVue) {
+      if (ref && ref._isVue) {
         flag = false;
         ref.applyResult({
           errors: error_message,
@@ -49,7 +49,7 @@ function applyValidation(data, that) {
           that.$refs[parent_key].$refs[vp_key].length == undefined
             ? that.$refs[parent_key].$refs[vp_key]
             : that.$refs[parent_key].$refs[vp_key][0];
-        if (ref._isVue) {
+        if (ref && ref._isVue) {
           flag = false;
           ref.applyResult({
             errors: error_message,

@@ -126,6 +126,8 @@ const i18n = new VueI18n({
       number: "Number",
       no_mandate: "There is no mandate",
       no_paper: "There is no paper.",
+      no_paper_redirect_to_all_paper:
+        "There is no contract included as a contractor, so the entire contract is searched.",
       no_profile: "There is no profile",
       no_profile_cant_use_service: "You must create profile before using service.",
       onepaper: "Onepaper",
@@ -171,6 +173,8 @@ const i18n = new VueI18n({
       share: "Share",
       sign: "Signature",
       signature: "Sign",
+      signature_effect:
+        "If you agree that this signature will have the same effect as the conclusion of a paper contract, please sign it.",
       signature_empty_warning: "Signature can't be empty",
       stamp: "Stamp",
       submit: "Submit",
@@ -529,6 +533,7 @@ const i18n = new VueI18n({
       notice: "공지사항",
       no_mandate: "작성된 위임장이 없습니다.",
       no_paper: "작성된 계약서가 없습니다.",
+      no_paper_redirect_to_all_paper: "계약자로 포함된 계약서가 없어 전체 계약서를 조회합니다.",
       no_profile: "생성된 프로필이 없습니다.",
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
       none: "없음",
@@ -575,6 +580,8 @@ const i18n = new VueI18n({
       share: "공유",
       sign: "(서명)",
       signature: "서명",
+      signature_effect:
+        "본 서명을 통해 종이계약 체결과 동일한 효력이 발생함에 동의하시면 서명해주세요.",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
       status: "상태",
       submit: "제출",

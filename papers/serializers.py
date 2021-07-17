@@ -330,21 +330,34 @@ class PaperUnalloweUserDetailSerializer(PaperUnalloweUserSerializer):
         return instance.voters.filter(pk=request.user.pk).exists()
 
 class PaperEveryoneSerializer(ReadOnlyModelSerializer):
+    author = serializers.SerializerMethodField()
     address = serializers.SerializerMethodField()
+    is_contractor = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
     verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False, read_only=True)
 
     class Meta:
         model = Paper
-        exclude = ["author", "voters"]
+        exclude = ["voters"]
+
+    def get_author(self, instance):
+        if instance.is_contractor:
+            return str(instance.author)
+        else:
+            return ''
 
     def get_address(self, instance):
+        if instance.is_contractor:
+            return {"old_address": instance.address.old_address, "old_address_eng": instance.address.old_address_eng}
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
         old_address_eng = instance.address.old_address_eng
         hidden_address_eng = old_address_eng[old_address_eng.index(" ")+1:len(old_address_eng)]
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
+
+    def get_is_contractor(self, instance):
+        return instance.is_contractor
 
     def get_status(self, instance):
         return instance.status.status
@@ -352,6 +365,12 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
 class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
     likes_count = serializers.SerializerMethodField()
     user_has_vote = serializers.SerializerMethodField()
+    is_contractor = None
+    author = None
+
+    class Meta:
+        model = Paper
+        exclude = ["voters", "author",]
 
     def get_likes_count(self, instance):
         return instance.voters.count()
@@ -359,3 +378,10 @@ class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
     def get_user_has_vote(self, instance):
         request = self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
+
+    def get_address(self, instance):
+        address_with_bun = instance.address.old_address.split("-")[0]
+        hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
+        old_address_eng = instance.address.old_address_eng
+        hidden_address_eng = old_address_eng[old_address_eng.index(" ")+1:len(old_address_eng)]
+        return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}

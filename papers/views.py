@@ -1,6 +1,6 @@
 import datetime
 import django_filters
-from django.db import IntegrityError
+from django.db.models import BooleanField, Case, Exists, OuterRef, Value, When
 from django_filters import rest_framework as filters
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django.utils.translation import ugettext as _
@@ -16,6 +16,36 @@ from rest_framework.views import APIView
 from papers.models import Paper, PaperStatus, Contractor, Signature, ExplanationSignature
 from papers.serializers import PaperSerializer, PaperEveryoneSerializer, PaperEveryoneDetailSerializer, PaperListSerializer, PaperLoadSerializer, PaperReadonlySerializer, PaperUnalloweUserSerializer, PaperUnalloweUserDetailSerializer, SignatureSerializer, ExplanationSignatureSerializer
 from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser, IsSignatureUser
+
+class PaperFilter(django_filters.FilterSet):
+    status = django_filters.NumberFilter(field_name="status__status")
+    group = django_filters.NumberFilter(field_name="paper_contractors__group")
+    old_address = django_filters.CharFilter(lookup_expr='icontains', field_name='address__old_address')
+    dong = django_filters.CharFilter(field_name='address__dong')
+    ho = django_filters.CharFilter(field_name='address__ho')
+
+    class Meta:
+        model = Paper
+        fields = ['status', 'paper_contractors', 'address']
+
+class AllPaperFilter(django_filters.FilterSet):
+    status = django_filters.NumberFilter(field_name="status__status")
+    bjdong = django_filters.CharFilter(lookup_expr='icontains', field_name='address__bjdongName')
+
+    class Meta:
+        model = Paper
+        fields = ['status', 'address']
+
+class AllPaperList(generics.ListAPIView):
+    serializer_class = PaperEveryoneSerializer
+    permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
+    __basic_fields = ('status', 'bjdong')
+    filter_backends = (filters.DjangoFilterBackend, )
+    filter_fields = __basic_fields
+    filter_class = AllPaperFilter
+
+    def get_queryset(self):
+        return Paper.objects.all().annotate(is_contractor=Case(When(Exists(Contractor.objects.filter(paper=OuterRef('pk'), profile__user=self.request.user)), then=True), output_field=BooleanField(), default=Value(False))).select_related('author')
 
 class AllowPaperAPIView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
@@ -93,18 +123,6 @@ class HidePaperApiView(APIView):
         serializer = PaperListSerializer(papers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class AllPaperList(APIView, PageNumberPagination):
-    def get(self, request, format=None):
-        bjdong = self.request.query_params.get("bjdong")
-        if not bjdong:
-            papers = Paper.objects.filter(status__status=PaperStatus.DONE)
-        else:
-            bjdong = bjdong.strip()
-            papers = Paper.objects.filter(status__status=PaperStatus.DONE, address__bjdongName__icontains=bjdong)
-        page = self.paginate_queryset(papers, request, view=self)
-        serializer = PaperEveryoneSerializer(page, many=True)
-        return self.get_paginated_response(serializer.data)
-
 class PaperLoadAPIView(mixins.RetrieveModelMixin,
                         generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -115,17 +133,6 @@ class PaperLoadAPIView(mixins.RetrieveModelMixin,
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
-
-class PaperFilter(django_filters.FilterSet):
-    status = django_filters.NumberFilter(field_name="status__status")
-    group = django_filters.NumberFilter(field_name="paper_contractors__group")
-    old_address = django_filters.CharFilter(lookup_expr='icontains', field_name='address__old_address')
-    dong = django_filters.CharFilter(field_name='address__dong')
-    ho = django_filters.CharFilter(field_name='address__ho')
-
-    class Meta:
-        model = Paper
-        fields = ['status', 'paper_contractors', 'address']
 
 class PaperViewset(ModelViewSet):
     __basic_fields = ('status', 'group', 'old_address', 'dong', 'ho', 'to_date')
