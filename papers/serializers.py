@@ -376,10 +376,11 @@ class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
     is_contractor = None
     author = None
     status = None
+    updated_at = None
 
     class Meta:
         model = Paper
-        exclude = ["voters", "author",]
+        exclude = ["voters", "author", "updated_at"]
 
     def get_likes_count(self, instance):
         return instance.voters.count()

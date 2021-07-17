@@ -1,7 +1,7 @@
 <template>
   <v-col class="pa-1" cols="12" sm="6" lg="4" xl="3">
     <v-card class="outlined tile" :to="{ name: 'paper-detail', params: { id: paper.id } }">
-      <template v-if="paper.status">
+      <template v-if="paper.status !== null">
         <v-chip class="ma-2 mr-0">
           {{ paper.id }}
         </v-chip>
