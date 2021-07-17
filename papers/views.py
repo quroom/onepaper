@@ -117,7 +117,7 @@ class HidePaperApiView(APIView):
                     contractor.save()
             else:
                 return Response({"detail": ValidationError(_("완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."))}, status=status.HTTP_400_BAD_REQUEST)
-        except papers.models.Contractor.signature.RelatedObjectDoesNotExist:
+        except Signature.RelatedObjectDoesNotExist:
             return Response({"detail": ValidationError(_("서명이 되지 않은 계약서는 숨길 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         papers = Paper.objects.filter(paper_contractors__profile__user=self.request.user, paper_contractors__is_paper_hidden=True)
         serializer = PaperListSerializer(papers, many=True)
