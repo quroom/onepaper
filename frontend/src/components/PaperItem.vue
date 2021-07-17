@@ -26,7 +26,7 @@
       <div class="text-body-2 mt-2 mr-1" style="float:right; max-width: 220px;">
         {{ paper.updated_at }}
         <div v-if="paper.author">
-          <div :class="{ 'author-name:true, primary--text': paper.is_contractor }">
+          <div :class="{ 'author-name': true, 'primary--text': paper.is_contractor }">
             <span> {{ paper.author }} </span>
           </div>
         </div>
