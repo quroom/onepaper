@@ -309,6 +309,7 @@ class PaperUnalloweUserSerializer(ReadOnlyModelSerializer):
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     paper_contractors = ContractorUnalloweUserSerializer(many=True)
     status = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingExplanationSerializer(required=False, read_only=True)
 
     class Meta:
@@ -335,6 +336,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     is_contractor = serializers.SerializerMethodField()
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
     status = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
     verifying_explanation = VerifyingEveryoneExplanationSerializer(required=False, read_only=True)
 
     class Meta:
@@ -362,6 +364,11 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
     def get_status(self, instance):
         if instance.is_contractor:
             return instance.status.status
+        return None
+
+    def get_updated_at(self, instance):
+        if instance.is_contractor:
+            return instance.updated_at
         return None
 
 class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
