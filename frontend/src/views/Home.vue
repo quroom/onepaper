@@ -158,7 +158,7 @@
       <template v-else>
         <v-row>
           <template v-for="paper in papers">
-            <PaperItem :is_mine="is_mine" :paper="paper" :key="paper.id" />
+            <PaperItem :paper="paper" :key="paper.id" />
           </template>
         </v-row>
         <v-row justify="center">

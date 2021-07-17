@@ -379,9 +379,6 @@ class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
         request = self.context.get("request")
         return instance.voters.filter(pk=request.user.pk).exists()
 
-    def get_author(self, instance):
-        return ''
-
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]

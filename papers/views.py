@@ -47,11 +47,6 @@ class AllPaperList(generics.ListAPIView):
     def get_queryset(self):
         return Paper.objects.all().annotate(is_contractor=Case(When(Exists(Contractor.objects.filter(paper=OuterRef('pk'), profile__user=self.request.user)), then=True), output_field=BooleanField(), default=Value(False))).select_related('author')
 
-    def get_serializer_context(self):
-        context = super(AllPaperList, self).get_serializer_context()
-        context.update({"request": self.request})
-        return context
-
 class AllowPaperAPIView(APIView):
     permission_classes = [IsAuthenticated, IsContractorUser]
 
