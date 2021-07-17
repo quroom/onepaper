@@ -95,7 +95,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     class Meta:
-        ordering = ['-id',]
+        ordering = ['-last_login',]
 
 class Profile(models.Model):
     # 개설기관.표준코드 bank_code_std

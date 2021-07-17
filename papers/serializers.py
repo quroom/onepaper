@@ -349,7 +349,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
 
     def get_address(self, instance):
         if instance.is_contractor:
-            return {"old_address": instance.address.old_address, "old_address_eng": instance.address.old_address_eng}
+            return {"old_address": instance.address.old_address, "old_address_eng": instance.address.old_address_eng, "dong": instance.address.dong, "ho": instance.address.ho}
         address_with_bun = instance.address.old_address.split("-")[0]
         hidden_address = address_with_bun[0:address_with_bun.rindex(" ")]
         old_address_eng = instance.address.old_address_eng
@@ -360,13 +360,16 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
         return instance.is_contractor
 
     def get_status(self, instance):
-        return instance.status.status
+        if instance.is_contractor:
+            return instance.status.status
+        return None
 
 class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):
     likes_count = serializers.SerializerMethodField()
     user_has_vote = serializers.SerializerMethodField()
     is_contractor = None
     author = None
+    status = None
 
     class Meta:
         model = Paper
