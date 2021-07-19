@@ -151,9 +151,12 @@
       <v-spacer />
     </v-app-bar>
     <v-container>
-      <div class="text-caption red--text pr-10">{{ $t("paper_subtitle") }}</div>
+      <div class="text-caption blue--text">{{ $t("paper_subtitle") }}</div>
       <div v-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
         {{ $t("no_paper") }}
+      </div>
+      <div v-if="!$attrs.has_profile" class="font-weight-bold red--text">
+        {{ $t("create_profile_to_write_contract") }}
       </div>
       <template v-else>
         <v-row>
