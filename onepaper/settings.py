@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import string, random
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 load_dotenv()
@@ -30,8 +31,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')fe%8bp3c4$*v*ghv46s+4iwbir5)v
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = os.environ.get("DJANGO_DEBUG", 'True') != 'False'
+
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',"*").split(",")
 CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS',"*").split(",")
+PRODUCT = os.environ.get("DJANGO_PRODUCT", 'True') == 'True'
+NO_CACHE_STRING = 'u'+''.join(random.choices(string.digits, k = 10))
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,6 +83,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+if PRODUCT == False and DEBUG == False:
+    MIDDLEWARE.insert(0, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 ROOT_URLCONF = 'onepaper.urls'
 
@@ -175,6 +182,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/dist')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+if PRODUCT == False and DEBUG == False:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 ACCOUNT_ADAPTER = "profiles.adapters.CustomAccountAdapter"
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -302,7 +312,6 @@ if DJANGO_SSL == True:
 
 INTERNAL_IPS = os.environ.get('DJANGO_INTERNAL_IPS',"").split(",")
 
-PRODUCT = os.environ.get("DJANGO_PRODUCT", 'True') == 'True'
 if DEBUG == False and PRODUCT:
     LOGGING = {
         "version": 1,
