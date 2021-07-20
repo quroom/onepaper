@@ -12,6 +12,22 @@ onehand/__pycache__
 staticfiles
 webpack-stats.json
 
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+.env*
+db.sqlite3
+**/migrations/*
+!**/migrations/__init__.py
+clients
+uploads
+media
+test_locust
+
 # Editor directories and files
 .idea
 .vscode
@@ -61,20 +77,3 @@ docs/_build/
 
 # PyBuilder
 target/
-
-
-### Django ###
-*.log
-*.pot
-*.pyc
-__pycache__/
-local_settings.py
-
-.env*
-db.sqlite3
-**/migrations/*
-!**/migrations/__init__.py
-clients
-uploads
-media
-test_locust
