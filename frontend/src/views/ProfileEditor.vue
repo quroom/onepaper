@@ -38,14 +38,14 @@
               {{ $t("use_profile_after_approval") }}
             </div>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="12" sm="8">
             <AddressSearch
               ref_name="shop_address"
               :label="$t('shop_address') + $t('search')"
               :address.sync="address"
             ></AddressSearch>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" sm="2">
             <LazyTextField
               v-model="address.dong"
               :label="$t('dong')"
@@ -53,7 +53,7 @@
               hide-details="auto"
             ></LazyTextField>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" sm="2">
             <LazyTextField
               v-model="address.ho"
               :label="$t('ho')"
@@ -94,14 +94,14 @@
           <v-col class="text-center" cols="12">
             <div class="text-h5">{{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}</div>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="12" sm="8">
             <AddressSearch
               ref_name="address"
               :label="$t('address') + $t('search')"
               :address.sync="address"
             ></AddressSearch>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" sm="2">
             <LazyTextField
               v-model="address.dong"
               :label="$t('dong')"
@@ -109,7 +109,7 @@
               hide-details="auto"
             ></LazyTextField>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="6" sm="2">
             <LazyTextField
               v-model="address.ho"
               :label="$t('ho')"

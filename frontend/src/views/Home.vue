@@ -151,11 +151,22 @@
       <v-spacer />
     </v-app-bar>
     <v-container>
-      <div class="text-caption red--text pr-10">{{ $t("paper_subtitle") }}</div>
+      <div class="text-caption blue--text">{{ $t("paper_subtitle") }}</div>
       <div v-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
         {{ $t("no_paper") }}
       </div>
       <template v-else>
+        <v-row
+          v-if="!$attrs.has_profile"
+          justify="center"
+          class="font-weight-bold red--text ma-auto"
+        >
+          {{ $t("before_create_contract") }},
+          <v-btn class="mx-1" :to="{ name: 'profile-editor' }" color="error" x-small>{{
+            $t("create_profile")
+          }}</v-btn>
+          {{ $t("mandatory") }}
+        </v-row>
         <v-row>
           <template v-for="paper in papers">
             <PaperItem :paper="paper" :key="paper.id" />

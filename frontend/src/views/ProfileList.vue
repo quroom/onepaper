@@ -29,8 +29,13 @@
         {{ $t("connect_social") }}
       </v-btn>
     </v-row>
-    <div v-if="profiles.length == 0 && !isLoading" class="text-h5 text-center">
-      <div class="text-h5 text-center">{{ $t("no_profile") }}</div>
+    <div v-if="profiles.length == 0 && !isLoading" class="text-center">
+      <div class="text-h5 ">
+        {{ $t("no_profile") }}
+      </div>
+      <div class="text-subtitle-1 red--text">
+        {{ $t("creating_profile_is_mandatory") }}
+      </div>
     </div>
     <template v-else>
       <div class="mt-2 text-caption red--text">

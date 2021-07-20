@@ -13,8 +13,6 @@ import ProfileEditor from "../views/ProfileEditor";
 import AllowedUserEditor from "../views/AllowedUserEditor";
 import MandateEditor from "../views/MandateEditor";
 import Mandates from "../views/MandateList";
-import ManualDetail from "../views/ManualDetail";
-import ManualList from "../views/ManualList";
 import UserEditor from "../views/UserEditor";
 
 Vue.use(VueRouter);
@@ -105,20 +103,6 @@ const routes = [
     component: NoticeDetail,
     props: true,
     meta: { title: "공지사항 조회-Onepaper" }
-  },
-  {
-    path: "/manuals/",
-    name: "manuals",
-    component: ManualList,
-    props: true,
-    meta: { title: "이용방법 리스트-Onepaper" }
-  },
-  {
-    path: "/manuals/:id",
-    name: "manual-detail",
-    component: ManualDetail,
-    props: true,
-    meta: { title: "이용방법 조회-Onepaper" }
   },
   {
     path: "/edit/user/",

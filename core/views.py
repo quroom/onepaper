@@ -27,6 +27,11 @@ class IndexTemplateView(TemplateView):
                 template_name = "index.html"
         return template_name
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['no_cache_string'] = settings.NO_CACHE_STRING
+        return ctx
+
 class IntroPageView(TemplateView):
     def get_template_names(self):
         template_name = "intro.html"

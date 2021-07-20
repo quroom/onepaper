@@ -32,6 +32,11 @@ module.exports = {
 
   // uncomment before executing 'npm run build'
   css: {
+    loaderOptions: {
+      sass: {
+        prependData: "@import '@/sass/variables.scss'"
+      }
+    },
     extract: {
       filename: "bundle.css"
     }

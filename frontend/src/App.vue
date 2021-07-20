@@ -98,6 +98,10 @@ a:hover {
 .float-right {
   float: right;
 }
+.btn-right {
+  position: absolute;
+  right: 0px;
+}
 
 /* For print paper setting. */
 @media print {
