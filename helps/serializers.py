@@ -6,21 +6,11 @@ from helps.models import Notice
 from onepaper.serializers import ReadOnlyModelSerializer
 
 class NoticeListSerializer(ReadOnlyModelSerializer):
-    created_at = serializers.SerializerMethodField()
-
     class Meta:
         model = Notice
         fields = ("id", "created_at", "updated_at", "title", "body", 'is_pinned')
-
-    def get_created_at(self, instance):
-        return (instance.created_at).strftime("%Y-%m-%d %H:%M:%S")
 
 class NoticeSeiralizer(ReadOnlyModelSerializer):
-    created_at = serializers.SerializerMethodField()
-
     class Meta:
         model = Notice
         fields = ("id", "created_at", "updated_at", "title", "body", 'is_pinned')
-
-    def get_created_at(self, instance):
-        return (instance.created_at).strftime("%Y-%m-%d %H:%M:%S")
