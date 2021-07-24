@@ -214,7 +214,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         max_size = 1024*1024
         if file_size > max_size:
             raise serializers.ValidationError({
-                field_name: _("Max size of file is %(size)s KB") % {'size': limit_kb}
+                field_name: _("Max size of file is %(size)s KB") % {'size': max_size}
             })
 
     def validate(self, data):

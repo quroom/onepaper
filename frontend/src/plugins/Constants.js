@@ -62,6 +62,7 @@ const Constants = {
     // 3: "exchange",
   },
   STATUS_CATEGORY: {
+    "-1": "denied",
     0: "done",
     1: "requesting",
     2: "draft",

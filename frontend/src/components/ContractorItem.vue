@@ -1,6 +1,20 @@
 <template>
   <div>
-    <v-row v-if="paper" no-gutters>
+    <v-row v-if="paper" no-gutters align="center">
+      <v-col v-if="isNotAuthorAndContractor" class="text-center" cols="auto">
+        <v-card
+          v-if="!isPaperProgress && !isPaperDone && contractor.is_allowed !== false"
+          class="pa-0"
+          outlined
+          tile
+          min-width="80"
+        >
+          <v-btn class="signature-button" @click="allowPaper(false)" color="red" dark tile>
+            <v-icon>do_not_disturb</v-icon>
+            {{ $t("deny") }}
+          </v-btn>
+        </v-card>
+      </v-col>
       <v-col v-if="isExpert" class="text-center font-weight-bold">
         <v-card outlined tile color="grey lighten-2">
           {{ $t("realestate_agency") }}
@@ -13,13 +27,14 @@
         }}</v-card>
       </v-col>
       <v-col class="text-center" cols="auto">
-        <v-card v-if="isAllowed" class="pa-0" outlined tile min-width="80">
+        <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
           <v-btn
             v-if="!isPaperRequest && !isSigned && isContractor"
             class="signature-button"
             @click="openSignaturePad(isVerifyingExplanation)"
-            color="red"
+            color="primary"
             dark
+            tile
           >
             <v-icon>create</v-icon>
             {{ $t("signature") }}
@@ -29,21 +44,32 @@
           </template>
           <img v-if="isSigned" class="signature-img" :src="signature_src" />
         </v-card>
-        <v-card v-else>
-          <v-btn
-            v-if="isContractor"
-            class="signature-button"
-            @click="allowPaper"
-            color="deep-purple"
-            dark
-          >
-            <v-icon>done</v-icon>
-            {{ $t("approve") }}
-          </v-btn>
-          <template v-else>
-            <v-icon>donut_large</v-icon>
-            {{ $t("requesting") }}
+        <v-card v-else class="pa-0" outlined tile min-width="80">
+          <template v-if="contractor.is_hidden == false">
+            <v-btn
+              v-if="isContractor"
+              class="signature-button"
+              @click="allowPaper(true)"
+              color="deep-purple"
+              dark
+              tile
+            >
+              <v-icon>done</v-icon>
+              {{ $t("approve") }}
+            </v-btn>
+            <template v-else-if="contractor.is_allowed == null">
+              <v-icon>donut_large</v-icon>
+              {{ $t("requesting") }}
+            </template>
+            <span v-else-if="contractor.is_allowed == false" class="red--text">
+              <v-icon class="red--text">do_not_disturb</v-icon>
+              {{ $t("denied") }}
+            </span>
           </template>
+          <span v-else-if="contractor.is_allowed == false" class="red--text">
+            <v-icon class="red--text">do_not_disturb</v-icon>
+            {{ $t("denied") }}
+          </span>
         </v-card>
       </v-col>
     </v-row>
@@ -123,9 +149,6 @@ export default {
     };
   },
   computed: {
-    isAllowed: function() {
-      return this.$get(this.contractor, "is_allowed", false);
-    },
     isExpert: function() {
       return this.contractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert");
     },
@@ -142,11 +165,23 @@ export default {
         );
       }
     },
+    isPaperDone: function() {
+      return this.paper.status == this.$getConstByName("STATUS_CATEGORY", "DONE");
+    },
+    isPaperProgress: function() {
+      return this.paper.status == this.$getConstByName("STATUS_CATEGORY", "PROGRESS");
+    },
     isPaperRequest: function() {
       return this.paper.status == this.$getConstByName("STATUS_CATEGORY", "REQUESTING");
     },
     isContractor: function() {
       return this.contractor ? this.requestUser === this.contractor.profile.user.email : false;
+    },
+    isNotAuthorAndContractor: function() {
+      return this.contractor
+        ? this.requestUser != this.paper.author &&
+            this.requestUser === this.contractor.profile.user.email
+        : false;
     },
     computed_profile: function() {
       return this.profile ? this.profile : this.contractor.profile;
@@ -182,8 +217,8 @@ export default {
     getComputed(key) {
       return this[key];
     },
-    allowPaper() {
-      this.$emit("allowPaper");
+    allowPaper(is_allowed) {
+      this.$emit("allowPaper", is_allowed);
     },
     openSignaturePad(isVE) {
       this.$emit("openSignaturePad", isVE);

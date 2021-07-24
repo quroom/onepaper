@@ -42,8 +42,11 @@ def delete_relataive_data(sender, instance, **kwargs):
 @receiver(post_save, sender=Contractor)
 def save_contractor(sender, instance, created, **kwargs):
     if not created:
-        if not instance.paper.paper_contractors.filter(is_allowed=False).exists():
-            status_instance = instance.paper.status
+        status_instance = instance.paper.status
+        if instance.paper.paper_contractors.filter(is_allowed=False).exists():
+            status_instance.status = PaperStatus.DENIED
+            status_instance.save()
+        elif not instance.paper.paper_contractors.exclude(is_allowed=True).exists():
             status_instance.status = PaperStatus.DRAFT
             status_instance.save()
 

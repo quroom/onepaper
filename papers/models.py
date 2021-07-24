@@ -9,19 +9,21 @@ from profiles.models import ExpertProfile, Profile, Insurance
 from addresses.models import Address
 
 class PaperStatus(models.Model):
+    DENIED = -1
     DONE = 0
     REQUESTING = 1
     DRAFT = 2
     PROGRESS = 3
 
     STATUS_CATEGORY = (
+        (DENIED, _('거절')),
         (REQUESTING, _('요청중')),
         (DRAFT, _('작성중')),
         (PROGRESS, _('서명중')),
         (DONE, _('완료'))
     )
 
-    status = models.PositiveSmallIntegerField(
+    status = models.SmallIntegerField(
         choices=STATUS_CATEGORY, default=DRAFT)
 
     def __str__(self):
@@ -154,8 +156,8 @@ class Contractor(models.Model):
                               on_delete=models.CASCADE,
                               related_name="paper_contractors",
                               related_query_name="paper_contractors")
-    is_paper_hidden = models.BooleanField(default=False)
-    is_allowed = models.BooleanField(default=False)
+    is_allowed = models.BooleanField(null=True)
+    is_hidden = models.BooleanField(default=False)
 
     group = models.PositiveSmallIntegerField(
         choices=CONTRACTOR_CATEGORY)

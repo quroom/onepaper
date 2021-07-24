@@ -75,6 +75,17 @@
                 ></v-select>
               </v-col>
               <v-col class="mt-0 mb-0" cols="auto">
+                <v-switch
+                  class="switch"
+                  v-model="options.is_hidden"
+                  :label="$t('hide')"
+                  :false-value="0"
+                  :true-value="1"
+                  @change="getPapersWithOptions()"
+                >
+                </v-switch>
+              </v-col>
+              <v-col class="mt-0 mb-0" cols="auto">
                 <v-text-field
                   class="search-text ve-input"
                   v-model="options.old_address"
@@ -229,7 +240,7 @@ export default {
       ];
     },
     STATUS_CATEGORY_LIST() {
-      return [
+      var status_category_list = [
         {
           text: `${this.$t("all")}`,
           value: ""
@@ -249,8 +260,20 @@ export default {
         {
           text: `${this.$t("done")}`,
           value: this.$getConstByName("status_category", "done")
+        },
+        {
+          text: `${this.$t("denied")}`,
+          value: this.$getConstByName("status_category", "denied")
         }
       ];
+      if (this.options.is_hidden == false) {
+        return status_category_list;
+      } else {
+        for (var i = 1; i <= 3; i++) {
+          this.$delete(status_category_list, 1);
+        }
+        return status_category_list;
+      }
     }
   },
   data() {
@@ -258,17 +281,17 @@ export default {
       papers: [],
       isLoading: true,
       options: {
-        old_address: "",
         dong: "",
         ho: "",
+        is_hidden: 0,
         status: "",
+        old_address: "",
         ordering: ""
       },
       all_papers_options: {
         status: "",
         bjdong: ""
       },
-      hide: false,
       menu: false,
       requestUser: null,
       next: null,
@@ -317,7 +340,7 @@ export default {
       });
     },
     async getPapers() {
-      let endpoint = "/api/papers/";
+      let endpoint = "/api/papers/?is_hidden=0";
       if (this.next) {
         endpoint = this.next;
       }
@@ -348,12 +371,25 @@ export default {
     }
   },
   created() {
+    this.$emit("update:is_paper_updated", false);
     this.getPapers();
     this.requestUser = window.localStorage.getItem("email");
   }
 };
 </script>
 <style scoped>
+@media (max-width: 960px) {
+  .navigation {
+    top: 56px !important;
+    z-index: 1;
+  }
+  .container {
+    max-width: 100%;
+  }
+}
+.container {
+  padding-top: 56px;
+}
 .card-title {
   width: 100%;
 }
@@ -367,16 +403,14 @@ export default {
   top: 64px;
   z-index: 1;
 }
-@media (max-width: 960px) {
-  .navigation {
-    top: 56px;
-    z-index: 1;
-  }
-  .container {
-    max-width: 100%;
-  }
+/* switch label style change */
+.switch /deep/ .v-input__slot {
+  position: relative !important;
 }
-.container {
-  padding-top: 56px;
+.switch /deep/ .v-label {
+  position: absolute !important;
+  top: -20px !important;
+  right: 0px !important;
+  left: 0px !important;
 }
 </style>
