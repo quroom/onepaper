@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-14 16:21+0900\n"
+"POT-Creation-Date: 2021-07-28 12:44+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,337 +17,366 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\onepaper\settings.py:146
+#: .\onepaper\settings.py:153
 msgid "Korean"
 msgstr ""
 
-#: .\onepaper\settings.py:147
+#: .\onepaper\settings.py:154
 msgid "English"
 msgstr ""
 
-#: .\papers\models.py:18
+#: .\papers\models.py:19
+msgid "거절"
+msgstr ""
+
+#: .\papers\models.py:20
 msgid "요청중"
 msgstr "Requesting"
 
-#: .\papers\models.py:19
+#: .\papers\models.py:21
 msgid "작성중"
 msgstr "Draft"
 
-#: .\papers\models.py:20
+#: .\papers\models.py:22
 msgid "서명중"
 msgstr "Progress"
 
-#: .\papers\models.py:21
+#: .\papers\models.py:23
 msgid "완료"
 msgstr "Done"
 
-#: .\papers\models.py:35 .\papers\models.py:236
+#: .\papers\models.py:37 .\papers\models.py:238
 msgid "대"
 msgstr "Building Land"
 
-#: .\papers\models.py:36 .\papers\models.py:52 .\papers\models.py:232
-#: .\papers\models.py:249
+#: .\papers\models.py:38 .\papers\models.py:54 .\papers\models.py:234
+#: .\papers\models.py:251
 msgid "기타"
 msgstr "Etc"
 
-#: .\papers\models.py:48 .\papers\models.py:245
+#: .\papers\models.py:50 .\papers\models.py:247
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:49 .\papers\models.py:246
+#: .\papers\models.py:51 .\papers\models.py:248
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:50 .\papers\models.py:210 .\papers\models.py:247
+#: .\papers\models.py:52 .\papers\models.py:212 .\papers\models.py:249
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:51 .\papers\models.py:248
+#: .\papers\models.py:53 .\papers\models.py:250
 msgid "아파트"
 msgstr ""
 
-#: .\papers\models.py:61
+#: .\papers\models.py:63
 msgid "월세"
 msgstr ""
 
-#: .\papers\models.py:62
+#: .\papers\models.py:64
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:63 .\papers\models.py:212
+#: .\papers\models.py:65 .\papers\models.py:214
 msgid "매매"
 msgstr ""
 
-#: .\papers\models.py:64
+#: .\papers\models.py:66
 msgid "교환"
 msgstr ""
 
-#: .\papers\models.py:81
+#: .\papers\models.py:83
 msgid "티비"
 msgstr ""
 
-#: .\papers\models.py:82
+#: .\papers\models.py:84
 msgid "냉장고"
 msgstr ""
 
-#: .\papers\models.py:83
+#: .\papers\models.py:85
 msgid "세탁기"
 msgstr ""
 
-#: .\papers\models.py:84
+#: .\papers\models.py:86
 msgid "에어컨"
 msgstr ""
 
-#: .\papers\models.py:85
+#: .\papers\models.py:87
 msgid "침대"
 msgstr ""
 
-#: .\papers\models.py:86
+#: .\papers\models.py:88
 msgid "책상"
 msgstr ""
 
-#: .\papers\models.py:87
+#: .\papers\models.py:89
 msgid "옷장"
 msgstr ""
 
-#: .\papers\models.py:88
+#: .\papers\models.py:90
 msgid "신발장"
 msgstr ""
 
-#: .\papers\models.py:89
+#: .\papers\models.py:91
 msgid "가스렌지"
 msgstr ""
 
-#: .\papers\models.py:90
+#: .\papers\models.py:92
 msgid "전자렌지"
 msgstr ""
 
-#: .\papers\models.py:91
+#: .\papers\models.py:93
 msgid "도어락"
 msgstr ""
 
-#: .\papers\models.py:92
+#: .\papers\models.py:94
 msgid "비데"
 msgstr ""
 
-#: .\papers\models.py:93
+#: .\papers\models.py:95
 msgid "추가물품"
 msgstr ""
 
-#: .\papers\models.py:141
+#: .\papers\models.py:143
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:142
+#: .\papers\models.py:144
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:143
+#: .\papers\models.py:145
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\models.py:211
+#: .\papers\models.py:213
 msgid "공동주택"
 msgstr ""
 
-#: .\papers\models.py:213
+#: .\papers\models.py:215
 msgid "임대"
 msgstr ""
 
-#: .\papers\models.py:225
+#: .\papers\models.py:227
 msgid "등기권리증"
 msgstr ""
 
-#: .\papers\models.py:226
+#: .\papers\models.py:228
 msgid "등기사항증명서"
 msgstr ""
 
-#: .\papers\models.py:227
+#: .\papers\models.py:229
 msgid "토지대장"
 msgstr ""
 
-#: .\papers\models.py:228
+#: .\papers\models.py:230
 msgid "건축물대장"
 msgstr ""
 
-#: .\papers\models.py:229
+#: .\papers\models.py:231
 msgid "지적도"
 msgstr ""
 
-#: .\papers\models.py:230
+#: .\papers\models.py:232
 msgid "임야도"
 msgstr ""
 
-#: .\papers\models.py:231
+#: .\papers\models.py:233
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: .\papers\models.py:257
+#: .\papers\models.py:259
 msgid "해당사항없음"
 msgstr ""
 
-#: .\papers\models.py:258
+#: .\papers\models.py:260
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:259
+#: .\papers\models.py:261
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:260 .\papers\models.py:289
+#: .\papers\models.py:262 .\papers\models.py:291
 msgid "그 밖의 유형"
 msgstr ""
 
-#: .\papers\models.py:267
+#: .\papers\models.py:269
 msgid "토기투기지역"
 msgstr ""
 
-#: .\papers\models.py:268
+#: .\papers\models.py:270
 msgid "주택투기지역"
 msgstr ""
 
-#: .\papers\models.py:269
+#: .\papers\models.py:271
 msgid "투기과열지구"
 msgstr ""
 
-#: .\papers\models.py:277
+#: .\papers\models.py:279
 msgid "없음"
 msgstr "None"
 
-#: .\papers\models.py:278
+#: .\papers\models.py:280
 msgid "전용주차시설"
 msgstr ""
 
-#: .\papers\models.py:279
+#: .\papers\models.py:281
 msgid "공동주차시설"
 msgstr ""
 
-#: .\papers\models.py:280
+#: .\papers\models.py:282
 msgid "그 밖의 주차시설"
 msgstr ""
 
-#: .\papers\models.py:287
+#: .\papers\models.py:289
 msgid "위탁관리"
 msgstr ""
 
-#: .\papers\models.py:288
+#: .\papers\models.py:290
 msgid "자체관리"
 msgstr ""
 
-#: .\papers\models.py:295
+#: .\papers\models.py:297
 msgid "중앙공급"
 msgstr ""
 
-#: .\papers\models.py:296
+#: .\papers\models.py:298
 msgid "개별공급"
 msgstr ""
 
-#: .\papers\models.py:304
+#: .\papers\models.py:306
 msgid "도시가스"
 msgstr ""
 
-#: .\papers\models.py:305
+#: .\papers\models.py:307
 msgid "기름"
 msgstr ""
 
-#: .\papers\models.py:306
+#: .\papers\models.py:308
 msgid "프로판가스"
 msgstr ""
 
-#: .\papers\models.py:307
+#: .\papers\models.py:309
 msgid "연탄"
 msgstr ""
 
-#: .\papers\models.py:308
+#: .\papers\models.py:310
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:212 .\papers\tests.py:334
+#: .\papers\serializers.py:211 .\papers\tests.py:334
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:226 .\papers\tests.py:436
+#: .\papers\serializers.py:224 .\papers\tests.py:485
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:235 .\papers\tests.py:475
+#: .\papers\serializers.py:233 .\papers\tests.py:524
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:242 .\papers\tests.py:534
+#: .\papers\serializers.py:240 .\papers\tests.py:583
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:247 .\papers\tests.py:505
+#: .\papers\serializers.py:245 .\papers\tests.py:554
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:253 .\papers\tests.py:857
+#: .\papers\serializers.py:251 .\papers\tests.py:906
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: .\papers\serializers.py:257 .\papers\serializers.py:258
+#: .\papers\serializers.py:255 .\papers\serializers.py:256
 #: .\papers\tests.py:304 .\papers\tests.py:305
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:409 .\papers\views.py:26
+#: .\papers\tests.py:412 .\papers\views.py:112
+msgid "완료 또는 거부된 계약서만 숨김 처리가 가능합니다."
+msgstr ""
+
+#: .\papers\tests.py:419 .\papers\views.py:69
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:633 .\papers\views.py:171
-msgid "완료된 계약서는 수정할 수 없습니다."
+#: .\papers\tests.py:424 .\papers\views.py:75
+msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:689 .\papers\views.py:199
+#: .\papers\tests.py:426 .\papers\tests.py:444 .\papers\views.py:59
+#: .\papers\views.py:96
+msgid "요청 데이터가 올바르지 않습니다."
+msgstr "The request data is incorrect."
+
+#: .\papers\tests.py:434 .\papers\views.py:65
+msgid ""
+"숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
+"세요."
+msgstr ""
+"Hidden contracts cannot be approved/denied. Please request again after "
+"processing the contract."
+
+#: .\papers\tests.py:437 .\papers\views.py:101
+msgid "이미 계약서가 숨김 처리 되었습니다."
+msgstr "The contract has already been hidden."
+
+#: .\papers\tests.py:442 .\papers\views.py:107
+msgid "이미 계약서가 보임 처리 되었습니다."
+msgstr "The contract has already been showing."
+
+#: .\papers\tests.py:452 .\papers\tests.py:458 .\papers\views.py:62
+msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
+msgstr "A signed or done contract cannot be denied."
+
+#: .\papers\tests.py:682 .\papers\views.py:212
+msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
+msgstr "Done or denied contract cannot be modified."
+
+#: .\papers\tests.py:738 .\papers\views.py:240
 msgid "완료된 계약서는 삭제할 수 없습니다."
-msgstr ""
+msgstr "Done contract cannot be deleted"
 
-#: .\papers\tests.py:740 .\profiles\tests.py:333 .\profiles\views.py:159
+#: .\papers\tests.py:789 .\profiles\tests.py:333 .\profiles\views.py:159
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:746 .\profiles\views.py:172
+#: .\papers\tests.py:795 .\profiles\views.py:172
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:779 .\profiles\views.py:200
+#: .\papers\tests.py:828 .\profiles\views.py:200
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:1146 .\papers\tests.py:1235 .\papers\views.py:50
-#: .\papers\views.py:227
-msgid "계약서 작성이 완료되어 서명을 추가할 수 없습니다."
-msgstr ""
+#: .\papers\tests.py:1195 .\papers\tests.py:1284 .\papers\views.py:130
+#: .\papers\views.py:268
+msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
+msgstr "Done or denied contract cannot be signed."
 
-#: .\papers\tests.py:1156 .\papers\tests.py:1245 .\papers\views.py:57
-#: .\papers\views.py:234
+#: .\papers\tests.py:1205 .\papers\tests.py:1294 .\papers\views.py:137
+#: .\papers\views.py:275
 msgid "이미 서명이 등록되어있습니다."
-msgstr ""
+msgstr "The signature is already registered."
 
-#: .\papers\tests.py:1188 .\papers\tests.py:1277 .\papers\views.py:74
-#: .\papers\views.py:248
-msgid "완료된 계약서의 서명은 수정할 수 없습니다."
-msgstr ""
+#: .\papers\tests.py:1237 .\papers\tests.py:1326 .\papers\views.py:153
+#: .\papers\views.py:289
+msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
+msgstr "Done or denied contract cannot have their signatures modified."
 
-#: .\papers\views.py:89
-msgid "완료되지 않은 계약서는 숨길 수 없으며, 삭제만 가능합니다."
-msgstr ""
-
-#: .\papers\views.py:91
-msgid "서명이 되지 않은 계약서는 숨길 수 없습니다."
-msgstr ""
-
-#: .\papers\views.py:182
+#: .\papers\views.py:223
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 "The contract cannot be modified more than 24 hours after initial signing."
 
-#: .\papers\views.py:210
+#: .\papers\views.py:251
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
@@ -677,9 +706,10 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:87 .\templates\account\base.html:109
-#: .\templates\index-dev.html:5 .\templates\index.html:8
-#: .\templates\intro.html:156 .\templates\intro.html:161
+#: .\templates\account\base.html:87 .\templates\account\base.html:110
+#: .\templates\account\base.html:112 .\templates\index-dev.html:5
+#: .\templates\index.html:8 .\templates\intro.html:153
+#: .\templates\intro.html:158
 msgid "Onepaper"
 msgstr ""
 
@@ -687,7 +717,7 @@ msgstr ""
 msgid "Online Realesate Contract"
 msgstr ""
 
-#: .\templates\account\base.html:115 .\templates\intro.html:350
+#: .\templates\account\base.html:120 .\templates\intro.html:347
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -1342,73 +1372,59 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:163
+#: .\templates\intro.html:160
 msgid ""
 "\n"
-"      부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으로 "
-"줄여요.\n"
-"      <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
+"      본 서비스는 수수료 없이 무료로 제공되며, <br/>\n"
+"      광고 수수료를 통해 운영됩니다.\n"
 "      "
 msgstr ""
-"\n"
-" Significantly reduce the time for writing and managing contracts through "
-"real estate online contract serviceAbbreviated to.\n"
-" <br/>Use the time you save on something more precious in life.\n"
-" "
+"This service is provided free of charge <br/> \n"
+" and is operated through advertising fees."
 
-#: .\templates\intro.html:168
+#: .\templates\intro.html:165
 msgid "무료로 시작하기"
 msgstr "Get Started for Free"
 
-#: .\templates\intro.html:176
+#: .\templates\intro.html:173
 msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
-#: .\templates\intro.html:185
+#: .\templates\intro.html:182
 msgid "언제든 쉽고 빠르게"
 msgstr "Anytime and quickly"
 
-#: .\templates\intro.html:187
-msgid ""
-"계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간을 1/10로 단축해보"
-"세요."
+#: .\templates\intro.html:184
+msgid "계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간 단축."
 msgstr ""
-"Provides various functions such as importing contracts! <br /> Please reduce "
-"contract writing timeby 1/10"
+"Provides various functions such as importing contracts! <br /> Reduce "
+"contract writing"
 
-#: .\templates\intro.html:200
+#: .\templates\intro.html:197
 msgid "계약서 통합 관리"
 msgstr "Integrated contract management"
 
-#: .\templates\intro.html:202
-msgid ""
-"분실걱정 No. 반복입력 No. 쉬운관리 Yes. <br /> 원페이퍼로 간단하게 관리하세"
-"요."
-msgstr ""
-"No worry losing paper. No repeated input. Yes easy management.<br /> Simple "
-"management with Onepaper."
+#: .\templates\intro.html:199
+msgid "분실걱정 No. 반복입력 No. 쉬운관리 Yes."
+msgstr "No worry losing paper. No repeated input. Yes easy management."
 
-#: .\templates\intro.html:213
-msgid "PC, 모바일 모두 지원"
-msgstr "Supports both PC and mobile"
+#: .\templates\intro.html:210
+msgid "PC, 모바일 지원"
+msgstr "Supports PC and mobile"
 
-#: .\templates\intro.html:215
-msgid ""
-"브라우저만 있으면 언제,어디서든 OK <br /> PC,모바일 관계없이 작성 할 수 있어"
-"요."
-msgstr ""
-"Anytime, anywhere as long as you have a browser. <br /> You can write "
-"regardless of PC or mobile."
+#: .\templates\intro.html:212
+msgid "브라우저만 있으면 언제,어디서든 OK."
+msgstr "Anytime, anywhere as long as you have a browser."
 
-#: .\templates\intro.html:223
+#: .\templates\intro.html:220
 msgid "사용자 리뷰"
 msgstr "User review"
 
-#: .\templates\intro.html:226
+#: .\templates\intro.html:223
 msgid "마*경(임대인, 30대 직장인)"
 msgstr "Ma*kyung(landrold, 30s salaryman)"
 
-#: .\templates\intro.html:252
+#: .\templates\intro.html:249
 msgid ""
 "불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
 "가 몇배는 빨라졌어요."
@@ -1416,11 +1432,11 @@ msgstr ""
 "I really like the import function. By entering the same information at once, "
 "the contract writing speed is several times faster."
 
-#: .\templates\intro.html:255
+#: .\templates\intro.html:252
 msgid "김*현(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:281
+#: .\templates\intro.html:278
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
@@ -1428,11 +1444,11 @@ msgstr ""
 "People living in the countryside had to schedule one day to sign a contract, "
 "but it was nice not to have to."
 
-#: .\templates\intro.html:284
+#: .\templates\intro.html:281
 msgid "박*연(임대인, 40대 직장인)"
 msgstr "Park*Yeon(landlord, 40s salaryman)"
 
-#: .\templates\intro.html:310
+#: .\templates\intro.html:307
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
@@ -1440,23 +1456,23 @@ msgstr ""
 "Unlike paper contracts, I like that you can check the contract at any time. "
 "Oh, it's good that you don't have to worry about losing it."
 
-#: .\templates\intro.html:316
+#: .\templates\intro.html:313
 msgid "원페이퍼 사용법"
 msgstr "How to use Onepaper"
 
-#: .\templates\intro.html:322
+#: .\templates\intro.html:319
 msgid "기업연혁"
 msgstr "Company History"
 
-#: .\templates\intro.html:329
+#: .\templates\intro.html:326
 msgid "~현재"
 msgstr "~Now"
 
-#: .\templates\intro.html:330
+#: .\templates\intro.html:327
 msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
 msgstr "Launch and operation of Onepaper for real estate online contract"
 
-#: .\templates\intro.html:331
+#: .\templates\intro.html:328
 msgid ""
 "부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
 "로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
@@ -1466,11 +1482,11 @@ msgstr ""
 "estate transactions, spend time on more valuable places, and support safer "
 "real estate transactions by using long-term accumulated data."
 
-#: .\templates\intro.html:335
+#: .\templates\intro.html:332
 msgid "소셜벤처 설립 및 운영"
 msgstr "Social venture establishment and operation"
 
-#: .\templates\intro.html:336
+#: .\templates\intro.html:333
 msgid ""
 "한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
 "설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
@@ -1481,11 +1497,11 @@ msgstr ""
 "Quroom's mission is to solve the problems of the existing real estate market "
 "and provide a better experience to customers through Proptech."
 
-#: .\templates\intro.html:341
+#: .\templates\intro.html:338
 msgid "소셜그룹 혼족스 운영"
 msgstr "Operate social group Honjoks"
 
-#: .\templates\intro.html:342
+#: .\templates\intro.html:339
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1572,6 +1588,19 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "      부동산 온라인 계약 서비스를 통해<br/>계약서 작성·관리시간을 획기적으"
+#~ "로 줄여요.\n"
+#~ "      <br/>줄인시간은 삶 속 더 소중한 곳에 쓰세요.\n"
+#~ "      "
+#~ msgstr ""
+#~ "\n"
+#~ " Significantly reduce the time for writing and managing contracts through "
+#~ "real estate online contract serviceAbbreviated to.\n"
+#~ " <br/>Use the time you save on something more precious in life.\n"
+#~ " "
 
 #~ msgid "휴대폰 번호"
 #~ msgstr "Mobile Number"

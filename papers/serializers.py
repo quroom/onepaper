@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import transaction
 from django.utils.translation import ugettext as _
 from rest_framework import fields
@@ -80,9 +81,10 @@ class ContractorUnalloweUserSerializer(serializers.ModelSerializer):
 
 class PaperListSerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
-    author = serializers.StringRelatedField(read_only=True)
-    status = serializers.SerializerMethodField()
     answer_count = serializers.SerializerMethodField()
+    author = serializers.StringRelatedField(read_only=True)
+    is_hidden = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Paper
@@ -93,6 +95,10 @@ class PaperListSerializer(ReadOnlyModelSerializer):
 
     def get_answer_count(self, instance):
         return instance.paper_contractors.get(profile__user=self.context['request'].user).contractor_answers.count()
+
+    def get_is_hidden(self, instance):
+        request = self.context.get("request")
+        return instance.paper_contractors.get(paper=instance, profile__user=request.user).is_hidden
 
 class PaperSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
@@ -115,16 +121,14 @@ class PaperSerializer(serializers.ModelSerializer):
         contractors_data = validated_data.pop('paper_contractors')
         status_instance = PaperStatus.objects.create(status=PaperStatus.DRAFT)
         address = Address.objects.create(**address_data)
-        is_paper_requsting = False
 
         paper = Paper.objects.create(**validated_data, address=address, status=status_instance)
 
         for contractor_data in contractors_data:
             Contractor.objects.create(profile=contractor_data['profile'], paper=paper, group=contractor_data['group'], is_allowed=contractor_data['is_allowed'])
-            if is_paper_requsting == False and contractor_data['is_allowed'] == False:
+            if status_instance.status != PaperStatus.REQUESTING and contractor_data['is_allowed'] == None:
                 status_instance.status = PaperStatus.REQUESTING
                 status_instance.save()
-                is_paper_requsting = True
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation_address_data = verifying_explanation_data.pop('address')
@@ -134,12 +138,11 @@ class PaperSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        address = instance.address
         address_data = validated_data.pop('address') if not validated_data.get('address') is None else {}
         contractors_data = validated_data.pop('paper_contractors') if not validated_data.get('paper_contractors') is None else {}
         verifying_explanation_data = validated_data.pop('verifying_explanation') if not validated_data.get('verifying_explanation') is None else {}
-        status_instance  = instance.status
-        address = instance.address
-        is_paper_requsting = False
+
         contractors_profile = []
         for contractor_data in contractors_data:
             contractors_profile.append(contractor_data.get("profile"))
@@ -154,7 +157,6 @@ class PaperSerializer(serializers.ModelSerializer):
             try:
                 obj = Contractor.objects.get(profile=contractor_data['profile'], paper=instance)
                 setattr(obj, 'group', contractor_data['group'])
-                setattr(obj, 'is_allowed', contractor_data['is_allowed'])
                 obj.save()
             except Contractor.DoesNotExist:
                 try:
@@ -162,12 +164,11 @@ class PaperSerializer(serializers.ModelSerializer):
                     setattr(obj, 'profile', contractor_data['profile'])
                 except Contractor.DoesNotExist:
                     obj = Contractor.objects.create(**contractor_data)
-                    obj.save()
-
-            if is_paper_requsting == False and contractor_data['is_allowed'] == False:
-                status_instance.status = PaperStatus.REQUESTING
-                status_instance.save()
-                is_paper_requsting = True
+                    status_instance  = obj.paper.status
+                    #When change contractor that is new, If it's not allowedUser paperstatus has to be Requesting status.
+                    if contractor_data['is_allowed'] == None and status_instance.status != PaperStatus.REQUESTING:
+                        status_instance.status = PaperStatus.REQUESTING
+                        status_instance.save()
 
         if self.context['request'].user.is_expert == True:
             verifying_explanation = instance.verifying_explanation
@@ -211,10 +212,9 @@ class PaperSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     key: _("같은 회원을 중복해서 등록할 수 없습니다."),
                 })
-
             if author != contractor['profile'].user:
                 if not AllowedUser.objects.filter(allowed_users=author, profile=contractor['profile']).exists():
-                    contractor['is_allowed'] = False
+                    contractor['is_allowed'] = None
                 else:
                     contractor['is_allowed'] = True
             else:
@@ -367,7 +367,7 @@ class PaperEveryoneSerializer(ReadOnlyModelSerializer):
 
     def get_updated_at(self, instance):
         if instance.is_contractor:
-            return instance.updated_at
+            return timezone.localtime(instance.updated_at).strftime("%Y-%m-%d %H:%M:%S")
         return None
 
 class PaperEveryoneDetailSerializer(PaperEveryoneSerializer):

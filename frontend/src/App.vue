@@ -2,10 +2,15 @@
   <v-app app style="overflow-x:auto">
     <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category" />
     <v-main v-if="!isLoading" class="root_tag">
-      <keep-alive v-if="!$route.meta.isDestroied" include="Home">
-        <router-view :has_profile.sync="has_profile" />
+      <keep-alive v-if="!$route.meta.isDestroied && !is_paper_updated" include="Home">
+        <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
+        <router-view :has_profile.sync="has_profile" :is_paper_updated.sync="is_paper_updated" />
       </keep-alive>
-      <router-view v-if="$route.meta.isDestroied" :has_profile.sync="has_profile" />
+      <router-view
+        v-else
+        :has_profile.sync="has_profile"
+        :is_paper_updated.sync="is_paper_updated"
+      />
     </v-main>
     <Footer class="no-print root_tag" />
   </v-app>
@@ -28,7 +33,8 @@ export default {
     link_dialog: false,
     has_profile: true,
     /* user_category: user(general_user), expert, staff */
-    user_category: "user"
+    user_category: "user",
+    is_paper_updated: false
   }),
   computed: {
     is_staff() {

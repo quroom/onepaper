@@ -5,6 +5,11 @@
         <v-chip class="ma-2 mr-0">
           {{ paper.id }}
         </v-chip>
+        <v-chip v-if="paper.is_hidden" class="ma-2 mr-0" ark label>
+          <v-icon left>
+            visibility_off
+          </v-icon>
+        </v-chip>
         <v-chip
           class="ma-2 mr-0"
           :color="
@@ -14,6 +19,8 @@
               ? 'primary'
               : paper.status == $getConstByName('status_category', 'draft')
               ? ''
+              : paper.status == $getConstByName('status_category', 'denied')
+              ? 'error'
               : 'deep-purple'
           "
           dark
@@ -106,6 +113,9 @@ export default {
       let newTab = window.open();
       newTab.document.body.innerHTML = "<img src=" + image + ' width="500px" height="500px">';
     }
+  },
+  created() {
+    this.requestUser = window.localStorage.getItem("email");
   }
 };
 </script>

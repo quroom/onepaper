@@ -364,7 +364,7 @@ class PaperTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["status"],  PaperStatus.DRAFT)
 
-    def test_paper_create_with_expert_unallowed_paper_requsting_status(self):
+    def test_paper_create_with_expert_unallowed_paper_and_allow_hide_paper(self):
         self.client.force_authenticate(user=self.expert_profile.profile.user)
         profile2 = self.create_user_profile(id=2)
         self.verifying_explanation['insurance'] = self.expert_profile.insurances.first().id
@@ -394,19 +394,80 @@ class PaperTestCase(APITestCase):
             "verifying_explanation": self.verifying_explanation
         }
         response = self.client.post(self.list_url, data=data, format="json")
+        paper_id = response.data['id']
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["status"],  PaperStatus.REQUESTING)
 
-        #AllowPaperTest
-        forbidden_response = self.client.get(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}))
+        #AllowPaperTest Forbidden
+        forbidden_response = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':True}, format="json")
         self.assertEqual(forbidden_response.status_code, status.HTTP_403_FORBIDDEN)
 
+        forbidden_response = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden':True}, format="json")
+        self.assertEqual(forbidden_response.status_code, status.HTTP_403_FORBIDDEN)
+
+        #authenticate for authorized user.
         self.client.force_authenticate(user=profile2.user)
-        response = self.client.get(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}))
+
+        #HidePaperTest
+        response_error = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden': True}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("완료 또는 거절된 계약서만 숨김 처리가 가능합니다."))
+
+        #AllowPaperTest
+        response = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':True}, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['paper_contractors'][1]['is_allowed'], True)
         self.assertEqual(response.data["status"],  PaperStatus.DRAFT)
-        response = self.client.get(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}))
-        self.assertEqual(response.data["detail"].message, _("이미 계약서 작성이 허용 되었습니다."))
+
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':True}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("이미 계약서 작성이 허용 되었습니다."))
+
+        response = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':False}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['paper_contractors'][1]['is_allowed'], False)
+        self.assertEqual(response.data["status"],  PaperStatus.DENIED)
+
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':False}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("이미 계약서 작성이 거절 되었습니다."))
+
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("요청 데이터가 올바르지 않습니다."))
+
+        #HidePaperTest
+        response = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden':True}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['paper_contractors'][1]['is_hidden'], True)
+
+        #AllowPaperTest
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':True}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주세요."))
+
+        #HidePaperTest
+        response_error = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden':True}, format="json")
+        self.assertEqual(response_error.data['detail'].message, _("이미 계약서가 숨김 처리 되었습니다."))
+
+        response = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden':False}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['paper_contractors'][1]['is_hidden'], False)
+
+        response_error = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_hidden':False}, format="json")
+        self.assertEqual(response_error.data['detail'].message, _("이미 계약서가 보임 처리 되었습니다."))
+
+        response_error = self.client.put(reverse('hide-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("요청 데이터가 올바르지 않습니다."))
+
+        #AllowPaperTest with DONE Paper
+        paper = Paper.objects.get(id=paper_id)
+        paper_status = paper.status
+        paper_status.status = PaperStatus.DONE
+        paper_status.save()
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':False}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("서명 또는 완료된 계약서는 거절할 수 없습니다."))
+
+        paper_status = paper.status
+        paper_status.status = PaperStatus.PROGRESS
+        paper_status.save()
+        response_error = self.client.put(reverse('allow-paper', kwargs={'pk':response.data['paper_contractors'][1]['id']}), data={'is_allowed':False}, format="json")
+        self.assertEqual(response_error.data["detail"].message, _("서명 또는 완료된 계약서는 거절할 수 없습니다."))
 
     def test_paper_create_with_expert_as_trader(self):
         data = {
@@ -630,7 +691,7 @@ class PaperTestCase(APITestCase):
         paper_status.save()
         response = self.client.put(reverse('papers-detail', kwargs={'pk':response.data['id']}), data=data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("완료된 계약서는 수정할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 수정할 수 없습니다."))
 
     def test_paper_delete(self):
         data = {
@@ -1143,7 +1204,7 @@ class SignatureTestCase(APITestCase):
         paper_status.save()
         response = self.client.post(reverse('create-explanation-signature', kwargs={'id':self.paper_with_verifying_explanation['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."))
 
     def test_explanation_signature_create_duplications(self):
         data = {
@@ -1185,7 +1246,7 @@ class SignatureTestCase(APITestCase):
         }
         response = self.client.put(reverse('update-explanation-signature', kwargs={'paper_id':paper.id, 'pk':response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("완료된 계약서의 서명은 수정할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."))
 
     def test_signature_create(self):
         data = {
@@ -1232,7 +1293,7 @@ class SignatureTestCase(APITestCase):
         paper_status.save()
         response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("계약서 작성이 완료되어 서명을 추가할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."))
 
     def test_signature_create_duplications(self):
         data = {
@@ -1274,4 +1335,4 @@ class SignatureTestCase(APITestCase):
         }
         response = self.client.put(reverse('update-signature', kwargs={'paper_id':paper.id, 'pk':response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data["detail"].message, _("완료된 계약서의 서명은 수정할 수 없습니다."))
+        self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."))

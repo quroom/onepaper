@@ -117,6 +117,7 @@ pipeline {
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
                 cd onepaper; \
+                git checkout; \
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh g; \
                 sudo systemctl reload nginx;" '
@@ -147,6 +148,7 @@ pipeline {
                 unset USE_S3;" '
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
                 cd onepaper; \
+                git checkout; \
                 git pull origin master; \
                 deactivate; \
                 sudo systemctl restart onepaper; \
@@ -170,6 +172,7 @@ pipeline {
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
                 cd onepaper; \
+                git checkout; \
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh b; \
                 sudo systemctl reload nginx;" '

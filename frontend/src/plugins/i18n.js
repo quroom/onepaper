@@ -140,7 +140,7 @@ const i18n = new VueI18n({
       partial_correct_match: "Partially Correct is Matched",
       paper: "Paper",
       paper_subtitle:
-        "This contract can be viewed by anyone to create a better contract culture, excluding personal information (name, contact number, lot number, etc.).",
+        "To create a better contract culture, the written contract can be viewed by anyone in the entire contract tab except for personal information (name, detailed lot number, etc.)",
       paper_requesting_subtitle:
         "Contracts in the requesting state can be signed and contractor information can be checked after all contractors requiring the request press the Approve button.",
       profile: "Profile",
@@ -174,6 +174,8 @@ const i18n = new VueI18n({
       special_agreement_basic_template: "",
       status: "status",
       share: "Share",
+      show: "Show",
+      show_paper: "Show Paper",
       sign: "Signature",
       signature: "Sign",
       signature_effect:
@@ -482,7 +484,7 @@ const i18n = new VueI18n({
       작성된 프로필이 있는 경우 계정은 더이상 이용할 수 없도록 처리되며, 데이터베이스를 향후 법적 분쟁 시 활용하기 위해 보존 됩니다. 보존되는 데이터는 본인에게만 제공되니 안심하셔도 됩니다.",
       delete_success: "정상적으로 삭제되었습니다.",
       deny: "거절",
-      denied: "거절",
+      denied: "거절됨",
       desc_realestate: "부동산 기본정보(표시)",
       designator: "위임인",
       designee: "수임인",
@@ -551,7 +553,7 @@ const i18n = new VueI18n({
       partial_correct_match: "일부 일치시 검색됨",
       paper: "계약서",
       paper_subtitle:
-        "본 계약서는 개인정보(성함, 연락처, 지번 등)를 제외하고 더 나은 계약 문화를 만들기 위해 누구나 조회 할 수 있습니다.",
+        "더 나은 계약 문화를 만들기 위해 작성 계약서는 개인정보(성함, 세부지번 등)를 제외하고 전체 계약서 탭에서 누구나 조회 할 수 있습니다.",
       paper_requesting_subtitle:
         "요청 중 상태의 계약서는 요청이 필요한 모든 계약자가 승인 버튼을 누른 후 서명 및 계약자 정보를 확인할 수 있습니다.",
       profile: "프로필",
@@ -584,6 +586,8 @@ const i18n = new VueI18n({
       special_agreement: "특약",
       special_agreement_basic_template: "",
       share: "공유",
+      show: "보이기",
+      show_paper: "계약서보임",
       sign: "(서명)",
       signature: "서명",
       signature_effect:

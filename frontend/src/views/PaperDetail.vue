@@ -6,18 +6,31 @@
       </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-row v-if="paper.author" class="mt-4 no-print">
-        <v-col class="pa-0 pr-1" cols="12" md="8">
+        <v-col class="pa-0 pr-1" cols="12" md="8" style="position: relative;">
+          <template v-if="isPaperDone || currentContractor.is_allowed == false">
+            <v-btn
+              v-if="currentContractor.is_hidden == false"
+              class="ml-2"
+              color="red"
+              @click="hidePaper(true)"
+              dark
+              small
+            >
+              <v-icon>visibility_off</v-icon>
+              {{ `${$t("paper")}` + `${$t("hide")}` }}
+            </v-btn>
+            <v-btn v-else class="ml-2" color="black" @click="hidePaper(false)" dark small>
+              <v-icon>visibility</v-icon>{{ $t("show_paper") }}
+            </v-btn>
+          </template>
           <div style="float:right">
-            <v-icon left color="blue">person</v-icon>
-            <span>{{ $t("author") }}: {{ paper.author }}</span>
+            <span> {{ $t("updated_at") }}: {{ paper.updated_at }} </span>
           </div>
         </v-col>
         <v-col class="pa-0 pr-1" cols="12" md="4">
           <div style="float:right">
-            <span
-              >{{ $t("last") }}{{ $t("updated_at") }} :
-              {{ paper.updated_at }}
-            </span>
+            <v-icon class="ma-0" left color="blue">person</v-icon>
+            <span>{{ paper.author }}</span>
           </div>
         </v-col>
       </v-row>
@@ -231,7 +244,7 @@
             class="no-print"
             v-if="!isPaperRequest && !isVerifyingExplanationSigned"
             @click="open(true)"
-            color="red"
+            color="primary"
             dark
           >
             <v-icon>create</v-icon>
@@ -404,6 +417,7 @@ export default {
       dialog: false,
       paper: { trade_category: null },
       is_explanation_signature: false,
+      is_paper_updated: false,
       fields_names: {
         realestate_fields_name: [
           "land_category",
@@ -501,11 +515,33 @@ export default {
     };
   },
   methods: {
-    allowPaper() {
+    allowPaper(is_allowed) {
       this.isLoading = true;
       let endpoint = `/api/contractors/${this.currentContractor.id}/allow-paper/`;
-      apiService(endpoint).then((data) => {
+      let method = "PUT";
+
+      apiService(endpoint, method, {
+        is_allowed: is_allowed
+      }).then((data) => {
         if (data.id != undefined) {
+          this.is_paper_updated = true;
+          this.paper = data;
+        } else {
+          applyValidation(data);
+        }
+        this.isLoading = false;
+      });
+    },
+    hidePaper(is_hidden) {
+      this.isLoading = true;
+      let endpoint = `/api/contractors/${this.currentContractor.id}/hide-paper/`;
+      let method = "PUT";
+
+      apiService(endpoint, method, {
+        is_hidden: is_hidden
+      }).then((data) => {
+        if (data.id != undefined) {
+          this.is_paper_updated = true;
           this.paper = data;
         } else {
           applyValidation(data);
@@ -560,6 +596,7 @@ export default {
         }).then((data) => {
           if (data.id != undefined) {
             alert(that.$i18n.t("request_success"));
+            this.is_paper_updated = true;
             if (that.is_explanation_signature == true) {
               that.currentContractor.explanation_signature = data;
             } else {
@@ -582,8 +619,12 @@ export default {
       });
     }
   },
+  beforeDestroy() {
+    this.$emit("update:is_paper_updated", this.is_paper_updated);
+  },
   created() {
     this.getPaperData();
+    this.$emit("update:is_paper_updated", false);
     this.requestUser = window.localStorage.getItem("email");
   }
 };
