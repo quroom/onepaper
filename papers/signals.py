@@ -47,8 +47,9 @@ def save_contractor(sender, instance, created, **kwargs):
             status_instance.status = PaperStatus.DENIED
             status_instance.save()
         elif not instance.paper.paper_contractors.exclude(is_allowed=True).exists():
-            status_instance.status = PaperStatus.DRAFT
-            status_instance.save()
+            if status_instance.status in (PaperStatus.REQUESTING, PaperStatus.DENIED):
+                status_instance.status = PaperStatus.DRAFT
+                status_instance.save()
 
 @receiver(post_save, sender=Paper)
 def save_paper(sender, instance, created, **kwargs):

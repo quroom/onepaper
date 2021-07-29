@@ -82,7 +82,7 @@ server {
 		add_header X-Proxy-Cache $upstream_cache_status;
 
 
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
+		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static/;
 
 		gzip on;
 		gzip_disable "msie6";
@@ -112,7 +112,7 @@ server {
 		add_header             Cache-Control max-age=31536000;
 		add_header X-Proxy-Cache $upstream_cache_status;
 
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static/;
+		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
 		gzip on;
 		gzip_disable "msie6";
 
