@@ -50,6 +50,9 @@ def save_contractor(sender, instance, created, **kwargs):
             if status_instance.status in (PaperStatus.REQUESTING, PaperStatus.DENIED):
                 status_instance.status = PaperStatus.DRAFT
                 status_instance.save()
+        else:
+            status_instance.status = PaperStatus.REQUESTING
+            status_instance.save()
 
 @receiver(post_save, sender=Paper)
 def save_paper(sender, instance, created, **kwargs):
