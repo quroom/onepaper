@@ -1597,6 +1597,9 @@ export default {
       this.quill_disabled = false;
     });
   },
+  destroyed() {
+    this.$tours["paper-editor"].stop();
+  },
   mounted() {
     if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
       this.$tours["paper-editor"].start();

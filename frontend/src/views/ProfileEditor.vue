@@ -905,8 +905,15 @@ export default {
       this.getInsurances(true);
     }
   },
+  destroyed() {
+    this.$tours["profile-editor"].stop();
+  },
   mounted() {
-    if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
+    if (
+      this.$store.state.user_setting.is_tour_on &&
+      this.$store.state.user_category === "user" &&
+      !this.$store.state.has_profile
+    ) {
       console.log("tour_start");
       this.$tours["profile-editor"].start();
     }
