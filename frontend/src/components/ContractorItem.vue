@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="paper" no-gutters align="center">
+    <v-row :id="isContractor ? 'v-contractor-btns' : ''" v-if="paper" no-gutters align="center">
       <v-col v-if="isNotAuthorAndContractor" class="text-center" cols="auto">
         <v-card
           v-if="!isPaperProgress && !isPaperDone && contractor.is_allowed !== false"
@@ -29,6 +29,7 @@
       <v-col class="text-center" cols="auto">
         <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
           <v-btn
+            id="v-signature"
             v-if="!isPaperRequest && !isSigned && isContractor"
             class="signature-button"
             @click="openSignaturePad(isVerifyingExplanation)"
@@ -57,10 +58,10 @@
               <v-icon>done</v-icon>
               {{ $t("approve") }}
             </v-btn>
-            <template v-else-if="contractor.is_allowed == null">
+            <div id="v-requesting" v-else-if="contractor.is_allowed == null">
               <v-icon>donut_large</v-icon>
               {{ $t("requesting") }}
-            </template>
+            </div>
             <span v-else-if="contractor.is_allowed == false" class="red--text">
               <v-icon class="red--text">do_not_disturb</v-icon>
               {{ $t("denied") }}
@@ -225,7 +226,7 @@ export default {
     }
   },
   created() {
-    this.requestUser = window.localStorage.getItem("email");
+    this.requestUser = this.$store.state.user.email;
   }
 };
 </script>

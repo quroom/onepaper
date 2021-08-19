@@ -18,12 +18,12 @@ function getKeys(object) {
 function applyValidation(data, that) {
   console.log(data);
   var flag = true;
-  if (data.count == 0) {
-    alert("조회된 데이터가 없습니다.");
-    return true;
-  }
   if (data["detail"]) {
     alert(data["detail"]);
+    return true;
+  }
+  if (data.count == 0) {
+    alert("조회된 데이터가 없습니다.");
     return true;
   }
   var result = getKeys(data);

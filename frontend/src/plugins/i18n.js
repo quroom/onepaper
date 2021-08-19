@@ -37,7 +37,7 @@ const i18n = new VueI18n({
       back: "Back",
       bank_account: "Bank Account",
       basic: "Basic",
-      before_create_contract: "before_create_contract",
+      before_create_contract: "Before create contract",
       bjdong: "Beopjeong Dong(Li)",
       brokerage: "Brokerage",
       button: "Button",
@@ -119,6 +119,7 @@ const i18n = new VueI18n({
       mandate_paper: "Power of Attorney",
       mandatory: "mandatory",
       manwon: "ten thousand Won",
+      menu: "Menu",
       modify: "Modify",
       modify_delete_deadline: "Modify and Delete dealine",
       modify_delete_deadline_expired: "Modify and Delete deadline is expired",
@@ -180,10 +181,10 @@ const i18n = new VueI18n({
       signature: "Sign",
       signature_effect:
         "If you agree that this signature will have the same effect as the conclusion of a paper contract, please sign it.",
+      signature_and_submit: "Submit mandate after signature",
       signature_empty_warning: "Signature can't be empty",
       stamp: "Stamp",
       submit: "Submit",
-      signature_and_submit: "Submit mandate after signature",
       trade: "Trade",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
@@ -195,6 +196,7 @@ const i18n = new VueI18n({
       user: "User",
       use_profile_after_approval:
         "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
+      unspport_function: "This feature is not currently available on this page.",
       view_mobile_version: "View Mobile Ver",
       view_pc_version: "View PC Ver(Printable)",
       writing: "writing",
@@ -202,6 +204,23 @@ const i18n = new VueI18n({
       won: "Won",
       won_paid_recieved: "won paid upon visit and received",
       year: "year",
+
+      //Tour translation
+      done_tour: "Done",
+      skip_tour: "Skip tour",
+      start_tour: "Start Tour",
+      tour_if_don_have_profile: "If you do not have a profile, click the Create Profile button",
+      tour_create_paper_button_click: "Click button to create paper!",
+      tour_create_profile:
+        "Shall we start creating a profile? </br> You do not need to enter the (optional) field.",
+      tour_address: "Click the address search bar and enter the address",
+      tour_dong_ho:
+        "As in the example, when inputting, omit the letter of the same name and number. <br/> Ex) 201, B",
+      tour_mobile_number: "Enter your mobile phone number (numbers only)",
+      tour_bank_name: "Select bank name",
+      tour_bank_account: "Enter account number",
+      tour_submit: "When you are finished, click the Submit button",
+      optional: "optional",
 
       //Bank List
       "--선택--": "--Choose--",
@@ -526,13 +545,14 @@ const i18n = new VueI18n({
       lookup_scope: "조회 범위",
       logout: "로그아웃",
       manage: "관리",
-      manual_search: "직접 회원검색",
+      manual_search: "직접검색",
       mandate: "위임",
       mandate_subtitle:
         "위임 기간 동안 위임인의 서명이 없어도 수임인이 작성한 계약서는 완료됩니다.",
       mandate_paper: "위임장",
       mandatory: "필수",
       manwon: "만원",
+      menu: "메뉴",
       modify: "편집",
       modify_delete_deadline: "수정/삭제 가능기한",
       modify_delete_deadline_expired: "수정/삭제 가능기한 만료.",
@@ -594,6 +614,7 @@ const i18n = new VueI18n({
         "본 서명을 통해 종이계약 체결과 동일한 효력이 발생함에 동의하시면 서명해주세요.",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
       status: "상태",
+
       submit: "제출",
       signature_and_submit: "서명 후 위임장 제출",
       trade: "거래",
@@ -607,6 +628,7 @@ const i18n = new VueI18n({
       user: "회원",
       use_profile_after_approval:
         "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
+      unspport_function: "현재 페이지에서는 해당 기능이 제공되지 않습니다.",
       view_mobile_version: "모바일 버전 보기",
       view_pc_version: "원래대로 보기(인쇄용)",
       writing: "작성",
@@ -614,6 +636,161 @@ const i18n = new VueI18n({
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
       year: "년",
+
+      //Tour translation
+      done_tour: "종료",
+      skip_tour: "다시보지 않기",
+      start_tour:
+        "👏원페이퍼를 이용해줘서 정말 감사해요!<br/>\
+      여러분을 위한 서비스 가이드를 준비했어요.<br/>\
+      함께 알아보려면 다음버튼을 눌러요.<br/>\
+      가이드를 더이상 보지않으려면<br/>\
+      다시보지 않기버튼을 눌러주세요.<br/>\
+      가이드는 \
+      <i data-v-e439781a='' aria-hidden='true' class='v-icon notranslate material-icons theme--light white--text text--darken-2'>help</i>\
+      버튼으로 다시 볼수 있어요😊",
+      tour_if_don_have_profile:
+        "프로필이 없으시네요? <br/>\
+      먼저 프로필 생성부터 해주세요😊😊",
+      tour_home_menu:
+        "상단메뉴 소개에요.<br/>\
+        계약서 / 프로필 메뉴가 존재해요.<br/>\
+        ✔️ 계약서 메뉴 - 계약서 조회/생성 <br/>\
+        ✔️ 프로필 메뉴 - 계약자 정보를 생성/조회 <br/>\
+        프로필은 재사용할 수 있지만, <br/>\
+        주소 등이 바뀌면 다시 생성 해야해요",
+      tour_paper_list:
+        "작성 중인 계약서가 있군요? 축하해요🎉🎉<br/>\
+        가이드와 함께 계약서를 검토볼까요?<br/>\
+        검토하려면 계약서를 클릭해봐요😊😊",
+      tour_toggle_menu:
+        "좌측 메뉴에서는 상단 메뉴에 없는<br/>\
+      추가적인 메뉴가 있으니 필요에 따라<br/>\
+      활용하세요!",
+      tour_help_menu:
+        "도움말 버튼이에요.<br/>\
+      이용에 어려움이 있을 때 눌러주세요!<br/>\
+      가이드가 이용에 도움을 줄거에요.😊",
+      tour_filter:
+        "필터 메뉴소개<br/>\
+      ✔️ 내 계약서 - 내가 포함된 계약서만 검색<br/>\
+      ✔️ 전체계약서 - 타인 계약서까지 조회<br/>\
+      ✔️ 필터 - 상태, 주소 등 계약서 세부검색",
+      tour_create_paper_button_click: "계약서 작성을 위해 버튼 클릭!",
+
+      //Tour paper-detail
+      tour_paper_detail:
+        "안녕하세요? 계약서 검토 도우미에요.😊😊\
+        서비스 이용이 처음이라면 함께해봐요.",
+      tour_paper_hide:
+        "계약서 숨김을 하게 되면,<br/>\
+        홈 화면에서 계약서가 노출되지 않아요.<br/>\
+        <i data-v-e439781a='' aria-hidden='true' class='v-icon notranslate material-icons theme--light white--text text--darken-2'>help</i>\
+        필터 버튼을 통해서 숨긴 계약서 조회가 가능해요.",
+      tour_detail_desc_relesate:
+        "부동산표시는 건물/토지대장으로 검토해요.<br/>\
+      대장은 <a href='https://www.gov.kr/search/apply/?srhQuery=%EB%8C%80%EC%9E%A5&policyType=&sort=&dateDvs=&sdate=&edate=&sfield=' target='_blank' >정부24</a> PC에서 열람 가능해요. <br/>\
+      정보 중 주소와 동/호는 절대 틀리면 안되요!",
+      tour_detail_terms_and_conditions:
+        "합의한것과 계약내용이 같은지 체크해요! <br/>\
+    쉬운 내용이니 세부설명은 패스할게요. <br/>",
+      tour_detail_contractor_info:
+        "⚠️계약자 정보는 가장 중요한 사항이에요. <br/>\
+      승인 후 세부정보 조회가 가능하며, <br/>\
+      등기부/신분증 등으로 권한을 꼭 확인해요. <br/>",
+      tour_approve:
+        "요청 계약서가 맞으면 승인버튼을 눌러요<br/>\
+        요청 계약서가 아니면 거절버튼을 눌러요😊<br/>\
+        서명은 승인후 가능하고 특약검토 후 하세요",
+      tour_requesting:
+        "계약서를 승인하지 않은 계약자가 있어요.<br/>\
+          상대방에게 승인버튼 클릭을 요청하세요.<br/>",
+      tour_detail_special_agreement:
+        "불공정한 특약이 없는지 확인하세요.<br/>\
+        특약에 있더라도 무효인 경우가 있으니,<br/>\
+        꼭 검토하세요 ex)강제퇴거특약",
+      tour_signature:
+        "서명을 원하시면 클릭 해주세오.<br/>\
+      최초 서명 후 계약서는 24시간 이내에만<br/>\
+      수정이 가능하고, 24시간 지나면 \
+      계약서는 더이상 수정 할 수 없어요.",
+      tour_ve:
+        "확인설명서는 중개사가 설명해줄거에요<br/>\
+      등기부기재사항은 꼼꼼히 확인하고,<br/>\
+      권리분석을 꼭 해야해요<br/>\
+      모바일에선 모바일버전보기를 클릭😊",
+      tour_ve_signature:
+        "계약자 모두가 서명버튼을 누르고 서명하면,<br/>\
+      계약서는 완료상태로 자동으로 바뀌고,<br/>\
+      계약서 수정은 더이상 할 수 없어요.",
+      tour_done: "서명을 마치셨다면 축하드려요.<br/>\
+      계약서 검토를 함께해서 행복했어요😊",
+
+      //Tour paper-editor
+      tour_create_paper:
+        "당신의 계약서 작성 도우미에요.<br/>\
+        첫 사용자는 저와 함께하는게 편할거에요.<br/>\
+        기존사용자는 지금보지않기를 눌러도되요.<br/>\
+        실수로 끈 경우 오른쪽 상단 \
+        <i data-v-e439781a='' aria-hidden='true' class='v-icon notranslate material-icons theme--light white--text text--darken-2'>help</i>버튼을 \
+        통해 다시 활성화 할 수 있어요^^",
+      tour_select_landlord_tenant:
+        "당신이 임대인인지,임차인인지 선택하세요.<br/>\
+        선택에 따라 계약자를 자동으로 입력할게요.<br/>\
+        이후 계약자정보에서 수정할 수 있어요.",
+      tour_create_paper_title:
+        "(필수)<br/>계약서 제목부터 입력 해볼까요?<br/>(선택)항목은 선택입력 할 수 있어요.",
+      tour_desc_relesate:
+        "부동산 기본정보는 건물/토지대장 참고작성.<br/>\
+        대장은 <a href='https://www.gov.kr/search/apply/?srhQuery=%EB%8C%80%EC%9E%A5&policyType=&sort=&dateDvs=&sdate=&edate=&sfield=' target='_blank' >정부24</a> PC에서 열람 가능. <br/>\
+        스마트폰은 앱스토어로 정부24 설치후 가능.",
+      tour_paper_address:
+        "주소검색창 클릭 후 입력칸을 통해 주소 입력<br/>\
+      주소를 입력하기 전에 대장은 꼭 준비.",
+      tour_paper_dong_ho:
+        "실제동/호와 건물대장이 다를시 주의!<br/>\
+      ex)건축물대장에 없는 동/호로 계약시,<br/>\
+      보증금이 🚨위험🚨해요, 필수확인",
+      tour_land_category: "토지대장 지목과 동일하게 작성해요",
+      tour_lot_area: "토지대장 면적과 동일하게 작성해요",
+      tour_buildling_structure: "건축물대장 주구조와 동일하게 작성해요",
+      tour_buildling_category:
+        "🎉🎉부동산 기본정보 완료까지 힘내요! <br/>건축물대장 주용도와 동일하게 작성해요",
+      tour_buildling_area: "건축물대장 연면적과 동일하게 작성해요",
+      tour_terms_and_conditions:
+        "👏👏 드디어 계약정보란 입니다. <br/>\
+      본 항목들은 합의한 내용 그대로 적으면되요. <br/>\
+      쉬운 내용이니 세부설명은 패스! <br/>",
+      tour_contractor_info:
+        "⚠️계약자 정보는 가장 중요한 사항이에요. <br/>\
+        등기부, 신분증등으로 권한을 꼭 확인해요.",
+      tour_landlord_switch:
+        "임대인/임차인 선택을 잘못하셨다면,<br/>\
+        토글버튼을 눌러 재선택하세요.",
+      tour_profile_search: "계약자 입력을 위해 직접검색 버튼을 클릭.",
+      tour_profile_input: "상대방의 이메일 또는 연락처 입력 후 검색버튼 클릭",
+      tour_profile_select:
+        "검색 결과가 여러개인 경우<br/>\
+      이메일 주소 확인 후 선택 버튼 클릭.",
+      tour_special_agreement:
+        "🎉🎉👏👏정말 축하해요!<br/>\
+        추가특약 작성후 제출버튼을 눌러주세요.<br/>\
+        ⚠️작성란이 가려질때 살짝위로 스크롤해서,<br/>\
+        가이드가 안보이게 하시면 작성이 수월해요.",
+
+      //Tour profile-editor
+      tour_create_profile:
+        "프로필 생성을 시작해볼까요?</br>(선택)항목은 입력하지 않으셔도 됩니다.",
+      tour_address: "주소검색창 클릭 후 입력칸을 통해 주소 입력",
+      tour_dong_ho: "입력 시 예처럼 동/호 문자빼고 입력. <br/> 예) 201, B",
+      tour_mobile_number: "휴대폰 번호 입력(숫자만)",
+      tour_bank:
+        "은행명 선택 / 계좌번호 선택입력</br/>\
+      입력을 원치 않는 분은 비워둬도되요.😊😊",
+      tour_submit:
+        "작성 내용을 다시 한번 확인해주세요.<br/>\
+          내용에 이상이 없다면 제출하기 버튼 클릭",
+      optional: "선택",
 
       //Bank List
       "--선택--": "--선택--",

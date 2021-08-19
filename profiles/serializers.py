@@ -7,7 +7,7 @@ import phonenumbers
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from papers.models import Contractor, Paper
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile, UserSetting
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
 from papers.models import Paper
@@ -51,12 +51,18 @@ class BasicCustomUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'updated_at', 'is_expert', 'email', 'bio', 'name', 'birthday']
         read_only_fields = ('id', 'updated_at', 'is_expert', 'email')
 
+class UserSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSetting
+        exclude = ['user']
+
 class CustomUserSerializer(serializers.ModelSerializer):
     has_profile = serializers.SerializerMethodField()
+    user_setting = UserSettingSerializer()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'updated_at', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday']
+        fields = ['id', 'updated_at', 'email', 'is_expert', 'is_staff', 'has_profile', 'bio', 'name', 'birthday', 'user_setting']
         read_only_fields = ('id', 'updated_at', 'email', 'is_expert', 'is_staff', 'has_profile')
 
     def get_has_profile(self, obj):

@@ -17,8 +17,8 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.views import APIView
 from papers.models import Contractor, Paper, PaperStatus
 from profiles.forms import CustomUserForm
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile
-from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, ExpertProfileReadonlySerializer, InsuranceSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Mandate, Profile, UserSetting
+from profiles.serializers import ApproveExpertSerializer, CustomUserIDNameSerializer, CustomUserSerializer, ExpertProfileSerializer, ExpertProfileReadonlySerializer, InsuranceSerializer, MandateSerializer, MandateEveryoneSerializer, MandateReadOnlySerializer, ProfileSerializer, ProfileBasicInfoSerializer, ProfileReadonlySerializer, UserSettingSerializer
 from profiles.permissions import IsAdmin, IsAuthorOrDesignator, IsOwnerOrReadonly, IsOwner, IsProfileUserOrReadonly
 
 class AllowedProfileList(APIView):
@@ -416,4 +416,15 @@ class SetDefaultProfile(APIView):
             profile.is_default = True
             profile.save()
         serializer = ProfileReadonlySerializer(profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserSettingAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user_setting = get_object_or_404(UserSetting, user=self.request.user)
+        serializer = UserSettingSerializer(user_setting, request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
         return Response(serializer.data, status=status.HTTP_200_OK)

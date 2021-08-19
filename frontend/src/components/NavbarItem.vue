@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app width="100%">
+  <v-app-bar app width="100%" :hide-on-scroll="this.$route.name != 'home' ? true : false">
     <v-dialog
       v-model="dialog"
       max-width="400px"
@@ -28,14 +28,30 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" @click.prevent="copyText()">
+          <v-btn color="primary" @click.stop="copyText()">
             {{ $t("copy") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-app-bar-nav-icon @click="drawer = true"> </v-app-bar-nav-icon>
-    <v-navigation-drawer v-model="drawer" absolute temporary app>
+    <v-app-bar-nav-icon
+      id="v-menu"
+      @click="
+        drawer = true;
+        showTour(false);
+      "
+    >
+    </v-app-bar-nav-icon>
+    <v-navigation-drawer v-model="drawer" absolute temporary app @input="drawerInput">
+      <v-row justify="center">
+        <v-col class="menu-cursor text-body-2 pa-2" cols="auto">{{ $t("menu") }}</v-col>
+        <v-btn class="close-btn" text icon @click="drawer = false">
+          <v-icon class="close-icon">
+            close
+          </v-icon>
+        </v-btn>
+      </v-row>
+      <v-divider></v-divider>
       <v-list nav dense>
         <v-list-item-group active-class="deep-purple--text text--accent-4">
           <router-link v-for="item in items" :to="item.route" :key="item.title + `-nav`">
@@ -73,24 +89,9 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item :to="{ name: 'user-editor' }">
-            <v-list-item-icon>
-              <v-icon>account_box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $t("edit_registor_info") }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-row class="close-icon" justify="center" @click="drawer = false">
-        <v-icon>
-          keyboard_backspace
-        </v-icon>
-        {{ $t("close") }}
-      </v-row>
+      <v-spacer></v-spacer>
       <template v-slot:append>
         <div class="pa-2">
           <v-btn block dark color="error" href="/accounts/logout/">
@@ -103,6 +104,7 @@
     <v-spacer></v-spacer>
     <template v-for="item in items">
       <v-btn
+        :id="`v-${item.route.name}`"
         color="primary"
         v-if="isShown(item)"
         class="my-2"
@@ -116,9 +118,22 @@
       </v-btn>
     </template>
     <v-spacer></v-spacer>
+    <v-btn
+      v-if="this.$store.state.user_category === 'user'"
+      id="v-help"
+      color="grey darken-2"
+      text
+      rounded
+      @click.prevent="showTour(true)"
+    >
+      <v-icon> help </v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 <script>
+import { apiService } from "@/common/api_service";
+import { applyValidation } from "@/common/common_api";
+
 export default {
   name: "NavbarItem",
   data() {
@@ -157,15 +172,10 @@ export default {
       messages: ""
     };
   },
-  mounted() {
-    this.$root.$on("link_dialog", (data) => {
-      this.dialog = data;
-    });
-  },
   created() {
-    this.email = window.localStorage.getItem("email");
+    this.email = this.$store.state.user.email;
     this.link = `${window.location.protocol}//${window.location.host}/profiles/${this.email}`;
-    this.user_category = window.localStorage.getItem("user_category");
+    this.user_category = this.$store.state.user_category;
   },
   methods: {
     switchLoc() {
@@ -184,13 +194,62 @@ export default {
         this.user_category == "staff" ||
         item.user_category == this.user_category
       );
+    },
+    drawerInput(toggle) {
+      if (toggle == false) {
+        this.showTour();
+      }
+    },
+    showTour(flag) {
+      if (
+        ["home", "paper-detail", "paper-editor", "profile-editor"].indexOf(this.$route.name) <= -1
+      ) {
+        alert(this.$t("unspport_function"));
+      }
+      if (flag) {
+        this.$store.commit("SET_USER_SETTING", { is_tour_on: true });
+        let endpoint = "/api/user-setting/";
+        let method = "PUT";
+        let data = {
+          is_tour_on: true
+        };
+        apiService(endpoint, method, data).then((data) => {
+          if (data.id == undefined) {
+            applyValidation(data);
+          }
+        });
+      }
+      const tour_name = this.$route.name;
+      if (flag) {
+        if (this.$tours[tour_name].currentStep == -1) {
+          this.$tours[tour_name].currentStep = this.$store.state.tour_index;
+        }
+      } else if (flag === false) {
+        this.$store.commit("SET_TOUR_INDEX", this.$tours[tour_name].currentStep);
+        this.$tours[tour_name].currentStep = -1;
+      } else {
+        if (
+          this.$store.state.user_setting.is_tour_on &&
+          this.$tours[tour_name].currentStep == -1
+        ) {
+          this.$tours[tour_name].currentStep = this.$store.state.tour_index;
+        }
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.close-icon {
-  cursor: pointer;
+.close-btn {
+  cursor: pointer !important;
+  position: absolute;
+  width: 36px !important;
+  height: 36px !important;
+  top: 0px;
+  right: 0px;
+}
+.menu-cursor {
+  cursor: default;
 }
 </style>

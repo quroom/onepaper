@@ -1,16 +1,12 @@
 <template>
   <v-app app style="overflow-x:auto">
-    <NavbarItem class="no-print root_tag" v-if="!isLoading" :user_category="user_category" />
-    <v-main v-if="!isLoading" class="root_tag">
-      <keep-alive v-if="!$route.meta.isDestroied && !is_paper_updated" include="Home">
+    <NavbarItem id="v-navbar" class="no-print root_tag" />
+    <v-main class="root_tag">
+      <keep-alive v-if="!$route.meta.isDestroied && !$store.state.is_paper_updated" include="Home">
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
-        <router-view :has_profile.sync="has_profile" :is_paper_updated.sync="is_paper_updated" />
+        <router-view />
       </keep-alive>
-      <router-view
-        v-else
-        :has_profile.sync="has_profile"
-        :is_paper_updated.sync="is_paper_updated"
-      />
+      <router-view v-else />
     </v-main>
     <Footer class="no-print root_tag" />
   </v-app>
@@ -19,31 +15,20 @@
 <script>
 import NavbarItem from "./components/NavbarItem";
 import Footer from "./components/Footer";
-import { applyValidation } from "@/common/common_api";
-import { apiService } from "@/common/api_service";
-
 export default {
   name: "App",
   components: {
     NavbarItem,
     Footer
   },
-  data: () => ({
-    isLoading: true,
-    link_dialog: false,
-    has_profile: true,
-    /* user_category: user(general_user), expert, staff */
-    user_category: "user",
-    is_paper_updated: false
-  }),
   computed: {
     is_staff() {
-      return this.user_category == "staff";
+      return this.$store.state.user_category == "staff";
     }
   },
   watch: {
     has_profile() {
-      if (this.has_profile == false && this.is_staff == false) {
+      if (this.$store.state.has_profile == false && this.is_staff == false) {
         if (this.$router.name == "paper-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
@@ -51,36 +36,13 @@ export default {
       }
     },
     $route(to) {
-      if (this.has_profile == false && this.is_staff == false) {
+      if (this.$store.state.has_profile == false && this.is_staff == false) {
         if (to.name == "paper-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }
       }
     }
-  },
-  methods: {
-    async setUserInfo() {
-      const data = await apiService("/api/user/");
-      if (data.id == undefined) {
-        applyValidation(data, this);
-      }
-      window.localStorage.setItem("email", data["email"]);
-      window.localStorage.setItem("name", data["name"]);
-      window.localStorage.setItem("birthday", data["birthday"]);
-      this.has_profile = data["has_profile"];
-      if (data["is_expert"]) {
-        this.user_category = "expert";
-      }
-      if (data["is_staff"]) {
-        this.user_category = "staff";
-      }
-      window.localStorage.setItem("user_category", this.user_category);
-      this.isLoading = false;
-    }
-  },
-  created() {
-    this.setUserInfo();
   }
 };
 </script>
@@ -169,5 +131,25 @@ a:hover {
 }
 .ql-container {
   font-size: 16px !important;
+}
+.row {
+  margin-left: -4px;
+  margin-right: -4px;
+}
+.v-step {
+  z-index: 90000000 !important;
+}
+.v-menu__content {
+  z-index: 90000001 !important;
+  pointer-events: all !important;
+}
+.tour-set {
+  height: 60%;
+}
+/* In paper-detail , desc-realestate info highlighted border is hided by v-card
+So I added this style. */
+.v-tour__target--highlighted {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 </style>

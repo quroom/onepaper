@@ -2,182 +2,189 @@
   <div>
     <v-app-bar class="navigation" dark color="grey darken-3" dense hide-on-scroll fixed>
       <v-spacer />
-      <v-btn-toggle tile group mandatory v-model="is_mine">
-        <v-btn
-          :value="false"
-          text
-          rounded
-          @click="
-            is_mine = false;
-            getPapersWithOptions();
-          "
-        >
-          <span> {{ $t("all_papers") }}</span>
-          <v-icon>mdi-history</v-icon>
-        </v-btn>
-        <v-btn
-          :value="true"
-          text
-          rounded
-          @click="
-            is_mine = true;
-            getPapersWithOptions();
-          "
-        >
-          <span> {{ $t("only_my_papers") }}</span>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-      </v-btn-toggle>
-      <v-menu v-model="menu" :close-on-content-click="false">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn text rounded v-bind="attrs" v-on="on">
-            <v-icon>filter_list_alt</v-icon>
-            <span>{{ $t("filter") }}</span>
+      <div id="v-filter">
+        <v-btn-toggle tile group mandatory v-model="is_mine">
+          <v-btn
+            :value="false"
+            text
+            rounded
+            @click="
+              is_mine = false;
+              getPapersWithOptions();
+            "
+          >
+            <span> {{ $t("all_papers") }}</span>
+            <v-icon>mdi-history</v-icon>
           </v-btn>
-        </template>
-        <v-card>
-          <v-row class="ma-auto" align="center" no-gutters>
-            <v-col class="mt-0 mb-0" cols="auto">
-              <v-select
-                class="ve-input"
-                v-model="is_mine"
-                :items="mine_or_all_list"
-                item-text="text"
-                item-value="value"
-                :label="`${$t('lookup_scope')}`"
-                style="width:110px"
-                @change="getPapersWithOptions()"
-              ></v-select>
-            </v-col>
-            <template v-if="is_mine">
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-select
-                  class="ve-input"
-                  v-model="options.status"
-                  :items="STATUS_CATEGORY_LIST"
-                  item-text="text"
-                  item-value="value"
-                  :label="`${$t('contract')} ${$t('status')}`"
-                  style="width:80px"
-                  @change="getPapersWithOptions()"
-                ></v-select>
-              </v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-select
-                  class="ve-input"
-                  v-model="options.ordering"
-                  :items="ORDERING_LIST"
-                  item-text="text"
-                  item-value="value"
-                  :label="`${$t('to_date')} ${$t('ordering')}`"
-                  style="width:80px"
-                  @change="getPapersWithOptions()"
-                ></v-select>
-              </v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-switch
-                  class="switch"
-                  v-model="options.is_hidden"
-                  :label="$t('hide')"
-                  :false-value="0"
-                  :true-value="1"
-                  @change="getPapersWithOptions()"
-                >
-                </v-switch>
-              </v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-text-field
-                  class="search-text ve-input"
-                  v-model="options.old_address"
-                  :label="`${$t('address')}(${$t('partial_correct_match')})`"
-                  hide-details
-                  dense
-                  @keyup.enter="getPapersWithOptions()"
-                ></v-text-field>
-              </v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-text-field
-                  class="search-text ve-input"
-                  v-model="options.dong"
-                  :label="`${$t('dong')}(${$t('exact_correct_match')})`"
-                  hide-details
-                  dense
-                  @keyup.enter="getPapersWithOptions()"
-                ></v-text-field
-              ></v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-text-field
-                  class="search-text ve-input"
-                  v-model="options.ho"
-                  :label="`${$t('ho')}(${$t('exact_correct_match')})`"
-                  hide-details
-                  dense
-                  @keyup.enter="getPapersWithOptions()"
-                ></v-text-field>
-              </v-col>
-            </template>
-            <template v-else>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-select
-                  class="ve-input"
-                  v-model="all_papers_options.status"
-                  :items="STATUS_CATEGORY_LIST"
-                  item-text="text"
-                  item-value="value"
-                  :label="`${$t('contract')} ${$t('status')}`"
-                  style="width:80px"
-                  @change="getPapersWithOptions()"
-                ></v-select>
-              </v-col>
-              <v-col class="mt-0 mb-0" cols="auto">
-                <v-text-field
-                  class="search-text ve-input"
-                  v-model="all_papers_options.bjdong"
-                  :label="`${$t('bjdong')}`"
-                  hide-details
-                  dense
-                  @keyup.enter="getPapersWithOptions()"
-                ></v-text-field>
-              </v-col>
-            </template>
-          </v-row>
-          <v-card-actions>
-            <v-btn color="red" dark @click="menu = false">
-              {{ $t("cancel") }}
+          <v-btn
+            :value="true"
+            text
+            rounded
+            @click="
+              is_mine = true;
+              getPapersWithOptions();
+            "
+          >
+            <span> {{ $t("only_my_papers") }}</span>
+            <v-icon>mdi-heart</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+        <v-menu v-model="menu" :close-on-content-click="false">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn text rounded v-bind="attrs" v-on="on">
+              <v-icon>filter_list_alt</v-icon>
+              <span>{{ $t("filter") }}</span>
             </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              dark
-              @click="
-                getPapersWithOptions();
-                menu = false;
-              "
-            >
-              <v-icon>search</v-icon>
-              {{ $t("search") }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
+          </template>
+          <v-card>
+            <v-row class="ma-auto" align="center" no-gutters>
+              <v-col class="mt-0 mb-0" cols="auto">
+                <v-select
+                  class="ve-input"
+                  v-model="is_mine"
+                  :items="mine_or_all_list"
+                  item-text="text"
+                  item-value="value"
+                  :label="`${$t('lookup_scope')}`"
+                  style="width:110px"
+                  @change="getPapersWithOptions()"
+                ></v-select>
+              </v-col>
+              <template v-if="is_mine">
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-select
+                    class="ve-input"
+                    v-model="options.status"
+                    :items="STATUS_CATEGORY_LIST"
+                    item-text="text"
+                    item-value="value"
+                    :label="`${$t('contract')} ${$t('status')}`"
+                    style="width:80px"
+                    @change="getPapersWithOptions()"
+                  ></v-select>
+                </v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-select
+                    class="ve-input"
+                    v-model="options.ordering"
+                    :items="ORDERING_LIST"
+                    item-text="text"
+                    item-value="value"
+                    :label="`${$t('to_date')} ${$t('ordering')}`"
+                    style="width:80px"
+                    @change="getPapersWithOptions()"
+                  ></v-select>
+                </v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-switch
+                    class="switch"
+                    v-model="options.is_hidden"
+                    :label="$t('hide')"
+                    :false-value="0"
+                    :true-value="1"
+                    @change="getPapersWithOptions()"
+                  >
+                  </v-switch>
+                </v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-text-field
+                    class="search-text ve-input"
+                    v-model="options.old_address"
+                    :label="`${$t('address')}(${$t('partial_correct_match')})`"
+                    hide-details
+                    dense
+                    @keyup.enter="getPapersWithOptions()"
+                  ></v-text-field>
+                </v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-text-field
+                    class="search-text ve-input"
+                    v-model="options.dong"
+                    :label="`${$t('dong')}(${$t('exact_correct_match')})`"
+                    hide-details
+                    dense
+                    @keyup.enter="getPapersWithOptions()"
+                  ></v-text-field
+                ></v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-text-field
+                    class="search-text ve-input"
+                    v-model="options.ho"
+                    :label="`${$t('ho')}(${$t('exact_correct_match')})`"
+                    hide-details
+                    dense
+                    @keyup.enter="getPapersWithOptions()"
+                  ></v-text-field>
+                </v-col>
+              </template>
+              <template v-else>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-select
+                    class="ve-input"
+                    v-model="all_papers_options.status"
+                    :items="STATUS_CATEGORY_LIST"
+                    item-text="text"
+                    item-value="value"
+                    :label="`${$t('contract')} ${$t('status')}`"
+                    style="width:80px"
+                    @change="getPapersWithOptions()"
+                  ></v-select>
+                </v-col>
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-text-field
+                    class="search-text ve-input"
+                    v-model="all_papers_options.bjdong"
+                    :label="`${$t('bjdong')}`"
+                    hide-details
+                    dense
+                    @keyup.enter="getPapersWithOptions()"
+                  ></v-text-field>
+                </v-col>
+              </template>
+            </v-row>
+            <v-card-actions>
+              <v-btn color="red" dark @click="menu = false">
+                {{ $t("cancel") }}
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                dark
+                @click="
+                  getPapersWithOptions();
+                  menu = false;
+                "
+              >
+                <v-icon>search</v-icon>
+                {{ $t("search") }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </div>
       <v-spacer />
     </v-app-bar>
     <v-container>
       <div class="text-caption blue--text">{{ $t("paper_subtitle") }}</div>
-      <div v-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
+      <v-row
+        v-if="!$store.state.has_profile"
+        justify="center"
+        class="font-weight-bold red--text ma-auto"
+      >
+        {{ $t("before_create_contract") }},
+        <v-btn
+          id="v-create-profile"
+          class="mx-1"
+          :to="{ name: 'profile-editor' }"
+          color="error"
+          x-small
+          >{{ $t("create_profile") }}</v-btn
+        >
+        {{ $t("mandatory") }}
+      </v-row>
+      <div v-else-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
         {{ $t("no_paper") }}
       </div>
-      <template v-else>
-        <v-row
-          v-if="!$attrs.has_profile"
-          justify="center"
-          class="font-weight-bold red--text ma-auto"
-        >
-          {{ $t("before_create_contract") }},
-          <v-btn class="mx-1" :to="{ name: 'profile-editor' }" color="error" x-small>{{
-            $t("create_profile")
-          }}</v-btn>
-          {{ $t("mandatory") }}
-        </v-row>
+      <div :id="this.is_mine ? 'v-paper-list' : ''">
         <v-row>
           <template v-for="paper in papers">
             <PaperItem :paper="paper" :key="paper.id" />
@@ -188,16 +195,17 @@
             {{ $t("load_more") }}
           </v-btn>
         </v-row>
-      </template>
+      </div>
       <v-row>
         <v-col class="text-right" cols="12">
-          <v-btn :to="{ name: 'paper-editor' }" color="primary" dark>
+          <v-btn id="v-create-paper" :to="{ name: 'paper-editor' }" color="primary" dark>
             <v-icon>add</v-icon>
             {{ $t("create_paper") }}
           </v-btn>
         </v-col>
       </v-row>
     </v-container>
+    <CustomTour name="home" :steps="steps" :options="tourOptions" :callbacks="tourCallbacks" />
   </div>
 </template>
 
@@ -274,6 +282,52 @@ export default {
         }
         return status_category_list;
       }
+    },
+    steps() {
+      return [
+        {
+          target: "#v-navbar",
+          content: `${this.$t("start_tour")}`
+        },
+        {
+          target: "#v-create-profile",
+          content: `${this.$t("tour_if_don_have_profile")}`,
+          offset: -150,
+          disabledButtons: {
+            buttonNext: true
+          }
+        },
+        {
+          target: "#v-home",
+          content: `${this.$t("tour_home_menu")}`,
+          params: {
+            highlight: false
+          }
+        },
+        {
+          target: "#v-menu",
+          content: `${this.$t("tour_toggle_menu")}`
+        },
+        {
+          target: "#v-help",
+          content: `${this.$t("tour_help_menu")}`
+        },
+        {
+          target: "#v-filter",
+          content: `${this.$t("tour_filter")}`
+        },
+        {
+          target: "#v-paper-list",
+          content: `${this.$t("tour_paper_list")}`,
+          params: {
+            enableScrolling: false
+          }
+        },
+        {
+          target: "#v-create-paper",
+          content: `${this.$t("tour_create_paper_button_click")}`
+        }
+      ];
     }
   },
   data() {
@@ -293,9 +347,18 @@ export default {
         bjdong: ""
       },
       menu: false,
-      requestUser: null,
       next: null,
-      is_mine: true
+      is_mine: true,
+      is_tour_on: true,
+      tourCallbacks: {
+        onPreviousStep: this.previousStepTour,
+        onNextStep: this.nextStepTour
+      },
+      tourOptions: {
+        highlight: true,
+        stopOnTargetNotFound: false,
+        useKeyboardNavigation: false
+      }
     };
   },
   methods: {
@@ -331,6 +394,7 @@ export default {
       this.isLoading = true;
       await apiService(endpoint).then((data) => {
         if (!data.count) {
+          this.papers = [];
           applyValidation(data);
         } else {
           this.papers = data.results;
@@ -347,33 +411,57 @@ export default {
       this.isLoading = true;
       await apiService(endpoint).then((data) => {
         if (data.count != undefined) {
-          //#FIXME Add codes for user didn't write papers yet.
-          if (data.count == 0) {
-            apiService("/api/all-papers/").then((data) => {
-              if (data.count != undefined) {
-                this.papers.push(...data.results);
-                this.isLoading = false;
-                this.next = data.next;
-                this.is_mine = false;
-              } else {
-                applyValidation(data);
-              }
-            });
-          } else {
-            this.papers.push(...data.results);
-            this.isLoading = false;
-            this.next = data.next;
-          }
+          this.papers.push(...data.results);
+          this.isLoading = false;
+          this.next = data.next;
         } else {
           applyValidation(data);
         }
       });
+    },
+    manageStep() {
+      console.log(this.$tours["home"]);
+      if (this.$store.state.has_profile) {
+        this.$tours["home"].currentstep += 1;
+      }
+    },
+    nextStepTour(currentStep) {
+      for (var i = currentStep + 1; i < this.steps.length; i++) {
+        const target_element = document.querySelector(this.steps[i].target);
+        if (target_element) {
+          if (i != currentStep + 1) {
+            const tour = this.$tours["home"];
+            this.$nextTick(() => {
+              tour.currentStep = i;
+            });
+          }
+          break;
+        }
+      }
+    },
+    previousStepTour(currentStep) {
+      for (var i = currentStep - 1; i > -1; i--) {
+        const target_element = document.querySelector(this.steps[i].target);
+        if (target_element) {
+          if (i != currentStep - 1) {
+            const tour = this.$tours["home"];
+            this.$nextTick(() => {
+              tour.currentStep = i;
+            });
+          }
+          break;
+        }
+      }
     }
   },
-  created() {
-    this.$emit("update:is_paper_updated", false);
+  destroyed() {
+    this.$tours["home"].stop();
+  },
+  mounted() {
     this.getPapers();
-    this.requestUser = window.localStorage.getItem("email");
+    if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
+      this.$tours["home"].start();
+    }
   }
 };
 </script>
