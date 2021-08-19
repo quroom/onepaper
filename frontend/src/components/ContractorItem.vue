@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="contractor">
     <v-row :id="isContractor ? 'v-contractor-btns' : ''" v-if="paper" no-gutters align="center">
       <v-col v-if="isNotAuthorAndContractor" class="text-center" cols="auto">
         <v-card
@@ -232,6 +232,13 @@ export default {
 </script>
 
 <style scoped>
+.contractor {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}
 .signature-button {
   z-index: 2;
   height: 100% !important;
