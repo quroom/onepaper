@@ -15,17 +15,26 @@
           </v-btn>
         </v-card>
       </v-col>
-      <v-col v-if="isExpert" class="text-center font-weight-bold">
-        <v-card outlined tile color="grey lighten-2">
-          {{ $t("realestate_agency") }}
-          <img v-if="isSigned" class="stamp-img" :src="contractor.profile.expert_profile.stamp" />
-        </v-card>
-      </v-col>
-      <v-col v-else class="text-center font-weight-bold">
-        <v-card outlined tile color="grey lighten-2">{{
-          $getConstI18("CONTRACTOR_CATEGORY", contractor.group)
-        }}</v-card>
-      </v-col>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-col v-bind="attrs" v-on="on" v-if="isExpert" class="text-center font-weight-bold">
+            <v-card outlined tile color="grey lighten-2">
+              {{ $t("realestate_agency") }}
+              <img
+                v-if="isSigned"
+                class="stamp-img"
+                :src="contractor.profile.expert_profile.stamp"
+              />
+            </v-card>
+          </v-col>
+          <v-col v-bind="attrs" v-on="on" v-else class="text-center font-weight-bold">
+            <v-card outlined tile color="grey lighten-2">{{
+              $getConstI18("CONTRACTOR_CATEGORY", contractor.group)
+            }}</v-card>
+          </v-col>
+        </template>
+        <span>{{ contractor.profile.user.email }}</span>
+      </v-tooltip>
       <v-col class="text-center" cols="auto">
         <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
           <v-btn
