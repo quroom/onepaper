@@ -371,8 +371,8 @@
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
-              <v-expansion-panel v-show="seller">
-                <template v-if="seller">
+              <v-expansion-panel v-if="seller">
+                <template>
                   <v-expansion-panel-header
                     >{{ $t("seller") }} {{ $t("detail") }} {{ $t("info") }} ({{
                       seller.user.email
@@ -415,8 +415,8 @@
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
-              <v-expansion-panel v-show="buyer">
-                <template v-if="buyer">
+              <v-expansion-panel v-if="buyer">
+                <template>
                   <v-expansion-panel-header
                     >{{ $t("buyer") }} {{ $t("detail") }} {{ $t("info") }} ({{
                       buyer.user.email
@@ -458,8 +458,8 @@
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
-              <v-expansion-panel v-show="expert">
-                <template v-if="expert">
+              <v-expansion-panel v-if="expert">
+                <template>
                   <v-expansion-panel-header
                     >{{ $t("realestate_agency") }} {{ $t("detail") }} {{ $t("info") }} ({{
                       expert.user.email
@@ -1429,7 +1429,10 @@ export default {
         } else {
           this.searched_profiles = data.results;
           this.items_length = data.count;
-          if (!this.is_expert) {
+          if (
+            this.$store.state.user_setting.is_tour_on &&
+            this.$store.state.user_category === "user"
+          ) {
             this.$nextTick(() => {
               this.$tours["paper-editor"].currentStep = this.steps.findIndex(
                 (item) => item.target == "#v-profile-select"
@@ -1478,13 +1481,13 @@ export default {
       this.load_dialog = false;
       if (is_landlord) {
         this.is_landlord = true;
-        this.buyer = null;
+        this.buyer = this.buyer.user.email == this.requestUser ? null : this.buyer;
         this.seller = this.allowed_profiles.find(
           (profile) => profile.user.email == this.requestUser
         );
       } else {
         this.is_landlord = false;
-        this.seller = null;
+        this.seller = this.seller.user.email == this.requestUser ? null : this.seller;
         this.buyer = this.allowed_profiles.find(
           (profile) => profile.user.email == this.requestUser
         );
@@ -1573,7 +1576,6 @@ export default {
     this.requestUser = this.$store.state.user.email;
     this.is_expert = this.$store.state.user_category == "expert" ? true : false;
     this.getAllowedProfiles().then(() => {
-      console.log(that);
       if (!this.is_expert) {
         that.selectLandlordOrTenant(that.is_landlord);
       }
