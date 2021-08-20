@@ -471,6 +471,9 @@ export default {
     top: 56px !important;
     z-index: 1;
   }
+  .v-progress-linear {
+    top: 54px !important;
+  }
   .container {
     max-width: 100%;
   }

@@ -1,13 +1,13 @@
 <template>
   <ValidationObserver ref="obs">
     <v-container class="paper-edit-container">
+      <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-row>
         <v-spacer></v-spacer>
         <v-btn dark @click="getPaperList()">
           {{ $t("paper") + " " + $t("load") }}
         </v-btn>
       </v-row>
-      <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
       <v-progress-linear
         v-if="is_expert"
         :value="percent"
@@ -40,13 +40,9 @@
         </v-col>
       </v-row>
       <template v-if="step == 1 || validation_check">
-        <v-dialog
-          v-if="dialog_category == 'paper'"
-          v-model="load_dialog"
-          height="90%"
-          max-width="90%"
-        >
+        <v-dialog v-model="load_dialog" height="90%" max-width="90%">
           <v-data-table
+            v-if="dialog_category == 'paper'"
             :headers="paper_headers"
             :items="papers"
             item-key="id"
@@ -61,14 +57,7 @@
               <v-btn dark @click="loadPaper(item)"> {{ $t("select") }} </v-btn>
             </template>
           </v-data-table>
-        </v-dialog>
-        <v-dialog
-          v-else-if="dialog_category == 'profile'"
-          v-model="load_dialog"
-          height="90%"
-          max-width="90%"
-        >
-          <v-card class="pa-2">
+          <v-card v-else-if="dialog_category == 'profile'" class="pa-2">
             <v-card-text>
               <v-row id="v-profile-input">
                 <v-col cols="12" sm="7">
@@ -352,9 +341,9 @@
             <v-radio :label="this.$t('tenant')" :value="false"></v-radio>
           </v-row>
         </v-radio-group>
-        <v-expansion-panels :value="panels" :readonly="true" multiple>
+        <v-expansion-panels :value="panels" multiple>
           <v-row no-gutters>
-            <v-col v-if="!isLoading" cols="12">
+            <v-col cols="12">
               <ValidationProvider ref="seller" v-slot="{ errors }" :name="$t('seller')">
                 <v-autocomplete
                   class="mt-2"
@@ -398,7 +387,7 @@
                 </template>
               </v-expansion-panel>
             </v-col>
-            <v-col v-if="!isLoading" class="mt-3" cols="12">
+            <v-col class="mt-3" cols="12">
               <ValidationProvider ref="buyer" v-slot="{ errors }" :name="$t('buyer')">
                 <v-autocomplete
                   class="mt-2"
@@ -1607,4 +1596,10 @@ export default {
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+@media (max-width: 960px) {
+  .v-progress-linear {
+    top: 54px !important;
+  }
+}
+</style>
