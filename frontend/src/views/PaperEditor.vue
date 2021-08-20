@@ -603,7 +603,6 @@
         </v-col>
       </v-row>
       <CustomTour
-        v-if="!this.is_expert"
         name="paper-editor"
         :steps="steps"
         :options="tourOptions"

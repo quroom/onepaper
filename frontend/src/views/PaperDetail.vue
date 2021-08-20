@@ -356,11 +356,16 @@ export default {
             loc,
             "explanation_signature.updated_at"
           );
-          if (signature_updated_at && signature_updated_at < min_updated_at) {
+          if (
+            signature_updated_at &&
+            signature_updated_at > paper_updated_at &&
+            signature_updated_at < min_updated_at
+          ) {
             min_updated_at = signature_updated_at;
           }
           if (
             explanation_signature_updated_at &&
+            explanation_signature_updated_at > paper_updated_at &&
             explanation_signature_updated_at < min_updated_at
           ) {
             min_updated_at = explanation_signature_updated_at;

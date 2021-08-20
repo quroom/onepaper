@@ -212,10 +212,10 @@ class PaperViewset(ModelViewSet):
             return Response({"detail": ValidationError(_("완료 또는 거절된 계약서는 수정할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         elif instance.status.status == PaperStatus.PROGRESS:
             initial_date = datetime.datetime(1,1,1)
-            signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance, updated_at__gte=instance.updated_at).first(), 'updated_at', datetime.datetime(1,1,1))
             #Reset tzinfo. If there is not this code, we will get 'can't compare offset-naive and offset-aware datetimes' error.
             signature_first_updated_at = signature_first_updated_at.replace(tzinfo=None)
-            explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance, updated_at__gte=instance.updated_at).first(), 'updated_at', datetime.datetime(1,1,1))
             explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
@@ -240,10 +240,10 @@ class PaperViewset(ModelViewSet):
             return Response({"detail": ValidationError(_("완료된 계약서는 삭제할 수 없습니다."))}, status=status.HTTP_400_BAD_REQUEST)
         elif instance.status.status == PaperStatus.PROGRESS:
             initial_date = datetime.datetime(1,1,1)
-            signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            signature_first_updated_at = getattr(Signature.objects.order_by('updated_at').filter(contractor__paper=instance, updated_at__gte=instance.updated_at).first(), 'updated_at', datetime.datetime(1,1,1))
             #Reset tzinfo. If there is not this code, we will get 'can't compare offset-naive and offset-aware datetimes' error.
             signature_first_updated_at = signature_first_updated_at.replace(tzinfo=None)
-            explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance).first(), 'updated_at', datetime.datetime(1,1,1))
+            explanation_signature_first_updated_at = getattr(ExplanationSignature.objects.order_by('updated_at').filter(contractor__paper=instance, updated_at__gte=instance.updated_at).first(), 'updated_at', datetime.datetime(1,1,1))
             explanation_signature_first_updated_at = explanation_signature_first_updated_at.replace(tzinfo=None)
             first_signature_time = signature_first_updated_at if signature_first_updated_at <= explanation_signature_first_updated_at else explanation_signature_first_updated_at
             if first_signature_time != initial_date:
