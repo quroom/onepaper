@@ -409,6 +409,12 @@ export default {
           offset: -60
         },
         {
+          target: "#v-hide",
+          content: `${this.$t("tour_paper_hide")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
           target: "#v-desc-realestate",
           content: `${this.$t("tour_detail_desc_relesate")}`,
           duration: 10,
@@ -429,12 +435,6 @@ export default {
         {
           target: "#v-contractor-btns",
           content: `${this.$t("tour_approve")}`,
-          duration: 10,
-          offset: -60
-        },
-        {
-          target: "#v-hide",
-          content: `${this.$t("tour_paper_hide")}`,
           duration: 10,
           offset: -60
         },

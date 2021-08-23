@@ -1,7 +1,7 @@
 <template>
   <div class="contractor">
     <v-row
-      :id="isNotAuthorAndContractor ? 'v-contractor-btns' : ''"
+      :id="isNotAuthorAndContractor && !isPaperDone ? 'v-contractor-btns' : ''"
       v-if="paper"
       no-gutters
       align="center"
