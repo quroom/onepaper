@@ -940,7 +940,4 @@ a {
 .right-btn {
   float: right;
 }
-.v-dialog__content--active {
-  z-index: 90000009 !important;
-}
 </style>
