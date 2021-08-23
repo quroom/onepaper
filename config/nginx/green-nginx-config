@@ -54,6 +54,14 @@ server {
 	    root /home/ubuntu/web-info;
 	}
 	location /{
+        if (-f /home/ubuntu/web-info/maintenance.html){
+            return 503;
+        }
+        error_page 503 /maintenance.html;
+        location /maintenance.html {
+            root /home/ubuntu/web-info;
+            add_header Retry-After 3600 always;
+        }
 		proxy_pass http://backend;
 		proxy_set_header host $host;
 		proxy_set_header x-real-ip $remote_addr;
