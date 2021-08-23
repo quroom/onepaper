@@ -1,6 +1,11 @@
 <template>
   <div class="contractor">
-    <v-row :id="isContractor ? 'v-contractor-btns' : ''" v-if="paper" no-gutters align="center">
+    <v-row
+      :id="isNotAuthorAndContractor ? 'v-contractor-btns' : ''"
+      v-if="paper"
+      no-gutters
+      align="center"
+    >
       <v-col v-if="isNotAuthorAndContractor" class="text-center" cols="auto">
         <v-card
           v-if="!isPaperProgress && !isPaperDone && contractor.is_allowed !== false"

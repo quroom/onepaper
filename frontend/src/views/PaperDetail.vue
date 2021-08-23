@@ -264,8 +264,8 @@
           </v-btn>
         </template>
       </VerifyingExplanation>
-      <div id="v-done"></div>
     </div>
+    <div id="v-done"></div>
     <v-dialog
       class="signature-dialog-parent"
       content-class="signature-dialog"

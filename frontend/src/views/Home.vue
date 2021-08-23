@@ -184,7 +184,7 @@
       <div v-else-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
         {{ $t("no_paper") }}
       </div>
-      <div :id="this.is_mine ? 'v-paper-list' : ''">
+      <div :id="this.is_mine && this.papers.length ? 'v-paper-list' : ''">
         <v-row>
           <template v-for="paper in papers">
             <PaperItem :paper="paper" :key="paper.id" />

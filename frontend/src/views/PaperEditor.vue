@@ -1481,13 +1481,17 @@ export default {
       this.load_dialog = false;
       if (is_landlord) {
         this.is_landlord = true;
-        this.buyer = this.buyer.user.email == this.requestUser ? null : this.buyer;
+        if (this.buyer) {
+          this.buyer = this.buyer.user.email == this.requestUser ? null : this.buyer;
+        }
         this.seller = this.allowed_profiles.find(
           (profile) => profile.user.email == this.requestUser
         );
       } else {
         this.is_landlord = false;
-        this.seller = this.seller.user.email == this.requestUser ? null : this.seller;
+        if (this.seller) {
+          this.seller = this.seller.user.email == this.requestUser ? null : this.seller;
+        }
         this.buyer = this.allowed_profiles.find(
           (profile) => profile.user.email == this.requestUser
         );

@@ -204,7 +204,12 @@ export default {
       if (
         ["home", "paper-detail", "paper-editor", "profile-editor"].indexOf(this.$route.name) <= -1
       ) {
-        alert(this.$t("unspport_function"));
+        if (flag === true) {
+          alert(this.$t("unspport_function"));
+          return 0;
+        } else {
+          return 0;
+        }
       }
       if (flag) {
         this.$store.commit("SET_USER_SETTING", { is_tour_on: true });
@@ -222,7 +227,8 @@ export default {
       const tour_name = this.$route.name;
       if (flag) {
         if (this.$tours[tour_name].currentStep == -1) {
-          this.$tours[tour_name].currentStep = this.$store.state.tour_index;
+          this.$tours[tour_name].currentStep =
+            this.$store.state.tour_index === -1 ? 0 : this.$store.state.tour_index;
         }
       } else if (flag === false) {
         this.$store.commit("SET_TOUR_INDEX", this.$tours[tour_name].currentStep);
