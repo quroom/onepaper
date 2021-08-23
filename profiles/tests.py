@@ -682,6 +682,13 @@ class ProfileTestCase(APITestCase):
 
     def test_open_profile_list(self):
         self.create_profile()
+        user = CustomUser.objects.create_user(email="test"+str(id)+"@naver.com",
+                                              password="some_strong_password",
+                                              bio="bio",
+                                              name="김주영"+str(id),
+                                              birthday="1955-02-12")
+        self.token = Token.objects.create(user=user)
+        self.api_authentication()
         response = self.client.get("/api/open-profiles/", {"email": "test@naver.com", "mobile_number": "010-1234-1234"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'][0]['mobile_number'], '010-1234-12##')
