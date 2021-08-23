@@ -390,6 +390,7 @@ class OpenProfileList(APIView, PageNumberPagination):
         else:
             return Response({"detail": ValidationError(_("이메일 또는 연락처를 입력해야 합니다."))}, status=status.HTTP_400_BAD_REQUEST)
 
+        profiles = profiles.exclude(user=request.user)
         page = self.paginate_queryset(profiles, request, view=self)
         serializer = ProfileBasicInfoSerializer(page, many=True)
         return self.get_paginated_response(serializer.data)
