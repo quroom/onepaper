@@ -214,9 +214,9 @@ export default {
           this.profiles.push(...data.results);
           this.next = data.next;
           if (data.count == 0) {
-            this.$emit("update:has_profile", false);
+            this.$store.commit("SET_HAS_PROFILE", false);
           } else {
-            this.$emit("update:has_profile", true);
+            this.$store.commit("SET_HAS_PROFILE", true);
           }
         } else {
           applyValidation(data);
@@ -241,7 +241,7 @@ export default {
   },
   created() {
     this.getProfiles();
-    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.is_expert = this.$store.state.user_category == "expert" ? true : false;
   }
 };
 </script>

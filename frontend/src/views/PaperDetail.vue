@@ -1,7 +1,7 @@
 <template>
-  <v-container v-if="!isLoading" fluid>
+  <v-container>
     <template>
-      <div class="mt-4 text-h4 font-weight-bold text-center">
+      <div id="v-paper-detail" class="mt-4 text-h4 font-weight-bold text-center">
         {{ paper.title }}
       </div>
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
@@ -9,6 +9,7 @@
         <v-col class="pa-0 pr-1" cols="12" md="8" style="position: relative;">
           <template v-if="isPaperDone || currentContractor.is_allowed == false">
             <v-btn
+              id="v-hide"
               v-if="currentContractor.is_hidden == false"
               class="ml-2"
               color="red"
@@ -55,84 +56,88 @@
       </div>
       <v-divider></v-divider>
       <div>{{ $t("intro") }}</div>
-      <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
-      <v-row no-gutters v-if="paper.address">
-        <v-col class="text-center font-weight-bold" cols="2" sm="1">
-          <v-card outlined tile>{{ $t("address") }}</v-card>
-        </v-col>
-        <v-col cols="10" sm="7">
-          <v-card outlined tile>{{ paper.address.old_address }}</v-card>
-        </v-col>
-        <v-col class="text-center font-weight-bold" cols="2" sm="1">
-          <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
-        </v-col>
-        <v-col cols="10" sm="3">
-          <v-card outlined tile height="100%">
-            <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
-            <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
-          <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
-            <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
+      <div id="v-desc-realestate">
+        <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
+        <v-row no-gutters v-if="paper.address">
+          <v-col class="text-center font-weight-bold" cols="2" sm="1">
+            <v-card outlined tile>{{ $t("address") }}</v-card>
           </v-col>
-          <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-            <v-card
-              v-if="
-                realestate_field_name == 'building_area' || realestate_field_name == 'lot_area'
-              "
-              outlined
-              tile
-              >{{ paper[realestate_field_name] }}㎡</v-card
-            >
-            <v-card
-              v-else-if="
-                realestate_field_name == 'land_category' ||
-                  realestate_field_name == 'building_category'
-              "
-              outlined
-              tile
-            >
-              {{ $getConstI18(realestate_field_name, paper[realestate_field_name]) }}
+          <v-col cols="10" sm="7">
+            <v-card outlined tile>{{ paper.address.old_address }}</v-card>
+          </v-col>
+          <v-col class="text-center font-weight-bold" cols="2" sm="1">
+            <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
+          </v-col>
+          <v-col cols="10" sm="3">
+            <v-card outlined tile height="100%">
+              <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
+              <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
             </v-card>
-            <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
           </v-col>
-        </template>
-      </v-row>
-      <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
-      <div>{{ $t("terms_and_conditions_intro") }}</div>
-      <v-row no-gutters>
-        <v-col class="text-center font-weight-bold" cols="3" sm="2">
-          <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
-        </v-col>
-        <v-col class="text-center font-weight-bold" cols="9" sm="10">
-          <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
-        </v-col>
-        <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
-          <template v-if="paper[contract_field_name] != undefined">
+        </v-row>
+        <v-row no-gutters>
+          <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
             <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
-              <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
+              <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
             </v-col>
             <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-              <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
+              <v-card
+                v-if="
+                  realestate_field_name == 'building_area' || realestate_field_name == 'lot_area'
+                "
+                outlined
+                tile
+                >{{ paper[realestate_field_name] }}㎡</v-card
+              >
+              <v-card
+                v-else-if="
+                  realestate_field_name == 'land_category' ||
+                    realestate_field_name == 'building_category'
+                "
+                outlined
+                tile
+              >
+                {{ $getConstI18(realestate_field_name, paper[realestate_field_name]) }}
+              </v-card>
+              <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
             </v-col>
           </template>
-        </template>
-      </v-row>
-      <v-row no-gutters v-if="seller && seller.profile.bank_name">
-        <v-col class="text-center font-weight-bold" cols="3" sm="2">
-          <v-card outlined tile>{{ $t("bank_account") }}</v-card>
-        </v-col>
-        <v-col class="text-center" cols="9" sm="10">
-          <v-card outlined tile
-            >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
-            {{ seller.profile.user.name }}
-            {{ seller.profile.account_number }}</v-card
-          >
-        </v-col>
-      </v-row>
+        </v-row>
+      </div>
+      <div id="v-terms-and-conditions">
+        <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
+        <div>{{ $t("terms_and_conditions_intro") }}</div>
+        <v-row no-gutters>
+          <v-col class="text-center font-weight-bold" cols="3" sm="2">
+            <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
+          </v-col>
+          <v-col class="text-center font-weight-bold" cols="9" sm="10">
+            <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
+          </v-col>
+          <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
+            <template v-if="paper[contract_field_name] != undefined">
+              <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
+                <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
+              </v-col>
+              <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
+                <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
+              </v-col>
+            </template>
+          </template>
+        </v-row>
+        <v-row no-gutters v-if="seller && seller.profile.bank_name">
+          <v-col class="text-center font-weight-bold" cols="3" sm="2">
+            <v-card outlined tile>{{ $t("bank_account") }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="9" sm="10">
+            <v-card outlined tile
+              >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
+              {{ seller.profile.user.name }}
+              {{ seller.profile.account_number }}</v-card
+            >
+          </v-col>
+        </v-row>
+      </div>
       <div class="mt-5">3. {{ $t("contractor_info") }}</div>
       <div
         v-if="$getConstByName('status_category', 'requesting') == paper.status"
@@ -141,34 +146,35 @@
         {{ $t("paper_requesting_subtitle") }}
       </div>
       <div>{{ $t("contractor_info_intro") }}</div>
-      <template v-if="seller">
-        <ContractorItem
-          :contractor="seller"
-          :fields="fields_names.basic_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-      <template v-if="buyer">
-        <ContractorItem
-          :contractor="buyer"
-          :fields="fields_names.basic_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-      <template v-if="expert">
-        <ContractorItem
-          :contractor="expert"
-          :fields="fields_names.expert_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-
+      <div id="v-contractor-info">
+        <template v-if="seller">
+          <ContractorItem
+            :contractor="seller"
+            :fields="fields_names.basic_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+        <template v-if="buyer">
+          <ContractorItem
+            :contractor="buyer"
+            :fields="fields_names.basic_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+        <template v-if="expert">
+          <ContractorItem
+            :contractor="expert"
+            :fields="fields_names.expert_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+      </div>
       <v-row align="end">
         <v-col cols="auto">
           <div>4. {{ $t("special_agreement") }}</div>
@@ -183,13 +189,14 @@
         </v-col>
       </v-row>
       <quill-editor
+        id="v-special-agreement"
         ref="myQuillEditor"
         v-model="paper.special_agreement"
         :options="options"
         :disabled="true"
       />
     </template>
-    <template v-if="expert != undefined">
+    <div id="v-ve" v-if="expert != undefined">
       <div class="page-divide mt-4">
         <v-divider></v-divider>
       </div>
@@ -241,8 +248,13 @@
       <VerifyingExplanation v-if="isMobile == false" class="mt-4" :paper="paper">
         <template v-slot:footer>
           <v-btn
+            id="v-ve-signature"
             class="no-print"
-            v-if="!isPaperRequest && !isVerifyingExplanationSigned"
+            v-if="
+              !isPaperRequest &&
+                !isVerifyingExplanationSigned &&
+                currentContractor.is_allowed == true
+            "
             @click="open(true)"
             color="primary"
             dark
@@ -252,8 +264,15 @@
           </v-btn>
         </template>
       </VerifyingExplanation>
-    </template>
-    <v-dialog content-class="signature-dialog" v-model="dialog" persistent eager>
+    </div>
+    <div id="v-done"></div>
+    <v-dialog
+      class="signature-dialog-parent"
+      content-class="signature-dialog"
+      v-model="dialog"
+      persistent
+      eager
+    >
       <v-card>
         <VueSignaturePad
           class="signature-pad"
@@ -277,6 +296,12 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <CustomTour
+      name="paper-detail"
+      :steps="steps"
+      :options="tourOptions"
+      :callbacks="tourCallbacks"
+    />
   </v-container>
 </template>
 
@@ -331,11 +356,16 @@ export default {
             loc,
             "explanation_signature.updated_at"
           );
-          if (signature_updated_at && signature_updated_at < min_updated_at) {
+          if (
+            signature_updated_at &&
+            signature_updated_at > paper_updated_at &&
+            signature_updated_at < min_updated_at
+          ) {
             min_updated_at = signature_updated_at;
           }
           if (
             explanation_signature_updated_at &&
+            explanation_signature_updated_at > paper_updated_at &&
             explanation_signature_updated_at < min_updated_at
           ) {
             min_updated_at = explanation_signature_updated_at;
@@ -368,6 +398,89 @@ export default {
       return this.paper.paper_contractors.find(
         (item) => item.profile.user.email == this.requestUser
       );
+    },
+    steps() {
+      return [
+        /*The reason , offset is -100 , is scoll up app-bar hide vue-tour box.*/
+        {
+          target: "#v-paper-detail",
+          content: `${this.$t("tour_paper_detail")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-hide",
+          content: `${this.$t("tour_paper_hide")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-desc-realestate",
+          content: `${this.$t("tour_detail_desc_relesate")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-terms-and-conditions",
+          content: `${this.$t("tour_detail_terms_and_conditions")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-contractor-info",
+          content: `${this.$t("tour_detail_contractor_info")}`,
+          duration: 10,
+          offset: -200
+        },
+        {
+          target: "#v-contractor-btns",
+          content: `${this.$t("tour_approve")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-requesting",
+          content: `${this.$t("tour_requesting")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-special-agreement",
+          content: `${this.$t("tour_detail_special_agreement")}`,
+          duration: 10,
+          offset: -200
+        },
+        {
+          target: "#v-signature",
+          content: `${this.$t("tour_signature")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-ve",
+          content: `${this.$t("tour_ve")}`,
+          duration: 10,
+          offset: -220,
+          params: {
+            highlight: false
+          }
+        },
+        {
+          target: "#v-ve-signature",
+          content: `${this.$t("tour_ve_signature")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-done",
+          content: `${this.$t("tour_done")}`,
+          duration: 10,
+          offset: -60,
+          params: {
+            highlight: false
+          }
+        }
+      ];
     },
     expert: function() {
       if (this.paper.paper_contractors != undefined) {
@@ -511,6 +624,15 @@ export default {
         modules: {
           toolbar: false
         }
+      },
+      tourCallbacks: {
+        onPreviousStep: this.previousStepTour,
+        onNextStep: this.nextStepTour
+      },
+      tourOptions: {
+        highlight: true,
+        stopOnTargetNotFound: false,
+        useKeyboardNavigation: false
       }
     };
   },
@@ -617,15 +739,49 @@ export default {
       this.$nextTick(() => {
         this.$refs.signaturePad.resizeCanvas();
       });
+    },
+    nextStepTour(currentStep) {
+      console.log(currentStep);
+      for (var i = currentStep + 1; i < this.steps.length; i++) {
+        const target_element = document.querySelector(this.steps[i].target);
+        if (target_element) {
+          if (i != currentStep + 1) {
+            const tour = this.$tours["paper-detail"];
+            this.$nextTick(() => {
+              tour.currentStep = i;
+            });
+          }
+          break;
+        }
+      }
+    },
+    previousStepTour(currentStep) {
+      for (var i = currentStep - 1; i > -1; i--) {
+        const target_element = document.querySelector(this.steps[i].target);
+        if (target_element) {
+          console.log(target_element, i);
+          const tour = this.$tours["paper-detail"];
+          this.$nextTick(() => {
+            tour.currentStep = i;
+          });
+          break;
+        }
+      }
     }
   },
   beforeDestroy() {
-    this.$emit("update:is_paper_updated", this.is_paper_updated);
+    this.$store.commit("SET_IS_PAPER_UPDATED", this.is_paper_updated);
+    this.$tours["paper-detail"].stop();
   },
   created() {
     this.getPaperData();
-    this.$emit("update:is_paper_updated", false);
-    this.requestUser = window.localStorage.getItem("email");
+    this.$store.commit("SET_IS_PAPER_UPDATED", false);
+    this.requestUser = this.$store.state.user.email;
+  },
+  mounted() {
+    if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
+      this.$tours["paper-detail"].start();
+    }
   }
 };
 </script>
@@ -636,5 +792,8 @@ export default {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.signature-dialog-parent {
+  z-index: 90000001 !important;
 }
 </style>

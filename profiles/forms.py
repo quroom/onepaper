@@ -8,7 +8,7 @@ from django import forms
 import phonenumbers
 from phonenumber_field.formfields import PhoneNumberField
 from addresses.models import Address
-from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Insurance
+from profiles.models import AllowedUser, CustomUser, ExpertProfile, Profile, Insurance, UserSetting
 from datetime import datetime
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import get_adapter, SignupForm as SocialForm
@@ -57,6 +57,7 @@ class SocialCustomUserForm(SocialForm):
         else:
             user.is_expert = True
         user.save()
+        UserSetting.objects.create(user=user)
         return user
 
 class CustomUserForm(SignupForm):
@@ -82,6 +83,7 @@ class CustomUserForm(SignupForm):
         else:
             user.is_expert = True
         user.save()
+        UserSetting.objects.create(user=user)
         return user
 
 def validate_image(image):

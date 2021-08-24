@@ -1,11 +1,16 @@
 const BundleTracker = require("webpack-bundle-tracker");
+const mode = process.argv[4];
 
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
   // To access site from outside. publicPath: "http://125.183.143.159:8080/",
-  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://127.0.0.1:8080/",
+  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://125.183.143.159:8080/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
+    if (mode == "dev") {
+      const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+      config.plugin("BundleAnalyzerPlugin").use(BundleAnalyzerPlugin);
+    }
     config.plugin("BundleTracker").use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
     config.module
       .rule("eslint")

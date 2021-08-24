@@ -40,7 +40,7 @@ export default {
   data: () => ({
     links: [
       // 회사소개, 공지사항, 이용안내, 고객센터, 고객센터 만들기전까지 contact_us
-      { title: "service_intro", route: { name: "service-intro" } },
+      // { title: "service_intro", route: { name: "service-intro" } },
       // #FIXME It doesn't work correcly So I stop to support until it works well.
       // { title: "how_to_use", route: { name: "manuals" } },
       { title: "notice", route: { name: "notices" } },

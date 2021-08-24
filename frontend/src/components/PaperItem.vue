@@ -115,7 +115,7 @@ export default {
     }
   },
   created() {
-    this.requestUser = window.localStorage.getItem("email");
+    this.requestUser = this.$store.state.user.email;
   }
 };
 </script>

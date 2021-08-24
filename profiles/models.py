@@ -97,6 +97,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         ordering = ['-last_login',]
 
+class UserSetting(models.Model):
+    user = models.OneToOneField(CustomUser,
+                                on_delete=models.CASCADE,
+                                related_name="user_setting")
+    is_tour_on = models.BooleanField(default=True)
+
 class Profile(models.Model):
     # 개설기관.표준코드 bank_code_std
     # 리브 앱 참고했으나, 은행이 너무 많아서 아래 링크 참고후 재작성.

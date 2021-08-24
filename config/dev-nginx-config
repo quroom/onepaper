@@ -60,7 +60,7 @@ server {
 		proxy_set_header x-forwarded-proto $scheme;
 
 	}
-	location /media-green/ {
+	location /media/ {
 		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media-green/;
 		expires 365d;
 	}

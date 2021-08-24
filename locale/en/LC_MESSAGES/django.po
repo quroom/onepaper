@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-28 12:44+0900\n"
+"POT-Creation-Date: 2021-08-23 11:34+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,54 +266,54 @@ msgstr ""
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:211 .\papers\tests.py:334
+#: .\papers\serializers.py:213 .\papers\tests.py:334
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:224 .\papers\tests.py:485
+#: .\papers\serializers.py:226 .\papers\tests.py:497
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:233 .\papers\tests.py:524
+#: .\papers\serializers.py:235 .\papers\tests.py:536
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:240 .\papers\tests.py:583
+#: .\papers\serializers.py:242 .\papers\tests.py:595
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:245 .\papers\tests.py:554
+#: .\papers\serializers.py:247 .\papers\tests.py:566
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:251 .\papers\tests.py:906
+#: .\papers\serializers.py:253 .\papers\tests.py:918
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: .\papers\serializers.py:255 .\papers\serializers.py:256
+#: .\papers\serializers.py:257 .\papers\serializers.py:258
 #: .\papers\tests.py:304 .\papers\tests.py:305
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:412 .\papers\views.py:112
-msgid "완료 또는 거부된 계약서만 숨김 처리가 가능합니다."
-msgstr ""
+#: .\papers\tests.py:413 .\papers\views.py:112
+msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
+msgstr "Only done or denied contract can be hide."
 
-#: .\papers\tests.py:419 .\papers\views.py:69
+#: .\papers\tests.py:422 .\papers\views.py:69
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:424 .\papers\views.py:75
+#: .\papers\tests.py:430 .\papers\views.py:75
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:426 .\papers\tests.py:444 .\papers\views.py:59
+#: .\papers\tests.py:433 .\papers\tests.py:456 .\papers\views.py:59
 #: .\papers\views.py:96
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr "The request data is incorrect."
 
-#: .\papers\tests.py:434 .\papers\views.py:65
+#: .\papers\tests.py:442 .\papers\views.py:65
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
@@ -321,52 +321,52 @@ msgstr ""
 "Hidden contracts cannot be approved/denied. Please request again after "
 "processing the contract."
 
-#: .\papers\tests.py:437 .\papers\views.py:101
+#: .\papers\tests.py:446 .\papers\views.py:101
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr "The contract has already been hidden."
 
-#: .\papers\tests.py:442 .\papers\views.py:107
+#: .\papers\tests.py:453 .\papers\views.py:107
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr "The contract has already been showing."
 
-#: .\papers\tests.py:452 .\papers\tests.py:458 .\papers\views.py:62
+#: .\papers\tests.py:464 .\papers\tests.py:470 .\papers\views.py:62
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr "A signed or done contract cannot be denied."
 
-#: .\papers\tests.py:682 .\papers\views.py:212
+#: .\papers\tests.py:694 .\papers\views.py:212
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr "Done or denied contract cannot be modified."
 
-#: .\papers\tests.py:738 .\papers\views.py:240
+#: .\papers\tests.py:750 .\papers\views.py:240
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr "Done contract cannot be deleted"
 
-#: .\papers\tests.py:789 .\profiles\tests.py:333 .\profiles\views.py:159
+#: .\papers\tests.py:801 .\profiles\tests.py:333 .\profiles\views.py:159
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:795 .\profiles\views.py:172
+#: .\papers\tests.py:807 .\profiles\views.py:172
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:828 .\profiles\views.py:200
+#: .\papers\tests.py:840 .\profiles\views.py:200
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:1195 .\papers\tests.py:1284 .\papers\views.py:130
+#: .\papers\tests.py:1207 .\papers\tests.py:1296 .\papers\views.py:130
 #: .\papers\views.py:268
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr "Done or denied contract cannot be signed."
 
-#: .\papers\tests.py:1205 .\papers\tests.py:1294 .\papers\views.py:137
+#: .\papers\tests.py:1217 .\papers\tests.py:1306 .\papers\views.py:137
 #: .\papers\views.py:275
 msgid "이미 서명이 등록되어있습니다."
 msgstr "The signature is already registered."
 
-#: .\papers\tests.py:1237 .\papers\tests.py:1326 .\papers\views.py:153
+#: .\papers\tests.py:1249 .\papers\tests.py:1338 .\papers\views.py:153
 #: .\papers\views.py:289
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr "Done or denied contract cannot have their signatures modified."
@@ -381,36 +381,36 @@ msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없�
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
 
-#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:65
+#: .\profiles\forms.py:17 .\profiles\forms.py:27 .\profiles\forms.py:66
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr ""
 
-#: .\profiles\forms.py:25 .\profiles\forms.py:63
+#: .\profiles\forms.py:25 .\profiles\forms.py:64
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: .\profiles\forms.py:26 .\profiles\forms.py:64
+#: .\profiles\forms.py:26 .\profiles\forms.py:65
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: .\profiles\forms.py:27 .\profiles\forms.py:65
+#: .\profiles\forms.py:27 .\profiles\forms.py:66
 msgid "성함"
 msgstr "FullName"
 
-#: .\profiles\forms.py:28 .\profiles\forms.py:66
+#: .\profiles\forms.py:28 .\profiles\forms.py:67
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:71
+#: .\profiles\forms.py:72
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:91 .\profiles\serializers.py:217
+#: .\profiles\forms.py:93 .\profiles\serializers.py:223
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr ""
 
-#: .\profiles\forms.py:94
+#: .\profiles\forms.py:96
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
@@ -448,154 +448,154 @@ msgstr ""
 msgid "users"
 msgstr ""
 
-#: .\profiles\models.py:106
+#: .\profiles\models.py:112
 msgid "은행명"
 msgstr "Bank Name"
 
-#: .\profiles\models.py:107
+#: .\profiles\models.py:113
 msgid "산업은행"
 msgstr ""
 
-#: .\profiles\models.py:108
+#: .\profiles\models.py:114
 msgid "부산은행"
 msgstr ""
 
-#: .\profiles\models.py:109
+#: .\profiles\models.py:115
 msgid "기업은행"
 msgstr ""
 
-#: .\profiles\models.py:110
+#: .\profiles\models.py:116
 msgid "광주은행"
 msgstr ""
 
-#: .\profiles\models.py:111
+#: .\profiles\models.py:117
 msgid "국민은행"
 msgstr ""
 
-#: .\profiles\models.py:112
+#: .\profiles\models.py:118
 msgid "제주은행"
 msgstr ""
 
-#: .\profiles\models.py:113
+#: .\profiles\models.py:119
 msgid "수협"
 msgstr ""
 
-#: .\profiles\models.py:114
+#: .\profiles\models.py:120
 msgid "전북은행"
 msgstr ""
 
-#: .\profiles\models.py:115
+#: .\profiles\models.py:121
 msgid "농협은행"
 msgstr ""
 
-#: .\profiles\models.py:116
+#: .\profiles\models.py:122
 msgid "경남은행"
 msgstr ""
 
-#: .\profiles\models.py:117
+#: .\profiles\models.py:123
 msgid "지역농축협"
 msgstr ""
 
-#: .\profiles\models.py:118
+#: .\profiles\models.py:124
 msgid "새마을금고"
 msgstr ""
 
-#: .\profiles\models.py:119
+#: .\profiles\models.py:125
 msgid "우리은행"
 msgstr ""
 
-#: .\profiles\models.py:120
+#: .\profiles\models.py:126
 msgid "신용협동조합"
 msgstr ""
 
-#: .\profiles\models.py:121
+#: .\profiles\models.py:127
 msgid "SC제일은행"
 msgstr ""
 
-#: .\profiles\models.py:122
+#: .\profiles\models.py:128
 msgid "상호저축은행"
 msgstr ""
 
-#: .\profiles\models.py:123
+#: .\profiles\models.py:129
 msgid "한국씨티은행"
 msgstr ""
 
-#: .\profiles\models.py:124
+#: .\profiles\models.py:130
 msgid "산림조합"
 msgstr ""
 
-#: .\profiles\models.py:125
+#: .\profiles\models.py:131
 msgid "KEB하나은행"
 msgstr ""
 
-#: .\profiles\models.py:126
+#: .\profiles\models.py:132
 msgid "우체국"
 msgstr ""
 
-#: .\profiles\models.py:127
+#: .\profiles\models.py:133
 msgid "신한은행"
 msgstr ""
 
-#: .\profiles\models.py:128
+#: .\profiles\models.py:134
 msgid "K뱅크"
 msgstr ""
 
-#: .\profiles\models.py:129
+#: .\profiles\models.py:135
 msgid "대구은행"
 msgstr ""
 
-#: .\profiles\models.py:130
+#: .\profiles\models.py:136
 msgid "카카오뱅크"
 msgstr ""
 
-#: .\profiles\models.py:167
+#: .\profiles\models.py:173
 msgid "폐업"
 msgstr "Closed"
 
-#: .\profiles\models.py:168
+#: .\profiles\models.py:174
 msgid "요청"
 msgstr "Request"
 
-#: .\profiles\models.py:169
+#: .\profiles\models.py:175
 msgid "승인"
 msgstr "Approved"
 
-#: .\profiles\models.py:170
+#: .\profiles\models.py:176
 msgid "거부"
 msgstr "Denied"
 
-#: .\profiles\serializers.py:99
+#: .\profiles\serializers.py:105
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:313
+#: .\profiles\serializers.py:319
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: .\profiles\serializers.py:319
+#: .\profiles\serializers.py:325
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:324 .\profiles\serializers.py:325
+#: .\profiles\serializers.py:330 .\profiles\serializers.py:331
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 "Users who are not approved as a real estate agent cannot register on the "
 "power of attorney."
 
-#: .\profiles\serializers.py:330
+#: .\profiles\serializers.py:336
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr "Please check Allow Profile View to Create Power of Attorney"
 
-#: .\profiles\serializers.py:333
+#: .\profiles\serializers.py:339
 msgid "위임인만 서명이 가능합니다."
 msgstr "Only delegates can sign."
 
-#: .\profiles\serializers.py:336
+#: .\profiles\serializers.py:342
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr "The delegate and delegate cannot be the same."
 
-#: .\profiles\serializers.py:338
+#: .\profiles\serializers.py:344
 msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
@@ -1379,6 +1379,7 @@ msgid ""
 "      광고 수수료를 통해 운영됩니다.\n"
 "      "
 msgstr ""
+"\n"
 "This service is provided free of charge <br/> \n"
 " and is operated through advertising fees."
 
@@ -1391,14 +1392,12 @@ msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
 #: .\templates\intro.html:182
-msgid "언제든 쉽고 빠르게"
-msgstr "Anytime and quickly"
+msgid "계약서 가이드 기능"
+msgstr "Contract guide function"
 
 #: .\templates\intro.html:184
-msgid "계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간 단축."
-msgstr ""
-"Provides various functions such as importing contracts! <br /> Reduce "
-"contract writing"
+msgid "가이드 기능으로 쉽고 빠르게 계약서 작성!"
+msgstr "Create a contract quickly and easily with the guide!"
 
 #: .\templates\intro.html:197
 msgid "계약서 통합 관리"
@@ -1588,6 +1587,14 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid "언제든 쉽고 빠르게"
+#~ msgstr "Anytime and quickly"
+
+#~ msgid "계약서 불러오기 등 다양한 기능 제공! <br /> 계약서 작성시간 단축."
+#~ msgstr ""
+#~ "Provides various functions such as importing contracts! <br /> Reduce "
+#~ "contract writing"
 
 #~ msgid ""
 #~ "\n"

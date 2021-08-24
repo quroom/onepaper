@@ -1,14 +1,13 @@
 <template>
   <ValidationObserver ref="obs">
-    <v-container>
-      <v-row>
-        <v-col cols="12" class="text-right">
-          <v-btn dark @click="getPaperList()">
-            {{ $t("paper") + " " + $t("load") }}
-          </v-btn>
-        </v-col>
-      </v-row>
+    <v-container class="paper-edit-container">
       <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
+      <v-row>
+        <v-spacer></v-spacer>
+        <v-btn dark @click="getPaperList()">
+          {{ $t("paper") + " " + $t("load") }}
+        </v-btn>
+      </v-row>
       <v-progress-linear
         v-if="is_expert"
         :value="percent"
@@ -20,14 +19,30 @@
       >
         <strong>{{ Math.ceil(percent) }}%</strong>
       </v-progress-linear>
+      <v-row>
+        <v-col id="v-create-paper" cols="12">
+          <ValidationProvider
+            v-slot="{ errors }"
+            ref="title"
+            :name="`${$t('title')}`"
+            :rules="`required|max:25`"
+          >
+            <v-text-field
+              class="ma-auto"
+              v-model="title"
+              :error-messages="errors"
+              :label="`${$t('paper')} ${$t('title')}`"
+              type="String"
+              required
+              style="max-width:400px"
+            ></v-text-field>
+          </ValidationProvider>
+        </v-col>
+      </v-row>
       <template v-if="step == 1 || validation_check">
-        <v-dialog
-          v-if="dialog_category == 'paper'"
-          v-model="load_dialog"
-          height="90%"
-          max-width="90%"
-        >
+        <v-dialog v-model="load_dialog" height="90%" max-width="90%">
           <v-data-table
+            v-if="dialog_category == 'paper'"
             :headers="paper_headers"
             :items="papers"
             item-key="id"
@@ -42,16 +57,9 @@
               <v-btn dark @click="loadPaper(item)"> {{ $t("select") }} </v-btn>
             </template>
           </v-data-table>
-        </v-dialog>
-        <v-dialog
-          v-else-if="dialog_category == 'profile'"
-          v-model="load_dialog"
-          height="90%"
-          max-width="90%"
-        >
-          <v-card>
+          <v-card v-else-if="dialog_category == 'profile'" class="pa-2">
             <v-card-text>
-              <v-row>
+              <v-row id="v-profile-input">
                 <v-col cols="12" sm="7">
                   <LazyTextField
                     v-model="search.email"
@@ -66,7 +74,7 @@
                     @keyup.enter="searchProfile()"
                   >
                     <template v-slot:append-outer>
-                      <v-btn @click="searchProfile()">
+                      <v-btn id="v-search" @click="searchProfile()">
                         {{ $t("search") }}
                       </v-btn>
                     </template>
@@ -74,6 +82,7 @@
                 </v-col>
               </v-row>
               <v-data-table
+                id="v-profile-select"
                 :headers="open_profile_headers"
                 :items="searched_profiles"
                 item-key="usenrame"
@@ -90,214 +99,179 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-        <v-row>
-          <v-col cols="12">
-            <ValidationProvider
-              v-slot="{ errors }"
-              ref="title"
-              :name="`${$t('title')}`"
-              :rules="`required|max:25`"
-            >
-              <v-text-field
-                class="ma-auto"
-                v-model="title"
-                :error-messages="errors"
-                :label="`${$t('paper')} ${$t('title')}`"
-                type="String"
-                required
-                style="max-width:400px"
-              ></v-text-field>
-            </ValidationProvider>
-          </v-col>
-        </v-row>
-        <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
-        <v-row>
-          <v-col cols="8">
-            <AddressSearch
-              ref_name="address"
-              :label="$t('address') + $t('search')"
-              outlined
-              :address.sync="address"
-            ></AddressSearch>
-          </v-col>
-          <v-col cols="2">
-            <LazyTextField v-model="address.dong" :label="$t('dong')"></LazyTextField>
-          </v-col>
-          <v-col cols="2">
-            <LazyTextField
-              v-model="address.ho"
-              :label="$t('ho')"
-              hide-details="auto"
-            ></LazyTextField>
-          </v-col>
-        </v-row>
-        <v-row>
-          <template v-for="(realestate_field, index) in fields_names.realestate_fields">
-            <v-col cols="4" md="2" :key="`index` + index">
+        <div id="v-desc-realestate">
+          <div class="mt-3">1. {{ $t("desc_realestate") }}</div>
+          <v-row>
+            <v-col cols="12" sm="8">
+              <AddressSearch
+                id="v-address"
+                ref_name="address"
+                :label="$t('address') + $t('search')"
+                outlined
+                :address.sync="address"
+              ></AddressSearch>
+            </v-col>
+            <v-col cols="6" sm="2">
+              <LazyTextField
+                v-model="address.dong"
+                :label="$t('dong')"
+                outlined
+                hide-details="auto"
+              ></LazyTextField>
+            </v-col>
+            <span id="v-dong-ho"></span>
+            <v-col cols="6" sm="2">
+              <LazyTextField
+                v-model="address.ho"
+                :label="$t('ho')"
+                outlined
+                hide-details="auto"
+              ></LazyTextField>
+            </v-col>
+            <template v-for="(realestate_field, index) in fields_names.realestate_fields">
+              <v-col :id="realestate_field.id" cols="4" md="2" :key="`index` + index">
+                <ValidationProvider
+                  :ref="realestate_field.name"
+                  :name="$t(realestate_field.name)"
+                  :rules="`${realestate_field.required != false ? 'required' : ''}`"
+                  v-slot="{ errors }"
+                >
+                  <v-select
+                    v-if="realestate_field.type == 'Select'"
+                    v-model="$data['' + realestate_field.name]"
+                    :error-messages="errors"
+                    :items="$getConstList(realestate_field.name + '_LIST')"
+                    item-text="text"
+                    item-value="value"
+                    :label="$t(realestate_field.name)"
+                  >
+                    <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                    <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+                  </v-select>
+                  <LazyTextField
+                    v-else-if="realestate_field.type == 'Number'"
+                    v-model="$data['' + realestate_field.name]"
+                    :error-messages="errors"
+                    :label="$t(realestate_field.name)"
+                    required
+                    :type="realestate_field.type"
+                    :step="realestate_field.step"
+                    suffix="㎡"
+                  >
+                  </LazyTextField>
+                  <LazyTextField
+                    v-else
+                    v-model="$data['' + realestate_field.name]"
+                    :error-messages="errors"
+                    :label="$t(realestate_field.name)"
+                    :required="realestate_field.required != false"
+                    :type="realestate_field.type"
+                    :step="realestate_field.step"
+                  >
+                  </LazyTextField>
+                </ValidationProvider>
+              </v-col>
+            </template>
+          </v-row>
+        </div>
+        <div id="v-terms-and-conditions">
+          <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
+          <div>{{ $t("terms_and_conditions_intro") }}</div>
+          <v-row>
+            <v-col cols="2">
               <ValidationProvider
-                :ref="realestate_field.name"
-                :name="$t(realestate_field.name)"
-                :rules="`${realestate_field.required != false ? 'required' : ''}`"
+                ref="trade_category"
+                :name="$t('trade_category')"
                 v-slot="{ errors }"
+                rules="required"
               >
                 <v-select
-                  v-if="realestate_field.type == 'Select'"
-                  v-model="$data['' + realestate_field.name]"
+                  id="v-trade-category"
+                  v-model="trade_category"
                   :error-messages="errors"
-                  :items="$getConstList(realestate_field.name + '_LIST')"
+                  :items="$getConstList('TRADE_CATEGORY_LIST')"
                   item-text="text"
                   item-value="value"
-                  :label="$t(realestate_field.name)"
+                  :label="$t('trade_category')"
                 >
                   <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
                   <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
-                <LazyTextField
-                  v-else-if="realestate_field.type == 'Number'"
-                  v-model="$data['' + realestate_field.name]"
-                  :error-messages="errors"
-                  :label="$t(realestate_field.name)"
-                  required
-                  :type="realestate_field.type"
-                  :step="realestate_field.step"
-                  suffix="㎡"
-                >
-                </LazyTextField>
-                <LazyTextField
-                  v-else
-                  v-model="$data['' + realestate_field.name]"
-                  :error-messages="errors"
-                  :label="$t(realestate_field.name)"
-                  :required="realestate_field.required != false"
-                  :type="realestate_field.type"
-                  :step="realestate_field.step"
-                >
-                </LazyTextField>
               </ValidationProvider>
             </v-col>
-          </template>
-        </v-row>
-        <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
-        <div>{{ $t("terms_and_conditions_intro") }}</div>
-        <v-row>
-          <v-col cols="2">
-            <ValidationProvider
-              ref="trade_category"
-              :name="$t('trade_category')"
-              v-slot="{ errors }"
-              rules="required"
-            >
-              <v-select
-                v-model="trade_category"
-                :error-messages="errors"
-                :items="$getConstList('TRADE_CATEGORY_LIST')"
-                item-text="text"
-                item-value="value"
-                :label="$t('trade_category')"
+            <v-col cols="5" md="3">
+              <v-menu
+                v-model="from_date_menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
               >
-                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-                <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-              </v-select>
-            </ValidationProvider>
-          </v-col>
-          <v-col cols="5" md="3">
-            <v-menu
-              v-model="from_date_menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <ValidationProvider
-                  ref="from_date"
-                  :name="$t('from_date')"
-                  v-slot="{ errors }"
-                  rules="required"
-                >
-                  <LazyTextField
-                    v-model="from_date"
-                    :error-messages="errors"
-                    :label="$t('from_date')"
-                    prepend-icon="event"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></LazyTextField>
-                </ValidationProvider>
-              </template>
-              <v-date-picker
-                v-model="from_date"
-                @input="from_date_menu = false"
-                :locale="this.$i18n.locale"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="5" md="3">
-            <v-menu
-              v-model="to_date_menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <ValidationProvider
-                  ref="to_date"
-                  :name="$t('to_date')"
-                  v-slot="{ errors }"
-                  rules="required"
-                >
-                  <LazyTextField
-                    v-model="to_date"
-                    :error-messages="errors"
-                    :label="$t('to_date')"
-                    prepend-icon="event"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></LazyTextField>
-                </ValidationProvider>
-              </template>
-              <v-date-picker
-                v-model="to_date"
-                @input="to_date_menu = false"
-                :locale="this.$i18n.locale"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-        </v-row>
-        <v-row>
-          <template v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')">
-            <v-col
-              v-for="(contract_field, index) in fields_names.contract_fields"
-              cols="6"
-              md="3"
-              :key="`index` + index"
-            >
-              <ValidationProvider
-                v-slot="{ errors }"
-                :ref="contract_field.name"
-                :name="$t(contract_field.name)"
-                :rules="`required|max_value:${contract_field.max_value}`"
-              >
-                <LazyTextField
-                  v-model="$data['' + contract_field.name]"
-                  :error-messages="errors"
-                  :label="$t(contract_field.name)"
-                  :suffix="$t('won')"
-                  :type="contract_field.type"
-                  required
-                ></LazyTextField>
-              </ValidationProvider>
+                <template v-slot:activator="{ on, attrs }">
+                  <ValidationProvider
+                    ref="from_date"
+                    :name="$t('from_date')"
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <LazyTextField
+                      v-model="from_date"
+                      :error-messages="errors"
+                      :label="$t('from_date')"
+                      prepend-icon="event"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></LazyTextField>
+                  </ValidationProvider>
+                </template>
+                <v-date-picker
+                  v-model="from_date"
+                  @input="from_date_menu = false"
+                  :locale="this.$i18n.locale"
+                ></v-date-picker>
+              </v-menu>
             </v-col>
-          </template>
-          <template v-else>
-            <template v-for="(contract_field, index) in fields_names.contract_fields">
+            <v-col cols="5" md="3">
+              <v-menu
+                v-model="to_date_menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <ValidationProvider
+                    ref="to_date"
+                    :name="$t('to_date')"
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <LazyTextField
+                      v-model="to_date"
+                      :error-messages="errors"
+                      :label="$t('to_date')"
+                      prepend-icon="event"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></LazyTextField>
+                  </ValidationProvider>
+                </template>
+                <v-date-picker
+                  v-model="to_date"
+                  @input="to_date_menu = false"
+                  :locale="this.$i18n.locale"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row>
+            <template v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')">
               <v-col
-                v-if="contract_field.name != 'monthly_fee'"
+                v-for="(contract_field, index) in fields_names.contract_fields"
                 cols="6"
                 md="3"
                 :key="`index` + index"
@@ -311,20 +285,65 @@
                   <LazyTextField
                     v-model="$data['' + contract_field.name]"
                     :error-messages="errors"
-                    :label="$t(contract_field.name) + '(' + $t('won') + ')'"
+                    :label="$t(contract_field.name)"
+                    :suffix="$t('won')"
                     :type="contract_field.type"
                     required
                   ></LazyTextField>
                 </ValidationProvider>
               </v-col>
             </template>
+            <template v-else>
+              <template v-for="(contract_field, index) in fields_names.contract_fields">
+                <v-col
+                  v-if="contract_field.name != 'monthly_fee'"
+                  cols="6"
+                  md="3"
+                  :key="`index` + index"
+                >
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    :ref="contract_field.name"
+                    :name="$t(contract_field.name)"
+                    :rules="`required|max_value:${contract_field.max_value}`"
+                  >
+                    <LazyTextField
+                      v-model="$data['' + contract_field.name]"
+                      :error-messages="errors"
+                      :label="$t(contract_field.name) + '(' + $t('won') + ')'"
+                      :type="contract_field.type"
+                      required
+                    ></LazyTextField>
+                  </ValidationProvider>
+                </v-col>
+              </template>
+            </template>
+          </v-row>
+        </div>
+        <div id="v-contractor-info">
+          <div class="mt-3">3. {{ $t("contractor_info") }}</div>
+          <div>{{ $t("contractor_info_intro") }}</div>
+        </div>
+        <v-radio-group
+          id="v-is-landlord"
+          v-if="!is_expert"
+          v-model="is_landlord"
+          row
+          @change="is_landlord ? selectLandlordOrTenant(true) : selectLandlordOrTenant(false)"
+        >
+          <template v-slot:label>
+            <div>
+              <strong>{{ $t("landlord_or_tenant") }}</strong>
+            </div>
           </template>
-        </v-row>
-        <div class="mt-3">3. {{ $t("contractor_info") }}</div>
-        <div>{{ $t("contractor_info_intro") }}</div>
-        <v-expansion-panels v-model="panels" :readonly="true" multiple>
+          <v-row>
+            <v-radio :label="this.$t('landlord')" :value="true"></v-radio>
+            <v-radio :label="this.$t('tenant')" :value="false"></v-radio>
+          </v-row>
+        </v-radio-group>
+        <v-expansion-panels :value="panels" multiple>
           <v-row no-gutters>
-            <v-col v-if="!isLoading" cols="12">
+            <v-col cols="12">
               <ValidationProvider ref="seller" v-slot="{ errors }" :name="$t('seller')">
                 <v-autocomplete
                   class="mt-2"
@@ -340,38 +359,35 @@
                   :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
                 >
                   <template v-slot:selection="{}">{{
-                    seller.user.email +
-                      " (" +
-                      seller.user.name +
-                      " / " +
-                      seller.mobile_number +
-                      ")"
+                    seller.user.name + "/" + seller.mobile_number
                   }}</template>
                   <template v-slot:item="{ item }">{{
-                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
+                    item.user.name + "/" + item.mobile_number
                   }}</template>
-                  <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('seller')">
+                  <template v-if="is_expert || !is_landlord" v-slot:append-outer>
+                    <v-btn id="v-profile-search" @click.stop="loadSearchDialog('seller')">
                       {{ $t("manual_search") }}
                     </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="seller">
-                <v-expansion-panel-header
-                  >{{ $t("seller") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                    seller.user.email
-                  }})</v-expansion-panel-header
-                >
-                <v-expansion-panel-content>
-                  <ContractorItem
-                    :profile="seller"
-                    :fields="fields_names.basic_profile_fields"
-                  ></ContractorItem>
-                </v-expansion-panel-content>
+                <template>
+                  <v-expansion-panel-header
+                    >{{ $t("seller") }} {{ $t("detail") }} {{ $t("info") }} ({{
+                      seller.user.email
+                    }})</v-expansion-panel-header
+                  >
+                  <v-expansion-panel-content>
+                    <ContractorItem
+                      :profile="seller"
+                      :fields="fields_names.basic_profile_fields"
+                    ></ContractorItem>
+                  </v-expansion-panel-content>
+                </template>
               </v-expansion-panel>
             </v-col>
-            <v-col v-if="!isLoading" class="mt-3" cols="12">
+            <v-col class="mt-3" cols="12">
               <ValidationProvider ref="buyer" v-slot="{ errors }" :name="$t('buyer')">
                 <v-autocomplete
                   class="mt-2"
@@ -386,31 +402,33 @@
                   :label="$t('buyer')"
                   :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
                 >
-                  <template v-slot:selection="{ item }">{{
-                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
+                  <template v-slot:selection="{}">{{
+                    buyer.user.name + " / " + buyer.mobile_number
                   }}</template>
                   <template v-slot:item="{ item }">{{
-                    item.user.email + " (" + item.user.name + " / " + item.mobile_number + ")"
+                    item.user.name + " / " + item.mobile_number
                   }}</template>
-                  <template v-slot:append-outer>
-                    <v-btn @click.stop="loadSearchDialog('buyer')">
+                  <template v-if="is_expert || is_landlord" v-slot:append-outer>
+                    <v-btn id="v-profile-search" @click.stop="loadSearchDialog('buyer')">
                       {{ $t("manual_search") }}
                     </v-btn>
                   </template>
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="buyer">
-                <v-expansion-panel-header
-                  >{{ $t("buyer") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                    buyer.user.email
-                  }})</v-expansion-panel-header
-                >
-                <v-expansion-panel-content>
-                  <ContractorItem
-                    :profile="buyer"
-                    :fields="fields_names.basic_profile_fields"
-                  ></ContractorItem>
-                </v-expansion-panel-content>
+                <template>
+                  <v-expansion-panel-header
+                    >{{ $t("buyer") }} {{ $t("detail") }} {{ $t("info") }} ({{
+                      buyer.user.email
+                    }})</v-expansion-panel-header
+                  >
+                  <v-expansion-panel-content>
+                    <ContractorItem
+                      :profile="buyer"
+                      :fields="fields_names.basic_profile_fields"
+                    ></ContractorItem>
+                  </v-expansion-panel-content>
+                </template>
               </v-expansion-panel>
             </v-col>
             <v-col v-if="is_expert" cols="12">
@@ -441,40 +459,44 @@
                 </v-autocomplete>
               </ValidationProvider>
               <v-expansion-panel v-if="expert">
-                <v-expansion-panel-header
-                  >{{ $t("realestate_agency") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                    expert.user.email
-                  }})</v-expansion-panel-header
-                >
-                <v-expansion-panel-content>
-                  <ContractorItem
-                    :profile="expert"
-                    :fields="fields_names.expert_profile_fields"
-                  ></ContractorItem>
-                </v-expansion-panel-content>
+                <template>
+                  <v-expansion-panel-header
+                    >{{ $t("realestate_agency") }} {{ $t("detail") }} {{ $t("info") }} ({{
+                      expert.user.email
+                    }})</v-expansion-panel-header
+                  >
+                  <v-expansion-panel-content>
+                    <ContractorItem
+                      :profile="expert"
+                      :fields="fields_names.expert_profile_fields"
+                    ></ContractorItem>
+                  </v-expansion-panel-content>
+                </template>
               </v-expansion-panel>
             </v-col>
           </v-row>
         </v-expansion-panels>
-        <div class="mt-3">4. {{ $t("special_agreement") }}</div>
-        <ValidationProvider
-          ref="special_agreement"
-          v-slot="{ errors }"
-          :name="$t('special_agreement')"
-          rules="required"
-        >
-          <quill-editor
-            ref="myQuillEditor"
-            v-model="special_agreement"
-            :options="editorOption"
-            :disabled="quill_disabled"
-          />
-          <div class="v-messages theme--light error--text" role="alert">
-            <div class="v-messages__wrapper">
-              <div class="v-messages__message">{{ errors[0] }}</div>
+        <div id="v-special-agreement">
+          <div class="mt-3">4. {{ $t("special_agreement") }}</div>
+          <ValidationProvider
+            ref="special_agreement"
+            v-slot="{ errors }"
+            :name="$t('special_agreement')"
+            rules="required"
+          >
+            <quill-editor
+              ref="myQuillEditor"
+              v-model="special_agreement"
+              :options="editorOption"
+              :disabled="quill_disabled"
+            />
+            <div class="v-messages theme--light error--text" role="alert">
+              <div class="v-messages__wrapper">
+                <div class="v-messages__message">{{ errors[0] }}</div>
+              </div>
             </div>
-          </div>
-        </ValidationProvider>
+          </ValidationProvider>
+        </div>
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
@@ -577,9 +599,15 @@
       </template>
       <v-row v-else>
         <v-col cols="12" class="text-right">
-          <v-btn class="primary" @click="submit()">{{ $t("submit") }}</v-btn>
+          <v-btn id="v-submit" class="primary" @click="submit()">{{ $t("submit") }}</v-btn>
         </v-col>
       </v-row>
+      <CustomTour
+        name="paper-editor"
+        :steps="steps"
+        :options="tourOptions"
+        :callbacks="tourCallbacks"
+      />
     </v-container>
   </ValidationObserver>
 </template>
@@ -605,6 +633,126 @@ export default {
   computed: {
     percent() {
       return ((this.step - 1) * 100) / (this.max_step - 1);
+    },
+    steps() {
+      return [
+        /*The reason , offset is -100 , is scoll up app-bar hide vue-tour box.*/
+        {
+          target: "#v-create-paper",
+          content: `${this.$t("tour_create_paper")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-create-paper",
+          content: `${this.$t("tour_create_paper_title")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-desc-realestate",
+          content: `${this.$t("tour_desc_relesate")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-address",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_paper_address")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-dong-ho",
+          content: `(${this.$t("optional")})<br/>${this.$t("tour_paper_dong_ho")}`,
+          params: {
+            highlight: false
+          },
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-land-category",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_land_category")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-lot-area",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_lot_area")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-buildling-structure",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_buildling_structure")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-buildling-category",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_buildling_category")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-buildling-area",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_buildling_area")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-terms-and-conditions",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_terms_and_conditions")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-contractor-info",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_contractor_info")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-is-landlord",
+          content: `${this.$t("tour_select_landlord_tenant")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-profile-search",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_profile_search")}`,
+          duration: 10,
+          offset: -60
+        },
+        {
+          target: "#v-profile-input",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_profile_input")}`
+        },
+        {
+          target: "#v-profile-select",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_profile_select")}`,
+          params: {
+            enableScrolling: false
+          },
+          disabledButtons: {
+            buttonNext: true
+          }
+        },
+        {
+          target: "#v-special-agreement",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_special_agreement")}`,
+          duration: 10,
+          offset: -200,
+          params: {
+            placement: "top"
+          }
+        },
+        {
+          target: "#v-submit",
+          content: `${this.$t("tour_submit")}`,
+          offset: -60
+        }
+      ];
     }
   },
   data() {
@@ -622,6 +770,7 @@ export default {
       validation_check: false,
       step: 1,
       max_step: 4,
+      is_landlord: true,
       items_length: 0,
       items_per_page: 2,
       quill_disabled: true,
@@ -778,24 +927,28 @@ export default {
       fields_names: {
         realestate_fields: [
           {
+            id: "v-land-category",
             name: "land_category",
             type: "Select"
           },
           {
+            id: "v-lot-area",
             name: "lot_area",
             type: "Number",
             step: "0.01"
           },
           {
+            id: "v-buildling-structure",
             name: "building_structure",
-            type: "String",
-            required: false
+            type: "String"
           },
           {
+            id: "v-buildling-category",
             name: "building_category",
             type: "Select"
           },
           {
+            id: "v-buildling-area",
             name: "building_area",
             type: "Number",
             step: "0.01"
@@ -1001,8 +1154,38 @@ export default {
           text: "",
           value: "select"
         }
-      ]
+      ],
+      tourCallbacks: {
+        onPreviousStep: this.previousStepTour,
+        onNextStep: this.nextStepTour
+      },
+      tourOptions: {
+        highlight: true,
+        stopOnTargetNotFound: false,
+        useKeyboardNavigation: false
+      },
+      tourPreivousStepForDialog: 0
     };
+  },
+  watch: {
+    load_dialog(visible) {
+      if (
+        this.$store.state.user_setting.is_tour_on &&
+        this.$store.state.user_category === "user"
+      ) {
+        this.tourPreivousStepForDialog = this.$tours["paper-editor"].currentStep;
+        if (!visible) {
+          this.$tours["paper-editor"].currentStep = this.tourPreivousStepForDialog;
+          if (this.dialog_category == "profile") {
+            this.$nextTick(() => {
+              this.$tours["paper-editor"].currentStep = this.steps.findIndex(
+                (item) => item.target == "#v-special-agreement"
+              );
+            });
+          }
+        }
+      }
+    }
   },
   methods: {
     backStep() {
@@ -1028,7 +1211,7 @@ export default {
     getAllowedProfiles() {
       let endpoint = `/api/allowed-profiles/`;
       this.isLoading = true;
-      apiService(endpoint).then((data) => {
+      return apiService(endpoint).then((data) => {
         if (data.length != undefined) {
           this.allowed_profiles = data;
         } else {
@@ -1114,10 +1297,20 @@ export default {
       this.load_dialog = false;
     },
     loadSearchDialog(contractor_category) {
+      this.load_dialog = true;
       this.search_contractor_category = contractor_category;
       this.dialog_category = "profile";
-      this.load_dialog = true;
       this.items_length = 0;
+      if (
+        this.$store.state.user_setting.is_tour_on &&
+        this.$store.state.user_category === "user"
+      ) {
+        this.$nextTick(() => {
+          this.$tours["paper-editor"].currentStep = this.steps.findIndex(
+            (item) => item.target == "#v-profile-input"
+          );
+        });
+      }
     },
     nextStep() {
       const that = this;
@@ -1130,11 +1323,34 @@ export default {
         }
       });
     },
+    nextStepTour(currentStep) {
+      this.$nextTick(() => {
+        const tour = this.$tours["paper-editor"];
+        const profileSearchIndex = tour.steps.findIndex(
+          (item) => item.target == "#v-profile-search"
+        );
+        if (profileSearchIndex == currentStep) {
+          tour.currentStep = tour.steps.findIndex((item) => item.target == "#v-special-agreement");
+        }
+      });
+    },
+    previousStepTour(currentStep) {
+      this.$nextTick(() => {
+        const tour = this.$tours["paper-editor"];
+        const speialAgreementIndex = tour.steps.findIndex(
+          (item) => item.target == "#v-special-agreement"
+        );
+        if (speialAgreementIndex == currentStep) {
+          tour.currentStep = tour.steps.findIndex((item) => item.target == "#v-profile-search");
+        }
+      });
+    },
     submit() {
       const that = this;
       // FIXME: This will be used later when we check validation for VerifyingExplanation.
       // this.validation_check = true
       // This code makes reflow. So we need to make anotehr code to check validation.
+      console.log("submit");
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           let endpoint = "/api/papers/";
@@ -1213,6 +1429,16 @@ export default {
         } else {
           this.searched_profiles = data.results;
           this.items_length = data.count;
+          if (
+            this.$store.state.user_setting.is_tour_on &&
+            this.$store.state.user_category === "user"
+          ) {
+            this.$nextTick(() => {
+              this.$tours["paper-editor"].currentStep = this.steps.findIndex(
+                (item) => item.target == "#v-profile-select"
+              );
+            });
+          }
         }
       });
     },
@@ -1249,6 +1475,26 @@ export default {
             }
           }
         }
+      }
+    },
+    selectLandlordOrTenant(is_landlord) {
+      this.load_dialog = false;
+      if (is_landlord) {
+        this.is_landlord = true;
+        if (this.buyer) {
+          this.buyer = this.buyer.user.email == this.requestUser ? null : this.buyer;
+        }
+        this.seller = this.allowed_profiles.find(
+          (profile) => profile.user.email == this.requestUser
+        );
+      } else {
+        this.is_landlord = false;
+        if (this.seller) {
+          this.seller = this.seller.user.email == this.requestUser ? null : this.seller;
+        }
+        this.buyer = this.allowed_profiles.find(
+          (profile) => profile.user.email == this.requestUser
+        );
       }
     },
     updatePagination(pagination) {
@@ -1329,17 +1575,36 @@ export default {
     }
   },
   created() {
+    const that = this;
     document.title = this.$i18n.t("create_paper");
-    this.requestUser = window.localStorage.getItem("email");
-    this.getAllowedProfiles();
-    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.requestUser = this.$store.state.user.email;
+    this.is_expert = this.$store.state.user_category == "expert" ? true : false;
+    this.getAllowedProfiles().then(() => {
+      if (!this.is_expert) {
+        that.selectLandlordOrTenant(that.is_landlord);
+      }
+    });
     if (this.is_expert) {
       this.getExpertProfiles();
     }
     this.$nextTick(() => {
       this.quill_disabled = false;
     });
+  },
+  destroyed() {
+    this.$tours["paper-editor"].stop();
+  },
+  mounted() {
+    if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
+      this.$tours["paper-editor"].start();
+    }
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+@media (max-width: 960px) {
+  .v-progress-linear {
+    top: 54px !important;
+  }
+}
+</style>

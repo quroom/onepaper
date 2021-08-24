@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:dev": "vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -17,8 +18,10 @@
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
     "vue-signature-pad": "^2.0.2",
+    "vue-tour": "^2.0.0",
     "vuejs-daum-postcode": "^1.0.4",
-    "vuetify": "^2.3.19"
+    "vuetify": "^2.3.19",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.9",

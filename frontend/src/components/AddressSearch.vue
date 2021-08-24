@@ -19,7 +19,7 @@
         data-vv-validate-on="none"
       >
       </LazyTextField>
-      <v-dialog v-if="!readonly" v-model="dialog" persistent eager>
+      <v-dialog class="address-dialog" v-if="!readonly" v-model="dialog" persistent eager>
         <v-card>
           <v-icon class="address-close-btn" @click="close()">close</v-icon>
           <v-card-text class="pa-0 pt-2">
@@ -97,11 +97,14 @@ export default {
 </script>
 
 <style>
+.address-dialog {
+  z-index: 90000001 !important;
+}
 .address-close-btn {
   position: absolute !important;
   right: 4px;
   color: aliceblue !important;
   background-color: black;
-  z-index: 1;
+  z-index: 90000002;
 }
 </style>

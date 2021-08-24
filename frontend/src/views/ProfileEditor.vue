@@ -92,10 +92,13 @@
         </template>
         <template v-else>
           <v-col class="text-center" cols="12">
-            <div class="text-h5">{{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}</div>
+            <div id="v-profile" class="text-h5">
+              {{ $t("general") }} {{ $t("user") }} {{ $t("profile") }}
+            </div>
           </v-col>
           <v-col cols="12" sm="8">
             <AddressSearch
+              id="v-address"
               ref_name="address"
               :label="$t('address') + $t('search')"
               :address.sync="address"
@@ -109,6 +112,7 @@
               hide-details="auto"
             ></LazyTextField>
           </v-col>
+          <span id="v-dong-ho"></span>
           <v-col cols="6" sm="2">
             <LazyTextField
               v-model="address.ho"
@@ -118,44 +122,53 @@
             ></LazyTextField>
           </v-col>
         </template>
-        <v-col cols="6" md="2">
+        <v-col cols="6" sm="4">
           <ValidationProvider
             ref="mobile_number"
             :name="$t('mobile_number')"
             rules="required|mobile"
             v-slot="{ errors }"
           >
-            <v-text-field
-              ref="mobile_number_input"
-              v-model="mobile_number"
-              :error-messages="errors"
-              :label="$t('mobile_number')"
-              maxlength="13"
-              @input="addDash"
-            ></v-text-field>
+            <div id="v-mobile-number">
+              <v-text-field
+                ref="mobile_number_input"
+                v-model="mobile_number"
+                :error-messages="errors"
+                :label="$t('mobile_number')"
+                maxlength="13"
+                @input="addDash"
+              ></v-text-field>
+            </div>
           </ValidationProvider>
         </v-col>
-        <v-col cols="6" md="2">
-          <v-select
-            v-model="bank_name"
-            :items="$getConstList('BANK_CATEGORY_LIST')"
-            item-text="text"
-            item-value="value"
-            :label="$t('bank_name')"
-          >
-            <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
-            <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
-          </v-select>
-        </v-col>
-        <v-col cols="6" md="2">
-          <LazyTextField
-            v-model="account_number"
-            :label="$t('account_number')"
-            type="Number"
-          ></LazyTextField>
-        </v-col>
+        <v-row>
+          <v-col cols="6" sm="auto">
+            <div>
+              <v-select
+                ref="bank_name"
+                v-model="bank_name"
+                :items="$getConstList('BANK_CATEGORY_LIST')"
+                item-text="text"
+                item-value="value"
+                :label="$t('bank_name')"
+              >
+                <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
+                <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
+              </v-select>
+            </div>
+          </v-col>
+          <span class="tour-set" id="v-bank"></span>
+          <v-col cols="6" sm="auto">
+            <LazyTextField
+              v-model="account_number"
+              :label="$t('account_number')"
+              type="Number"
+              hide-details="auto"
+            ></LazyTextField>
+          </v-col>
+        </v-row>
         <template v-if="is_expert && !dialog.flag">
-          <v-col cols="4" md="2">
+          <v-col cols="6" md="2">
             <ValidationProvider
               mode="passive"
               ref="registration_certificate"
@@ -173,7 +186,7 @@
               ></v-file-input>
             </ValidationProvider>
           </v-col>
-          <v-col cols="4" md="2">
+          <v-col cols="6" md="2">
             <ValidationProvider
               mode="passive"
               ref="agency_license"
@@ -191,7 +204,7 @@
               ></v-file-input>
             </ValidationProvider>
           </v-col>
-          <v-col cols="4" md="2">
+          <v-col cols="6" md="2">
             <ValidationProvider
               mode="passive"
               ref="stamp"
@@ -210,7 +223,7 @@
             </ValidationProvider>
           </v-col>
           <template>
-            <v-col v-if="!dialog.flag && id == undefined" cols="4" md="2">
+            <v-col v-if="!dialog.flag && id == undefined" cols="6" md="2">
               <ValidationProvider
                 mode="passive"
                 ref="insurance"
@@ -326,9 +339,14 @@
       </template>
       <v-row>
         <v-col cols="12" class="text-right">
-          <v-btn class="mr-4" color="primary" :disabled="!isInsuranceValid" @click="onSubmit()">{{
-            $t("submit")
-          }}</v-btn>
+          <v-btn
+            id="v-submit"
+            class="mr-4"
+            color="primary"
+            :disabled="!isInsuranceValid"
+            @click="onSubmit()"
+            >{{ $t("submit") }}</v-btn
+          >
         </v-col>
       </v-row>
       <v-dialog v-if="dialog.flag && dialog.insurances" v-model="dialog.flag" max-width="750px">
@@ -479,6 +497,7 @@
           </v-row>
         </v-card>
       </v-dialog>
+      <CustomTour name="profile-editor" :steps="steps" :options="tourOptions" />
     </v-container>
   </ValidationObserver>
 </template>
@@ -518,6 +537,45 @@ export default {
       } else {
         return true;
       }
+    },
+    steps() {
+      return [
+        {
+          target: "#v-profile",
+          content: `${this.$t("tour_create_profile")}`,
+          offset: -60
+        },
+        {
+          target: "#v-address",
+          content: `"(${this.$t("mandatory")})<br/>${this.$t("tour_address")}`,
+          offset: -60,
+          params: {
+            highlight: true
+          }
+        },
+        {
+          target: "#v-dong-ho",
+          content: `(${this.$t("optional")})<br/>${this.$t("tour_dong_ho")}`
+        },
+        {
+          target: "#v-mobile-number",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_mobile_number")}`,
+          params: {
+            highlight: true
+          }
+        },
+        {
+          target: "#v-bank",
+          content: `(${this.$t("optional")})<br/>${this.$t("tour_bank")}`
+        },
+        {
+          target: "#v-submit",
+          content: `${this.$t("tour_submit")}`,
+          params: {
+            highlight: true
+          }
+        }
+      ];
     }
   },
   data() {
@@ -571,7 +629,11 @@ export default {
       current_registration_certificate: null,
       current_agency_license: null,
       current_stamp: null,
-      current_garantee_insurance: null
+      current_garantee_insurance: null,
+      tourOptions: {
+        stopOnTargetNotFound: false,
+        useKeyboardNavigation: false
+      }
     };
   },
   methods: {
@@ -767,7 +829,7 @@ export default {
             try {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"));
-                that.$emit("update:has_profile", data.has_profile);
+                that.$store.commit("SET_HAS_PROFILE", data.has_profile);
                 if (method == "POST") {
                   that.$router.push({
                     name: "profiles"
@@ -830,16 +892,30 @@ export default {
       }
     } else {
       return next((vm) => {
-        vm.email = window.localStorage.getItem("email");
-        vm.name = window.localStorage.getItem("name");
-        vm.birthday = window.localStorage.getItem("birthday");
+        console.log(vm);
+        vm.email = vm.$store.state.user.email;
+        vm.name = vm.$store.state.user.name;
+        vm.birthday = vm.$store.state.user.birthday;
       });
     }
   },
   created() {
-    this.is_expert = window.localStorage.getItem("user_category") == "expert" ? true : false;
+    this.is_expert = this.$store.state.user_category == "expert" ? true : false;
     if (this.id) {
       this.getInsurances(true);
+    }
+  },
+  destroyed() {
+    this.$tours["profile-editor"].stop();
+  },
+  mounted() {
+    if (
+      this.$store.state.user_setting.is_tour_on &&
+      this.$store.state.user_category === "user" &&
+      !this.$store.state.has_profile
+    ) {
+      console.log("tour_start");
+      this.$tours["profile-editor"].start();
     }
   }
 };
