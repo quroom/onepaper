@@ -303,6 +303,7 @@ export default {
           toolbar: {
             container: [
               [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
+              [{ color: [] }, { background: [] }],
               [{ list: "ordered" }, { align: [] }],
               ["image", "link"]
             ]
