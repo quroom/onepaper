@@ -1626,7 +1626,7 @@ div {
   position: absolute;
 }
 .stamp-img {
-  height: 60px;
+  height: 40px;
   z-index: 1;
   right: 80px;
   top: -17px;
