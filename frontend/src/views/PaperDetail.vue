@@ -1,201 +1,200 @@
 <template>
   <v-container>
-    <template>
-      <div id="v-paper-detail" class="mt-4 text-h4 font-weight-bold text-center">
-        {{ paper.title }}
-      </div>
-      <div class="text-caption red--text">{{ $t("paper_subtitle") }}</div>
-      <v-row v-if="paper.author" class="mt-4 no-print">
-        <v-col class="pa-0 pr-1" cols="12" md="8" style="position: relative;">
-          <template v-if="isPaperDone || currentContractor.is_allowed == false">
-            <v-btn
-              id="v-hide"
-              v-if="currentContractor.is_hidden == false"
-              class="ml-2"
-              color="red"
-              @click="hidePaper(true)"
-              dark
-              small
-            >
-              <v-icon>visibility_off</v-icon>
-              {{ `${$t("paper")}` + `${$t("hide")}` }}
-            </v-btn>
-            <v-btn v-else class="ml-2" color="black" @click="hidePaper(false)" dark small>
-              <v-icon>visibility</v-icon>{{ $t("show_paper") }}
-            </v-btn>
-          </template>
-          <div style="float:right">
-            <span> {{ $t("updated_at") }}: {{ paper.updated_at }} </span>
-          </div>
+    <div id="v-paper-detail" class="mt-4 text-h4 font-weight-bold text-center">
+      {{ paper.title }}
+    </div>
+    <div class="text-caption red--text no-print">{{ $t("paper_subtitle") }}</div>
+    <v-row v-if="paper.author" class="mt-4 no-print">
+      <v-col class="pa-0 pr-1" cols="12" md="8" style="position: relative;">
+        <template v-if="isPaperDone || currentContractor.is_allowed == false">
+          <v-btn
+            id="v-hide"
+            v-if="currentContractor.is_hidden == false"
+            class="ml-2"
+            color="red"
+            @click="hidePaper(true)"
+            dark
+            small
+          >
+            <v-icon>visibility_off</v-icon>
+            {{ `${$t("paper")}` + `${$t("hide")}` }}
+          </v-btn>
+          <v-btn v-else class="ml-2" color="black" @click="hidePaper(false)" dark small>
+            <v-icon>visibility</v-icon>{{ $t("show_paper") }}
+          </v-btn>
+        </template>
+        <div style="float:right">
+          <span> {{ $t("updated_at") }}: {{ paper.updated_at }} </span>
+        </div>
+      </v-col>
+      <v-col class="pa-0 pr-1" cols="12" md="4">
+        <div style="float:right">
+          <v-icon class="ma-0" left color="blue">person</v-icon>
+          <span>{{ paper.author }}</span>
+        </div>
+      </v-col>
+    </v-row>
+    <ActionItems
+      v-if="
+        isAuthor &&
+          !isPaperDone &&
+          (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)
+      "
+      :id="paper.id"
+      delete_url="/api/papers/"
+      delete_router_name="home"
+      editor_router_name="paper-editor"
+    />
+    <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
+      <span v-if="deadlineToModify > '0001-1-1'" class="red">
+        {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
+      </span>
+      <span v-if="deadlineToModify < '0001-1-1'" class="red">
+        {{ $t("modify_delete_deadline_expired") }}
+      </span>
+    </div>
+    <v-divider></v-divider>
+    <div>{{ $t("intro") }}</div>
+    <div id="v-desc-realestate">
+      <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
+      <v-row no-gutters v-if="paper.address">
+        <v-col class="text-center font-weight-bold" cols="2" sm="1">
+          <v-card outlined tile>{{ $t("address") }}</v-card>
         </v-col>
-        <v-col class="pa-0 pr-1" cols="12" md="4">
-          <div style="float:right">
-            <v-icon class="ma-0" left color="blue">person</v-icon>
-            <span>{{ paper.author }}</span>
-          </div>
+        <v-col cols="10" sm="7">
+          <v-card outlined tile>{{ paper.address.old_address }}</v-card>
+        </v-col>
+        <v-col class="text-center font-weight-bold" cols="2" sm="1">
+          <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
+        </v-col>
+        <v-col cols="10" sm="3">
+          <v-card outlined tile height="100%">
+            <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
+            <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
+          </v-card>
         </v-col>
       </v-row>
-      <ActionItems
-        v-if="
-          isAuthor &&
-            !isPaperDone &&
-            (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)
-        "
-        :id="paper.id"
-        delete_url="/api/papers/"
-        delete_router_name="home"
-        editor_router_name="paper-editor"
-      />
-      <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
-        <span v-if="deadlineToModify > '0001-1-1'" class="red">
-          {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
-        </span>
-        <span v-if="deadlineToModify < '0001-1-1'" class="red">
-          {{ $t("modify_delete_deadline_expired") }}
-        </span>
-      </div>
-      <v-divider></v-divider>
-      <div>{{ $t("intro") }}</div>
-      <div id="v-desc-realestate">
-        <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
-        <v-row no-gutters v-if="paper.address">
-          <v-col class="text-center font-weight-bold" cols="2" sm="1">
-            <v-card outlined tile>{{ $t("address") }}</v-card>
+      <v-row no-gutters>
+        <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
+          <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
+            <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
           </v-col>
-          <v-col cols="10" sm="7">
-            <v-card outlined tile>{{ paper.address.old_address }}</v-card>
-          </v-col>
-          <v-col class="text-center font-weight-bold" cols="2" sm="1">
-            <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
-          </v-col>
-          <v-col cols="10" sm="3">
-            <v-card outlined tile height="100%">
-              <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
-              <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
+          <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
+            <v-card
+              v-if="
+                realestate_field_name == 'building_area' || realestate_field_name == 'lot_area'
+              "
+              outlined
+              tile
+              >{{ paper[realestate_field_name] }}㎡</v-card
+            >
+            <v-card
+              v-else-if="
+                realestate_field_name == 'land_category' ||
+                  realestate_field_name == 'building_category'
+              "
+              outlined
+              tile
+            >
+              {{ $getConstI18(realestate_field_name, paper[realestate_field_name]) }}
             </v-card>
+            <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
           </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <template v-for="(realestate_field_name, index) in fields_names.realestate_fields_name">
+        </template>
+      </v-row>
+    </div>
+    <div id="v-terms-and-conditions">
+      <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
+      <div>{{ $t("terms_and_conditions_intro") }}</div>
+      <v-row no-gutters>
+        <v-col class="text-center font-weight-bold" cols="3" sm="2">
+          <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
+        </v-col>
+        <v-col class="text-center font-weight-bold" cols="9" sm="10">
+          <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
+        </v-col>
+        <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
+          <template v-if="paper[contract_field_name] != undefined">
             <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
-              <v-card outlined tile>{{ $t(realestate_field_name) }}</v-card>
+              <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
             </v-col>
             <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-              <v-card
-                v-if="
-                  realestate_field_name == 'building_area' || realestate_field_name == 'lot_area'
-                "
-                outlined
-                tile
-                >{{ paper[realestate_field_name] }}㎡</v-card
-              >
-              <v-card
-                v-else-if="
-                  realestate_field_name == 'land_category' ||
-                    realestate_field_name == 'building_category'
-                "
-                outlined
-                tile
-              >
-                {{ $getConstI18(realestate_field_name, paper[realestate_field_name]) }}
-              </v-card>
-              <v-card v-else outlined tile>{{ paper[realestate_field_name] }}</v-card>
+              <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
             </v-col>
           </template>
-        </v-row>
-      </div>
-      <div id="v-terms-and-conditions">
-        <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
-        <div>{{ $t("terms_and_conditions_intro") }}</div>
-        <v-row no-gutters>
-          <v-col class="text-center font-weight-bold" cols="3" sm="2">
-            <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
-          </v-col>
-          <v-col class="text-center font-weight-bold" cols="9" sm="10">
-            <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
-          </v-col>
-          <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
-            <template v-if="paper[contract_field_name] != undefined">
-              <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
-                <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
-              </v-col>
-              <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
-                <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
-              </v-col>
-            </template>
-          </template>
-        </v-row>
-        <v-row no-gutters v-if="seller && seller.profile.bank_name">
-          <v-col class="text-center font-weight-bold" cols="3" sm="2">
-            <v-card outlined tile>{{ $t("bank_account") }}</v-card>
-          </v-col>
-          <v-col class="text-center" cols="9" sm="10">
-            <v-card outlined tile
-              >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
-              {{ seller.profile.user.name }}
-              {{ seller.profile.account_number }}</v-card
-            >
-          </v-col>
-        </v-row>
-      </div>
-      <div class="mt-5">3. {{ $t("contractor_info") }}</div>
-      <div
-        v-if="$getConstByName('status_category', 'requesting') == paper.status"
-        class="text-caption red--text"
-      >
-        {{ $t("paper_requesting_subtitle") }}
-      </div>
-      <div>{{ $t("contractor_info_intro") }}</div>
-      <div id="v-contractor-info">
-        <template v-if="seller">
-          <ContractorItem
-            :contractor="seller"
-            :fields="fields_names.basic_profile_fields"
-            :paper="paper"
-            @allowPaper="allowPaper"
-            @openSignaturePad="open"
-          ></ContractorItem>
         </template>
-        <template v-if="buyer">
-          <ContractorItem
-            :contractor="buyer"
-            :fields="fields_names.basic_profile_fields"
-            :paper="paper"
-            @allowPaper="allowPaper"
-            @openSignaturePad="open"
-          ></ContractorItem>
-        </template>
-        <template v-if="expert">
-          <ContractorItem
-            :contractor="expert"
-            :fields="fields_names.expert_profile_fields"
-            :paper="paper"
-            @allowPaper="allowPaper"
-            @openSignaturePad="open"
-          ></ContractorItem>
-        </template>
-      </div>
-      <v-row align="end">
-        <v-col cols="auto">
-          <div>4. {{ $t("special_agreement") }}</div>
+      </v-row>
+      <v-row no-gutters v-if="seller && seller.profile.bank_name">
+        <v-col class="text-center font-weight-bold" cols="3" sm="2">
+          <v-card outlined tile>{{ $t("bank_account") }}</v-card>
         </v-col>
-        <v-col class="text-right">
-          <v-btn
-            v-if="!isAuthor"
-            :to="{ name: 'paper-editor', params: { special_agreement: paper.special_agreement } }"
-            dark
-            >{{ $t("load_special_agreement") }}</v-btn
+        <v-col class="text-center" cols="9" sm="10">
+          <v-card outlined tile
+            >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
+            {{ seller.profile.user.name }}
+            {{ seller.profile.account_number }}</v-card
           >
         </v-col>
       </v-row>
-      <quill-editor
-        id="v-special-agreement"
-        ref="myQuillEditor"
-        v-model="paper.special_agreement"
-        :options="options"
-        :disabled="true"
-      />
-    </template>
+    </div>
+    <div class="mt-5">3. {{ $t("contractor_info") }}</div>
+    <div
+      v-if="$getConstByName('status_category', 'requesting') == paper.status"
+      class="text-caption red--text"
+    >
+      {{ $t("paper_requesting_subtitle") }}
+    </div>
+    <div>{{ $t("contractor_info_intro") }}</div>
+    <div id="v-contractor-info">
+      <template v-if="seller">
+        <ContractorItem
+          :contractor="seller"
+          :fields="fields_names.basic_profile_fields"
+          :paper="paper"
+          @allowPaper="allowPaper"
+          @openSignaturePad="open"
+        ></ContractorItem>
+      </template>
+      <template v-if="buyer">
+        <ContractorItem
+          :contractor="buyer"
+          :fields="fields_names.basic_profile_fields"
+          :paper="paper"
+          @allowPaper="allowPaper"
+          @openSignaturePad="open"
+        ></ContractorItem>
+      </template>
+      <template v-if="expert">
+        <ContractorItem
+          :contractor="expert"
+          :fields="fields_names.expert_profile_fields"
+          :paper="paper"
+          @allowPaper="allowPaper"
+          @openSignaturePad="open"
+        ></ContractorItem>
+      </template>
+    </div>
+    <v-row align="end">
+      <v-col cols="auto">
+        <div>4. {{ $t("special_agreement") }}</div>
+      </v-col>
+      <v-col class="text-right">
+        <v-btn
+          v-if="!isAuthor"
+          :to="{ name: 'paper-editor', params: { special_agreement: paper.special_agreement } }"
+          dark
+          >{{ $t("load_special_agreement") }}</v-btn
+        >
+      </v-col>
+    </v-row>
+    <quill-editor
+      id="v-special-agreement"
+      ref="myQuillEditor"
+      v-model="paper.special_agreement"
+      :options="options"
+      :disabled="true"
+    />
+    <div class="text-center">{{ `${$t("updated_at")} : ${paper.updated_at}` }}</div>
     <div id="v-ve" v-if="expert != undefined">
       <div class="page-divide mt-4">
         <v-divider></v-divider>

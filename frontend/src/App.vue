@@ -71,31 +71,6 @@ a:hover {
   right: 0px;
 }
 
-/* For print paper setting. */
-@media print {
-  @page {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  .v-application {
-    overflow: visible !important;
-    padding: 0px !important;
-  }
-  .a4 {
-    height: 29.7cm !important;
-    width: 21cm !important;
-    margin: auto;
-  }
-  .page-divide {
-    page-break-after: always;
-  }
-  .no-print {
-    display: none;
-  }
-  html {
-    -webkit-print-color-adjust: exact;
-  }
-}
 .signature-dialog {
   width: 90vw !important;
   min-width: 280px !important;
@@ -151,5 +126,38 @@ So I added this style. */
 .v-tour__target--highlighted {
   padding-left: 4px;
   padding-right: 4px;
+}
+/* For print paper setting. */
+@media print {
+  @page {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .v-application {
+    overflow: visible !important;
+    padding: 0px !important;
+  }
+  .a4 {
+    height: 29.7cm !important;
+    width: 21cm !important;
+    margin: auto;
+  }
+  .v-main {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .page-divide {
+    page-break-after: always;
+  }
+  .no-print {
+    display: none;
+  }
+  html {
+    -webkit-print-color-adjust: exact;
+    font-size: 12px;
+  }
+  .ql-container {
+    font-size: 12px !important;
+  }
 }
 </style>

@@ -22,7 +22,12 @@
       </v-col>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-col v-bind="attrs" v-on="on" v-if="isExpert" class="text-center font-weight-bold">
+          <v-col
+            v-bind="attrs"
+            v-on="on"
+            v-if="isExpert"
+            class="contractor-print-title text-center font-weight-bold"
+          >
             <v-card outlined tile color="grey lighten-2">
               {{ $t("realestate_agency") }}
               <img
@@ -32,7 +37,12 @@
               />
             </v-card>
           </v-col>
-          <v-col v-bind="attrs" v-on="on" v-else class="text-center font-weight-bold">
+          <v-col
+            v-bind="attrs"
+            v-on="on"
+            v-else
+            class="contractor-print-title text-center font-weight-bold"
+          >
             <v-card outlined tile color="grey lighten-2">{{
               $getConstI18("CONTRACTOR_CATEGORY", contractor.group)
             }}</v-card>
@@ -40,7 +50,7 @@
         </template>
         <span>{{ contractor.profile.user.email }}</span>
       </v-tooltip>
-      <v-col class="text-center" cols="auto">
+      <v-col class="contractor-print-title text-center" cols="auto">
         <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
           <v-btn
             id="v-signature"
@@ -253,20 +263,29 @@ export default {
   -o-user-select: text;
   user-select: text;
 }
+@media print {
+  .contractor-print-title {
+    position: relative;
+    font-size: 13px;
+  }
+}
 .signature-button {
   z-index: 2;
   height: 100% !important;
   width: 100% !important;
 }
 .signature-img {
-  width: 80px;
+  height: 40px;
   z-index: 1;
   position: absolute;
-  top: -8px;
+  top: 0px;
   right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
 }
 .stamp-img {
-  height: 50px;
+  height: 40px;
   z-index: 1;
   position: absolute;
   top: -8px;
