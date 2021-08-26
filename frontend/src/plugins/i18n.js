@@ -23,7 +23,7 @@ const i18n = new VueI18n({
       answer: "Answer",
       attached_document: "Attached Document",
       allow: "Allowed",
-      all_papers: "All Papers",
+      all_papers: "All",
       company_info: "Company",
       quick_trade_user_list: "List of quick trading members",
       quick_trade_user_list_subtitle:
@@ -93,7 +93,7 @@ const i18n = new VueI18n({
       image_file_count_error: "You can't upload over %{0} images.",
       image_file_type_error: "This file extension is not supported.",
       info: "Info",
-      insert_special_agreement: "Insert special agreement",
+      insert_contract_details: "Insert contract details",
       intro: "This is realestate contract that is made by traders.",
       landlord: "Landlord",
       landlord_or_tenant: "Are you landlord or tenant?",
@@ -108,7 +108,7 @@ const i18n = new VueI18n({
       load_list: "Load List",
       load_default: "Load Default",
       load_more: "Load More",
-      load_special_agreement: "Load Special Agreement",
+      load_contract_details: "Load contract details",
       lookup_scope: "Lookup Scope",
       logout: "Logout",
       manage: "Manage",
@@ -140,6 +140,8 @@ const i18n = new VueI18n({
       password_change: "Password Change",
       partial_correct_match: "Partially Correct is Matched",
       paper: "Paper",
+      paper_confirm_and_signature:
+        "In order to prove this contract, the contracting parties confirm that there is no objection and each sign or seal. {day} / {month} / {year}",
       paper_subtitle:
         "To create a better contract culture, the written contract can be viewed by anyone in the entire contract tab except for personal information (name, detailed lot number, etc.)",
       paper_requesting_subtitle:
@@ -159,6 +161,7 @@ const i18n = new VueI18n({
       quick_trade_user: "Quick tradeuser",
       read_mode: "Read Mode",
       realestate: "Realestate",
+      realestate_lease_contract: "Real Estate Lease Contract",
       realestate_agency: "Realestate Agency",
       required_item: "Item is required",
       request: "request",
@@ -171,8 +174,7 @@ const i18n = new VueI18n({
       select: "Select",
       seller: "Landlor(Seller)",
       service_intro: "Service Intro",
-      special_agreement: "Special Agreement",
-      special_agreement_basic_template: "",
+      contract_details_basic_template: "",
       status: "status",
       share: "Share",
       show: "Show",
@@ -188,7 +190,11 @@ const i18n = new VueI18n({
       trade: "Trade",
       tenant: "Tenant",
       terms_and_conditions: "Terms and conditions",
-      terms_and_conditions_intro: "The contract details for the above real estate are as follows.",
+      terms_and_conditions_intro:
+        "Article 1. (Purpose) With respect to the lease of the above real estate, the lessee agrees to pay the lessor the deposit and the rent as follows.",
+      terms_and_conditions_period:
+        "Article 2 <strong>(Period of Duration)</strong> The lessor shall be able to use and profit from the above real estate for the purpose of the lease, and the lessee by the year, month, day\
+      The lease term is from the date of delivery to the year, month, day.",
       title: "Title",
       transaction_category: "transaction category",
       term_of_lease: "Term of Lease",
@@ -526,7 +532,7 @@ const i18n = new VueI18n({
       image_file_count_error: "%{0}개 이상의 이미지를 첨부할 수 없습니다.",
       image_file_type_error: "지원하지 않는 파일 종류 입니다.",
       info: "정보",
-      insert_special_agreement: "특약을 입력해주세요.",
+      insert_contract_details: "세부계약내용을 입력해주세요.",
       intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       landlord: "임대인",
       landlord_or_tenant: "당신은 임대인입니까? 임차인입니까?",
@@ -541,7 +547,7 @@ const i18n = new VueI18n({
       load_list: "목록보기",
       load_default: "기본값 불러오기",
       load_more: "더 보기",
-      load_special_agreement: "특약 불러오기",
+      load_contract_details: "세부계약내용 불러오기",
       lookup_scope: "조회 범위",
       logout: "로그아웃",
       manage: "관리",
@@ -572,6 +578,8 @@ const i18n = new VueI18n({
       password_change: "비밀번호 변경",
       partial_correct_match: "일부 일치시 검색됨",
       paper: "계약서",
+      paper_confirm_and_signature:
+        "본 계약을 증명하기 위하여 계약당사자가 이의없음을 확인하고 각자 서명 또는 날인한다.  {year}년 {month}월 {day}일",
       paper_subtitle:
         "더 나은 계약 문화를 만들기 위해 작성 계약서는 개인정보(성함, 세부지번 등)를 제외하고 전체 계약서 탭에서 누구나 조회 할 수 있습니다.",
       paper_requesting_subtitle:
@@ -592,6 +600,7 @@ const i18n = new VueI18n({
       read_mode: "읽기모드",
       realestate: "부동산",
       realestate_agency: "개업공인중개사",
+      realestate_lease_contract: "부동산 임대차 계약서",
       required_item: "필수 입력 항목입니다",
       request: "요청",
       request_agent_account: "중개사 회원 신청",
@@ -603,8 +612,7 @@ const i18n = new VueI18n({
       send_your_link: "거래를 원하는 회원에게 링크를 전송하세요.",
       select: "선택",
       service_intro: "서비스 소개",
-      special_agreement: "특약",
-      special_agreement_basic_template: "",
+      contract_details_basic_template: "",
       share: "공유",
       show: "보이기",
       show_paper: "계약서보임",
@@ -620,7 +628,11 @@ const i18n = new VueI18n({
       trade: "거래",
       tenant: "임차인",
       terms_and_conditions: "계약내용",
-      terms_and_conditions_intro: "위 부동산의 계약내용은 아래와 같다.",
+      terms_and_conditions_intro:
+        "제 1조 (목적) 위 부동산의 임대차에 대하여 합의에 따라 임차인은 임대인에게 임차보증금 및 차임을 아래와 같이 지급하기로 한다.",
+      terms_and_conditions_period:
+        "제 2조 <strong>(존속기간)</strong> 임대인은 위 부동산을 임대차 목적대로 사용․수익할 수 있는 상태로 {from_year}년 {from_month}월 {from_day}일까지 임차인\
+      에게 인도하며, 임대차 기간은 인도일로부터 {to_year}년 {to_month}월 {to_day}일까지로 한다.",
       term_of_lease: "계약기간",
       title: "제목",
       transaction_category: "거래종류(매매,전세 등)*",
@@ -636,6 +648,8 @@ const i18n = new VueI18n({
       won: "원",
       won_paid_recieved: "원은 방문시 지불하고 영수함.",
       year: "년",
+      month: "월",
+      day: "일",
 
       //Tour translation
       done_tour: "종료",
@@ -705,7 +719,7 @@ const i18n = new VueI18n({
       tour_requesting:
         "계약서를 승인하지 않은 계약자가 있어요.<br/>\
           상대방에게 승인버튼 클릭을 요청하세요.<br/>",
-      tour_detail_special_agreement:
+      tour_detail_contract_details:
         "불공정한 특약이 없는지 확인하세요.<br/>\
         특약에 있더라도 무효인 경우가 있으니,<br/>\
         꼭 검토하세요 ex)강제퇴거특약",
@@ -730,7 +744,7 @@ const i18n = new VueI18n({
       tour_create_paper:
         "당신의 계약서 작성 도우미에요.<br/>\
         첫 사용자는 저와 함께하는게 편할거에요.<br/>\
-        기존사용자는 지금보지않기를 눌러도되요.<br/>\
+        기존사용자는 다시보지않기를 눌러도되요.<br/>\
         실수로 끈 경우 오른쪽 상단 \
         <i data-v-e439781a='' aria-hidden='true' class='v-icon notranslate material-icons theme--light white--text text--darken-2'>help</i>버튼을 \
         통해 다시 활성화 할 수 있어요^^",
@@ -759,8 +773,13 @@ const i18n = new VueI18n({
       tour_buildling_area: "건축물대장 연면적과 동일하게 작성해요",
       tour_terms_and_conditions:
         "👏👏 드디어 계약정보란 입니다. <br/>\
-      본 항목들은 합의한 내용 그대로 적으면되요. <br/>\
+      본 항목들은 합의한 내용대로 작성하면되요. <br/>\
       쉬운 내용이니 세부설명은 패스! <br/>",
+      tour_contract_details:
+        "🎉🎉👏👏정말 축하해요!<br/>\
+        세부계약내용을 작성해주세요.<br/>\
+        ⚠️작성란이 가려질땐 살짝위로 스크롤해서,<br/>\
+        가이드가 안보이게 하시면 작성이 수월해요.",
       tour_contractor_info:
         "⚠️계약자 정보는 가장 중요한 사항이에요. <br/>\
         등기부, 신분증등으로 권한을 꼭 확인해요.",
@@ -772,11 +791,6 @@ const i18n = new VueI18n({
       tour_profile_select:
         "검색 결과가 여러개인 경우<br/>\
       이메일 주소 확인 후 선택 버튼 클릭.",
-      tour_special_agreement:
-        "🎉🎉👏👏정말 축하해요!<br/>\
-        추가특약 작성후 제출버튼을 눌러주세요.<br/>\
-        ⚠️작성란이 가려질때 살짝위로 스크롤해서,<br/>\
-        가이드가 안보이게 하시면 작성이 수월해요.",
 
       //Tour profile-editor
       tour_create_profile:

@@ -88,7 +88,7 @@ class PaperListSerializer(ReadOnlyModelSerializer):
 
     class Meta:
         model = Paper
-        exclude = ["special_agreement"]
+        exclude = ["contract_details"]
 
     def get_status(self, instance):
         return instance.status.status

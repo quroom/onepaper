@@ -177,7 +177,7 @@
         <div id="v-terms-and-conditions">
           <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
           <div>{{ $t("terms_and_conditions_intro") }}</div>
-          <v-row>
+          <v-row class="row-py-none">
             <v-col cols="2">
               <ValidationProvider
                 ref="trade_category"
@@ -268,7 +268,7 @@
               </v-menu>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row class="row-py-none">
             <template v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')">
               <v-col
                 v-for="(contract_field, index) in fields_names.contract_fields"
@@ -319,6 +319,54 @@
               </template>
             </template>
           </v-row>
+          <p
+            v-if="from_date && to_date"
+            class="my-1"
+            v-html="
+              $t('terms_and_conditions_period', {
+                from_year: from_date.split('-')[0],
+                from_month: from_date.split('-')[1],
+                from_day: from_date.split('-')[2],
+                to_year: to_date.split('-')[0],
+                to_month: to_date.split('-')[1],
+                to_day: to_date.split('-')[2]
+              })
+            "
+          ></p>
+          <p
+            v-else
+            class="my-1"
+            v-html="
+              $t('terms_and_conditions_period', {
+                from_year: '__',
+                from_month: '__',
+                from_day: '__',
+                to_year: '__',
+                to_month: '__',
+                to_day: '__'
+              })
+            "
+          ></p>
+        </div>
+        <div id="v-contract-details" class="pt-4">
+          <ValidationProvider
+            ref="contract_details"
+            v-slot="{ errors }"
+            :name="$t('contract_details')"
+            rules="required"
+          >
+            <quill-editor
+              ref="myQuillEditor"
+              v-model="contract_details"
+              :options="editorOption"
+              :disabled="quill_disabled"
+            />
+            <div class="v-messages theme--light error--text" role="alert">
+              <div class="v-messages__wrapper">
+                <div class="v-messages__message">{{ errors[0] }}</div>
+              </div>
+            </div>
+          </ValidationProvider>
         </div>
         <div id="v-contractor-info">
           <div class="mt-3">3. {{ $t("contractor_info") }}</div>
@@ -476,27 +524,6 @@
             </v-col>
           </v-row>
         </v-expansion-panels>
-        <div id="v-special-agreement">
-          <div class="mt-3">4. {{ $t("special_agreement") }}</div>
-          <ValidationProvider
-            ref="special_agreement"
-            v-slot="{ errors }"
-            :name="$t('special_agreement')"
-            rules="required"
-          >
-            <quill-editor
-              ref="myQuillEditor"
-              v-model="special_agreement"
-              :options="editorOption"
-              :disabled="quill_disabled"
-            />
-            <div class="v-messages theme--light error--text" role="alert">
-              <div class="v-messages__wrapper">
-                <div class="v-messages__message">{{ errors[0] }}</div>
-              </div>
-            </div>
-          </ValidationProvider>
-        </div>
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
@@ -707,6 +734,15 @@ export default {
           offset: -60
         },
         {
+          target: "#v-contract-details",
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_contract_details")}`,
+          duration: 10,
+          offset: -200,
+          params: {
+            placement: "top"
+          }
+        },
+        {
           target: "#v-contractor-info",
           content: `(${this.$t("mandatory")})<br/>${this.$t("tour_contractor_info")}`,
           duration: 10,
@@ -726,7 +762,11 @@ export default {
         },
         {
           target: "#v-profile-input",
-          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_profile_input")}`
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_profile_input")}`,
+          disabledButtons: {
+            buttonNext: true,
+            buttonPrevious: true
+          }
         },
         {
           target: "#v-profile-select",
@@ -736,15 +776,6 @@ export default {
           },
           disabledButtons: {
             buttonNext: true
-          }
-        },
-        {
-          target: "#v-special-agreement",
-          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_special_agreement")}`,
-          duration: 10,
-          offset: -200,
-          params: {
-            placement: "top"
           }
         },
         {
@@ -801,13 +832,13 @@ export default {
       seller: null,
       buyer: null,
       options: [],
-      special_agreement:
-        "<p><strong>제1조(임차주택의 사용·관리·수선) </strong>① 임차인은 임대인의 동의 없이 임차주택의 구조변경 및 전대나 임차권 양도를 할 수 없으며, 임대차 목적인 주거 이외의 용도로 사용할 수 없다.</p><p>② 임대인은 계약 존속 중 임차주택을 사용·수익에 필요한 상태로 유지하여야 하고, 임차인은 임대인이 임차주택의 보존에 필요한 행위를 하는 때 이를 거절하지 못한다.</p><p>③ 임대인과 임차인은 계약 존속 중에 발생하는 임차주택의 수리 및 비용부담에 관하여 다음과 같이 합의한다. 다만, 합의되지 아니한 기타 수선비용에 관한 부담은 민법, 판례 기타 관습에 따른다.</p><p class='ql-align-center'><strong>임대인부담</strong></p><p> ( 예컨대, 난방, 상․하수도, 전기시설 등 임차주택의 주요설비에 대한 노후·불량으로 인한 수선은 민법 제623조, 판례상 임대인이 부담하는 것으로 해석됨   ) </p><p class='ql-align-center'><strong>임차인부담</strong></p><p> ( 예컨대, 임차인의 고의․과실에 기한 파손, 전구 등 통상의 간단한 수선, 소모품 교체 비용은 민법 제623조, 판례상 임차인이 부담하는 것으로 해석됨   )</p><p>④ 임차인이 임대인의 부담에 속하는 수선비용을 지출한 때에는 임대인에게 그 상환을 청구할 수 있다.</p>\
-        <p><strong>제2조(계약의 해제)</strong> 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지급하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 이 계약을 해제할 수 있다.</p>\
-        <p><strong>제3조(채무불이행과 손해배상</strong>) 당사자 일방이 채무를 이행하지 아니하는 때에는 상대방은 상당한 기간을 정하여 그 이행을 최고하고 계약을 해제할 수 있으며, 그로 인한 손해배상을 청구할 수 있다. 다만, 채무자가 미리 이행하지 아니할 의사를 표시한 경우의 계약해제는 최고를 요하지 아니한다.</p>\
-        <p><strong>제4조(계약의 해지)</strong> ① 임차인은 본인의 과실 없이 임차주택의 일부가 멸실 기타 사유로 인하여 임대차의 목적대로 사용할 수 없는 경우에는 계약을 해지할 수 있다.</p><p>② 임대인은 임차인이 2기의 차임액에 달하도록 연체하거나, 제1조 제1항을 위반한 경우 계약을 해지할 수 있다.</p>\
-        <p><strong>제5조(계약의 종료) </strong>임대차계약이 종료된 경우에 임차인은 임차주택을 원래의 상태로 복구하여 임대인에게 반환하고, 이와 동시에 임대인은 보증금을 임차인에게 반환하여야 한다. 다만, 시설물의 노후화나 통상 생길 수 있는 파손 등은 임차인의 원상복구의무에 포함되지 아니한다.</p>\
-        <p><strong>제6조(비용의 정산) </strong>① 임차인은 계약종료 시 공과금과 관리비를 정산하여야 한다.</p><p>② 임차인은 이미 납부한 관리비 중 장기수선충당금을 소유자에게 반환 청구할 수 있다. 다만, 관리사무소 등 관리주체가 장기수선충당금을 정산하는 경우에는 그 관리주체에게 청구할 수 있다.</p><br/>",
+      contract_details:
+        "<p>제 3조 (<strong>용도변경 및 전대 등</strong>) 임차인은 임대인의 동의없이 위 부동산의 용도나 구조를 변경하거나 전대․임차권 양도 또는 담보제공을 하지 못하며 임대차 목적 이외의 용도로 사용할 수 없다.</p>\
+        <p>제 4조 (<strong>계약의 해지</strong>) 임차인이 제3조를 위반하였을 때 임대인은 즉시 본 계약을 해지 할 수 있다.</p>\
+        <p>제 5조 (<strong>계약의 종료</strong>) 임대차계약이 종료된 경우에 임차인은 위 부동산을 원상으로 회복하여 임대인에게 반환한다. 이러한 경우 임대인은 보증금을 임차인에게 반환하고, 연체 차임 및 관리비 또는 손해배상금이 있을 때는 이들을 제하고 그 잔액을 반환한다.</p>\
+        <p>제 6조 (<strong>계약의 해제</strong>) 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지불하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 본 계약을 해제할 수 있다.</p>\
+        <p>제 7조 (<strong>채무불이행과 손해배상</strong>) 임대인 또는 임차인이 본 계약상의 내용에 대하여 불이행이 있을 경우 그 상대방은 불이행한 자에 대하여 서면으로 최고하고 계약을 해제 할 수 있다. 그리고 계약 당사자는 계약해제에 따른 손해배상을 각각 상대방에 대하여 청구할 수 있으며, 손해배상에 대하여 별도의 약정이 없는 한 계약금을 손해배상의 기준으로 본다. </p>\
+        <p><br/>[<strong>특약사항</strong>]<br/></p>",
       search: {
         email: "",
         mobile_number: ""
@@ -1054,10 +1085,12 @@ export default {
         modules: {
           toolbar: {
             container: [
-              [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
+              [{ size: ["small", false, "large", "huge"] }, "bold", "italic", "underline"],
               [{ color: [] }, { background: [] }],
               [{ list: "ordered" }, { align: [] }],
-              ["image", "link"]
+              //이미지는 프리미엄 회원만 허용.
+              ["link"]
+              // ["image", "link"]
             ],
             handlers: {
               image: () => {
@@ -1103,7 +1136,7 @@ export default {
             }
           }
         },
-        placeholder: this.$t("insert_special_agreement")
+        placeholder: this.$t("insert_contract_details")
       },
       open_profile_headers: [
         {
@@ -1185,7 +1218,7 @@ export default {
           if (this.dialog_category == "profile") {
             this.$nextTick(() => {
               this.$tours["paper-editor"].currentStep = this.steps.findIndex(
-                (item) => item.target == "#v-special-agreement"
+                (item) => item.target == "#v-profile-search"
               );
             });
           }
@@ -1285,7 +1318,7 @@ export default {
           that.from_date = data.from_date;
           that.to_date = data.to_date;
           that.realestate_category = data.realestate_category;
-          that.special_agreement = data.special_agreement;
+          that.contract_details = data.contract_details;
           that.title = data.title;
           if (data.verifying_explanation != null) {
             that.ve = data.verifying_explanation;
@@ -1336,17 +1369,15 @@ export default {
           (item) => item.target == "#v-profile-search"
         );
         if (profileSearchIndex == currentStep) {
-          tour.currentStep = tour.steps.findIndex((item) => item.target == "#v-special-agreement");
+          tour.currentStep = tour.steps.findIndex((item) => item.target == "#v-submit");
         }
       });
     },
     previousStepTour(currentStep) {
       this.$nextTick(() => {
         const tour = this.$tours["paper-editor"];
-        const speialAgreementIndex = tour.steps.findIndex(
-          (item) => item.target == "#v-special-agreement"
-        );
-        if (speialAgreementIndex == currentStep) {
+        const submitIndex = tour.steps.findIndex((item) => item.target == "#v-submit");
+        if (submitIndex == currentStep) {
           tour.currentStep = tour.steps.findIndex((item) => item.target == "#v-profile-search");
         }
       });
@@ -1384,7 +1415,7 @@ export default {
             realestate_category: that.realestate_category,
             paper_contractors: that.contractors,
             options: that.options,
-            special_agreement: that.special_agreement
+            contract_details: that.contract_details
           };
           if (that.is_expert) {
             data.verifying_explanation = that.ve;
@@ -1562,7 +1593,7 @@ export default {
           vm.title = data.title;
           vm.to_date = data.to_date;
           vm.realestate_category = data.realestate_category;
-          vm.special_agreement = data.special_agreement;
+          vm.contract_details = data.contract_details;
           vm.contractors = data.paper_contractors;
           vm.status = data.status;
           if (data.verifying_explanation != null) {
@@ -1572,9 +1603,9 @@ export default {
       } else {
         applyValidation(data);
       }
-    } else if (to.params.special_agreement !== undefined) {
+    } else if (to.params.contract_details !== undefined) {
       return next((vm) => {
-        vm.special_agreement = to.params.special_agreement;
+        vm.contract_details = to.params.contract_details;
       });
     } else {
       return next();
@@ -1612,5 +1643,10 @@ export default {
   .v-progress-linear {
     top: 54px !important;
   }
+}
+.row-py-none > .col,
+.row-py-none > [class*="col-"] {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 </style>
