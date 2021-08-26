@@ -1268,6 +1268,7 @@
                 class="signature-img"
                 :src="$get(seller, 'explanation_signature.image')"
               />
+              <img v-else class="signature-img" :src="SellerMandateSrc" />
               <span style="float:left">{{ `${$get(seller, "profile.user.name")}` }}</span>
               (서명 또는 날인)
             </div>
@@ -1319,6 +1320,7 @@
                 class="signature-img"
                 :src="$get(buyer, 'explanation_signature.image')"
               />
+              <img v-else class="signature-img" :src="BuyerMandateSrc" />
               <span style="float:left">{{ `${$get(buyer, "profile.user.name")}` }}</span>
               (서명 또는 날인)
             </div>
@@ -1569,6 +1571,28 @@ export default {
         ? this.expert.explanation_signature &&
             this.paper.updated_at <= this.expert.explanation_signature.updated_at
         : undefined;
+    },
+    SellerMandateSrc: function() {
+      if (this.paper.mandates) {
+        const matched_profile = this.paper.mandates.find(
+          (item) => item.designator.user.email == this.seller.profile.user.email
+        );
+        if (matched_profile) {
+          return matched_profile.designator_signature;
+        }
+      }
+      return "";
+    },
+    BuyerMandateSrc: function() {
+      if (this.paper.mandates) {
+        const matched_profile = this.paper.mandates.find(
+          (item) => item.designator.user.email == this.buyer.profile.user.email
+        );
+        if (matched_profile) {
+          return matched_profile.designator_signature;
+        }
+      }
+      return "";
     }
   },
   created() {
