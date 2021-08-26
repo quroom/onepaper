@@ -1,3 +1,4 @@
+import datetime
 from django.utils import timezone
 from django.db import transaction
 from django.utils.translation import ugettext as _
@@ -5,8 +6,8 @@ from rest_framework import fields
 from rest_framework import serializers
 from addresses.models import Address
 from addresses.serializers import AddressSerializer
-from profiles.models import ExpertProfile, AllowedUser
-from profiles.serializers import InsuranceSerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
+from profiles.models import AllowedUser, ExpertProfile, Mandate
+from profiles.serializers import InsuranceSerializer, MandateReadOnlySerializer, ProfileReadonlySerializer, ProfileBasicInfoSerializer
 from papers.models import Paper, Contractor, Signature, PaperStatus, VerifyingExplanation, ExplanationSignature
 from onepaper.serializers import ReadOnlyModelSerializer
 
@@ -259,11 +260,11 @@ class PaperSerializer(serializers.ModelSerializer):
                 })
         return data
 
-    def get_status(self, instance):
-        return instance.status.status
-
     def get_likes_count(self, instance):
         return instance.voters.count()
+
+    def get_status(self, instance):
+        return instance.status.status
 
     def get_user_has_vote(self, instance):
         request = self.context.get("request")
@@ -284,20 +285,27 @@ class PaperReadonlySerializer(ReadOnlyModelSerializer):
     address = AddressSerializer(read_only=True)
     paper_contractors = ContractorReadonlySerializer(many=True)
     options = fields.MultipleChoiceField(choices=Paper.OPTIONS_CATEGORY)
-    status = serializers.SerializerMethodField()
     likes_count = serializers.SerializerMethodField()
-    verifying_explanation = VerifyingExplanationReadonlySerializer()
+    mandates = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
     user_has_vote = serializers.SerializerMethodField()
+    verifying_explanation = VerifyingExplanationReadonlySerializer()
 
     class Meta:
         model = Paper
         fields = "__all__"
 
-    def get_status(self, instance):
-        return instance.status.status
-
     def get_likes_count(self, instance):
         return instance.voters.count()
+
+    def get_mandates(self, instance):
+        contractors = instance.paper_contractors
+        mandates = Mandate.objects.filter(address__old_address=instance.address.old_address, designee__user=instance.author, designator_id__in=contractors.values("profile")).exclude(designator_signature='', to_date__lt=datetime.datetime.now())
+        if mandates.exists():
+            return MandateReadOnlySerializer(mandates, many=True).data
+
+    def get_status(self, instance):
+        return instance.status.status
 
     def get_user_has_vote(self, instance):
         request = self.context.get("request")

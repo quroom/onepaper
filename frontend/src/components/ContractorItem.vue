@@ -54,7 +54,7 @@
         <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
           <v-btn
             id="v-signature"
-            v-if="!isPaperRequest && !isSigned && isContractor"
+            v-if="!isPaperRequest && !isPaperDone && !isSigned && isContractor"
             class="signature-button"
             @click="openSignaturePad(isVerifyingExplanation)"
             color="primary"
@@ -67,7 +67,7 @@
           <template v-else>
             {{ $t("sign") }}
           </template>
-          <img v-if="isSigned" class="signature-img" :src="signature_src" />
+          <img v-if="isSigned || !isPaperRequest" class="signature-img" :src="signature_src" />
         </v-card>
         <v-card v-else class="pa-0" outlined tile min-width="80">
           <template v-if="contractor.is_hidden == false">
@@ -234,6 +234,14 @@ export default {
           ? this.$get(this.contractor, "explanation_signature.image", null)
           : this.$get(this.contractor, "signature.image", null);
       } else {
+        if (this.paper.mandates) {
+          const matched_profile = this.paper.mandates.find(
+            (item) => item.designator.user.email == this.contractor.profile.user.email
+          );
+          if (matched_profile) {
+            return matched_profile.designator_signature;
+          }
+        }
         return null;
       }
     }
