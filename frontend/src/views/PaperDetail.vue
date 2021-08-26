@@ -124,6 +124,18 @@
             </v-col>
           </template>
         </template>
+        <v-row no-gutters v-if="seller && seller.profile.bank_name">
+          <v-col class="text-center font-weight-bold" cols="3" sm="2">
+            <v-card outlined tile>{{ $t("bank_account") }}</v-card>
+          </v-col>
+          <v-col class="text-center" cols="9" sm="10">
+            <v-card outlined tile
+              >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
+              {{ seller.profile.user.name }}
+              {{ seller.profile.account_number }}</v-card
+            >
+          </v-col>
+        </v-row>
         <p
           v-if="paper.from_date && paper.to_date"
           class="ma-0"
@@ -138,18 +150,6 @@
             })
           "
         ></p>
-      </v-row>
-      <v-row no-gutters v-if="seller && seller.profile.bank_name">
-        <v-col class="text-center font-weight-bold" cols="3" sm="2">
-          <v-card outlined tile>{{ $t("bank_account") }}</v-card>
-        </v-col>
-        <v-col class="text-center" cols="9" sm="10">
-          <v-card outlined tile
-            >{{ $getConstI18("bank_category", seller.profile.bank_name) }}
-            {{ seller.profile.user.name }}
-            {{ seller.profile.account_number }}</v-card
-          >
-        </v-col>
       </v-row>
       <v-row class="contract-details" no-gutters>
         <v-col cols="12" class="text-right no-print">
