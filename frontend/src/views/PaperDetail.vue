@@ -1,8 +1,15 @@
 <template>
   <v-container>
-    <div id="v-paper-detail" class="mt-4 text-h4 font-weight-bold text-center">
-      {{ paper.title }}
+    <div
+      v-if="
+        paper.trade_category == $getConstByName('TRADE_CATEGORY', 'rent') ||
+          paper.trade_category == $getConstByName('TRADE_CATEGORY', 'depositloan')
+      "
+      class="mt-4 text-h4 font-weight-bold text-center"
+    >
+      {{ $t("realestate_lease_contract") }}
     </div>
+    <div id="v-paper-detail" class="text-h6 text-center no-print">({{ paper.title }})</div>
     <div class="text-caption red--text no-print">{{ $t("paper_subtitle") }}</div>
     <v-row v-if="paper.author" class="mt-4 no-print">
       <v-col class="pa-0 pr-1" cols="12" md="8" style="position: relative;">
@@ -107,12 +114,6 @@
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
       <v-row no-gutters>
-        <v-col class="text-center font-weight-bold" cols="3" sm="2">
-          <v-card outlined tile>{{ $t("term_of_lease") }}</v-card>
-        </v-col>
-        <v-col class="text-center font-weight-bold" cols="9" sm="10">
-          <v-card outlined tile>{{ paper.from_date }} ~ {{ paper.to_date }}</v-card>
-        </v-col>
         <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
           <template v-if="paper[contract_field_name] != undefined">
             <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
@@ -123,6 +124,20 @@
             </v-col>
           </template>
         </template>
+        <p
+          v-if="paper.from_date && paper.to_date"
+          class="ma-0"
+          v-html="
+            $t('terms_and_conditions_period', {
+              from_year: paper.from_date.split('-')[0],
+              from_month: paper.from_date.split('-')[1],
+              from_day: paper.from_date.split('-')[2],
+              to_year: paper.to_date.split('-')[0],
+              to_month: paper.to_date.split('-')[1],
+              to_day: paper.to_date.split('-')[2]
+            })
+          "
+        ></p>
       </v-row>
       <v-row no-gutters v-if="seller && seller.profile.bank_name">
         <v-col class="text-center font-weight-bold" cols="3" sm="2">
@@ -136,65 +151,74 @@
           >
         </v-col>
       </v-row>
+      <v-row class="contract-details" no-gutters>
+        <v-col cols="12" class="text-right no-print">
+          <v-btn
+            v-if="!currentContractor"
+            :to="{
+              name: 'paper-editor',
+              params: { contract_details: paper.contract_details }
+            }"
+            dark
+            >{{ $t("load_contract_details") }}</v-btn
+          >
+        </v-col>
+        <quill-editor
+          id="v-special-agreement"
+          ref="myQuillEditor"
+          v-model="paper.contract_details"
+          :options="options"
+          :disabled="true"
+        />
+      </v-row>
     </div>
-    <div class="mt-5">3. {{ $t("contractor_info") }}</div>
-    <div
-      v-if="$getConstByName('status_category', 'requesting') == paper.status"
-      class="text-caption red--text"
-    >
-      {{ $t("paper_requesting_subtitle") }}
-    </div>
-    <div>{{ $t("contractor_info_intro") }}</div>
-    <div id="v-contractor-info">
-      <template v-if="seller">
-        <ContractorItem
-          :contractor="seller"
-          :fields="fields_names.basic_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-      <template v-if="buyer">
-        <ContractorItem
-          :contractor="buyer"
-          :fields="fields_names.basic_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-      <template v-if="expert">
-        <ContractorItem
-          :contractor="expert"
-          :fields="fields_names.expert_profile_fields"
-          :paper="paper"
-          @allowPaper="allowPaper"
-          @openSignaturePad="open"
-        ></ContractorItem>
-      </template>
-    </div>
-    <v-row align="end">
-      <v-col cols="auto">
-        <div>4. {{ $t("special_agreement") }}</div>
-      </v-col>
-      <v-col class="text-right">
-        <v-btn
-          v-if="!isAuthor"
-          :to="{ name: 'paper-editor', params: { special_agreement: paper.special_agreement } }"
-          dark
-          >{{ $t("load_special_agreement") }}</v-btn
-        >
-      </v-col>
-    </v-row>
-    <quill-editor
-      id="v-special-agreement"
-      ref="myQuillEditor"
-      v-model="paper.special_agreement"
-      :options="options"
-      :disabled="true"
-    />
-    <div class="text-center">{{ `${$t("updated_at")} : ${paper.updated_at}` }}</div>
+    <template v-if="paper.paper_contractors">
+      <v-divider></v-divider>
+      <div
+        v-if="$getConstByName('status_category', 'requesting') == paper.status"
+        class="text-caption red--text"
+      >
+        {{ $t("paper_requesting_subtitle") }}
+      </div>
+      <div>
+        {{
+          $t("paper_confirm_and_signature", {
+            year: paper.updated_at.split("-")[0],
+            month: paper.updated_at.split("-")[1],
+            day: paper.updated_at.split("-")[2].split(" ")[0]
+          })
+        }}
+      </div>
+      <div id="v-contractor-info">
+        <template v-if="seller">
+          <ContractorItem
+            :contractor="seller"
+            :fields="fields_names.basic_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+        <template v-if="buyer">
+          <ContractorItem
+            :contractor="buyer"
+            :fields="fields_names.basic_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+        <template v-if="expert">
+          <ContractorItem
+            :contractor="expert"
+            :fields="fields_names.expert_profile_fields"
+            :paper="paper"
+            @allowPaper="allowPaper"
+            @openSignaturePad="open"
+          ></ContractorItem>
+        </template>
+      </div>
+    </template>
     <div id="v-ve" v-if="expert != undefined">
       <div class="page-divide mt-4">
         <v-divider></v-divider>
@@ -295,6 +319,12 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-divider class="no-print"></v-divider>
+    <v-row class="no-print" justify="end">
+      <v-btn color="black" text rounded @click="window_print()" dark small>
+        <v-icon>print</v-icon>
+      </v-btn>
+    </v-row>
     <CustomTour
       name="paper-detail"
       :steps="steps"
@@ -394,9 +424,13 @@ export default {
       }
     },
     currentContractor: function() {
-      return this.paper.paper_contractors.find(
-        (item) => item.profile.user.email == this.requestUser
-      );
+      if (this.paper.paper_contractors) {
+        return this.paper.paper_contractors.find(
+          (item) => item.profile.user.email == this.requestUser
+        );
+      } else {
+        return false;
+      }
     },
     steps() {
       return [
@@ -405,7 +439,10 @@ export default {
           target: "#v-paper-detail",
           content: `${this.$t("tour_paper_detail")}`,
           duration: 10,
-          offset: -60
+          offset: -60,
+          params: {
+            highlight: false
+          }
         },
         {
           target: "#v-hide",
@@ -423,7 +460,7 @@ export default {
           target: "#v-terms-and-conditions",
           content: `${this.$t("tour_detail_terms_and_conditions")}`,
           duration: 10,
-          offset: -60
+          offset: -200
         },
         {
           target: "#v-contractor-info",
@@ -444,8 +481,8 @@ export default {
           offset: -60
         },
         {
-          target: "#v-special-agreement",
-          content: `${this.$t("tour_detail_special_agreement")}`,
+          target: "#v-contract-details",
+          content: `${this.$t("tour_detail_contract_details")}`,
           duration: 10,
           offset: -200
         },
@@ -527,7 +564,7 @@ export default {
       isLoading: true,
       isMobile: false,
       dialog: false,
-      paper: { trade_category: null },
+      paper: { trade_category: null, paper_contractors: null },
       is_explanation_signature: false,
       is_paper_updated: false,
       fields_names: {
@@ -636,6 +673,9 @@ export default {
     };
   },
   methods: {
+    window_print() {
+      window.print();
+    },
     allowPaper(is_allowed) {
       this.isLoading = true;
       let endpoint = `/api/contractors/${this.currentContractor.id}/allow-paper/`;
@@ -794,5 +834,17 @@ export default {
 }
 .signature-dialog-parent {
   z-index: 90000001 !important;
+}
+.contract-details /deep/ p {
+  margin-bottom: 0px !important;
+}
+hr {
+  margin-top: 16px;
+}
+.quill-editor /deep/ .ql-snow {
+  border: 0px !important;
+}
+.quill-editor /deep/ .ql-editor {
+  padding: 0px !important;
 }
 </style>

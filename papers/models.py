@@ -123,7 +123,7 @@ class Paper(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     title = models.CharField(max_length=25)
-    special_agreement = models.TextField(blank=True)
+    contract_details = models.TextField(blank=True)
     status = models.OneToOneField(
         PaperStatus,
         on_delete=models.CASCADE,

@@ -31,7 +31,7 @@
                 </button>
                 <button
                   @click.prevent="tour.previousStep"
-                  v-if="!tour.isFirst"
+                  v-if="!tour.isFirst && !isStepButtonDisabled('buttonPrevious')"
                   class="v-step__button v-step__button-previous"
                 >
                   {{ $t("back") }}

@@ -200,11 +200,11 @@
           </v-col>
         </v-row>
       </v-expansion-panels>
-      <div class="mt-3">4. {{ $t("mandate_paper") }} {{ $t("content") }}</div>
+      <div class="mt-3">3. {{ $t("mandate_paper") }} {{ $t("content") }}</div>
       <ValidationProvider
         ref="content"
         v-slot="{ errors }"
-        :name="$t('special_agreement')"
+        :name="`${$t('mandate_paper')} ${$t('content')}`"
         rules="required"
       >
         <quill-editor
@@ -305,7 +305,9 @@ export default {
               [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
               [{ color: [] }, { background: [] }],
               [{ list: "ordered" }, { align: [] }],
-              ["image", "link"]
+              //이미지는 프리미엄 회원만 허용.
+              ["link"]
+              // ["image", "link"]
             ]
           }
         },
