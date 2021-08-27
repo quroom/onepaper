@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import timedelta
 import tempfile
 import os
 
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from PIL import Image
 from django.test import override_settings
 from django.urls import reverse
@@ -13,9 +14,9 @@ from rest_framework import serializers
 
 from addresses.models import Address
 from profiles.models import AllowedUser, CustomUser, ExpertProfile, Insurance, Profile
-from papers.models import Paper, PaperStatus
+from papers.models import Paper, PaperStatus, Signature
 
-today = datetime.today().date()
+today = timezone.localtime().date()
 address_vars = {
             "old_address": '광주 광산구 명도동 169',
             "old_address_eng": '169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea',
@@ -240,7 +241,7 @@ class PaperTestCase(APITestCase):
         profile = Profile.objects.create(user=user, address=address, bank_name=4, account_number="98373737372", mobile_number="010-9827-111"+str(id))
         AllowedUser.objects.create(profile=profile)
         if is_expert:
-            today = datetime.today().date()
+            today = timezone.localtime().date()
             expert_profile = ExpertProfile.objects.create(
                 profile=profile, registration_number="2020118181-11", shop_name="효암중개사")
             Insurance.objects.create(expert_profile=expert_profile, from_date=today, to_date=today.replace(year=today.year+1))
@@ -1336,3 +1337,46 @@ class SignatureTestCase(APITestCase):
         response = self.client.put(reverse('update-signature', kwargs={'paper_id':paper.id, 'pk':response.data['id']}), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["detail"].message, _("완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."))
+
+    def test_paper_update_and_delete_after_24H_from_first_signature(self):
+        data = {
+            'contractor': self.paper['paper_contractors'][0]['id'],
+            'image': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAAEUCAYAAAAItm20AAAgAElEQVR4Xu3db4xc13nf8d"
+        }
+        response = self.client.post(reverse('create-signature', kwargs={'id':self.paper['id']}), data)
+        paper = Paper.objects.filter(id=1)
+        new_updated_at = timezone.now() - timedelta(hours=24, minutes=2)
+        paper.update(updated_at=new_updated_at)
+        signature = Signature.objects.filter(id=1)
+        new_updated_at = timezone.now() - timedelta(hours=24, minutes=1)
+        signature.update(updated_at=new_updated_at)
+
+        data = {
+            "address": address_vars,
+            "building_area": 1111,
+            "building_category": 80,
+            "building_structure": "11",
+            "down_payment": 1111,
+            "from_date": "2020-11-18",
+            "land_category": 7,
+            "lot_area": 11,
+            "maintenance_fee": 111,
+            "monthly_fee": None,
+            "options": [1, 2, 3],
+            "paper_contractors": [
+                {"profile": self.profile.id, "paper": None, "group": "1"},
+                {"profile": self.profile1.id, "paper": None, "group": "2"}
+            ],
+            "security_deposit": 1,
+            "special_agreement": "<p>ㅍㅍ</p>",
+            "title": "테스트1",
+            "to_date": "2020-11-30",
+            "trade_category": 2,
+        }
+        response = self.client.put(reverse('papers-detail', kwargs={'pk':self.paper['id']}), data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."))
+
+        response = self.client.delete(reverse('papers-detail', kwargs={'pk':self.paper['id']}), data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"].message, _("최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."))

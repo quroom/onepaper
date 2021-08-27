@@ -4,10 +4,10 @@ import random
 import os
 
 from PIL import Image
-from datetime import datetime
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.test import override_settings
@@ -20,7 +20,7 @@ from profiles.serializers import ProfileSerializer
 from addresses.models import Address
 from profiles.models import CustomUser, Profile, ExpertProfile, Insurance
 
-today = datetime.today().date()
+today = timezone.localtime().date()
 address_vars = {
             "old_address": '광주 광산구 명도동 169',
             "old_address_eng": '169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea',
