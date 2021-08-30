@@ -124,7 +124,11 @@ const router = new VueRouter({
         }, 70);
       });
     } else {
-      return { x: 1, y: 1 };
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ x: 0, y: 0 });
+        }, 70);
+      });
     }
   }
 });
