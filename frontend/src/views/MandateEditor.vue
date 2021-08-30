@@ -302,12 +302,14 @@ export default {
         modules: {
           toolbar: {
             container: [
-              [{ size: ["small", false, "large", "huge"] }, "bold", "underline"],
-              [{ color: [] }, { background: [] }],
-              [{ list: "ordered" }, { align: [] }],
-              //이미지는 프리미엄 회원만 허용.
-              ["link"]
-              // ["image", "link"]
+              { size: ["small", false, "large", "huge"] },
+              "bold",
+              "italic",
+              "underline",
+              { color: [] },
+              { background: [] },
+              { align: [] },
+              "link"
             ]
           }
         },
