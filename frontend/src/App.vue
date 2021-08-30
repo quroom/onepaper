@@ -107,6 +107,9 @@ a:hover {
 .ql-container {
   font-size: 16px !important;
 }
+.quill-editor .ql-container {
+  height: 40vh !important;
+}
 .row {
   margin-left: -4px;
   margin-right: -4px;
