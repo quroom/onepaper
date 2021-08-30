@@ -1449,6 +1449,8 @@ export default {
           } catch (err) {
             alert(err);
           }
+        } else {
+          that.$vuetify.goTo(that.$el.querySelector(".v-messages.error--text"), { offset: 100 });
         }
       });
     },
