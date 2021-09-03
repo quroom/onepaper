@@ -32,6 +32,12 @@
             class="contractor-print-title text-center font-weight-bold"
           >
             <v-card outlined tile color="green lighten-2">
+              <v-icon
+                v-if="contractor.profile.certification.is_certificated === false"
+                class="no-print red--text"
+              >
+                warning
+              </v-icon>
               {{ $t("realestate_agency") }}
               <img
                 v-if="isSigned"
@@ -46,12 +52,27 @@
             v-else
             class="contractor-print-title text-center font-weight-bold"
           >
-            <v-card outlined tile color="green lighten-2">{{
-              $getConstI18("CONTRACTOR_CATEGORY", contractor.group)
-            }}</v-card>
+            <v-card outlined tile color="green lighten-2">
+              <v-icon
+                v-if="contractor.profile.certification.is_certificated === false"
+                class="no-print red--text"
+              >
+                warning
+              </v-icon>
+              {{ $getConstI18("CONTRACTOR_CATEGORY", contractor.group) }}
+            </v-card>
           </v-col>
         </template>
         <span>{{ contractor.profile.user.email }}</span>
+        <div
+          v-if="contractor.profile.certification.is_certificated === false"
+          class="certification-detail"
+        >
+          {{ $t("uncertified_detail") }}
+        </div>
+        <div v-else class="certification-detail">
+          {{ $t("certified_detail", { updated_at: contractor.profile.certification.updated_at }) }}
+        </div>
       </v-tooltip>
       <v-col class="contractor-print-title text-center" cols="auto">
         <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
@@ -279,6 +300,15 @@ export default {
     position: relative;
     font-size: 13px;
   }
+  .no-print {
+    display: none;
+  }
+  .v-icon {
+    font-size: 19px;
+  }
+}
+.certification-detail {
+  color: yellow;
 }
 .v-btn,
 .v-icon {

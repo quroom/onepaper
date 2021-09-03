@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <!-- eslint-disable-next-line vue/require-component-is -->
+    <component is="script" src="https://code.jquery.com/jquery-1.12.4.min.js" async></component>
+    <!-- iamport.payment.js -->
+    <!-- eslint-disable-next-line vue/require-component-is -->
+    <component
+      is="script"
+      src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"
+      async
+    ></component>
     <div v-if="is_expert" class="text-caption blue--text">
       {{ $t("use_profile_after_approval") }}
     </div>
@@ -60,6 +69,10 @@
                   {{ $t("activate") }}
                 </v-btn>
               </template>
+              <v-chip v-if="profile.certification.is_certificated" color="primary">
+                {{ $t("certified") }}
+              </v-chip>
+              <v-chip v-else> {{ $t("uncertified") }} </v-chip>
               <template v-if="is_expert">
                 <v-chip
                   class="ma-1"
@@ -131,6 +144,12 @@
                   {{ $t("edit") }}
                 </v-btn>
                 <v-spacer></v-spacer>
+                <v-btn
+                  v-if="profile.is_default && profile.certification.is_certificated === false"
+                  dark
+                  @click.prevent="onCertification(profile)"
+                  >{{ $t("self_authentication") }}</v-btn
+                >
               </v-card-actions>
             </v-card>
           </router-link>
@@ -224,6 +243,48 @@ export default {
         this.isLoading = false;
         if (this.email != undefined) {
           this.dialog = true;
+        }
+      });
+    },
+    onCertification() {
+      /* 1. 가맹점 식별하기 */
+      const vm = this;
+      const { IMP } = window;
+      IMP.init("imp42655352");
+
+      /* 2. 본인인증 데이터 정의하기 */
+      const data = {
+        merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+        company: "큐룸", // 회사명 또는 URL
+        carrier: undefined, // 통신사
+        name: this.default_profile.user.name, // 이름
+        phone: this.default_profile.mobile_number // 전화번호
+      };
+
+      /* 4. 본인인증 창 호출하기 */
+      IMP.certification(data, (response) => {
+        /* 3. 콜백 함수 정의하기 */
+        const { success, error_code, error_msg } = response;
+        console.log(response);
+
+        if (success) {
+          let endpoint = `/api/certification/`;
+          apiService(endpoint, "PUT", { imp_uid: response.imp_uid }).then((data) => {
+            if (data.id != undefined) {
+              if (vm.default_profile) {
+                alert(vm.$t("self_authentication_success"), success);
+                vm.default_profile.certification = data;
+              } else {
+                alert(vm.$t("please_select_default_profile"));
+              }
+            } else {
+              applyValidation(data);
+            }
+          });
+        } else {
+          if (error_code != "F0000") {
+            alert(`${vm.$t("self_authentication_fail")} ${error_msg}`);
+          }
         }
       });
     },

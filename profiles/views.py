@@ -16,10 +16,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from core.iamport import Iamport
 from papers.models import Contractor, Paper, PaperStatus
 from profiles.forms import CustomUserForm
 from profiles.models import (
     AllowedUser,
+    Certification,
     CustomUser,
     ExpertProfile,
     Insurance,
@@ -36,6 +38,7 @@ from profiles.permissions import (
 )
 from profiles.serializers import (
     ApproveExpertSerializer,
+    CertificationSerializer,
     CustomUserIDNameSerializer,
     CustomUserSerializer,
     ExpertProfileReadonlySerializer,
@@ -185,6 +188,77 @@ class ApproveExpert(
         return self.get_paginated_response(serializer.data)
 
 
+class CertificateAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def put(self, request):
+        imp_uid = request.data.get("imp_uid")
+        if imp_uid == None:
+            return Response(
+                {"detail": ValidationError(_("Certficiation is failed. imp_uid is none."))},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        iamport = Iamport()
+        try:
+            certificationsInfo = iamport.find_certification(imp_uid)
+            certified_at = certificationsInfo.get("certified_at")
+            di = certificationsInfo.get("unique_in_site")
+            if di == None:
+                return Response(
+                    {"detail": ValidationError(_("Certification was not sucessful"))},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                try:
+                    duplicate_di = Certification.objects.exclude(profile__user=request.user).get(
+                        di=di
+                    )
+                    return Response(
+                        {
+                            "detail": ValidationError(
+                                _(
+                                    "There are other accounts that have already been authenticated. e-mail     : %(email)s"
+                                )
+                                % {"email": duplicate_di.profile.user.email}
+                            )
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                except Certification.DoesNotExist:
+                    profile = get_object_or_404(Profile, user=self.request.user, is_default=True)
+                    if (
+                        certificationsInfo.get("name") == profile.user.name
+                        and certificationsInfo.get("birthday") == str(profile.user.birthday)
+                        and certificationsInfo.get("phone") == profile.mobile_number
+                    ):
+                        pass
+                    else:
+                        return Response(
+                            {
+                                "detail": ValidationError(
+                                    _(
+                                        "The name/birth/mobile phone number you entered does not match your profile information."
+                                    )
+                                )
+                            },
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+
+        except Iamport.ResponseError as e:
+            return Response({"detail": e.message}, status=e.code)
+        except Iamport.HttpError as e:
+            return Response({"detail": e.message}, status=e.code)
+
+        certification = profile.certification
+        certification.updated_at = timezone.make_aware(datetime.fromtimestamp(certified_at))
+        certification.imp_uid = imp_uid
+        certification.di = di
+        certification.save()
+        serializer = CertificationSerializer(certification)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class ExpertProfileList(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
@@ -329,7 +403,10 @@ class ProfileViewset(ModelViewSet):
             else:
                 return ExpertProfileSerializer
         else:
-            return ProfileSerializer
+            if self.request.method in SAFE_METHODS:
+                return ProfileReadonlySerializer
+            else:
+                return ProfileSerializer
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", True)
@@ -363,6 +440,14 @@ class ProfileViewset(ModelViewSet):
                 {"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."))},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        if Certification.objects.filter(profile=obj).exclude(di="").exists():
+            if request.data.get("mobile_number") != obj.mobile_number:
+                return Response(
+                    {"detail": ValidationError(_("본인인증 완료된 프로필의 휴대폰 번호는 수정할 수 없습니다."))},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
         serializer = self.get_serializer(obj, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         instance = self.perform_update(serializer)
@@ -390,6 +475,7 @@ class ProfileViewset(ModelViewSet):
         Profile.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
         return serializer.save(user=self.request.user, is_default=True)
 
+    @transaction.atomic
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if (
@@ -410,6 +496,11 @@ class ProfileViewset(ModelViewSet):
                 {"detail": ValidationError(_("작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."))},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        if instance.is_default and Profile.objects.filter(user=instance.user).exists():
+            profile = Profile.objects.filter(user=instance.user).last()
+            profile.is_default = True
+            profile.save()
 
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -446,6 +537,13 @@ class CustomUserViewset(
                 {"detail": ValidationError(_("요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."))},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        if Certification.objects.filter(profile__user=instance).exclude(di="").exists():
+            return Response(
+                {"detail": ValidationError(_("본인인증 완료된 회원정보는 수정할 수 없습니다."))},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)

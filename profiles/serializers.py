@@ -14,6 +14,7 @@ from onepaper.serializers import ReadOnlyModelSerializer
 from papers.models import Contractor, Paper
 from profiles.models import (
     AllowedUser,
+    Certification,
     CustomUser,
     ExpertProfile,
     Insurance,
@@ -66,6 +67,20 @@ class BasicCustomUserSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "updated_at", "is_expert", "email")
 
 
+class CertificationSerializer(ReadOnlyModelSerializer):
+    is_certificated = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Certification
+        fields = ["id", "updated_at", "is_certificated"]
+
+    def get_is_certificated(self, obj):
+        if obj.di != "":
+            return True
+        else:
+            return False
+
+
 class UserSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSetting
@@ -98,14 +113,22 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class CustomUserHiddenIDNameSerializer(serializers.ModelSerializer):
     birthday = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ["birthday", "name", "email"]
+        fields = ["birthday", "email", "name"]
 
     def get_birthday(self, obj):
         return len(str(obj.birthday)[0:4]) * "#" + str(obj.birthday)[4:]
+
+    def get_email(self, obj):
+        if self.context.get("request").user == obj:
+            return obj.email
+        email_id = obj.email.split("@")[0]
+        email_id_len_half = int(len(email_id) / 2)
+        return email_id_len_half * "#" + obj.email[email_id_len_half:]
 
     def get_name(self, obj):
         return obj.name[0:1] + len(obj.name[1:2]) * "#" + obj.name[2:]
@@ -172,13 +195,14 @@ class ExpertReadonlySerializer(ReadOnlyModelSerializer):
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
     address = serializers.SerializerMethodField()
+    certification = CertificationSerializer(read_only=True)
     expert_profile = ExpertReadonlySerializer(read_only=True)
     mobile_number = serializers.SerializerMethodField()
     user = CustomUserHiddenIDNameSerializer(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ["address", "expert_profile", "id", "mobile_number", "user"]
+        fields = ["address", "certification", "expert_profile", "id", "mobile_number", "user"]
 
     def get_address(self, instance):
         address_with_bun = instance.address.old_address.split("-")[0]
@@ -191,6 +215,7 @@ class ProfileBasicInfoSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
+    certification = CertificationSerializer(read_only=True)
     user = BasicCustomUserSerializer(read_only=True)
     expert_profile = ExpertSerializer(read_only=True)
 
@@ -204,6 +229,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         address_data = validated_data.pop("address")
         address = Address.objects.create(**address_data)
         profile = Profile.objects.create(**validated_data, address=address)
+        Certification.objects.create(profile=profile)
         allowedUser = AllowedUser.objects.create(profile=profile)
         allowedUser.allowed_users.add(validated_data["user"])
         allowedUser.save()
@@ -231,8 +257,9 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class ProfileReadonlySerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
-    user = BasicCustomUserSerializer()
+    certification = CertificationSerializer(read_only=True)
     expert_profile = ExpertReadonlySerializer()
+    user = BasicCustomUserSerializer()
 
     class Meta:
         model = Profile
@@ -241,6 +268,7 @@ class ProfileReadonlySerializer(ReadOnlyModelSerializer):
 
 class ExpertProfileReadonlySerializer(ReadOnlyModelSerializer):
     address = AddressSerializer()
+    certification = CertificationSerializer(read_only=True)
     expert_profile = ExpertReadonlySerializer()
     user = BasicCustomUserSerializer()
 
@@ -283,6 +311,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
         with transaction.atomic():
             address = Address.objects.create(**address_data)
             profile = Profile.objects.create(**validated_data, address=address)
+            Certification.objects.create(profile=profile)
             expert_profile = ExpertProfile.objects.create(profile=profile, **expert_profile)
             Insurance.objects.create(**insurance_data, expert_profile=expert_profile)
             allowedUser = AllowedUser.objects.create(profile=profile)

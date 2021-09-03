@@ -217,7 +217,7 @@
     </template>
     <div id="v-ve" v-if="expert != undefined">
       <div class="page-divide mt-4">
-        <v-divider></v-divider>
+        <v-divider class="no-print"></v-divider>
       </div>
       <v-spacer></v-spacer>
       <v-btn class="mt-4 no-print" color="black" dark @click="isMobile = !isMobile">
