@@ -47,7 +47,7 @@
     </div>
     <ValidationObserver ref="mandate_obs">
       <v-row>
-        <v-col cols="12" sm="9">
+        <v-col cols="12" sm="8">
           <AddressSearch
             ref_name="address"
             :readonly="readonly"
@@ -55,7 +55,7 @@
             :address.sync="address"
           ></AddressSearch>
         </v-col>
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="auto">
           <v-menu
             v-model="period_menu"
             :disabled="readonly"
@@ -208,9 +208,10 @@
         rules="required"
       >
         <quill-editor
+          :class="readonly ? 'v-quill-editor-readonly' : 'v-quill-editor'"
           ref="myQuillEditor"
           v-model="content"
-          :options="editorOption"
+          :options="readonly ? readonlyEditorOption : editorOption"
           :disabled="readonly"
         />
         <div class="v-messages theme--light error--text" role="alert">
@@ -314,6 +315,11 @@ export default {
           }
         },
         placeholder: this.$t("detail") + " " + this.$t("content")
+      },
+      readonlyEditorOption: {
+        modules: {
+          toolbar: false
+        }
       }
     };
   },
@@ -452,5 +458,12 @@ export default {
   position: absolute;
   top: -7px;
   right: 7px;
+}
+
+.v-quill-editor-readonly /deep/ .ql-snow {
+  border: 0px !important;
+}
+.v-quill-editor-readonly /deep/ .ql-editor {
+  padding: 0px !important;
 }
 </style>

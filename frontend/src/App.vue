@@ -107,7 +107,7 @@ a:hover {
 .ql-container {
   font-size: 16px !important;
 }
-.quill-editor .ql-container {
+.v-quill-editor .ql-container {
   height: 40vh !important;
 }
 .row {

@@ -32,6 +32,7 @@ const i18n = new VueI18n({
       add_user: "Add User",
       approve: "Approve",
       approved: "Approved",
+      contract_details: "Contract Details",
       all: "All",
       author: "author",
       back: "Back",
@@ -463,6 +464,7 @@ const i18n = new VueI18n({
       allow: "허용",
       approve: "승인",
       approved: "승인됨",
+      contract_details: "세부계약내용",
       quick_trade_user_list: "빠른거래회원 리스트",
       quick_trade_user_list_subtitle:
         "빠른 거래 회원을 추가 해주세요. 계약서 요청·승인 단계 없이 당신의 프로필을 추가할 수 있습니다.\

@@ -19,27 +19,27 @@
       >
         <strong>{{ Math.ceil(percent) }}%</strong>
       </v-progress-linear>
-      <v-row>
-        <v-col id="v-create-paper" cols="12">
-          <ValidationProvider
-            v-slot="{ errors }"
-            ref="title"
-            :name="`${$t('title')}`"
-            :rules="`required|max:25`"
-          >
-            <v-text-field
-              class="ma-auto"
-              v-model="title"
-              :error-messages="errors"
-              :label="`${$t('paper')} ${$t('title')}`"
-              type="String"
-              required
-              style="max-width:400px"
-            ></v-text-field>
-          </ValidationProvider>
-        </v-col>
-      </v-row>
       <template v-if="step == 1 || validation_check">
+        <v-row>
+          <v-col id="v-create-paper" cols="12">
+            <ValidationProvider
+              v-slot="{ errors }"
+              ref="title"
+              :name="`${$t('title')}`"
+              :rules="`required|max:25`"
+            >
+              <v-text-field
+                class="ma-auto"
+                v-model="title"
+                :error-messages="errors"
+                :label="`${$t('paper')} ${$t('title')}`"
+                type="String"
+                required
+                style="max-width:400px"
+              ></v-text-field>
+            </ValidationProvider>
+          </v-col>
+        </v-row>
         <v-dialog v-model="load_dialog" height="90%" max-width="90%">
           <v-data-table
             v-if="dialog_category == 'paper'"
@@ -177,8 +177,8 @@
         <div id="v-terms-and-conditions">
           <div class="mt-3">2. {{ $t("terms_and_conditions") }}</div>
           <div>{{ $t("terms_and_conditions_intro") }}</div>
-          <v-row class="row-py-none">
-            <v-col cols="2">
+          <v-row>
+            <v-col cols="4" sm="auto">
               <ValidationProvider
                 ref="trade_category"
                 :name="$t('trade_category')"
@@ -193,15 +193,16 @@
                   item-text="text"
                   item-value="value"
                   :label="$t('trade_category')"
+                  style="max-width:150px"
                 >
                   <template v-slot:selection="{ item }">{{ $t(item.text) }}</template>
                   <template v-slot:item="{ item }">{{ $t(item.text) }}</template>
                 </v-select>
               </ValidationProvider>
             </v-col>
-            <v-col cols="5" md="3">
+            <v-col cols="8" sm="auto">
               <v-menu
-                v-model="from_date_menu"
+                v-model="period_menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
                 transition="scale-transition"
@@ -210,70 +211,35 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <ValidationProvider
-                    ref="from_date"
-                    :name="$t('from_date')"
+                    ref="period"
                     v-slot="{ errors }"
                     rules="required"
+                    :name="$t('period')"
                   >
                     <LazyTextField
-                      v-model="from_date"
-                      :error-messages="errors"
-                      :label="$t('from_date')"
+                      v-model="period"
+                      :label="$t('term_of_lease')"
                       prepend-icon="event"
                       readonly
                       v-bind="attrs"
                       v-on="on"
-                    ></LazyTextField>
-                  </ValidationProvider>
-                </template>
-                <v-date-picker
-                  v-model="from_date"
-                  @input="from_date_menu = false"
-                  :locale="this.$i18n.locale"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col cols="5" md="3">
-              <v-menu
-                v-model="to_date_menu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <ValidationProvider
-                    ref="to_date"
-                    :name="$t('to_date')"
-                    v-slot="{ errors }"
-                    rules="required"
-                  >
-                    <LazyTextField
-                      v-model="to_date"
                       :error-messages="errors"
-                      :label="$t('to_date')"
-                      prepend-icon="event"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
                     ></LazyTextField>
                   </ValidationProvider>
                 </template>
                 <v-date-picker
-                  v-model="to_date"
-                  @input="to_date_menu = false"
+                  v-model="period"
+                  @change="period_menu = false"
                   :locale="this.$i18n.locale"
+                  range
                 ></v-date-picker>
               </v-menu>
             </v-col>
-          </v-row>
-          <v-row class="row-py-none">
             <template v-if="trade_category == $getConstByName('TRADE_CATEGORY', 'rent')">
               <v-col
                 v-for="(contract_field, index) in fields_names.contract_fields"
                 cols="6"
-                md="3"
+                sm="auto"
                 :key="`index` + index"
               >
                 <ValidationProvider
@@ -320,16 +286,16 @@
             </template>
           </v-row>
           <p
-            v-if="from_date && to_date"
+            v-if="period.length >= 2 && period[0] && period[1]"
             class="my-1"
             v-html="
               $t('terms_and_conditions_period', {
-                from_year: from_date.split('-')[0],
-                from_month: from_date.split('-')[1],
-                from_day: from_date.split('-')[2],
-                to_year: to_date.split('-')[0],
-                to_month: to_date.split('-')[1],
-                to_day: to_date.split('-')[2]
+                from_year: period[0].split('-')[0],
+                from_month: period[0].split('-')[1],
+                from_day: period[0].split('-')[2],
+                to_year: period[1].split('-')[0],
+                to_month: period[1].split('-')[1],
+                to_day: period[1].split('-')[2]
               })
             "
           ></p>
@@ -356,6 +322,7 @@
             rules="required"
           >
             <quill-editor
+              class="v-quill-editor"
               ref="myQuillEditor"
               v-model="contract_details"
               :options="editorOption"
@@ -737,7 +704,7 @@ export default {
           target: "#v-contract-details",
           content: `(${this.$t("mandatory")})<br/>${this.$t("tour_contract_details")}`,
           duration: 10,
-          offset: -200,
+          offset: -230,
           params: {
             placement: "top"
           }
@@ -805,6 +772,7 @@ export default {
       items_length: 0,
       items_per_page: 2,
       quill_disabled: true,
+      period_menu: false,
       from_date_menu: false,
       to_date_menu: false,
       panels: [0, 1, 2],
@@ -824,6 +792,7 @@ export default {
       security_deposit: 0,
       maintenance_fee: 0,
       monthly_fee: 0,
+      period: [],
       from_date: null,
       to_date: null,
       realestate_category: 0,
@@ -1317,8 +1286,9 @@ export default {
           that.security_deposit = data.security_deposit;
           that.maintenance_fee = data.maintenance_fee;
           that.monthly_fee = data.monthly_fee;
-          that.from_date = data.from_date;
-          that.to_date = data.to_date;
+          that.period = [];
+          that.period.push(data.from_date);
+          that.period.push(data.to_date);
           that.realestate_category = data.realestate_category;
           that.contract_details = data.contract_details;
           that.title = data.title;
@@ -1411,9 +1381,9 @@ export default {
             security_deposit: that.security_deposit,
             maintenance_fee: that.maintenance_fee,
             monthly_fee: that.monthly_fee,
-            from_date: that.from_date,
+            from_date: that.period[0],
             title: that.title,
-            to_date: that.to_date,
+            to_date: that.period[1],
             realestate_category: that.realestate_category,
             paper_contractors: that.contractors,
             options: that.options,
@@ -1593,6 +1563,8 @@ export default {
           vm.security_deposit = data.security_deposit;
           vm.maintenance_fee = data.maintenance_fee;
           vm.monthly_fee = data.monthly_fee;
+          vm.period.push(data.from_date);
+          vm.period.push(data.to_date);
           vm.from_date = data.from_date;
           vm.title = data.title;
           vm.to_date = data.to_date;
@@ -1648,9 +1620,8 @@ export default {
     top: 54px !important;
   }
 }
-.row-py-none > .col,
-.row-py-none > [class*="col-"] {
+.row > .col,
+.row > [class*="col-"] {
   padding-top: 0px;
-  padding-bottom: 0px;
 }
 </style>
