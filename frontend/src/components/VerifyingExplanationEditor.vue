@@ -121,21 +121,23 @@
               ></LazyTextField>
             </v-col>
           </v-row>
-          <v-col cols="2" class="border" align="center">
-            <span class="label"> 대상물건의 상태에 관한 자료요구 사항 </span>
-          </v-col>
-          <v-col cols="10" class="border">
-            <LazyTextArea
-              class="mt-4"
-              v-model="ve.requesting_condition_info"
-              label="자료요구 사항"
-              placeholder="대상물건의 상태에 관한 자료요구 사항"
-              outlined
-              rows="2"
-              auto-grow
-              :readonly="readonly"
-            ></LazyTextArea>
-          </v-col>
+          <v-row no-gutters>
+            <v-col cols="2" class="border" align="center">
+              <span class="label"> 대상물건의 상태에 관한 자료요구 사항 </span>
+            </v-col>
+            <v-col cols="10" class="border">
+              <LazyTextArea
+                class="mt-4"
+                v-model="ve.requesting_condition_info"
+                label="자료요구 사항"
+                placeholder="대상물건의 상태에 관한 자료요구 사항"
+                outlined
+                rows="2"
+                auto-grow
+                :readonly="readonly"
+              ></LazyTextArea>
+            </v-col>
+          </v-row>
         </v-row>
         <v-row class="mt-4" no-gutters>
           <v-col class="grey lighten-1 border" cols="12" align="center">유의사항</v-col>
