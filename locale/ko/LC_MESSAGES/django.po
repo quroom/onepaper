@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-23 11:34+0900\n"
+"POT-Creation-Date: 2021-09-07 14:46+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -267,114 +267,114 @@ msgstr ""
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:213 .\papers\tests.py:334
+#: .\papers\serializers.py:214 .\papers\tests.py:335
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:226 .\papers\tests.py:497
+#: .\papers\serializers.py:227 .\papers\tests.py:498
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:235 .\papers\tests.py:536
+#: .\papers\serializers.py:236 .\papers\tests.py:537
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:242 .\papers\tests.py:595
+#: .\papers\serializers.py:243 .\papers\tests.py:596
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:247 .\papers\tests.py:566
+#: .\papers\serializers.py:248 .\papers\tests.py:567
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:253 .\papers\tests.py:918
+#: .\papers\serializers.py:254 .\papers\tests.py:919
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: .\papers\serializers.py:257 .\papers\serializers.py:258
-#: .\papers\tests.py:304 .\papers\tests.py:305
+#: .\papers\serializers.py:258 .\papers\serializers.py:259
+#: .\papers\tests.py:305 .\papers\tests.py:306
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:413 .\papers\views.py:112
+#: .\papers\tests.py:414 .\papers\views.py:112
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr ""
 
-#: .\papers\tests.py:422 .\papers\views.py:69
+#: .\papers\tests.py:423 .\papers\views.py:69
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:430 .\papers\views.py:75
+#: .\papers\tests.py:431 .\papers\views.py:75
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:433 .\papers\tests.py:456 .\papers\views.py:59
+#: .\papers\tests.py:434 .\papers\tests.py:457 .\papers\views.py:59
 #: .\papers\views.py:96
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr ""
 
-#: .\papers\tests.py:442 .\papers\views.py:65
+#: .\papers\tests.py:443 .\papers\views.py:65
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
 msgstr ""
 
-#: .\papers\tests.py:446 .\papers\views.py:101
+#: .\papers\tests.py:447 .\papers\views.py:101
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:453 .\papers\views.py:107
+#: .\papers\tests.py:454 .\papers\views.py:107
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:464 .\papers\tests.py:470 .\papers\views.py:62
+#: .\papers\tests.py:465 .\papers\tests.py:471 .\papers\views.py:62
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:694 .\papers\views.py:212
+#: .\papers\tests.py:695 .\papers\views.py:212
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:750 .\papers\views.py:240
+#: .\papers\tests.py:751 .\papers\views.py:240
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:801 .\profiles\tests.py:333 .\profiles\views.py:159
+#: .\papers\tests.py:802 .\profiles\tests.py:333 .\profiles\views.py:159
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:807 .\profiles\views.py:172
+#: .\papers\tests.py:808 .\profiles\views.py:172
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr ""
 
-#: .\papers\tests.py:840 .\profiles\views.py:200
+#: .\papers\tests.py:841 .\profiles\views.py:200
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1207 .\papers\tests.py:1296 .\papers\views.py:130
+#: .\papers\tests.py:1208 .\papers\tests.py:1297 .\papers\views.py:130
 #: .\papers\views.py:268
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1217 .\papers\tests.py:1306 .\papers\views.py:137
+#: .\papers\tests.py:1218 .\papers\tests.py:1307 .\papers\views.py:137
 #: .\papers\views.py:275
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1249 .\papers\tests.py:1338 .\papers\views.py:153
+#: .\papers\tests.py:1250 .\papers\tests.py:1339 .\papers\views.py:153
 #: .\papers\views.py:289
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:223
+#: .\papers\tests.py:1378 .\papers\views.py:223
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: .\papers\views.py:251
+#: .\papers\tests.py:1382 .\papers\views.py:251
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
@@ -643,35 +643,35 @@ msgstr ""
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:693 .\profiles\views.py:391
+#: .\profiles\tests.py:700 .\profiles\views.py:391
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr ""
 
-#: .\profiles\tests.py:787 .\profiles\views.py:295
+#: .\profiles\tests.py:794 .\profiles\views.py:295
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:798 .\profiles\views.py:321
+#: .\profiles\tests.py:805 .\profiles\views.py:321
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:831 .\profiles\views.py:318
+#: .\profiles\tests.py:838 .\profiles\views.py:318
 msgid "탈퇴처리 되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:840 .\profiles\views.py:314
+#: .\profiles\tests.py:847 .\profiles\views.py:314
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr ""
 
-#: .\profiles\tests.py:850 .\profiles\views.py:312
+#: .\profiles\tests.py:857 .\profiles\views.py:312
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\tests.py:946 .\profiles\tests.py:979 .\profiles\views.py:357
+#: .\profiles\tests.py:953 .\profiles\tests.py:986 .\profiles\views.py:357
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:994 .\profiles\views.py:374
+#: .\profiles\tests.py:1001 .\profiles\views.py:374
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr "원페이퍼"
 msgid "Online Realesate Contract"
 msgstr "온라인 부동산 계약 서비스"
 
-#: .\templates\account\base.html:120 .\templates\intro.html:347
+#: .\templates\account\base.html:120
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -1599,6 +1599,20 @@ msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
 msgstr ""
+
+#: .\templates\intro.html:347
+msgid ""
+"\n"
+"    Company: quroom | Registration Number: 246-86-01161\n"
+"    <br/>\n"
+"    CONTACT US: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</a>\n"
+"    "
+msgstr ""
+"\n"
+"    상호명: 주식회사 큐룸 | 사업자등록번호: 246-86-01161\n"
+"    <br/>\n"
+"    문의하기: <a href=\"mailto:quroom@naver.com\">QUROOM@NAVER.COM</a>\n"
+"    "
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
