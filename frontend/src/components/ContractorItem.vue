@@ -280,6 +280,10 @@ export default {
     font-size: 13px;
   }
 }
+.v-btn,
+.v-icon {
+  vertical-align: bottom;
+}
 .signature-button {
   z-index: 2;
   height: 100% !important;
