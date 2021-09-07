@@ -1573,7 +1573,7 @@ export default {
         : undefined;
     },
     SellerMandateSrc: function() {
-      if (this.paper.mandates) {
+      if (this.paper.mandates && this.seller) {
         const matched_profile = this.paper.mandates.find(
           (item) => item.designator.user.email == this.seller.profile.user.email
         );
@@ -1584,7 +1584,7 @@ export default {
       return "";
     },
     BuyerMandateSrc: function() {
-      if (this.paper.mandates) {
+      if (this.paper.mandates && this.buyer) {
         const matched_profile = this.paper.mandates.find(
           (item) => item.designator.user.email == this.buyer.profile.user.email
         );
