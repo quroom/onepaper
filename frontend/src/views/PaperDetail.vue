@@ -847,4 +847,10 @@ hr {
 .quill-editor /deep/ .ql-editor {
   padding: 0px !important;
 }
+.row {
+  margin: 0px !important;
+}
+.theme--light.v-sheet--outlined {
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
 </style>

@@ -6,14 +6,17 @@
       no-gutters
       align="center"
     >
-      <v-col v-if="isNotAuthorAndContractor" class="text-center" cols="auto">
-        <v-card
-          v-if="!isPaperProgress && !isPaperDone && contractor.is_allowed !== false"
-          class="pa-0"
-          outlined
-          tile
-          min-width="80"
-        >
+      <v-col
+        v-if="
+          isNotAuthorAndContractor &&
+            !isPaperProgress &&
+            !isPaperDone &&
+            contractor.is_allowed !== false
+        "
+        class="text-center"
+        cols="auto"
+      >
+        <v-card class="pa-0" outlined tile min-width="80">
           <v-btn class="signature-button" @click="allowPaper(false)" color="red" dark tile>
             <v-icon>do_not_disturb</v-icon>
             {{ $t("deny") }}
@@ -28,7 +31,7 @@
             v-if="isExpert"
             class="contractor-print-title text-center font-weight-bold"
           >
-            <v-card outlined tile color="grey lighten-2">
+            <v-card outlined tile color="green lighten-2">
               {{ $t("realestate_agency") }}
               <img
                 v-if="isSigned"
@@ -43,7 +46,7 @@
             v-else
             class="contractor-print-title text-center font-weight-bold"
           >
-            <v-card outlined tile color="grey lighten-2">{{
+            <v-card outlined tile color="green lighten-2">{{
               $getConstI18("CONTRACTOR_CATEGORY", contractor.group)
             }}</v-card>
           </v-col>
@@ -107,7 +110,7 @@
           :lg="label_cols ? label_cols.lg : '1'"
           :key="`name` + index"
         >
-          <v-card outlined tile>{{ $t(field.name) }}</v-card>
+          <v-card color="grey lighten-2" outlined tile>{{ $t(field.name) }}</v-card>
         </v-col>
         <template>
           <v-col
@@ -277,6 +280,10 @@ export default {
     font-size: 13px;
   }
 }
+.v-btn,
+.v-icon {
+  vertical-align: bottom;
+}
 .signature-button {
   z-index: 2;
   height: 100% !important;
@@ -298,5 +305,12 @@ export default {
   position: absolute;
   top: -8px;
   right: 0px;
+}
+.row > .col,
+.row > [class*="col-"] {
+  border: 1px solid rgba(0, 0, 0, 0.6);
+}
+.theme--light.v-sheet--outlined {
+  border: none !important;
 }
 </style>
