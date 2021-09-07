@@ -1496,7 +1496,7 @@
           {{ $t("garantee_insurance") }}
         </div>
         <v-row justify="center">
-          <v-img :src="ve.insurance.image" contain max-width="800" />
+          <img :src="ve.insurance.image" style="max-width:800px;" />
         </v-row>
       </div>
     </template>
