@@ -42,22 +42,18 @@
       </v-col>
     </v-row>
     <ActionItems
-      v-if="
-        isAuthor &&
-          !isPaperDone &&
-          (deadlineToModify > '0001-1-1' || deadlineToModify == undefined)
-      "
+      v-if="isAuthor && !isPaperDone && deadlineToModify !== true"
       :id="paper.id"
       delete_url="/api/papers/"
       delete_router_name="home"
       editor_router_name="paper-editor"
     />
     <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
-      <span v-if="deadlineToModify > '0001-1-1'" class="red">
-        {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
-      </span>
-      <span v-if="deadlineToModify < '0001-1-1'" class="red">
+      <span v-if="deadlineToModify === true" class="red">
         {{ $t("modify_delete_deadline_expired") }}
+      </span>
+      <span v-else-if="deadlineToModify !== false" class="red">
+        {{ `${$t("modify_delete_deadline")} : ${deadlineToModify}` }}
       </span>
     </div>
     <v-divider></v-divider>
@@ -375,15 +371,13 @@ export default {
         : undefined;
     },
     deadlineToModify: function() {
-      let paper_updated_at = this.paper.updated_at;
-      let deadline = undefined;
+      let paper_updated_at = new Date(this.paper.updated_at);
       if (this.paper.paper_contractors != undefined) {
-        const min_sign_updated_at_str = this.paper.paper_contractors.reduce((acc, loc) => {
+        const min_sign_updated_at = this.paper.paper_contractors.reduce((acc, loc) => {
           let min_updated_at = acc;
-          let signature_updated_at = this.$get(loc, "signature.updated_at");
-          let explanation_signature_updated_at = this.$get(
-            loc,
-            "explanation_signature.updated_at"
+          let signature_updated_at = new Date(this.$get(loc, "signature.updated_at"));
+          let explanation_signature_updated_at = new Date(
+            this.$get(loc, "explanation_signature.updated_at")
           );
           if (
             signature_updated_at &&
@@ -400,19 +394,18 @@ export default {
             min_updated_at = explanation_signature_updated_at;
           }
           return min_updated_at;
-        }, "9999-12-31");
+        }, new Date("9999-12-31"));
         //Initial date so it returns undefined.
-        if (min_sign_updated_at_str == "9999-12-31") {
-          return undefined;
+        if (min_sign_updated_at.getTime() === new Date("9999-12-31").getTime()) {
+          return false;
         }
-        if (paper_updated_at > min_sign_updated_at_str) {
-          return undefined;
+        if (paper_updated_at > min_sign_updated_at) {
+          return false;
         }
-        const min_sign_updated_at = new Date(min_sign_updated_at_str);
-        deadline = min_sign_updated_at;
+        const deadline = min_sign_updated_at;
         deadline.setTime(min_sign_updated_at.getTime() + 24 * 60 * 60 * 1000);
         if (new Date() > deadline) {
-          return "0000-00-00";
+          return true;
         }
         return `${deadline.getFullYear()}-${deadline.getMonth() + 1}-${deadline.getDate()} ${(
           "0" + deadline.getHours()
@@ -420,7 +413,7 @@ export default {
           "0" + deadline.getSeconds()
         ).slice(-2)}`;
       } else {
-        return undefined;
+        return false;
       }
     },
     currentContractor: function() {
