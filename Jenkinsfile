@@ -20,10 +20,12 @@ pipeline {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
                 echo 'Jenkins Build'
-                sh 'pip3 install -r requirements.txt;'
+                sh 'python -m venv $HOME/venv/;\
+                    . $HOME/venv/bin/activate;\
+                    pip install -r requirements.txt;'
                 sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
                 sh 'cd frontend; npm install; npm run build;'
-            }
+           }
             post {
                 failure {
                     updateGitlabCommitStatus name: 'build', state: 'failed'
@@ -37,9 +39,10 @@ pipeline {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
                 echo 'Jenkins Test'
-                sh 'export DJANGO_HTTP=True; \
-                isort -c .; \
-                python3 manage.py test; '
+                sh '. $HOME/venv/bin/activate; \
+                    export DJANGO_HTTP=True; \
+                    isort -c .; \
+                    python manage.py test; '
             }
             post {
                 failure {

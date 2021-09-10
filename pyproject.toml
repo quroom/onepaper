@@ -6,4 +6,4 @@ exclude = '/migrations/'
 line_length = 99 # override black's default line-length
 profile = "black" 
 skip_gitignore = true
-skip = ['frontend', 'migrations']
+skip = ['frontend', 'migrations', 'src']
