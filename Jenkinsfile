@@ -38,6 +38,7 @@ pipeline {
             steps {
                 echo 'Jenkins Test'
                 sh 'export DJANGO_HTTP=True; \
+                isort -c .; \
                 python3 manage.py test; '
             }
             post {
