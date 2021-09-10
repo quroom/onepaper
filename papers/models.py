@@ -1,12 +1,15 @@
-import os
 import base64
-from multiselectfield import MultiSelectField
-from django.utils.translation import ugettext_lazy as _
+import os
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from profiles.models import ExpertProfile, Profile, Insurance
+from django.utils.translation import ugettext_lazy as _
+from multiselectfield import MultiSelectField
+
 from addresses.models import Address
+from profiles.models import ExpertProfile, Insurance, Profile
+
 
 class PaperStatus(models.Model):
     DENIED = -1
@@ -16,27 +19,24 @@ class PaperStatus(models.Model):
     PROGRESS = 3
 
     STATUS_CATEGORY = (
-        (DENIED, _('거절')),
-        (REQUESTING, _('요청중')),
-        (DRAFT, _('작성중')),
-        (PROGRESS, _('서명중')),
-        (DONE, _('완료'))
+        (DENIED, _("거절")),
+        (REQUESTING, _("요청중")),
+        (DRAFT, _("작성중")),
+        (PROGRESS, _("서명중")),
+        (DONE, _("완료")),
     )
 
-    status = models.SmallIntegerField(
-        choices=STATUS_CATEGORY, default=DRAFT)
+    status = models.SmallIntegerField(choices=STATUS_CATEGORY, default=DRAFT)
 
     def __str__(self):
         return str(self.status)
+
 
 class Paper(models.Model):
     BUILDINGLAND = 7
     ETC = 100
 
-    LAND_CATEGORY = (
-        (BUILDINGLAND, _('대')),
-        (ETC, _('기타'))
-    )
+    LAND_CATEGORY = ((BUILDINGLAND, _("대")), (ETC, _("기타")))
 
     BUILDING_STRUCTURE = ()
 
@@ -47,11 +47,11 @@ class Paper(models.Model):
     ETC = 100
 
     BUILDING_CATEGORY = (
-        (C1CNFACILITY, _('제1종근린생활시설')),
-        (C2CNFACILITY, _('제2종근린생활시설')),
-        (HOUSE, _('단독주택')),
-        (APARTMENT, _('아파트')),
-        (ETC, _('기타'))
+        (C1CNFACILITY, _("제1종근린생활시설")),
+        (C2CNFACILITY, _("제2종근린생활시설")),
+        (HOUSE, _("단독주택")),
+        (APARTMENT, _("아파트")),
+        (ETC, _("기타")),
     )
 
     # TR(TRADE) DL(Deposit Loan) RT(Rent) EX(Exchange) CS(Consulting)
@@ -60,10 +60,10 @@ class Paper(models.Model):
     PURCHASE = 3
     EXCAHNGE = 4
     TRADE_CATEGORY = (
-        (RENT, _('월세')),
-        (DEPOSITLOAN, _('전세')),
-        (PURCHASE, _('매매')),
-        (EXCAHNGE, _('교환')),
+        (RENT, _("월세")),
+        (DEPOSITLOAN, _("전세")),
+        (PURCHASE, _("매매")),
+        (EXCAHNGE, _("교환")),
     )
 
     TELEVISION = 1
@@ -80,128 +80,131 @@ class Paper(models.Model):
     BIDET = 12
     ADDITIONALITEMS = 99
     OPTIONS_CATEGORY = (
-        (TELEVISION, _('티비')),
-        (REFRIGERATOR, _('냉장고')),
-        (WASHINGMACHINE, _('세탁기')),
-        (AIRCONDITIONER, _('에어컨')),
-        (BED, _('침대')),
-        (DESK, _('책상')),
-        (CLOSET, _('옷장')),
-        (SHOECLOSET, _('신발장')),
-        (GASRANGE, _('가스렌지')),
-        (MICROWAVE, _('전자렌지')),
-        (DOORLOCK, _('도어락')),
-        (BIDET, _('비데')),
-        (ADDITIONALITEMS, _('추가물품')),
+        (TELEVISION, _("티비")),
+        (REFRIGERATOR, _("냉장고")),
+        (WASHINGMACHINE, _("세탁기")),
+        (AIRCONDITIONER, _("에어컨")),
+        (BED, _("침대")),
+        (DESK, _("책상")),
+        (CLOSET, _("옷장")),
+        (SHOECLOSET, _("신발장")),
+        (GASRANGE, _("가스렌지")),
+        (MICROWAVE, _("전자렌지")),
+        (DOORLOCK, _("도어락")),
+        (BIDET, _("비데")),
+        (ADDITIONALITEMS, _("추가물품")),
     )
 
-    #FIXME Need to be moved to Realestates model.
+    # FIXME Need to be moved to Realestates model.
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               null=True, blank=True,
-                               on_delete=models.SET_NULL,
-                               related_name="author_papers")
-    land_category = models.PositiveSmallIntegerField(
-        choices=LAND_CATEGORY, default=BUILDINGLAND)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="author_papers",
+    )
+    land_category = models.PositiveSmallIntegerField(choices=LAND_CATEGORY, default=BUILDINGLAND)
     lot_area = models.FloatField(default=0, blank=True)
     building_structure = models.CharField(max_length=20, blank=True)
     building_category = models.PositiveSmallIntegerField(
-        choices=BUILDING_CATEGORY, default=HOUSE, blank=True)
+        choices=BUILDING_CATEGORY, default=HOUSE, blank=True
+    )
     building_area = models.FloatField(default=0, blank=True)
-    trade_category = models.PositiveSmallIntegerField(
-        choices=TRADE_CATEGORY, default=RENT)
-    address = models.OneToOneField(Address,
-                                   null=True,
-                                   on_delete=models.SET_NULL,
-                                   related_name="paper")
+    trade_category = models.PositiveSmallIntegerField(choices=TRADE_CATEGORY, default=RENT)
+    address = models.OneToOneField(
+        Address, null=True, on_delete=models.SET_NULL, related_name="paper"
+    )
     down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     security_deposit = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
-    options = MultiSelectField(choices=OPTIONS_CATEGORY,
-                            null=True, blank=True)
+    options = MultiSelectField(choices=OPTIONS_CATEGORY, null=True, blank=True)
     from_date = models.DateField()
     to_date = models.DateField()
     title = models.CharField(max_length=25)
     contract_details = models.TextField(blank=True)
-    status = models.OneToOneField(
-        PaperStatus,
-        on_delete=models.CASCADE,
-        related_name="paper"
-    )
-    voters = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                    related_name="vote_papers")
+    status = models.OneToOneField(PaperStatus, on_delete=models.CASCADE, related_name="paper")
+    voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="vote_papers")
+
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ["-updated_at"]
+
 
 class Contractor(models.Model):
     SELLER = 1
     BUYER = 2
     EXPERT = 3
 
-    CONTRACTOR_CATEGORY = (
-        (SELLER, _('임대인(매도인)')),
-        (BUYER, _('임차인(매수인)')),
-        (EXPERT, _('공인중개사'))
-    )
+    CONTRACTOR_CATEGORY = ((SELLER, _("임대인(매도인)")), (BUYER, _("임차인(매수인)")), (EXPERT, _("공인중개사")))
 
     updated_at = models.DateTimeField(auto_now=True)
-    profile = models.ForeignKey(Profile,
-                                on_delete=models.CASCADE,
-                                related_name="profile_contractors",
-                                related_query_name="profile_contractors")
-    paper = models.ForeignKey(Paper,
-                              blank=True,
-                              null=True,
-                              on_delete=models.CASCADE,
-                              related_name="paper_contractors",
-                              related_query_name="paper_contractors")
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="profile_contractors",
+        related_query_name="profile_contractors",
+    )
+    paper = models.ForeignKey(
+        Paper,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="paper_contractors",
+        related_query_name="paper_contractors",
+    )
     is_allowed = models.BooleanField(null=True)
     is_hidden = models.BooleanField(default=False)
 
-    group = models.PositiveSmallIntegerField(
-        choices=CONTRACTOR_CATEGORY)
-        
+    group = models.PositiveSmallIntegerField(choices=CONTRACTOR_CATEGORY)
+
     class Meta:
         constraints = [
-                        models.UniqueConstraint(fields=['profile', 'paper'],
-                        name="unique_profile_paper")
-                    ]
+            models.UniqueConstraint(fields=["profile", "paper"], name="unique_profile_paper")
+        ]
+
 
 class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               null=True, blank=True,
-                               on_delete=models.SET_NULL,
-                               related_name="author_answers")
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="author_answers",
+    )
     body = models.TextField()
-    contractor = models.ForeignKey(Contractor, on_delete=models.CASCADE, related_name="contractor_answers")
-    voters = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                    related_name="vote_answers")
+    contractor = models.ForeignKey(
+        Contractor, on_delete=models.CASCADE, related_name="contractor_answers"
+    )
+    voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="vote_answers")
+
 
 class ExplanationSignature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
-    contractor = models.OneToOneField(Contractor,
-                                      on_delete=models.CASCADE,
-                                      related_name="explanation_signature")
+    contractor = models.OneToOneField(
+        Contractor, on_delete=models.CASCADE, related_name="explanation_signature"
+    )
     image = models.TextField()
 
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ["-updated_at"]
+
 
 class Signature(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
-    contractor = models.OneToOneField(Contractor,
-                                      on_delete=models.CASCADE,
-                                      related_name="signature")
+    contractor = models.OneToOneField(
+        Contractor, on_delete=models.CASCADE, related_name="signature"
+    )
     image = models.TextField()
 
     def __str__(self):
         return str(self.contractor.profile.user)
 
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ["-updated_at"]
+
 
 class VerifyingExplanation(models.Model):
     HOUSE = 1
@@ -209,10 +212,10 @@ class VerifyingExplanation(models.Model):
     PURCHASE = 3
     RENT = 4
     PAPER_CATEGORY = (
-        (HOUSE, _('단독주택')),
-        (APARTMENT, _('공동주택')),
-        (PURCHASE, _('매매')),
-        (RENT, _('임대'))
+        (HOUSE, _("단독주택")),
+        (APARTMENT, _("공동주택")),
+        (PURCHASE, _("매매")),
+        (RENT, _("임대")),
     )
 
     REGISTRATION_CERTIFICATE = 1
@@ -224,19 +227,17 @@ class VerifyingExplanation(models.Model):
     CERTIFICATE_OF_LAND_USE_PLANNING = 7
     OTHERS = 99
     EXPLANATION_EVIDENCE_CATEGORY = (
-        (REGISTRATION_CERTIFICATE, _('등기권리증')),
-        (CERTIFIED_COPY_OF_REGISTER, _('등기사항증명서')),
-        (LAND_LEDGER, _('토지대장')),
-        (BUILDING_LEDGER, _('건축물대장')),
-        (CADASTRAL_MAP, _('지적도')),
-        (FOREST_LAND_CADASTRAL_MAP, _('임야도')),
-        (CERTIFICATE_OF_LAND_USE_PLANNING, _('토지이용계획확인서')),
-        (OTHERS, _('기타'))
+        (REGISTRATION_CERTIFICATE, _("등기권리증")),
+        (CERTIFIED_COPY_OF_REGISTER, _("등기사항증명서")),
+        (LAND_LEDGER, _("토지대장")),
+        (BUILDING_LEDGER, _("건축물대장")),
+        (CADASTRAL_MAP, _("지적도")),
+        (FOREST_LAND_CADASTRAL_MAP, _("임야도")),
+        (CERTIFICATE_OF_LAND_USE_PLANNING, _("토지이용계획확인서")),
+        (OTHERS, _("기타")),
     )
     BUILDINGLAND = 7
-    LAND_CATEGORY = (
-        (BUILDINGLAND, _('대')),
-    )
+    LAND_CATEGORY = ((BUILDINGLAND, _("대")),)
 
     C1CNFACILITY = 70
     C2CNFACILITY = 71
@@ -244,11 +245,11 @@ class VerifyingExplanation(models.Model):
     APARTMENT = 81
     OTHERS = 99
     BUILDING_CATEGORY = (
-        (C1CNFACILITY, _('제1종근린생활시설')),
-        (C2CNFACILITY, _('제2종근린생활시설')),
-        (HOUSE, _('단독주택')),
-        (APARTMENT, _('아파트')),
-        (OTHERS, _('기타'))
+        (C1CNFACILITY, _("제1종근린생활시설")),
+        (C2CNFACILITY, _("제2종근린생활시설")),
+        (HOUSE, _("단독주택")),
+        (APARTMENT, _("아파트")),
+        (OTHERS, _("기타")),
     )
     NONE = 0
     LONG_TERM = 1
@@ -256,19 +257,19 @@ class VerifyingExplanation(models.Model):
     OTHERS = 99
 
     RENTAL_HOUSING_REGISTRATION_CATEGORY = (
-        (NONE, _('해당사항없음')),
-        (LONG_TERM, _('장기일반민간임대주택')),
-        (PUBLIC, _('공공지원민간임대주택')),
-        (OTHERS, _('그 밖의 유형'))
+        (NONE, _("해당사항없음")),
+        (LONG_TERM, _("장기일반민간임대주택")),
+        (PUBLIC, _("공공지원민간임대주택")),
+        (OTHERS, _("그 밖의 유형")),
     )
 
     LAND_SPECULATIVE_AREA = 1
     HOUSING_SPECULATIVE_AREA = 2
     SPECULATION_RIDDEN_DISTRICT = 3
     SPECULATIVE_AREA_CATEGORY = (
-        (LAND_SPECULATIVE_AREA, _('토기투기지역')),
-        (HOUSING_SPECULATIVE_AREA, _('주택투기지역')),
-        (SPECULATION_RIDDEN_DISTRICT, _('투기과열지구'))
+        (LAND_SPECULATIVE_AREA, _("토기투기지역")),
+        (HOUSING_SPECULATIVE_AREA, _("주택투기지역")),
+        (SPECULATION_RIDDEN_DISTRICT, _("투기과열지구")),
     )
 
     NONE = 0
@@ -276,58 +277,55 @@ class VerifyingExplanation(models.Model):
     PUBLIC_PARKING = 2
     OTHERS = 99
     PARKING_LOT_CATEGORY = (
-        (NONE, _('없음')),
-        (PRIVATE_PARKING, _('전용주차시설')),
-        (PUBLIC_PARKING, _('공동주차시설')),
-        (OTHERS, _('그 밖의 주차시설'))
+        (NONE, _("없음")),
+        (PRIVATE_PARKING, _("전용주차시설")),
+        (PUBLIC_PARKING, _("공동주차시설")),
+        (OTHERS, _("그 밖의 주차시설")),
     )
 
     OUTSOURCING = 1
     SELF_MANAGEMENT = 2
     OTHERS = 99
     MANAGEMENT_CATEGORY = (
-        (OUTSOURCING, _('위탁관리')),
-        (SELF_MANAGEMENT, _('자체관리')),
-        (OTHERS, _('그 밖의 유형'))
+        (OUTSOURCING, _("위탁관리")),
+        (SELF_MANAGEMENT, _("자체관리")),
+        (OTHERS, _("그 밖의 유형")),
     )
 
     CENTRAL_SUPPLY = 1
     INDIVIDUAL_SUPPLY = 2
-    HEATING_SUPPLY_CATEGORY = (
-        (CENTRAL_SUPPLY, _('중앙공급')),
-        (INDIVIDUAL_SUPPLY, _('개별공급'))
-    )
+    HEATING_SUPPLY_CATEGORY = ((CENTRAL_SUPPLY, _("중앙공급")), (INDIVIDUAL_SUPPLY, _("개별공급")))
     GAS = 1
     OIL = 2
     PROPANE_GAS = 3
     COAL_BRIQUETTES = 4
     OTHERS = 99
-    HEATING_TYPE_CATEGORY = ((
-        (GAS, _('도시가스')),
-        (OIL, _('기름')),
-        (PROPANE_GAS, _('프로판가스')),
-        (COAL_BRIQUETTES, _('연탄')),
-        (OTHERS, _('그밖의종류'))
-    ))
+    HEATING_TYPE_CATEGORY = (
+        (GAS, _("도시가스")),
+        (OIL, _("기름")),
+        (PROPANE_GAS, _("프로판가스")),
+        (COAL_BRIQUETTES, _("연탄")),
+        (OTHERS, _("그밖의종류")),
+    )
 
-    paper = models.OneToOneField(Paper,
-                                on_delete=models.CASCADE,
-                                related_name="verifying_explanation")
-    insurance = models.ForeignKey(Insurance,
-                                  on_delete=models.CASCADE,
-                                  related_name="verifying_explanations")
+    paper = models.OneToOneField(
+        Paper, on_delete=models.CASCADE, related_name="verifying_explanation"
+    )
+    insurance = models.ForeignKey(
+        Insurance, on_delete=models.CASCADE, related_name="verifying_explanations"
+    )
     paper_categories = MultiSelectField(choices=PAPER_CATEGORY)
     explanation_evidences = MultiSelectField(choices=EXPLANATION_EVIDENCE_CATEGORY)
     explanation_evidence_info = models.CharField(max_length=15, blank=True)
     requesting_condition_info = models.CharField(max_length=120, blank=True)
-    address = models.OneToOneField(Address,
-                                   null=True,
-                                   on_delete=models.SET_NULL)
+    address = models.OneToOneField(Address, null=True, on_delete=models.SET_NULL)
     land_area = models.FloatField()
     ledger_land_category = models.PositiveSmallIntegerField(
-        choices=LAND_CATEGORY, default=BUILDINGLAND)
+        choices=LAND_CATEGORY, default=BUILDINGLAND
+    )
     actual_land_category = models.PositiveSmallIntegerField(
-        choices=LAND_CATEGORY, default=BUILDINGLAND)
+        choices=LAND_CATEGORY, default=BUILDINGLAND
+    )
     net_area = models.FloatField()
     land_share = models.CharField(max_length=12, blank=True)
     year_of_completion = models.SmallIntegerField()
@@ -343,7 +341,9 @@ class VerifyingExplanation(models.Model):
     building_ownership = models.CharField(max_length=30, blank=True)
     land_other = models.CharField(max_length=30, blank=True)
     building_other = models.CharField(max_length=30, blank=True)
-    rental_housing_registration = models.PositiveSmallIntegerField(choices=RENTAL_HOUSING_REGISTRATION_CATEGORY)
+    rental_housing_registration = models.PositiveSmallIntegerField(
+        choices=RENTAL_HOUSING_REGISTRATION_CATEGORY
+    )
     rental_housing_registration_info = models.CharField(max_length=35, blank=True)
     mandatory_lease_period = models.PositiveSmallIntegerField(null=True, blank=True)
     lease_initiation_date = models.DateField(null=True, blank=True)
@@ -355,7 +355,9 @@ class VerifyingExplanation(models.Model):
     floor_area_limit = models.PositiveSmallIntegerField(null=True, blank=True)
     planning_facilities = models.CharField(max_length=50, blank=True)
     permission_report_zone = models.BooleanField(null=True, blank=True)
-    speculative_area = models.PositiveIntegerField(choices=SPECULATIVE_AREA_CATEGORY, null=True, blank=True)
+    speculative_area = models.PositiveIntegerField(
+        choices=SPECULATIVE_AREA_CATEGORY, null=True, blank=True
+    )
     unit_planning_area_others = models.CharField(max_length=50, blank=True)
     other_use_restriction = models.CharField(max_length=22, blank=True)
     relative_with_roads = models.CharField(max_length=26)
@@ -387,7 +389,7 @@ class VerifyingExplanation(models.Model):
     is_security_office = models.BooleanField()
     management = models.PositiveSmallIntegerField(choices=MANAGEMENT_CATEGORY)
     undesirable_facilities = models.BooleanField()
-    undesirable_facilities_info = models.CharField(max_length=20,blank=True)
+    undesirable_facilities_info = models.CharField(max_length=20, blank=True)
     expected_transaction_price = models.PositiveSmallIntegerField(null=True, blank=True)
     land_prcie_recorded = models.PositiveSmallIntegerField(null=True, blank=True)
     building_price_recorded = models.PositiveSmallIntegerField(null=True, blank=True)

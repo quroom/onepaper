@@ -1,24 +1,33 @@
 import os
 import uuid
-from addresses.models import Address
-from django.db.models import Exists
-from django.db import models
-from django.conf import settings
-from django.core.mail import send_mail
-from django.dispatch import receiver
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin, UserManager
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from django.utils.functional import cached_property
+
 import phonenumbers
+from django.conf import settings
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    AbstractUser,
+    PermissionsMixin,
+    UserManager,
+)
+from django.core.mail import send_mail
+from django.db import models
+from django.db.models import Exists
+from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
+from addresses.models import Address
+
+
 def get_file_path(instance, filename):
-    splited_filename = filename.split('.')
+    splited_filename = filename.split(".")
     filename = splited_filename[0]
     ext = splited_filename[-1]
     filename = "%s-%s.%s" % (filename, uuid.uuid4(), ext)
-    return os.path.join('', filename)
+    return os.path.join("", filename)
+
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -26,7 +35,7 @@ class CustomUserManager(UserManager):
         Create and save a user with the given email, and password.
         """
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError("The given email must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -34,39 +43,40 @@ class CustomUserManager(UserManager):
         return user
 
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(
-        _('staff status'),
+        _("staff status"),
         default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
+        help_text=_("Designates whether the user can log into this admin site."),
     )
     is_active = models.BooleanField(
-        _('active'),
+        _("active"),
         default=True,
         help_text=_(
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
         ),
     )
     is_expert = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_("email address"), unique=True)
     name = models.CharField(max_length=150)
     birthday = models.DateField(null=True, blank=False)
     bio = models.CharField(max_length=240, blank=True)
@@ -78,12 +88,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    EMAIL_FIELD = 'email'
-    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "email"
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
         abstract = True
 
     def clean(self):
@@ -95,13 +105,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     class Meta:
-        ordering = ['-last_login',]
+        ordering = [
+            "-last_login",
+        ]
+
 
 class UserSetting(models.Model):
-    user = models.OneToOneField(CustomUser,
-                                on_delete=models.CASCADE,
-                                related_name="user_setting")
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="user_setting")
     is_tour_on = models.BooleanField(default=True)
+
 
 class Profile(models.Model):
     # 개설기관.표준코드 bank_code_std
@@ -109,42 +121,41 @@ class Profile(models.Model):
     # http://callcenter.kftc.or.kr/finance/finance_info_inquiry.jsp
 
     BANK_CATEGORY = (
-        (0, _('은행명')),
-        (2, _('산업은행')),
-        (32, _('부산은행')),
-        (3, _('기업은행')),
-        (34, _('광주은행')),
-        (4, _('국민은행')),
-        (35, _('제주은행')),
-        (7, _('수협')),
-        (37, _('전북은행')),
-        (11, _('농협은행')),
-        (39, _('경남은행')),
-        (12, _('지역농축협')),
-        (45, _('새마을금고')),
-        (20, _('우리은행')),
-        (48, _('신용협동조합')),
-        (23, _('SC제일은행')),
-        (50, _('상호저축은행')),
-        (27, _('한국씨티은행')),
-        (64, _('산림조합')),
-        (81, _('KEB하나은행')),
-        (71, _('우체국')),
-        (88, _('신한은행')),
-        (89, _('K뱅크')),
-        (31, _('대구은행')),
-        (90, _('카카오뱅크')),
+        (0, _("은행명")),
+        (2, _("산업은행")),
+        (32, _("부산은행")),
+        (3, _("기업은행")),
+        (34, _("광주은행")),
+        (4, _("국민은행")),
+        (35, _("제주은행")),
+        (7, _("수협")),
+        (37, _("전북은행")),
+        (11, _("농협은행")),
+        (39, _("경남은행")),
+        (12, _("지역농축협")),
+        (45, _("새마을금고")),
+        (20, _("우리은행")),
+        (48, _("신용협동조합")),
+        (23, _("SC제일은행")),
+        (50, _("상호저축은행")),
+        (27, _("한국씨티은행")),
+        (64, _("산림조합")),
+        (81, _("KEB하나은행")),
+        (71, _("우체국")),
+        (88, _("신한은행")),
+        (89, _("K뱅크")),
+        (31, _("대구은행")),
+        (90, _("카카오뱅크")),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE,
-                             related_name="profiles")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profiles"
+    )
     updated_at = models.DateTimeField(auto_now=True)
     mobile_number = PhoneNumberField()
-    address = models.OneToOneField(Address,
-                                   null=True,
-                                   on_delete=models.SET_NULL,
-                                   related_name="profile")
+    address = models.OneToOneField(
+        Address, null=True, on_delete=models.SET_NULL, related_name="profile"
+    )
     bank_name = models.SmallIntegerField(choices=BANK_CATEGORY, default=0)
     account_number = models.CharField(max_length=45, blank=True)
     is_default = models.BooleanField(default=True, blank=True)
@@ -153,15 +164,15 @@ class Profile(models.Model):
         return self.user.email
 
     class Meta:
-        ordering = ['-is_default', '-updated_at']
+        ordering = ["-is_default", "-updated_at"]
+
 
 class AllowedUser(models.Model):
-    allowed_users = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                           blank=True,
-                                           related_name="allowed_users")
-    profile = models.OneToOneField(Profile,
-                                   on_delete=models.CASCADE,
-                                   related_name="allowed_user")
+    allowed_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name="allowed_users"
+    )
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="allowed_user")
+
 
 class ExpertProfile(models.Model):
     CLOSED = 0
@@ -170,55 +181,62 @@ class ExpertProfile(models.Model):
     DENIED = 3
 
     STATUS_CATEGORY = (
-        (CLOSED, _('폐업')),
-        (REQUEST, _('요청')),
-        (APPROVED, _('승인')),
-        (DENIED, _('거부'))
+        (CLOSED, _("폐업")),
+        (REQUEST, _("요청")),
+        (APPROVED, _("승인")),
+        (DENIED, _("거부")),
     )
 
-    profile = models.OneToOneField(Profile,
-                             on_delete=models.CASCADE,
-                             related_name="expert_profile")
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, related_name="expert_profile"
+    )
     registration_number = models.CharField(max_length=45)
     shop_name = models.CharField(max_length=100)
     registration_certificate = models.ImageField(upload_to=get_file_path)
     agency_license = models.ImageField(upload_to=get_file_path)
     stamp = models.ImageField(upload_to=get_file_path)
-    status = models.PositiveSmallIntegerField(
-        choices=STATUS_CATEGORY, default=REQUEST)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CATEGORY, default=REQUEST)
 
     class Meta:
-        ordering = ['-id',]
+        ordering = [
+            "-id",
+        ]
+
 
 class Insurance(models.Model):
-    expert_profile = models.ForeignKey(ExpertProfile,
-                                    on_delete=models.CASCADE,
-                                    related_name="insurances")
+    expert_profile = models.ForeignKey(
+        ExpertProfile, on_delete=models.CASCADE, related_name="insurances"
+    )
     image = models.ImageField(upload_to=get_file_path)
     from_date = models.DateField()
     to_date = models.DateField()
 
     class Meta:
-        ordering = ['-to_date',]
+        ordering = [
+            "-to_date",
+        ]
+
 
 class Mandate(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               null=True, blank=True,
-                               on_delete=models.SET_NULL,
-                               related_name="author_mandates")
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="author_mandates",
+    )
     updated_at = models.DateTimeField(auto_now=True)
-    designator = models.ForeignKey(Profile,
-                            on_delete=models.CASCADE,
-                            related_name="designator_mandates")
-    address = models.OneToOneField(Address,
-                                   on_delete=models.CASCADE)
-    designee = models.ForeignKey(Profile,
-                            on_delete=models.CASCADE,
-                            related_name="designee_mandates")
+    designator = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="designator_mandates"
+    )
+    address = models.OneToOneField(Address, on_delete=models.CASCADE)
+    designee = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="designee_mandates"
+    )
     designator_signature = models.TextField(blank=True)
     from_date = models.DateField(null=True, blank=True)
     to_date = models.DateField(null=True, blank=True)
     content = models.TextField()
 
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ["-updated_at"]
