@@ -41,7 +41,8 @@ pipeline {
                 echo 'Jenkins Test'
                 sh '. $HOME/venv/bin/activate; \
                     export DJANGO_HTTP=True; \
-                    isort -c .; \
+                    isort --profile black -c .; \
+                    black --check . ; \
                     python manage.py test; '
             }
             post {
