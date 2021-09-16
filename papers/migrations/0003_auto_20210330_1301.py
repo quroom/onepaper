@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('papers', '0002_auto_20210326_1156'),
+        ("papers", "0002_auto_20210326_1156"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='paperstatus',
-            name='status',
-            field=models.PositiveSmallIntegerField(choices=[(1, '요청중'), (2, '작성중'), (3, '서명중'), (0, '완료')], default=2),
+            model_name="paperstatus",
+            name="status",
+            field=models.PositiveSmallIntegerField(
+                choices=[(1, "요청중"), (2, "작성중"), (3, "서명중"), (0, "완료")], default=2
+            ),
         ),
     ]

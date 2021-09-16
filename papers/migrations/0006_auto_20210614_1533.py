@@ -8,24 +8,24 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('papers', '0005_auto_20210415_1507'),
+        ("papers", "0005_auto_20210415_1507"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='paper',
-            name='title',
-            field=models.CharField(default='쉐어하우스 월세 계약서', max_length=25),
+            model_name="paper",
+            name="title",
+            field=models.CharField(default="쉐어하우스 월세 계약서", max_length=25),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='paper',
-            name='voters',
-            field=models.ManyToManyField(related_name='vote_papers', to=settings.AUTH_USER_MODEL),
+            model_name="paper",
+            name="voters",
+            field=models.ManyToManyField(related_name="vote_papers", to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
-            model_name='answer',
-            name='voters',
-            field=models.ManyToManyField(related_name='vote_answers', to=settings.AUTH_USER_MODEL),
+            model_name="answer",
+            name="voters",
+            field=models.ManyToManyField(related_name="vote_answers", to=settings.AUTH_USER_MODEL),
         ),
     ]
