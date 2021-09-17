@@ -1,7 +1,7 @@
-from allauth.account.adapter import DefaultAccountAdapter, get_current_site, app_settings
+from allauth.account.adapter import DefaultAccountAdapter, app_settings, get_current_site
+
 
 class CustomAccountAdapter(DefaultAccountAdapter):
-
     def send_confirmation_mail(self, request, emailconfirmation, signup):
         current_site = get_current_site(request)
         activate_url = self.get_email_confirmation_url(request, emailconfirmation)
@@ -10,7 +10,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             "activate_url": activate_url,
             "current_site": current_site,
             "key": emailconfirmation.key,
-            "expiration_days": app_settings.EMAIL_CONFIRMATION_EXPIRE_DAYS
+            "expiration_days": app_settings.EMAIL_CONFIRMATION_EXPIRE_DAYS,
         }
         if signup:
             email_template = "account/email/email_confirmation_signup"

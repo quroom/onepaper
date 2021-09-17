@@ -1,5 +1,6 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+
 
 # Create your models here.
 class Notice(models.Model):
@@ -11,7 +12,7 @@ class Notice(models.Model):
     is_pinned = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-is_pinned', '-id']
+        ordering = ["-is_pinned", "-id"]
 
     def __str__(self):
         return self.title

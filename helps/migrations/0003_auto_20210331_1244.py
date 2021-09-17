@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('helps', '0002_notice_author'),
+        ("helps", "0002_notice_author"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='notice',
-            options={'ordering': ['-is_pinned', '-id']},
+            name="notice",
+            options={"ordering": ["-is_pinned", "-id"]},
         ),
         migrations.AddField(
-            model_name='notice',
-            name='is_pinned',
+            model_name="notice",
+            name="is_pinned",
             field=models.BooleanField(default=False),
         ),
     ]

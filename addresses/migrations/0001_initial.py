@@ -7,26 +7,30 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('old_address', models.CharField(max_length=250)),
-                ('old_address_eng', models.CharField(max_length=250)),
-                ('new_address', models.CharField(max_length=250)),
-                ('bjdongName', models.CharField(max_length=20)),
-                ('bjdongName_eng', models.CharField(max_length=20)),
-                ('sigunguCd', models.CharField(max_length=5)),
-                ('bjdongCd', models.CharField(max_length=5)),
-                ('platGbCd', models.CharField(blank=True, max_length=1)),
-                ('bun', models.CharField(blank=True, max_length=4)),
-                ('ji', models.CharField(blank=True, max_length=4)),
-                ('dong', models.CharField(blank=True, max_length=20)),
-                ('ho', models.CharField(blank=True, max_length=20)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("old_address", models.CharField(max_length=250)),
+                ("old_address_eng", models.CharField(max_length=250)),
+                ("new_address", models.CharField(max_length=250)),
+                ("bjdongName", models.CharField(max_length=20)),
+                ("bjdongName_eng", models.CharField(max_length=20)),
+                ("sigunguCd", models.CharField(max_length=5)),
+                ("bjdongCd", models.CharField(max_length=5)),
+                ("platGbCd", models.CharField(blank=True, max_length=1)),
+                ("bun", models.CharField(blank=True, max_length=4)),
+                ("ji", models.CharField(blank=True, max_length=4)),
+                ("dong", models.CharField(blank=True, max_length=20)),
+                ("ho", models.CharField(blank=True, max_length=20)),
             ],
         ),
     ]

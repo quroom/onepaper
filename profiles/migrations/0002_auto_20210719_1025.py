@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0001_initial'),
+        ("profiles", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='customuser',
-            options={'ordering': ['-last_login']},
+            name="customuser",
+            options={"ordering": ["-last_login"]},
         ),
     ]

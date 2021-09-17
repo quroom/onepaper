@@ -8,12 +8,14 @@ from django.views.generic.base import TemplateView
 #     def get_template_names(self):
 #         return template_name
 
+
 class IndexTemplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
-            q = request.META['QUERY_STRING']
-            path = reverse('onepaper_intro')
-            if q: path += '?' + q
+            q = request.META["QUERY_STRING"]
+            path = reverse("onepaper_intro")
+            if q:
+                path += "?" + q
             return HttpResponseRedirect(path)
         else:
             context = self.get_context_data(**kwargs)
@@ -29,13 +31,15 @@ class IndexTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['no_cache_string'] = settings.NO_CACHE_STRING
+        ctx["no_cache_string"] = settings.NO_CACHE_STRING
         return ctx
+
 
 class IntroPageView(TemplateView):
     def get_template_names(self):
         template_name = "intro.html"
         return template_name
+
 
 class EmailConfirmedView(TemplateView):
     def get_template_names(self):

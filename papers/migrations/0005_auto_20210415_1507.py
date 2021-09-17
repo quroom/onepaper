@@ -6,47 +6,47 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('papers', '0004_auto_20210415_1124'),
+        ("papers", "0004_auto_20210415_1124"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='verifyingexplanation',
-            name='noise_status',
+            model_name="verifyingexplanation",
+            name="noise_status",
         ),
         migrations.RemoveField(
-            model_name='verifyingexplanation',
-            name='sunshine_status',
+            model_name="verifyingexplanation",
+            name="sunshine_status",
         ),
         migrations.RemoveField(
-            model_name='verifyingexplanation',
-            name='vibration',
+            model_name="verifyingexplanation",
+            name="vibration",
         ),
         migrations.RemoveField(
-            model_name='verifyingexplanation',
-            name='wall_paper_status',
+            model_name="verifyingexplanation",
+            name="wall_paper_status",
         ),
         migrations.AddField(
-            model_name='verifyingexplanation',
-            name='noise_status',
+            model_name="verifyingexplanation",
+            name="noise_status",
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='verifyingexplanation',
-            name='sunshine_status',
+            model_name="verifyingexplanation",
+            name="sunshine_status",
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='verifyingexplanation',
-            name='vibration',
+            model_name="verifyingexplanation",
+            name="vibration",
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='verifyingexplanation',
-            name='wall_paper_status',
+            model_name="verifyingexplanation",
+            name="wall_paper_status",
             field=models.PositiveSmallIntegerField(default=1),
             preserve_default=False,
         ),

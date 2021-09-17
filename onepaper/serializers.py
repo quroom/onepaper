@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class ReadOnlyModelSerializer(serializers.ModelSerializer):
     def get_fields(self, *args, **kwargs):
         fields = super().get_fields(*args, **kwargs)

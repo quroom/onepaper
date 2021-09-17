@@ -1,0 +1,9 @@
+[tool.black]
+line-length = 99 # override black's default line-length
+exclude = '/src/'
+
+[tool.isort]
+line_length = 99 # override black's default line-length
+profile = "black" 
+skip_gitignore = true
+skip = ['frontend', 'src']

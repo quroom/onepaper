@@ -6,23 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('papers', '0006_auto_20210614_1533'),
+        ("papers", "0006_auto_20210614_1533"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='contractor',
-            old_name='is_paper_hidden',
-            new_name='is_hidden',
+            model_name="contractor",
+            old_name="is_paper_hidden",
+            new_name="is_hidden",
         ),
         migrations.AlterField(
-            model_name='contractor',
-            name='is_allowed',
+            model_name="contractor",
+            name="is_allowed",
             field=models.BooleanField(null=True),
         ),
         migrations.AlterField(
-            model_name='paperstatus',
-            name='status',
-            field=models.SmallIntegerField(choices=[(-1, '거절'), (1, '요청중'), (2, '작성중'), (3, '서명중'), (0, '완료')], default=2),
+            model_name="paperstatus",
+            name="status",
+            field=models.SmallIntegerField(
+                choices=[(-1, "거절"), (1, "요청중"), (2, "작성중"), (3, "서명중"), (0, "완료")], default=2
+            ),
         ),
     ]
