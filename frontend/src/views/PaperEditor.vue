@@ -1135,14 +1135,9 @@ export default {
       ],
       paper_headers: [
         {
-          text: `${this.$i18n.t("number")}`,
-          value: "id",
-          align: "start",
-          sortable: true
-        },
-        {
-          text: `${this.$i18n.t("author")}`,
-          value: "author"
+          text: `${this.$i18n.t("title")}`,
+          value: "title",
+          align: "start"
         },
         {
           text: `${this.$i18n.t("trade_category")}`,
