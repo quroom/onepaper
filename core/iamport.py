@@ -15,7 +15,7 @@ class Iamport(object):
         self.imp_url = imp_url
         requests_session = requests.Session()
         requests_adapters = requests.adapters.HTTPAdapter(max_retries=3)
-        requests_session.mount('https://', requests_adapters)
+        requests_session.mount("https://", requests_adapters)
         self.requests_session = requests_session
 
     class ResponseError(Exception):
