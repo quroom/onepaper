@@ -168,7 +168,7 @@ class Profile(models.Model):
 
 
 class Certification(models.Model):
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(blank=True, null=True)
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="certification")
     imp_uid = models.CharField(max_length=16, blank=True)
     ci = models.CharField(max_length=88, blank=True)  # unique_key
