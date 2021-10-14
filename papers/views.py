@@ -134,7 +134,9 @@ class AllowPaperAPIView(APIView):
         if contractor.paper.status.status == PaperStatus.DRAFT:
             serializer = PaperReadonlySerializer(contractor.paper, context={"request": request})
         else:
-            serializer = PaperUnalloweUserSerializer(contractor.paper)
+            serializer = PaperUnalloweUserSerializer(
+                contractor.paper, context={"request": request}
+            )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -411,7 +413,7 @@ class SignatureCreateAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         id = self.kwargs.get("id")
-        request_user = self.request.user
+
         paper = get_object_or_404(Paper, id=id)
         contractor = get_object_or_404(Contractor, id=self.request.data["contractor"])
         self.check_object_permissions(self.request, contractor)

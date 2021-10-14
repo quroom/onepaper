@@ -790,7 +790,7 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"][0]["mobile_number"], "010-1234-12##")
         self.assertEqual(response.data["results"][0]["address"]["old_address"], "서울 강동구 성내동")
-        self.assertEqual(response.data["results"][0]["user"]["email"], "test@naver.com")
+        self.assertEqual(response.data["results"][0]["user"]["email"], "##st@naver.com")
         self.assertEqual(response.data["results"][0]["user"]["name"], "김#영")
         response = self.client.get("/api/open-profiles/")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

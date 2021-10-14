@@ -687,7 +687,7 @@ class OpenProfileList(APIView, PageNumberPagination):
 
         profiles = profiles.exclude(user=request.user)
         page = self.paginate_queryset(profiles, request, view=self)
-        serializer = ProfileBasicInfoSerializer(page, many=True)
+        serializer = ProfileBasicInfoSerializer(page, many=True, context={"request": request})
         return self.get_paginated_response(serializer.data)
 
 
@@ -697,7 +697,7 @@ class OpenProfileDetail(APIView):
 
     def get(self, request, pk, format=None):
         profile = self.get_object(pk)
-        serializer = ProfileBasicInfoSerializer(profile)
+        serializer = ProfileBasicInfoSerializer(profile, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
