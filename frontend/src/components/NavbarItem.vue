@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar app width="100%" :hide-on-scroll="this.$route.name != 'home' ? true : false">
+  <v-app-bar
+    app
+    width="100%"
+    :hide-on-scroll="this.$route.name != 'home' && this.$vuetify.breakpoint.xs ? true : false"
+  >
     <v-dialog
       v-model="dialog"
       max-width="400px"
