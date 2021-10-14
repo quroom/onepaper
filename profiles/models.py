@@ -167,6 +167,14 @@ class Profile(models.Model):
         ordering = ["-is_default", "-updated_at"]
 
 
+class Certification(models.Model):
+    updated_at = models.DateTimeField(blank=True, null=True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="certification")
+    imp_uid = models.CharField(max_length=16, blank=True)
+    ci = models.CharField(max_length=88, blank=True)  # unique_key
+    di = models.CharField(max_length=66, blank=True)  # unique_in_site
+
+
 class AllowedUser(models.Model):
     allowed_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, blank=True, related_name="allowed_users"

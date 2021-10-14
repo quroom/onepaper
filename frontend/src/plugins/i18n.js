@@ -153,7 +153,7 @@ const i18n = new VueI18n({
       please_add_trade_user: "Please add user allowed to view profile",
       please_available_garantee_insurance: "Please add available garantee insurance today.",
       please_sign: "Please sign here.",
-      pease_select_default_profile: "Please select default profile.",
+      please_select_default_profile: "Please select default profile.",
       profile_name: "Profile Name",
       profile_number: "Profile Number",
       profile_list_subtitle:
@@ -171,8 +171,11 @@ const i18n = new VueI18n({
       reviewing: "reviewing",
       save: "Save",
       search: "Search",
-      send_your_link: "Send link to user who you want to trade.",
       select: "Select",
+      self_authentication: "Self Authentication",
+      self_authentication_fail: "Authentication failed. Error: ",
+      self_authentication_success: "Self Authentication success",
+      send_your_link: "Send link to user who you want to trade.",
       seller: "Landlor(Seller)",
       service_intro: "Service Intro",
       contract_details_basic_template: "",
@@ -211,6 +214,13 @@ const i18n = new VueI18n({
       won: "Won",
       won_paid_recieved: "won paid upon visit and received",
       year: "year",
+
+      //Certification
+      certified: "Certified",
+      certified_detail: "{updated_at} certified",
+      uncertified: "Uncertified",
+      uncertified_detail:
+        "There is no certification history. Be careful when confirming contractor identity when signing a contract.",
 
       //Tour translation
       done_tour: "Done",
@@ -592,7 +602,7 @@ const i18n = new VueI18n({
       please_add_trade_user: "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
       please_available_garantee_insurance: "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
-      pease_select_default_profile: "기본 프로필을 선택해주세요.",
+      please_select_default_profile: "기본 프로필을 선택해주세요.",
       profile_name: "프로필명",
       profile_number: "프로필 번호",
       profile_list_subtitle:
@@ -610,6 +620,9 @@ const i18n = new VueI18n({
       reviewing: "검토중",
       save: "제출",
       search: "검색",
+      self_authentication: "본인인증",
+      self_authentication_fail: "인증에 실패하였습니다. 에러 내용: ",
+      self_authentication_success: "본인인증 성공",
       seller: "임대인(매도인)",
       send_your_link: "거래를 원하는 회원에게 링크를 전송하세요.",
       select: "선택",
@@ -624,7 +637,6 @@ const i18n = new VueI18n({
         "본 서명을 통해 종이계약 체결과 동일한 효력이 발생함에 동의하시면 서명해주세요.",
       signature_empty_warning: "서명을 비워둔 상태로 제출 할 수 없습니다.",
       status: "상태",
-
       submit: "제출",
       signature_and_submit: "서명 후 위임장 제출",
       trade: "거래",
@@ -652,6 +664,12 @@ const i18n = new VueI18n({
       year: "년",
       month: "월",
       day: "일",
+
+      //Certification
+      certified: "인증",
+      certified_detail: "{updated_at} 본인인증 완료",
+      uncertified: "미인증",
+      uncertified_detail: "인증 이력이 없습니다. 계약시 본인확인에 주의하세요.",
 
       //Tour translation
       done_tour: "종료",
@@ -711,9 +729,10 @@ const i18n = new VueI18n({
         "합의한것과 계약내용이 같은지 체크해요! <br/>\
     쉬운 내용이니 세부설명은 패스할게요. <br/>",
       tour_detail_contractor_info:
-        "⚠️계약자 정보는 가장 중요한 사항이에요. <br/>\
-      승인 후 세부정보 조회가 가능하며, <br/>\
-      등기부/신분증 등으로 권한을 꼭 확인해요. <br/>",
+        "계약자 정보는 가장 중요한 사항이에요. <br/>\
+        ⚠️상태 회원은 본인인증이력없는 회원이니,<br/>\
+      신분증 등으로 본인확인을 꼭해요.<br/>\
+      ",
       tour_approve:
         "요청 계약서가 맞으면 승인버튼을 눌러요<br/>\
         요청 계약서가 아니면 거절버튼을 눌러요😊<br/>\

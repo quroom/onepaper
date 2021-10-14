@@ -6,6 +6,7 @@ from profiles.views import (
     AllowedProfileList,
     AllowedUserDetail,
     ApproveExpert,
+    CertificateAPIView,
     CustomUserViewset,
     ExpertProfileList,
     InsuranceViewset,
@@ -28,6 +29,11 @@ profile_router.register(r"insurances", InsuranceViewset, basename="profile-insur
 urlpatterns = [
     path("", include(router.urls)),
     path("", include(profile_router.urls)),
+    path(
+        "certification/",
+        CertificateAPIView.as_view(),
+        name="profile-certification",
+    ),
     path("expert-profiles/", ExpertProfileList.as_view(), name="expert-profiles"),
     path("open-profiles/", OpenProfileList.as_view(), name="open-profiles"),
     path("open-profiles/<int:pk>/", OpenProfileDetail.as_view(), name="open-profile"),

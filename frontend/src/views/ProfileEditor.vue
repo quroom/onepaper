@@ -10,14 +10,11 @@
           router_name="profiles"
         ></DeleteAlert>
         <v-spacer></v-spacer>
-        <v-btn
-          style="float: right"
-          color="primary"
-          :to="{ name: 'allowed-user-editor', params: { id: id } }"
-        >
+        <v-btn color="primary" :to="{ name: 'allowed-user-editor', params: { id: id } }">
           {{ $t("add_quick_trade_user") }}
         </v-btn>
       </v-row>
+      <v-row> </v-row>
       <v-row>
         <v-col cols="12" sm="4">
           <LazyTextField v-model="email" :label="$t('email')" readonly></LazyTextField>
