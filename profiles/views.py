@@ -60,7 +60,7 @@ class AllowedProfileList(APIView):
     def get(self, request):
         profiles = (
             Profile.objects.filter(allowed_user__allowed_users=request.user)
-            .filter(is_default=True)
+            .filter(is_activated=True)
             .select_related("user", "address", "expert_profile")
         )
         serializer = ProfileReadonlySerializer(profiles, many=True)
@@ -140,7 +140,7 @@ class ApproveExpert(
     mixins.DestroyModelMixin,
     generics.GenericAPIView,
 ):
-    queryset = ExpertProfile.objects.filter(profile__is_default=True)
+    queryset = ExpertProfile.objects.filter(profile__is_activated=True)
     permission_classes = [IsAuthenticated, IsAdmin]
     serializer_class = ApproveExpertSerializer
 
@@ -225,7 +225,7 @@ class CertificateAPIView(APIView):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
                 except Certification.DoesNotExist:
-                    profile = get_object_or_404(Profile, user=self.request.user, is_default=True)
+                    profile = get_object_or_404(Profile, user=self.request.user, is_activated=True)
                     if (
                         certificationsInfo.get("name") == profile.user.name
                         and certificationsInfo.get("birthday") == str(profile.user.birthday)
@@ -264,7 +264,9 @@ class ExpertProfileList(APIView):
 
     def get(self, request):
         queryset = Profile.objects.filter(
-            user=self.request.user, expert_profile__status=ExpertProfile.APPROVED, is_default=True
+            user=self.request.user,
+            expert_profile__status=ExpertProfile.APPROVED,
+            is_activated=True,
         ).select_related("user", "address", "expert_profile")
         serializer = ProfileReadonlySerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -472,8 +474,10 @@ class ProfileViewset(ModelViewSet):
 
     @transaction.atomic
     def perform_create(self, serializer):
-        Profile.objects.filter(user=self.request.user, is_default=True).update(is_default=False)
-        return serializer.save(user=self.request.user, is_default=True)
+        Profile.objects.filter(user=self.request.user, is_activated=True).update(
+            is_activated=False
+        )
+        return serializer.save(user=self.request.user, is_activated=True)
 
     @transaction.atomic
     def destroy(self, request, *args, **kwargs):
@@ -497,9 +501,9 @@ class ProfileViewset(ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if instance.is_default and Profile.objects.filter(user=instance.user).exists():
+        if instance.is_activated and Profile.objects.filter(user=instance.user).exists():
             profile = Profile.objects.filter(user=instance.user).last()
-            profile.is_default = True
+            profile.is_activated = True
             profile.save()
 
         self.perform_destroy(instance)
@@ -575,7 +579,7 @@ class CustomUserViewset(
             .exclude(status__status=PaperStatus.REQUESTING)
             .exists()
         ):
-            instance.is_default = False
+            instance.is_activated = False
             instance.save()
             return Response({"user_delete": _("탈퇴처리 되었습니다.")}, status=status.HTTP_200_OK)
         else:
@@ -673,12 +677,12 @@ class OpenProfileList(APIView, PageNumberPagination):
 
         if email and mobile_number:
             profiles = Profile.objects.filter(
-                user__email=email, mobile_number=mobile_number, is_default=True
+                user__email=email, mobile_number=mobile_number, is_activated=True
             )
         elif email:
-            profiles = Profile.objects.filter(user__email=email, is_default=True)
+            profiles = Profile.objects.filter(user__email=email, is_activated=True)
         elif mobile_number:
-            profiles = Profile.objects.filter(mobile_number=mobile_number, is_default=True)
+            profiles = Profile.objects.filter(mobile_number=mobile_number, is_activated=True)
         else:
             return Response(
                 {"detail": ValidationError(_("이메일 또는 연락처를 입력해야 합니다."))},
@@ -702,16 +706,16 @@ class OpenProfileDetail(APIView):
 
 
 # FIXME Implment in frontend.
-class SetDefaultProfile(APIView):
+class ActivateProfile(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def post(self, request, pk):
         profile = get_object_or_404(Profile, pk=pk)
         self.check_object_permissions(self.request, profile)
-        active_profiles = Profile.objects.filter(user=self.request.user, is_default=True)
+        active_profiles = Profile.objects.filter(user=self.request.user, is_activated=True)
         with transaction.atomic():
-            active_profiles.update(is_default=False)
-            profile.is_default = True
+            active_profiles.update(is_activated=False)
+            profile.is_activated = True
             profile.save()
         serializer = ProfileReadonlySerializer(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)

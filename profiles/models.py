@@ -158,13 +158,13 @@ class Profile(models.Model):
     )
     bank_name = models.SmallIntegerField(choices=BANK_CATEGORY, default=0)
     account_number = models.CharField(max_length=45, blank=True)
-    is_default = models.BooleanField(default=True, blank=True)
+    is_activated = models.BooleanField(default=True, blank=True)
 
     def __str__(self):
         return self.user.email
 
     class Meta:
-        ordering = ["-is_default", "-updated_at"]
+        ordering = ["-is_activated", "-updated_at"]
 
 
 class Certification(models.Model):

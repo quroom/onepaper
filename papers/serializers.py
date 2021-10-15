@@ -296,7 +296,7 @@ class PaperSerializer(serializers.ModelSerializer):
             if contractor["group"] == Contractor.EXPERT:
                 if ExpertProfile.objects.filter(
                     profile=contractor["profile"],
-                    profile__is_default=True,
+                    profile__is_activated=True,
                     status=ExpertProfile.APPROVED,
                 ).exists():
                     exist_expert = True

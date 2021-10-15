@@ -22,7 +22,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" @click.prevent="addUser(default_profile)">
+          <v-btn color="primary" @click.prevent="addUser(activated_profile)">
             {{ $t("add_quick_trade_user") }}
           </v-btn>
         </v-card-actions>
@@ -54,7 +54,7 @@
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor', params: { id: profile.id } }">
             <v-card>
-              <v-chip class="ma-1" v-if="profile.is_default" color="primary">{{
+              <v-chip class="ma-1" v-if="profile.is_activated" color="primary">{{
                 profile.id
               }}</v-chip>
               <template v-else>
@@ -63,7 +63,7 @@
                   class="mt-1 mr-2 pa-1"
                   color="primary"
                   style="float: right;"
-                  @click.prevent="setDefault(profile)"
+                  @click.prevent="activateProfile(profile)"
                 >
                   <v-icon>check</v-icon>
                   {{ $t("activate") }}
@@ -86,7 +86,7 @@
                 <v-chip
                   class="ma-1"
                   v-if="
-                    profile.is_default &&
+                    profile.is_activated &&
                       profile.expert_profile.status ==
                         $getConstByName('expert_status', 'requesting')
                   "
@@ -145,7 +145,7 @@
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
-                  v-if="profile.is_default && profile.certification.is_certificated === false"
+                  v-if="profile.is_activated && profile.certification.is_certificated === false"
                   dark
                   @click.prevent="onCertification(profile)"
                   >{{ $t("self_authentication") }}</v-btn
@@ -185,9 +185,9 @@ export default {
     profile_length: function() {
       return this.profiles.length;
     },
-    default_profile: function() {
+    activated_profile: function() {
       for (let i = 0; i < this.profiles.length; i++) {
-        if (this.profiles[i].is_default == true) {
+        if (this.profiles[i].is_activated == true) {
           return this.profiles[i];
         }
       }
@@ -257,8 +257,8 @@ export default {
         merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
         company: "큐룸", // 회사명 또는 URL
         carrier: undefined, // 통신사
-        name: this.default_profile.user.name, // 이름
-        phone: this.default_profile.mobile_number // 전화번호
+        name: this.activated_profile.user.name, // 이름
+        phone: this.activated_profile.mobile_number // 전화번호
       };
 
       /* 4. 본인인증 창 호출하기 */
@@ -271,11 +271,11 @@ export default {
           let endpoint = `/api/certification/`;
           apiService(endpoint, "PUT", { imp_uid: response.imp_uid }).then((data) => {
             if (data.id != undefined) {
-              if (vm.default_profile) {
+              if (vm.activated_profile) {
                 alert(vm.$t("self_authentication_success"), success);
-                vm.default_profile.certification = data;
+                vm.activated_profile.certification = data;
               } else {
-                alert(vm.$t("please_select_default_profile"));
+                alert(vm.$t("please_select_activated_profile"));
               }
             } else {
               applyValidation(data);
@@ -288,12 +288,12 @@ export default {
         }
       });
     },
-    setDefault(profile) {
-      let endpoint = `/api/profiles/${profile.id}/default/`;
+    activateProfile(profile) {
+      let endpoint = `/api/profiles/${profile.id}/activate/`;
       apiService(endpoint, "POST").then((data) => {
         if (data.id != undefined) {
-          if (this.default_profile != undefined) {
-            this.default_profile.is_default = false;
+          if (this.activated_profile != undefined) {
+            this.activated_profile.is_activated = false;
           }
           this.$set(this.profiles, this.profiles.indexOf(profile), data);
         }

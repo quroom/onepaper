@@ -105,14 +105,14 @@ class AllowedUserTestCase(APITestCase):
             format="json",
         )
         profiles = Profile.objects.filter(allowed_user__allowed_users=self.user1).filter(
-            is_default=True
+            is_activated=True
         )
         self.assertEqual(profiles.count(), 1)
         self.token = Token.objects.create(user=self.user1)
         self.api_authentication()
         self.create_profile()
         profiles = Profile.objects.filter(allowed_user__allowed_users=self.user1).filter(
-            is_default=True
+            is_activated=True
         )
         self.assertEqual(profiles.count(), 2)
 
@@ -805,17 +805,19 @@ class ProfileTestCase(APITestCase):
         self.assertEqual(response.data["user"]["email"], "test@naver.com")
         self.assertEqual(response.data["user"]["name"], "김#영")
 
-    def test_set_default_profile(self):
+    def test_set_activated_profile(self):
         response = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_default"], True)
+        self.assertEqual(response.data["is_activated"], True)
         response2 = self.create_profile()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["is_default"], True)
-        self.assertEqual(Profile.objects.filter(is_default=False).count(), 1)
+        self.assertEqual(response.data["is_activated"], True)
+        self.assertEqual(Profile.objects.filter(is_activated=False).count(), 1)
 
-        response = self.client.post(reverse("default-profile", kwargs={"pk": response.data["id"]}))
-        self.assertEqual(response.data["is_default"], True)
+        response = self.client.post(
+            reverse("activate-profile", kwargs={"pk": response.data["id"]})
+        )
+        self.assertEqual(response.data["is_activated"], True)
 
 
 class CustomUserTestCase(APITestCase):
