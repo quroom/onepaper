@@ -356,141 +356,117 @@
             <v-radio :label="this.$t('tenant')" :value="false"></v-radio>
           </v-row>
         </v-radio-group>
-        <v-expansion-panels :value="panels" multiple>
-          <v-row no-gutters>
-            <v-col cols="12">
-              <ValidationProvider ref="seller" v-slot="{ errors }" :name="$t('seller')">
-                <v-autocomplete
-                  class="mt-2"
-                  v-model="seller"
-                  clearable
-                  :error-messages="errors"
-                  :filter="customFilter"
-                  :items="allowed_profiles"
-                  item-text="name"
-                  item-value="id"
-                  return-object
-                  :label="$t('seller')"
-                  :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
-                >
-                  <template v-slot:selection="{}">{{
-                    seller.user.name + "/" + seller.mobile_number
-                  }}</template>
-                  <template v-slot:item="{ item }">{{
-                    item.user.name + "/" + item.mobile_number
-                  }}</template>
-                  <template v-if="is_expert || !is_landlord" v-slot:append-outer>
-                    <v-btn id="v-profile-search" @click.stop="loadSearchDialog('seller')">
-                      {{ $t("manual_search") }}
-                    </v-btn>
-                  </template>
-                </v-autocomplete>
-              </ValidationProvider>
-              <v-expansion-panel v-if="seller">
-                <template>
-                  <v-expansion-panel-header
-                    >{{ $t("seller") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                      seller.user.email
-                    }})</v-expansion-panel-header
-                  >
-                  <v-expansion-panel-content>
-                    <ContractorItem
-                      :profile="seller"
-                      :fields="fields_names.basic_profile_fields"
-                    ></ContractorItem>
-                  </v-expansion-panel-content>
-                </template>
-              </v-expansion-panel>
-            </v-col>
-            <v-col class="mt-3" cols="12">
-              <ValidationProvider ref="buyer" v-slot="{ errors }" :name="$t('buyer')">
-                <v-autocomplete
-                  class="mt-2"
-                  v-model="buyer"
-                  clearable
-                  :error-messages="errors"
-                  :filter="customFilter"
-                  :items="allowed_profiles"
-                  item-text="name"
-                  item-value="id"
-                  return-object
-                  :label="$t('buyer')"
-                  :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
-                >
-                  <template v-slot:selection="{}">{{
-                    buyer.user.name + " / " + buyer.mobile_number
-                  }}</template>
-                  <template v-slot:item="{ item }">{{
-                    item.user.name + " / " + item.mobile_number
-                  }}</template>
-                  <template v-if="is_expert || is_landlord" v-slot:append-outer>
-                    <v-btn id="v-profile-search" @click.stop="loadSearchDialog('buyer')">
-                      {{ $t("manual_search") }}
-                    </v-btn>
-                  </template>
-                </v-autocomplete>
-              </ValidationProvider>
-              <v-expansion-panel v-if="buyer">
-                <template>
-                  <v-expansion-panel-header
-                    >{{ $t("buyer") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                      buyer.user.email
-                    }})</v-expansion-panel-header
-                  >
-                  <v-expansion-panel-content>
-                    <ContractorItem
-                      :profile="buyer"
-                      :fields="fields_names.basic_profile_fields"
-                    ></ContractorItem>
-                  </v-expansion-panel-content>
-                </template>
-              </v-expansion-panel>
-            </v-col>
-            <v-col v-if="is_expert" cols="12">
-              <ValidationProvider
-                ref="expert"
-                v-slot="{ errors }"
-                :name="$t('realestate_agency')"
-                rules="required"
+        <v-row no-gutters>
+          <v-col cols="12">
+            <ValidationProvider ref="seller" v-slot="{ errors }" :name="$t('seller')">
+              <v-autocomplete
+                class="mt-2"
+                v-model="seller"
+                :error-messages="errors"
+                :filter="customFilter"
+                :items="allowed_profiles"
+                item-text="name"
+                item-value="id"
+                return-object
+                :label="$t('seller')"
+                :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
               >
-                <v-autocomplete
-                  class="mt-2"
-                  v-model="expert"
-                  :error-messages="errors"
-                  :filter="customFilter"
-                  :items="expert_profiles"
-                  item-text="name"
-                  item-value="id"
-                  return-object
-                  :label="$t('realestate_agency')"
-                  :placeholder="$t('realestate_agency') + ' ' + $t('select')"
-                >
-                  <template v-slot:selection="{ item }">
-                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
-                  </template>
-                  <template v-slot:item="{ item }">
-                    {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
-                  </template>
-                </v-autocomplete>
-              </ValidationProvider>
-              <v-expansion-panel v-if="expert">
-                <template>
-                  <v-expansion-panel-header
-                    >{{ $t("realestate_agency") }} {{ $t("detail") }} {{ $t("info") }} ({{
-                      expert.user.email
-                    }})</v-expansion-panel-header
-                  >
-                  <v-expansion-panel-content>
-                    <ContractorItem
-                      :profile="expert"
-                      :fields="fields_names.expert_profile_fields"
-                    ></ContractorItem>
-                  </v-expansion-panel-content>
+                <template v-slot:selection="{}">{{
+                  seller.user.name + "/" + seller.mobile_number
+                }}</template>
+                <template v-slot:item="{ item }">{{
+                  item.user.name + "/" + item.mobile_number
+                }}</template>
+                <template v-if="is_expert || !is_landlord" v-slot:append-outer>
+                  <v-btn id="v-profile-search" @click.stop="loadSearchDialog('seller')">
+                    {{ $t("manual_search") }}
+                  </v-btn>
                 </template>
-              </v-expansion-panel>
-            </v-col>
-          </v-row>
-        </v-expansion-panels>
+                <template v-if="is_expert || !is_landlord" v-slot:prepend>
+                  <v-btn @click="seller = null" text icon>
+                    <v-icon>clear</v-icon>
+                  </v-btn>
+                </template>
+              </v-autocomplete>
+            </ValidationProvider>
+            <ContractorItem
+              v-if="seller"
+              :profile="seller"
+              :fields="fields_names.basic_profile_fields"
+            ></ContractorItem>
+          </v-col>
+          <v-col class="mt-3" cols="12">
+            <ValidationProvider ref="buyer" v-slot="{ errors }" :name="$t('buyer')">
+              <v-autocomplete
+                class="mt-2"
+                v-model="buyer"
+                :error-messages="errors"
+                :filter="customFilter"
+                :items="allowed_profiles"
+                item-text="name"
+                item-value="id"
+                return-object
+                :label="$t('buyer')"
+                :placeholder="$t('quick_trade_user') + ' ' + $t('select')"
+              >
+                <template v-slot:selection="{}">{{
+                  buyer.user.name + " / " + buyer.mobile_number
+                }}</template>
+                <template v-slot:item="{ item }">{{
+                  item.user.name + " / " + item.mobile_number
+                }}</template>
+                <template v-if="is_expert || is_landlord" v-slot:append-outer>
+                  <v-btn id="v-profile-search" @click.stop="loadSearchDialog('buyer')">
+                    {{ $t("manual_search") }}
+                  </v-btn>
+                </template>
+                <template v-if="is_expert || is_landlord" v-slot:prepend>
+                  <v-btn @click="buyer = null" text icon>
+                    <v-icon>clear</v-icon>
+                  </v-btn>
+                </template>
+              </v-autocomplete>
+            </ValidationProvider>
+            <ContractorItem
+              v-if="buyer"
+              :profile="buyer"
+              :fields="fields_names.basic_profile_fields"
+            ></ContractorItem>
+          </v-col>
+          <v-col v-if="is_expert" cols="12">
+            <ValidationProvider
+              ref="expert"
+              v-slot="{ errors }"
+              :name="$t('realestate_agency')"
+              rules="required"
+            >
+              <v-autocomplete
+                class="mt-2"
+                v-model="expert"
+                :error-messages="errors"
+                :filter="customFilter"
+                :items="expert_profiles"
+                item-text="name"
+                item-value="id"
+                return-object
+                :label="$t('realestate_agency')"
+                :placeholder="$t('realestate_agency') + ' ' + $t('select')"
+              >
+                <template v-slot:selection="{ item }">
+                  {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
+                </template>
+                <template v-slot:item="{ item }">
+                  {{ item.expert_profile.shop_name + ` (#${item.id} / ${item.user.name})` }}
+                </template>
+              </v-autocomplete>
+            </ValidationProvider>
+            <ContractorItem
+              v-if="expert"
+              :profile="expert"
+              :fields="fields_names.expert_profile_fields"
+            ></ContractorItem>
+          </v-col>
+        </v-row>
       </template>
       <v-divider class="ma-4"></v-divider>
       <!--#FIXME need to support i18n -->
@@ -1455,18 +1431,14 @@ export default {
     updateContractors() {
       const local_contractor_list = ["expert", "seller", "buyer"];
       for (const index in local_contractor_list) {
-        let matched = false;
         const local_group_name = local_contractor_list[index];
         const local_group_constant = this.$getConstByName("CONTRACTOR_CATEGORY", local_group_name);
 
         if (this[local_group_name] != null) {
-          for (const index in this.contractors) {
-            if (this.contractors[index].group == local_group_constant) {
-              this.contractors[index].profile = this[local_group_name].id;
-              matched = true;
-            }
-          }
-          if (matched == false) {
+          const contractor = this.contractors.find((item) => item.group == local_group_constant);
+          if (contractor) {
+            this.contractors[index].profile = this[local_group_name].id;
+          } else {
             this.contractors.push({
               profile: this[local_group_name].id,
               paper: this.id ? this.id : null,
@@ -1476,8 +1448,7 @@ export default {
         } else {
           for (const index in this.contractors) {
             if (this.contractors[index].group == local_group_constant) {
-              this.contractors[index].paper = null;
-              this.contractors[index].profile = this.contractors[index].profile.id;
+              this.$delete(this.contractors, index);
             }
           }
         }
