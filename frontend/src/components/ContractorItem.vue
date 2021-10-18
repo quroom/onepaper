@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip top nudge-top="-50">
     <template v-slot:activator="{ on, attrs }">
       <div class="contractor" v-bind="attrs" v-on="on">
         <v-row
