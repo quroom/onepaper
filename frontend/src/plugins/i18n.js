@@ -153,7 +153,7 @@ const i18n = new VueI18n({
       please_add_trade_user: "Please add user allowed to view profile",
       please_available_garantee_insurance: "Please add available garantee insurance today.",
       please_sign: "Please sign here.",
-      please_select_default_profile: "Please select default profile.",
+      please_select_activated_profile: "Please select profile to activate.",
       profile_name: "Profile Name",
       profile_number: "Profile Number",
       profile_list_subtitle:
@@ -602,7 +602,7 @@ const i18n = new VueI18n({
       please_add_trade_user: "거래 회원을 프로필 조회 허용 리스트에 추가해주세요.",
       please_available_garantee_insurance: "현재일 기준으로 유효한 중개보증서류를 추가해주세요.",
       please_sign: "서명을 여기 해주세요.",
-      please_select_default_profile: "기본 프로필을 선택해주세요.",
+      please_select_activated_profile: "활성화 할 프로필을 선택해주세요.",
       profile_name: "프로필명",
       profile_number: "프로필 번호",
       profile_list_subtitle:

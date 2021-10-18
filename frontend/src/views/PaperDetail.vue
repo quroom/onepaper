@@ -65,13 +65,13 @@
           <v-card outlined tile>{{ $t("address") }}</v-card>
         </v-col>
         <v-col cols="10" sm="7">
-          <v-card outlined tile>{{ paper.address.old_address }}</v-card>
+          <v-card class="pl-2" outlined tile>{{ paper.address.old_address }}</v-card>
         </v-col>
         <v-col class="text-center font-weight-bold" cols="2" sm="1">
           <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
         </v-col>
         <v-col cols="10" sm="3">
-          <v-card outlined tile height="100%">
+          <v-card class="pl-2" outlined tile height="100%">
             <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
             <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
           </v-card>
@@ -112,10 +112,10 @@
       <v-row no-gutters>
         <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
           <template v-if="paper[contract_field_name] != undefined">
-            <v-col class="text-center font-weight-bold" cols="3" sm="2" :key="`name` + index">
+            <v-col class="text-center font-weight-bold" cols="2" :key="`name` + index">
               <v-card outlined tile>{{ $t(contract_field_name) }}</v-card>
             </v-col>
-            <v-col class="text-center" cols="3" sm="2" :key="`value-` + index">
+            <v-col class="text-center" cols="4" :key="`value-` + index">
               <v-card outlined tile>{{ paper[contract_field_name] }}{{ $t("won") }}</v-card>
             </v-col>
           </template>

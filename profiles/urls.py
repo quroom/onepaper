@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 
 from profiles.views import (
+    ActivateProfile,
     AllowedProfileList,
     AllowedUserDetail,
     ApproveExpert,
@@ -14,7 +15,6 @@ from profiles.views import (
     OpenProfileDetail,
     OpenProfileList,
     ProfileViewset,
-    SetDefaultProfile,
     UserSettingAPIView,
 )
 
@@ -37,7 +37,7 @@ urlpatterns = [
     path("expert-profiles/", ExpertProfileList.as_view(), name="expert-profiles"),
     path("open-profiles/", OpenProfileList.as_view(), name="open-profiles"),
     path("open-profiles/<int:pk>/", OpenProfileDetail.as_view(), name="open-profile"),
-    path("profiles/<int:pk>/default/", SetDefaultProfile.as_view(), name="default-profile"),
+    path("profiles/<int:pk>/activate/", ActivateProfile.as_view(), name="activate-profile"),
     path(
         "profiles/<int:pk>/allowed-users/", AllowedUserDetail.as_view(), name="allowed-user-detail"
     ),

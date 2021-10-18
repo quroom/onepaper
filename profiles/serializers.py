@@ -222,7 +222,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_default",)
+        read_only_fields = ("is_activated",)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -275,7 +275,7 @@ class ExpertProfileReadonlySerializer(ReadOnlyModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_default",)
+        read_only_fields = ("is_activated",)
 
 
 class ExpertProfileSerializer(serializers.ModelSerializer):
@@ -286,7 +286,7 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
-        read_only_fields = ("is_default",)
+        read_only_fields = ("is_activated",)
 
     def validate_image(self, image, field_name):
         file_size = image.size

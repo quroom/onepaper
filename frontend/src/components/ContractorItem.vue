@@ -1,36 +1,31 @@
 <template>
-  <div class="contractor">
-    <v-row
-      :id="isNotAuthorAndContractor && !isPaperDone ? 'v-contractor-btns' : ''"
-      v-if="paper"
-      no-gutters
-      align="center"
-    >
-      <v-col
-        v-if="
-          isNotAuthorAndContractor &&
-            !isPaperProgress &&
-            !isPaperDone &&
-            contractor.is_allowed !== false
-        "
-        class="text-center"
-        cols="auto"
-      >
-        <v-card class="pa-0" outlined tile min-width="80">
-          <v-btn class="signature-button" @click="allowPaper(false)" color="red" dark tile>
-            <v-icon>do_not_disturb</v-icon>
-            {{ $t("deny") }}
-          </v-btn>
-        </v-card>
-      </v-col>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
+  <v-tooltip top>
+    <template v-slot:activator="{ on, attrs }">
+      <div class="contractor" v-bind="attrs" v-on="on">
+        <v-row
+          :id="isNotAuthorAndContractor && !isPaperDone ? 'v-contractor-btns' : ''"
+          v-if="paper"
+          no-gutters
+          align="center"
+        >
           <v-col
-            v-bind="attrs"
-            v-on="on"
-            v-if="isExpert"
-            class="contractor-print-title text-center font-weight-bold"
+            v-if="
+              isNotAuthorAndContractor &&
+                !isPaperProgress &&
+                !isPaperDone &&
+                contractor.is_allowed !== false
+            "
+            class="text-center"
+            cols="auto"
           >
+            <v-card class="pa-0" outlined tile min-width="80">
+              <v-btn class="signature-button" @click="allowPaper(false)" color="red" dark tile>
+                <v-icon>do_not_disturb</v-icon>
+                {{ $t("deny") }}
+              </v-btn>
+            </v-card>
+          </v-col>
+          <v-col v-if="isExpert" class="contractor-print-title text-center font-weight-bold">
             <v-card outlined tile color="green lighten-2">
               <v-icon
                 v-if="contractor.profile.certification.is_certificated === false"
@@ -62,89 +57,63 @@
               {{ $getConstI18("CONTRACTOR_CATEGORY", contractor.group) }}
             </v-card>
           </v-col>
-        </template>
-        <span>{{ contractor.profile.user.email }}</span>
-        <div
-          v-if="contractor.profile.certification.is_certificated === false"
-          class="certification-detail"
-        >
-          {{ $t("uncertified_detail") }}
-        </div>
-        <div v-else class="certification-detail">
-          {{ $t("certified_detail", { updated_at: contractor.profile.certification.updated_at }) }}
-        </div>
-      </v-tooltip>
-      <v-col class="contractor-print-title text-center" cols="auto">
-        <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
-          <v-btn
-            id="v-signature"
-            v-if="!isPaperRequest && !isPaperDone && !isSigned && isContractor"
-            class="signature-button"
-            @click="openSignaturePad(isVerifyingExplanation)"
-            color="primary"
-            dark
-            tile
-          >
-            <v-icon>create</v-icon>
-            {{ $t("signature") }}
-          </v-btn>
-          <template v-else>
-            {{ $t("sign") }}
-          </template>
-          <img v-if="isSigned || !isPaperRequest" class="signature-img" :src="signature_src" />
-        </v-card>
-        <v-card v-else class="pa-0" outlined tile min-width="80">
-          <template v-if="contractor.is_hidden == false">
-            <v-btn
-              v-if="isContractor"
-              class="signature-button"
-              @click="allowPaper(true)"
-              color="deep-purple"
-              dark
-              tile
-            >
-              <v-icon>done</v-icon>
-              {{ $t("approve") }}
-            </v-btn>
-            <div id="v-requesting" v-else-if="contractor.is_allowed == null">
-              <v-icon>donut_large</v-icon>
-              {{ $t("requesting") }}
-            </div>
-            <span v-else-if="contractor.is_allowed == false" class="red--text">
-              <v-icon class="red--text">do_not_disturb</v-icon>
-              {{ $t("denied") }}
-            </span>
-          </template>
-          <span v-else-if="contractor.is_allowed == false" class="red--text">
-            <v-icon class="red--text">do_not_disturb</v-icon>
-            {{ $t("denied") }}
-          </span>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <template v-for="(field, index) in fields">
-        <v-col
-          class="text-center font-weight-bold"
-          :cols="label_cols ? label_cols.cols : '3'"
-          :md="label_cols ? label_cols.md : '2'"
-          :lg="label_cols ? label_cols.lg : '1'"
-          :key="`name` + index"
-        >
-          <v-card color="grey lighten-2" outlined tile>{{ $t(field.name) }}</v-card>
-        </v-col>
-        <template>
-          <v-col
-            class="text-center"
-            :cols="field.cols"
-            :xs="field.xs"
-            :md="field.md"
-            :lg="field.lg"
-            :key="`value-` + index"
-          >
-            <!--#FIXME: Need to add commend -->
-            <v-card outlined tile>
-              {{
+          <v-col class="contractor-print-title text-center" cols="auto">
+            <v-card v-if="contractor.is_allowed == true" class="pa-0" tile min-width="80">
+              <v-btn
+                id="v-signature"
+                v-if="!isPaperRequest && !isPaperDone && !isSigned && isContractor"
+                class="signature-button"
+                @click="openSignaturePad(isVerifyingExplanation)"
+                color="primary"
+                dark
+                tile
+              >
+                <v-icon>create</v-icon>
+                {{ $t("signature") }}
+              </v-btn>
+              <template v-else>
+                {{ $t("sign") }}
+              </template>
+              <img v-if="isSigned || !isPaperRequest" class="signature-img" :src="signature_src" />
+            </v-card>
+            <v-card v-else class="pa-0" outlined tile min-width="80">
+              <template v-if="contractor.is_hidden == false">
+                <v-btn
+                  v-if="isContractor"
+                  class="signature-button"
+                  @click="allowPaper(true)"
+                  color="deep-purple"
+                  dark
+                  tile
+                >
+                  <v-icon>done</v-icon>
+                  {{ $t("approve") }}
+                </v-btn>
+                <div id="v-requesting" v-else-if="contractor.is_allowed == null">
+                  <v-icon>donut_large</v-icon>
+                  {{ $t("requesting") }}
+                </div>
+                <span v-else-if="contractor.is_allowed == false" class="red--text">
+                  <v-icon class="red--text">do_not_disturb</v-icon>
+                  {{ $t("denied") }}
+                </span>
+              </template>
+              <span v-else-if="contractor.is_allowed == false" class="red--text">
+                <v-icon class="red--text">do_not_disturb</v-icon>
+                {{ $t("denied") }}
+              </span>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <template v-for="(field, index) in fields">
+            <v-col
+              class="text-center font-weight-bold"
+              :cols="label_cols ? label_cols.cols : '3'"
+              :md="label_cols ? label_cols.md : '2'"
+              :lg="label_cols ? label_cols.lg : '1'"
+              :key="`name` + index"
+              v-if="
                 field.is_computed
                   ? getComputed(field.key)
                   : field.key && $get(computed_profile, field.key)
@@ -153,14 +122,64 @@
                   ? field.const_name
                     ? $getConstI18(field.const_name, computed_profile[field.name])
                     : computed_profile[field.name]
-                  : ""
-              }}
-            </v-card>
-          </v-col>
-        </template>
-      </template>
-    </v-row>
-  </div>
+                  : ''
+              "
+            >
+              <v-card color="grey lighten-2" outlined tile>{{ $t(field.name) }}</v-card>
+            </v-col>
+            <template>
+              <v-col
+                v-if="
+                  field.is_computed
+                    ? getComputed(field.key)
+                    : field.key && $get(computed_profile, field.key)
+                    ? $get(computed_profile, field.key)
+                    : computed_profile[field.name]
+                    ? field.const_name
+                      ? $getConstI18(field.const_name, computed_profile[field.name])
+                      : computed_profile[field.name]
+                    : ''
+                "
+                class="text-center"
+                :cols="field.cols"
+                :xs="field.xs"
+                :md="field.md"
+                :lg="field.lg"
+                :key="`value-` + index"
+              >
+                <!--#FIXME: Need to add commend -->
+                <v-card outlined tile>
+                  {{
+                    field.is_computed
+                      ? getComputed(field.key)
+                      : field.key && $get(computed_profile, field.key)
+                      ? $get(computed_profile, field.key)
+                      : computed_profile[field.name]
+                      ? field.const_name
+                        ? $getConstI18(field.const_name, computed_profile[field.name])
+                        : computed_profile[field.name]
+                      : ""
+                  }}
+                </v-card>
+              </v-col>
+            </template>
+          </template>
+        </v-row>
+      </div>
+    </template>
+    <template v-if="computed_profile">
+      <span>{{ computed_profile.user.email }}</span>
+      <div
+        v-if="computed_profile.certification.is_certificated === false"
+        class="certification-detail"
+      >
+        {{ $t("uncertified_detail") }}
+      </div>
+      <div v-else class="certification-detail">
+        {{ $t("certified_detail", { updated_at: computed_profile.certification.updated_at }) }}
+      </div>
+    </template>
+  </v-tooltip>
 </template>
 
 <script>
