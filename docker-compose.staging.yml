@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile-vue-stage
     ports:
-      - 8080:8080
+      - 5050:5050
     container_name: vue
     volumes:
       - ./frontend:/frontend
