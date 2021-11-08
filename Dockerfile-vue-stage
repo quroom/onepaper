@@ -1,0 +1,9 @@
+FROM node:12.18.1
+
+WORKDIR /frontend
+
+COPY frontend/package*.json ./
+
+RUN npm install
+
+CMD ["npm", "run", "build"]

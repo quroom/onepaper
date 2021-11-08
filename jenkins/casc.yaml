@@ -1,0 +1,63 @@
+#Ref. https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: ${JENKINS_ADMIN_ID}
+          password: ${JENKINS_ADMIN_PASSWORD}
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - gitLabApiTokenImpl:
+              scope: GLOBAL
+              id: gitlab-access-token
+              apiToken: ${GITLAB_API_TOKEN} #need to be hide
+              description: "gitlab-access-token"
+
+unclassified:
+  location:
+    url: http://dev.onepaper.biz:8080/
+  gitlabconnectionconfig:
+    connections:
+      - apiTokenId: gitlab-access-token
+        clientBuilderId: "autodetect"
+        connectionTimeout: 20
+        ignoreCertificateErrors: true
+        name: "gitlab-jenkins"
+        readTimeout: 10
+        url: "https://gitlab.com/"
+jobs:
+  - script: >
+      pipelineJob('onepaper') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://gitlab.com/quroom/onepaper.git')
+                }
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+        properties {
+          pipelineTriggers {
+            triggers {
+              gitlab {
+                triggerOnPush(true)
+                triggerOnMergeRequest(true)
+                triggerOnApprovedMergeRequest(true)
+              }
+            }
+          }
+        }
+        triggers {
+          gitlabPush {
+            commentTrigger("Jenkins please retry a build")
+          }
+        }
+      }
