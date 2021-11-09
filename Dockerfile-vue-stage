@@ -4,6 +4,6 @@ WORKDIR /frontend
 
 COPY frontend/package*.json ./
 
-RUN npm install
+RUN npm install --only=production
 
-CMD ["npm", "run", "build"]
+COPY frontend/ ./

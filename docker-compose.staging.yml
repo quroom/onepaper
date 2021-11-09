@@ -1,17 +1,8 @@
 version: "2"
 
 services:
-  vue:
-    build:
-      context: .
-      dockerfile: Dockerfile-vue-stage
-    ports:
-      - 5050:5050
-    container_name: vue
-    volumes:
-      - ./frontend:/frontend
-      - /frontend/node_modules
   django:
+    container_name: django
     build:
       context: .
       dockerfile: Dockerfile-django-stage
