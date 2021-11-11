@@ -16,15 +16,12 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Build and Test') {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
-                echo 'Jenkins Build'
-                sh 'python -m venv $HOME/venv/;\
-                    . $HOME/venv/bin/activate;\
-                    pip install -r requirements.txt;'
-                sh 'export PATH="/home/ubuntu/.nvm/versions/node/v15.5.0/bin:${PATH}"'
-                sh 'cd frontend; npm install; npm run build;'
+                echo 'Jenkins Build and Test'
+                sh 'cp /var/jenkins_home/.env .env'
+                sh 'docker build -t djangovue_test -f Dockerfile-test .'
            }
             post {
                 failure {
@@ -35,46 +32,21 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            when { expression { env.gitlabSourceBranch != 'master' } }
-            steps {
-                echo 'Jenkins Test'
-                sh '. $HOME/venv/bin/activate; \
-                    export DJANGO_HTTP=True; \
-                    isort --profile black -c .; \
-                    black --check . ; \
-                    python manage.py test; '
-            }
-            post {
-                failure {
-                    updateGitlabCommitStatus name: 'test', state: 'failed'
-                }
-                success {
-                    updateGitlabCommitStatus name: 'test', state: 'success'
-                }
-            }
-        }
         stage('Deploy to Staging') {
             when { expression { env.gitlabSourceBranch != 'master' } }
             steps {
                 echo 'Jenkins Staging'
-                sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
+                sh 'docker run -i djangovue_test python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*;'
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.36.94.220 "cd /home/ubuntu/onepaper/; \
+                git checkout .; \
                 git checkout master; \
                 git pull --all; \
                 git checkout -f $gitlabMergeRequestLastCommit; \
                 git push --all old-origin; \
-                source /home/ubuntu/djangovenv/bin/activate; \
-                pip3 install -r requirements.txt --no-warn-script-location; \
-                unset GREEN; \
-                cd frontend; npm install; npm run build; cd ..; \
-                export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
-                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*; \
-                unset DJANGO_DEBUG; unset USE_S3; \
-                python3 manage.py migrate; \
-                sudo service nginx reload; \
-                sudo service onepaper-green restart; \
-                sudo rm -rf ~/web-info/cache/nginx/*; \
-                sudo rm -rf ~/web-info/cache/nginx-green/*;" '
+                sudo docker-compose -f docker-compose.staging.yml exec -T django python3 manage.py migrate; \
+                sudo docker-compose -f docker-compose.staging.yml restart django; \
+                sudo docker-compose -f docker-compose.staging.yml exec -T nginx-proxy nginx -s reload; \
+                sudo rm -rf /etc/nginx/cache/*;" '
             }
             post {
                 failure {
