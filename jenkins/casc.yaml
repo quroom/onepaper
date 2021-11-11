@@ -1,4 +1,5 @@
 #Ref. https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+#http://127.0.0.1:8080/configuration-as-code/reference
 jenkins:
   securityRealm:
     local:
@@ -6,6 +7,13 @@ jenkins:
       users:
         - id: ${JENKINS_ADMIN_ID}
           password: ${JENKINS_ADMIN_PASSWORD}
+  #https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/global-matrix-auth/README.md
+  authorizationStrategy:
+    globalMatrix:
+      permissions:
+        - "Overall/Read:anonymous"
+        - "Overall/Read:authenticated"
+        - "Overall/Administer:admin"
 
 credentials:
   system:
@@ -29,16 +37,21 @@ unclassified:
         name: "gitlab-jenkins"
         readTimeout: 10
         url: "https://gitlab.com/"
+
+#Branch specifier: branch("origin/${gitlabSourceBranch})"
+#http://dev.onepaper.biz:8080/plugin/job-dsl/api-viewer/index.html#method/javaposse.jobdsl.dsl.helpers.properties.PropertiesContext.pipelineTriggers
 jobs:
   - script: >
       pipelineJob('onepaper') {
         definition {
           cpsScm {
+            lightweight(true)
             scm {
               git {
                 remote {
-                  url('https://gitlab.com/quroom/onepaper.git')
+                  url('https://quroom:${GITLAB_API_TOKEN}@gitlab.com/quroom/onepaper.git')
                 }
+                branch('origin/{gitlabSourceBranch}')
               }
             }
             scriptPath('Jenkinsfile')

@@ -1,0 +1,25 @@
+FROM node:12.18.1 AS builder
+WORKDIR /frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
+
+FROM python:3.8.3-slim
+WORKDIR /onepaper
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONBUFFERED 1
+ENV DJANGO_HTTP=True
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install debugpy==1.5.1
+RUN pip install -r requirements.txt 
+# copy entrypoint.sh
+RUN apt-get update && apt-get install -y netcat git
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /onepaper/entrypoint.sh
+RUN chmod +x /onepaper/entrypoint.sh
+RUN mkdir /var/log/gunicorn/
+COPY . .
+RUN python manage.py test
+COPY --from=builder /frontend/dist/ ./frontend/dist/
