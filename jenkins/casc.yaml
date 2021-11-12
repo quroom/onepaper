@@ -7,9 +7,12 @@ jenkins:
       users:
         - id: ${JENKINS_ADMIN_ID}
           password: ${JENKINS_ADMIN_PASSWORD}
+  #https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/demos/global-matrix-auth/README.md
   authorizationStrategy:
     globalMatrix:
       permissions:
+        - "Overall/Read:anonymous"
+        - "Overall/Read:authenticated"
         - "Overall/Administer:admin"
 
 credentials:
@@ -42,6 +45,7 @@ jobs:
       pipelineJob('onepaper') {
         definition {
           cpsScm {
+            lightweight(true)
             scm {
               git {
                 remote {
