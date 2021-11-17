@@ -92,7 +92,7 @@ pipeline {
                 message "Shall we switch blue to green?"
             }
             steps {
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
                 cd onepaper; \
                 git checkout .; \
                 git pull origin master; \
@@ -114,16 +114,14 @@ pipeline {
                 message "Shall we deploy to blue production?"
             }
             steps {
-                sh 'sudo su - ubuntu -c "cd /home/ubuntu/onepaper-green/; \
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@dev.onepaper.biz "cd /home/ubuntu/onepaper/; \
+                git checkout .; \
                 git checkout master; \
                 git pull origin master; \
-                source /home/ubuntu/djangovenv/bin/activate; \
-                cd frontend; npm install; npm run build; cd ..; \
-                export GREEN=False; export DJANGO_DEBUG=False; export USE_S3=True; export DJANGO_PRODUCT=False; \
-                python3 manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*; \
-                unset DJANGO_DEBUG; \
-                unset USE_S3;" '
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
+                docker build -t djangovue_test -f Dockerfile-test .; \
+                docker run -i -e GREEN=False djangovue_test python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*;" '
+
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
                 cd onepaper; \
                 git checkout .; \
                 git pull origin master; \
