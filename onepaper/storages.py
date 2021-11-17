@@ -1,4 +1,5 @@
-from django.conf import os
+import os
+
 from storages.backends.s3boto3 import S3Boto3Storage
 
 __all__ = (
@@ -9,8 +10,12 @@ __all__ = (
 # for media
 class S3DefaultStorage(S3Boto3Storage):
     default_acl = "public-read"
-    location = "media"
     file_overwrite = False
+    GREEN = os.environ.get("GREEN", "True") != "False"
+    if GREEN:
+        location = "media-green"
+    else:
+        location = "media"
 
 
 # for static

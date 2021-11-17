@@ -1,0 +1,21 @@
+FROM python:3.8.3-slim
+WORKDIR /onepaper
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONBUFFERED 1
+
+COPY dev-requirements.txt .
+
+RUN pip install --upgrade pip
+RUN pip install -r dev-requirements.txt
+
+# copy entrypoint.sh
+RUN apt-get update && apt-get install -y netcat
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /onepaper/entrypoint.sh
+RUN chmod +x /onepaper/entrypoint.sh
+
+COPY . .
+RUN cp .env.devdocker .env
+# run entrypoint.sh
+ENTRYPOINT ["/onepaper/entrypoint.sh"]

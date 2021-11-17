@@ -2,9 +2,9 @@ const BundleTracker = require("webpack-bundle-tracker");
 const mode = process.argv[4];
 
 module.exports = {
-  // on Windows you might want to set publicPath: "http://127.0.0.1:8080/"
-  // To access site from outside. publicPath: "http://125.183.143.159:8080/",
-  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://125.183.143.159:8080/",
+  // on Windows you might want to set publicPath: "http://127.0.0.1:5050/"
+  // To access site from outside. publicPath(Public IP): "http://125.183.143.159:5050/",
+  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://127.0.0.1:5050/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
     if (mode == "dev") {
@@ -24,9 +24,9 @@ module.exports = {
 
     config.devServer
       // the first 3 lines of the following code have been added to the configuration
-      .public("http://127.0.0.1:8080")
+      .public("http://127.0.0.1:5050")
       // .host("localhost")
-      .port(8080)
+      .port(5050)
       .hotOnly(true)
       .watchOptions({ poll: 1000 })
       .https(false)

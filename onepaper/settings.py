@@ -15,10 +15,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import random
 import string
+import sys
 
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 
+TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -279,7 +281,7 @@ if USE_S3 and DEBUG == False:
     DEFAULT_FILE_STORAGE = "%s.storages.S3DefaultStorage" % AWS_STORAGE_BUCKET_NAME
     STATICFILES_STORAGE = "%s.storages.S3StaticStorage" % AWS_STORAGE_BUCKET_NAME
 
-if "RDS_HOSTNAME" in os.environ:
+if not TESTING and "RDS_HOSTNAME" in os.environ:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
