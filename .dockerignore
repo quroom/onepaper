@@ -1,2 +1,7 @@
+.dockerignore
 */node_modules
 #Need to be add file regex to prevent unecessary django test, Because of files not included django.
+Dockerfile*
+docker*
+Jenkinsfile
+jenkins
