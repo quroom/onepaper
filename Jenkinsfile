@@ -46,7 +46,7 @@ pipeline {
                 sudo docker-compose -f docker-compose.staging.yml exec -T django python3 manage.py migrate; \
                 sudo docker-compose -f docker-compose.staging.yml restart django; \
                 sudo docker-compose -f docker-compose.staging.yml exec -T nginx-proxy nginx -s reload; \
-                sudo rm -rf /etc/nginx/cache/*;" '
+                sudo docker-compose -f docker-compose.staging.yml exec -T nginx-proxy sh -c \'rm -rf /etc/nginx/cache/*\'" '
             }
             post {
                 failure {
