@@ -118,6 +118,7 @@ server {
 		proxy_cache_lock       on;
 		proxy_cache_valid      200 304 60m;
 		add_header             Cache-Control max-age=31536000;
+		add_header Access-Control-Allow-Origin *;
 		add_header X-Proxy-Cache $upstream_cache_status;
 
 		proxy_pass https://bucket-onepaper.s3.ap-northeast-2.amazonaws.com/static-green/;
