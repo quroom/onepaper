@@ -296,7 +296,6 @@ if not TESTING and "RDS_HOSTNAME" in os.environ:
 SUMMERNOTE_CONFIG = {
     "attachment_require_authentication": True,
     "attachment_filesize_limit": 5242880 * 2,
-    "disable_attachment": True,
 }
 
 ADMINS = [("quroom", "quroom@naver.com")]
