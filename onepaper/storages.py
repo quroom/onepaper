@@ -11,9 +11,9 @@ __all__ = (
 class S3DefaultStorage(S3Boto3Storage):
     default_acl = "public-read"
     file_overwrite = False
-    GREEN = os.environ.get("GREEN", "True") != "False"
-    if GREEN:
-        location = "media-green"
+    STAGING = os.environ.get("STAGING", "False") != "False"
+    if STAGING:
+        location = "media-staging"
     else:
         location = "media"
 
