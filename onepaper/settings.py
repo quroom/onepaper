@@ -278,8 +278,8 @@ if USE_S3 and DEBUG == False:
     AWS_S3_CUSTOM_DOMAIN = os.environ.get(
         "AWS_S3_CUSTOM_DOMAIN", "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
     )
-    DEFAULT_FILE_STORAGE = "%s.storages.S3DefaultStorage" % AWS_STORAGE_BUCKET_NAME
-    STATICFILES_STORAGE = "%s.storages.S3StaticStorage" % AWS_STORAGE_BUCKET_NAME
+    DEFAULT_FILE_STORAGE = "onepaper.storages.S3DefaultStorage"
+    STATICFILES_STORAGE = "onepaper.storages.S3StaticStorage"
 
 if not TESTING and "RDS_HOSTNAME" in os.environ:
     DATABASES = {

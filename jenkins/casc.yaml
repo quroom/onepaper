@@ -70,7 +70,7 @@ jobs:
         }
         triggers {
           gitlabPush {
-            commentTrigger("Jenkins please retry a build")
+            commentTrigger("retry")
           }
         }
       }

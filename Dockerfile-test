@@ -21,5 +21,5 @@ RUN sed -i 's/\r$//g' /onepaper/entrypoint.sh
 RUN chmod +x /onepaper/entrypoint.sh
 RUN mkdir /var/log/gunicorn/
 COPY . .
-RUN python manage.py test
+RUN USE_S3=False python manage.py test
 COPY --from=builder /frontend/dist/ ./frontend/dist/
