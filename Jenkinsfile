@@ -65,6 +65,7 @@ pipeline {
             }
             input {
                 message "Shall we deploy to green production?"
+                submitter "admin"
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
@@ -90,6 +91,7 @@ pipeline {
             }
             input {
                 message "Shall we switch blue to green?"
+                submitter "admin"
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
@@ -112,6 +114,7 @@ pipeline {
             }
             input {
                 message "Shall we deploy to blue production?"
+                submitter "admin"
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@dev.onepaper.biz "cd /home/ubuntu/onepaper/; \
@@ -143,6 +146,7 @@ pipeline {
             }
             input {
                 message "Shall we switch blue to green?"
+                submitter "admin"
             }
             steps {
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@54.180.203.148 "source djangovenv/bin/activate; \
