@@ -53,7 +53,7 @@ jobs:
                 remote {
                   url('https://quroom:${GITLAB_API_TOKEN}@gitlab.com/quroom/onepaper.git')
                 }
-                branch('origin/{gitlabSourceBranch}')
+                branch('origin/^${gitlabSourceBranch}')
               }
             }
             scriptPath('Jenkinsfile')
@@ -66,6 +66,7 @@ jobs:
                 triggerOnPush(true)
                 triggerOnMergeRequest(true)
                 triggerOnApprovedMergeRequest(true)
+                secretToken('${secretToken}')
               }
             }
           }
