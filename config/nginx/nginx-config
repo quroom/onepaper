@@ -204,7 +204,7 @@ server {
 
 	}
 	location /media/ {
-		proxy_pass https://onepaper.s3.ap-northeast-2.amazonaws.com/media/;
+		proxy_pass https://bucket-onepaper.s3.ap-northeast-2.amazonaws.com/media/;
 		expires 365d;
 	}
 }
