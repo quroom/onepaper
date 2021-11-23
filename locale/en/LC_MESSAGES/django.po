@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-13 15:49+0900\n"
+"POT-Creation-Date: 2021-11-23 10:11+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\onepaper\settings.py:157
+#: .\onepaper\settings.py:159
 msgid "Korean"
 msgstr ""
 
-#: .\onepaper\settings.py:158
+#: .\onepaper\settings.py:160
 msgid "English"
 msgstr ""
 
@@ -295,7 +295,7 @@ msgstr ""
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:470 .\papers\views.py:176
+#: .\papers\tests.py:470 .\papers\views.py:178
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr "Only done or denied contract can be hide."
 
@@ -308,7 +308,7 @@ msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
 #: .\papers\tests.py:510 .\papers\tests.py:560 .\papers\views.py:95
-#: .\papers\views.py:151
+#: .\papers\views.py:153
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr "The request data is incorrect."
 
@@ -320,11 +320,11 @@ msgstr ""
 "Hidden contracts cannot be approved/denied. Please request again after "
 "processing the contract."
 
-#: .\papers\tests.py:538 .\papers\views.py:159
+#: .\papers\tests.py:538 .\papers\views.py:161
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr "The contract has already been hidden."
 
-#: .\papers\tests.py:553 .\papers\views.py:168
+#: .\papers\tests.py:553 .\papers\views.py:170
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr "The contract has already been showing."
 
@@ -332,50 +332,50 @@ msgstr "The contract has already been showing."
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr "A signed or done contract cannot be denied."
 
-#: .\papers\tests.py:806 .\papers\views.py:315
+#: .\papers\tests.py:806 .\papers\views.py:317
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr "Done or denied contract cannot be modified."
 
-#: .\papers\tests.py:860 .\papers\views.py:367
+#: .\papers\tests.py:860 .\papers\views.py:369
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr "Done contract cannot be deleted"
 
-#: .\papers\tests.py:923 .\profiles\tests.py:408 .\profiles\views.py:303
+#: .\papers\tests.py:923 .\profiles\tests.py:408 .\profiles\views.py:305
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:936 .\profiles\views.py:329
+#: .\papers\tests.py:936 .\profiles\views.py:331
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:977 .\profiles\views.py:381
+#: .\papers\tests.py:977 .\profiles\views.py:383
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:1442 .\papers\tests.py:1576 .\papers\views.py:198
-#: .\papers\views.py:420
+#: .\papers\tests.py:1442 .\papers\tests.py:1576 .\papers\views.py:200
+#: .\papers\views.py:422
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr "Done or denied contract cannot be signed."
 
-#: .\papers\tests.py:1460 .\papers\tests.py:1588 .\papers\views.py:208
-#: .\papers\views.py:430
+#: .\papers\tests.py:1460 .\papers\tests.py:1588 .\papers\views.py:210
+#: .\papers\views.py:432
 msgid "이미 서명이 등록되어있습니다."
 msgstr "The signature is already registered."
 
-#: .\papers\tests.py:1519 .\papers\tests.py:1633 .\papers\views.py:231
-#: .\papers\views.py:448
+#: .\papers\tests.py:1519 .\papers\tests.py:1633 .\papers\views.py:233
+#: .\papers\views.py:450
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr "Done or denied contract cannot have their signatures modified."
 
-#: .\papers\tests.py:1676 .\papers\views.py:347
+#: .\papers\tests.py:1676 .\papers\views.py:349
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 "The contract cannot be modified more than 24 hours after initial signing."
 
-#: .\papers\tests.py:1682 .\papers\views.py:399
+#: .\papers\tests.py:1682 .\papers\views.py:401
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
@@ -620,7 +620,7 @@ msgstr ""
 "Members who have not been added to the quick transaction list cannot be "
 "deleted."
 
-#: .\profiles\tests.py:369 .\profiles\views.py:421
+#: .\profiles\tests.py:369 .\profiles\views.py:423
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
@@ -633,61 +633,61 @@ msgstr "No expert was chosen."
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
-#: .\profiles\tests.py:636 .\profiles\views.py:487
+#: .\profiles\tests.py:636 .\profiles\views.py:491
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, you cannot delete your "
 "profile."
 
-#: .\profiles\tests.py:701 .\profiles\views.py:431
+#: .\profiles\tests.py:701 .\profiles\views.py:433
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, you cannot delete your "
 "profile."
 
-#: .\profiles\tests.py:738 .\profiles\views.py:440
+#: .\profiles\tests.py:738 .\profiles\views.py:442
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: .\profiles\tests.py:774 .\profiles\views.py:496
+#: .\profiles\tests.py:774 .\profiles\views.py:500
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
-#: .\profiles\tests.py:797 .\profiles\views.py:684
+#: .\profiles\tests.py:797 .\profiles\views.py:688
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr "You must enter email or phone number."
 
-#: .\profiles\tests.py:894 .\profiles\views.py:537
+#: .\profiles\tests.py:896 .\profiles\views.py:541
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, the user information cannot "
 "be modified."
 
-#: .\profiles\tests.py:902 .\profiles\views.py:584
+#: .\profiles\tests.py:904 .\profiles\views.py:588
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 "Withdrawal has been processed. Account information has also been completely "
 "deleted."
 
-#: .\profiles\tests.py:933 .\profiles\views.py:580
+#: .\profiles\tests.py:935 .\profiles\views.py:584
 msgid "탈퇴처리 되었습니다."
 msgstr "Withdrawal has been processed."
 
-#: .\profiles\tests.py:939 .\profiles\views.py:570
+#: .\profiles\tests.py:941 .\profiles\views.py:574
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr "Please enter all the information of the member to withdraw from."
 
-#: .\profiles\tests.py:945 .\profiles\views.py:565
+#: .\profiles\tests.py:947 .\profiles\views.py:569
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 "The information entered does not match the current member's information."
 
-#: .\profiles\tests.py:1064 .\profiles\tests.py:1097 .\profiles\views.py:642
+#: .\profiles\tests.py:1066 .\profiles\tests.py:1099 .\profiles\views.py:646
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\tests.py:1112 .\profiles\views.py:661
+#: .\profiles\tests.py:1114 .\profiles\views.py:665
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
@@ -712,18 +712,18 @@ msgid ""
 "information."
 msgstr ""
 
-#: .\profiles\views.py:346
+#: .\profiles\views.py:348
 msgid ""
 "수정 후 보증서류 기간에 제외되는 계약서가 없도록 기간을 다시 수정해주세요."
 msgstr ""
 
-#: .\profiles\views.py:447
+#: .\profiles\views.py:449
 #, fuzzy
 #| msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgid "본인인증 완료된 프로필의 휴대폰 번호는 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\views.py:543
+#: .\profiles\views.py:547
 #, fuzzy
 #| msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgid "본인인증 완료된 회원정보는 수정할 수 없습니다."
@@ -1407,13 +1407,13 @@ msgstr ""
 #: .\templates\intro.html:160
 msgid ""
 "\n"
-"      본 서비스는 수수료 없이 무료로 제공되며, <br/>\n"
-"      광고 수수료를 통해 운영됩니다.\n"
+"      아직도 종이로 계약서 작성하세요? <br/>\n"
+"      쉽고 빠르게 비대면 계약하세요!\n"
 "      "
-msgstr ""
-"\n"
-"This service is provided free of charge <br/> \n"
-" and is operated through advertising fees."
+msgstr "\n"
+"Are you still writing contracts offline? <br/>\n"
+"Use quick and easy online contract!\n"
+" "
 
 #: .\templates\intro.html:165
 msgid "무료로 시작하기"
@@ -1628,6 +1628,16 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "      본 서비스는 수수료 없이 무료로 제공되며, <br/>\n"
+#~ "      광고 수수료를 통해 운영됩니다.\n"
+#~ "      "
+#~ msgstr ""
+#~ "\n"
+#~ "This service is provided free of charge <br/> \n"
+#~ " and is operated through advertising fees."
 
 #, fuzzy
 #~| msgid "전문가가 선택되지 않았습니다."
