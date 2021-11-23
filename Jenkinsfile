@@ -84,7 +84,7 @@ pipeline {
                 }
             }
         }
-        stage('Switch Blue to Green') {
+        stage('Switch Blue to Green and deploy Blue') {
             when { 
                 beforeInput true
                 expression { env.gitlabSourceBranch == 'master' } 
@@ -94,36 +94,22 @@ pipeline {
                 submitter "admin"
             }
             steps {
+                //Switch Blue to green
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
                 cd onepaper; \
                 git checkout .; \
                 git pull origin master; \
                 sh config/nginx/blue-green-deploy.sh g; \
                 sudo systemctl reload nginx;" '
-            }
-            post {
-                aborted {
-                    updateGitlabCommitStatus name: 'jenkins', state: 'canceled'
-                }
-            }
-        }
-        stage('Deploy to Blue') {
-            when { 
-                beforeInput true
-                expression { env.gitlabSourceBranch == 'master' } 
-            }
-            input {
-                message "Shall we deploy to blue production?"
-                submitter "admin"
-            }
-            steps {
+
+                //Deploy to Blue : Deploy static file.
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@dev.onepaper.biz "cd /home/ubuntu/onepaper/; \
                 git checkout .; \
                 git checkout master; \
                 git pull origin master; \
                 sudo docker build -t djangovue_test -f Dockerfile-test .; \
                 sudo docker run -i -e GREEN=False djangovue_test python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*;" '
-
+                //Deploy to Blue : Deploy django server.
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
                 cd onepaper; \
                 git checkout .; \
