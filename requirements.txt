@@ -10,6 +10,7 @@ django-crispy-forms==1.10.0
 django-debug-toolbar==3.2
 django-filter==2.4.0
 django-ipware==3.0.2
+django-migration-linter==3.0.1
 django-multiselectfield==0.1.12
 django-phonenumber-field==5.0.0
 django-storages==1.11.1
