@@ -2,6 +2,7 @@
 
 import django.db.models.deletion
 import django.utils.timezone
+import django_migration_linter as linter
 import phonenumber_field.modelfields
 from django.conf import settings
 from django.db import migrations, models
@@ -19,6 +20,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        linter.IgnoreMigration(),
         migrations.CreateModel(
             name="CustomUser",
             fields=[

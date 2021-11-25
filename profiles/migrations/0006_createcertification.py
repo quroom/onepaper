@@ -1,6 +1,7 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+import django_migration_linter as linter
 
 
 def create_usersetting(apps, schema_editor):
@@ -17,4 +18,4 @@ class Migration(migrations.Migration):
         ("profiles", "0005_certification"),
     ]
 
-    operations = [migrations.RunPython(create_usersetting)]
+    operations = [linter.IgnoreMigration(), migrations.RunPython(create_usersetting)]
