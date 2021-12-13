@@ -20,7 +20,7 @@ import sys
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 
-TESTING = len(sys.argv) > 1 and (sys.argv[1] == "test" or sys.argv[1] == "lintmigrations")
+TESTING = len(sys.argv) > 1 and (sys.argv[1] == "test")
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
