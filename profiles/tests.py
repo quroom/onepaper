@@ -268,6 +268,7 @@ class ExpertProfileTestCase(APITestCase):
         return profile
 
     def create_expert_profile(self):
+        # FIXME: image removing is not working well.
         image = self._create_image()
         image1 = self._create_image()
         image2 = self._create_image()

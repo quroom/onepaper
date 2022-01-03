@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar class="navigation" dark color="grey darken-3" dense fixed>
+    <v-app-bar class="filter-bar" dark color="grey darken-3" dense fixed>
       <v-spacer />
       <div id="v-filter">
         <v-btn-toggle tile group mandatory v-model="is_mine">
@@ -90,7 +90,7 @@
                   <v-text-field
                     class="search-text ve-input"
                     v-model="options.old_address"
-                    :label="`${$t('address')}(${$t('partial_correct_match')})`"
+                    :label="`${$t('old_address')}(${$t('partial_correct_match')})`"
                     hide-details
                     dense
                     @keyup.enter="getPapersWithOptions()"
@@ -182,7 +182,7 @@
         {{ $t("mandatory") }}
       </v-row>
       <div v-else-if="papers.length == 0 && !isLoading" class="text-h6 text-center">
-        {{ $t("no_paper") }}
+        {{ $t("no_result") }}
       </div>
       <div :id="this.is_mine && this.papers.length ? 'v-paper-list' : ''">
         <v-row>
@@ -205,7 +205,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <CustomTour name="home" :steps="steps" :options="tourOptions" :callbacks="tourCallbacks" />
+    <CustomTour name="papers" :steps="steps" :options="tourOptions" :callbacks="tourCallbacks" />
   </div>
 </template>
 
@@ -214,7 +214,7 @@ import { apiService } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import PaperItem from "@/components/PaperItem";
 export default {
-  name: "Home",
+  name: "PaperList",
   components: {
     PaperItem
   },
@@ -420,9 +420,8 @@ export default {
       });
     },
     manageStep() {
-      console.log(this.$tours["home"]);
       if (this.$store.state.has_profile) {
-        this.$tours["home"].currentstep += 1;
+        this.$tours["papers"].currentstep += 1;
       }
     },
     nextStepTour(currentStep) {
@@ -430,7 +429,7 @@ export default {
         const target_element = document.querySelector(this.steps[i].target);
         if (target_element) {
           if (i != currentStep + 1) {
-            const tour = this.$tours["home"];
+            const tour = this.$tours["papers"];
             this.$nextTick(() => {
               tour.currentStep = i;
             });
@@ -444,7 +443,7 @@ export default {
         const target_element = document.querySelector(this.steps[i].target);
         if (target_element) {
           if (i != currentStep - 1) {
-            const tour = this.$tours["home"];
+            const tour = this.$tours["papers"];
             this.$nextTick(() => {
               tour.currentStep = i;
             });
@@ -455,19 +454,19 @@ export default {
     }
   },
   destroyed() {
-    this.$tours["home"].stop();
+    this.$tours["papers"].stop();
   },
   mounted() {
     this.getPapers();
     if (this.$store.state.user_setting.is_tour_on && this.$store.state.user_category === "user") {
-      this.$tours["home"].start();
+      this.$tours["papers"].start();
     }
   }
 };
 </script>
 <style scoped>
 @media (max-width: 960px) {
-  .navigation {
+  .filter-bar {
     top: 56px !important;
     z-index: 1;
   }
@@ -477,6 +476,10 @@ export default {
   .container {
     max-width: 100%;
   }
+}
+.filter-bar {
+  top: 64px;
+  z-index: 1;
 }
 .container {
   padding-top: 56px;
@@ -489,10 +492,6 @@ export default {
 }
 .ve-input {
   margin: 8px;
-}
-.navigation {
-  top: 64px;
-  z-index: 1;
 }
 /* switch label style change */
 .switch /deep/ .v-input__slot {

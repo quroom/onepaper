@@ -2,7 +2,17 @@
   <v-app app style="overflow-x:auto">
     <NavbarItem id="v-navbar" class="no-print root_tag" />
     <v-main class="root_tag">
-      <keep-alive v-if="!$route.meta.isDestroied && !$store.state.is_paper_updated" include="Home">
+      <keep-alive
+        v-if="!$route.meta.isPaperDestroied && !$store.state.is_paper_updated"
+        include="PaperList"
+      >
+        <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
+        <router-view />
+      </keep-alive>
+      <keep-alive
+        v-else-if="!$route.meta.isListingDestroied && !$store.state.is_listing_updated"
+        include="Listings"
+      >
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
         <router-view />
       </keep-alive>
@@ -27,17 +37,9 @@ export default {
     }
   },
   watch: {
-    has_profile() {
-      if (this.$store.state.has_profile == false && this.is_staff == false) {
-        if (this.$router.name == "paper-editor") {
-          alert(this.$i18n.t("no_profile_cant_use_service"));
-          this.$router.push({ name: "profile-editor" });
-        }
-      }
-    },
     $route(to) {
       if (this.$store.state.has_profile == false && this.is_staff == false) {
-        if (to.name == "paper-editor") {
+        if (to.name == "paper-editor" || to.name == "listing-editor") {
           alert(this.$i18n.t("no_profile_cant_use_service"));
           this.$router.push({ name: "profile-editor" });
         }

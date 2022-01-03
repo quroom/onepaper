@@ -66,6 +66,7 @@ const i18n = new VueI18n({
       designator: "designator",
       designee: "designee",
       delete: "Delete",
+      delete_image: "Delete image",
       deleted: "Deleted",
       delete_account: "Delete Account",
       delete_confirm: "Do you really want to delete?",
@@ -76,6 +77,9 @@ const i18n = new VueI18n({
       deny: "Deny",
       denied: "Denied",
       detail: "detail",
+      detail_info: "Detail info",
+      detail_info_placeholder:
+        "Notes on writing \n - Inappropriate detail info cannot be entered.\n In case of violation, the service may be restricted and the listing may be deleted.",
       edit: "Edit",
       edit_registor_info: "Edit registor info",
       email: "이메일",
@@ -91,10 +95,11 @@ const i18n = new VueI18n({
       id: "ID",
       initialize: "Initialize",
       image_file_size_error: "Image file size can't be over %{0} KB.",
-      image_file_count_error: "You can't upload over %{0} images.",
+      image_max_count_error: "You can upload only %{0} images.",
       image_file_type_error: "This file extension is not supported.",
       info: "Info",
       insert_contract_details: "Insert contract details",
+      insterested_in: "Hello, I am interested in {link}",
       intro: "This is realestate contract that is made by traders.",
       landlord: "Landlord",
       landlord_or_tenant: "Are you landlord or tenant?",
@@ -119,6 +124,7 @@ const i18n = new VueI18n({
         "During the delegation period, the contract written by the mandate is completed without the signature of the mandate.",
       mandate_paper: "Power of Attorney",
       mandatory: "mandatory",
+      man: "ten thousand Won",
       manwon: "ten thousand Won",
       menu: "Menu",
       modify: "Modify",
@@ -130,7 +136,7 @@ const i18n = new VueI18n({
       notice: "Notice",
       number: "Number",
       no_mandate: "There is no mandate",
-      no_paper: "There is no paper.",
+      no_result: "No results were retrieved.",
       no_paper_redirect_to_all_paper:
         "There is no contract included as a contractor, so the entire contract is searched.",
       no_profile: "There is no profile",
@@ -169,6 +175,7 @@ const i18n = new VueI18n({
       request_agent_account: "Request to agent account.",
       request_success: "Your request has been processed.",
       reviewing: "reviewing",
+      room_images: "Room Images",
       save: "Save",
       search: "Search",
       select: "Select",
@@ -207,6 +214,7 @@ const i18n = new VueI18n({
       use_profile_after_approval:
         "The profile of a certified practitioner can be used after reviewing the attached documents and approval.",
       unspport_function: "This feature is not currently available on this page.",
+      view: "View",
       view_mobile_version: "View Mobile Ver",
       view_pc_version: "View PC Ver(Printable)",
       writing: "writing",
@@ -221,6 +229,16 @@ const i18n = new VueI18n({
       uncertified: "Uncertified",
       uncertified_detail:
         "There is no certification history. Be careful when confirming contractor identity when signing a contract.",
+
+      //Listing
+      create_listing: "Create Listing",
+      listing: "Listing",
+      listing_subtitle:
+        "You can freely post and view listings, but you may be subject to sanctions for activities that cause damage to others, such as fake listing.",
+      online_visit: "Online",
+      short_lease: "Short Lease",
+      only_my_listings: "only mine ",
+      all_listings: "all",
 
       //Tour translation
       done_tour: "Done",
@@ -290,6 +308,7 @@ const i18n = new VueI18n({
       mobile_number: "Conctact",
       bank_name: "Bank Name",
       account_number: "Account Number",
+      owner: "owner",
       registration_number: "Registration Number",
       shop_name: "Shop Name",
       shop_address: "Shop Address",
@@ -300,6 +319,7 @@ const i18n = new VueI18n({
 
       //Realestate basic message
       address: "Address",
+      old_address: "Old address",
       area: "Area",
       dong: "Dong",
       ho: "Ho",
@@ -309,7 +329,7 @@ const i18n = new VueI18n({
       building_structure: "Building Strcuture",
       building_category: "Building Type",
       building_area: "Building Area",
-      realestate_category: "Realestate Type",
+      item_category: "Item Category",
       trade_category: "Trade Type",
 
       //terms and condition message
@@ -319,6 +339,9 @@ const i18n = new VueI18n({
       security_deposit: "Security Deposit",
       monthly_fee: "Monthly Fee",
       maintenance_fee: "Maintenance Fee",
+      security_deposit_short: "Security Deposit",
+      monthly_fee_short: "Monthly Fee",
+      maintenance_fee_short: "Maintenance Fee",
 
       //Land type
       buildingland: "Building Land",
@@ -513,6 +536,7 @@ const i18n = new VueI18n({
       descending: "내림차순",
       default: "기본",
       delete: "삭제",
+      delete_image: "이미지 삭제",
       deleted: "삭제할",
       delete_account: "회원 탈퇴",
       delete_confirm: "정말 삭제 하시겠습니까?",
@@ -526,6 +550,9 @@ const i18n = new VueI18n({
       designator: "위임인",
       designee: "수임인",
       detail: "상세",
+      detail_info: "상세정보",
+      detail_info_placeholder:
+        "작성 주의사항 \n - 부적절한 홍보성 정보는 입력할 수 없습니다.\n 위반시 서비스 제한 및 매물이 삭제될 수 있습니다.",
       edit: "수정",
       edit_registor_info: "가입정보 수정",
       email: "이메일",
@@ -541,9 +568,10 @@ const i18n = new VueI18n({
       id: "ID",
       initialize: "초기화",
       image_file_size_error: "이미지 크기는 %{0}KB를 넘을 수 없습니다.",
-      image_file_count_error: "%{0}개 이상의 이미지를 첨부할 수 없습니다.",
+      image_max_count_error: "이미지는 %{0}개까지 첨부할 수 있습니다.",
       image_file_type_error: "지원하지 않는 파일 종류 입니다.",
       info: "정보",
+      insterested_in: "안녕하세요. {link} 매물 관심이 있어 연락드립니다.",
       insert_contract_details: "세부계약내용을 입력해주세요.",
       intro: "본 부동산에 대하여 계약자 쌍방은 합의에 의하여 다음과 같이 계약을 체결한다.",
       landlord: "임대인",
@@ -569,6 +597,7 @@ const i18n = new VueI18n({
         "위임 기간 동안 위임인의 서명이 없어도 수임인이 작성한 계약서는 완료됩니다.",
       mandate_paper: "위임장",
       mandatory: "필수",
+      man: "만",
       manwon: "만원",
       menu: "메뉴",
       modify: "편집",
@@ -578,7 +607,7 @@ const i18n = new VueI18n({
       next: "다음",
       notice: "공지사항",
       no_mandate: "작성된 위임장이 없습니다.",
-      no_paper: "작성된 계약서가 없습니다.",
+      no_result: "조회된 결과가 없습니다.",
       no_paper_redirect_to_all_paper: "계약자로 포함된 계약서가 없어 전체 계약서를 조회합니다.",
       no_profile: "생성된 프로필이 없습니다.",
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
@@ -618,6 +647,7 @@ const i18n = new VueI18n({
       request_agent_account: "중개사 회원 신청",
       request_success: "요청이 처리되었습니다.",
       reviewing: "검토중",
+      room_images: "방 사진",
       save: "제출",
       search: "검색",
       self_authentication: "본인인증",
@@ -655,6 +685,7 @@ const i18n = new VueI18n({
       use_profile_after_approval:
         "개업공인중개사 프로필은 첨부해주신 서류 검토 및 관리자 승인 후 사용 가능합니다.",
       unspport_function: "현재 페이지에서는 해당 기능이 제공되지 않습니다.",
+      view: "보기",
       view_mobile_version: "모바일 버전 보기",
       view_pc_version: "원래대로 보기(인쇄용)",
       writing: "작성",
@@ -669,7 +700,17 @@ const i18n = new VueI18n({
       certified: "인증",
       certified_detail: "{updated_at} 본인인증 완료",
       uncertified: "미인증",
-      uncertified_detail: "인증 이력이 없습니다. 계약시 본인확인에 주의하세요.",
+      uncertified_detail: "인증이력이 없습니다. 본인확인에 주의하세요.",
+
+      //Listing
+      create_listing: "매물등록",
+      listing: "매물",
+      listing_subtitle:
+        "매물 등록 및 조회는 자유롭지만, 허위매물 등 타인에게 피해를 주는 활동 시 제재 할 수 있습니다.",
+      online_visit: "비대면",
+      short_lease: "단기",
+      only_my_listings: "내 매물",
+      all_listings: "전체 매물",
 
       //Tour translation
       done_tour: "종료",
@@ -878,6 +919,7 @@ const i18n = new VueI18n({
       mobile_number: "연락처",
       bank_name: "은행명",
       account_number: "계좌",
+      owner: "대표자명",
       registration_number: "등록번호",
       shop_name: "상호명",
       shop_address: "사무실 주소",
@@ -889,6 +931,7 @@ const i18n = new VueI18n({
 
       area: "면적",
       address: "주소",
+      old_address: "구주소",
       dong: "동",
       ho: "호",
       land_category: "지목",
@@ -897,7 +940,7 @@ const i18n = new VueI18n({
       building_structure: "건물구조",
       building_category: "건물용도",
       building_area: "건물면적",
-      realestate_category: "부동산종류",
+      item_category: "매물 종류",
       trade_category: "계약 종류",
 
       from_date: "입주일",
@@ -906,6 +949,9 @@ const i18n = new VueI18n({
       security_deposit: "보증금",
       monthly_fee: "월세",
       maintenance_fee: "관리비",
+      security_deposit_short: "보",
+      monthly_fee_short: "월",
+      maintenance_fee_short: "관",
 
       //Land type
       buildingland: "대",

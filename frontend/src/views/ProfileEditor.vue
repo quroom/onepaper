@@ -653,7 +653,6 @@ export default {
                 );
               }
             } else if (name == "insurance") {
-              console.log(name, this["expert_profile"]["insurance"]["image"]);
               if (this["expert_profile"]["insurance"]["image"] != null) {
                 this["current_garantee_" + name] = window.URL.createObjectURL(
                   this["expert_profile"]["insurance"]["image"]
@@ -698,7 +697,6 @@ export default {
     loadInsurnace(insurance_id) {
       let endpoint = `/api/profiles/${this.id}/insurances/${insurance_id}/`;
       apiService(endpoint).then((data) => {
-        console.log(data);
         if (data.id != undefined) {
           this.dialog.dates = [data.from_date, data.to_date];
           this.dialog.insurance.id = data.id;
@@ -889,7 +887,6 @@ export default {
       }
     } else {
       return next((vm) => {
-        console.log(vm);
         vm.email = vm.$store.state.user.email;
         vm.name = vm.$store.state.user.name;
         vm.birthday = vm.$store.state.user.birthday;
@@ -911,7 +908,6 @@ export default {
       this.$store.state.user_category === "user" &&
       !this.$store.state.has_profile
     ) {
-      console.log("tour_start");
       this.$tours["profile-editor"].start();
     }
   }

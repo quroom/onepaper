@@ -45,7 +45,7 @@
       v-if="isAuthor && !isPaperDone && deadlineToModify !== true"
       :id="paper.id"
       delete_url="/api/papers/"
-      delete_router_name="home"
+      delete_router_name="papers"
       editor_router_name="paper-editor"
     />
     <div v-if="!isPaperDone" class="text-right text-caption white--text no-print">
@@ -799,7 +799,6 @@ export default {
       });
     },
     nextStepTour(currentStep) {
-      console.log(currentStep);
       for (var i = currentStep + 1; i < this.steps.length; i++) {
         const target_element = document.querySelector(this.steps[i].target);
         if (target_element) {
@@ -817,7 +816,6 @@ export default {
       for (var i = currentStep - 1; i > -1; i--) {
         const target_element = document.querySelector(this.steps[i].target);
         if (target_element) {
-          console.log(target_element, i);
           const tour = this.$tours["paper-detail"];
           this.$nextTick(() => {
             tour.currentStep = i;
@@ -850,6 +848,7 @@ export default {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  max-width: 1185px;
 }
 .signature-dialog-parent {
   z-index: 90000001 !important;

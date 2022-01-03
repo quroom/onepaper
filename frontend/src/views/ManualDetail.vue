@@ -21,7 +21,6 @@ export default {
   watch: {
     //Update page from samepage, just with different pageid.
     "$route.path": async function() {
-      console.log(this.$route.params.id);
       this.blockMap = await getPageBlocks(this.$route.params.id);
     }
   },

@@ -2,6 +2,12 @@
 import i18n from "@/plugins/i18n";
 
 const Constants = {
+  MAX_SECURITY_DEPOSIT: 9999999999,
+  MAX_MONTHLY_FEE: 999999999,
+  MAX_MAINTENANCE_FEE: 99999,
+  MAX_SECURITY_DEPOSIT_FILTER: 25000,
+  MAX_MONTHLY_FEE_FILTER: 300,
+  MAX_MAINTENANCE_FEE_FILTER: 50,
   BANK_CATEGORY: {
     0: "--선택--",
     2: "산업은행",
@@ -40,21 +46,21 @@ const Constants = {
     81: "apartment",
     99: "etc"
   },
-  // REALESTATE_CATEGORY: {
-  //   0: "oneroom",
-  //   1: "tworoom",
-  //   2: "threeroom",
-  //   3: "fourroom",
-  //   4: "sharehouse",
-  //   5: "officetel",
-  //   20: "aprtment",
-  //   21: "vailla",
-  //   22: "house",
-  //   23: "commercialhouse",
-  //   40: "store",
-  //   41: "land",
-  //   99: "etc",
-  // },
+  ITEM_CATEGORY: {
+    1: "oneroom",
+    2: "tworoom",
+    3: "threeroom",
+    4: "fourroom",
+    5: "sharehouse",
+    6: "officetel",
+    20: "apartment",
+    21: "vailla",
+    22: "house",
+    23: "commercialhouse",
+    40: "store",
+    41: "land",
+    99: "etc"
+  },
   TRADE_CATEGORY: {
     1: "rent",
     2: "depositloan"
@@ -82,7 +88,7 @@ const Constants = {
   BANK_CATEGORY_LIST: [],
   LAND_CATEGORY_LIST: [],
   BUILDING_CATEGORY_LIST: [],
-  // REALESTATE_CATEGORY_LIST: [],
+  ITEM_CATEGORY_LIST: [],
   TRADE_CATEGORY_LIST: [],
   STATUS_CATEGORY_LIST: [],
   CONTRACTOR_CATEGORY_LIST: [],

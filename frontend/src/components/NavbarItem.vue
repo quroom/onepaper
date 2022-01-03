@@ -106,7 +106,7 @@
       <v-btn
         :id="`v-${item.route.name}`"
         color="primary"
-        v-if="isShown(item)"
+        v-if="isShown(item) && !item.appbar_only"
         class="my-2"
         text
         rounded
@@ -142,9 +142,14 @@ export default {
       drawer: false,
       items: [
         {
+          title: "listing",
+          icon: "description",
+          route: { name: "listings" }
+        },
+        {
           title: "paper",
           icon: "description",
-          route: { name: "home" }
+          route: { name: "papers" }
         },
         {
           title: "profile",
@@ -156,7 +161,8 @@ export default {
           icon: "description",
           route: { name: "mandates" },
           user_category: "expert",
-          expert_only: true
+          expert_only: true,
+          appbar_only: true
         },
         {
           title: "approve",
@@ -202,7 +208,8 @@ export default {
     },
     showTour(flag) {
       if (
-        ["home", "paper-detail", "paper-editor", "profile-editor"].indexOf(this.$route.name) <= -1
+        ["papers", "paper-detail", "paper-editor", "profile-editor"].indexOf(this.$route.name) <=
+        -1
       ) {
         if (flag === true) {
           alert(this.$t("unspport_function"));

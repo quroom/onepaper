@@ -1335,7 +1335,6 @@ export default {
       // FIXME: This will be used later when we check validation for VerifyingExplanation.
       // this.validation_check = true
       // This code makes reflow. So we need to make anotehr code to check validation.
-      console.log("submit");
       this.$refs.obs.validate().then(function(v) {
         if (v == true) {
           let endpoint = "/api/papers/";

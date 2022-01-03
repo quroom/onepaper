@@ -56,6 +56,11 @@ export default {
             if (data == undefined) {
               alert(this.$i18n.t("delete_success"));
               if (this.router_name) {
+                if (this.router_name == "listings") {
+                  that.$store.commit("SET_IS_LISTING_UPDATED", true);
+                } else if (this.router_name == "papers") {
+                  that.$store.commit("SET_IS_PAPER_UPDATED", true);
+                }
                 this.$router.push({ name: this.router_name });
               }
             } else {
