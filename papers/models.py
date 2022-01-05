@@ -347,7 +347,10 @@ class VerifyingExplanation(models.Model):
     rental_housing_registration_info = models.CharField(max_length=35, blank=True)
     mandatory_lease_period = models.PositiveSmallIntegerField(null=True, blank=True)
     lease_initiation_date = models.DateField(null=True, blank=True)
+    # FIXME Need to Remove null True
     right_to_lease_contract_renewal = models.BooleanField(null=True, blank=True, default=None)
+    multi_family_housing_document = models.BooleanField(null=True, blank=True, default=None)
+    ##########
     use_area = models.CharField(max_length=21, blank=True)
     use_district = models.CharField(max_length=21, blank=True)
     use_zone = models.CharField(max_length=21, blank=True)
@@ -421,6 +424,10 @@ class VerifyingExplanation(models.Model):
     wall_crack_status_info = models.CharField(max_length=28, blank=True)
     water_leak_status = models.BooleanField()
     water_leak_status_info = models.CharField(max_length=28, blank=True)
+    # FIXME Need to remove null True
+    floor_surface_status = models.SmallIntegerField(null=True)
+    floor_surface_status_info = models.CharField(max_length=22, null=True, blank=True)
+    ############
     wall_paper_status = models.PositiveSmallIntegerField()
     wall_paper_status_info = models.CharField(max_length=22, blank=True)
     sunshine_status = models.PositiveSmallIntegerField()
