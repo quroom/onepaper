@@ -476,6 +476,7 @@
           :ve.sync="ve"
           :step="step"
           :validation_check.sync="validation_check"
+          :updated_at="updated_at"
         >
           <template v-slot:footer>
             <v-row class="mt-4" no-gutters v-if="step == max_step">
@@ -777,6 +778,7 @@ export default {
       seller: null,
       buyer: null,
       options: [],
+      updated_at: undefined,
       contract_details:
         "<p>제 3조 (<strong>용도변경 및 전대 등</strong>) 임차인은 임대인의 동의없이 위 부동산의 용도나 구조를 변경하거나 전대․임차권 양도 또는 담보제공을 하지 못하며 임대차 목적 이외의 용도로 사용할 수 없다.</p>\
         <p>제 4조 (<strong>계약의 해지</strong>) 임차인이 제3조를 위반하였을 때 임대인은 즉시 본 계약을 해지 할 수 있다.</p>\
@@ -1541,6 +1543,7 @@ export default {
           vm.contract_details = data.contract_details;
           vm.contractors = data.paper_contractors;
           vm.status = data.status;
+          vm.updated_at = data.updated_at;
           if (data.verifying_explanation != null) {
             vm.ve = data.verifying_explanation;
           }
