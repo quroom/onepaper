@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Jenkins Build and Test'
                 sh 'cp /var/jenkins_home/.env .env'
-                sh 'docker build -t djangovue_test -f Dockerfile-test .'
+                sh 'docker build -t djangovue_test --network onepaper_default -f Dockerfile-test .'
            }
             post {
                 failure {

@@ -354,7 +354,7 @@ const i18n = new VueI18n({
 
       //for verifying_explanation
       enforcement_rules: "■ 공인중개사법 시행규칙 [별지 제20호서식]",
-      ve_amendment_updated_date: "Updated 2021. 1. 12.",
+      ve_amendment_updated_date: "Updated {updated_at}",
       ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
       materials_for_ve: "확인ㆍ설명자료",
       explanation_evidence: "확인ㆍ설명 근거자료 등",
@@ -939,7 +939,7 @@ const i18n = new VueI18n({
 
       //for verifying_explanation
       enforcement_rules: "■ 공인중개사법 시행규칙 [별지 제20호서식]",
-      ve_amendment_updated_date: "개정 2021. 1. 12.",
+      ve_amendment_updated_date: "개정 {updated_at} ",
       ve_subject: "중개대상물 확인·설명서[Ⅰ] (주거용 건축물)",
       materials_for_ve: "확인ㆍ설명자료",
       explanation_evidence: "확인ㆍ설명 근거자료 등",

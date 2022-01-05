@@ -230,6 +230,7 @@
         :ve="paper.verifying_explanation"
         :validation_check="true"
         :readonly="true"
+        :updated_at="new Date(paper.updated_at)"
       >
         <template v-slot:footer>
           <template v-if="seller != null">
@@ -264,25 +265,48 @@
           </template>
         </template>
       </VerifyingExplanationEditor>
-      <VerifyingExplanation v-if="isMobile == false" class="mt-4" :paper="paper">
-        <template v-slot:footer>
-          <v-btn
-            id="v-ve-signature"
-            class="no-print"
-            v-if="
-              !isPaperRequest &&
-                !isVerifyingExplanationSigned &&
-                currentContractor.is_allowed == true
-            "
-            @click="open(true)"
-            color="primary"
-            dark
-          >
-            <v-icon>create</v-icon>
-            {{ `${$t("verifying_explanation")} ${$t("signature")}` }}
-          </v-btn>
-        </template>
-      </VerifyingExplanation>
+      <template v-if="paper.updated_at < '2021-12-31'">
+        <VerifyingExplanation v-if="isMobile == false" class="mt-4" :paper="paper">
+          <template v-slot:footer>
+            <v-btn
+              id="v-ve-signature"
+              class="no-print"
+              v-if="
+                !isPaperRequest &&
+                  !isVerifyingExplanationSigned &&
+                  currentContractor.is_allowed == true
+              "
+              @click="open(true)"
+              color="primary"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ `${$t("verifying_explanation")} ${$t("signature")}` }}
+            </v-btn>
+          </template>
+        </VerifyingExplanation>
+      </template>
+      <template v-else>
+        <VerifyingExplanation211231 v-if="isMobile == false" class="mt-4" :paper="paper">
+          <template v-slot:footer>
+            <v-btn
+              id="v-ve-signature"
+              class="no-print"
+              v-if="
+                !isPaperRequest &&
+                  !isVerifyingExplanationSigned &&
+                  currentContractor.is_allowed == true
+              "
+              @click="open(true)"
+              color="primary"
+              dark
+            >
+              <v-icon>create</v-icon>
+              {{ `${$t("verifying_explanation")} ${$t("signature")}` }}
+            </v-btn>
+          </template>
+        </VerifyingExplanation211231>
+      </template>
     </div>
     <div id="v-done"></div>
     <v-dialog
@@ -336,6 +360,7 @@ import { applyValidation } from "@/common/common_api";
 import ContractorItem from "@/components/ContractorItem";
 import ActionItems from "@/components/ActionItems";
 import VerifyingExplanation from "@/components/VerifyingExplanation";
+import VerifyingExplanation211231 from "@/components/VerifyingExplanation211231";
 import VerifyingExplanationEditor from "@/components/VerifyingExplanationEditor";
 
 export default {
@@ -349,6 +374,7 @@ export default {
   components: {
     ContractorItem,
     ActionItems,
+    VerifyingExplanation211231,
     VerifyingExplanation,
     VerifyingExplanationEditor
   },

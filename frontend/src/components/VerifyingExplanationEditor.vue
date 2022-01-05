@@ -403,9 +403,8 @@
                     :locale="this.$i18n.locale"
                   ></v-date-picker>
                 </v-menu>
-                <v-radio-group
+                <NullRadioGroup
                   class=" ve-input ve-radio-group"
-                  :disabled="ve.rental_housing_registration == 0"
                   v-model="ve.right_to_lease_contract_renewal"
                   label="계약갱신요구권 행사여부"
                   row
@@ -415,8 +414,28 @@
                     :value="true"
                     :readonly="readonly"
                   ></v-radio>
+
                   <v-radio label="미확인" :value="false" :readonly="readonly"></v-radio>
-                </v-radio-group>
+                  <template v-if="updated_at >= '2021-12-31'">
+                    <v-radio label="해당 없음" :value="null" :readonly="readonly"></v-radio>
+                  </template>
+                </NullRadioGroup>
+                <template v-if="updated_at >= '2021-12-31'">
+                  <NullRadioGroup
+                    class=" ve-input ve-radio-group"
+                    v-model="ve.multi_family_housing_document"
+                    label="다가구주택 확인서류 제출여부"
+                    row
+                  >
+                    <v-radio
+                      label="제출(확인서류 첨부)"
+                      :value="true"
+                      :readonly="readonly"
+                    ></v-radio>
+                    <v-radio label="미제출" :value="false" :readonly="readonly"></v-radio>
+                    <v-radio label="해당 없음" :value="null" :readonly="readonly"></v-radio>
+                  </NullRadioGroup>
+                </template>
               </v-col>
             </v-row>
           </div>
@@ -1157,6 +1176,25 @@
                   :readonly="readonly"
                 ></LazyTextField>
                 <v-radio-group
+                  v-if="updated_at >= '2021-12-31'"
+                  class="d-flex ve-input ve-radio-group"
+                  v-model="ve.floor_surface_status"
+                  label="바닥면"
+                  row
+                  mandatory
+                >
+                  <v-radio label="깨끗함" :value="2" :readonly="readonly"></v-radio>
+                  <v-radio label="보통임" :value="1" :readonly="readonly"></v-radio>
+                  <v-radio label="수리 필요" :value="0" :readonly="readonly"></v-radio>
+                </v-radio-group>
+                <LazyTextField
+                  v-if="ve.floor_surface_status === 0"
+                  class="d-flex ve-input"
+                  v-model="ve.floor_surface_status_info"
+                  label="위치"
+                  :readonly="readonly"
+                ></LazyTextField>
+                <v-radio-group
                   class="d-flex ve-input ve-radio-group"
                   v-model="ve.wall_paper_status"
                   label="도배"
@@ -1303,8 +1341,12 @@
 </template>
 
 <script>
+import NullRadioGroup from "@/components/NullRadioGroup";
 export default {
   name: "VerifyingExplanationEditor",
+  components: {
+    NullRadioGroup
+  },
   props: {
     ve: {
       type: Object,
@@ -1322,6 +1364,10 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    updated_at: {
+      type: Date,
+      required: false
     }
   },
   data() {

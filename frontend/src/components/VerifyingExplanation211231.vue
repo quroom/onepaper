@@ -13,7 +13,7 @@
           <div>
             ■ 공인중개사법 시행규칙 [별지 제20호서식]
             <span class="blue--text text--accent-4"
-              >&lt;{{ $t("ve_amendment_updated_date", { updated_at: "2021.1. 12." }) }}&gt;</span
+              >&lt;{{ $t("ve_amendment_updated_date", { updated_at: "2021.12.31" }) }}&gt;</span
             >
           </div>
         </td>
@@ -28,8 +28,8 @@
           <div>(4쪽 중 제1쪽)</div>
         </td>
       </tr>
-      <tr>
-        <td class="ve-title" style="border:0;" colspan="18" valign="top" align="center">
+      <tr class="ve-title">
+        <td style="border:0;" colspan="18" valign="top" align="center">
           <b style="font-size: 16pt">중개대상물 확인 · 설명서[Ⅰ] (주거용 건축물)</b>
         </td>
       </tr>
@@ -293,7 +293,7 @@
         </td>
       </tr>
       <tr>
-        <td class="label border-trb" width="75" rowspan="7">
+        <td class="label border-trb" width="75" rowspan="8">
           <div>②권리관계</div>
         </td>
         <td class="label" width="70" colspan="3" rowspan="3">
@@ -355,7 +355,8 @@
         <td class="border-tbl" width="495" colspan="15">
           <div>
             [ {{ ve.rental_housing_registration == 1 ? "√" : "" }} ]장기일반민간임대주택 [
-            {{ ve.rental_housing_registration == 2 ? "√" : "" }} ]공공지원민간임대주택 <br />
+            {{ ve.rental_housing_registration == 2 ? "√" : "" }} ]공공지원민간임대주택
+            <br />
             [ {{ ve.rental_housing_registration == 99 ? "√" : "" }} ] 그 밖의 유형 ({{
               ve.rental_housing_registration == 99 ? ve.rental_housing_registration_info : ""
             }})
@@ -398,8 +399,21 @@
         </td>
         <td class="border-tbl" width="495" colspan="15">
           <div>
-            [ {{ is_right_to_lease_contract_renewal_true }} ] 확인(확인서류 첨부) [
-            {{ is_right_to_lease_contract_renewal_false }} ] 미확인
+            [ {{ ve.right_to_lease_contract_renewal === true ? "√" : "" }} ] 확인(확인서류 첨부) [
+            {{ ve.right_to_lease_contract_renewal === false ? "√" : "" }} ] 미확인 [
+            {{ ve.right_to_lease_contract_renewal === null ? "√" : "" }} ] 해당 없음
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label" width="70" colspan="3">
+          <div>다가구주택<br />확인서류<br />제출여부</div>
+        </td>
+        <td class="border-tbl" width="495" colspan="15">
+          <div>
+            [ {{ ve.multi_family_housing_document === true ? "√" : "" }} ] 제출(확인서류 첨부) [
+            {{ ve.multi_family_housing_document === false ? "√" : "" }} ] 미제출 [
+            {{ ve.multi_family_housing_document === null ? "√" : "" }} ] 해당 없음
           </div>
         </td>
       </tr>
@@ -525,7 +539,7 @@
       </tr>
       <tr>
         <td style="border:0" width="800" colspan="18" valign="bottom" align="right">
-          <div>210mm×297mm[백상지(80g/㎡) 또는 중질지(80g/㎡)</div>
+          <div>210mm×297mm[ 백상지(80g/㎡) 또는 중질지(80g/㎡)</div>
         </td>
       </tr>
       <tr height="0">
@@ -610,9 +624,9 @@
         </td>
         <td class="border-tbl" width="419" colspan="12">
           <div>
-            ({{ ve.subway_station }}) 역, 소요시간: ([ {{ ve.subway_by_foot == true ? "√" : "" }} ]
-            도보 [ {{ ve.subway_by_foot == false ? "√" : "" }} ]차량) 약
-            {{ ve.subway_required_time }}분
+            ({{ ve.subway_station }}) 역, 소요시간: ([
+            {{ ve.subway_by_foot == true ? "√" : "" }} ]도보 [
+            {{ ve.subway_by_foot == false ? "√" : "" }} ]차량) 약 {{ ve.subway_required_time }}분
           </div>
         </td>
       </tr>
@@ -1062,7 +1076,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label border-trb" width="71" colspan="2" rowspan="3">
+          <td class="label border-trb" width="71" colspan="2" rowspan="4">
             <div>
               ⑪ 벽면 및<br />
               도배상태
@@ -1091,6 +1105,19 @@
               [ {{ ve.water_leak_status ? "" : "√" }} ]없음 [
               {{ ve.water_leak_status ? "√" : "" }} ]있음 (위치:
               {{ ve.water_leak ? ve.water_leak_status_info : "" }})
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="label" width="89" colspan="2">
+            <div>바닥면</div>
+          </td>
+          <td class="border-tbl" width="478" colspan="8">
+            <div>
+              [ {{ ve.floor_surface_status == 2 ? "√" : "" }} ]깨끗함 [
+              {{ ve.floor_surface_status == 1 ? "√" : "" }} ]보통임 [
+              {{ ve.floor_surface_status == 0 ? "√" : "" }} ]수리 필요 (위치:
+              {{ ve.floor_surface_status == 0 ? "" : ve.floor_surface_status_status_info }})
             </div>
           </td>
         </tr>
@@ -1493,7 +1520,7 @@
 
 <script>
 export default {
-  name: "VerifyingExplanation",
+  name: "VerifyingExplanation211231",
   props: {
     paper: {
       type: Object,
@@ -1614,11 +1641,12 @@ table {
   border-width: 0px;
   margin: auto;
   margin-top: 30px;
+  margin-bottom: 0px;
 }
 div {
   padding: 2.5px 0px 2.5px 1px;
   word-spacing: 2px;
-  font-size: 14px;
+  font-size: 13.6px;
   letter-spacing: 1px;
   line-height: 1.4;
 }
@@ -1644,5 +1672,9 @@ div {
   right: 80px;
   top: -17px;
   position: absolute;
+}
+.page-divide {
+  line-height: 0;
+  padding: 0;
 }
 </style>
