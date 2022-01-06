@@ -416,11 +416,11 @@
                   ></v-radio>
 
                   <v-radio label="미확인" :value="false" :readonly="readonly"></v-radio>
-                  <template v-if="!(updated_at < '2021-12-31')">
+                  <template v-if="!(updated_at < new Date('2021-12-31'))">
                     <v-radio label="해당 없음" :value="null" :readonly="readonly"></v-radio>
                   </template>
                 </NullRadioGroup>
-                <template v-if="!(updated_at < '2021-12-31')">
+                <template v-if="!(updated_at < new Date('2021-12-31'))">
                   <NullRadioGroup
                     class=" ve-input ve-radio-group"
                     v-model="ve.multi_family_housing_document"
@@ -1176,7 +1176,7 @@
                   :readonly="readonly"
                 ></LazyTextField>
                 <v-radio-group
-                  v-if="!(updated_at < '2021-12-31')"
+                  v-if="!(updated_at < new Date('2021-12-31'))"
                   class="d-flex ve-input ve-radio-group"
                   v-model="ve.floor_surface_status"
                   label="바닥면"
