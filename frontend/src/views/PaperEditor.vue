@@ -476,7 +476,7 @@
           :ve.sync="ve"
           :step="step"
           :validation_check.sync="validation_check"
-          :updated_at="updated_at"
+          :updated_at="new Date(updated_at)"
         >
           <template v-slot:footer>
             <v-row class="mt-4" no-gutters v-if="step == max_step">
