@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar class="navigation" dark color="grey darken-3" dense hide-on-scroll fixed>
+    <v-app-bar class="navigation" dark color="grey darken-3" dense fixed>
       <v-spacer />
       <div id="v-filter">
         <v-btn-toggle tile group mandatory v-model="is_mine">
