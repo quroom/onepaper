@@ -1442,7 +1442,7 @@ export default {
         if (this[local_group_name] != null) {
           const contractor = this.contractors.find((item) => item.group == local_group_constant);
           if (contractor) {
-            this.contractors[index].profile = this[local_group_name].id;
+            contractor.profile = this[local_group_name].id;
           } else {
             this.contractors.push({
               profile: this[local_group_name].id,
