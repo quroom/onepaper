@@ -4,9 +4,9 @@
       <template v-if="step == 2 || validation_check">
         <div class="caption">
           {{ $t("enforcement_rules") }}
-          <span class="blue--text text--accent-4"
-            >&lt;{{ $t("ve_amendment_updated_date") }}&gt;</span
-          >
+          <span class="blue--text text--accent-4">
+            &lt;{{ $t("ve_amendment_updated_date", { updated_at: `${_updated_at}` }) }}&gt;
+          </span>
           <span class="float-right">(4쪽 중 제1쪽)</span>
         </div>
         <div class="text-h6 font-weight-bold" align="center">
@@ -1368,6 +1368,15 @@ export default {
     updated_at: {
       type: Date,
       required: false
+    }
+  },
+  computed: {
+    _updated_at() {
+      if (new Date(this.updated_at) >= new Date("2021-12-31 00:00:00")) {
+        return "2021. 12. 31";
+      } else {
+        return "2021. 1. 12";
+      }
     }
   },
   data() {
