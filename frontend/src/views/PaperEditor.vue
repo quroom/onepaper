@@ -1563,16 +1563,17 @@ export default {
     document.title = this.$i18n.t("create_paper");
     this.requestUser = this.$store.state.user.email;
     this.is_expert = this.$store.state.user_category == "expert" ? true : false;
+    this.is_landlord = true;
     this.getAllowedProfiles().then(() => {
       if (!this.is_expert) {
         const currentContractor = this.contractors.find(
           (item) => item.profile.user.email === this.requestUser
         );
         //FIXME: === comparing returns false. I have no idea.
-        if (currentContractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "seller")) {
-          this.is_landlord = true;
-        } else if (
-          currentContractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer")
+        if (
+          currentContractor
+            ? currentContractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "buyer")
+            : false
         ) {
           this.is_landlord = false;
         }
