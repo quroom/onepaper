@@ -65,7 +65,7 @@ class Listing(models.Model):
     maintenance_fee = models.PositiveIntegerField(blank=True, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    # FIXME: Add listing status like full or not.
     class Meta:
         ordering = ["-updated_at"]
 

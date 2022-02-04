@@ -558,7 +558,7 @@ export default {
           deleted_image.is_deleted = true;
         }
       } else {
-        this.local_images = this.local_images.filter((item) => item.image !== image_data.obj);
+        this.images = this.images.filter((item) => item !== image_data.obj);
       }
     },
     setDefaultImageIndex(index) {
