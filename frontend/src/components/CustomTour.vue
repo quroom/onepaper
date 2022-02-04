@@ -125,7 +125,6 @@ export default {
       let method = "PUT";
       const tour = this.$tours[this.name];
       if (tour.currentStep == 0) {
-        console.log("stop_commit");
         tour.stop();
         this.$store.commit("SET_USER_SETTING", {
           is_tour_on: false

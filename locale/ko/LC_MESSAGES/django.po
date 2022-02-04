@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-23 10:11+0900\n"
+"POT-Creation-Date: 2022-01-22 10:40+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\onepaper\settings.py:159
+#: .\listings\serializers.py:124 .\listings\tests.py:178
+msgid "이미지는 10개까지 첨부할 수 있습니다."
+msgstr ""
+
+#: .\listings\serializers.py:133 .\listings\tests.py:187
+msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
+msgstr ""
+
+#: .\listings\serializers.py:201 .\listings\tests.py:277
+#, python-format
+msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
+msgstr ""
+
+#: .\onepaper\settings.py:161
 msgid "Korean"
 msgstr "한국어"
 
-#: .\onepaper\settings.py:160
+#: .\onepaper\settings.py:162
 msgid "English"
 msgstr "영어"
 
@@ -46,28 +59,28 @@ msgstr ""
 msgid "완료"
 msgstr ""
 
-#: .\papers\models.py:39 .\papers\models.py:240
+#: .\papers\models.py:39 .\papers\models.py:241
 msgid "대"
 msgstr ""
 
-#: .\papers\models.py:39 .\papers\models.py:54 .\papers\models.py:237
-#: .\papers\models.py:252
+#: .\papers\models.py:39 .\papers\models.py:54 .\papers\models.py:238
+#: .\papers\models.py:253
 msgid "기타"
 msgstr ""
 
-#: .\papers\models.py:50 .\papers\models.py:248
+#: .\papers\models.py:50 .\papers\models.py:249
 msgid "제1종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:51 .\papers\models.py:249
+#: .\papers\models.py:51 .\papers\models.py:250
 msgid "제2종근린생활시설"
 msgstr ""
 
-#: .\papers\models.py:52 .\papers\models.py:215 .\papers\models.py:250
+#: .\papers\models.py:52 .\papers\models.py:216 .\papers\models.py:251
 msgid "단독주택"
 msgstr ""
 
-#: .\papers\models.py:53 .\papers\models.py:251
+#: .\papers\models.py:53 .\papers\models.py:252
 msgid "아파트"
 msgstr ""
 
@@ -79,7 +92,7 @@ msgstr ""
 msgid "전세"
 msgstr ""
 
-#: .\papers\models.py:65 .\papers\models.py:217
+#: .\papers\models.py:65 .\papers\models.py:218
 msgid "매매"
 msgstr ""
 
@@ -139,241 +152,241 @@ msgstr ""
 msgid "추가물품"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:140
 msgid "임대인(매도인)"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:140
 msgid "임차인(매수인)"
 msgstr ""
 
-#: .\papers\models.py:139
+#: .\papers\models.py:140
 msgid "공인중개사"
 msgstr ""
 
-#: .\papers\models.py:216
+#: .\papers\models.py:217
 msgid "공동주택"
 msgstr ""
 
-#: .\papers\models.py:218
+#: .\papers\models.py:219
 msgid "임대"
 msgstr ""
 
-#: .\papers\models.py:230
+#: .\papers\models.py:231
 msgid "등기권리증"
 msgstr ""
 
-#: .\papers\models.py:231
+#: .\papers\models.py:232
 msgid "등기사항증명서"
 msgstr ""
 
-#: .\papers\models.py:232
+#: .\papers\models.py:233
 msgid "토지대장"
 msgstr ""
 
-#: .\papers\models.py:233
+#: .\papers\models.py:234
 msgid "건축물대장"
 msgstr ""
 
-#: .\papers\models.py:234
+#: .\papers\models.py:235
 msgid "지적도"
 msgstr ""
 
-#: .\papers\models.py:235
+#: .\papers\models.py:236
 msgid "임야도"
 msgstr ""
 
-#: .\papers\models.py:236
+#: .\papers\models.py:237
 msgid "토지이용계획확인서"
 msgstr ""
 
-#: .\papers\models.py:260
+#: .\papers\models.py:261
 msgid "해당사항없음"
 msgstr ""
 
-#: .\papers\models.py:261
+#: .\papers\models.py:262
 msgid "장기일반민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:262
+#: .\papers\models.py:263
 msgid "공공지원민간임대주택"
 msgstr ""
 
-#: .\papers\models.py:263 .\papers\models.py:292
+#: .\papers\models.py:264 .\papers\models.py:293
 msgid "그 밖의 유형"
 msgstr ""
 
-#: .\papers\models.py:270
+#: .\papers\models.py:271
 msgid "토기투기지역"
 msgstr ""
 
-#: .\papers\models.py:271
+#: .\papers\models.py:272
 msgid "주택투기지역"
 msgstr ""
 
-#: .\papers\models.py:272
+#: .\papers\models.py:273
 msgid "투기과열지구"
 msgstr ""
 
-#: .\papers\models.py:280
+#: .\papers\models.py:281
 msgid "없음"
 msgstr ""
 
-#: .\papers\models.py:281
+#: .\papers\models.py:282
 msgid "전용주차시설"
 msgstr ""
 
-#: .\papers\models.py:282
+#: .\papers\models.py:283
 msgid "공동주차시설"
 msgstr ""
 
-#: .\papers\models.py:283
+#: .\papers\models.py:284
 msgid "그 밖의 주차시설"
 msgstr ""
 
-#: .\papers\models.py:290
+#: .\papers\models.py:291
 msgid "위탁관리"
 msgstr ""
 
-#: .\papers\models.py:291
+#: .\papers\models.py:292
 msgid "자체관리"
 msgstr ""
 
-#: .\papers\models.py:297
+#: .\papers\models.py:298
 msgid "중앙공급"
 msgstr ""
 
-#: .\papers\models.py:297
+#: .\papers\models.py:298
 msgid "개별공급"
 msgstr ""
 
-#: .\papers\models.py:304
+#: .\papers\models.py:305
 msgid "도시가스"
 msgstr ""
 
-#: .\papers\models.py:305
+#: .\papers\models.py:306
 msgid "기름"
 msgstr ""
 
-#: .\papers\models.py:306
+#: .\papers\models.py:307
 msgid "프로판가스"
 msgstr ""
 
-#: .\papers\models.py:307
+#: .\papers\models.py:308
 msgid "연탄"
 msgstr ""
 
-#: .\papers\models.py:308
+#: .\papers\models.py:309
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:276 .\papers\tests.py:379
+#: .\papers\serializers.py:276 .\papers\tests.py:384
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:293 .\papers\tests.py:609
+#: .\papers\serializers.py:293 .\papers\tests.py:614
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:308 .\papers\tests.py:649
+#: .\papers\serializers.py:308 .\papers\tests.py:654
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:317 .\papers\tests.py:711
+#: .\papers\serializers.py:317 .\papers\tests.py:716
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:324 .\papers\tests.py:681
+#: .\papers\serializers.py:324 .\papers\tests.py:686
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:332 .\papers\tests.py:1064
+#: .\papers\serializers.py:332 .\papers\tests.py:1069
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: .\papers\serializers.py:337 .\papers\tests.py:349 .\papers\tests.py:350
+#: .\papers\serializers.py:337 .\papers\tests.py:354 .\papers\tests.py:355
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:470 .\papers\views.py:178
+#: .\papers\tests.py:475 .\papers\views.py:178
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr ""
 
-#: .\papers\tests.py:487 .\papers\views.py:118
+#: .\papers\tests.py:492 .\papers\views.py:118
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:503 .\papers\views.py:127
+#: .\papers\tests.py:508 .\papers\views.py:127
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:510 .\papers\tests.py:560 .\papers\views.py:95
+#: .\papers\tests.py:515 .\papers\tests.py:565 .\papers\views.py:95
 #: .\papers\views.py:153
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr ""
 
-#: .\papers\tests.py:529 .\papers\views.py:109
+#: .\papers\tests.py:534 .\papers\views.py:109
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
 msgstr ""
 
-#: .\papers\tests.py:538 .\papers\views.py:161
+#: .\papers\tests.py:543 .\papers\views.py:161
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:553 .\papers\views.py:170
+#: .\papers\tests.py:558 .\papers\views.py:170
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:572 .\papers\tests.py:582 .\papers\views.py:101
+#: .\papers\tests.py:577 .\papers\tests.py:587 .\papers\views.py:101
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:806 .\papers\views.py:317
+#: .\papers\tests.py:811 .\papers\views.py:317
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:860 .\papers\views.py:369
+#: .\papers\tests.py:865 .\papers\views.py:369
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:923 .\profiles\tests.py:408 .\profiles\views.py:305
+#: .\papers\tests.py:928 .\profiles\tests.py:409 .\profiles\views.py:305
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:936 .\profiles\views.py:331
+#: .\papers\tests.py:941 .\profiles\views.py:331
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr ""
 
-#: .\papers\tests.py:977 .\profiles\views.py:383
+#: .\papers\tests.py:982 .\profiles\views.py:383
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1442 .\papers\tests.py:1576 .\papers\views.py:200
+#: .\papers\tests.py:1447 .\papers\tests.py:1581 .\papers\views.py:200
 #: .\papers\views.py:422
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1460 .\papers\tests.py:1588 .\papers\views.py:210
+#: .\papers\tests.py:1465 .\papers\tests.py:1593 .\papers\views.py:210
 #: .\papers\views.py:432
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1519 .\papers\tests.py:1633 .\papers\views.py:233
+#: .\papers\tests.py:1524 .\papers\tests.py:1638 .\papers\views.py:233
 #: .\papers\views.py:450
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1676 .\papers\views.py:349
+#: .\papers\tests.py:1681 .\papers\views.py:349
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1682 .\papers\views.py:401
+#: .\papers\tests.py:1687 .\papers\views.py:401
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
@@ -401,7 +414,7 @@ msgstr ""
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:148 .\profiles\serializers.py:296
+#: .\profiles\forms.py:148 .\profiles\serializers.py:302
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr "%(size)sKB까지 업로드 가능합니다."
@@ -544,19 +557,19 @@ msgstr ""
 msgid "카카오뱅크"
 msgstr ""
 
-#: .\profiles\models.py:192
+#: .\profiles\models.py:193
 msgid "폐업"
 msgstr ""
 
-#: .\profiles\models.py:193
+#: .\profiles\models.py:194
 msgid "요청"
 msgstr ""
 
-#: .\profiles\models.py:194
+#: .\profiles\models.py:195
 msgid "승인"
 msgstr ""
 
-#: .\profiles\models.py:195
+#: .\profiles\models.py:196
 msgid "거부"
 msgstr ""
 
@@ -564,32 +577,32 @@ msgstr ""
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:412
+#: .\profiles\serializers.py:437
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr ""
 
-#: .\profiles\serializers.py:420
+#: .\profiles\serializers.py:445
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:426 .\profiles\serializers.py:427
+#: .\profiles\serializers.py:451 .\profiles\serializers.py:452
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:433
+#: .\profiles\serializers.py:458
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr ""
 
-#: .\profiles\serializers.py:436
+#: .\profiles\serializers.py:461
 msgid "위임인만 서명이 가능합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:438
+#: .\profiles\serializers.py:463
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:440
+#: .\profiles\serializers.py:465
 msgid "사용자가 존재하지 않습니다."
 msgstr ""
 
@@ -613,64 +626,64 @@ msgstr ""
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:369 .\profiles\views.py:423
+#: .\profiles\tests.py:370 .\profiles\views.py:423
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr ""
 
-#: .\profiles\tests.py:448 .\profiles\tests.py:456 .\profiles\views.py:153
+#: .\profiles\tests.py:449 .\profiles\tests.py:457 .\profiles\views.py:153
 #: .\profiles\views.py:179
 msgid "전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\tests.py:451 .\profiles\views.py:163
+#: .\profiles\tests.py:452 .\profiles\views.py:163
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr ""
 
-#: .\profiles\tests.py:636 .\profiles\views.py:491
+#: .\profiles\tests.py:637 .\profiles\views.py:491
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:701 .\profiles\views.py:433
+#: .\profiles\tests.py:702 .\profiles\views.py:433
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:738 .\profiles\views.py:442
+#: .\profiles\tests.py:739 .\profiles\views.py:442
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:774 .\profiles\views.py:500
+#: .\profiles\tests.py:775 .\profiles\views.py:500
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:797 .\profiles\views.py:688
+#: .\profiles\tests.py:798 .\profiles\views.py:688
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr ""
 
-#: .\profiles\tests.py:896 .\profiles\views.py:541
+#: .\profiles\tests.py:897 .\profiles\views.py:541
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:904 .\profiles\views.py:588
+#: .\profiles\tests.py:905 .\profiles\views.py:588
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:935 .\profiles\views.py:584
+#: .\profiles\tests.py:936 .\profiles\views.py:584
 msgid "탈퇴처리 되었습니다."
 msgstr ""
 
-#: .\profiles\tests.py:941 .\profiles\views.py:574
+#: .\profiles\tests.py:942 .\profiles\views.py:574
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr ""
 
-#: .\profiles\tests.py:947 .\profiles\views.py:569
+#: .\profiles\tests.py:948 .\profiles\views.py:569
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 
-#: .\profiles\tests.py:1066 .\profiles\tests.py:1099 .\profiles\views.py:646
+#: .\profiles\tests.py:1067 .\profiles\tests.py:1100 .\profiles\views.py:646
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr ""
 
-#: .\profiles\tests.py:1114 .\profiles\views.py:665
+#: .\profiles\tests.py:1115 .\profiles\views.py:665
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr ""
 
@@ -717,18 +730,18 @@ msgstr "계정 비활성화"
 msgid "This account is inactive."
 msgstr "당신의 계정이 비활성화 상태입니다."
 
-#: .\templates\account\base.html:87 .\templates\account\base.html:110
-#: .\templates\account\base.html:112 .\templates\index-dev.html:5
+#: .\templates\account\base.html:84 .\templates\account\base.html:107
+#: .\templates\account\base.html:109 .\templates\index-dev.html:5
 #: .\templates\index.html:8 .\templates\intro.html:153
 #: .\templates\intro.html:158
 msgid "Onepaper"
 msgstr "원페이퍼"
 
-#: .\templates\account\base.html:106
+#: .\templates\account\base.html:103
 msgid "Online Realesate Contract"
 msgstr "온라인 부동산 계약 서비스"
 
-#: .\templates\account\base.html:120
+#: .\templates\account\base.html:117
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"

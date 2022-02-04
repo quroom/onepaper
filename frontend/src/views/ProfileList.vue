@@ -51,6 +51,7 @@
         {{ $t("profile_list_subtitle") }}
       </div>
       <v-row>
+        <!--FIXME: update cols/md/lg/xs number-->
         <v-col cols="12" md="6" lg="4" xs="3" v-for="profile in profiles" :key="profile.id">
           <router-link :to="{ name: 'profile-editor', params: { id: profile.id } }">
             <v-card>
@@ -205,7 +206,6 @@ export default {
   },
   methods: {
     addUser(profile) {
-      console.log(profile);
       let endpoint = ``;
       let data = {
         allowed_users: {
@@ -265,7 +265,6 @@ export default {
       IMP.certification(data, (response) => {
         /* 3. 콜백 함수 정의하기 */
         const { success, error_code, error_msg } = response;
-        console.log(response);
 
         if (success) {
           let endpoint = `/api/certification/`;

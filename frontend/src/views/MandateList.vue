@@ -11,7 +11,7 @@
             class="outlined tile"
             :to="{
               name: 'mandate-detail',
-              params: { id: mandate.id, readonly: true }
+              params: { id: mandate.id }
             }"
           >
             <v-chip class="ma-1">{{ mandate.id }}</v-chip>
@@ -37,7 +37,7 @@
       </v-row>
     </template>
     <v-row height="100%" justify="end">
-      <v-btn :to="{ name: 'mandates-editor', params: { readonly: false } }" color="primary" dark>
+      <v-btn :to="{ name: 'mandates-editor' }" color="primary" dark>
         <v-icon>add</v-icon>
         {{ $t("create_mandate") }}
       </v-btn>

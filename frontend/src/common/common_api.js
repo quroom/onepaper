@@ -16,19 +16,18 @@ function getKeys(object) {
 }
 
 function applyValidation(data, that) {
-  console.log(data);
   var flag = true;
   if (data["detail"]) {
     alert(data["detail"]);
     return true;
   }
   if (data.count == 0) {
+    //Remove for only paper-list and listing-list
     alert("조회된 데이터가 없습니다.");
     return true;
   }
   var result = getKeys(data);
   result.map((arr) => {
-    console.log(arr);
     const parent_key = arr[arr.length - 3];
     const vp_key = arr[arr.length - 2];
     const error_message = arr[arr.length - 1];

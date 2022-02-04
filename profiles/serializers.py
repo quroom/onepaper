@@ -72,7 +72,7 @@ class CertificationSerializer(ReadOnlyModelSerializer):
 
     class Meta:
         model = Certification
-        fields = ["id", "updated_at", "is_certificated"]
+        fields = ["updated_at", "is_certificated"]
 
     def get_is_certificated(self, obj):
         if obj.di != "":
@@ -191,6 +191,12 @@ class ExpertReadonlySerializer(ReadOnlyModelSerializer):
 
     def get_insurance_count(self, obj):
         return obj.insurances.count()
+
+
+class ListingExpertReadonlySerializer(ReadOnlyModelSerializer):
+    class Meta:
+        model = ExpertProfile
+        fields = ("registration_number", "shop_name")
 
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):
@@ -360,6 +366,28 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
             setattr(instance, key, val)
         instance.save()
         return instance
+
+
+class ListingEveryoneProfileSerializer(ReadOnlyModelSerializer):
+    certification = CertificationSerializer(read_only=True)
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ("certification", "user", "mobile_number")
+
+    def get_user(self, instance):
+        return {"email": instance.user.email, "is_expert": instance.user.is_expert}
+
+
+class ListingEveryoneExpertProfileSerializer(ListingEveryoneProfileSerializer):
+    address = AddressSerializer()
+    expert_profile = ListingExpertReadonlySerializer()
+    user = CustomUserIDNameSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ("address", "certification", "expert_profile", "user", "mobile_number")
 
 
 class MandateEveryoneSerializer(serializers.ModelSerializer):

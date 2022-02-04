@@ -250,6 +250,7 @@ class PaperTestCase(APITestCase):
         self.api_authentication(self.user)
         self.create_profile()
 
+    # FIXME: remove files and folders also profile test file too.
     def tearDown(self):
         self.image.close()
         os.remove(self.image.name)

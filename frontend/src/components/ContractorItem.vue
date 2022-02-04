@@ -1,5 +1,9 @@
 <template>
-  <v-tooltip top nudge-top="-50">
+  <v-tooltip
+    top
+    nudge-top="-50"
+    :color="computed_profile.certification.is_certificated ? '' : 'error'"
+  >
     <template v-slot:activator="{ on, attrs }">
       <div class="contractor" v-bind="attrs" v-on="on">
         <v-row
@@ -169,13 +173,10 @@
     </template>
     <template v-if="computed_profile">
       <span>{{ computed_profile.user.email }}</span>
-      <div
-        v-if="computed_profile.certification.is_certificated === false"
-        class="certification-detail"
-      >
+      <div v-if="computed_profile.certification.is_certificated === false">
         {{ $t("uncertified_detail") }}
       </div>
-      <div v-else class="certification-detail">
+      <div v-else>
         {{ $t("certified_detail", { updated_at: computed_profile.certification.updated_at }) }}
       </div>
     </template>
@@ -325,9 +326,6 @@ export default {
   .v-icon {
     font-size: 19px;
   }
-}
-.certification-detail {
-  color: yellow;
 }
 .v-btn,
 .v-icon {

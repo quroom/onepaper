@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user_setting: null,
     has_profile: true,
     user_category: "user",
+    is_listing_updated: false,
     is_paper_updated: false,
     tour_index: 0
   },
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     SET_TOUR_INDEX(state, payload) {
       state.tour_index = payload;
     },
+    SET_IS_LISTING_UPDATED(state, payload) {
+      state.is_listing_updated = payload;
+    },
     SET_IS_PAPER_UPDATED(state, payload) {
       state.is_paper_updated = payload;
     },
@@ -28,16 +32,15 @@ export default new Vuex.Store({
       state.has_profile = payload;
     },
     initialiseStore(state, payload) {
-      state.user = payload;
-      state.user_setting = payload.user_setting;
-      state.tour_enabled = payload.user_setting.is_tour_on;
-      state.has_profile = payload.has_profile;
-
       if (payload.is_expert) {
         state.user_category = "expert";
       } else if (payload.is_staff) {
         state.user_category = "staff";
       }
+      state.user = payload;
+      state.has_profile = payload.has_profile;
+      state.user_setting = payload.user_setting;
+      state.tour_enabled = payload.user_setting.is_tour_on;
     }
   }
 });

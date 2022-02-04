@@ -12,6 +12,18 @@ extend("max", max);
 extend("max_value", max_value);
 extend("regex", regex);
 extend("size", size);
+extend("max_count", {
+  validate(files, params) {
+    if (files.length > params[0]) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  message(_, count) {
+    return i18n.t("image_max_count_error", count);
+  }
+});
 extend("mobile", {
   validate(value) {
     // return /(^01.{1}|[0|1|6|7|8|9]{3})([0-9]+)([0-9]{4})/g.test(value);

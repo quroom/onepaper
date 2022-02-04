@@ -159,6 +159,7 @@ class Profile(models.Model):
     bank_name = models.SmallIntegerField(choices=BANK_CATEGORY, default=0)
     account_number = models.CharField(max_length=45, blank=True)
     is_activated = models.BooleanField(default=True, blank=True)
+    # FIXME: Add is_shown_ho for shop_adress to fix displaying not having ho like 2층.
 
     def __str__(self):
         return self.user.email

@@ -124,6 +124,7 @@ class Paper(models.Model):
     to_date = models.DateField()
     title = models.CharField(max_length=25)
     contract_details = models.TextField(blank=True)
+    # FIXME need to move another class to work cascade well. Ref.https://stackoverflow.com/questions/63553634/moving-a-django-foreign-key-to-another-model-while-preserving-data
     status = models.OneToOneField(PaperStatus, on_delete=models.CASCADE, related_name="paper")
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="vote_papers")
 

@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "django_migration_linter",
     "addresses",
     "helps",
+    "listings",
     "profiles",
     "papers",
 ]
