@@ -866,7 +866,7 @@ hr {
 }
 #v-desc-realestate [class*="col-"],
 .terms-and-conditions-cols [class*="col-"] {
-  border: 1.5px solid rgba(0, 0, 0);
+  border: 1.6px solid rgba(0, 0, 0);
 }
 .theme--light.v-sheet--outlined {
   border: none !important;
