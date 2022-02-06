@@ -609,7 +609,6 @@ export default {
             md: "10",
             lg: "11"
           },
-          { name: "name", key: "user.name", cols: "9", sm: "3", md: "2" },
           {
             name: "birthday",
             key: "user.birthday",
@@ -618,22 +617,25 @@ export default {
             md: "2"
           },
           { name: "mobile_number", cols: "9", sm: "3", md: "2" },
+          { name: "name", key: "user.name", cols: "9", sm: "3", md: "2" },
           {
             name: "bank_name",
             const_name: "bank_category",
             cols: "9",
             sm: "3",
-            md: "2"
+            md: "2",
+            print: false
           },
-          { name: "account_number", cols: "9", sm: "3", md: "2" }
+          { name: "account_number", cols: "9", sm: "3", md: "2", print: false }
         ],
         expert_profile_fields: [
           {
-            name: "registration_number",
-            key: "expert_profile.registration_number",
+            name: "shop_address",
+            key: "full_address",
+            is_computed: true,
             cols: "9",
             md: "10",
-            lg: "4"
+            lg: "11"
           },
           {
             name: "shop_name",
@@ -643,30 +645,23 @@ export default {
             lg: "6"
           },
           {
-            name: "address",
-            key: "full_address",
-            is_computed: true,
+            name: "registration_number",
+            key: "expert_profile.registration_number",
             cols: "9",
             md: "10",
-            lg: "11"
-          },
-          { name: "name", key: "user.name", cols: "9", sm: "3", md: "2" },
-          {
-            name: "birthday",
-            key: "user.birthday",
-            cols: "9",
-            sm: "3",
-            md: "2"
+            lg: "4"
           },
           { name: "mobile_number", cols: "9", sm: "3", md: "2" },
+          { name: "owner", key: "user.name", cols: "9", sm: "3", md: "2" },
           {
             name: "bank_name",
             const_name: "bank_category",
             cols: "9",
             sm: "3",
-            md: "2"
+            md: "2",
+            print: false
           },
-          { name: "account_number", cols: "9", sm: "3", md: "2" }
+          { name: "account_number", cols: "9", sm: "3", md: "2", print: false }
         ]
       },
       requestUser: null,

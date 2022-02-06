@@ -112,7 +112,7 @@
         <v-row no-gutters>
           <template v-for="(field, index) in fields">
             <v-col
-              class="text-center font-weight-bold"
+              :class="`text-center font-weight-bold  ${field.print === false ? 'no-print' : ''}`"
               :cols="label_cols ? label_cols.cols : '3'"
               :md="label_cols ? label_cols.md : '2'"
               :lg="label_cols ? label_cols.lg : '1'"
@@ -144,7 +144,7 @@
                       : computed_profile[field.name]
                     : ''
                 "
-                class="text-center"
+                :class="`text-center ${field.print === false ? 'no-print' : ''}`"
                 :cols="field.cols"
                 :xs="field.xs"
                 :md="field.md"
