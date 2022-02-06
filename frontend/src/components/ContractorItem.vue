@@ -367,9 +367,6 @@ export default {
 }
 .row > .col,
 .row > [class*="col-"] {
-  border: 1px solid rgba(0, 0, 0, 0.6);
-}
-.theme--light.v-sheet--outlined {
-  border: none !important;
+  border: 1px solid rgba(0, 0, 0);
 }
 </style>
