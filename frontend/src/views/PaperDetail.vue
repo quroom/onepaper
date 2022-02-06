@@ -109,7 +109,7 @@
     <div id="v-terms-and-conditions">
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
       <div>{{ $t("terms_and_conditions_intro") }}</div>
-      <v-row no-gutters>
+      <v-row class="terms-and-conditions-cols" no-gutters>
         <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
           <template v-if="paper[contract_field_name] != undefined">
             <v-col class="text-center font-weight-bold" cols="2" :key="`name` + index">
@@ -863,7 +863,11 @@ hr {
 .row {
   margin: 0px !important;
 }
+#v-desc-realestate [class*="col-"],
+.terms-and-conditions-cols [class*="col-"] {
+  border: 1.5px solid rgba(0, 0, 0);
+}
 .theme--light.v-sheet--outlined {
-  border: 1px solid rgba(0, 0, 0, 0.6);
+  border: none !important;
 }
 </style>
