@@ -109,7 +109,7 @@
     </div>
     <div id="v-terms-and-conditions">
       <div class="mt-5">2. {{ $t("terms_and_conditions") }}</div>
-      <div>{{ $t("terms_and_conditions_intro") }}</div>
+      <div class="mb-2">{{ $t("terms_and_conditions_intro") }}</div>
       <v-row class="terms-and-conditions-cols" no-gutters>
         <template v-for="(contract_field_name, index) in fields_names.contract_fields_name">
           <template v-if="paper[contract_field_name] != undefined">
@@ -135,7 +135,7 @@
         </v-row>
         <p
           v-if="paper.from_date && paper.to_date"
-          class="ma-0"
+          class="ma-0 mt-2"
           v-html="
             $t('terms_and_conditions_period', {
               from_year: paper.from_date.split('-')[0],
