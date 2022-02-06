@@ -399,9 +399,13 @@ export default {
       }
       if (address.ho) {
         if (dongExist) {
-          fullNewAddress += ` ${address.ho}${this.$i18n.t("ho")}`;
+          fullNewAddress += ` ${address.ho}${
+            this.author_profile.expert_profile.is_shown_ho ? this.$i18n.t("ho") : ""
+          }`;
         } else {
-          fullNewAddress += `, ${address.ho}${this.$i18n.t("ho")}`;
+          fullNewAddress += `, ${address.ho}${
+            this.author_profile.expert_profile.is_shown_ho ? this.$i18n.t("ho") : ""
+          }`;
         }
       }
       return fullNewAddress;

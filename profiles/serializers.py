@@ -196,7 +196,7 @@ class ExpertReadonlySerializer(ReadOnlyModelSerializer):
 class ListingExpertReadonlySerializer(ReadOnlyModelSerializer):
     class Meta:
         model = ExpertProfile
-        fields = ("registration_number", "shop_name")
+        fields = ("registration_number", "shop_name", "is_shown_ho")
 
 
 class ProfileBasicInfoSerializer(serializers.ModelSerializer):

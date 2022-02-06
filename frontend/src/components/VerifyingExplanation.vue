@@ -1234,13 +1234,17 @@
           <td width="215" colspan="4">
             <div>
               {{
-                `${$get(seller, "profile.address.old_address")} ${
+                `${$get(seller, "profile.address.new_address")}${
                   $get(seller, "profile.address.dong")
-                    ? $get(seller, "profile.address.dong") + $t("dong")
+                    ? ", " + $get(seller, "profile.address.dong") + $t("dong")
                     : ""
-                } ${
-                  $get(seller, "profile.address.ho")
-                    ? $get(seller, "profile.address.ho") + $t("ho")
+                }${
+                  $get(seller, "profile.address.dong")
+                    ? $get(seller, "profile.address.ho")
+                      ? $get(seller, "profile.address.ho") + $t("ho")
+                      : ""
+                    : $get(seller, "profile.address.ho")
+                    ? ", " + $get(seller, "profile.address.ho") + $t("ho")
                     : ""
                 }`
               }}
@@ -1286,13 +1290,17 @@
           <td width="215" colspan="4">
             <div>
               {{
-                `${$get(buyer, "profile.address.old_address")} ${
+                `${$get(buyer, "profile.address.new_address")}${
                   $get(buyer, "profile.address.dong")
-                    ? $get(buyer, "profile.address.dong") + $t("dong")
+                    ? ", " + $get(buyer, "profile.address.dong") + $t("dong")
                     : ""
-                } ${
-                  $get(buyer, "profile.address.ho")
-                    ? $get(buyer, "profile.address.ho") + $t("ho")
+                }${
+                  $get(buyer, "profile.address.dong")
+                    ? $get(buyer, "profile.address.ho")
+                      ? $get(buyer, "profile.address.ho") + $t("ho")
+                      : ""
+                    : $get(buyer, "profile.address.ho")
+                    ? ", " + $get(buyer, "profile.address.ho") + $t("ho")
                     : ""
                 }`
               }}
@@ -1383,13 +1391,20 @@
           <td width="215" colspan="4">
             <div>
               {{
-                `${$get(expert, "profile.address.old_address")} ${
+                `${$get(expert, "profile.address.new_address")}${
                   $get(expert, "profile.address.dong")
-                    ? $get(expert, "profile.address.dong") + $t("dong")
+                    ? ", " + $get(expert, "profile.address.dong") + $t("dong")
                     : ""
-                } ${
-                  $get(expert, "profile.address.ho")
-                    ? $get(expert, "profile.address.ho") + $t("ho")
+                }${
+                  $get(expert, "profile.address.dong")
+                    ? $get(expert, "profile.address.ho")
+                      ? $get(expert, "profile.address.ho") +
+                        ($get(expert, "profile.expert_profile.is_shown_ho") ? $t("ho") : "")
+                      : ""
+                    : $get(expert, "profile.address.ho")
+                    ? ", " +
+                      $get(expert, "profile.address.ho") +
+                      ($get(expert, "profile.expert_profile.is_shown_ho") ? $t("ho") : "")
                     : ""
                 }`
               }}

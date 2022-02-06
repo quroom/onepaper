@@ -257,20 +257,32 @@ export default {
     },
     full_address: function() {
       const address = this.computed_profile.address;
-      var fullAddress = address.old_address;
+      var fullNewAddress = address.new_address;
       var dongExist = false;
       if (address.dong) {
-        fullAddress += `, ${address.dong}${this.$i18n.t("dong")}`;
+        fullNewAddress += `, ${address.dong}${this.$i18n.t("dong")}`;
         dongExist = true;
       }
       if (address.ho) {
         if (dongExist) {
-          fullAddress += ` ${address.ho}${this.$i18n.t("ho")}`;
+          if (this.isExpert) {
+            fullNewAddress += ` ${address.ho}${
+              this.computed_profile.expert_profile.is_shown_ho ? this.this.$i18n.t("ho") : ""
+            }`;
+          } else {
+            fullNewAddress += ` ${address.ho}${this.$i18n.t("ho")}`;
+          }
         } else {
-          fullAddress += `, ${address.ho}${this.$i18n.t("ho")}`;
+          if (this.isExpert) {
+            fullNewAddress += `, ${address.ho}${
+              this.computed_profile.expert_profile.is_shown_ho ? this.this.$i18n.t("ho") : ""
+            }`;
+          } else {
+            fullNewAddress += `, ${address.ho}${this.$i18n.t("ho")}`;
+          }
         }
       }
-      return fullAddress;
+      return fullNewAddress;
     },
     signature_src: function() {
       if (this.isSigned) {

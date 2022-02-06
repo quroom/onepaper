@@ -205,6 +205,7 @@ class ExpertProfile(models.Model):
     agency_license = models.ImageField(upload_to=get_file_path)
     stamp = models.ImageField(upload_to=get_file_path)
     status = models.PositiveSmallIntegerField(choices=STATUS_CATEGORY, default=REQUEST)
+    is_shown_ho = models.BooleanField(default=True, null=True)
 
     class Meta:
         ordering = [
