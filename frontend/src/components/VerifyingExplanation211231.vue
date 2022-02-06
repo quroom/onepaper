@@ -1661,7 +1661,7 @@ table {
 div {
   padding: 2.5px 0px 2.5px 1px;
   word-spacing: 2px;
-  font-size: 13.6px;
+  font-size: 13.5px;
   letter-spacing: 1px;
   line-height: 1.4;
 }
