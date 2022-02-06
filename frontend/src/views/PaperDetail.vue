@@ -61,16 +61,17 @@
     <div id="v-desc-realestate">
       <div class="mt-5">1. {{ $t("desc_realestate") }}</div>
       <v-row no-gutters v-if="paper.address">
-        <v-col class="text-center font-weight-bold" cols="2" sm="1">
+        <v-col class="text-center font-weight-bold" cols="1">
           <v-card outlined tile>{{ $t("address") }}</v-card>
         </v-col>
-        <v-col cols="10" sm="7">
+        <!-- FIXME: This should be only for print -->
+        <v-col cols="7">
           <v-card class="pl-2" outlined tile>{{ paper.address.old_address }}</v-card>
         </v-col>
-        <v-col class="text-center font-weight-bold" cols="2" sm="1">
+        <v-col class="text-center font-weight-bold" cols="1">
           <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
         </v-col>
-        <v-col cols="10" sm="3">
+        <v-col cols="3">
           <v-card class="pl-2" outlined tile height="100%">
             <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
             <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
@@ -865,7 +866,7 @@ hr {
 }
 #v-desc-realestate [class*="col-"],
 .terms-and-conditions-cols [class*="col-"] {
-  border: 1.5px solid rgba(0, 0, 0);
+  border: 1.6px solid rgba(0, 0, 0);
 }
 .theme--light.v-sheet--outlined {
   border: none !important;
