@@ -86,8 +86,8 @@ a:hover {
   min-height: 140px;
   max-height: 200px;
 }
-.root_tag {
-  min-width: 360px;
+.v-application {
+  min-width: 320px;
 }
 /* Progress circular Style*/
 .v-progress-circular {
