@@ -653,7 +653,6 @@ export default {
             const_name: "bank_category",
             cols: "9",
             sm: "2",
-
             print: false
           },
           { name: "account_number", cols: "9", sm: "2", print: false }
