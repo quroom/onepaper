@@ -5,6 +5,7 @@
     :color="computed_profile.certification.is_certificated ? '' : 'error'"
   >
     <template v-slot:activator="{ on, attrs }">
+      <!-- FIXME: sm breakpoints column broken -->
       <div class="contractor" v-bind="attrs" v-on="on">
         <v-row
           :id="isNotAuthorAndContractor && !isPaperDone ? 'v-contractor-btns' : ''"
@@ -114,8 +115,7 @@
             <v-col
               :class="`text-center font-weight-bold  ${field.print === false ? 'no-print' : ''}`"
               :cols="label_cols ? label_cols.cols : '3'"
-              :md="label_cols ? label_cols.md : '2'"
-              :lg="label_cols ? label_cols.lg : '1'"
+              :sm="label_cols ? label_cols.sm : '2'"
               :key="`name` + index"
               v-if="
                 field.is_computed
@@ -146,9 +146,7 @@
                 "
                 :class="`text-center ${field.print === false ? 'no-print' : ''}`"
                 :cols="field.cols"
-                :xs="field.xs"
-                :md="field.md"
-                :lg="field.lg"
+                :sm="field.sm"
                 :key="`value-` + index"
               >
                 <!--#FIXME: Need to add commend -->
@@ -320,13 +318,6 @@ export default {
 </script>
 
 <style scoped>
-.contractor {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  -o-user-select: text;
-  user-select: text;
-}
 @media print {
   .contractor-print-title {
     position: relative;
@@ -338,6 +329,13 @@ export default {
   .v-icon {
     font-size: 19px;
   }
+}
+.contractor {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  -o-user-select: text;
+  user-select: text;
 }
 .v-btn,
 .v-icon {
