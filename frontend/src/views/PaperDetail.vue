@@ -69,12 +69,12 @@
           <v-card class="pl-2" outlined tile>{{ paper.address.old_address }}</v-card>
         </v-col>
         <v-col class="text-center font-weight-bold" cols="1">
-          <v-card outlined tile>{{ $t("dong") }} / {{ $t("ho") }}</v-card>
+          <v-card outlined tile>{{ `${$t("dong")}${$t("ho")}` }}</v-card>
         </v-col>
         <v-col cols="3">
           <v-card class="pl-2" outlined tile height="100%">
             <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
-            <span v-if="!!paper.address.ho"> {{ paper.address.ho }} {{ $t("ho") }} </span>
+            <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }} </span>
           </v-card>
         </v-col>
       </v-row>
@@ -135,7 +135,7 @@
         </v-row>
         <p
           v-if="paper.from_date && paper.to_date"
-          class="ma-0 mt-2"
+          class="my-2"
           v-html="
             $t('terms_and_conditions_period', {
               from_year: paper.from_date.split('-')[0],
@@ -607,27 +607,24 @@ export default {
             key: "full_address",
             is_computed: true,
             cols: "9",
-            md: "10",
-            lg: "11"
+            sm: "10"
           },
           {
             name: "birthday",
             key: "user.birthday",
             cols: "9",
-            sm: "3",
-            md: "2"
+            sm: "2"
           },
-          { name: "mobile_number", cols: "9", sm: "3", md: "2" },
-          { name: "name", key: "user.name", cols: "9", sm: "3", md: "2" },
+          { name: "mobile_number", cols: "9", sm: "2" },
+          { name: "name", key: "user.name", cols: "9", sm: "2" },
           {
             name: "bank_name",
             const_name: "bank_category",
             cols: "9",
-            sm: "3",
-            md: "2",
+            sm: "2",
             print: false
           },
-          { name: "account_number", cols: "9", sm: "3", md: "2", print: false }
+          { name: "account_number", cols: "9", sm: "2", print: false }
         ],
         expert_profile_fields: [
           {
@@ -635,34 +632,31 @@ export default {
             key: "full_address",
             is_computed: true,
             cols: "9",
-            md: "10",
-            lg: "11"
+            sm: "10"
           },
           {
             name: "shop_name",
             key: "expert_profile.shop_name",
             cols: "9",
-            md: "10",
-            lg: "6"
+            sm: "4"
           },
           {
             name: "registration_number",
             key: "expert_profile.registration_number",
             cols: "9",
-            md: "10",
-            lg: "4"
+            sm: "4"
           },
-          { name: "mobile_number", cols: "9", sm: "3", md: "2" },
-          { name: "owner", key: "user.name", cols: "9", sm: "3", md: "2" },
+          { name: "mobile_number", cols: "9", sm: "2" },
+          { name: "owner", key: "user.name", cols: "9", sm: "2" },
           {
             name: "bank_name",
             const_name: "bank_category",
             cols: "9",
-            sm: "3",
-            md: "2",
+            sm: "2",
+
             print: false
           },
-          { name: "account_number", cols: "9", sm: "3", md: "2", print: false }
+          { name: "account_number", cols: "9", sm: "2", print: false }
         ]
       },
       requestUser: null,
