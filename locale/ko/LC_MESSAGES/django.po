@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 10:40+0900\n"
+"POT-Creation-Date: 2022-02-09 13:07+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\listings\serializers.py:124 .\listings\tests.py:178
+#: .\listings\serializers.py:104 .\listings\tests.py:182
 msgid "이미지는 10개까지 첨부할 수 있습니다."
 msgstr ""
 
-#: .\listings\serializers.py:133 .\listings\tests.py:187
+#: .\listings\serializers.py:113 .\listings\tests.py:191
 msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
 msgstr ""
 
-#: .\listings\serializers.py:201 .\listings\tests.py:277
+#: .\listings\serializers.py:133 .\listings\tests.py:313
+msgid "하나 이상의 이미지를 첨부하여야 합니다."
+msgstr ""
+
+#: .\listings\serializers.py:186 .\listings\tests.py:282
 #, python-format
 msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
 msgstr ""
@@ -280,113 +284,113 @@ msgstr ""
 msgid "그밖의종류"
 msgstr ""
 
-#: .\papers\serializers.py:276 .\papers\tests.py:384
+#: .\papers\serializers.py:276 .\papers\tests.py:385
 msgid "같은 회원을 중복해서 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:293 .\papers\tests.py:614
+#: .\papers\serializers.py:293 .\papers\tests.py:615
 msgid "공인중개사는 거래자로 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:308 .\papers\tests.py:654
+#: .\papers\serializers.py:308 .\papers\tests.py:655
 msgid ""
 "승인 및 활성화되지 않은 공인중개사 프로필은 계약서에 등록할 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:317 .\papers\tests.py:716
+#: .\papers\serializers.py:317 .\papers\tests.py:717
 msgid "작성자가 공인중개사인 경우 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:324 .\papers\tests.py:686
+#: .\papers\serializers.py:324 .\papers\tests.py:687
 msgid "작성자가 공인중개사인 경우 확인설명서를 비워둘 수 없습니다."
 msgstr ""
 
-#: .\papers\serializers.py:332 .\papers\tests.py:1069
+#: .\papers\serializers.py:332 .\papers\tests.py:1070
 msgid "보유하지 않은 중개보증서류가 추가되었습니다."
 msgstr ""
 
-#: .\papers\serializers.py:337 .\papers\tests.py:354 .\papers\tests.py:355
+#: .\papers\serializers.py:337 .\papers\tests.py:355 .\papers\tests.py:356
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:475 .\papers\views.py:178
+#: .\papers\tests.py:476 .\papers\views.py:178
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr ""
 
-#: .\papers\tests.py:492 .\papers\views.py:118
+#: .\papers\tests.py:493 .\papers\views.py:118
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:508 .\papers\views.py:127
+#: .\papers\tests.py:509 .\papers\views.py:127
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:515 .\papers\tests.py:565 .\papers\views.py:95
+#: .\papers\tests.py:516 .\papers\tests.py:566 .\papers\views.py:95
 #: .\papers\views.py:153
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr ""
 
-#: .\papers\tests.py:534 .\papers\views.py:109
+#: .\papers\tests.py:535 .\papers\views.py:109
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
 msgstr ""
 
-#: .\papers\tests.py:543 .\papers\views.py:161
+#: .\papers\tests.py:544 .\papers\views.py:161
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:558 .\papers\views.py:170
+#: .\papers\tests.py:559 .\papers\views.py:170
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:577 .\papers\tests.py:587 .\papers\views.py:101
+#: .\papers\tests.py:578 .\papers\tests.py:588 .\papers\views.py:101
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:811 .\papers\views.py:317
+#: .\papers\tests.py:812 .\papers\views.py:317
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:865 .\papers\views.py:369
+#: .\papers\tests.py:866 .\papers\views.py:369
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:928 .\profiles\tests.py:409 .\profiles\views.py:305
+#: .\papers\tests.py:929 .\profiles\tests.py:409 .\profiles\views.py:305
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
-#: .\papers\tests.py:941 .\profiles\views.py:331
+#: .\papers\tests.py:942 .\profiles\views.py:331
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 시작일을 변경할 수 없습니"
 "다."
 msgstr ""
 
-#: .\papers\tests.py:982 .\profiles\views.py:383
+#: .\papers\tests.py:983 .\profiles\views.py:383
 msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1447 .\papers\tests.py:1581 .\papers\views.py:200
+#: .\papers\tests.py:1448 .\papers\tests.py:1582 .\papers\views.py:200
 #: .\papers\views.py:422
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1465 .\papers\tests.py:1593 .\papers\views.py:210
+#: .\papers\tests.py:1466 .\papers\tests.py:1594 .\papers\views.py:210
 #: .\papers\views.py:432
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1524 .\papers\tests.py:1638 .\papers\views.py:233
+#: .\papers\tests.py:1525 .\papers\tests.py:1639 .\papers\views.py:233
 #: .\papers\views.py:450
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1681 .\papers\views.py:349
+#: .\papers\tests.py:1682 .\papers\views.py:349
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1687 .\papers\views.py:401
+#: .\papers\tests.py:1688 .\papers\views.py:401
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
@@ -577,32 +581,32 @@ msgstr ""
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:437
+#: .\profiles\serializers.py:440
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr ""
 
-#: .\profiles\serializers.py:445
+#: .\profiles\serializers.py:448
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:451 .\profiles\serializers.py:452
+#: .\profiles\serializers.py:454 .\profiles\serializers.py:455
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:458
+#: .\profiles\serializers.py:461
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr ""
 
-#: .\profiles\serializers.py:461
+#: .\profiles\serializers.py:464
 msgid "위임인만 서명이 가능합니다."
 msgstr ""
 
-#: .\profiles\serializers.py:463
+#: .\profiles\serializers.py:466
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:465
+#: .\profiles\serializers.py:468
 msgid "사용자가 존재하지 않습니다."
 msgstr ""
 
@@ -732,8 +736,8 @@ msgstr "당신의 계정이 비활성화 상태입니다."
 
 #: .\templates\account\base.html:84 .\templates\account\base.html:107
 #: .\templates\account\base.html:109 .\templates\index-dev.html:5
-#: .\templates\index.html:8 .\templates\intro.html:153
-#: .\templates\intro.html:158
+#: .\templates\index.html:8 .\templates\intro.html:151
+#: .\templates\intro.html:156
 msgid "Onepaper"
 msgstr "원페이퍼"
 
@@ -1523,125 +1527,124 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:160
+#: .\templates\intro.html:158
 msgid ""
 "\n"
-"      아직도 종이로 계약서 작성하세요? <br/>\n"
-"      쉽고 빠르게 비대면 계약하세요!\n"
+"      매물 관리, 계약 아직도 따로 하세요? <br/>\n"
+"      쉽고 빠르게 원페이퍼로 한번에!\n"
 "      "
 msgstr ""
 
-#: .\templates\intro.html:165
+#: .\templates\intro.html:163
 msgid "무료로 시작하기"
 msgstr ""
 
-#: .\templates\intro.html:173
+#: .\templates\intro.html:171
 msgid "원페이퍼 특징 3가지"
 msgstr ""
 
-#: .\templates\intro.html:182
-msgid "계약서 가이드 기능"
+#: .\templates\intro.html:183
+msgid "언제나 계약"
 msgstr ""
 
-#: .\templates\intro.html:184
-msgid "가이드 기능으로 쉽고 빠르게 계약서 작성!"
+#: .\templates\intro.html:185
+msgid "분실걱정 없는 온라인 계약서 작성·관리"
+msgstr ""
+
+#: .\templates\intro.html:195
+msgid "신속한 매물 홍보"
 msgstr ""
 
 #: .\templates\intro.html:197
-msgid "계약서 통합 관리"
+msgid "쉽고 빠르게 온라인 매물 조회·홍보"
 msgstr ""
 
-#: .\templates\intro.html:199
-msgid "분실걱정 No. 반복입력 No. 쉬운관리 Yes."
-msgstr ""
-
-#: .\templates\intro.html:210
+#: .\templates\intro.html:208
 msgid "PC, 모바일 지원"
 msgstr ""
 
-#: .\templates\intro.html:212
-msgid "브라우저만 있으면 언제,어디서든 OK."
+#: .\templates\intro.html:210
+msgid "브라우저만 있으면 언제,어디서든 OK"
 msgstr ""
 
-#: .\templates\intro.html:220
+#: .\templates\intro.html:218
 msgid "사용자 리뷰"
 msgstr ""
 
-#: .\templates\intro.html:223
-msgid "마*경(임대인, 30대 직장인)"
+#: .\templates\intro.html:221
+msgid "김*영(임대인, 20대 학생)"
 msgstr ""
 
-#: .\templates\intro.html:249
+#: .\templates\intro.html:247
 msgid ""
-"불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도"
-"가 몇배는 빨라졌어요."
+"코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요."
 msgstr ""
 
-#: .\templates\intro.html:252
+#: .\templates\intro.html:250
 msgid "김*현(임차인, 20대 대학생)"
 msgstr ""
 
-#: .\templates\intro.html:278
+#: .\templates\intro.html:276
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
 msgstr ""
 
-#: .\templates\intro.html:281
+#: .\templates\intro.html:279
 msgid "박*연(임대인, 40대 직장인)"
 msgstr ""
 
-#: .\templates\intro.html:307
+#: .\templates\intro.html:305
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
 msgstr ""
 
-#: .\templates\intro.html:313
+#: .\templates\intro.html:311
 msgid "원페이퍼 사용법"
 msgstr ""
 
-#: .\templates\intro.html:319
+#: .\templates\intro.html:317
 msgid "기업연혁"
 msgstr ""
 
-#: .\templates\intro.html:326
+#: .\templates\intro.html:324
 msgid "~현재"
 msgstr ""
 
-#: .\templates\intro.html:327
-msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
+#: .\templates\intro.html:325
+msgid "원페이퍼 개발 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:328
+#: .\templates\intro.html:326
 msgid ""
-"부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으"
-"로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목"
-"적이다."
+"부동산 거래에 소요되는 시간을 줄여 더 소중한 곳에 시간을 쓰고, 장기적으로 쌓"
+"인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이"
+"다."
 msgstr ""
 
-#: .\templates\intro.html:332
+#: .\templates\intro.html:330
 msgid "소셜벤처 설립 및 운영"
 msgstr ""
 
-#: .\templates\intro.html:333
+#: .\templates\intro.html:331
 msgid ""
-"한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 "
-"설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 "
-"경험을 제공하는 것이 큐룸의 미션이다."
+"사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. "
+"프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 "
+"제공하는 것이 큐룸의 미션이다."
 msgstr ""
 
-#: .\templates\intro.html:338
+#: .\templates\intro.html:336
 msgid "소셜그룹 혼족스 운영"
 msgstr ""
 
-#: .\templates\intro.html:339
+#: .\templates\intro.html:337
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
 msgstr ""
 
-#: .\templates\intro.html:347
+#: .\templates\intro.html:345
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
