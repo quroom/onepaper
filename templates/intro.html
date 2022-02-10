@@ -156,8 +156,8 @@
     <h1 class="display-4 font-weight-normal">{% trans "Onepaper" %}</h1>
     <p class="lead font-weight-normal">
       {% blocktrans %}
-      아직도 종이로 계약서 작성하세요? <br/>
-      쉽고 빠르게 비대면 계약하세요!
+      매물 관리, 계약 아직도 따로 하세요? <br/>
+      쉽고 빠르게 원페이퍼로 한번에!
       {% endblocktrans %}
     </p>
     <a class="btn btn-primary" href="/accounts/login/">{%trans '무료로 시작하기' %}</a>
@@ -171,18 +171,6 @@
   <h2 class="text-center mb-4 font-weight-bold">{%trans '원페이퍼 특징 3가지' %}</h2>
   <div class="row gx-5 text-center">
     <div class="col-lg-4 mb-5 mb-lg-0">
-      <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4"><svg
-          xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="feather feather-code">
-          <polyline points="8 22 18 12 8 12 18 2"></polyline>
-        </svg></div>
-      <h4>{%trans '계약서 가이드 기능' %}</h4>
-      <p class="mb-0">
-        {% blocktrans %}가이드 기능으로 쉽고 빠르게 계약서 작성!{% endblocktrans %}
-      </p>
-    </div>
-    <div class="col-lg-4 mb-5 mb-lg-0">
       <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -192,9 +180,21 @@
           <polyline points="2 12 12 17 22 12"></polyline>
         </svg>
       </div>
-      <h4>{%trans '계약서 통합 관리' %}</h4>
+      <h4>{%trans '언제나 계약' %}</h4>
       <p class="mb-0">
-        {% blocktrans %}분실걱정 No. 반복입력 No. 쉬운관리 Yes.{% endblocktrans %}
+        {% blocktrans %}분실걱정 없는 온라인 계약서 작성·관리{% endblocktrans %}
+      </p>
+    </div>
+    <div class="col-lg-4 mb-5 mb-lg-0">
+      <div class="featurette-icon featurette-icon-xl primary-to-purple text-white mb-4"><svg
+          xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-code">
+          <polyline points="8 22 18 12 8 12 18 2"></polyline>
+        </svg></div>
+      <h4>{%trans '신속한 매물 홍보' %}</h4>
+      <p class="mb-0">
+        {% blocktrans %}쉽고 빠르게 온라인 매물 조회·홍보{% endblocktrans %}
       </p>
     </div>
     <div class="col-lg-4">
@@ -207,7 +207,7 @@
         </svg></div>
       <h4>{%trans 'PC, 모바일 지원' %}</h4>
       <p class="mb-0">
-        {% blocktrans %}브라우저만 있으면 언제,어디서든 OK.{% endblocktrans %}
+        {% blocktrans %}브라우저만 있으면 언제,어디서든 OK{% endblocktrans %}
       </p>
     </div>
   </div>
@@ -218,7 +218,7 @@
     <h2 class="mb-4 font-weight-bold">{%trans '사용자 리뷰' %}</h2>
     <div class="row">
       <div class="col-lg-4 mb-5 mb-lg-0">
-        <h4>{%trans '마*경(임대인, 30대 직장인)' %}</h4>
+        <h4>{%trans '김*영(임대인, 20대 학생)' %}</h4>
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#ffc107" class="bi bi-star-fill"
           viewBox="0 0 24 24">
           <path
@@ -244,7 +244,7 @@
           <path
             d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
         </svg>
-        <p>{%trans '불러오기 기능이 참 좋더라구요. 같은 내용을 한번에 입력해주니 계약서 작성속도가 몇배는 빨라졌어요.' %}</p>
+        <p>{%trans '코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요.' %}</p>
       </div>
       <div class="col-lg-4 mb-5 mb-lg-0">
         <h4>{%trans '김*현(임차인, 20대 대학생)' %}</h4>
@@ -322,13 +322,13 @@
         <!-- Timeline Item 1 -->
         <div class="timeline-item">
           <h5 class="mt-3 mb-0">{%trans '~현재' %}</h5>
-          <p class="font-weight-bold">{%trans '부동산 온라인 계약 원페이퍼 출시 및 운영' %}</p>
-          <p>{%trans '부동산 거래에 소요되는 절대적 시간을 줄여 더 소중한 곳에 시간을 쓰고 장기적으로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이다.' %}</p>
+          <p class="font-weight-bold">{%trans '원페이퍼 개발 및 운영' %}</p>
+          <p>{%trans '부동산 거래에 소요되는 시간을 줄여 더 소중한 곳에 시간을 쓰고, 장기적으로 쌓인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이다.' %}</p>
         </div>
         <div class="timeline-item">
           <h5 class="mt-3 mb-0">~2019</h5>
           <p class="font-weight-bold">{%trans '소셜벤처 설립 및 운영' %}</p>
-          <p>{%trans '한국 사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 제공하는 것이 큐룸의 미션이다.' %}</p>
+          <p>{%trans '사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. 프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 제공하는 것이 큐룸의 미션이다.' %}</p>
         </div>
         <!-- Timeline Item 3 -->
         <div class="timeline-item">

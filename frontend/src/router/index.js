@@ -11,7 +11,7 @@ import PaperEditor from "../views/PaperEditor";
 import Profiles from "../views/ProfileList";
 import ProfileEditor from "../views/ProfileEditor";
 import AllowedUserEditor from "../views/AllowedUserEditor";
-import Listings from "../views/ListingList";
+import ListingList from "../views/ListingList";
 import ListingEditor from "../views/ListingEditor";
 import MandateEditor from "../views/MandateEditor";
 import Mandates from "../views/MandateList";
@@ -23,7 +23,7 @@ const routes = [
   {
     path: "/",
     name: "listings",
-    component: Listings,
+    component: ListingList,
     meta: { title: "매물 리스트-원페이퍼" }
   },
   {
@@ -189,8 +189,8 @@ router.beforeEach((to, from, next) => {
     }
 
     if (
-      (from.name == "listing-detail" && to.name == "listings") ||
-      (from.name == "listings" && to.name == "listing-detail")
+      (from.name == "listing-detail" && to.name == "listings" && !isListingUpdated) ||
+      (from.name == "listings" && to.name == "listing-detail" && !isListingUpdated)
     ) {
       to.meta.isListingDestroied = false;
     } else {

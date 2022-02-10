@@ -239,6 +239,9 @@ const i18n = new VueI18n({
       short_lease: "Short Lease",
       only_my_listings: "only mine ",
       all_listings: "all",
+      only_vacancy: "only vacancy",
+      no_vacancy: "no vacancy",
+      vacancy: "vacancy",
 
       //Tour translation
       done_tour: "Done",
@@ -711,6 +714,9 @@ const i18n = new VueI18n({
       short_lease: "단기",
       only_my_listings: "내 매물",
       all_listings: "전체 매물",
+      only_vacancy: "공실만",
+      no_vacancy: "만실",
+      vacancy: "공실",
 
       //Tour translation
       done_tour: "종료",

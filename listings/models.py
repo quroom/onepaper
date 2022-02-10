@@ -2,7 +2,7 @@ from typing import List
 
 from django.conf import settings
 from django.db import models
-from django.db.models.fields import related
+from django.utils.translation import ugettext_lazy as _
 
 from addresses.models import Address
 from core.models import Comment
@@ -86,3 +86,19 @@ class ListingImage(models.Model):
 
 class ListingAddress(Address):
     listing = models.OneToOneField(Listing, on_delete=models.CASCADE)
+
+
+class ListingStatus(models.Model):
+    FULL = 0
+    AVALIABLE = 1
+
+    STATUS_CATEGORY = (
+        (FULL, _("만실")),
+        (AVALIABLE, _("가능")),
+    )
+
+    listing = models.OneToOneField(Listing, on_delete=models.CASCADE)
+    status = models.SmallIntegerField(choices=STATUS_CATEGORY, default=AVALIABLE)
+
+    def __str__(self):
+        return str(self.status)

@@ -4,12 +4,18 @@ from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from listings.models import Listing, ListingAddress, ListingImage
+from listings.models import Listing, ListingAddress, ListingImage, ListingStatus
 from onepaper.serializers import ReadOnlyModelSerializer
 from profiles.serializers import (
     ListingEveryoneExpertProfileSerializer,
     ListingEveryoneProfileSerializer,
 )
+
+
+class ListingStatusSerializer(ReadOnlyModelSerializer):
+    class Meta:
+        model = ListingStatus
+        fields = ["status"]
 
 
 class ListingAddressSerializer(ModelSerializer):
@@ -32,6 +38,7 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
     author_profile = serializers.SerializerMethodField()
     listingaddress = serializers.SerializerMethodField()
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
+    status = serializers.IntegerField(source="listingstatus.status", required=False)
 
     class Meta:
         model = Listing
@@ -63,11 +70,15 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
         )
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
 
+    def get_status(self, instance):
+        return instance.listingstatus.status
+
 
 class ListingSerializer(ModelSerializer):
     author_profile = serializers.SerializerMethodField()
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
     listingaddress = ListingAddressSerializer()
+    status = serializers.IntegerField(source="listingstatus.status", required=False)
 
     class Meta:
         model = Listing
@@ -125,6 +136,9 @@ class ListingSerializer(ModelSerializer):
                 author.profiles.filter(is_activated=True).first()
             ).data
 
+    def get_status(self, instance):
+        return instance.listingstatus.status
+
     @transaction.atomic
     def create(self, validated_data):
         if not validated_data.get("listingimage_set") is None:
@@ -135,6 +149,7 @@ class ListingSerializer(ModelSerializer):
         address_data = validated_data.pop("listingaddress")
         listing = Listing.objects.create(**validated_data)
         ListingAddress.objects.create(listing=listing, **address_data)
+        ListingStatus.objects.create(listing=listing)
 
         for image_data in images_data:
             image = image_data.get("image")

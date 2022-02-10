@@ -1,19 +1,21 @@
 import django_filters
 from django.db.models.base import Model
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from django_filters.rest_framework import BaseInFilter, NumberFilter
+from rest_framework import status
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet
 
-from listings.models import Listing
+from listings.models import Listing, ListingStatus
 from listings.permissions import HasProfileOrReadonly
 from listings.serializers import ListingEveryoneSerializer, ListingSerializer
-from papers.permissions import IsAuthorOrReadonly
+from papers.permissions import IsAuthor, IsAuthorOrReadonly
 
 
 class _NumberInFilter(BaseInFilter, NumberFilter):
@@ -63,10 +65,13 @@ class ListingViewset(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         is_mine = request.query_params.get("is_mine", None)
+        only_vacancy = request.query_params.get("only_vacancy", None)
         queryset = self.filter_queryset(self.get_queryset())
 
         if is_mine:
             queryset = queryset.filter(author=request.user)
+        if only_vacancy:
+            queryset = queryset.filter(listingstatus__status=1)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -87,3 +92,17 @@ class ListingViewset(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class ListingStatusAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsAuthor]
+
+    def put(self, request, pk):
+        listingstatus = get_object_or_404(ListingStatus, listing__id=pk)
+        self.check_object_permissions(self.request, listingstatus.listing)
+        listing_status = request.data.get("status")
+
+        listingstatus.status = listing_status
+        listingstatus.save()
+
+        return Response({"status": int(listingstatus.status)}, status=status.HTTP_200_OK)

@@ -22,6 +22,14 @@
           <v-card>
             <v-row class="ma-auto" align="center">
               <v-col class="d-flex flex-wrap pt-0">
+                <v-checkbox
+                  class="ve-input"
+                  v-model="options.only_vacancy"
+                  :label="`${$t('only_vacancy')}`"
+                  @change="getListingsWithOptions()"
+                ></v-checkbox>
+              </v-col>
+              <v-col class="d-flex flex-wrap pt-0">
                 <v-select
                   class="ve-input"
                   v-model="options.is_mine"
@@ -270,7 +278,8 @@ export default {
         trade_category: [],
         item_category: [],
         online_visit: false,
-        short_lease: false
+        short_lease: false,
+        only_vacancy: false
       },
       isLoading: true,
       listings: [],
@@ -344,7 +353,13 @@ export default {
   },
   created() {
     if (JSON.parse(localStorage.getItem("listing_options"))) {
-      this.options = JSON.parse(localStorage.getItem("listing_options"));
+      this._options = JSON.parse(localStorage.getItem("listing_options"));
+      for (let key of Object.keys(this.options)) {
+        if (this._options[key] === undefined) {
+          this._options[key] = this.options[key];
+        }
+      }
+      this.options = this._options;
       this.getListingsWithOptions();
     } else {
       this.getListings();
