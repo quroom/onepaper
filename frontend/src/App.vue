@@ -9,10 +9,7 @@
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
         <router-view />
       </keep-alive>
-      <keep-alive
-        v-else-if="!$route.meta.isListingDestroied && !$store.state.is_listing_updated"
-        include="Listings"
-      >
+      <keep-alive v-else-if="!$route.meta.isListingDestroied" include="ListingList">
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
         <router-view />
       </keep-alive>

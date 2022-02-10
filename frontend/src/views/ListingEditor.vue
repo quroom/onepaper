@@ -17,8 +17,8 @@
     </template>
     <!-- Add profile info -->
     <ValidationObserver ref="obs">
-      <v-row>
-        <v-col id="v-create-paper" cols="12">
+      <v-row no-gutters>
+        <v-col id="v-create-listing" cols="12">
           <ValidationProvider
             v-slot="{ errors }"
             ref="title"
@@ -45,6 +45,18 @@
         v-slot="{ errors }"
       >
         <v-row align="center" justify="center" style="height:100%; ">
+          <v-col cols="12" style="max-width: 700px;">
+            <v-switch
+              class="ma-0"
+              v-if="id"
+              :readonly="isAuthor ? false : true"
+              v-model="status"
+              :label="status ? $t('vacancy') : $t('no_vacancy')"
+              hide-details="auto"
+              style="min-width:140px; width:140px"
+              @click="isAuthor ? update_status() : ''"
+            ></v-switch>
+          </v-col>
           <v-carousel
             v-if="images_data.length"
             ref="carousel"
@@ -532,6 +544,7 @@ export default {
       trade_category: 1,
       online_visit: false,
       short_lease: false,
+      status: 0,
       images: [],
       resizedImgs: [],
       image_links: [],
@@ -581,6 +594,19 @@ export default {
         } else {
           item.is_default = false;
         }
+      });
+    },
+    update_status() {
+      let endpoint = `/api/listings/${this.id}/status/`;
+      let method = "PUT";
+      apiService(endpoint, method, { status: this.status }).then((data) => {
+        if (data.status != undefined) {
+          this.status = data.status;
+          this.$store.commit("SET_IS_LISTING_UPDATED", true);
+        } else {
+          applyValidation(data);
+        }
+        this.isLoading = false;
       });
     },
     async submit() {
@@ -659,7 +685,7 @@ export default {
               alert(that.$i18n.t("request_success"));
               that.$store.commit("SET_IS_LISTING_UPDATED", true);
               that.$router.push({
-                name: "listings"
+                name: "ListingList"
               });
             } else {
               applyValidation(data, that);
@@ -690,6 +716,7 @@ export default {
           vm.maintenance_fee = data.maintenance_fee;
           vm.monthly_fee = data.monthly_fee;
           vm.image_links = data.images;
+          vm.status = data.status;
           vm.$store.commit("SET_IS_LISTING_UPDATED", false);
         });
       } else {

@@ -93,9 +93,12 @@
             $t("short_lease")
           }}</v-chip>
           <v-spacer></v-spacer>
-          <v-btn text color="black accent-4">
+          <v-btn v-if="listing.status === 1" text color="black accent-4">
             {{ `${$t("detail")} ${$t("view")}` }}
           </v-btn>
+          <v-chip v-else class="ml-1 mt-1" color="red lighten-1" dark>{{
+            $t("no_vacancy")
+          }}</v-chip>
         </v-card-actions>
       </router-link>
     </v-card>
