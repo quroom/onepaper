@@ -175,9 +175,10 @@ class PaperTestCase(APITestCase):
         self.token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.image = self._create_image()
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
@@ -185,8 +186,8 @@ class PaperTestCase(APITestCase):
             birthday="1955-02-12",
         )
         address = Address.objects.create(**address_vars)
-        self.profile = Profile.objects.create(
-            user=self.user,
+        cls.profile = Profile.objects.create(
+            user=cls.user,
             address=address,
             bank_name=34,
             account_number="120982711",
@@ -201,7 +202,7 @@ class PaperTestCase(APITestCase):
             birthday="1955-02-12",
         )
         address = Address.objects.create(**address_vars)
-        self.profile1 = Profile.objects.create(
+        cls.profile1 = Profile.objects.create(
             user=user1,
             address=address,
             bank_name=4,
@@ -225,30 +226,39 @@ class PaperTestCase(APITestCase):
             account_number="1111111",
             mobile_number="010-3982-5555",
         )
-        self.expert_profile = ExpertProfile.objects.create(
+        cls.expert_profile = ExpertProfile.objects.create(
             profile=profile2, registration_number="2020118181-11", shop_name="효암중개사"
         )
         Insurance.objects.create(
-            expert_profile=self.expert_profile,
+            expert_profile=cls.expert_profile,
             from_date=today,
             to_date=today.replace(year=today.year + 1),
         )
-        self.expert_profile.status = ExpertProfile.APPROVED
-        self.expert_profile.save()
+        cls.expert_profile.status = ExpertProfile.APPROVED
+        cls.expert_profile.save()
 
-        profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
-        profile_allowed_user.allowed_users.add(self.user)
+        profile_allowed_user = AllowedUser.objects.create(profile=cls.profile)
+        profile_allowed_user.allowed_users.add(cls.user)
         profile_allowed_user.allowed_users.add(expert_user)
-        profile_allowed_user1 = AllowedUser.objects.create(profile=self.profile1)
-        profile_allowed_user1.allowed_users.add(self.user)
+        profile_allowed_user1 = AllowedUser.objects.create(profile=cls.profile1)
+        profile_allowed_user1.allowed_users.add(cls.user)
         profile_allowed_user1.allowed_users.add(expert_user)
         expert_profile_allowed_user = AllowedUser.objects.create(
-            profile=self.expert_profile.profile
+            profile=cls.expert_profile.profile
         )
-        expert_profile_allowed_user.allowed_users.add(self.user)
+        expert_profile_allowed_user.allowed_users.add(cls.user)
+        address = Address.objects.create(**address_vars)
+        Profile.objects.create(
+            user=cls.user,
+            address=address,
+            bank_name=4,
+            account_number="98373737372",
+            mobile_number="010-9827-111" + str(id),
+        )
 
+    def setUp(self):
+        self.image = self._create_image()
         self.api_authentication(self.user)
-        self.create_profile()
 
     # FIXME: remove files and folders also profile test file too.
     def tearDown(self):
@@ -1089,13 +1099,9 @@ class SignatureTestCase(APITestCase):
         self.token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.image = self._create_image()
-        self.image1 = self._create_image()
-        self.image2 = self._create_image()
-        self.image3 = self._create_image()
-        self.image4 = self._create_image()
-        self.image5 = self._create_image()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
         expert_user = CustomUser.objects.create_user(
             email="expert@naver.com",
             password="some_strong_password",
@@ -1112,34 +1118,33 @@ class SignatureTestCase(APITestCase):
             account_number="1111111",
             mobile_number="010-3982-5555",
         )
-        self.expert_profile = ExpertProfile.objects.create(
+        cls.expert_profile = ExpertProfile.objects.create(
             profile=profile2, registration_number="2020118181-11", shop_name="효암중개사"
         )
         Insurance.objects.create(
-            expert_profile=self.expert_profile,
+            expert_profile=cls.expert_profile,
             from_date=today,
             to_date=today.replace(year=today.year + 1),
         )
-        self.expert_profile.status = ExpertProfile.APPROVED
-        self.expert_profile.save()
-        self.user = CustomUser.objects.create_user(
+        cls.expert_profile.status = ExpertProfile.APPROVED
+        cls.expert_profile.save()
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
-        self.api_authentication(user=self.user)
         address = Address.objects.create(**address_vars)
-        self.profile = Profile.objects.create(
-            user=self.user,
+        cls.profile = Profile.objects.create(
+            user=cls.user,
             address=address,
             bank_name=4,
             account_number="1908281111",
             mobile_number="010-3982-1111",
         )
-        profile_allowed_user = AllowedUser.objects.create(profile=self.profile)
-        profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
+        profile_allowed_user = AllowedUser.objects.create(profile=cls.profile)
+        profile_allowed_user.allowed_users.add(cls.expert_profile.profile.user)
         user = CustomUser.objects.create_user(
             email="test1@naver.com",
             password="some_strong_password",
@@ -1148,17 +1153,26 @@ class SignatureTestCase(APITestCase):
             birthday="1955-02-12",
         )
         address = Address.objects.create(**address_vars)
-        self.profile1 = Profile.objects.create(
+        cls.profile1 = Profile.objects.create(
             user=user,
             address=address,
             bank_name=7,
             account_number="1111111",
             mobile_number="010-3982-2222",
         )
-        profile1_allowed_user = AllowedUser.objects.create(profile=self.profile1)
-        profile1_allowed_user.allowed_users.add(self.user)
-        profile_allowed_user.allowed_users.add(self.expert_profile.profile.user)
+        profile1_allowed_user = AllowedUser.objects.create(profile=cls.profile1)
+        profile1_allowed_user.allowed_users.add(cls.user)
+        profile_allowed_user.allowed_users.add(cls.expert_profile.profile.user)
         address = Address.objects.create(**address_vars)
+
+    def setUp(self):
+        self.image = self._create_image()
+        self.image1 = self._create_image()
+        self.image2 = self._create_image()
+        self.image3 = self._create_image()
+        self.image4 = self._create_image()
+        self.image5 = self._create_image()
+        self.api_authentication(user=self.user)
         data = {
             "address": address_vars,
             "building_area": 1111,
