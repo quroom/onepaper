@@ -1,5 +1,5 @@
 
-set $bucket bucket-onepaper.s3.ap-northeast-2.amazonaws.com;
+set $bucket bucket-nfucyl.s3.ap-northeast-2.amazonaws.com;
 location ~ ^/(media|media-staging)/ {
     proxy_set_header Host $bucket;
     proxy_pass https://$bucket$request_uri;
