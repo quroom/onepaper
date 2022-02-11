@@ -26,22 +26,26 @@ class ListingFilter(django_filters.FilterSet):
     bjdong = django_filters.CharFilter(
         lookup_expr="icontains", field_name="listingaddress__bjdongName"
     )
-    max_deposit = filters.NumberFilter(field_name="deposit", lookup_expr="lte")
-    min_deposit = filters.NumberFilter(field_name="deposit", lookup_expr="gte")
+    max_security_deposit = filters.NumberFilter(field_name="security_deposit", lookup_expr="lte")
+    min_security_deposit = filters.NumberFilter(field_name="security_deposit", lookup_expr="gte")
     max_monthly_fee = filters.NumberFilter(field_name="monthly_fee", lookup_expr="lte")
     min_monthly_fee = filters.NumberFilter(field_name="monthly_fee", lookup_expr="gte")
+    max_maintenance_fee = filters.NumberFilter(field_name="maintenance_fee", lookup_expr="lte")
+    min_maintenance_fee = filters.NumberFilter(field_name="maintenance_fee", lookup_expr="gte")
     item_category = _NumberInFilter()
     trade_category = _NumberInFilter()
 
     class Meta:
         model = Listing
         fields = [
-            "item_category",
             "bjdong",
-            "max_deposit",
-            "min_deposit",
+            "max_security_deposit",
+            "min_security_deposit",
             "max_monthly_fee",
             "min_monthly_fee",
+            "max_maintenance_fee",
+            "min_maintenance_fee",
+            "item_category",
             "trade_category",
         ]
 

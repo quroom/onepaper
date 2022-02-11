@@ -324,19 +324,36 @@ export default {
           } else {
             if (value[0] === 0 && value[1] === Constants[`MAX_${key.toUpperCase()}_FILTER`]) {
               return;
+            } else {
+              if (value[0] !== 0) {
+                if (is_first_option) {
+                  endpoint += `&min_${key}=${value[0]}`;
+                } else {
+                  endpoint += `?min_${key}=${value[0]}`;
+                }
+                is_first_option = true;
+              }
+              if (value[1] !== Constants[`MAX_${key.toUpperCase()}_FILTER`]) {
+                if (is_first_option) {
+                  endpoint += `&max_${key}=${value[1]}`;
+                } else {
+                  endpoint += `?max_${key}=${value[1]}`;
+                }
+                is_first_option = true;
+              }
             }
           }
         } else {
           if (value === null || value === false || value === "") {
             return;
           }
+          if (is_first_option) {
+            endpoint += `&${key}=${value}`;
+          } else {
+            endpoint += `?${key}=${value}`;
+          }
+          is_first_option = true;
         }
-        if (is_first_option) {
-          endpoint += `&${key}=${value}`;
-        } else {
-          endpoint += `?${key}=${value}`;
-        }
-        is_first_option = true;
       });
       this.isLoading = true;
       await apiService(endpoint).then((data) => {
