@@ -1,34 +1,34 @@
 <template>
   <div>
     <v-app-bar class="filter-bar" dark color="grey darken-3" dense fixed>
+      <v-btn-toggle tile group mandatory v-model="is_mine">
+        <v-btn
+          :value="false"
+          text
+          rounded
+          @click="
+            is_mine = false;
+            getPapersWithOptions();
+          "
+        >
+          <span> {{ $t("all_papers") }}</span>
+          <v-icon>mdi-history</v-icon>
+        </v-btn>
+        <v-btn
+          :value="true"
+          text
+          rounded
+          @click="
+            is_mine = true;
+            getPapersWithOptions();
+          "
+        >
+          <span> {{ $t("only_my_papers") }}</span>
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+      </v-btn-toggle>
       <v-spacer />
       <div id="v-filter">
-        <v-btn-toggle tile group mandatory v-model="is_mine">
-          <v-btn
-            :value="false"
-            text
-            rounded
-            @click="
-              is_mine = false;
-              getPapersWithOptions();
-            "
-          >
-            <span> {{ $t("all_papers") }}</span>
-            <v-icon>mdi-history</v-icon>
-          </v-btn>
-          <v-btn
-            :value="true"
-            text
-            rounded
-            @click="
-              is_mine = true;
-              getPapersWithOptions();
-            "
-          >
-            <span> {{ $t("only_my_papers") }}</span>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-        </v-btn-toggle>
         <v-menu v-model="menu" :close-on-content-click="false">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text rounded v-bind="attrs" v-on="on">
@@ -161,7 +161,6 @@
           </v-card>
         </v-menu>
       </div>
-      <v-spacer />
     </v-app-bar>
     <v-container>
       <div class="text-caption blue--text">{{ $t("paper_subtitle") }}</div>
@@ -465,20 +464,8 @@ export default {
 };
 </script>
 <style scoped>
-@media (max-width: 960px) {
-  .filter-bar {
-    top: 56px !important;
-    z-index: 1;
-  }
-  .v-progress-linear {
-    top: 54px !important;
-  }
-  .container {
-    max-width: 100%;
-  }
-}
 .filter-bar {
-  top: 64px;
+  top: 64px !important;
   z-index: 1;
 }
 .container {
@@ -502,5 +489,17 @@ export default {
   top: -20px !important;
   right: 0px !important;
   left: 0px !important;
+}
+@media (max-width: 960px) {
+  .filter-bar {
+    top: 56px !important;
+    z-index: 1;
+  }
+  .v-progress-linear {
+    top: 54px !important;
+  }
+  .container {
+    max-width: 100%;
+  }
 }
 </style>
