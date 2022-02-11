@@ -232,7 +232,7 @@ import ListingItem from "@/components/ListingItem";
 import Constants from "@/plugins/Constants";
 
 export default {
-  name: "Listings",
+  name: "ListingList",
   components: {
     ListingItem
   },

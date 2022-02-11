@@ -59,14 +59,17 @@ class AllowedUserTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
+
+    def setUp(self):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
         self.create_profile()
@@ -215,8 +218,9 @@ class ExpertProfileTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
@@ -224,6 +228,8 @@ class ExpertProfileTestCase(APITestCase):
             birthday="1955-02-12",
             is_expert=True,
         )
+
+    def setUp(self):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
 
@@ -466,21 +472,24 @@ class ProfileTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
-        self.user1 = CustomUser.objects.create_user(
+        cls.user1 = CustomUser.objects.create_user(
             email="test1@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
+
+    def setUp(self):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
 
@@ -827,14 +836,17 @@ class CustomUserTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
+
+    def setUp(self):
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
 
@@ -962,15 +974,19 @@ class MandateTestCase(APITestCase):
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
 
-    def setUp(self):
-        self.image = self._create_image()
-        self.user = CustomUser.objects.create_user(
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = CustomUser.objects.create_user(
             email="test@naver.com",
             password="some_strong_password",
             bio="bio",
             name="김주영",
             birthday="1955-02-12",
         )
+
+    def setUp(self):
+        self.image = self._create_image()
+
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
         self.profile1 = self.create_profile().data
