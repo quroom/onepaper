@@ -685,7 +685,7 @@ export default {
               alert(that.$i18n.t("request_success"));
               that.$store.commit("SET_IS_LISTING_UPDATED", true);
               that.$router.push({
-                name: "ListingList"
+                name: "listings"
               });
             } else {
               applyValidation(data, that);
