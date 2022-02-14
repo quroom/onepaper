@@ -54,7 +54,9 @@
           >
             <v-card outlined tile color="green lighten-2">
               <v-icon
-                v-if="contractor.profile.certification.is_certificated === false"
+                v-if="
+                  contractor.group && contractor.profile.certification.is_certificated === false
+                "
                 class="no-print red--text"
               >
                 warning
@@ -217,7 +219,9 @@ export default {
   },
   computed: {
     isExpert: function() {
-      return this.contractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert");
+      return this.contractor
+        ? this.contractor.group == this.$getConstByName("CONTRACTOR_CATEGORY", "expert")
+        : false;
     },
     isSigned: function() {
       if (this.isVerifyingExplanation) {
@@ -251,7 +255,11 @@ export default {
         : false;
     },
     computed_profile: function() {
-      return this.profile ? this.profile : this.contractor.profile;
+      if (this.profile !== undefined) {
+        return this.profile;
+      } else {
+        return this.contractor.profile;
+      }
     },
     full_address: function() {
       const address = this.computed_profile.address;
