@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-app-bar class="filter-bar" dark color="grey darken-3" dense fixed>
-      <v-spacer />
       <LazyTextField
         v-model="options.bjdong"
         class="filter-search"
@@ -11,6 +10,7 @@
         :label="`${$t('bjdong')}`"
         @keydown.enter="getListingsWithOptions"
       ></LazyTextField>
+      <v-spacer />
       <div id="v-filter">
         <v-menu v-model="menu" :close-on-content-click="false" offset-y>
           <template v-slot:activator="{ on, attrs }">
@@ -386,10 +386,20 @@ export default {
 </script>
 
 <style scoped>
+.filter-bar {
+  top: 64px !important;
+  z-index: 1;
+}
+.container {
+  padding-top: 56px;
+}
+.filter-search {
+  max-width: 250px;
+}
 @media (max-width: 960px) {
   .filter-bar {
     top: 56px !important;
-    z-index: 2;
+    z-index: 1;
   }
   .v-progress-linear {
     top: 54px !important;
@@ -397,15 +407,5 @@ export default {
   .container {
     max-width: 100%;
   }
-}
-.container {
-  padding-top: 56px;
-}
-.filter-bar {
-  top: 64px;
-  z-index: 2;
-}
-.filter-search {
-  max-width: 250px;
 }
 </style>

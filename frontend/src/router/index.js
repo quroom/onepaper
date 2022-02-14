@@ -1,21 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import ApproveExpert from "../views/ApproveExpert";
-import ServiceIntro from "../views/ServiceIntro";
-import PaperList from "../views/PaperList";
-import NoticeDetail from "../views/NoticeDetail";
-import NoticeList from "../views/NoticeList";
-import PaperDetail from "../views/PaperDetail";
-import PaperEditor from "../views/PaperEditor";
-import Profiles from "../views/ProfileList";
-import ProfileEditor from "../views/ProfileEditor";
-import AllowedUserEditor from "../views/AllowedUserEditor";
-import ListingList from "../views/ListingList";
-import ListingEditor from "../views/ListingEditor";
-import MandateEditor from "../views/MandateEditor";
-import Mandates from "../views/MandateList";
-import UserEditor from "../views/UserEditor";
+const ApproveExpert = () => import("../views/ApproveExpert");
+const ServiceIntro = () => import("../views/ServiceIntro");
+const PaperList = () => import("../views/PaperList");
+const NoticeDetail = () => import("../views/NoticeDetail");
+const NoticeList = () => import("../views/NoticeList");
+const PaperDetail = () => import("../views/PaperDetail");
+const PaperEditor = () => import("../views/PaperEditor");
+const Profiles = () => import("../views/ProfileList");
+const ProfileEditor = () => import("../views/ProfileEditor");
+const AllowedUserEditor = () => import("../views/AllowedUserEditor");
+const ListingList = () => import("../views/ListingList");
+const ListingEditor = () => import("../views/ListingEditor");
+const MandateEditor = () => import("../views/MandateEditor");
+const Mandates = () => import("../views/MandateList");
+const UserEditor = () => import("../views/UserEditor");
 
 Vue.use(VueRouter);
 //home 매물 리스트로 바꾸기.

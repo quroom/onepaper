@@ -102,8 +102,9 @@ pipeline {
                 git checkout .; \
                 git checkout master; \
                 git pull origin master; \
-                sudo docker build -t djangovue_test --network onepaper_default -f Dockerfile-test .; \
-                sudo docker run -i -e GREEN=False djangovue_test python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*;" '
+                sudo docker build -t djangovue_deploy --network onepaper_default -f Dockerfile-test-deploy .; \
+                sudo docker run -i -e GREEN=False djangovue_deploy python manage.py collectstatic --no-input -i admin -i summernote -i debug_toolbar -i rest_framework -i MaterialIcons*;" '
+
                 //Deploy to Blue : Deploy django server.
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@onepaper.biz "source djangovenv/bin/activate; \
                 cd onepaper; \
