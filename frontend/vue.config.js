@@ -4,13 +4,7 @@ const mode = process.argv[4];
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:5050/"
   // To access site from outside. publicPath(Public IP): "http://125.183.143.159:5050/",
-  //FIXME: I guess that to support chucnk file, it has to be static-green with dev server.
-  publicPath:
-    process.env.NODE_ENV === "production"
-      ? process.env.STAGING === "true"
-        ? "/static-green/"
-        : "static"
-      : "http://125.183.143.159:5050/",
+  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://127.0.0.1:5050/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
     if (mode == "dev") {
