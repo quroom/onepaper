@@ -391,7 +391,9 @@
             </ValidationProvider>
             <ContractorItem
               v-if="seller"
-              :profile="seller"
+              :contractor="{
+                profile: seller
+              }"
               :fields="fields_names.basic_profile_fields"
             ></ContractorItem>
           </v-col>
@@ -429,7 +431,9 @@
             </ValidationProvider>
             <ContractorItem
               v-if="buyer"
-              :profile="buyer"
+              :contractor="{
+                profile: buyer
+              }"
               :fields="fields_names.basic_profile_fields"
             ></ContractorItem>
           </v-col>
@@ -462,7 +466,9 @@
             </ValidationProvider>
             <ContractorItem
               v-if="expert"
-              :profile="expert"
+              :contractor="{
+                profile: expert
+              }"
               :fields="fields_names.expert_profile_fields"
             ></ContractorItem>
           </v-col>
@@ -488,7 +494,9 @@
                 </v-col>
                 <v-col cols="12">
                   <ContractorItem
-                    :profile="seller"
+                    :contractor="{
+                      profile: seller
+                    }"
                     :fields="fields_names.basic_profile_fields"
                   ></ContractorItem>
                 </v-col>
@@ -501,7 +509,9 @@
                 </v-col>
                 <v-col cols="12">
                   <ContractorItem
-                    :profile="buyer"
+                    :contractor="{
+                      profile: buyer
+                    }"
                     :fields="fields_names.basic_profile_fields"
                   ></ContractorItem>
                 </v-col>
@@ -513,7 +523,9 @@
               </v-col>
               <v-col v-if="expert" cols="12">
                 <ContractorItem
-                  :profile="expert"
+                  :contractor="{
+                    profile: expert
+                  }"
                   :fields="fields_names.expert_profile_fields"
                 ></ContractorItem>
               </v-col>

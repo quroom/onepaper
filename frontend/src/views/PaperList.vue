@@ -466,7 +466,7 @@ export default {
 <style scoped>
 .filter-bar {
   top: 64px !important;
-  z-index: 1;
+  z-index: 2;
 }
 .container {
   padding-top: 56px;
@@ -493,7 +493,7 @@ export default {
 @media (max-width: 960px) {
   .filter-bar {
     top: 56px !important;
-    z-index: 1;
+    z-index: 2;
   }
   .v-progress-linear {
     top: 54px !important;

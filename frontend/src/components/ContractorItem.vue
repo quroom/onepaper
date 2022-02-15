@@ -202,10 +202,6 @@ export default {
       type: Object,
       required: false
     },
-    profile: {
-      type: Object,
-      required: false
-    },
     isVerifyingExplanation: {
       type: Boolean,
       required: false,
@@ -255,11 +251,7 @@ export default {
         : false;
     },
     computed_profile: function() {
-      if (this.profile !== undefined) {
-        return this.profile;
-      } else {
-        return this.contractor.profile;
-      }
+      return this.contractor.profile;
     },
     full_address: function() {
       const address = this.computed_profile.address;
