@@ -1,5 +1,5 @@
 const BundleTracker = require("webpack-bundle-tracker");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin-fixed-hashbug");
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const mode = process.argv[4];
@@ -15,8 +15,10 @@ module.exports = {
       config.plugin("BundleAnalyzerPlugin").use(BundleAnalyzerPlugin);
       config.plugin("SpeedMeasurePlugin").use(SpeedMeasurePlugin);
     }
+    if (process.env.NODE_ENV != "production") {
+      config.plugin("HardSourceWebpackPlugin").use(HardSourceWebpackPlugin);
+    }
     config.plugin("BundleTracker").use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
-    config.plugin("HardSourceWebpackPlugin").use(HardSourceWebpackPlugin);
     config.module
       .rule("eslint")
       .use("eslint-loader")
