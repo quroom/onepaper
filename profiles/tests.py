@@ -292,7 +292,7 @@ class ExpertProfileTestCase(APITestCase):
             "expert_profile.stamp": image2,
             "expert_profile.insurance.image": image3,
             "expert_profile.insurance.from_date": "2021-3-13",
-            "expert_profile.insurance.to_date": "2022-3-13",
+            "expert_profile.insurance.to_date": "2999-3-13",
         }
         response = self.client.post(self.list_url, data=data)
         image.close()
