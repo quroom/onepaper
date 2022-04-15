@@ -6,7 +6,7 @@ const mode = process.argv[4];
 
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:5050/"
-  // To access site from outside. publicPath(Public IP): "http://125.183.143.159:5050/",
+  // To access site from outside. publicPath(Public IP): "http://124.63.4.136:5050/",
   publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://127.0.0.1:5050/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
