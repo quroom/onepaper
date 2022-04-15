@@ -53,6 +53,7 @@ const i18n = new VueI18n({
       contract: "Contract",
       contractor_info: "Contractor Info",
       contractor_info_intro: "The contractor details for the above real estate are as follows.",
+      create: "Create",
       created_at: "Created Date",
       create_paper: "Create Contract",
       create_profile: "Create Profile",
@@ -124,8 +125,8 @@ const i18n = new VueI18n({
         "During the delegation period, the contract written by the mandate is completed without the signature of the mandate.",
       mandate_paper: "Power of Attorney",
       mandatory: "mandatory",
-      man: "ten thousand Won",
-      manwon: "ten thousand Won",
+      man: "Man",
+      manwon: "Manwon",
       menu: "Menu",
       modify: "Modify",
       modify_delete_deadline: "Modify and Delete dealine",
@@ -235,6 +236,7 @@ const i18n = new VueI18n({
       listing: "Listing",
       listing_subtitle:
         "You can freely post and view listings, but you may be subject to sanctions for activities that cause damage to others, such as fake listing.",
+      asking_online_visit: "online visit",
       online_visit: "Online",
       short_lease: "Short Lease",
       only_my_listings: "only mine ",
@@ -242,6 +244,17 @@ const i18n = new VueI18n({
       only_vacancy: "only vacancy",
       no_vacancy: "no vacancy",
       vacancy: "vacancy",
+      ask: "Ask",
+      sale: "Sale",
+      moving_date: "Moving Date",
+      visit_date: "Visit Date",
+
+      //AskListing
+      ask_location: "Looking for location",
+      location: "Location",
+      months: "months",
+      ask_listing_detail_info:
+        "Enter additional contact/visit time desired or detailed requested property information",
 
       //Tour translation
       done_tour: "Done",
@@ -531,6 +544,7 @@ const i18n = new VueI18n({
       content: "내용",
       contractor_info: "계약자 정보",
       contractor_info_intro: "위 부동산의 계약자 정보는 아래와 같다.",
+      create: "등록",
       created_at: "등록일",
       create_paper: "계약서 작성",
       create_profile: "프로필 생성",
@@ -710,6 +724,7 @@ const i18n = new VueI18n({
       listing: "매물",
       listing_subtitle:
         "매물 등록 및 조회는 자유롭지만, 허위매물 등 타인에게 피해를 주는 활동 시 제재 할 수 있습니다.",
+      asking_online_visit: "비대면 방문",
       online_visit: "비대면",
       short_lease: "단기",
       only_my_listings: "내 매물",
@@ -717,6 +732,16 @@ const i18n = new VueI18n({
       only_vacancy: "공실만",
       no_vacancy: "만실",
       vacancy: "공실",
+      ask: "구함",
+      sale: "임대",
+      moving_date: "입주일",
+      visit_date: "방문일",
+
+      //AskingList
+      ask_location: "찾는 매물 지역",
+      location: "지역",
+      months: "개월",
+      ask_listing_detail_info: "추가적인 연락/방문 희망시간대 또는 세부 요청 매물 정보 기입",
 
       //Tour translation
       done_tour: "종료",

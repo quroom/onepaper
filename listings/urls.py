@@ -1,9 +1,10 @@
 from django.urls import include, path
 from rest_framework_nested import routers
 
-from listings.views import ListingStatusAPIView, ListingViewset
+from listings.views import AskListingViewset, ListingStatusAPIView, ListingViewset
 
 router = routers.SimpleRouter()
+router.register(r"asklistings", AskListingViewset, basename="asklistings")
 router.register(r"listings", ListingViewset, basename="listings")
 
 urlpatterns = [

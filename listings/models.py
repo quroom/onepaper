@@ -9,9 +9,7 @@ from core.models import Comment
 from papers.models import Paper
 
 
-# Reference. https://github.com/alvinshaita/django-realestate/blob/master/listings/models.py
-# Create your models here.
-class Listing(models.Model):
+class ListingConstant:
     ONEROOM = 1
     TWOROOM = 2
     THREEROOM = 3
@@ -43,6 +41,38 @@ class Listing(models.Model):
         (LAND, "토지"),
         (ECT, "기타"),
     )
+
+
+class AskListing(models.Model):
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="author_asklistings",
+    )
+    location = models.CharField(max_length=25, blank=True)
+    online_visit = models.BooleanField(default=True)
+    term_of_lease = models.SmallIntegerField(default=12)
+    item_category = models.PositiveSmallIntegerField(
+        choices=ListingConstant.ITEM_CATEGORY, default=ListingConstant.ONEROOM
+    )
+    trade_category = models.PositiveSmallIntegerField(
+        choices=Paper.TRADE_CATEGORY, default=Paper.RENT
+    )
+    security_deposit = models.PositiveBigIntegerField(blank=True, default=0)
+    monthly_fee = models.PositiveIntegerField(blank=True, default=0)
+    maintenance_fee = models.PositiveIntegerField(blank=True, default=0)
+    visit_date = models.DateField(null=True, blank=True)
+    moving_date = models.DateField(null=True, blank=True)
+    content = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["-id"]
+
+
+# Reference. https://github.com/alvinshaita/django-realestate/blob/master/listings/models.py
+class Listing(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -51,12 +81,16 @@ class Listing(models.Model):
         related_name="author_listings",
     )
     content = models.TextField(blank=True)
-    item_category = models.PositiveSmallIntegerField(choices=ITEM_CATEGORY, default=ONEROOM)
+    item_category = models.PositiveSmallIntegerField(
+        choices=ListingConstant.ITEM_CATEGORY, default=ListingConstant.ONEROOM
+    )
     title = models.CharField(max_length=25, blank=True)
     trade_category = models.PositiveSmallIntegerField(
         choices=Paper.TRADE_CATEGORY, default=Paper.RENT
     )
     online_visit = models.BooleanField(default=True)
+    # FIXME: Remove short_lease and uncomment minimum_months after 0414 first commit.
+    # minimum_months = models.PositiveSmallIntegerField(default=12, null=True)
     short_lease = models.BooleanField(default=False)
     # FIXME: Remove null True
     down_payment = models.PositiveBigIntegerField(blank=True, default=0)
@@ -70,6 +104,7 @@ class Listing(models.Model):
         ordering = ["-updated_at"]
 
 
+# FIXME: 입주문의 남기면 코멘트 남게끔 구현.
 class ListingComment(Comment):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
 

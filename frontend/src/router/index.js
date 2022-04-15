@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import AskListingList from "../views/AskListingList";
 import ApproveExpert from "../views/ApproveExpert";
 import ServiceIntro from "../views/ServiceIntro";
 import PaperList from "../views/PaperList";
@@ -32,6 +33,12 @@ const routes = [
     component: ListingEditor,
     props: true,
     meta: { title: "매물 조회-원페이퍼" }
+  },
+  {
+    path: "/asklistings",
+    name: "asklistings",
+    component: AskListingList,
+    meta: { title: "매물 요청 리스트-원페이퍼" }
   },
   {
     path: "/create/listing",

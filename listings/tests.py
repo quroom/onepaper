@@ -1,11 +1,9 @@
-import os
 import shutil
 import tempfile
 
-from django.conf import settings
-from django.core.files import File
 from django.test import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from PIL import Image
 from rest_framework import status
@@ -13,12 +11,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from addresses.models import Address
-from listings.models import Listing, ListingAddress, ListingImage
-from onepaper.settings import BASE_DIR
-from profiles.models import CustomUser, Profile
+from listings.models import AskListing, Listing, ListingAddress
+from profiles.models import CustomUser, ExpertProfile, Insurance, Profile
 
 # Create your tests here.
 MEDIA_ROOT = tempfile.mkdtemp()
+today = timezone.localtime().date()
 
 # FIXME: Move to class , because of duplicated.
 address_vars = {
@@ -35,6 +33,150 @@ address_vars = {
     "dong": "",
     "ho": "2층",
 }
+
+asklisting_data = {
+    "location": "광주광역시 동구 계림동",
+    "online_visit": True,
+    "term_of_lease": 12,
+    "item_category": 1,
+    "trade_category": 1,
+    "security_deposit": 200,
+    "monthly_fee": 30,
+    "maintenance_fee": 5,
+    "visit_date": today,
+    "moving_date": today.replace(year=today.year + 1),
+    "content": "테스트 코드 입니다.",
+}
+
+
+class AskListingTestCase(APITestCase):
+    list_url = reverse("asklistings-list")
+
+    def api_authentication(self, user):
+        self.token = Token.objects.create(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.user = CustomUser.objects.create_user(
+            email="test@naver.com",
+            password="some_strong_password",
+            bio="bio",
+            name="김주영",
+            birthday="1955-02-12",
+        )
+        address = Address.objects.create(**address_vars)
+        cls.profile = Profile.objects.create(
+            user=cls.user,
+            address=address,
+            bank_name=34,
+            account_number="120982711",
+            mobile_number="010-1234-5678",
+        )
+
+        AskListing.objects.create(author=cls.user, **asklisting_data)
+        AskListing.objects.create(author=cls.user, **asklisting_data)
+
+        cls.expert_user = CustomUser.objects.create_user(
+            email="expert@naver.com",
+            password="some_strong_password",
+            bio="bio",
+            name="서주은",
+            birthday="1955-02-12",
+            is_expert=True,
+        )
+        address = Address.objects.create(**address_vars)
+        profile2 = Profile.objects.create(
+            user=cls.expert_user,
+            address=address,
+            bank_name=7,
+            account_number="1111111",
+            mobile_number="010-3982-5555",
+        )
+        cls.expert_profile = ExpertProfile.objects.create(
+            profile=profile2, registration_number="2020118181-11", shop_name="효암중개사"
+        )
+        Insurance.objects.create(
+            expert_profile=cls.expert_profile,
+            from_date=today,
+            to_date=today.replace(year=today.year + 1),
+        )
+        cls.expert_profile.status = ExpertProfile.APPROVED
+        cls.expert_profile.save()
+        AskListing.objects.create(author=cls.expert_user, **asklisting_data)
+
+    def setUp(self):
+        self.api_authentication(self.user)
+
+    def test_asklisting_create(self):
+        response = self.client.post(self.list_url, data=asklisting_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["location"], "광주광역시 동구 계림동")
+
+    def test_asklisting_list(self):
+        response = self.client.get(self.list_url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["results"][0]["monthly_fee"], 30)
+
+    def test_asklisting_with_expert(self):
+        self.api_authentication(self.expert_user)
+        response = self.client.post(self.list_url, data=asklisting_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        response = self.client.get(self.list_url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 4)
+
+        response = self.client.put(
+            reverse("asklistings-detail", kwargs={"pk": 1}),
+            data={"monthly_fee": 50},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = self.client.delete(reverse("asklistings-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_asklisting_detail_and_update(self):
+        response = self.client.get(reverse("asklistings-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["monthly_fee"], 30)
+
+        response = self.client.get(reverse("asklistings-detail", kwargs={"pk": 3}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+        response = self.client.put(
+            reverse("asklistings-detail", kwargs={"pk": 1}),
+            data={"monthly_fee": 50},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["monthly_fee"], 50)
+
+    def test_asklisting_delete(self):
+        response = self.client.delete(reverse("asklistings-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = self.client.get(self.list_url, format="json")
+        self.assertEqual(response.data["count"], 1)
+
+    def test_asklisting_without_profile(self):
+        # Create
+        user_no_profile = CustomUser.objects.create_user(
+            email="test9@naver.com",
+            password="some_strong_password",
+            bio="bio",
+            name="김주영",
+            birthday="1955-02-12",
+        )
+
+        self.api_authentication(user=user_no_profile)
+        response = self.client.post(self.list_url, data=asklisting_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        response = self.client.get(self.list_url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 0)
 
 
 @override_settings(MEDIA_ROOT=MEDIA_ROOT)

@@ -1,6 +1,10 @@
 <template>
   <div>
     <v-app-bar class="filter-bar" dark color="grey darken-3" dense fixed>
+      <v-btn text rounded :to="{ name: 'paper-editor' }">
+        <v-icon>add</v-icon>
+      </v-btn>
+      <v-spacer />
       <v-btn-toggle tile group mandatory v-model="is_mine">
         <v-btn
           :value="false"
@@ -27,13 +31,11 @@
           <v-icon>mdi-heart</v-icon>
         </v-btn>
       </v-btn-toggle>
-      <v-spacer />
       <div id="v-filter">
         <v-menu v-model="menu" :close-on-content-click="false">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text rounded v-bind="attrs" v-on="on">
               <v-icon>filter_list_alt</v-icon>
-              <span>{{ $t("filter") }}</span>
             </v-btn>
           </template>
           <v-card>
@@ -199,7 +201,7 @@
         <v-col class="text-right" cols="12">
           <v-btn id="v-create-paper" :to="{ name: 'paper-editor' }" color="primary" dark>
             <v-icon>add</v-icon>
-            {{ $t("create_paper") }}
+            {{ $t("create") }}
           </v-btn>
         </v-col>
       </v-row>

@@ -1,6 +1,12 @@
 from django.db import models
 
 
+# FIXME: Sync new and closed dong , maybe each month?
+class Dong(models.Model):
+    dongcode = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=30)
+
+
 # Create your models here.
 class Address(models.Model):
     old_address = models.CharField(max_length=250)

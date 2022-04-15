@@ -27,6 +27,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/signup/", IntroPageView.as_view()),
     path("accounts/", include("allauth.urls")),
+    path("api/", include("addresses.urls")),
     path("api/", include("listings.urls")),
     path("api/", include("profiles.urls")),
     path("api/", include("papers.urls")),

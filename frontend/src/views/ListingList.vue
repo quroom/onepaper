@@ -1,6 +1,10 @@
 <template>
   <div>
     <v-app-bar class="filter-bar" dark color="grey darken-3" dense fixed>
+      <v-btn text rounded :to="{ name: 'listing-editor' }">
+        <v-icon>add</v-icon>
+      </v-btn>
+      <v-spacer />
       <LazyTextField
         v-model="options.bjdong"
         class="filter-search"
@@ -10,13 +14,11 @@
         :label="`${$t('bjdong')}`"
         @keydown.enter="getListingsWithOptions"
       ></LazyTextField>
-      <v-spacer />
-      <div id="v-filter">
+      <div v-if="!isAsking" id="v-filter">
         <v-menu v-model="menu" :close-on-content-click="false" offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn text rounded v-bind="attrs" v-on="on">
               <v-icon>filter_list_alt</v-icon>
-              <span>{{ $t("filter") }}</span>
             </v-btn>
           </template>
           <v-card>
@@ -26,6 +28,7 @@
                   class="ve-input"
                   v-model="options.only_vacancy"
                   :label="`${$t('only_vacancy')}`"
+                  hide-details
                   @change="getListingsWithOptions()"
                 ></v-checkbox>
               </v-col>
@@ -37,7 +40,8 @@
                   item-text="text"
                   item-value="value"
                   :label="`${$t('lookup_scope')}`"
-                  style="width:110px"
+                  hide-details
+                  style="width:110px; max-width:110px"
                   @change="getListingsWithOptions()"
                 ></v-select>
               </v-col>
@@ -48,7 +52,9 @@
                   item-text="text"
                   item-value="value"
                   :label="$t('item_category')"
+                  hide-details
                   multiple
+                  style="width:130px; max-width:130px"
                 >
                   <template v-slot:selection="{ item, index }">
                     <v-chip v-if="options.item_category.length === 1">
@@ -84,7 +90,9 @@
                   item-text="text"
                   item-value="value"
                   :label="$t('trade_category')"
+                  hide-details
                   multiple
+                  style="width:100px; max-width:100px;"
                 >
                   <template v-slot:selection="{ item, index }">
                     <v-chip v-if="options.trade_category.length === 1">
@@ -113,7 +121,7 @@
                   </template>
                 </v-select>
               </v-col>
-              <v-col class="pb-0" cols="12">
+              <v-col class="pt-6 pb-0" cols="12">
                 <v-range-slider
                   v-if="isRent"
                   v-model="options.monthly_fee"
@@ -218,7 +226,7 @@
       <v-row height="100%" justify="end">
         <v-btn :to="{ name: 'listing-editor' }" color="primary" dark>
           <v-icon>add</v-icon>
-          {{ $t("create_listing") }}
+          {{ $t("create") }}
         </v-btn>
       </v-row>
     </v-container>
@@ -281,6 +289,7 @@ export default {
         short_lease: false,
         only_vacancy: false
       },
+      isAsking: false,
       isLoading: true,
       listings: [],
       next: null,
@@ -310,15 +319,7 @@ export default {
 
       Object.entries(this.options).forEach(function(entry) {
         const [key, value] = entry;
-        if (
-          [
-            "security_deposit",
-            "monthly_fee",
-            "maintenance_fee",
-            "trade_category",
-            "item_category"
-          ].includes(key)
-        ) {
+        if (["security_deposit", "monthly_fee", "maintenance_fee"].includes(key)) {
           if (value.length === 0) {
             return;
           } else {
@@ -346,6 +347,11 @@ export default {
         } else {
           if (value === null || value === false || value === "") {
             return;
+          }
+          if (["trade_category", "item_category"].includes(key)) {
+            if (value.length === 0) {
+              return;
+            }
           }
           if (is_first_option) {
             endpoint += `&${key}=${value}`;
@@ -394,7 +400,7 @@ export default {
   padding-top: 56px;
 }
 .filter-search {
-  max-width: 250px;
+  max-width: 140px;
 }
 @media (max-width: 960px) {
   .filter-bar {
