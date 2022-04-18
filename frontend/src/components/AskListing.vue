@@ -23,7 +23,7 @@
             :placeholder="$t('ask_location')"
             :error-messages="errors"
             solo
-            style="min-width:200px"
+            style="min-width:245px"
             :menu-props="menu_position"
           >
             <template v-slot:selection="{ item }">{{ item.name }}</template>
