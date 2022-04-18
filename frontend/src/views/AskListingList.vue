@@ -33,12 +33,14 @@
         {{ item.short_lease == true ? "O" : "X" }}
       </template>
       <template v-slot:expanded-item="{ item }">
-        <DeleteAlert
-          v-if="$store.state.user.email === item.author"
-          :id="item.id"
-          :callback="deleteAskListing"
-        />
         <td class="px-0" :colspan="headers.length">
+          <v-row>
+            <DeleteAlert
+              v-if="$store.state.user.email === item.author"
+              :id="item.id"
+              :callback="deleteAskListing"
+          /></v-row>
+          <v-divider class="my-1"></v-divider>
           <v-row no-gutters>
             <v-col cols="auto" v-for="(value, key) in item" :key="key">
               <v-card elevation="2" color="grey lighten-2" outlined tile class="pa-1">
