@@ -1,7 +1,8 @@
 <template>
-  <v-col cols="12" sm="6" md="4" lg="3">
+  <!-- FIXME: Need to be optimization for layout -->
+  <v-col class="pa-1" cols="12" sm="6" md="4" lg="3">
     <v-card class="outlined tile">
-      <v-carousel height="250px">
+      <v-carousel height="200px">
         <v-chip class="item-category">{{
           $getConstI18("ITEM_CATEGORY", listing.item_category)
         }}</v-chip>
@@ -29,7 +30,7 @@
                 params: { id: listing.id }
               }"
             >
-              <img :src="image.image" style="height: 100%; max-height:250px; margin: auto;" />
+              <img :src="image.image" style="height: 100%; max-height:200px; margin: auto;" />
             </router-link>
           </v-row>
         </v-carousel-item>
@@ -41,7 +42,7 @@
         }"
         style="text-decoration: none; color: inherit;"
       >
-        <v-card-title class="card-title pt-2 pb-0 px-4 text-truncate text-center">
+        <v-card-title class="card-title pt-1 pb-0 px-4 text-truncate text-center">
           {{ listing.title }}
         </v-card-title>
         <v-card-text class="pr-0 pb-0">
@@ -85,7 +86,7 @@
           </span> -->
           </span>
         </v-card-text>
-        <v-card-actions class="pt-0">
+        <v-card-actions class="pt-0 pb-1">
           <v-chip v-if="listing.online_visit === true" class="ml-1 mt-1" color="primary">{{
             $t("online_visit")
           }}</v-chip>

@@ -15,22 +15,32 @@
         </v-btn>
       </v-chip-group>
     </template>
-    <!-- Add profile info -->
-    <ValidationObserver ref="obs">
+    <template v-if="!id">
+      <v-row justify="center" no-gutters>
+        <v-radio-group row v-model="is_asking">
+          <v-radio :label="$t('ask')" :value="true" :readonly="readonly"></v-radio>
+          <v-radio :label="$t('sale')" :value="false" :readonly="readonly"></v-radio>
+        </v-radio-group>
+      </v-row>
+      <ValidationObserver v-if="is_asking" ref="asking_obs">
+        <AskListing :obj="ask_listing_obj" :fields_names="fields_names"></AskListing>
+      </ValidationObserver>
+    </template>
+    <ValidationObserver v-show="!is_asking || id" ref="obs">
       <v-row no-gutters>
         <v-col id="v-create-listing" cols="12">
           <ValidationProvider
             v-slot="{ errors }"
             ref="title"
             :name="`${$t('title')}`"
-            :rules="`max:20`"
+            :rules="`required|max:20`"
           >
             <v-text-field
               class="ma-auto"
               v-model="title"
               :readonly="readonly"
               :error-messages="errors"
-              :label="`(${$t('optional')}) ${$t('listing')} ${$t('title')}`"
+              :label="`${$t('title')}`"
               :placeholder="readonly ? $t('no_result') : ''"
               type="String"
               style="max-width:400px"
@@ -45,6 +55,7 @@
         v-slot="{ errors }"
       >
         <v-row align="center" justify="center" style="height:100%; ">
+          <!-- #FIXME: unnecessary space line -->
           <v-col cols="12" style="max-width: 700px;">
             <v-switch
               class="ma-0"
@@ -253,7 +264,8 @@
                   v-model="$data['' + contract_field.name]"
                   :readonly="readonly"
                   :error-messages="errors"
-                  :label="$t(contract_field.name) + '(' + $t('manwon') + ')'"
+                  :label="$t(contract_field.name)"
+                  :suffix="$t('manwon')"
                   :type="contract_field.type"
                   required
                 ></LazyTextField>
@@ -268,7 +280,7 @@
         :label="`(${$t('optional')}) ${$t('detail_info')}`"
         :placeholder="readonly ? $t('no_result') : $t('detail_info_placeholder')"
         outlined
-        rows="2"
+        rows="4"
         auto-grow
         :readonly="readonly"
       ></LazyTextArea>
@@ -375,10 +387,10 @@
           </template>
         </v-list>
       </v-card>
-      <v-col v-if="!id || !readonly" cols="12" class="text-right">
-        <v-btn id="v-submit" class="primary" @click="submit()">{{ $t("submit") }}</v-btn>
-      </v-col>
     </ValidationObserver>
+    <v-col v-if="!id || !readonly" cols="12" class="text-right">
+      <v-btn id="v-submit" class="primary" @click="submit()">{{ $t("submit") }}</v-btn>
+    </v-col>
   </v-container>
 </template>
 
@@ -386,12 +398,20 @@
 import { apiService, apiService_formData } from "@/common/api_service";
 import { applyValidation } from "@/common/common_api";
 import Constants from "@/plugins/Constants";
+import AskListing from "@/components/AskListing";
 import DeleteAlert from "@/components/DeleteAlert";
 import resizeImage from "@/plugins/image_resize";
 
 export default {
   name: "ListingEditor",
+  props: {
+    default_is_asking: {
+      type: [Boolean],
+      required: false
+    }
+  },
   components: {
+    AskListing,
     DeleteAlert
   },
   computed: {
@@ -537,7 +557,7 @@ export default {
       },
       down_payment: null,
       security_deposit: null,
-      maintenance_fee: null,
+      maintenance_fee: 0,
       monthly_fee: null,
       content: "",
       item_category: 1,
@@ -549,7 +569,22 @@ export default {
       resizedImgs: [],
       image_links: [],
       delete_images: [],
-      local_images: []
+      local_images: [],
+      is_asking: false,
+      ask_listing_obj: {
+        title: "",
+        item_category: 1,
+        trade_category: 1,
+        location: "",
+        security_deposit: null,
+        monthly_fee: null,
+        maintenance_fee: 0,
+        online_visit: false,
+        term_of_lease: 12,
+        content: "",
+        visit_date: null,
+        moving_date: null
+      }
     };
   },
   methods: {
@@ -611,92 +646,122 @@ export default {
     },
     async submit() {
       const that = this;
-      this.$refs.obs.validate().then(async function(v) {
-        if (v === true) {
-          that.resizedImgs = [];
-          that.isLoading = true;
-          const formData = new FormData();
-          let endpoint = "/api/listings/";
-          let method = "POST";
-          if (that.id !== undefined) {
-            endpoint += `${that.id}/`;
-            method = "PUT";
-          }
-          formData.append("listingaddress.old_address", that.address["old_address"]);
-          formData.append("listingaddress.old_address_eng", that.address["old_address_eng"]);
-          formData.append("listingaddress.new_address", that.address["new_address"]);
-          formData.append("listingaddress.bjdongName", that.address["bjdongName"]);
-          formData.append("listingaddress.bjdongName_eng", that.address["bjdongName_eng"]);
-          formData.append("listingaddress.sigunguCd", that.address["sigunguCd"]);
-          formData.append("listingaddress.bjdongCd", that.address["bjdongCd"]);
-          formData.append("listingaddress.bun", that.address["bun"]);
-          formData.append("listingaddress.ji", that.address["ji"]);
-          formData.append("listingaddress.dong", that.address["dong"]);
-          formData.append("listingaddress.ho", that.address["ho"]);
-          formData.append("title", that.title);
-          if (that.down_payment != null) {
-            formData.append("down_payment", that.down_payment);
-          }
-          if (that.security_deposit != null) {
-            formData.append("security_deposit", that.security_deposit);
-          }
-          if (that.maintenance_fee != null) {
-            formData.append("maintenance_fee", that.maintenance_fee);
-          }
-          if (that.monthly_fee != null) {
-            formData.append("monthly_fee", that.monthly_fee);
-          }
-          formData.append("content", that.content);
-          formData.append("item_category", that.item_category);
-          formData.append("trade_category", that.trade_category);
-          formData.append("online_visit", that.online_visit);
-          formData.append("short_lease", that.short_lease);
+      if (this.is_asking === true) {
+        this.$refs.asking_obs.validate().then(async function(v) {
+          if (v === true) {
+            let endpoint = "/api/asklistings/";
+            let method = "POST";
+            if (that.id !== undefined) {
+              endpoint += `${that.id}/`;
+              method = "PUT";
+            }
 
-          var idx = 0;
+            apiService(endpoint, method, that.ask_listing_obj).then(function(data) {
+              if (data.id != undefined) {
+                alert(that.$i18n.t("request_success"));
+                that.$router.push({
+                  name: "asklistings"
+                });
+              } else {
+                applyValidation(data, that);
+              }
+            });
+            that.isLoading = false;
+          }
+        });
+      } else {
+        this.$refs.obs.validate().then(async function(v) {
+          if (v === true) {
+            that.resizedImgs = [];
+            that.isLoading = true;
+            const formData = new FormData();
+            let endpoint = "/api/listings/";
+            let method = "POST";
+            if (that.id !== undefined) {
+              endpoint += `${that.id}/`;
+              method = "PUT";
+            }
+            formData.append("listingaddress.old_address", that.address["old_address"]);
+            formData.append("listingaddress.old_address_eng", that.address["old_address_eng"]);
+            formData.append("listingaddress.new_address", that.address["new_address"]);
+            formData.append("listingaddress.bjdongName", that.address["bjdongName"]);
+            formData.append("listingaddress.bjdongName_eng", that.address["bjdongName_eng"]);
+            formData.append("listingaddress.sigunguCd", that.address["sigunguCd"]);
+            formData.append("listingaddress.bjdongCd", that.address["bjdongCd"]);
+            formData.append("listingaddress.bun", that.address["bun"]);
+            formData.append("listingaddress.ji", that.address["ji"]);
+            formData.append("listingaddress.dong", that.address["dong"]);
+            formData.append("listingaddress.ho", that.address["ho"]);
+            formData.append("title", that.title);
+            if (that.down_payment != null) {
+              formData.append("down_payment", that.down_payment);
+            }
+            if (that.security_deposit != null) {
+              formData.append("security_deposit", that.security_deposit);
+            }
+            if (that.maintenance_fee != null) {
+              formData.append("maintenance_fee", that.maintenance_fee);
+            }
+            if (that.monthly_fee != null) {
+              formData.append("monthly_fee", that.monthly_fee);
+            }
+            formData.append("content", that.content);
+            formData.append("item_category", that.item_category);
+            formData.append("trade_category", that.trade_category);
+            formData.append("online_visit", that.online_visit);
+            formData.append("short_lease", that.short_lease);
 
-          if (that.id !== undefined) {
-            for (const uploaded_img of that.image_links) {
-              const matched_img = that.images_data.find((item) => item.obj == uploaded_img);
-              if (!matched_img) {
-                idx += 1;
-                formData.append(`images[${idx}]id`, uploaded_img.id);
-                formData.append(`images[${idx}]image`, "");
-                formData.append(`images[${idx}]is_deleted`, uploaded_img.is_deleted);
+            var idx = 0;
+
+            if (that.id !== undefined) {
+              for (const uploaded_img of that.image_links) {
+                const matched_img = that.images_data.find((item) => item.obj == uploaded_img);
+                if (!matched_img) {
+                  idx += 1;
+                  formData.append(`images[${idx}]id`, uploaded_img.id);
+                  formData.append(`images[${idx}]image`, "");
+                  formData.append(`images[${idx}]is_deleted`, uploaded_img.is_deleted);
+                }
               }
             }
+            for (const img of that.images_data) {
+              if (img.id !== undefined && img.is_default === true) {
+                idx += 1;
+                formData.append(`images[${idx}]id`, img.id);
+                formData.append(`images[${idx}]image`, "");
+                formData.append(`images[${idx}]is_default`, img.is_default);
+              }
+              const file = img.image;
+              if (file != null) {
+                idx += 1;
+                const resizedImage = await resizeImage({ file: file, maxSize: 1000 });
+                formData.append(`images[${idx}]image`, resizedImage, file.name);
+                formData.append(`images[${idx}]is_default`, img.is_default);
+              }
+            }
+            apiService_formData(endpoint, method, formData).then(function(data) {
+              if (data.id != undefined) {
+                alert(that.$i18n.t("request_success"));
+                that.$store.commit("SET_IS_LISTING_UPDATED", true);
+                that.$router.push({
+                  name: "listings"
+                });
+              } else {
+                applyValidation(data, that);
+              }
+            });
+            that.isLoading = false;
           }
-          for (const img of that.images_data) {
-            if (img.id !== undefined && img.is_default === true) {
-              idx += 1;
-              formData.append(`images[${idx}]id`, img.id);
-              formData.append(`images[${idx}]image`, "");
-              formData.append(`images[${idx}]is_default`, img.is_default);
-            }
-            const file = img.image;
-            if (file != null) {
-              idx += 1;
-              const resizedImage = await resizeImage({ file: file, maxSize: 1000 });
-              formData.append(`images[${idx}]image`, resizedImage, file.name);
-              formData.append(`images[${idx}]is_default`, img.is_default);
-            }
-          }
-          apiService_formData(endpoint, method, formData).then(function(data) {
-            if (data.id != undefined) {
-              alert(that.$i18n.t("request_success"));
-              that.$store.commit("SET_IS_LISTING_UPDATED", true);
-              that.$router.push({
-                name: "listings"
-              });
-            } else {
-              applyValidation(data, that);
-            }
-          });
-          that.isLoading = false;
-        }
-      });
+        });
+      }
     }
   },
   async beforeRouteEnter(to, from, next) {
+    if (to.params.default_is_asking === true) {
+      return next((vm) => {
+        vm.is_asking = to.params.default_is_asking;
+      });
+    }
     if (to.params.id !== undefined) {
       let endpoint = `/api/listings/${to.params.id}/`;
       let data = await apiService(endpoint);

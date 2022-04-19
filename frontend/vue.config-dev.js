@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:5050/"
   // publicPath: "http://125.183.143.159:5050/",
-  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://125.183.143.159:5050/",
+  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://124.63.4.136:5050/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
     config.resolve.extensions.add(".ts");

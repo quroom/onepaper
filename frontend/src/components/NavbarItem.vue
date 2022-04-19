@@ -52,44 +52,42 @@
         </v-btn>
       </v-row>
       <v-divider></v-divider>
-      <v-list nav dense>
-        <v-list-item-group active-class="deep-purple--text text--accent-4">
-          <router-link v-for="item in items" :to="item.route" :key="item.title + `-nav`">
-            <template v-if="isShown(item)">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </router-link>
-          <v-divider></v-divider>
-          <v-list-item key="link" @click="dialog = true">
-            <v-list-item-icon>
-              <v-icon> link </v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t("add_quick_trader_link") }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="switchLoc()">
-            <v-list-item-icon>
-              <span v-if="this.$i18n.locale === 'ko'">
-                EN
-              </span>
-              <span v-else>
-                한국
-              </span>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t("language_change") }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-        </v-list-item-group>
+      <v-list dense>
+        <router-link v-for="item in items" :to="item.route" :key="item.title + `-nav`">
+          <template v-if="isShown(item)">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </router-link>
+        <v-divider></v-divider>
+        <v-list-item key="link" @click="dialog = true">
+          <v-list-item-icon>
+            <v-icon> link </v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t("add_quick_trader_link") }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="switchLoc()">
+          <v-list-item-icon>
+            <span v-if="this.$i18n.locale === 'ko'">
+              EN
+            </span>
+            <span v-else>
+              한국
+            </span>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t("language_change") }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
       </v-list>
       <v-spacer></v-spacer>
       <template v-slot:append>
@@ -157,10 +155,17 @@ export default {
           route: { name: "profiles" }
         },
         {
+          title: "ask",
+          icon: "description",
+          appbar_only: true,
+          route: { name: "asklistings" }
+        },
+        {
           title: "mandate_paper",
           icon: "description",
           route: { name: "mandates" },
           user_category: "expert",
+          //FIXME: Should be removed.
           expert_only: true,
           appbar_only: true
         },

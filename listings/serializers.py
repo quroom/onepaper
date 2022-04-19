@@ -4,12 +4,30 @@ from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from listings.models import Listing, ListingAddress, ListingImage, ListingStatus
+from listings.models import AskListing, Listing, ListingAddress, ListingImage, ListingStatus
 from onepaper.serializers import ReadOnlyModelSerializer
 from profiles.serializers import (
     ListingEveryoneExpertProfileSerializer,
     ListingEveryoneProfileSerializer,
 )
+
+
+class AskListingSerializer(ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    mobile_number = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AskListing
+        fields = "__all__"
+
+    def get_mobile_number(self, instance):
+        profiles = instance.author.profiles.filter(is_activated=True)
+        if profiles.exists():
+            return (
+                instance.author.profiles.filter(is_activated=True).first().mobile_number.raw_input
+            )
+        else:
+            return ""
 
 
 class ListingStatusSerializer(ReadOnlyModelSerializer):
