@@ -29,9 +29,6 @@
       <template v-slot:[`item.online_visit`]="{ item }">
         {{ item.online_visit == true ? "O" : "X" }}
       </template>
-      <template v-slot:[`item.short_lease`]="{ item }">
-        {{ item.short_lease == true ? "O" : "X" }}
-      </template>
       <template v-slot:expanded-item="{ item }">
         <td class="px-0" :colspan="headers.length">
           <v-row>
@@ -54,12 +51,7 @@
               >
                 {{ $getConstI18(key, item[key]) }}</v-card
               >
-              <v-card
-                v-else-if="['online_visit', 'short_lease'].indexOf(key) > -1"
-                outlined
-                tile
-                class="pa-1"
-              >
+              <v-card v-else-if="'online_visit' === key" outlined tile class="pa-1">
                 {{ item[key] == true ? "O" : "X" }}
               </v-card>
               <v-card v-else outlined tile class="pa-1">{{ value }}</v-card>

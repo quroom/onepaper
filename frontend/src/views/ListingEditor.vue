@@ -168,12 +168,25 @@
             :label="$t('online_visit')"
           ></v-checkbox>
         </v-col>
-        <v-col v-if="readonly ? short_lease : true" class="_checkbox" cols="2" sm="auto">
-          <v-checkbox
-            v-model="short_lease"
-            :readonly="readonly"
-            :label="$t('short_lease')"
-          ></v-checkbox>
+        <v-col v-if="readonly ? minimum_period : true" class="_checkbox" cols="2" sm="auto">
+          <ValidationProvider
+            ref="minimum_period"
+            :name="$t('minimum_period')"
+            v-slot="{ errors }"
+            rules="required|max_value:100"
+          >
+            <LazyTextField
+              v-model="minimum_period"
+              :readonly="readonly"
+              :error-messages="errors"
+              :label="$t('minimum_period')"
+              :suffix="$t('months')"
+              type="Number"
+              required
+              style="width:100px;"
+            >
+            </LazyTextField>
+          </ValidationProvider>
         </v-col>
         <v-col cols="4" sm="auto">
           <ValidationProvider
@@ -563,7 +576,7 @@ export default {
       item_category: 1,
       trade_category: 1,
       online_visit: false,
-      short_lease: false,
+      minimum_period: 12,
       status: 0,
       images: [],
       resizedImgs: [],
@@ -709,7 +722,7 @@ export default {
             formData.append("item_category", that.item_category);
             formData.append("trade_category", that.trade_category);
             formData.append("online_visit", that.online_visit);
-            formData.append("short_lease", that.short_lease);
+            formData.append("minimum_period", that.minimum_period);
 
             var idx = 0;
 
@@ -775,7 +788,7 @@ export default {
           vm.title = data.title;
           vm.trade_category = data.trade_category;
           vm.online_visit = data.online_visit;
-          vm.short_lease = data.short_lease;
+          vm.minimum_period = data.minimum_period;
           vm.down_payment = data.down_payment;
           vm.security_deposit = data.security_deposit;
           vm.maintenance_fee = data.maintenance_fee;

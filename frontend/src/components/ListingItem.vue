@@ -90,8 +90,8 @@
           <v-chip v-if="listing.online_visit === true" class="ml-1 mt-1" color="primary">{{
             $t("online_visit")
           }}</v-chip>
-          <v-chip v-if="listing.short_lease === true" class="ml-1 mt-1" color="orange" dark>{{
-            $t("short_lease")
+          <v-chip v-if="listing.minimum_period < 12" class="ml-1 mt-1" color="orange" dark>{{
+            `${listing.minimum_period}${$t("months")}`
           }}</v-chip>
           <v-spacer></v-spacer>
           <v-btn v-if="listing.status === 1" text color="black accent-4">

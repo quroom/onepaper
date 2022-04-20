@@ -89,9 +89,9 @@ class Listing(models.Model):
         choices=Paper.TRADE_CATEGORY, default=Paper.RENT
     )
     online_visit = models.BooleanField(default=True)
-    # FIXME: Remove short_lease and uncomment minimum_months after 0414 first commit.
-    # minimum_months = models.PositiveSmallIntegerField(default=12, null=True)
-    short_lease = models.BooleanField(default=False)
+    # FIXME: Remove short_lease after minimum_period
+    minimum_period = models.PositiveSmallIntegerField(default=12, null=True)
+    short_lease = models.BooleanField(default=False, blank=True, null=True)
     # FIXME: Remove null True
     down_payment = models.PositiveBigIntegerField(blank=True, default=0)
     security_deposit = models.PositiveBigIntegerField(blank=True, default=0)
