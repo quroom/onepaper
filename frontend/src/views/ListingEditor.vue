@@ -575,7 +575,7 @@ export default {
         title: "",
         item_category: 1,
         trade_category: 1,
-        location: "",
+        location: "광주광역시 북구 중흥동",
         security_deposit: null,
         monthly_fee: null,
         maintenance_fee: 0,

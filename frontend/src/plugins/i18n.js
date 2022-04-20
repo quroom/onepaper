@@ -250,7 +250,7 @@ const i18n = new VueI18n({
       visit_date: "Visit Date",
 
       //AskListing
-      ask_location: "location(Only for some)",
+      ask_location: "Location(Only near CNU)",
       location: "Location",
       months: "months",
       ask_listing_detail_info:
@@ -738,7 +738,7 @@ const i18n = new VueI18n({
       visit_date: "방문일",
 
       //AskingList
-      ask_location: "찾는지역(일부지역만)",
+      ask_location: "찾는지역(전대 후문 인근만, 향후 추가예정)",
       location: "지역",
       months: "개월",
       ask_listing_detail_info: "추가적인 연락/방문 희망시간대 또는 세부 요청 매물 정보 기입",

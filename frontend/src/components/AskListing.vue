@@ -7,7 +7,14 @@
         width="120px"
       ></v-checkbox>
       <v-col cols="auto">
-        <ValidationProvider :name="$t('location')" rules="required" v-slot="{ errors }">
+        <!-- FIXME comment out when support gwangju all location -->
+        <LazyTextField
+          :label="$t('ask_location')"
+          value="광주광역시 북구 중흥동"
+          outlined
+          disabled
+        ></LazyTextField>
+        <!-- <ValidationProvider :name="$t('location')" rules="required" v-slot="{ errors }">
           <v-autocomplete
             class="dong"
             v-model="obj.location"
@@ -29,7 +36,7 @@
             <template v-slot:selection="{ item }">{{ item.name }}</template>
             <template v-slot:item="{ item }">{{ item.name }}</template>
           </v-autocomplete>
-        </ValidationProvider>
+        </ValidationProvider> -->
       </v-col>
       <v-menu
         v-model="visit_menu"
