@@ -202,7 +202,7 @@ class ListingTestCase(APITestCase):
         "item_category": 1,
         "trade_category": 1,
         "online_visit": False,
-        "short_lease": False,
+        "minimum_period": 12,
     }
     _local_listing_data = {
         "title": "매물 업로드 데이터 보기 위함",
@@ -214,7 +214,7 @@ class ListingTestCase(APITestCase):
         "item_category": 1,
         "trade_category": 1,
         "online_visit": False,
-        "short_lease": False,
+        "minimum_period": 12,
     }
     list_url = reverse("listings-list")
 
@@ -355,7 +355,7 @@ class ListingTestCase(APITestCase):
             "item_category": 1,
             "trade_category": 1,
             "online_visit": False,
-            "short_lease": False,
+            "minimum_period": 12,
             "images[0]id": create_response.data["images"][5]["id"],
             "images[0]is_default": True,
             "images[1]id": create_response.data["images"][4]["id"],
@@ -418,7 +418,7 @@ class ListingTestCase(APITestCase):
             "item_category": 1,
             "trade_category": 1,
             "online_visit": False,
-            "short_lease": False,
+            "minimum_period": 12,
         }
         invalid_id = 55
         self.assertEqual(create_response.status_code, status.HTTP_201_CREATED)
@@ -457,7 +457,7 @@ class ListingTestCase(APITestCase):
             "item_category": 1,
             "trade_category": 1,
             "online_visit": False,
-            "short_lease": False,
+            "minimum_period": 12,
         }
 
         # PUT with no images

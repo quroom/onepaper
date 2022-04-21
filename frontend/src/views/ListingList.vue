@@ -286,7 +286,6 @@ export default {
         trade_category: [],
         item_category: [],
         online_visit: false,
-        short_lease: false,
         only_vacancy: false
       },
       isAsking: false,
