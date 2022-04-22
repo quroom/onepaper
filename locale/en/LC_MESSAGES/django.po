@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-11 12:06+0900\n"
+"POT-Creation-Date: 2022-04-22 11:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\listings\models.py:96
+#: .\listings\models.py:158
 msgid "만실"
 msgstr ""
 
-#: .\listings\models.py:97
+#: .\listings\models.py:159
 msgid "가능"
 msgstr ""
 
-#: .\listings\serializers.py:115 .\listings\tests.py:182
+#: .\listings\serializers.py:133 .\listings\tests.py:324
 msgid "이미지는 10개까지 첨부할 수 있습니다."
 msgstr "Image can be uploaded within 10 images."
 
-#: .\listings\serializers.py:124 .\listings\tests.py:191
+#: .\listings\serializers.py:142 .\listings\tests.py:333
 msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
 msgstr ""
 
-#: .\listings\serializers.py:147 .\listings\tests.py:324
+#: .\listings\serializers.py:165 .\listings\tests.py:466
 msgid "하나 이상의 이미지를 첨부하여야 합니다."
 msgstr ""
 
-#: .\listings\serializers.py:201 .\listings\tests.py:293
+#: .\listings\serializers.py:219 .\listings\tests.py:435
 #, python-format
 msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
 msgstr "This image(ID:%(id)d) doesn't exist"
@@ -1449,20 +1449,20 @@ msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
 #: .\templates\intro.html:183
-msgid "언제나 계약"
-msgstr "Whenever you can"
+msgid "올인원 서비스"
+msgstr "All in one service"
 
 #: .\templates\intro.html:185
-msgid "분실걱정 없는 온라인 계약서 작성·관리"
-msgstr "Create and manage online contracts without worrying about loss"
+msgid "매물 홍보부터 계약까지"
+msgstr "From ads to contract"
 
 #: .\templates\intro.html:195
-msgid "신속한 매물 홍보"
-msgstr "quick ads"
+msgid "빠른 부동산 상담"
+msgstr "Quick Conseling"
 
 #: .\templates\intro.html:197
-msgid "쉽고 빠르게 온라인 매물 조회·홍보"
-msgstr "Quick and easy online property view and ads"
+msgid "하단 채널톡 버튼으로 온라인 상담"
+msgstr "Guide you through the button at the bottom."
 
 #: .\templates\intro.html:208
 msgid "PC, 모바일 지원"
@@ -1477,33 +1477,10 @@ msgid "사용자 리뷰"
 msgstr "User review"
 
 #: .\templates\intro.html:221
-msgid "김*영(임차인, 20대 대학생)"
-msgstr "Kim*Hyun(tenant, 20s student)"
-
-#: .\templates\intro.html:247
-msgid ""
-"코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요."
-msgstr ""
-"It's nice to be able to check the properties and even write a contract "
-"without face-to-face during the Corona period."
-
-#: .\templates\intro.html:250
-msgid "김*현(임차인, 20대 대학생)"
-msgstr "Kim*Hyun(tenant, 20s student)"
-
-#: .\templates\intro.html:276
-msgid ""
-"시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
-"았습니다."
-msgstr ""
-"People living in the countryside had to schedule one day to sign a contract, "
-"but it was nice not to have to."
-
-#: .\templates\intro.html:279
 msgid "박*연(임대인, 40대 직장인)"
 msgstr "Park*Yeon(landlord, 40s salaryman)"
 
-#: .\templates\intro.html:305
+#: .\templates\intro.html:247
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
@@ -1511,23 +1488,42 @@ msgstr ""
 "Unlike paper contracts, I like that you can check the contract at any time. "
 "Oh, it's good that you don't have to worry about losing it."
 
-#: .\templates\intro.html:311
-msgid "원페이퍼 사용법"
-msgstr "How to use Onepaper"
+#: .\templates\intro.html:250
+msgid "김*영(임차인, 20대 대학생)"
+msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:317
+#: .\templates\intro.html:276
+msgid ""
+"코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요."
+msgstr ""
+"It's nice to be able to check the properties and even write a contract "
+"without face-to-face during the Corona period."
+
+#: .\templates\intro.html:279
+msgid "김*현(임차인, 20대 대학생)"
+msgstr "Kim*Hyun(tenant, 20s student)"
+
+#: .\templates\intro.html:305
+msgid ""
+"시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
+"았습니다."
+msgstr ""
+"People living in the countryside had to schedule one day to sign a contract, "
+"but it was nice not to have to."
+
+#: .\templates\intro.html:310
 msgid "기업연혁"
 msgstr "Company History"
 
-#: .\templates\intro.html:324
+#: .\templates\intro.html:317
 msgid "~현재"
 msgstr "~Now"
 
-#: .\templates\intro.html:325
+#: .\templates\intro.html:318
 msgid "원페이퍼 개발 및 운영"
-msgstr ""
+msgstr "Onepaper service"
 
-#: .\templates\intro.html:326
+#: .\templates\intro.html:319
 msgid ""
 "부동산 거래에 소요되는 시간을 줄여 더 소중한 곳에 시간을 쓰고, 장기적으로 쌓"
 "인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이"
@@ -1537,11 +1533,11 @@ msgstr ""
 "transactions, spending time on more valuable things, and accumulating over "
 "the long termand to support safer real estate transactions using in-dataall."
 
-#: .\templates\intro.html:330
+#: .\templates\intro.html:323
 msgid "소셜벤처 설립 및 운영"
 msgstr "Social venture establishment and operation"
 
-#: .\templates\intro.html:331
+#: .\templates\intro.html:324
 msgid ""
 "사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. "
 "프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 "
@@ -1552,11 +1548,11 @@ msgstr ""
 "mission is to solve the problems of the existing real estate market and "
 "provide a better experience to customers through Proptech."
 
-#: .\templates\intro.html:336
+#: .\templates\intro.html:329
 msgid "소셜그룹 혼족스 운영"
 msgstr "Operate social group Honjoks"
 
-#: .\templates\intro.html:337
+#: .\templates\intro.html:330
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1566,7 +1562,7 @@ msgstr ""
 "sharing meetings, joint purchase of fruit, and sharing events for single-"
 "person households."
 
-#: .\templates\intro.html:345
+#: .\templates\intro.html:338
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -1652,6 +1648,21 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid "언제나 계약"
+#~ msgstr "Whenever you can"
+
+#~ msgid "분실걱정 없는 온라인 계약서 작성·관리"
+#~ msgstr "Create and manage online contracts without worrying about loss"
+
+#~ msgid "신속한 매물 홍보"
+#~ msgstr "quick ads"
+
+#~ msgid "쉽고 빠르게 온라인 매물 조회·홍보"
+#~ msgstr "Quick and easy online property view and ads"
+
+#~ msgid "원페이퍼 사용법"
+#~ msgstr "How to use Onepaper"
 
 #~ msgid "김*영(임대인, 20대 학생)"
 #~ msgstr "Kim*Hyun(tenant, 20s student)"
