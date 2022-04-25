@@ -118,6 +118,17 @@
                     @keyup.enter="getPapersWithOptions()"
                   ></v-text-field>
                 </v-col>
+                <!-- FIXME: Need to add filter with mobile_number -->
+                <v-col class="mt-0 mb-0" cols="auto">
+                  <v-text-field
+                    class="search-text ve-input"
+                    v-model="options.contractor_name"
+                    :label="`${$t('contractor_name')}(${$t('exact_correct_match')})`"
+                    hide-details
+                    dense
+                    @keyup.enter="getPapersWithOptions()"
+                  ></v-text-field>
+                </v-col>
               </template>
               <template v-else>
                 <v-col class="mt-0 mb-0" cols="auto">
@@ -341,7 +352,8 @@ export default {
         is_hidden: 0,
         status: "",
         old_address: "",
-        ordering: ""
+        ordering: "",
+        contractor_name: ""
       },
       all_papers_options: {
         status: "",
