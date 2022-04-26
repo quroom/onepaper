@@ -38,6 +38,9 @@ class PaperFilter(django_filters.FilterSet):
     )
     dong = django_filters.CharFilter(field_name="address__dong")
     ho = django_filters.CharFilter(field_name="address__ho")
+    contractor_name = django_filters.CharFilter(
+        field_name="paper_contractors__profile__user__name"
+    )
 
     class Meta:
         model = Paper
