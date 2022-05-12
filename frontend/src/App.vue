@@ -162,4 +162,8 @@ So I added this style. */
     font-size: 12px !important;
   }
 }
+.row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 </style>

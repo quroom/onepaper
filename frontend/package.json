@@ -20,7 +20,7 @@
     "vue-signature-pad": "^2.0.2",
     "vue-tour": "^2.0.0",
     "vuejs-daum-postcode": "^1.0.4",
-    "vuetify": "^2.3.19",
+    "vuetify": "^2.6.4",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
