@@ -142,6 +142,7 @@ const i18n = new VueI18n({
       no_paper_redirect_to_all_paper:
         "There is no contract included as a contractor, so the entire contract is searched.",
       no_profile: "There is no profile",
+      no_profile_cant_leave_visit: "Please create a profile before ask moving in.",
       no_profile_cant_use_service: "You must create profile before using service.",
       onepaper: "Onepaper",
       only_my_papers: "Only mine",
@@ -233,8 +234,11 @@ const i18n = new VueI18n({
         "There is no certification history. Be careful when confirming contractor identity when signing a contract.",
 
       //Listing
+      available_date: "Available date",
+      bed: "Bed",
       create_listing: "Create Listing",
       listing: "Listing",
+      listing_title: "Listing Title",
       listing_subtitle:
         "You can freely post and view listings, but you may be subject to sanctions for activities that cause damage to others, such as fake listing.",
       asking_online_visit: "online visit",
@@ -249,6 +253,9 @@ const i18n = new VueI18n({
       sale: "Sale",
       moving_date: "Moving Date",
       visit_date: "Visit Date",
+      move_in_reservation: "Movein reservation",
+      ask_move_in: "Ask move in",
+      delete_ask_move_in: "Delete asking",
 
       //AskListing
       ask_location: "Location(Only near CNU)",
@@ -342,6 +349,8 @@ const i18n = new VueI18n({
       ho: "Ho",
       land_category: "Land Type",
       lot_area: "Lot Area",
+      room_detail_info: "Room Detail Info",
+      new_room: "New",
       room_name: "Room Name",
       building_structure: "Building Strcuture",
       building_category: "Building Type",
@@ -629,6 +638,7 @@ const i18n = new VueI18n({
       no_result: "조회된 결과가 없습니다.",
       no_paper_redirect_to_all_paper: "계약자로 포함된 계약서가 없어 전체 계약서를 조회합니다.",
       no_profile: "생성된 프로필이 없습니다.",
+      no_profile_cant_leave_visit: "입주 문의 전 연락을 위해 프로필 생성을 해주세요.",
       no_profile_cant_use_service: "서비스 이용전 프로필을 생성하여야 합니다.",
       none: "없음",
       number: "번호",
@@ -722,8 +732,11 @@ const i18n = new VueI18n({
       uncertified_detail: "인증이력이 없습니다. 본인확인에 주의하세요.",
 
       //Listing
+      available_date: "입주가능일",
+      bed: "인실",
       create_listing: "매물등록",
       listing: "매물",
+      listing_title: "매물제목",
       listing_subtitle:
         "매물 등록 및 조회는 자유롭지만, 허위매물 등 타인에게 피해를 주는 활동 시 제재 할 수 있습니다.",
       asking_online_visit: "비대면 방문",
@@ -738,6 +751,9 @@ const i18n = new VueI18n({
       sale: "임대",
       moving_date: "입주일",
       visit_date: "방문일",
+      move_in_reservation: "예약문의",
+      ask_move_in: "입주문의",
+      delete_ask_move_in: "입주문의 삭제",
 
       //AskingList
       ask_location: "찾는지역(전대 후문 인근만, 향후 추가예정)",
@@ -969,6 +985,8 @@ const i18n = new VueI18n({
       ho: "호",
       land_category: "지목",
       lot_area: "토지면적",
+      room_detail_info: "방 세부정보",
+      new_room: "방추가",
       room_name: "방이름",
       building_structure: "건물구조",
       building_category: "건물용도",

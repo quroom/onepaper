@@ -544,7 +544,7 @@ export default {
         },
         {
           target: "#v-address",
-          content: `"(${this.$t("mandatory")})<br/>${this.$t("tour_address")}`,
+          content: `(${this.$t("mandatory")})<br/>${this.$t("tour_address")}`,
           offset: -60,
           params: {
             highlight: true

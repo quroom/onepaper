@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-22 11:30+0900\n"
+"POT-Creation-Date: 2022-05-13 12:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,30 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\listings\models.py:158
+#: .\listings\models.py:168
 msgid "만실"
 msgstr ""
 
-#: .\listings\models.py:159
+#: .\listings\models.py:169
 msgid "가능"
 msgstr ""
 
-#: .\listings\serializers.py:133 .\listings\tests.py:324
+#: .\listings\serializers.py:210 .\listings\tests.py:372
 msgid "이미지는 10개까지 첨부할 수 있습니다."
 msgstr "Image can be uploaded within 10 images."
 
-#: .\listings\serializers.py:142 .\listings\tests.py:333
+#: .\listings\serializers.py:219 .\listings\tests.py:381
 msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
 msgstr ""
 
-#: .\listings\serializers.py:165 .\listings\tests.py:466
+#: .\listings\serializers.py:242 .\listings\tests.py:514
 msgid "하나 이상의 이미지를 첨부하여야 합니다."
 msgstr ""
 
-#: .\listings\serializers.py:219 .\listings\tests.py:435
+#: .\listings\serializers.py:329 .\listings\tests.py:483
 #, python-format
 msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
 msgstr "This image(ID:%(id)d) doesn't exist"
+
+#: .\listings\views.py:161 .\listings\views.py:171
+msgid "You have already asked."
+msgstr ""
+
+#: .\listings\views.py:168
+msgid "Submit with room."
+msgstr ""
 
 #: .\onepaper\settings.py:161
 msgid "Korean"
@@ -320,24 +329,24 @@ msgstr ""
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:486 .\papers\views.py:178
+#: .\papers\tests.py:486 .\papers\views.py:181
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr "Only done or denied contract can be hide."
 
-#: .\papers\tests.py:503 .\papers\views.py:118
+#: .\papers\tests.py:503 .\papers\views.py:121
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:519 .\papers\views.py:127
+#: .\papers\tests.py:519 .\papers\views.py:130
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:526 .\papers\tests.py:576 .\papers\views.py:95
-#: .\papers\views.py:153
+#: .\papers\tests.py:526 .\papers\tests.py:576 .\papers\views.py:98
+#: .\papers\views.py:156
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr "The request data is incorrect."
 
-#: .\papers\tests.py:545 .\papers\views.py:109
+#: .\papers\tests.py:545 .\papers\views.py:112
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
@@ -345,23 +354,23 @@ msgstr ""
 "Hidden contracts cannot be approved/denied. Please request again after "
 "processing the contract."
 
-#: .\papers\tests.py:554 .\papers\views.py:161
+#: .\papers\tests.py:554 .\papers\views.py:164
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr "The contract has already been hidden."
 
-#: .\papers\tests.py:569 .\papers\views.py:170
+#: .\papers\tests.py:569 .\papers\views.py:173
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr "The contract has already been showing."
 
-#: .\papers\tests.py:588 .\papers\tests.py:598 .\papers\views.py:101
+#: .\papers\tests.py:588 .\papers\tests.py:598 .\papers\views.py:104
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr "A signed or done contract cannot be denied."
 
-#: .\papers\tests.py:822 .\papers\views.py:317
+#: .\papers\tests.py:822 .\papers\views.py:320
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr "Done or denied contract cannot be modified."
 
-#: .\papers\tests.py:876 .\papers\views.py:369
+#: .\papers\tests.py:876 .\papers\views.py:372
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr "Done contract cannot be deleted"
 
@@ -380,27 +389,27 @@ msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr "If you have a contract, you cannot delete your profile."
 
-#: .\papers\tests.py:1462 .\papers\tests.py:1596 .\papers\views.py:200
-#: .\papers\views.py:422
+#: .\papers\tests.py:1462 .\papers\tests.py:1596 .\papers\views.py:203
+#: .\papers\views.py:425
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr "Done or denied contract cannot be signed."
 
-#: .\papers\tests.py:1480 .\papers\tests.py:1608 .\papers\views.py:210
-#: .\papers\views.py:432
+#: .\papers\tests.py:1480 .\papers\tests.py:1608 .\papers\views.py:213
+#: .\papers\views.py:435
 msgid "이미 서명이 등록되어있습니다."
 msgstr "The signature is already registered."
 
-#: .\papers\tests.py:1539 .\papers\tests.py:1653 .\papers\views.py:233
-#: .\papers\views.py:450
+#: .\papers\tests.py:1539 .\papers\tests.py:1653 .\papers\views.py:236
+#: .\papers\views.py:453
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr "Done or denied contract cannot have their signatures modified."
 
-#: .\papers\tests.py:1696 .\papers\views.py:349
+#: .\papers\tests.py:1696 .\papers\views.py:352
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 "The contract cannot be modified more than 24 hours after initial signing."
 
-#: .\papers\tests.py:1702 .\papers\views.py:401
+#: .\papers\tests.py:1702 .\papers\views.py:404
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
@@ -941,9 +950,7 @@ msgid "Password reset"
 msgstr ""
 
 #: .\templates\account\login.html:60
-msgid ""
-"Email login will be deprecated. <br/> It is only supported until the end of "
-"2021."
+msgid "Email login will be deprecated."
 msgstr ""
 
 #: .\templates\account\logout.html:5 .\templates\account\logout.html:8
@@ -1692,7 +1699,6 @@ msgstr ""
 #~ msgid "부동산 온라인 계약 원페이퍼 출시 및 운영"
 #~ msgstr "Launch and operation of Onepaper for real estate online contract"
 
-#, python-format
 #~ msgid "존재하지 않는 이미지(ID:%(size)s)입니다."
 #~ msgstr "This image(ID:%(size)s) doesn't exist"
 

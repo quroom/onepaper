@@ -80,6 +80,8 @@ class Listing(models.Model):
         on_delete=models.SET_NULL,
         related_name="author_listings",
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField(blank=True)
     item_category = models.PositiveSmallIntegerField(
         choices=ListingConstant.ITEM_CATEGORY, default=ListingConstant.ONEROOM
@@ -91,14 +93,12 @@ class Listing(models.Model):
     online_visit = models.BooleanField(default=True)
     # FIXME: Remove short_lease after minimum_period
     minimum_period = models.PositiveSmallIntegerField(default=12, null=True)
-    short_lease = models.BooleanField(default=False, blank=True, null=True)
     # FIXME: Remove null True
     down_payment = models.PositiveBigIntegerField(blank=True, default=0)
     security_deposit = models.PositiveBigIntegerField(blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(blank=True, default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    available_date = models.DateField(null=True, blank=True)  # 오늘 날짜이면 즉시가능, 비어있어도 즉시가능.
     # FIXME: Add listing status like full or not.
     class Meta:
         ordering = ["-updated_at"]
@@ -107,6 +107,42 @@ class Listing(models.Model):
 # FIXME: 입주문의 남기면 코멘트 남게끔 구현.
 class ListingComment(Comment):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+
+
+class ListingItem(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    room_name = models.CharField(max_length=25)
+    bed = models.PositiveIntegerField(default=1)  # 1 ~ x bed quantity 몇인실.
+    security_deposit = models.PositiveBigIntegerField(blank=True, default=0)
+    monthly_fee = models.PositiveIntegerField(blank=True, default=0)
+    maintenance_fee = models.PositiveIntegerField(blank=True, default=0)
+    available_date = models.DateField(null=True, blank=True)  # 오늘 날짜이면 즉시가능, 비어있어도 즉시가능.
+    # 입주 가능일 / 방 종류 1인실 2인실 등.
+
+
+class ListingVisit(models.Model):
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="author_listingvisits",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing_visits")
+    listing_item = models.ForeignKey(
+        ListingItem,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="listing_item_visits",
+    )
+    online_visit = models.BooleanField(default=True)
+    term_of_lease = models.SmallIntegerField(default=12)
+    visit_date = models.DateField(null=True, blank=True)
+    moving_date = models.DateField(null=True, blank=True)
+    content = models.TextField(blank=True)
 
 
 class ListingImage(models.Model):
@@ -123,6 +159,7 @@ class ListingAddress(Address):
     listing = models.OneToOneField(Listing, on_delete=models.CASCADE)
 
 
+# FIXME: Remove ListingStatus and Add available date to Listing model.
 class ListingStatus(models.Model):
     FULL = 0
     AVALIABLE = 1

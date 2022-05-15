@@ -1,14 +1,76 @@
 <template>
   <v-container>
+    <v-row justify="center" no-gutters>
+      <v-radio-group hide-details="auto" row v-model="is_ask_move_in" @change="updatePage">
+        <v-radio :label="$t('ask_move_in')" :value="true"></v-radio>
+        <v-radio :label="$t('ask')" :value="false"></v-radio>
+      </v-radio-group>
+    </v-row>
     <LazyTextField
+      v-if="is_expert"
       v-model="search"
       append-icon="mdi-magnify"
-      single-line
-      hide-details
+      hide-details="auto"
       :label="`${$t('location')}`"
       prepend-icon="search"
     ></LazyTextField>
     <v-data-table
+      v-if="is_ask_move_in"
+      :headers="ask_move_in_headers"
+      :items="listingvisits"
+      item-key="id"
+      :server-items-length="items_length"
+      :page.sync="page_num"
+      @update:page="updatePagination"
+      :disable-sort="true"
+      :footer-props="{
+        'items-per-page-options': [10]
+      }"
+    >
+      <template #[`footer.prepend`]>
+        <v-spacer />
+      </template>
+      <template v-for="header in ask_move_in_headers" v-slot:[`item.${header.value}`]="{ item }">
+        <template v-if="header.value == 'title'">
+          {{ item.listing.title }}
+        </template>
+        <template v-if="header.value == 'room_name'">
+          {{ item.listing_item ? item.listing_item.room_name : "-" }}
+        </template>
+
+        <template v-else-if="header.value == 'number'">
+          <router-link
+            :key="header.value"
+            :to="{
+              name: 'listing-detail',
+              params: { id: item.listing.id }
+            }"
+            >{{ item.listing.id }}
+          </router-link>
+        </template>
+        <template v-else-if="['trade_category', 'item_category'].includes(header.value)">
+          {{ $getConstI18(header.value, item.listing[header.value]) }}
+        </template>
+        <template v-else-if="['security_deposit', 'maintenance_fee'].includes(header.value)">
+          {{ item.listing_item ? item.listing_item[header.value] : item.listing[header.value] }}
+        </template>
+        <template v-else-if="header.value == 'monthly_fee'">
+          <template
+            v-if="item.listing.trade_category == $getConstByName('trade_category', 'rent')"
+          >
+            {{
+              item.listing_item ? item.listing_item[header.value] : item.listing[header.value]
+            }}</template
+          >
+          <template v-else>-</template>
+        </template>
+        <template v-else>
+          {{ item[header.value] }}
+        </template>
+      </template>
+    </v-data-table>
+    <v-data-table
+      v-else
       :headers="isMobile ? mobile_headers : headers"
       :items="asklistings"
       item-key="id"
@@ -19,6 +81,7 @@
       show-expand
       single-expand
       :mobile-breakpoint="mobile_breakpoint - 200"
+      :disable-items-per-page="true"
     >
       <template v-slot:[`item.trade_category`]="{ item }">
         {{ $getConstI18("trade_category", item.trade_category) }}
@@ -60,7 +123,7 @@
         </td>
       </template>
     </v-data-table>
-    <v-row>
+    <v-row v-if="!is_ask_move_in">
       <v-col class="text-right" cols="12">
         <v-btn
           :to="{ name: 'listing-editor', params: { default_is_asking: true } }"
@@ -161,8 +224,57 @@ export default {
           value: "monthly_fee"
         }
       ],
+      ask_move_in_headers: [
+        {
+          text: `${this.$i18n.t("listing_title")}`,
+          align: "start",
+          value: "title"
+        },
+        {
+          text: `${this.$i18n.t("number")}`,
+          align: "start",
+          value: "number"
+        },
+        {
+          text: `${this.$i18n.t("mobile_number")}`,
+          align: "start",
+          value: "mobile_number"
+        },
+        {
+          text: `${this.$i18n.t("room_name")}`,
+          align: "start",
+          value: "room_name"
+        },
+        {
+          text: `${this.$i18n.t("item_category")}`,
+          align: "start",
+          value: "item_category"
+        },
+        {
+          text: `${this.$i18n.t("period")}`,
+          align: "start",
+          value: "term_of_lease"
+        },
+        {
+          text: `${this.$i18n.t("security_deposit")}`,
+          align: "start",
+          value: "security_deposit"
+        },
+        {
+          text: `${this.$i18n.t("monthly_fee")}`,
+          align: "start",
+          value: "monthly_fee"
+        },
+        {
+          text: `${this.$i18n.t("maintenance_fee")}`,
+          align: "start",
+          value: "maintenance_fee"
+        }
+      ],
+      is_ask_move_in: true,
       search: "",
       asklistings: [],
+      listingvisits: [],
       items_length: null,
       page_num: 1,
       pagination: {},
@@ -175,10 +287,23 @@ export default {
         this.page_num = 1;
         return;
       }
-      this.getAskListings();
+      if (this.is_ask_move_in) {
+        this.getListingVisits();
+      } else {
+        this.getAskListings();
+      }
     }
   },
   methods: {
+    updatePage() {
+      this.search = "";
+      this.page_num = 1;
+      if (this.is_ask_move_in) {
+        this.getListingVisits();
+      } else {
+        this.getAskListings();
+      }
+    },
     getAskListings() {
       let endpoint = `/api/asklistings/?page=${this.page_num}`;
       if (this.search) {
@@ -195,19 +320,44 @@ export default {
         }
       });
     },
+    getListingVisits() {
+      let endpoint = `/api/listingvisits/?page=${this.page_num}`;
+      if (this.search) {
+        endpoint += `&location=${this.search}`;
+      }
+      apiService(endpoint).then((data) => {
+        if (data.count != undefined) {
+          this.listingvisits = data.results;
+          this.items_length = data.count;
+        } else if (data.count == 0) {
+          this.listingvisits = [];
+        } else {
+          applyValidation(data);
+        }
+      });
+    },
     updatePagination(pagination) {
       this.page_num = pagination;
       let endpoint = `/api/asklistings/?page=${this.page_num}`;
+
+      if (this.is_ask_move_in) {
+        endpoint = `/api/listingvisits/?page=${this.page_num}`;
+      }
       if (this.search) {
         endpoint += `&location=${this.search}`;
       }
       apiService(endpoint).then((data) => {
         if (data != undefined) {
-          this.asklistings = data.results;
+          if (this.is_ask_move_in) {
+            this.listingvisits = data.results;
+          } else {
+            this.asklistings = data.results;
+          }
           this.items_length = data.count;
         } else {
           applyValidation(data);
           this.asklistings = [];
+          this.listingvisits = [];
         }
       });
     },
@@ -228,7 +378,12 @@ export default {
     }
   },
   created() {
-    this.getAskListings();
+    if (this.is_ask_move_in) {
+      this.getListingVisits();
+    } else {
+      this.getAskListings();
+    }
+    this.is_expert = this.$store.state.user_category == "expert" ? true : false;
   }
 };
 </script>
@@ -242,5 +397,8 @@ export default {
 ::v-deep .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
   padding-left: 8px !important;
   padding-right: 8px !important;
+}
+::v-deep .v-data-table__mobile-row {
+  min-height: 24px !important;
 }
 </style>

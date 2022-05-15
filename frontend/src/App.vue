@@ -9,7 +9,13 @@
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
         <router-view />
       </keep-alive>
-      <keep-alive v-else-if="!$route.meta.isListingDestroied" include="listings">
+      <!-- FIXME: Can we make both isAskListingDestroied and isListingDestroied are working differently?
+      It should be first here because when moving to listing-detail,
+      isAskListingDestroied and isListingDestroied both are true  -->
+      <keep-alive v-else-if="!$route.meta.isAskListingDestroied" include="AskListingList">
+        <router-view />
+      </keep-alive>
+      <keep-alive v-else-if="!$route.meta.isListingDestroied" include="ListingList">
         <!-- sync data need to be fixed. This is temporary code for preventing and doing update correctly when paper is changed..-->
         <router-view />
       </keep-alive>

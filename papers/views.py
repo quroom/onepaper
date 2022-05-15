@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from papers.models import Contractor, ExplanationSignature, Paper, PaperStatus, Signature
-from papers.permissions import IsAuthor, IsAuthorOrReadonly, IsContractorUser, IsSignatureUser
+from papers.permissions import HasProfileIsAuthorOrReadonly, IsContractorUser, IsSignatureUser
 from papers.serializers import (
     ExplanationSignatureSerializer,
     PaperEveryoneDetailSerializer,
@@ -58,7 +58,7 @@ class AllPaperFilter(django_filters.FilterSet):
 
 class AllPaperList(generics.ListAPIView):
     serializer_class = PaperEveryoneSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
+    permission_classes = [IsAuthenticated, HasProfileIsAuthorOrReadonly]
     __basic_fields = ("status", "bjdong")
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = __basic_fields
@@ -254,7 +254,7 @@ class PaperLoadAPIView(mixins.RetrieveModelMixin, generics.GenericAPIView):
 
 class PaperViewset(ModelViewSet):
     __basic_fields = ("status", "group", "old_address", "dong", "ho", "to_date")
-    permission_classes = [IsAuthenticated, IsAuthorOrReadonly]
+    permission_classes = [IsAuthenticated, HasProfileIsAuthorOrReadonly]
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter)
     filter_fields = __basic_fields
     filter_class = PaperFilter

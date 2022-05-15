@@ -52,35 +52,48 @@
             }}
           </div>
           <span>
-            <template v-if="listing.trade_category == $getConstByName('trade_category', 'rent')">
-              <div>
-                {{
-                  `${$t("security_deposit_short")}${listing.security_deposit}${$t("man")}
+            <template v-if="!is_sharehouse">
+              <template v-if="listing.trade_category == $getConstByName('trade_category', 'rent')">
+                <div>
+                  {{
+                    `${$t("security_deposit_short")}${listing.security_deposit}${$t("man")}
                       ${$t("monthly_fee_short")}${listing.monthly_fee}${$t("man")} /
                       ${$t("maintenance_fee")}${listing.maintenance_fee}${$t("man")}`
-                }}
-              </div>
-            </template>
-            <template
-              v-else-if="
-                listing.trade_category == $getConstByName('trade_category', 'depositloan')
-              "
-            >
-              <div>
-                {{
-                  `${$t("security_deposit")}${listing.security_deposit}${$t("man")} /
+                  }}
+                </div>
+              </template>
+              <template
+                v-else-if="
+                  listing.trade_category == $getConstByName('trade_category', 'depositloan')
+                "
+              >
+                <div>
+                  {{
+                    `${$t("security_deposit")}${listing.security_deposit}${$t("man")} /
                       ${$t("maintenance_fee")}${listing.maintenance_fee}${$t("man")}`
-                }}
-              </div>
+                  }}
+                </div>
+              </template>
+              <template
+                v-else-if="listing.trade_category == $getConstByName('trade_category', 'purchase')"
+              >
+              </template>
+              <template
+                v-else-if="listing.trade_category == $getConstByName('trade_category', 'exchange')"
+              >
+              </template>
             </template>
-            <template
-              v-else-if="listing.trade_category == $getConstByName('trade_category', 'purchase')"
-            >
-            </template>
-            <template
-              v-else-if="listing.trade_category == $getConstByName('trade_category', 'exchange')"
-            >
-            </template>
+            <div class="pr-4 text-right">
+              {{
+                this.listing.listingvisits_count > 0
+                  ? `${$t("ask_move_in")}(${this.listing.listingvisits_count})`
+                  : ""
+              }}
+              {{ this.listing.listingvisits_count > 0 && this.avaliable_count > 0 ? " / " : "" }}
+              <span class="red--text">
+                {{ this.avaliable_count > 0 ? `${$t("vacancy")}(${this.avaliable_count})` : "" }}
+              </span>
+            </div>
             <!-- <span class="answer_count">
             {{`${$t('answer')}(${listing.answer_count})`}}
           </span> -->
@@ -94,7 +107,7 @@
             `${listing.minimum_period}${$t("months")}`
           }}</v-chip>
           <v-spacer></v-spacer>
-          <v-btn v-if="listing.status === 1" text color="black accent-4">
+          <v-btn v-if="avaliable_count > 0" text color="black accent-4">
             {{ `${$t("detail")} ${$t("view")}` }}
           </v-btn>
           <v-chip v-else class="ml-1 mt-1" color="red lighten-1" dark>{{
@@ -121,6 +134,23 @@ export default {
         return this.listing.author_profile.certification.is_certificated;
       }
       return false;
+    },
+    is_sharehouse: function() {
+      return this.listing.item_category == this.$getConstByName("ITEM_CATEGORY", "sharehouse");
+    },
+    avaliable_count: function() {
+      if (this.is_sharehouse) {
+        const count = this.listing.listingitems.filter((listingitem) => {
+          if (new Date(listingitem.available_date) <= new Date()) {
+            return true;
+          } else {
+            return false;
+          }
+        }).length;
+        return count;
+      } else {
+        return new Date(this.listing.available_date) <= new Date() ? 1 : 0;
+      }
     }
   },
   methods: {}
