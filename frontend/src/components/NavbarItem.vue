@@ -89,15 +89,12 @@
         </v-list-item>
         <v-divider></v-divider>
       </v-list>
-      <v-spacer></v-spacer>
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block dark color="error" href="/accounts/logout/">
-            {{ $t("logout") }}
-            <v-icon>exit_to_app</v-icon>
-          </v-btn>
-        </div>
-      </template>
+      <div class="pa-2 pt-4">
+        <v-btn block dark color="error" href="/accounts/logout/">
+          {{ $t("logout") }}
+          <v-icon>exit_to_app</v-icon>
+        </v-btn>
+      </div>
     </v-navigation-drawer>
     <v-spacer></v-spacer>
     <template v-for="item in items">
