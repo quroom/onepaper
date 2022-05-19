@@ -4,7 +4,15 @@ from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from listings.models import AskListing, Listing, ListingAddress, ListingImage, ListingStatus
+from listings.models import (
+    AskListing,
+    Listing,
+    ListingAddress,
+    ListingImage,
+    ListingItem,
+    ListingStatus,
+    ListingVisit,
+)
 from onepaper.serializers import ReadOnlyModelSerializer
 from profiles.serializers import (
     ListingEveryoneExpertProfileSerializer,
@@ -42,6 +50,15 @@ class ListingAddressSerializer(ModelSerializer):
         exclude = ("listing",)
 
 
+class ListingItemSerializer(ModelSerializer):
+    is_deleted = serializers.BooleanField(required=False, default=False)
+    id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = ListingItem
+        exclude = ("listing",)
+
+
 class ListingImageSerializer(ModelSerializer):
     is_deleted = serializers.BooleanField(required=False, default=False)
     id = serializers.IntegerField(required=False)
@@ -55,8 +72,10 @@ class ListingImageSerializer(ModelSerializer):
 class ListingEveryoneSerializer(ReadOnlyModelSerializer):
     author_profile = serializers.SerializerMethodField()
     listingaddress = serializers.SerializerMethodField()
+    listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
     status = serializers.IntegerField(source="listingstatus.status", required=False)
+    listingvisits_count = serializers.IntegerField(source="listing_visits.count", read_only=True)
 
     class Meta:
         model = Listing
@@ -92,11 +111,69 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
         return instance.listingstatus.status
 
 
+class ListingDetailEveryoneSerializer(ListingEveryoneSerializer):
+    listingvisits = serializers.SerializerMethodField()
+
+    def get_listingvisits(self, instance):
+        request = self.context.get("request")
+        queryset = instance.listing_visits.filter(author=request.user)
+        return ListingVisitSerializer(queryset, many=True).data
+
+
+class ListingVisitSerializer(ModelSerializer):
+    mobile_number = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ListingVisit
+        fields = "__all__"
+        read_only_fields = [
+            "listing",
+        ]
+
+    def get_mobile_number(self, instance):
+        profiles = instance.author.profiles.filter(is_activated=True)
+        if profiles.exists():
+            return (
+                instance.author.profiles.filter(is_activated=True).first().mobile_number.raw_input
+            )
+        else:
+            return ""
+
+
+class ListingSerializerForListingVisit(ReadOnlyModelSerializer):
+    class Meta:
+        model = Listing
+        fields = [
+            "id",
+            "content",
+            "down_payment",
+            "item_category",
+            "maintenance_fee",
+            "minimum_period",
+            "monthly_fee",
+            "security_deposit",
+            "title",
+            "trade_category",
+        ]
+
+
+class ListingVisitDetailSerializer(ListingVisitSerializer):
+    listing = ListingSerializerForListingVisit()
+    listing_item = ListingItemSerializer()
+
+    class Meta:
+        model = ListingVisit
+        exclude = ["author"]
+
+
 class ListingSerializer(ModelSerializer):
     author_profile = serializers.SerializerMethodField()
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
     listingaddress = ListingAddressSerializer()
+    listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
     status = serializers.IntegerField(source="listingstatus.status", required=False)
+    listingvisits_count = serializers.IntegerField(source="listing_visits.count", read_only=True)
+    available_date = serializers.DateField(required=False)
 
     class Meta:
         model = Listing
@@ -164,10 +241,19 @@ class ListingSerializer(ModelSerializer):
         else:
             raise serializers.ValidationError({"detail": _("하나 이상의 이미지를 첨부하여야 합니다.")})
 
+        if not validated_data.get("listingitem_set") is None:
+            listing_items_data = validated_data.pop("listingitem_set")
+        else:
+            listing_items_data = []
+
         address_data = validated_data.pop("listingaddress")
         listing = Listing.objects.create(**validated_data)
         ListingAddress.objects.create(listing=listing, **address_data)
         ListingStatus.objects.create(listing=listing)
+
+        for listing_item_data in listing_items_data:
+            listing_item_data.pop("is_deleted")
+            ListingItem.objects.create(listing=listing, **listing_item_data)
 
         for image_data in images_data:
             image = image_data.get("image")
@@ -184,12 +270,36 @@ class ListingSerializer(ModelSerializer):
             if not validated_data.get("listingimage_set") is None
             else {}
         )
+
+        listing_items_data = (
+            validated_data.pop("listingitem_set")
+            if not validated_data.get("listingitem_set") is None
+            else {}
+        )
+
         listingaddress = instance.listingaddress
         listingaddress_data = (
             validated_data.pop("listingaddress")
             if not validated_data.get("listingaddress") is None
             else {}
         )
+        for listing_item_data in listing_items_data:
+            id = listing_item_data.get("id")
+            is_deleted = (
+                listing_item_data.pop("is_deleted")
+                if listing_item_data.get("is_deleted")
+                else False
+            )
+            if id != None:
+                if is_deleted:
+                    ListingItem.objects.get(id=id).delete()
+                else:
+                    listingitem = ListingItem.objects.get(id=id)
+                    for key, val in listing_item_data.items():
+                        setattr(listingitem, key, val)
+                    listingitem.save()
+            else:
+                ListingItem.objects.create(listing=instance, **listing_item_data)
 
         for key, val in listingaddress_data.items():
             setattr(listingaddress, key, val)

@@ -8,7 +8,16 @@ class IsAuthor(permissions.BasePermission):
         return obj.author == request.user
 
 
-class IsAuthorOrReadonly(permissions.BasePermission):
+class HasProfileIsAuthorOrReadonly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            if request.user.profiles.exists():
+                return True
+            else:
+                return False
+
     def has_object_permission(self, request, view, obj):
         if obj.author == request.user:
             return True

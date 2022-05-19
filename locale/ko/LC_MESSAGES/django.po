@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-22 11:30+0900\n"
+"POT-Creation-Date: 2022-05-13 12:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,30 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\listings\models.py:158
+#: .\listings\models.py:168
 msgid "만실"
 msgstr ""
 
-#: .\listings\models.py:159
+#: .\listings\models.py:169
 msgid "가능"
 msgstr ""
 
-#: .\listings\serializers.py:133 .\listings\tests.py:324
+#: .\listings\serializers.py:210 .\listings\tests.py:372
 msgid "이미지는 10개까지 첨부할 수 있습니다."
 msgstr ""
 
-#: .\listings\serializers.py:142 .\listings\tests.py:333
+#: .\listings\serializers.py:219 .\listings\tests.py:381
 msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
 msgstr ""
 
-#: .\listings\serializers.py:165 .\listings\tests.py:466
+#: .\listings\serializers.py:242 .\listings\tests.py:514
 msgid "하나 이상의 이미지를 첨부하여야 합니다."
 msgstr ""
 
-#: .\listings\serializers.py:219 .\listings\tests.py:435
+#: .\listings\serializers.py:329 .\listings\tests.py:483
 #, python-format
 msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
 msgstr ""
+
+#: .\listings\views.py:161 .\listings\views.py:171
+msgid "You have already asked."
+msgstr "이미 문의가 제출되었습니다."
+
+#: .\listings\views.py:168
+msgid "Submit with room."
+msgstr "방 정보와 함께 제출하세요."
 
 #: .\onepaper\settings.py:161
 msgid "Korean"
@@ -321,46 +329,46 @@ msgstr ""
 msgid "작성자가 포함되지 않았습니다."
 msgstr ""
 
-#: .\papers\tests.py:486 .\papers\views.py:178
+#: .\papers\tests.py:486 .\papers\views.py:181
 msgid "완료 또는 거절된 계약서만 숨김 처리가 가능합니다."
 msgstr ""
 
-#: .\papers\tests.py:503 .\papers\views.py:118
+#: .\papers\tests.py:503 .\papers\views.py:121
 msgid "이미 계약서 작성이 허용 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:519 .\papers\views.py:127
+#: .\papers\tests.py:519 .\papers\views.py:130
 msgid "이미 계약서 작성이 거절 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:526 .\papers\tests.py:576 .\papers\views.py:95
-#: .\papers\views.py:153
+#: .\papers\tests.py:526 .\papers\tests.py:576 .\papers\views.py:98
+#: .\papers\views.py:156
 msgid "요청 데이터가 올바르지 않습니다."
 msgstr ""
 
-#: .\papers\tests.py:545 .\papers\views.py:109
+#: .\papers\tests.py:545 .\papers\views.py:112
 msgid ""
 "숨김 처리된 계약서는 승인/거절이 불가합니다. 계약서 보임 처리 후 재요청 해주"
 "세요."
 msgstr ""
 
-#: .\papers\tests.py:554 .\papers\views.py:161
+#: .\papers\tests.py:554 .\papers\views.py:164
 msgid "이미 계약서가 숨김 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:569 .\papers\views.py:170
+#: .\papers\tests.py:569 .\papers\views.py:173
 msgid "이미 계약서가 보임 처리 되었습니다."
 msgstr ""
 
-#: .\papers\tests.py:588 .\papers\tests.py:598 .\papers\views.py:101
+#: .\papers\tests.py:588 .\papers\tests.py:598 .\papers\views.py:104
 msgid "서명 또는 완료된 계약서는 거절할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:822 .\papers\views.py:317
+#: .\papers\tests.py:822 .\papers\views.py:320
 msgid "완료 또는 거절된 계약서는 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:876 .\papers\views.py:369
+#: .\papers\tests.py:876 .\papers\views.py:372
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr ""
 
@@ -379,26 +387,26 @@ msgid ""
 "보증서류가 포함된 거래계약서가 있는 경우 보증서류 정보를 삭제할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1462 .\papers\tests.py:1596 .\papers\views.py:200
-#: .\papers\views.py:422
+#: .\papers\tests.py:1462 .\papers\tests.py:1596 .\papers\views.py:203
+#: .\papers\views.py:425
 msgid "완료 또는 거절된 계약서는 서명을 추가할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1480 .\papers\tests.py:1608 .\papers\views.py:210
-#: .\papers\views.py:432
+#: .\papers\tests.py:1480 .\papers\tests.py:1608 .\papers\views.py:213
+#: .\papers\views.py:435
 msgid "이미 서명이 등록되어있습니다."
 msgstr ""
 
-#: .\papers\tests.py:1539 .\papers\tests.py:1653 .\papers\views.py:233
-#: .\papers\views.py:450
+#: .\papers\tests.py:1539 .\papers\tests.py:1653 .\papers\views.py:236
+#: .\papers\views.py:453
 msgid "완료 또는 거절된 계약서는 서명을 수정할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1696 .\papers\views.py:349
+#: .\papers\tests.py:1696 .\papers\views.py:352
 msgid "최초 서명 후 24시간이 지나면 계약서를 수정 할 수 없습니다."
 msgstr ""
 
-#: .\papers\tests.py:1702 .\papers\views.py:401
+#: .\papers\tests.py:1702 .\papers\views.py:404
 msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없습니다."
 msgstr ""
 
@@ -942,10 +950,8 @@ msgid "Password reset"
 msgstr "비밀번호 초기화"
 
 #: .\templates\account\login.html:60
-msgid ""
-"Email login will be deprecated. <br/> It is only supported until the end of "
-"2021."
-msgstr "이메일 로그인은 지원 종료 예정입니다. <br/> 21년 12월까지 지원됩니다."
+msgid "Email login will be deprecated."
+msgstr "이메일 로그인은 지원 종료 예정입니다."
 
 #: .\templates\account\logout.html:5 .\templates\account\logout.html:8
 #: .\templates\account\logout.html:18
@@ -1739,9 +1745,3 @@ msgstr "개인정보처리방침"
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr "연결"
-
-#~ msgid "Sign Up"
-#~ msgstr "가입하기"
-
-#~ msgid "User Registration with Email"
-#~ msgstr "이메일로 회원가입"

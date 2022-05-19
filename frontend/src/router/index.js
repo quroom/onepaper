@@ -185,6 +185,11 @@ router.beforeEach((to, from, next) => {
     } else {
       to.meta.isListingDestroied = true;
     }
+    if (to.name == "asklistings" || (from.name != "listings" && to.name == "listing-detail")) {
+      to.meta.isAskListingDestroied = false;
+    } else {
+      to.meta.isAskListingDestroied = true;
+    }
   } else {
     if (
       (from.name == "paper-detail" && to.name == "papers") ||
@@ -202,6 +207,12 @@ router.beforeEach((to, from, next) => {
       to.meta.isListingDestroied = false;
     } else {
       to.meta.isListingDestroied = true;
+    }
+
+    if (to.name == "asklistings" || (from.name == "asklistings" && to.name == "listing-detail")) {
+      to.meta.isAskListingDestroied = false;
+    } else {
+      to.meta.isAskListingDestroied = true;
     }
   }
   next();

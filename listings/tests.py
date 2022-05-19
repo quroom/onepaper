@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from addresses.models import Address
-from listings.models import AskListing, Listing, ListingAddress
+from listings.models import AskListing, Listing, ListingAddress, ListingVisit
 from profiles.models import CustomUser, ExpertProfile, Insurance, Profile
 
 # Create your tests here.
@@ -180,7 +180,43 @@ class AskListingTestCase(APITestCase):
 
 
 @override_settings(MEDIA_ROOT=MEDIA_ROOT)
-class ListingTestCase(APITestCase):
+class ListingAndVisitListingTestCase(APITestCase):
+    sharehouse_listing_data = {
+        "listingitems[0]room_name": "101호",
+        "listingitems[0]bed": 1,
+        "listingitems[0]security_deposit": 40,
+        "listingitems[0]monthly_fee": 20,
+        "listingitems[0]maintenance_fee": 0,
+        "listingitems[0]available_date": "2021-05-11",
+        "listingitems[1]room_name": "102호",
+        "listingitems[1]bed": 2,
+        "listingitems[1]security_deposit": 30,
+        "listingitems[1]monthly_fee": 15,
+        "listingitems[1]maintenance_fee": 0,
+        "listingitems[1]available_date": "2021-05-11",
+        "listingaddress.old_address": "광주 광산구 명도동 169",
+        "listingaddress.old_address_eng": "169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea",
+        "listingaddress.new_address": "광주 광산구 명도동 169",
+        "listingaddress.bjdongName": "명도동",
+        "listingaddress.bjdongName_eng": "Myeongdo-dong",
+        "listingaddress.sigunguCd": "29200",
+        "listingaddress.bjdongCd": "29200",
+        "listingaddress.bun": "169",
+        "listingaddress.ji": "",
+        "listingaddress.dong": "",
+        "listingaddress.ho": "",
+        "title": "매물 업로드 데이터 보기 위함",
+        "down_payment": 200,
+        "security_deposit": 500,
+        "maintenance_fee": 5,
+        "monthly_fee": 30,
+        "content": "감사합니다",
+        "item_category": 1,
+        "trade_category": 1,
+        "online_visit": False,
+        "minimum_period": 12,
+    }
+
     listing_data = {
         "listingaddress.old_address": "광주 광산구 명도동 169",
         "listingaddress.old_address_eng": "169, Myeongdo-dong, Gwangsan-gu, Gwangju, Korea",
@@ -216,7 +252,15 @@ class ListingTestCase(APITestCase):
         "online_visit": False,
         "minimum_period": 12,
     }
+    listing_visit_data = {
+        "content": "",
+        "online_visit": True,
+        "term_of_lease": 12,
+        "moving_date": "2022-05-12",
+        "visit_date": "2022-05-12",
+    }
     list_url = reverse("listings-list")
+    listingvitists_list_url = reverse("listingvisits-list")
 
     def _create_image(self, width=None, height=None):
         if width and height:
@@ -241,10 +285,13 @@ class ListingTestCase(APITestCase):
 
         for index, image in enumerate(self.images):
             self.listing_data["images[" + str(index) + "]image"] = image
+            self.sharehouse_listing_data["images[" + str(index) + "]image"] = image
             if index == 0:
                 self.listing_data["images[" + str(index) + "]is_default"] = True
+                self.sharehouse_listing_data["images[" + str(index) + "]is_default"] = True
             else:
                 self.listing_data["images[" + str(index) + "]is_default"] = False
+                self.sharehouse_listing_data["images[" + str(index) + "]is_default"] = False
 
         self.user = CustomUser.objects.create(
             email="test@naver.com",
@@ -277,10 +324,18 @@ class ListingTestCase(APITestCase):
             account_number="120982711",
             mobile_number="010-1234-5678",
         )
+
+        self.user2 = CustomUser.objects.create(
+            email="test2@naver.com",
+            password="some_strong_password",
+            bio="bio",
+            name="김테스트1",
+            birthday="1999-02-02",
+        )
         self.api_authentication(self.user)
 
-        listing = Listing.objects.create(author=self.user, **self._local_listing_data)
-        ListingAddress.objects.create(listing=listing, **address_vars)
+        self.listing = Listing.objects.create(author=self.user, **self._local_listing_data)
+        ListingAddress.objects.create(listing=self.listing, **address_vars)
 
     def tearDown(self):
         for image in self.images:
@@ -298,14 +353,7 @@ class ListingTestCase(APITestCase):
         self.assertEqual(response.data["images"][0]["is_default"], True)
 
     def test_listing_create_with_no_profile_user(self):
-        user = CustomUser.objects.create(
-            email="test2@naver.com",
-            password="some_strong_password",
-            bio="bio",
-            name="김테스트1",
-            birthday="1999-02-02",
-        )
-        self.client.force_authenticate(user=user)
+        self.client.force_authenticate(user=self.user2)
         response = self.client.post(self.list_url, data=self.listing_data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -473,4 +521,69 @@ class ListingTestCase(APITestCase):
         response = self.client.delete(
             reverse("listings-detail", kwargs={"pk": create_response.data["id"]}), data=data
         )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_listingvisits(self):
+        response = self.client.post(
+            reverse("listings-visit-create", kwargs={"pk": self.listing.id}),
+            data=self.listing_visit_data,
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["visit_date"], "2022-05-12")
+        self.assertEqual(response.data["online_visit"], True)
+        self.assertEqual(ListingVisit.objects.all().count(), 1)
+        response = self.client.post(
+            reverse("listings-visit-create", kwargs={"pk": self.listing.id}),
+            data=self.listing_visit_data,
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(ListingVisit.objects.all().count(), 1)
+
+        self.client.force_authenticate(user=self.user1)
+        response = self.client.delete(
+            reverse("listingvisits-detail", kwargs={"pk": self.listing.id})
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.client.force_authenticate(user=self.user)
+        response = self.client.delete(
+            reverse("listingvisits-detail", kwargs={"pk": self.listing.id})
+        )
+        self.assertEqual(ListingVisit.objects.all().count(), 0)
+
+        self.client.force_authenticate(user=self.user2)
+        response = self.client.post(
+            reverse("listings-visit-create", kwargs={"pk": self.listing.id}),
+            data=self.listing_visit_data,
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_listingvisits_sharehouse(self):
+        response = self.client.post(self.list_url, data=self.sharehouse_listing_data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["images"][0]["is_default"], True)
+        self.assertEqual(response.data["listingitems"][0]["room_name"], "101호")
+        listing_item_id = response.data["listingitems"][0]["id"]
+        _listing_visit_data = self.listing_visit_data.copy()
+        _listing_visit_data["listing_item_id"] = listing_item_id
+        response = self.client.post(
+            reverse("listings-visit-create", kwargs={"pk": self.listing.id}),
+            data=_listing_visit_data,
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["visit_date"], "2022-05-12")
+        self.assertEqual(response.data["online_visit"], True)
+
+        response = self.client.post(
+            reverse("listings-visit-create", kwargs={"pk": self.listing.id}),
+            data=_listing_visit_data,
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        response = self.client.put(
+            reverse("listingvisits-detail", kwargs={"pk": self.listing.id}),
+            data=_listing_visit_data,
+        )
+
+        self.client.force_authenticate(user=self.user2)
+        response = self.client.post(self.list_url, data=self.sharehouse_listing_data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

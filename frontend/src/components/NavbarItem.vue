@@ -60,7 +60,9 @@
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
+                <v-list-item-title>{{
+                  `${$t(item.title)}${item.title2 ? "(" + $t(item.title2) + ")" : ""}`
+                }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -89,15 +91,12 @@
         </v-list-item>
         <v-divider></v-divider>
       </v-list>
-      <v-spacer></v-spacer>
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block dark color="error" href="/accounts/logout/">
-            {{ $t("logout") }}
-            <v-icon>exit_to_app</v-icon>
-          </v-btn>
-        </div>
-      </template>
+      <div class="pa-2 pt-4">
+        <v-btn block dark color="error" href="/accounts/logout/">
+          {{ $t("logout") }}
+          <v-icon>exit_to_app</v-icon>
+        </v-btn>
+      </div>
     </v-navigation-drawer>
     <v-spacer></v-spacer>
     <template v-for="item in items">
@@ -155,7 +154,8 @@ export default {
           route: { name: "profiles" }
         },
         {
-          title: "ask",
+          title: "ask_move_in",
+          title2: "ask",
           icon: "description",
           appbar_only: true,
           route: { name: "asklistings" }

@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="400px">
     <template v-slot:activator="{ on }">
       <v-btn class="ma-1 auto no-print" color="error" @click.prevent="" v-on.prevent="on">
-        {{ $t("delete") }}
+        {{ label ? label : $t("delete") }}
       </v-btn>
     </template>
     <v-card>
@@ -32,12 +32,13 @@
 <script>
 import { applyValidation } from "@/common/common_api";
 import { apiService } from "@/common/api_service";
-
+// FIXME: Make it support options.
 export default {
   name: "DeleteAlert",
   props: {
     url: { type: String },
     id: { type: [Number, String] },
+    label: { type: String },
     router_name: { type: String },
     callback: { type: Function }
   },

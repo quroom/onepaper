@@ -1,6 +1,16 @@
 import i18n from "@/plugins/i18n";
-import { extend, configure } from "vee-validate";
+import { setInteractionMode, extend, configure } from "vee-validate";
 import { max, max_value, regex, required, size } from "vee-validate/dist/rules";
+
+setInteractionMode("super_lazy", (context) => {
+  if (context.value === "yes") {
+    return {
+      on: ["input"]
+    };
+  }
+
+  return { on: ["change"] };
+});
 
 configure({
   defaultMessage: (_, values) => {
