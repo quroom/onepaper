@@ -3,7 +3,7 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-RUN npm run build
+RUN STAGING=true npm run build
 
 FROM python:3.8.3-slim
 WORKDIR /onepaper

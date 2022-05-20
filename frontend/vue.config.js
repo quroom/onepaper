@@ -3,11 +3,15 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin-fixed-hashbu
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const mode = process.argv[4];
-
 module.exports = {
   // on Windows you might want to set publicPath: "http://127.0.0.1:5050/"
   // To access site from outside. publicPath(Public IP): "http://124.63.4.136:5050/",
-  publicPath: process.env.NODE_ENV === "production" ? "/static/" : "http://127.0.0.1:5050/",
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? process.env.STAGING == "true"
+        ? "/static-green/"
+        : "/static/"
+      : "http://127.0.0.1:5050/",
   outputDir: "./dist/",
   chainWebpack: (config) => {
     if (mode == "dev") {
