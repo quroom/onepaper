@@ -49,12 +49,18 @@
             :server-items-length="items_length"
             @update:page="updatePagination"
             :page="paper_pagination"
+            :footer-props="{
+              'items-per-page-options': [10]
+            }"
           >
             <template v-slot:[`item.trade_category`]="{ item }">
               {{ $getConstI18("TRADE_CATEGORY", item.trade_category) }}
             </template>
             <template v-slot:[`item.select`]="{ item }">
               <v-btn dark @click="loadPaper(item)"> {{ $t("select") }} </v-btn>
+            </template>
+            <template #[`footer.prepend`]>
+              <v-spacer />
             </template>
           </v-data-table>
           <v-card v-else-if="dialog_category == 'profile'" class="pa-2">
@@ -89,11 +95,17 @@
                 :server-items-length="items_length"
                 @update:page="updatePagination"
                 :page="profile_pagination"
+                :footer-props="{
+                  'items-per-page-options': [10]
+                }"
               >
                 <template v-slot:[`item.select`]="{ item }">
                   <v-btn class="primary" @click="loadProfile(item)">
                     {{ $t("select") }}
                   </v-btn>
+                </template>
+                <template #[`footer.prepend`]>
+                  <v-spacer />
                 </template>
               </v-data-table>
             </v-card-text>

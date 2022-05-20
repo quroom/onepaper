@@ -91,7 +91,6 @@ class Listing(models.Model):
         choices=Paper.TRADE_CATEGORY, default=Paper.RENT
     )
     online_visit = models.BooleanField(default=True)
-    # FIXME: Remove short_lease after minimum_period
     minimum_period = models.PositiveSmallIntegerField(default=12, null=True)
     # FIXME: Remove null True
     down_payment = models.PositiveBigIntegerField(blank=True, default=0)
