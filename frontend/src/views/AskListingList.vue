@@ -82,6 +82,9 @@
       single-expand
       :mobile-breakpoint="mobile_breakpoint - 200"
       :disable-items-per-page="true"
+      :footer-props="{
+        'items-per-page-options': [10]
+      }"
     >
       <template v-slot:[`item.trade_category`]="{ item }">
         {{ $getConstI18("trade_category", item.trade_category) }}
@@ -121,6 +124,9 @@
             </v-col>
           </v-row>
         </td>
+      </template>
+      <template #[`footer.prepend`]>
+        <v-spacer />
       </template>
     </v-data-table>
     <v-row v-if="!is_ask_move_in">
