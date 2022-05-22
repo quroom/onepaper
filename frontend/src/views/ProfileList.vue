@@ -145,12 +145,22 @@
                   {{ $t("edit") }}
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn
-                  v-if="profile.is_activated && profile.certification.is_certificated === false"
-                  dark
-                  @click.prevent="onCertification(profile)"
-                  >{{ $t("self_authentication") }}</v-btn
-                >
+                <template v-if="profile.is_activated">
+                  <v-btn
+                    v-if="profile.certification.is_certificated === false"
+                    dark
+                    @click.prevent="onCertification(profile)"
+                    >{{ $t("self_authentication") }}</v-btn
+                  >
+                  <v-btn
+                    v-else-if="
+                      (new Date() - new Date(profile.certification.updated_at)) / (3600 * 1000) >
+                        24
+                    "
+                    @click.prevent="onCertification(profile)"
+                    >{{ $t("reauthentication") }}</v-btn
+                  >
+                </template>
               </v-card-actions>
             </v-card>
           </router-link>
@@ -301,6 +311,8 @@ export default {
   },
   created() {
     this.getProfiles();
+    let offset = new Date().getTimezoneOffset() * 60000;
+    this.today = new Date(Date.now() - offset);
     this.is_expert = this.$store.state.user_category == "expert" ? true : false;
   }
 };
