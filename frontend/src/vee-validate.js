@@ -17,6 +17,15 @@ configure({
     return i18n.t(`validation.${values._rule_}`, values);
   }
 });
+extend("after", {
+  validate: (value, params) => {
+    return value >= params[0];
+  },
+  message(value, params) {
+    console.log(params);
+    return i18n.t("after", { name: value, after: params[0] });
+  }
+});
 extend("required", required);
 extend("max", max);
 extend("max_value", max_value);

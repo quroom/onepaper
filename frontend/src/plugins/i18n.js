@@ -11,6 +11,7 @@ const i18n = new VueI18n({
     en: {
       validation: en.messages,
       //Default message
+      after: "{name} is available from {after}",
       add_garantee_insurance: "Add garantee insurance",
       add_quick_trade_user: "Add quick trade user",
       add_quick_trade_user_directly: "Add quick trade user directly",
@@ -511,6 +512,7 @@ const i18n = new VueI18n({
     },
     ko: {
       validation: ko.messages,
+      after: "{name}은 {after}부터 가능합니다",
       add_garantee_insurance: "중개보증서류 추가",
       add_quick_trade_user: "빠른거래회원 추가",
       add_quick_trade_user_directly: "빠른거래회원 즉시추가",
