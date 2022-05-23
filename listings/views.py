@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet
 
-from listings.models import AskListing, Listing, ListingItem, ListingStatus, ListingVisit
+from listings.models import AskListing, Listing, ListingItem, ListingVisit
 from listings.serializers import (
     AskListingSerializer,
     ListingDetailEveryoneSerializer,
@@ -193,17 +193,3 @@ class ListingVisitListAPIView(generics.ListAPIView):
         if location:
             queryset = queryset.filter(listing__listingaddress__old_address__contains=location)
         return queryset
-
-
-class ListingStatusAPIView(APIView):
-    permission_classes = [IsAuthenticated, IsAuthor]
-
-    def put(self, request, pk):
-        listingstatus = get_object_or_404(ListingStatus, listing__id=pk)
-        self.check_object_permissions(self.request, listingstatus.listing)
-        listing_status = request.data.get("status")
-
-        listingstatus.status = listing_status
-        listingstatus.save()
-
-        return Response({"status": int(listingstatus.status)}, status=status.HTTP_200_OK)

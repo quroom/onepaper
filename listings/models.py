@@ -156,20 +156,3 @@ class ListingImage(models.Model):
 
 class ListingAddress(Address):
     listing = models.OneToOneField(Listing, on_delete=models.CASCADE)
-
-
-# FIXME: Remove ListingStatus and Add available date to Listing model.
-class ListingStatus(models.Model):
-    FULL = 0
-    AVALIABLE = 1
-
-    STATUS_CATEGORY = (
-        (FULL, _("만실")),
-        (AVALIABLE, _("가능")),
-    )
-
-    listing = models.OneToOneField(Listing, on_delete=models.CASCADE)
-    status = models.SmallIntegerField(choices=STATUS_CATEGORY, default=AVALIABLE)
-
-    def __str__(self):
-        return str(self.status)
