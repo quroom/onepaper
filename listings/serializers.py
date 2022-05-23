@@ -10,7 +10,6 @@ from listings.models import (
     ListingAddress,
     ListingImage,
     ListingItem,
-    ListingStatus,
     ListingVisit,
 )
 from onepaper.serializers import ReadOnlyModelSerializer
@@ -36,12 +35,6 @@ class AskListingSerializer(ModelSerializer):
             )
         else:
             return ""
-
-
-class ListingStatusSerializer(ReadOnlyModelSerializer):
-    class Meta:
-        model = ListingStatus
-        fields = ["status"]
 
 
 class ListingAddressSerializer(ModelSerializer):
@@ -74,7 +67,6 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
     listingaddress = serializers.SerializerMethodField()
     listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
-    status = serializers.IntegerField(source="listingstatus.status", required=False)
     listingvisits_count = serializers.IntegerField(source="listing_visits.count", read_only=True)
 
     class Meta:
@@ -106,9 +98,6 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
             else ""
         )
         return {"old_address": hidden_address, "old_address_eng": hidden_address_eng}
-
-    def get_status(self, instance):
-        return instance.listingstatus.status
 
 
 class ListingDetailEveryoneSerializer(ListingEveryoneSerializer):
@@ -171,7 +160,6 @@ class ListingSerializer(ModelSerializer):
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
     listingaddress = ListingAddressSerializer()
     listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
-    status = serializers.IntegerField(source="listingstatus.status", required=False)
     listingvisits_count = serializers.IntegerField(source="listing_visits.count", read_only=True)
     available_date = serializers.DateField(required=False)
 
@@ -231,9 +219,6 @@ class ListingSerializer(ModelSerializer):
                 author.profiles.filter(is_activated=True).first()
             ).data
 
-    def get_status(self, instance):
-        return instance.listingstatus.status
-
     @transaction.atomic
     def create(self, validated_data):
         if not validated_data.get("listingimage_set") is None:
@@ -249,7 +234,6 @@ class ListingSerializer(ModelSerializer):
         address_data = validated_data.pop("listingaddress")
         listing = Listing.objects.create(**validated_data)
         ListingAddress.objects.create(listing=listing, **address_data)
-        ListingStatus.objects.create(listing=listing)
 
         for listing_item_data in listing_items_data:
             listing_item_data.pop("is_deleted")

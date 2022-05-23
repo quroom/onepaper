@@ -431,17 +431,6 @@ class ListingAndVisitListingTestCase(APITestCase):
         self.assertEqual(response.data["security_deposit"], 200)
         self.assertEqual(response.data["maintenance_fee"], 10)
         self.assertEqual(response.data["monthly_fee"], 20)
-        self.assertEqual(response.data["status"], 1)
-        response = self.client.put(
-            reverse("update-status", kwargs={"pk": create_response.data["id"]}), data={"status": 0}
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["status"], 0)
-        response = self.client.put(
-            reverse("update-status", kwargs={"pk": create_response.data["id"]}), data={"status": 1}
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["status"], 1)
 
     def test_listing_updated_delete_errors(self):
         create_response = self.client.post(self.list_url, data=self.listing_data)

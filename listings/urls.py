@@ -3,7 +3,6 @@ from rest_framework_nested import routers
 
 from listings.views import (
     AskListingViewset,
-    ListingStatusAPIView,
     ListingViewset,
     ListingVisitCreateAPIView,
     ListingVisitDestoryAPIView,
@@ -16,7 +15,6 @@ router.register(r"listings", ListingViewset, basename="listings")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("listings/<int:pk>/status/", ListingStatusAPIView.as_view(), name="update-status"),
     path(
         "listings/<int:pk>/visit/",
         ListingVisitCreateAPIView.as_view(),
