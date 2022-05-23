@@ -175,7 +175,7 @@
             </LazyTextField>
           </ValidationProvider>
         </v-col>
-        <v-col v-if="!isShareHouse" cols="4" sm="auto">
+        <v-col v-if="!isShareHouse" cols="auto">
           <v-menu
             v-model="available_date_menu"
             hide-details="auto"
@@ -439,20 +439,14 @@
             <template v-if="!listingvisits.find((_item) => _item.listing_item == item.id)">
               <v-btn
                 v-if="today >= new Date(item.available_date)"
-                small
                 color="primary"
                 class="my-3"
                 @click="open_visit_dialog(item.id, true)"
                 >{{ `${item.room_name} ${$t("ask_move_in")}` }}</v-btn
               >
-              <v-btn
-                v-else
-                small
-                color="success"
-                class="my-3"
-                @click="open_visit_dialog(item.id, true)"
-                >{{ `${item.room_name} ${$t("move_in_reservation")}` }}</v-btn
-              >
+              <v-btn v-else small class="my-3" @click="open_visit_dialog(item.id, true)">{{
+                `${item.room_name} ${$t("move_in_reservation")}`
+              }}</v-btn>
             </template>
             <DeleteAlert
               v-else
@@ -675,7 +669,7 @@
                       ref="moving_date"
                       :name="$t('moving_date')"
                       v-slot="{ errors }"
-                      rules="required"
+                      :rules="`required|after:${selected_item_available_date}`"
                     >
                       <LazyTextField
                         class="mt-4"
@@ -887,6 +881,7 @@ export default {
   },
   data() {
     return {
+      selected_item_available_date: null,
       headers: [
         {
           align: "center",
@@ -1044,8 +1039,12 @@ export default {
       } else {
         this.is_listing_item = is_listing_item;
         if (is_listing_item) {
+          this.selected_item_available_date = this.listing_items.find(
+            (item) => item.id == id
+          ).available_date;
           this.visit_listing_obj.listing_item_id = id;
         } else {
+          this.selected_item_available_date = this.available_date;
           this.visit_listing_obj.listing_item_id = null;
         }
         this.visit_dialog = true;
