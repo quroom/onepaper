@@ -1,5 +1,6 @@
 import datetime
 
+import django_auto_prefetching
 import django_filters
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -22,7 +23,7 @@ from listings.serializers import (
     ListingDetailEveryoneSerializer,
     ListingEveryoneSerializer,
     ListingSerializer,
-    ListingVisitDetailSerializer,
+    ListingVisitListSerializer,
     ListingVisitSerializer,
 )
 from papers.permissions import HasProfileIsAuthorOrReadonly, IsAuthor
@@ -61,27 +62,30 @@ class ListingFilter(django_filters.FilterSet):
         ]
 
 
-class AskListingViewset(ModelViewSet):
+class AskListingViewset(django_auto_prefetching.AutoPrefetchViewSetMixin, ModelViewSet):
     permission_classes = [IsAuthenticated, HasProfileIsAuthorOrReadonly]
     serializer_class = AskListingSerializer
 
+    def get_auto_prefetch_excluded_fields(self):
+        return {"author.first_profile"}
+
     def get_queryset(self):
-        queryset = AskListing.objects.all()
+        kwargs = {
+            "excluded_fields": self.get_auto_prefetch_excluded_fields(),
+            "extra_select_fields": self.get_auto_prefetch_extra_select_fields(),
+            "extra_prefetch_fields": self.get_auto_prefetch_extra_prefetch_fields(),
+        }
+        queryset = AskListing.objects.prefetch_related("author__profiles").all()
 
-        approved_expert = Profile.objects.filter(
-            user=self.request.user,
-            expert_profile__status=ExpertProfile.APPROVED,
-            is_activated=True,
-        ).exists()
-
-        if not approved_expert:
+        if not self.request.user.is_expert_approved:
             queryset = queryset.filter(author=self.request.user)
 
-        return queryset
+        return django_auto_prefetching.prefetch(queryset, self.serializer_class, **kwargs)
 
     def list(self, request, *args, **kwargs):
         location = request.query_params.get("location", None)
         queryset = self.filter_queryset(self.get_queryset())
+
         if location:
             queryset = queryset.filter(location__contains=location)
 
@@ -114,10 +118,26 @@ class ListingViewset(ModelViewSet):
         else:
             return ListingSerializer
 
+    def get_queryset(self):
+        queryset = (
+            Listing.objects.select_related("author", "listingaddress")
+            .prefetch_related(
+                "author__profiles__address",
+                "author__profiles__certification",
+                "author__profiles__expert_profile",
+            )
+            .all()
+        )
+        return queryset
+
     def list(self, request, *args, **kwargs):
         is_mine = request.query_params.get("is_mine", None)
         only_vacancy = request.query_params.get("only_vacancy", None)
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(
+            self.get_queryset().prefetch_related(
+                "listingimage_set", "listingitem_set", "listing_visits"
+            )
+        )
         now = datetime.datetime.utcnow()
         if is_mine:
             queryset = queryset.filter(author=request.user)
@@ -181,15 +201,28 @@ class ListingVisitDestoryAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsAuthor]
 
 
-class ListingVisitListAPIView(generics.ListAPIView):
-    serializer_class = ListingVisitDetailSerializer
+class ListingVisitListAPIView(
+    django_auto_prefetching.AutoPrefetchViewSetMixin, generics.ListAPIView
+):
+    serializer_class = ListingVisitListSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_auto_prefetch_excluded_fields(self):
+        return {"author.first_profile"}
+
     def get_queryset(self):
-        queryset = ListingVisit.objects.filter(author=self.request.user).order_by(
+
+        kwargs = {
+            "excluded_fields": self.get_auto_prefetch_excluded_fields(),
+            "extra_select_fields": self.get_auto_prefetch_extra_select_fields(),
+            "extra_prefetch_fields": self.get_auto_prefetch_extra_prefetch_fields(),
+        }
+
+        queryset = ListingVisit.objects.prefetch_related("author__profiles").all()
+        queryset = queryset.filter(author=self.request.user).order_by(
             "-updated_at"
-        ) | ListingVisit.objects.filter(listing__author=self.request.user).order_by("-updated_at")
+        ) | queryset.filter(listing__author=self.request.user).order_by("-updated_at")
         location = self.request.query_params.get("location", None)
         if location:
             queryset = queryset.filter(listing__listingaddress__old_address__contains=location)
-        return queryset
+        return django_auto_prefetching.prefetch(queryset, self.serializer_class, **kwargs)

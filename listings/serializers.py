@@ -1,6 +1,7 @@
 from django.core.files.images import get_image_dimensions
 from django.db import transaction
 from django.utils.translation import ugettext as _
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -13,28 +14,16 @@ from listings.models import (
     ListingVisit,
 )
 from onepaper.serializers import ReadOnlyModelSerializer
-from profiles.serializers import (
-    ListingEveryoneExpertProfileSerializer,
-    ListingEveryoneProfileSerializer,
-)
+from profiles.serializers import ListingEveryoneProfileSerializer
 
 
 class AskListingSerializer(ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
-    mobile_number = serializers.SerializerMethodField()
+    mobile_number = PhoneNumberField(source="author.first_profile.mobile_number", read_only=True)
 
     class Meta:
         model = AskListing
         fields = "__all__"
-
-    def get_mobile_number(self, instance):
-        profiles = instance.author.profiles.filter(is_activated=True)
-        if profiles.exists():
-            return (
-                instance.author.profiles.filter(is_activated=True).first().mobile_number.raw_input
-            )
-        else:
-            return ""
 
 
 class ListingAddressSerializer(ModelSerializer):
@@ -63,7 +52,9 @@ class ListingImageSerializer(ModelSerializer):
 
 
 class ListingEveryoneSerializer(ReadOnlyModelSerializer):
-    author_profile = serializers.SerializerMethodField()
+    author_profile = ListingEveryoneProfileSerializer(
+        source="author.first_profile", read_only=True
+    )
     listingaddress = serializers.SerializerMethodField()
     listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
@@ -71,18 +62,7 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
 
     class Meta:
         model = Listing
-        exclude = ["author"]
-
-    def get_author_profile(self, instance):
-        author = instance.author
-        if author.is_expert:
-            return ListingEveryoneExpertProfileSerializer(
-                author.profiles.filter(is_activated=True).first()
-            ).data
-        else:
-            return ListingEveryoneProfileSerializer(
-                author.profiles.filter(is_activated=True).first()
-            ).data
+        exclude = ("author",)
 
     def get_listingaddress(self, instance):
         address_with_bun = instance.listingaddress.old_address.split("-")[0]
@@ -110,7 +90,9 @@ class ListingDetailEveryoneSerializer(ListingEveryoneSerializer):
 
 
 class ListingVisitSerializer(ModelSerializer):
-    mobile_number = serializers.SerializerMethodField()
+    author_profile = ListingEveryoneProfileSerializer(
+        source="author.first_profile", read_only=True
+    )
 
     class Meta:
         model = ListingVisit
@@ -118,15 +100,6 @@ class ListingVisitSerializer(ModelSerializer):
         read_only_fields = [
             "listing",
         ]
-
-    def get_mobile_number(self, instance):
-        profiles = instance.author.profiles.filter(is_activated=True)
-        if profiles.exists():
-            return (
-                instance.author.profiles.filter(is_activated=True).first().mobile_number.raw_input
-            )
-        else:
-            return ""
 
 
 class ListingSerializerForListingVisit(ReadOnlyModelSerializer):
@@ -146,7 +119,8 @@ class ListingSerializerForListingVisit(ReadOnlyModelSerializer):
         ]
 
 
-class ListingVisitDetailSerializer(ListingVisitSerializer):
+class ListingVisitListSerializer(ModelSerializer):
+    mobile_number = PhoneNumberField(source="author.first_profile.mobile_number", read_only=True)
     listing = ListingSerializerForListingVisit()
     listing_item = ListingItemSerializer()
 
@@ -156,7 +130,9 @@ class ListingVisitDetailSerializer(ListingVisitSerializer):
 
 
 class ListingSerializer(ModelSerializer):
-    author_profile = serializers.SerializerMethodField()
+    author_profile = ListingEveryoneProfileSerializer(
+        source="author.first_profile", read_only=True
+    )
     images = ListingImageSerializer(source="listingimage_set", many=True, required=False)
     listingaddress = ListingAddressSerializer()
     listingitems = ListingItemSerializer(source="listingitem_set", many=True, required=False)
@@ -207,17 +183,6 @@ class ListingSerializer(ModelSerializer):
                             {"image": _("이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다.")}
                         )
         return data
-
-    def get_author_profile(self, instance):
-        author = instance.author
-        if author.is_expert:
-            return ListingEveryoneExpertProfileSerializer(
-                author.profiles.filter(is_activated=True).first()
-            ).data
-        else:
-            return ListingEveryoneProfileSerializer(
-                author.profiles.filter(is_activated=True).first()
-            ).data
 
     @transaction.atomic
     def create(self, validated_data):
