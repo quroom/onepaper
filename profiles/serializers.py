@@ -369,25 +369,20 @@ class ExpertProfileSerializer(serializers.ModelSerializer):
 
 
 class ListingEveryoneProfileSerializer(ReadOnlyModelSerializer):
-    certification = CertificationSerializer(read_only=True)
-    user = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Profile
-        fields = ("certification", "user", "mobile_number")
-
-    def get_user(self, instance):
-        return {"email": instance.user.email, "is_expert": instance.user.is_expert}
-
-
-class ListingEveryoneExpertProfileSerializer(ListingEveryoneProfileSerializer):
     address = AddressSerializer()
+    certification = CertificationSerializer(read_only=True)
     expert_profile = ListingExpertReadonlySerializer()
     user = CustomUserIDNameSerializer()
 
     class Meta:
         model = Profile
-        fields = ("address", "certification", "expert_profile", "user", "mobile_number")
+        fields = (
+            "address",
+            "certification",
+            "expert_profile",
+            "user",
+            "mobile_number",
+        )
 
 
 class MandateEveryoneSerializer(serializers.ModelSerializer):

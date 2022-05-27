@@ -104,6 +104,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    @property
+    def first_profile(self):
+        return self.profiles.first()
+
+    @property
+    def is_expert_approved(self):
+        return self.profiles.filter(
+            expert_profile__status=ExpertProfile.APPROVED,
+            is_activated=True,
+        ).exists()
+
     class Meta:
         ordering = [
             "-last_login",

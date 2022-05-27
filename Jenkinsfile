@@ -43,6 +43,7 @@ pipeline {
                 git pull --all; \
                 git checkout -f $gitlabMergeRequestLastCommit; \
                 git push -f --all old-origin; \
+                sudo docker-compose -f docker-compose.staging.yml exec -T django pip install -r requirements.txt; \
                 sudo docker-compose -f docker-compose.staging.yml exec -T django python3 manage.py migrate; \
                 sudo docker-compose -f docker-compose.staging.yml restart django; \
                 sudo docker-compose -f docker-compose.staging.yml exec -T nginx-proxy nginx -s reload; \
