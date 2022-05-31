@@ -103,10 +103,12 @@
       <strong> {% trans "Online Realesate Contract" %} </strong>
     </h4>
     <h3 class="text-center">
-      {% if '/accounts/login' in request.path %}
-      <a class="title-color text-white" href="/">{% trans "Onepaper" %}</a>
+      
+      {% if request.GET.urlencode %}
+      <a class="title-color {% if '/accounts/login' in request.path %} text-white {% endif %}" href="/?{{ request.GET.urlencode }}">{% trans "Onepaper" %}</a>
+
       {% else %}
-      <a class="title-color" href="/">{% trans "Onepaper" %}</a>
+      <a class="title-color {% if '/accounts/login' in request.path %} text-white {% endif %}" href="/">{% trans "Onepaper" %}</a>
       {% endif %}
     </h3>
   {% block content %}

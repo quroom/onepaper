@@ -54,28 +54,8 @@ class SocialCustomUserForm(SocialForm):
         model = get_user_model()  # use this function for swapping user model
 
     def __init__(self, *args, **kwargs):
-        super(SocialCustomUserForm, self).__init__(*args, **kwargs)
-        social_account = kwargs.get("sociallogin").account
-        extra_data = social_account.extra_data
-        if "name" in extra_data:
-            self.fields["name"].initial = extra_data["name"]
-        if social_account.provider == "naver":
-            if "birthday" in extra_data and "birthyear" in extra_data:
-                self.fields["birthday"].initial = datetime(
-                    int(extra_data["birthyear"]),
-                    int(extra_data["birthday"].split("-")[0]),
-                    int(extra_data["birthday"].split("-")[1]),
-                )
-        if social_account.provider == "kakao":
-            kakao_account = extra_data.get("kakao_account")
-            if kakao_account:
-                self.fields["name"].initial = kakao_account.get("profile").get("nickname")
-                self.fields["birthday"].initial = datetime(
-                    int(kakao_account.get("birthyear")),
-                    int(kakao_account.get("birthday")[0:2]),
-                    int(kakao_account.get("birthday")[2:4]),
-                )
-        self.fields["email"].widget.attrs["readonly"] = True
+        super().__init__(*args, **kwargs)
+        self.fields["email"].disabled = True
 
     @transaction.atomic
     def save(self, request):
