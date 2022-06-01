@@ -28,7 +28,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         social_account = sociallogin.account
         extra_data = social_account.extra_data
         if "name" in extra_data:
-            self.fields["name"].initial = extra_data["name"]
+            name = extra_data["name"]
+            birthday = ""
         if social_account.provider == "naver":
             if "birthday" in extra_data and "birthyear" in extra_data:
                 birthday = datetime(
