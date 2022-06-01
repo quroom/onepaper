@@ -160,7 +160,11 @@
       쉽고 빠르게 원페이퍼로 한번에!
       {% endblocktrans %}
     </p>
+    {% if request.GET.urlencode %}
+    <a class="btn btn-primary" href="/accounts/login/?{{ request.GET.urlencode }}">{%trans '무료로 시작하기' %}</a>
+    {% else %}
     <a class="btn btn-primary" href="/accounts/login/">{%trans '무료로 시작하기' %}</a>
+    {% endif %}
   </div>
   <div class="product-device shadow-sm d-none d-md-block"></div>
   <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
