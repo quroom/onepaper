@@ -62,7 +62,7 @@ class ListingEveryoneSerializer(ReadOnlyModelSerializer):
 
     class Meta:
         model = Listing
-        exclude = ("author",)
+        exclude = ("author", "secret_memo")
 
     def get_listingaddress(self, instance):
         address_with_bun = instance.listingaddress.old_address.split("-")[0]

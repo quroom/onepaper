@@ -183,6 +183,9 @@ const i18n = new VueI18n({
       room_images: "Room Images",
       save: "Save",
       search: "Search",
+      secret_memo: "secret memo, only visible to the author",
+      secret_memo_placeholder:
+        "This is a secret memo that is visible only to the author. Please enter information that you do not want to be disclosed, such as the front door password.",
       select: "Select",
       self_authentication: "Self Authentication",
       self_authentication_fail: "Authentication failed. Error: ",
@@ -683,6 +686,9 @@ const i18n = new VueI18n({
       room_images: "방 사진",
       save: "제출",
       search: "검색",
+      secret_memo: "비밀메모, 작성자에게만 공개",
+      secret_memo_placeholder:
+        "작성자에게만 보이는 비밀메모 입니다. 매물 현관비밀번호 등 공개를 원치 않는 정보를 기재하세요.",
       self_authentication: "본인인증",
       self_authentication_fail: "인증에 실패하였습니다. 에러 내용: ",
       self_authentication_success: "본인인증 성공",
