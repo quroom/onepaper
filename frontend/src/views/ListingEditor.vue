@@ -468,6 +468,19 @@
         auto-grow
         :readonly="readonly"
       ></LazyTextArea>
+      <template v-if="isAuthor || !id">
+        <v-divider class="my-2"></v-divider>
+        <LazyTextArea
+          class="mt-4"
+          v-model="secret_memo"
+          :label="`(${$t('optional')}) ${$t('secret_memo')}`"
+          :placeholder="readonly ? $t('no_result') : $t('secret_memo_placeholder')"
+          outlined
+          rows="4"
+          auto-grow
+          :readonly="readonly"
+        ></LazyTextArea>
+      </template>
       <v-divider class="my-2"></v-divider>
       <v-card v-if="readonly">
         <v-card-title class="grey darken-1">
@@ -963,6 +976,7 @@ export default {
       minimum_period: 12,
       available_date: null,
       available_date_menu: false,
+      secret_memo: "",
       images: [],
       resizedImgs: [],
       image_links: [],
@@ -1210,6 +1224,7 @@ export default {
             if (!that.isShareHouse) {
               formData.append("available_date", that.available_date);
             }
+            formData.append("secret_memo", that.secret_memo);
 
             var idx = 0;
 
@@ -1284,6 +1299,7 @@ export default {
           vm.monthly_fee = data.monthly_fee;
           vm.image_links = data.images;
           vm.available_date = data.available_date;
+          vm.secret_memo = data.secret_memo;
           vm.initial_listing_items = JSON.parse(JSON.stringify(data.listingitems));
           vm.listing_items = data.listingitems;
           vm.listingvisits = data.listingvisits;

@@ -98,7 +98,8 @@ class Listing(models.Model):
     monthly_fee = models.PositiveIntegerField(blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(blank=True, default=0)
     available_date = models.DateField(null=True, blank=True)  # 오늘 날짜이면 즉시가능, 비어있어도 즉시가능.
-    # FIXME: Add listing status like full or not.
+    secret_memo = models.TextField(blank=True)
+
     class Meta:
         ordering = ["-updated_at"]
 

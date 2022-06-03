@@ -251,6 +251,7 @@ class ListingAndVisitListingTestCase(APITestCase):
         "trade_category": 1,
         "online_visit": False,
         "minimum_period": 12,
+        "secret_memo": "test",
     }
     listing_visit_data = {
         "content": "",
@@ -345,6 +346,14 @@ class ListingAndVisitListingTestCase(APITestCase):
     def tearDownClass(cls):
         shutil.rmtree(MEDIA_ROOT)
         super().tearDownClass()
+
+    def test_listing_detail(self):
+        response = self.client.get(reverse("listings-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.data["secret_memo"], "test")
+        self.client.force_authenticate(user=self.user2)
+        response = self.client.get(reverse("listings-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("secret_memo"), None)
 
     def test_listing_create(self):
         response = self.client.post(self.list_url, data=self.listing_data)
