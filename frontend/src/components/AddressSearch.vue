@@ -77,7 +77,7 @@ export default {
       this.address.bjdongName = data.bname;
       this.address.bjdongName_eng = data.bnameEnglish;
       this.address.sigunguCd = data.bcode.substring(0, 5);
-      this.address.bjdongCd = data.bcode.substring(0, 5);
+      this.address.bjdongCd = data.bcode.substring(5, 10);
       this.address.bun = data.jibunAddress.split("-")[0].split(" ")[
         data.jibunAddress.split("-")[0].split(" ").length - 1
       ];
