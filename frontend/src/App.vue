@@ -1,5 +1,5 @@
 <template>
-  <v-app app style="overflow-x:auto">
+  <v-app app :style="`overflow-x:auto; min-width:${$store.state.minimum_width}px`">
     <NavbarItem id="v-navbar" class="no-print root_tag" />
     <v-main class="root_tag">
       <keep-alive
@@ -52,6 +52,9 @@ export default {
 };
 </script>
 <style>
+html {
+  overflow-x: auto;
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -88,9 +91,6 @@ a:hover {
   height: 45vw !important;
   min-height: 140px;
   max-height: 200px;
-}
-.v-application {
-  min-width: 320px;
 }
 /* Progress circular Style*/
 .v-progress-circular {

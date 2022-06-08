@@ -6,6 +6,7 @@
       </v-btn>
       <v-spacer />
       <LazyTextField
+        v-if="!is_minimum_width"
         v-model="options.bjdong"
         class="filter-search"
         hide-details
@@ -31,6 +32,17 @@
                   hide-details
                   @change="getListingsWithOptions()"
                 ></v-checkbox>
+              </v-col>
+              <v-col class="d-flex flex-wrap pt-0">
+                <LazyTextField
+                  v-model="options.bjdong"
+                  class="filter-search"
+                  hide-details
+                  single-line
+                  :label="`${$t('bjdong')}`"
+                  style="width:130px; max-width:130px"
+                  @keydown.enter="getListingsWithOptions"
+                ></LazyTextField>
               </v-col>
               <v-col class="d-flex flex-wrap pt-0">
                 <v-select
@@ -245,6 +257,9 @@ export default {
     ListingItem
   },
   computed: {
+    is_minimum_width() {
+      return this.$vuetify.breakpoint.width < this.$store.state.minimum_width;
+    },
     mine_or_all_list() {
       return [
         {
@@ -269,7 +284,6 @@ export default {
   watch: {
     options: {
       handler: function(val) {
-        this.options.bjdong = "";
         localStorage.setItem("listing_options", JSON.stringify(val));
       },
       deep: true

@@ -1,6 +1,6 @@
 <template>
-  <v-footer absolute app width="auto" style="overflow:auto">
-    <v-row color="lighten-1" justify="center" no-gutters style="overflow:auto">
+  <v-footer absolute app width="auto">
+    <v-row color="lighten-1" justify="center" no-gutters>
       <template v-for="link in links">
         <v-btn
           v-if="link.route != undefined"
