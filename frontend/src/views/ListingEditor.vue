@@ -1146,7 +1146,8 @@ export default {
               if (data.id != undefined) {
                 alert(that.$i18n.t("request_success"));
                 that.$router.push({
-                  name: "asklistings"
+                  name: "asklistings",
+                  query: { is_listingvisit: "false" }
                 });
               } else {
                 applyValidation(data, that);
