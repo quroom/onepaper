@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center" no-gutters>
-      <v-radio-group hide-details="auto" row v-model="is_ask_move_in" @change="updatePage">
+      <v-radio-group hide-details="auto" row v-model="is_listingvisit" @change="updatePage">
         <v-radio :label="$t('ask_move_in')" :value="true"></v-radio>
         <v-radio :label="$t('ask')" :value="false"></v-radio>
       </v-radio-group>
@@ -15,7 +15,7 @@
       prepend-icon="search"
     ></LazyTextField>
     <v-data-table
-      v-if="is_ask_move_in"
+      v-if="is_listingvisit"
       :headers="ask_move_in_headers"
       :items="listingvisits"
       item-key="id"
@@ -129,7 +129,7 @@
         <v-spacer />
       </template>
     </v-data-table>
-    <v-row v-if="!is_ask_move_in">
+    <v-row v-if="!is_listingvisit">
       <v-col class="text-right" cols="12">
         <v-btn
           :to="{ name: 'listing-editor', params: { default_is_asking: true } }"
@@ -277,7 +277,7 @@ export default {
           value: "maintenance_fee"
         }
       ],
-      is_ask_move_in: true,
+      is_listingvisit: true,
       search: "",
       asklistings: [],
       listingvisits: [],
@@ -293,7 +293,7 @@ export default {
         this.page_num = 1;
         return;
       }
-      if (this.is_ask_move_in) {
+      if (this.is_listingvisit) {
         this.getListingVisits();
       } else {
         this.getAskListings();
@@ -304,7 +304,7 @@ export default {
     updatePage() {
       this.search = "";
       this.page_num = 1;
-      if (this.is_ask_move_in) {
+      if (this.is_listingvisit) {
         this.getListingVisits();
       } else {
         this.getAskListings();
@@ -346,7 +346,7 @@ export default {
       this.page_num = pagination;
       let endpoint = `/api/asklistings/?page=${this.page_num}`;
 
-      if (this.is_ask_move_in) {
+      if (this.is_listingvisit) {
         endpoint = `/api/listingvisits/?page=${this.page_num}`;
       }
       if (this.search) {
@@ -354,7 +354,7 @@ export default {
       }
       apiService(endpoint).then((data) => {
         if (data != undefined) {
-          if (this.is_ask_move_in) {
+          if (this.is_listingvisit) {
             this.listingvisits = data.results;
           } else {
             this.asklistings = data.results;
@@ -384,7 +384,8 @@ export default {
     }
   },
   created() {
-    if (this.is_ask_move_in) {
+    this.is_listingvisit = this.$route.query.is_listingvisit !== "false";
+    if (this.is_listingvisit) {
       this.getListingVisits();
     } else {
       this.getAskListings();
