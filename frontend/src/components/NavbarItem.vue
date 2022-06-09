@@ -99,20 +99,22 @@
       </div>
     </v-navigation-drawer>
     <v-spacer></v-spacer>
-    <template v-for="item in items">
-      <v-btn
-        :id="`v-${item.route.name}`"
-        color="primary"
-        v-if="isShown(item) && !item.appbar_only"
-        class="my-2"
-        text
-        rounded
-        :to="item.route"
-        :key="item.title"
-        exact
-      >
-        {{ $t(item.title) }}
-      </v-btn>
+    <template v-if="!is_minimum_width">
+      <template v-for="item in items">
+        <v-btn
+          :id="`v-${item.route.name}`"
+          color="primary"
+          v-if="isShown(item) && !item.appbar_only"
+          class="my-2"
+          text
+          rounded
+          :to="item.route"
+          :key="item.title"
+          exact
+        >
+          {{ $t(item.title) }}
+        </v-btn>
+      </template>
     </template>
     <v-spacer></v-spacer>
     <v-btn
@@ -133,6 +135,11 @@ import { applyValidation } from "@/common/common_api";
 
 export default {
   name: "NavbarItem",
+  computed: {
+    is_minimum_width() {
+      return this.$vuetify.breakpoint.width < this.$store.state.minimum_width;
+    }
+  },
   data() {
     return {
       email: null,

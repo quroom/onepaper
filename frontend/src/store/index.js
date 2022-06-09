@@ -11,7 +11,8 @@ export default new Vuex.Store({
     user_category: "user",
     is_listing_updated: false,
     is_paper_updated: false,
-    tour_index: 0
+    tour_index: 0,
+    minimum_width: 300
   },
   mutations: {
     SET_USER_SETTING(state, payload) {

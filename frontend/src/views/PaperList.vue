@@ -5,7 +5,7 @@
         <v-icon>add</v-icon>
       </v-btn>
       <v-spacer />
-      <v-btn-toggle tile group mandatory v-model="is_mine">
+      <v-btn-toggle v-if="!is_minimum_width" tile group mandatory v-model="is_mine">
         <v-btn
           :value="false"
           text
@@ -231,6 +231,9 @@ export default {
     PaperItem
   },
   computed: {
+    is_minimum_width() {
+      return this.$vuetify.breakpoint.width < this.$store.state.minimum_width;
+    },
     mine_or_all_list() {
       return [
         {
