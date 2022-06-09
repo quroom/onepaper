@@ -137,7 +137,7 @@ export default {
   name: "NavbarItem",
   computed: {
     is_minimum_width() {
-      return this.$vuetify.breakpoint.width < this.$store.state.minimum_width;
+      return this.$vuetify.breakpoint.width < this.$store.state.minimum_width + 30;
     }
   },
   data() {
