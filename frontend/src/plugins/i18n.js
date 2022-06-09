@@ -537,7 +537,7 @@ const i18n = new VueI18n({
       ascending: "오름차순",
       add_user: "회원 추가",
       all: "전체",
-      all_papers: "전체 계약서",
+      all_papers: "전체",
       author: "작성자",
       back: "뒤로",
       bank_account: "입금계좌",
