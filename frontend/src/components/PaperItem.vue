@@ -31,15 +31,8 @@
           </v-icon>
           {{ $getConstI18("status_category", paper.status) }}
         </v-chip>
+        <div class="text-body-2 ma-2 mr-1" style="float:right">{{ paper.updated_at }}</div>
       </template>
-      <div class="text-body-2 mr-1" style="float:right; max-width: 220px;">
-        {{ paper.updated_at }}
-        <div v-if="paper.author">
-          <div :class="{ 'author-name': true, 'primary--text': paper.is_contractor }">
-            <span> {{ paper.author }} </span>
-          </div>
-        </div>
-      </div>
       <v-card-title class="card-title pt-2 pb-0 px-4 text-truncate text-center">
         {{ paper.title }}
       </v-card-title>
