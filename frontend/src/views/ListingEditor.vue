@@ -358,7 +358,6 @@
                   hide-details="auto"
                   dense
                   single-line
-                  :autofocus="true"
                   :suffix="header.suffix"
                   :readonly="readonly"
                 ></LazyTextField>
