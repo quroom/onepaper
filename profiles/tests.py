@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import shutil
 import tempfile
 from urllib.request import urlopen
 
@@ -996,6 +997,11 @@ class MandateTestCase(APITestCase):
     def tearDown(self):
         self.image.close()
         os.remove(self.image.name)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(MEDIA_ROOT)
+        super().tearDownClass()
 
     def create_profile(self):
         data = {
