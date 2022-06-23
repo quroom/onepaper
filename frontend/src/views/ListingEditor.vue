@@ -127,21 +127,12 @@
             :address.sync="address"
           ></AddressSearch>
         </v-col>
-        <v-col cols="6" sm="2">
+        <v-col cols="12" sm="4">
           <LazyTextField
-            v-model="address.dong"
+            id="v-dong-ho"
+            v-model="address.detail"
             :readonly="readonly"
-            :label="`(${$t('optional')}) ${$t('dong')}`"
-            outlined
-            hide-details="auto"
-          ></LazyTextField>
-        </v-col>
-        <span id="v-dong-ho"></span>
-        <v-col cols="6" sm="2">
-          <LazyTextField
-            v-model="address.ho"
-            :readonly="readonly"
-            :label="`(${$t('optional')}) ${$t('ho')}`"
+            :label="`(${$t('optional')}) ${$t('detail_address')}`"
             outlined
             hide-details="auto"
           ></LazyTextField>
@@ -779,21 +770,8 @@ export default {
     full_newaddress: function() {
       const address = this.author_profile.address;
       var fullNewAddress = address.new_address;
-      var dongExist = false;
-      if (address.dong) {
-        fullNewAddress += `, ${address.dong}${this.$i18n.t("dong")}`;
-        dongExist = true;
-      }
-      if (address.ho) {
-        if (dongExist) {
-          fullNewAddress += ` ${address.ho}${
-            this.author_profile.expert_profile.is_shown_ho ? this.$i18n.t("ho") : ""
-          }`;
-        } else {
-          fullNewAddress += `, ${address.ho}${
-            this.author_profile.expert_profile.is_shown_ho ? this.$i18n.t("ho") : ""
-          }`;
-        }
+      if (address.detail) {
+        fullNewAddress += `, ${address.detail}`;
       }
       return fullNewAddress;
     },
@@ -962,7 +940,8 @@ export default {
       address: {
         old_address: null,
         dong: "",
-        ho: ""
+        ho: "",
+        detail: ""
       },
       down_payment: null,
       security_deposit: null,
@@ -1201,6 +1180,7 @@ export default {
             formData.append("listingaddress.bjdongCd", that.address["bjdongCd"]);
             formData.append("listingaddress.bun", that.address["bun"]);
             formData.append("listingaddress.ji", that.address["ji"]);
+            formData.append("listingaddress.detail", that.address["detail"]);
             formData.append("listingaddress.dong", that.address["dong"]);
             formData.append("listingaddress.ho", that.address["ho"]);
             formData.append("title", that.title);

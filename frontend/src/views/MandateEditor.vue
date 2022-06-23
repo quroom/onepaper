@@ -55,6 +55,16 @@
             :address.sync="address"
           ></AddressSearch>
         </v-col>
+        <v-col cols="12" sm="4">
+          <LazyTextField
+            id="v-dong-ho"
+            v-model="address.detail"
+            :readonly="readonly"
+            :label="`(${$t('optional')}) ${$t('detail_address')}`"
+            outlined
+            hide-details="auto"
+          ></LazyTextField>
+        </v-col>
         <v-col cols="12" sm="auto">
           <v-menu
             v-model="period_menu"
@@ -277,6 +287,7 @@ export default {
         bjdongCd: null,
         bun: null,
         ji: null,
+        detail: "",
         dong: "",
         ho: ""
       },
@@ -392,6 +403,7 @@ export default {
             formData.append("address.bjdongCd", that.address.bjdongCd);
             formData.append("address.bun", that.address.bun);
             formData.append("address.ji", that.address.ji);
+            formData.append("address.detail", that.address.detail);
           }
           let endpoint = "/api/mandates/";
           let method = "POST";

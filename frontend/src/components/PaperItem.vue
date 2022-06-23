@@ -38,9 +38,8 @@
       </v-card-title>
       <v-card-text v-if="paper.address">
         <div>
-          {{ paper.address.old_address }}
-          <span v-if="!!paper.address.dong"> {{ paper.address.dong }}{{ $t("dong") }}</span>
-          <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }}</span>
+          <span>{{ paper.address.old_address }}</span>
+          <span v-if="paper.address.detail">, {{ paper.address.detail }}</span>
         </div>
         <div>
           {{ `${$t("term_of_lease")}: ${paper.from_date} ~ ${paper.to_date}` }}

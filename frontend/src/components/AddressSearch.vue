@@ -65,8 +65,9 @@ export default {
       dialog: false,
       key: 0,
       address_local: null,
-      dong: null,
-      ho: null
+      dong: "",
+      ho: "",
+      detail: ""
     };
   },
   methods: {

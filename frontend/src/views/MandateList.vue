@@ -20,7 +20,11 @@
             }}</v-chip>
             <v-chip v-else class="ma-1" color="primary">{{ $t("signature") + $t("done") }}</v-chip>
             <v-card-title class="card-title pa-0 pl-4">
-              {{ mandate.address.old_address }}
+              {{
+                `${mandate.address.old_address}${
+                  mandate.address.detail ? ", " + mandate.address.detail : ""
+                }`
+              }}
             </v-card-title>
             <v-card-text>
               <div>{{ mandate.from_date }} ~ {{ mandate.to_date }}</div>

@@ -35,6 +35,7 @@ address_vars = {
     "ji": "",
     "dong": "",
     "ho": "2층",
+    "detail": "2층",
 }
 
 address_form = {
@@ -50,6 +51,7 @@ address_form = {
     "address.ji": "39",
     "address.dong": "",
     "address.ho": "2층",
+    "address.detail": "2층",
 }
 
 
@@ -328,6 +330,7 @@ class ExpertProfileTestCase(APITestCase):
                 "ji": "39",
                 "dong": "",
                 "ho": "2층",
+                "detail": "2층",
             },
         )
         self.assertEqual(response.data["expert_profile"]["registration_number"], "2020118181-11")
