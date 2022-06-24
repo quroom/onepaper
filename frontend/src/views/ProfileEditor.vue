@@ -42,18 +42,10 @@
               :address.sync="address"
             ></AddressSearch>
           </v-col>
-          <v-col cols="6" sm="2">
+          <v-col cols="12" sm="4">
             <LazyTextField
-              v-model="address.dong"
-              :label="$t('dong')"
-              outlined
-              hide-details="auto"
-            ></LazyTextField>
-          </v-col>
-          <v-col cols="6" sm="2">
-            <LazyTextField
-              v-model="address.ho"
-              :label="$t('ho')"
+              v-model="address.detail"
+              :label="`(${$t('optional')}) ${$t('detail_address')}`"
               outlined
               hide-details="auto"
             ></LazyTextField>
@@ -101,19 +93,11 @@
               :address.sync="address"
             ></AddressSearch>
           </v-col>
-          <v-col cols="6" sm="2">
+          <v-col cols="12" sm="4">
             <LazyTextField
-              v-model="address.dong"
-              :label="$t('dong')"
-              outlined
-              hide-details="auto"
-            ></LazyTextField>
-          </v-col>
-          <span id="v-dong-ho"></span>
-          <v-col cols="6" sm="2">
-            <LazyTextField
-              v-model="address.ho"
-              :label="$t('ho')"
+              id="v-dong-ho"
+              v-model="address.detail"
+              :label="`(${$t('optional')}) ${$t('detail_address')}`"
               outlined
               hide-details="auto"
             ></LazyTextField>
@@ -790,6 +774,7 @@ export default {
               formData.append("address.bjdongCd", that.address["bjdongCd"]);
               formData.append("address.bun", that.address["bun"]);
               formData.append("address.ji", that.address["ji"]);
+              formData.append("address.detail", that.address["detail"]);
               formData.append("address.dong", that.address["dong"]);
               formData.append("address.ho", that.address["ho"]);
             }

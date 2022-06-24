@@ -105,7 +105,11 @@
                 </v-chip>
               </template>
               <v-card-title class="pb-2">
-                {{ profile.address.old_address }}
+                {{
+                  `${profile.address.old_address}${
+                    profile.address.detail ? ", " + profile.address.detail : ""
+                  }`
+                }}
               </v-card-title>
               <v-card-subtitle v-if="is_expert" class="ma-0 pb-0">
                 <span class="pa-1">

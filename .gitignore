@@ -26,6 +26,7 @@ clients
 uploads
 media
 test_locust
+datadump.json
 
 # Editor directories and files
 .idea

@@ -256,29 +256,8 @@ export default {
     full_address: function() {
       const address = this.computed_profile.address;
       var fullNewAddress = address.new_address;
-      var dongExist = false;
-      if (address.dong) {
-        fullNewAddress += `, ${address.dong}${this.$i18n.t("dong")}`;
-        dongExist = true;
-      }
-      if (address.ho) {
-        if (dongExist) {
-          if (this.isExpert) {
-            fullNewAddress += ` ${address.ho}${
-              this.computed_profile.expert_profile.is_shown_ho ? this.this.$i18n.t("ho") : ""
-            }`;
-          } else {
-            fullNewAddress += ` ${address.ho}${this.$i18n.t("ho")}`;
-          }
-        } else {
-          if (this.isExpert) {
-            fullNewAddress += `, ${address.ho}${
-              this.computed_profile.expert_profile.is_shown_ho ? this.this.$i18n.t("ho") : ""
-            }`;
-          } else {
-            fullNewAddress += `, ${address.ho}${this.$i18n.t("ho")}`;
-          }
-        }
+      if (address.detail) {
+        fullNewAddress += `, ${address.detail}`;
       }
       return fullNewAddress;
     },

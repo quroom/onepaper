@@ -73,8 +73,9 @@
         </v-col>
         <v-col cols="3">
           <v-card class="pl-2" outlined tile height="100%">
-            <span v-if="!!paper.address.dong"> {{ paper.address.dong }} {{ $t("dong") }} </span>
-            <span v-if="!!paper.address.ho"> {{ paper.address.ho }}{{ $t("ho") }} </span>
+            <span v-if="!!paper.address.detail">
+              {{ paper.address.detail }}
+            </span>
           </v-card>
         </v-col>
       </v-row>

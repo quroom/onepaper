@@ -123,19 +123,11 @@
                 :address.sync="address"
               ></AddressSearch>
             </v-col>
-            <v-col cols="6" sm="2">
+            <v-col cols="12" sm="4">
               <LazyTextField
-                v-model="address.dong"
-                :label="$t('dong')"
-                outlined
-                hide-details="auto"
-              ></LazyTextField>
-            </v-col>
-            <span id="v-dong-ho"></span>
-            <v-col cols="6" sm="2">
-              <LazyTextField
-                v-model="address.ho"
-                :label="$t('ho')"
+                id="v-dong-ho"
+                v-model="address.detail"
+                :label="`(${$t('optional')}) ${$t('detail_address')}`"
                 outlined
                 hide-details="auto"
               ></LazyTextField>
@@ -785,7 +777,8 @@ export default {
       building_area: null,
       trade_category: 1,
       address: {
-        old_address: null,
+        old_address: "",
+        detail: "",
         dong: "",
         ho: ""
       },
@@ -822,6 +815,7 @@ export default {
         explanation_evidence_info: "",
         address: {
           old_address: "",
+          detail: "",
           dong: "",
           ho: ""
         },
@@ -1141,12 +1135,8 @@ export default {
           value: "address.old_address"
         },
         {
-          text: `${this.$i18n.t("dong")}`,
-          value: "address.dong"
-        },
-        {
-          text: `${this.$i18n.t("ho")}`,
-          value: "address.ho"
+          text: `${this.$i18n.t("detail_address")}`,
+          value: "address.detail"
         },
         {
           text: "",

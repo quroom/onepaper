@@ -278,8 +278,7 @@ const i18n = new VueI18n({
       tour_create_profile:
         "Shall we start creating a profile? </br> You do not need to enter the (optional) field.",
       tour_address: "Click the address search bar and enter the address",
-      tour_dong_ho:
-        "As in the example, when inputting, omit the letter of the same name and number. <br/> Ex) 201, B",
+      tour_dong_ho: "Enter detailed address. <br/> Ex) 201 dong, 101 ho",
       tour_mobile_number: "Enter your mobile phone number (numbers only)",
       tour_bank_name: "Select bank name",
       tour_bank_account: "Enter account number",
@@ -349,6 +348,7 @@ const i18n = new VueI18n({
       //Realestate basic message
       address: "Address",
       old_address: "Old address",
+      detail_address: "Detailed address",
       area: "Area",
       dong: "Dong",
       ho: "Ho",
@@ -917,7 +917,7 @@ const i18n = new VueI18n({
       tour_create_profile:
         "프로필 생성을 시작해볼까요?</br>(선택)항목은 입력하지 않으셔도 됩니다.",
       tour_address: "주소검색창 클릭 후 입력칸을 통해 주소 입력",
-      tour_dong_ho: "입력 시 예처럼 동/호 문자빼고 입력. <br/> 예) 201, B",
+      tour_dong_ho: "상세 주소 입력. <br/> 예) 201동 101호",
       tour_mobile_number: "휴대폰 번호 입력(숫자만)",
       tour_bank:
         "은행명 선택 / 계좌번호 선택입력</br/>\
@@ -991,6 +991,7 @@ const i18n = new VueI18n({
       area: "면적",
       address: "주소",
       old_address: "구주소",
+      detail_address: "상세주소",
       dong: "동",
       ho: "호",
       land_category: "지목",
