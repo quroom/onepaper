@@ -145,11 +145,11 @@ export default {
       email: null,
       drawer: false,
       items: [
-        {
-          title: "listing",
-          icon: "description",
-          route: { name: "listings" }
-        },
+        // {
+        //   title: "listing",
+        //   icon: "description",
+        //   route: { name: "listings" }
+        // },
         {
           title: "paper",
           icon: "description",

@@ -22,7 +22,7 @@ Vue.use(VueRouter);
 //home 매물 리스트로 바꾸기.
 const routes = [
   {
-    path: "/",
+    path: "/listings",
     name: "listings",
     component: ListingList,
     meta: { title: "매물 리스트-원페이퍼" }
@@ -53,7 +53,7 @@ const routes = [
     meta: { title: "전문가 승인-원페이퍼" }
   },
   {
-    path: "/papers",
+    path: "/",
     name: "papers",
     component: PaperList,
     meta: { title: "계약서리스트-원페이퍼" }

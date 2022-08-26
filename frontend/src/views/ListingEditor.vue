@@ -1027,7 +1027,7 @@ export default {
     open_visit_dialog(id, is_listing_item) {
       if (this.$store.state.has_profile == false && this.is_staff != true) {
         alert(this.$i18n.t("no_profile_cant_leave_visit"));
-        this.$router.push({ name: "profile-editor" });
+        this.$router.push({ name: "profile-editor", query: { next: this.$route.fullPath } });
       } else {
         this.is_listing_item = is_listing_item;
         if (is_listing_item) {
