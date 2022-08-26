@@ -811,9 +811,13 @@ export default {
                 alert(that.$i18n.t("request_success"));
                 that.$store.commit("SET_HAS_PROFILE", data.has_profile);
                 if (method == "POST") {
-                  that.$router.push({
-                    name: "profiles"
-                  });
+                  if (that.$route.query.next) {
+                    that.$router.push(that.$route.query.next);
+                  } else {
+                    that.$router.push({
+                      name: "profiles"
+                    });
+                  }
                 }
               } else {
                 applyValidation(data, that);
