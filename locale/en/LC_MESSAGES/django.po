@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-13 12:41+0900\n"
+"POT-Creation-Date: 2022-09-15 10:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,36 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\listings\models.py:168
-msgid "만실"
-msgstr ""
-
-#: .\listings\models.py:169
-msgid "가능"
-msgstr ""
-
-#: .\listings\serializers.py:210 .\listings\tests.py:372
+#: .\listings\serializers.py:174 .\listings\tests.py:381
 msgid "이미지는 10개까지 첨부할 수 있습니다."
 msgstr "Image can be uploaded within 10 images."
 
-#: .\listings\serializers.py:219 .\listings\tests.py:381
+#: .\listings\serializers.py:183 .\listings\tests.py:390
 msgid "이미지 해상도 초과입니다. 최대 1024x1024까지 지원합니다."
 msgstr ""
 
-#: .\listings\serializers.py:242 .\listings\tests.py:514
+#: .\listings\serializers.py:192 .\listings\tests.py:512
 msgid "하나 이상의 이미지를 첨부하여야 합니다."
 msgstr ""
 
-#: .\listings\serializers.py:329 .\listings\tests.py:483
+#: .\listings\serializers.py:278 .\listings\tests.py:481
 #, python-format
 msgid "존재하지 않는 이미지(ID:%(id)d)입니다."
 msgstr "This image(ID:%(id)d) doesn't exist"
 
-#: .\listings\views.py:161 .\listings\views.py:171
+#: .\listings\views.py:182 .\listings\views.py:192
 msgid "You have already asked."
 msgstr ""
 
-#: .\listings\views.py:168
+#: .\listings\views.py:189
 msgid "Submit with room."
 msgstr ""
 
@@ -374,7 +366,7 @@ msgstr "Done or denied contract cannot be modified."
 msgid "완료된 계약서는 삭제할 수 없습니다."
 msgstr "Done contract cannot be deleted"
 
-#: .\papers\tests.py:939 .\profiles\tests.py:415 .\profiles\views.py:305
+#: .\papers\tests.py:939 .\profiles\tests.py:419 .\profiles\views.py:305
 msgid "보증서류 시작일과 종료일을 모두 입력해주세요."
 msgstr ""
 
@@ -414,36 +406,36 @@ msgid "최초 서명 후 24시간이 지나면 계약서를 삭제 할 수 없�
 msgstr ""
 "The contract cannot be deleted more than 24 hours after initial signing."
 
-#: .\profiles\forms.py:20 .\profiles\forms.py:41 .\profiles\forms.py:107
+#: .\profiles\forms.py:20 .\profiles\forms.py:41 .\profiles\forms.py:87
 msgid "Your name strings only contain Kor or Eng characters without space."
 msgstr ""
 
-#: .\profiles\forms.py:31 .\profiles\forms.py:97
+#: .\profiles\forms.py:31 .\profiles\forms.py:77
 msgid "이용약관 동의"
 msgstr "Terms and conditions"
 
-#: .\profiles\forms.py:34 .\profiles\forms.py:100
+#: .\profiles\forms.py:34 .\profiles\forms.py:80
 msgid "개인정보 처리방침 동의"
 msgstr "Privacy Policy"
 
-#: .\profiles\forms.py:37 .\profiles\forms.py:103
+#: .\profiles\forms.py:37 .\profiles\forms.py:83
 msgid "성함"
 msgstr "FullName"
 
-#: .\profiles\forms.py:44 .\profiles\forms.py:110
+#: .\profiles\forms.py:44 .\profiles\forms.py:90
 msgid "생년월일"
 msgstr "Birthday"
 
-#: .\profiles\forms.py:125
+#: .\profiles\forms.py:105
 msgid "Enter the same password as before, for verification."
 msgstr ""
 
-#: .\profiles\forms.py:148 .\profiles\serializers.py:302
+#: .\profiles\forms.py:128 .\profiles\serializers.py:302
 #, python-format
 msgid "Max size of file is %(size)s KB"
 msgstr ""
 
-#: .\profiles\forms.py:153
+#: .\profiles\forms.py:133
 msgid "사업자 계정으로 등록하길 원하시면 체크."
 msgstr "Check If you want to register as entrepreneur"
 
@@ -481,119 +473,119 @@ msgstr ""
 msgid "users"
 msgstr ""
 
-#: .\profiles\models.py:124
+#: .\profiles\models.py:135
 msgid "은행명"
 msgstr "Bank Name"
 
-#: .\profiles\models.py:125
+#: .\profiles\models.py:136
 msgid "산업은행"
 msgstr ""
 
-#: .\profiles\models.py:126
+#: .\profiles\models.py:137
 msgid "부산은행"
 msgstr ""
 
-#: .\profiles\models.py:127
+#: .\profiles\models.py:138
 msgid "기업은행"
 msgstr ""
 
-#: .\profiles\models.py:128
+#: .\profiles\models.py:139
 msgid "광주은행"
 msgstr ""
 
-#: .\profiles\models.py:129
+#: .\profiles\models.py:140
 msgid "국민은행"
 msgstr ""
 
-#: .\profiles\models.py:130
+#: .\profiles\models.py:141
 msgid "제주은행"
 msgstr ""
 
-#: .\profiles\models.py:131
+#: .\profiles\models.py:142
 msgid "수협"
 msgstr ""
 
-#: .\profiles\models.py:132
+#: .\profiles\models.py:143
 msgid "전북은행"
 msgstr ""
 
-#: .\profiles\models.py:133
+#: .\profiles\models.py:144
 msgid "농협은행"
 msgstr ""
 
-#: .\profiles\models.py:134
+#: .\profiles\models.py:145
 msgid "경남은행"
 msgstr ""
 
-#: .\profiles\models.py:135
+#: .\profiles\models.py:146
 msgid "지역농축협"
 msgstr ""
 
-#: .\profiles\models.py:136
+#: .\profiles\models.py:147
 msgid "새마을금고"
 msgstr ""
 
-#: .\profiles\models.py:137
+#: .\profiles\models.py:148
 msgid "우리은행"
 msgstr ""
 
-#: .\profiles\models.py:138
+#: .\profiles\models.py:149
 msgid "신용협동조합"
 msgstr ""
 
-#: .\profiles\models.py:139
+#: .\profiles\models.py:150
 msgid "SC제일은행"
 msgstr ""
 
-#: .\profiles\models.py:140
+#: .\profiles\models.py:151
 msgid "상호저축은행"
 msgstr ""
 
-#: .\profiles\models.py:141
+#: .\profiles\models.py:152
 msgid "한국씨티은행"
 msgstr ""
 
-#: .\profiles\models.py:142
+#: .\profiles\models.py:153
 msgid "산림조합"
 msgstr ""
 
-#: .\profiles\models.py:143
+#: .\profiles\models.py:154
 msgid "KEB하나은행"
 msgstr ""
 
-#: .\profiles\models.py:144
+#: .\profiles\models.py:155
 msgid "우체국"
 msgstr ""
 
-#: .\profiles\models.py:145
+#: .\profiles\models.py:156
 msgid "신한은행"
 msgstr ""
 
-#: .\profiles\models.py:146
+#: .\profiles\models.py:157
 msgid "K뱅크"
 msgstr ""
 
-#: .\profiles\models.py:147
+#: .\profiles\models.py:158
 msgid "대구은행"
 msgstr ""
 
-#: .\profiles\models.py:148
+#: .\profiles\models.py:159
 msgid "카카오뱅크"
 msgstr ""
 
-#: .\profiles\models.py:193
+#: .\profiles\models.py:204
 msgid "폐업"
 msgstr "Closed"
 
-#: .\profiles\models.py:194
+#: .\profiles\models.py:205
 msgid "요청"
 msgstr "Request"
 
-#: .\profiles\models.py:195
+#: .\profiles\models.py:206
 msgid "승인"
 msgstr "Approved"
 
-#: .\profiles\models.py:196
+#: .\profiles\models.py:207
 msgid "거부"
 msgstr "Denied"
 
@@ -601,127 +593,127 @@ msgstr "Denied"
 msgid "기존 보증서류와 기간이 중복될 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:440
+#: .\profiles\serializers.py:435
 #, python-format
 msgid "위임 기간이 중복될 수 없습니다.(중복ID:%(mandate_id)s)"
 msgstr "Delegation period cannot be duplicated.(Duplicate ID:%(mandate_id)s)"
 
-#: .\profiles\serializers.py:448
+#: .\profiles\serializers.py:443
 msgid "공인중개사로 승인되지 않은 사용자는 위임장에 등록할 수 없습니다."
 msgstr ""
 
-#: .\profiles\serializers.py:454 .\profiles\serializers.py:455
+#: .\profiles\serializers.py:449 .\profiles\serializers.py:450
 msgid "위임인 또는 수임인에 작성자가 포함되어야 합니다."
 msgstr ""
 "Users who are not approved as a real estate agent cannot register on the "
 "power of attorney."
 
-#: .\profiles\serializers.py:461
+#: .\profiles\serializers.py:456
 msgid "위임장 작성을 위한 프로필 조회 허용을 확인해주세요."
 msgstr "Please check Allow Profile View to Create Power of Attorney"
 
-#: .\profiles\serializers.py:464
+#: .\profiles\serializers.py:459
 msgid "위임인만 서명이 가능합니다."
 msgstr "Only delegates can sign."
 
-#: .\profiles\serializers.py:466
+#: .\profiles\serializers.py:461
 msgid "위임인과 수임인이 동일할 수 없습니다."
 msgstr "The delegate and delegate cannot be the same."
 
-#: .\profiles\serializers.py:468
+#: .\profiles\serializers.py:463
 msgid "사용자가 존재하지 않습니다."
 msgstr "User does not exist."
 
-#: .\profiles\tests.py:130 .\profiles\views.py:91
+#: .\profiles\tests.py:133 .\profiles\views.py:91
 msgid "자기 자신의 이메일은 추가할 수 없습니다."
 msgstr "You cannot add your account."
 
-#: .\profiles\tests.py:138 .\profiles\views.py:98
+#: .\profiles\tests.py:141 .\profiles\views.py:98
 msgid "존재하지 않는 이메일 입니다."
 msgstr "Account does not exist."
 
-#: .\profiles\tests.py:161 .\profiles\views.py:103
+#: .\profiles\tests.py:164 .\profiles\views.py:103
 msgid "이미 추가된 회원입니다."
 msgstr "This member has already been added."
 
-#: .\profiles\tests.py:178 .\profiles\views.py:119
+#: .\profiles\tests.py:181 .\profiles\views.py:119
 msgid "자신의 이메일은 삭제할 수 없습니다."
 msgstr "You cannot delete your account."
 
-#: .\profiles\tests.py:186 .\profiles\tests.py:201 .\profiles\views.py:127
+#: .\profiles\tests.py:189 .\profiles\tests.py:204 .\profiles\views.py:127
 msgid "빠른거래 리스트에 추가되지 않은 회원은 삭제 할 수 없습니다."
 msgstr ""
 "Members who have not been added to the quick transaction list cannot be "
 "deleted."
 
-#: .\profiles\tests.py:376 .\profiles\views.py:423
+#: .\profiles\tests.py:380 .\profiles\views.py:423
 msgid "승인된 전문가 프로필은 수정 할 수 없습니다. 새 프로필을 만드세요."
 msgstr "Approved expert profiles cannot be edited. Create a new profile."
 
-#: .\profiles\tests.py:455 .\profiles\tests.py:463 .\profiles\views.py:153
+#: .\profiles\tests.py:459 .\profiles\tests.py:467 .\profiles\views.py:153
 #: .\profiles\views.py:179
 msgid "전문가가 선택되지 않았습니다."
 msgstr "No expert was chosen."
 
-#: .\profiles\tests.py:458 .\profiles\views.py:163
+#: .\profiles\tests.py:462 .\profiles\views.py:163
 msgid "승인 가능한 전문가가 선택되지 않았습니다."
 msgstr "No approved experts have been selected."
 
-#: .\profiles\tests.py:646 .\profiles\views.py:491
+#: .\profiles\tests.py:650 .\profiles\views.py:491
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, you cannot delete your "
 "profile."
 
-#: .\profiles\tests.py:711 .\profiles\views.py:433
+#: .\profiles\tests.py:715 .\profiles\views.py:433
 msgid "요청단계 이후 계약서가 있는 경우 프로필을 수정할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, you cannot delete your "
 "profile."
 
-#: .\profiles\tests.py:748 .\profiles\views.py:442
+#: .\profiles\tests.py:752 .\profiles\views.py:442
 msgid "작성한 위임장이 있는 경우 프로필을 수정할 수 없습니다."
 msgstr "If you have created a power of attorney, you cannot edit your profile."
 
-#: .\profiles\tests.py:784 .\profiles\views.py:500
+#: .\profiles\tests.py:788 .\profiles\views.py:500
 msgid "작성한 위임장이 있는 경우 프로필을 삭제할 수 없습니다."
 msgstr ""
 "If you have created a power of attorney, you cannot delete your profile."
 
-#: .\profiles\tests.py:807 .\profiles\views.py:688
+#: .\profiles\tests.py:811 .\profiles\views.py:688
 msgid "이메일 또는 연락처를 입력해야 합니다."
 msgstr "You must enter email or phone number."
 
-#: .\profiles\tests.py:909 .\profiles\views.py:541
+#: .\profiles\tests.py:913 .\profiles\views.py:541
 msgid "요청단계 이후 계약서가 있는 경우 회원 정보를 수정할 수 없습니다."
 msgstr ""
 "If there is a contract after the request stage, the user information cannot "
 "be modified."
 
-#: .\profiles\tests.py:917 .\profiles\views.py:588
+#: .\profiles\tests.py:921 .\profiles\views.py:588
 msgid "탈퇴처리 되었습니다. 계정정보 또한 완전히 삭제되었습니다."
 msgstr ""
 "Withdrawal has been processed. Account information has also been completely "
 "deleted."
 
-#: .\profiles\tests.py:948 .\profiles\views.py:584
+#: .\profiles\tests.py:952 .\profiles\views.py:584
 msgid "탈퇴처리 되었습니다."
 msgstr "Withdrawal has been processed."
 
-#: .\profiles\tests.py:954 .\profiles\views.py:574
+#: .\profiles\tests.py:958 .\profiles\views.py:574
 msgid "탈퇴할 회원의 정보를 모두 입력해주세요."
 msgstr "Please enter all the information of the member to withdraw from."
 
-#: .\profiles\tests.py:960 .\profiles\views.py:569
+#: .\profiles\tests.py:964 .\profiles\views.py:569
 msgid "입력하신 정보가 현재 회원의 정보와 일치하지 않습니다."
 msgstr ""
 "The information entered does not match the current member's information."
 
-#: .\profiles\tests.py:1083 .\profiles\tests.py:1116 .\profiles\views.py:646
+#: .\profiles\tests.py:1092 .\profiles\tests.py:1125 .\profiles\views.py:646
 msgid "서명이 완료된 위임장은 수정할 수 없습니다."
 msgstr "A signed power of attorney cannot be modified."
 
-#: .\profiles\tests.py:1131 .\profiles\views.py:665
+#: .\profiles\tests.py:1140 .\profiles\views.py:665
 msgid "서명이 완료된 위임장은 삭제할 수 없습니다."
 msgstr "A signed power of attorney cannot be deleted."
 
@@ -771,10 +763,10 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: .\templates\account\base.html:84 .\templates\account\base.html:107
-#: .\templates\account\base.html:109 .\templates\index-dev.html:5
-#: .\templates\index.html:8 .\templates\intro.html:151
-#: .\templates\intro.html:156
+#: .\templates\account\base.html:84 .\templates\account\base.html:108
+#: .\templates\account\base.html:111 .\templates\index-dev.html:5
+#: .\templates\index.html:8 .\templates\intro.html:203
+#: .\templates\intro.html:208
 msgid "Onepaper"
 msgstr ""
 
@@ -782,7 +774,7 @@ msgstr ""
 msgid "Online Realesate Contract"
 msgstr ""
 
-#: .\templates\account\base.html:117
+#: .\templates\account\base.html:119
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -924,32 +916,33 @@ msgid "Click the link below to log in. "
 msgstr ""
 
 #: .\templates\account\email_confirmed.html:12
-#: .\templates\account\login.html:55 .\templates\account\signup-expert.html:45
+#: .\templates\account\login.html:56 .\templates\account\signup-expert.html:45
 #: .\templates\socialaccount\signup.html:41
 msgid "Log in"
 msgstr ""
 
-#: .\templates\account\login.html:36
+#: .\templates\account\login.html:36 .\templates\intro.html:218
 msgid "Login with Naver"
 msgstr ""
 
-#: .\templates\account\login.html:40
-msgid "Login with Kakao"
-msgstr ""
-
-#: .\templates\account\login.html:44
+#: .\templates\account\login.html:40 .\templates\intro.html:222
 msgid "Login with Google"
 msgstr ""
 
-#: .\templates\account\login.html:49
-msgid "Login with Email"
+#: .\templates\account\login.html:45 .\templates\intro.html:228
+#: .\templates\intro.html:230
+msgid "종료예정 로그인"
 msgstr ""
 
-#: .\templates\account\login.html:58
+#: .\templates\account\login.html:50
+msgid "Login with Kakao"
+msgstr ""
+
+#: .\templates\account\login.html:59
 msgid "Password reset"
 msgstr ""
 
-#: .\templates\account\login.html:60
+#: .\templates\account\login.html:61
 msgid "Email login will be deprecated."
 msgstr ""
 
@@ -1435,11 +1428,17 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:158
+#: .\templates\intro.html:210
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "      매물 관리, 계약 아직도 따로 하세요? <br/>\n"
+#| "      쉽고 빠르게 원페이퍼로 한번에!\n"
+#| "      "
 msgid ""
 "\n"
-"      매물 관리, 계약 아직도 따로 하세요? <br/>\n"
-"      쉽고 빠르게 원페이퍼로 한번에!\n"
+"      계약 아직도 종이로 하세요? <br/>\n"
+"      쉽고 빠르게 원페이퍼로 해보세요!\n"
 "      "
 msgstr ""
 "\n"
@@ -1447,47 +1446,43 @@ msgstr ""
 " Quick and easy Onepaper at once!\n"
 " "
 
-#: .\templates\intro.html:163
-msgid "무료로 시작하기"
-msgstr "Get Started for Free"
-
-#: .\templates\intro.html:171
+#: .\templates\intro.html:236
 msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
-#: .\templates\intro.html:183
-msgid "올인원 서비스"
-msgstr "All in one service"
+#: .\templates\intro.html:248
+msgid "온라인 계약"
+msgstr ""
 
-#: .\templates\intro.html:185
-msgid "매물 홍보부터 계약까지"
-msgstr "From ads to contract"
+#: .\templates\intro.html:250
+msgid "비대면으로 빠르게! 분실걱정 NO!"
+msgstr ""
 
-#: .\templates\intro.html:195
+#: .\templates\intro.html:260
 msgid "빠른 부동산 상담"
 msgstr "Quick Conseling"
 
-#: .\templates\intro.html:197
+#: .\templates\intro.html:262
 msgid "하단 채널톡 버튼으로 온라인 상담"
 msgstr "Guide you through the button at the bottom."
 
-#: .\templates\intro.html:208
+#: .\templates\intro.html:273
 msgid "PC, 모바일 지원"
 msgstr "Supports PC and mobile"
 
-#: .\templates\intro.html:210
+#: .\templates\intro.html:275
 msgid "브라우저만 있으면 언제,어디서든 OK"
 msgstr "Anytime, anywhere as long as you have a browser."
 
-#: .\templates\intro.html:218
+#: .\templates\intro.html:283
 msgid "사용자 리뷰"
 msgstr "User review"
 
-#: .\templates\intro.html:221
+#: .\templates\intro.html:286
 msgid "박*연(임대인, 40대 직장인)"
 msgstr "Park*Yeon(landlord, 40s salaryman)"
 
-#: .\templates\intro.html:247
+#: .\templates\intro.html:312
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
@@ -1495,22 +1490,22 @@ msgstr ""
 "Unlike paper contracts, I like that you can check the contract at any time. "
 "Oh, it's good that you don't have to worry about losing it."
 
-#: .\templates\intro.html:250
+#: .\templates\intro.html:315
 msgid "김*영(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:276
+#: .\templates\intro.html:341
 msgid ""
 "코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요."
 msgstr ""
 "It's nice to be able to check the properties and even write a contract "
 "without face-to-face during the Corona period."
 
-#: .\templates\intro.html:279
+#: .\templates\intro.html:344
 msgid "김*현(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:305
+#: .\templates\intro.html:370
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
@@ -1518,19 +1513,19 @@ msgstr ""
 "People living in the countryside had to schedule one day to sign a contract, "
 "but it was nice not to have to."
 
-#: .\templates\intro.html:310
+#: .\templates\intro.html:375
 msgid "기업연혁"
 msgstr "Company History"
 
-#: .\templates\intro.html:317
+#: .\templates\intro.html:382
 msgid "~현재"
 msgstr "~Now"
 
-#: .\templates\intro.html:318
+#: .\templates\intro.html:383
 msgid "원페이퍼 개발 및 운영"
 msgstr "Onepaper service"
 
-#: .\templates\intro.html:319
+#: .\templates\intro.html:384
 msgid ""
 "부동산 거래에 소요되는 시간을 줄여 더 소중한 곳에 시간을 쓰고, 장기적으로 쌓"
 "인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이"
@@ -1540,11 +1535,11 @@ msgstr ""
 "transactions, spending time on more valuable things, and accumulating over "
 "the long termand to support safer real estate transactions using in-dataall."
 
-#: .\templates\intro.html:323
+#: .\templates\intro.html:388
 msgid "소셜벤처 설립 및 운영"
 msgstr "Social venture establishment and operation"
 
-#: .\templates\intro.html:324
+#: .\templates\intro.html:389
 msgid ""
 "사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. "
 "프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 "
@@ -1555,11 +1550,11 @@ msgstr ""
 "mission is to solve the problems of the existing real estate market and "
 "provide a better experience to customers through Proptech."
 
-#: .\templates\intro.html:329
+#: .\templates\intro.html:394
 msgid "소셜그룹 혼족스 운영"
 msgstr "Operate social group Honjoks"
 
-#: .\templates\intro.html:330
+#: .\templates\intro.html:395
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1569,7 +1564,7 @@ msgstr ""
 "sharing meetings, joint purchase of fruit, and sharing events for single-"
 "person households."
 
-#: .\templates\intro.html:338
+#: .\templates\intro.html:403
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
@@ -1655,6 +1650,15 @@ msgstr ""
 #: .\templates\socialaccount\snippets\provider_list.html:20
 msgid "connect"
 msgstr ""
+
+#~ msgid "무료로 시작하기"
+#~ msgstr "Get Started for Free"
+
+#~ msgid "올인원 서비스"
+#~ msgstr "All in one service"
+
+#~ msgid "매물 홍보부터 계약까지"
+#~ msgstr "From ads to contract"
 
 #~ msgid "언제나 계약"
 #~ msgstr "Whenever you can"

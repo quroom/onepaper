@@ -35,10 +35,6 @@
             <i class="icon-button icon-naver mr-3"></i>
             <span class="font-weight-bold">{%trans 'Login with Naver' %} </span>
         </a>
-        <a class="btn btn-block btn-kakao" href="{% provider_login_url "kakao" %}">
-            <i class="icon-button icon-kakao mr-3"></i>
-            <span class="font-weight-bold">{%trans 'Login with Kakao' %} </span>
-        </a>
         <a class="btn btn-block btn-google" href="{% provider_login_url "google" %}">
             <i class="icon-button icon-google mr-3"></i>
             <span class="font-weight-bold">{%trans 'Login with Google' %}</span>
@@ -46,10 +42,15 @@
     </div>
     <hr/>
     <a class="btn btn-block btn-link text-white" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    {% trans 'Login with Email' %}
+    {%trans '종료예정 로그인' %}
     </a>
     <div class="collapse" id="collapseExample">
-    <form method="POST">
+    <a class="btn btn-block btn-kakao" href="{% provider_login_url "kakao" %}">
+        <i class="icon-button icon-kakao mr-3"></i>
+        <span class="font-weight-bold">{%trans 'Login with Kakao' %} </span>
+    </a>
+    {% if request.GET.q == 'inspireworld' %}
+    <form class="mt-4" method="POST">
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-block btn-primary">{%trans "Log in" %}</button>
@@ -59,4 +60,5 @@
     </p>
     <p class="text-danger">{% trans 'Email login will be deprecated.' %}</p>
     </div>
+    {% endif %}
 {% endblock %}
