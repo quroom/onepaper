@@ -120,14 +120,22 @@
                 </v-col>
                 <!-- FIXME: Need to add filter with mobile_number -->
                 <v-col class="mt-0 mb-0" cols="auto">
-                  <v-text-field
-                    class="search-text ve-input"
-                    v-model="options.contractor_name"
-                    :label="`${$t('contractor_name')}(${$t('exact_correct_match')})`"
-                    hide-details
-                    dense
-                    @keyup.enter="getPapersWithOptions()"
-                  ></v-text-field>
+                  <ValidationProvider
+                    ref="mobile_number"
+                    :name="$t('mobile_number')"
+                    rules="required|mobile"
+                    v-slot="{ errors }"
+                  >
+                    <v-text-field
+                      class="search-text ve-input"
+                      v-model="options.contractor_mobile_number"
+                      :error-messages="errors"
+                      :label="`${$t('contractor_mobile_number')}(${$t('exact_correct_match')})`"
+                      hide-details
+                      dense
+                      @keyup.enter="getPapersWithOptions()"
+                    ></v-text-field>
+                  </ValidationProvider>
                 </v-col>
               </template>
               <template v-else>
@@ -356,7 +364,7 @@ export default {
         status: "",
         old_address: "",
         ordering: "",
-        contractor_name: ""
+        contractor_mobile_number: ""
       },
       all_papers_options: {
         status: "",
