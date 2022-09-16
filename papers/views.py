@@ -6,9 +6,8 @@ from django.db.models import BooleanField, Case, Exists, OuterRef, Value, When
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
-from rest_framework import generics, mixins, serializers, status
-from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import generics, mixins, status
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -38,8 +37,8 @@ class PaperFilter(django_filters.FilterSet):
     )
     dong = django_filters.CharFilter(field_name="address__dong")
     ho = django_filters.CharFilter(field_name="address__ho")
-    contractor_name = django_filters.CharFilter(
-        field_name="paper_contractors__profile__user__name"
+    contractor_mobile_number = django_filters.CharFilter(
+        field_name="paper_contractors__profile__mobile_number"
     )
 
     class Meta:
@@ -262,7 +261,7 @@ class PaperViewset(ModelViewSet):
     def get_queryset(self):
         is_hidden = self.request.query_params.get("is_hidden")
         if is_hidden:
-            return (
+            queryset = (
                 Paper.objects.filter(
                     paper_contractors__profile__user=self.request.user,
                     paper_contractors__is_hidden=is_hidden,
@@ -271,11 +270,12 @@ class PaperViewset(ModelViewSet):
                 .prefetch_related("paper_contractors")
             )
         else:
-            return (
+            queryset = (
                 Paper.objects.filter(paper_contractors__profile__user=self.request.user)
                 .select_related("author", "address", "status")
                 .prefetch_related("paper_contractors")
             )
+        return queryset.distinct()
 
     def get_object(self):
         obj = get_object_or_404(

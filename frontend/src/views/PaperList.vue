@@ -122,8 +122,8 @@
                 <v-col class="mt-0 mb-0" cols="auto">
                   <v-text-field
                     class="search-text ve-input"
-                    v-model="options.contractor_name"
-                    :label="`${$t('contractor_name')}(${$t('exact_correct_match')})`"
+                    v-model="options.contractor_mobile_number"
+                    :label="`${$t('contractor_mobile_number')}(${$t('exact_correct_match')})`"
                     hide-details
                     dense
                     @keyup.enter="getPapersWithOptions()"
@@ -356,7 +356,7 @@ export default {
         status: "",
         old_address: "",
         ordering: "",
-        contractor_name: ""
+        contractor_mobile_number: ""
       },
       all_papers_options: {
         status: "",
