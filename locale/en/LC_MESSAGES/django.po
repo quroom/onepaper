@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-15 10:08+0900\n"
+"POT-Creation-Date: 2022-09-16 09:24+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -765,8 +765,8 @@ msgstr ""
 
 #: .\templates\account\base.html:84 .\templates\account\base.html:108
 #: .\templates\account\base.html:111 .\templates\index-dev.html:5
-#: .\templates\index.html:8 .\templates\intro.html:203
-#: .\templates\intro.html:208
+#: .\templates\index.html:8 .\templates\intro.html:189
+#: .\templates\intro.html:194
 msgid "Onepaper"
 msgstr ""
 
@@ -921,16 +921,16 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: .\templates\account\login.html:36 .\templates\intro.html:218
+#: .\templates\account\login.html:36 .\templates\intro.html:204
 msgid "Login with Naver"
 msgstr ""
 
-#: .\templates\account\login.html:40 .\templates\intro.html:222
+#: .\templates\account\login.html:40 .\templates\intro.html:208
 msgid "Login with Google"
 msgstr ""
 
-#: .\templates\account\login.html:45 .\templates\intro.html:228
-#: .\templates\intro.html:230
+#: .\templates\account\login.html:45 .\templates\intro.html:215
+#: .\templates\intro.html:217
 msgid "종료예정 로그인"
 msgstr ""
 
@@ -1428,7 +1428,7 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\templates\intro.html:210
+#: .\templates\intro.html:196
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1446,43 +1446,43 @@ msgstr ""
 " Quick and easy Onepaper at once!\n"
 " "
 
-#: .\templates\intro.html:236
+#: .\templates\intro.html:224
 msgid "원페이퍼 특징 3가지"
 msgstr "Three features of Onepaper"
 
-#: .\templates\intro.html:248
+#: .\templates\intro.html:236
 msgid "온라인 계약"
 msgstr ""
 
-#: .\templates\intro.html:250
+#: .\templates\intro.html:238
 msgid "비대면으로 빠르게! 분실걱정 NO!"
 msgstr ""
 
-#: .\templates\intro.html:260
+#: .\templates\intro.html:248
 msgid "빠른 부동산 상담"
 msgstr "Quick Conseling"
 
-#: .\templates\intro.html:262
+#: .\templates\intro.html:250
 msgid "하단 채널톡 버튼으로 온라인 상담"
 msgstr "Guide you through the button at the bottom."
 
-#: .\templates\intro.html:273
+#: .\templates\intro.html:261
 msgid "PC, 모바일 지원"
 msgstr "Supports PC and mobile"
 
-#: .\templates\intro.html:275
+#: .\templates\intro.html:263
 msgid "브라우저만 있으면 언제,어디서든 OK"
 msgstr "Anytime, anywhere as long as you have a browser."
 
-#: .\templates\intro.html:283
+#: .\templates\intro.html:271
 msgid "사용자 리뷰"
 msgstr "User review"
 
-#: .\templates\intro.html:286
+#: .\templates\intro.html:274
 msgid "박*연(임대인, 40대 직장인)"
 msgstr "Park*Yeon(landlord, 40s salaryman)"
 
-#: .\templates\intro.html:312
+#: .\templates\intro.html:300
 msgid ""
 "종이계약서와 다르게 언제든 계약서 확인이 가능해서 좋아요. 아, 분실걱정 없다는"
 "것도 좋구요."
@@ -1490,22 +1490,22 @@ msgstr ""
 "Unlike paper contracts, I like that you can check the contract at any time. "
 "Oh, it's good that you don't have to worry about losing it."
 
-#: .\templates\intro.html:315
+#: .\templates\intro.html:303
 msgid "김*영(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:341
+#: .\templates\intro.html:329
 msgid ""
 "코로나 시기에 대면 없이 매물을 확인하고 계약서 작성까지 가능해서 좋네요."
 msgstr ""
 "It's nice to be able to check the properties and even write a contract "
 "without face-to-face during the Corona period."
 
-#: .\templates\intro.html:344
+#: .\templates\intro.html:332
 msgid "김*현(임차인, 20대 대학생)"
 msgstr "Kim*Hyun(tenant, 20s student)"
 
-#: .\templates\intro.html:370
+#: .\templates\intro.html:358
 msgid ""
 "시골사는 사람들은 계약하려면 하루씩 일정을 잡아야되는데 그러지 않아도 되서 좋"
 "았습니다."
@@ -1513,19 +1513,19 @@ msgstr ""
 "People living in the countryside had to schedule one day to sign a contract, "
 "but it was nice not to have to."
 
-#: .\templates\intro.html:375
+#: .\templates\intro.html:363
 msgid "기업연혁"
 msgstr "Company History"
 
-#: .\templates\intro.html:382
+#: .\templates\intro.html:370
 msgid "~현재"
 msgstr "~Now"
 
-#: .\templates\intro.html:383
+#: .\templates\intro.html:371
 msgid "원페이퍼 개발 및 운영"
 msgstr "Onepaper service"
 
-#: .\templates\intro.html:384
+#: .\templates\intro.html:372
 msgid ""
 "부동산 거래에 소요되는 시간을 줄여 더 소중한 곳에 시간을 쓰고, 장기적으로 쌓"
 "인 데이터를 활용하여 더 안전한 부동산 거래를 지원하는 것이 원페이퍼의 목적이"
@@ -1535,11 +1535,11 @@ msgstr ""
 "transactions, spending time on more valuable things, and accumulating over "
 "the long termand to support safer real estate transactions using in-dataall."
 
-#: .\templates\intro.html:388
+#: .\templates\intro.html:376
 msgid "소셜벤처 설립 및 운영"
 msgstr "Social venture establishment and operation"
 
-#: .\templates\intro.html:389
+#: .\templates\intro.html:377
 msgid ""
 "사회적기업가 육성사업 선정 후, 부동산 분야 혁신을 위하여 주식회사 큐룸 설립. "
 "프롭테크를 통해 기존 부동산 시장의 문제점을 해결하고 고객에게 더 나은 경험을 "
@@ -1550,11 +1550,11 @@ msgstr ""
 "mission is to solve the problems of the existing real estate market and "
 "provide a better experience to customers through Proptech."
 
-#: .\templates\intro.html:394
+#: .\templates\intro.html:382
 msgid "소셜그룹 혼족스 운영"
 msgstr "Operate social group Honjoks"
 
-#: .\templates\intro.html:395
+#: .\templates\intro.html:383
 msgid ""
 "혼족스는 1인가구를 위한 소셜그룹으로 1인가구를 위한 부동산 지식, 법률 지식 공"
 "유 모임, 과일 공동구매, 나눔 행사 등 다양한 공익적 활동을 진행했다."
@@ -1564,7 +1564,7 @@ msgstr ""
 "sharing meetings, joint purchase of fruit, and sharing events for single-"
 "person households."
 
-#: .\templates\intro.html:403
+#: .\templates\intro.html:391
 msgid ""
 "\n"
 "    Company: quroom | Registration Number: 246-86-01161\n"
