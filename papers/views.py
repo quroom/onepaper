@@ -261,7 +261,7 @@ class PaperViewset(ModelViewSet):
     def get_queryset(self):
         is_hidden = self.request.query_params.get("is_hidden")
         if is_hidden:
-            return (
+            queryset = (
                 Paper.objects.filter(
                     paper_contractors__profile__user=self.request.user,
                     paper_contractors__is_hidden=is_hidden,
@@ -270,11 +270,12 @@ class PaperViewset(ModelViewSet):
                 .prefetch_related("paper_contractors")
             )
         else:
-            return (
+            queryset = (
                 Paper.objects.filter(paper_contractors__profile__user=self.request.user)
                 .select_related("author", "address", "status")
                 .prefetch_related("paper_contractors")
             )
+        return queryset.distinct()
 
     def get_object(self):
         obj = get_object_or_404(
