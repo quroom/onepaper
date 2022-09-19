@@ -1,14 +1,11 @@
-import base64
-import os
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from multiselectfield import MultiSelectField
 
 from addresses.models import Address
-from profiles.models import ExpertProfile, Insurance, Profile
+from profiles.models import Insurance, Profile
 
 
 class PaperStatus(models.Model):
@@ -115,9 +112,9 @@ class Paper(models.Model):
     address = models.OneToOneField(
         Address, null=True, on_delete=models.SET_NULL, related_name="paper"
     )
-    down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     security_deposit = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     monthly_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
+    down_payment = models.PositiveBigIntegerField(null=True, blank=True, default=0)
     maintenance_fee = models.PositiveIntegerField(null=True, blank=True, default=0)
     options = MultiSelectField(choices=OPTIONS_CATEGORY, null=True, blank=True)
     from_date = models.DateField()

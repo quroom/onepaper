@@ -247,6 +247,10 @@
                 :key="`index` + index"
               >
                 <ValidationProvider
+                  v-if="
+                    contract_field.name == 'security_deposit' ||
+                      contract_field.name == 'monthly_fee'
+                  "
                   v-slot="{ errors }"
                   :ref="contract_field.name"
                   :name="$t(contract_field.name)"
@@ -261,6 +265,21 @@
                     required
                   ></LazyTextField>
                 </ValidationProvider>
+                <ValidationProvider
+                  v-else
+                  v-slot="{ errors }"
+                  :ref="contract_field.name"
+                  :name="$t(contract_field.name)"
+                  :rules="`max_value:${contract_field.max_value}`"
+                >
+                  <LazyTextField
+                    v-model="$data['' + contract_field.name]"
+                    :error-messages="errors"
+                    :label="$t(contract_field.name)"
+                    :suffix="$t('won')"
+                    :type="contract_field.type"
+                  ></LazyTextField>
+                </ValidationProvider>
               </v-col>
             </template>
             <template v-else>
@@ -272,6 +291,7 @@
                   :key="`index` + index"
                 >
                   <ValidationProvider
+                    v-if="contract_field.name == 'security_deposit'"
                     v-slot="{ errors }"
                     :ref="contract_field.name"
                     :name="$t(contract_field.name)"
@@ -283,6 +303,20 @@
                       :label="$t(contract_field.name) + '(' + $t('won') + ')'"
                       :type="contract_field.type"
                       required
+                    ></LazyTextField>
+                  </ValidationProvider>
+                  <ValidationProvider
+                    v-else
+                    v-slot="{ errors }"
+                    :ref="contract_field.name"
+                    :name="$t(contract_field.name)"
+                    :rules="`max_value:${contract_field.max_value}`"
+                  >
+                    <LazyTextField
+                      v-model="$data['' + contract_field.name]"
+                      :error-messages="errors"
+                      :label="$t(contract_field.name) + '(' + $t('won') + ')'"
+                      :type="contract_field.type"
                     ></LazyTextField>
                   </ValidationProvider>
                 </v-col>
@@ -782,10 +816,10 @@ export default {
         dong: "",
         ho: ""
       },
-      down_payment: 0,
-      security_deposit: 0,
-      maintenance_fee: 0,
-      monthly_fee: 0,
+      security_deposit: null,
+      monthly_fee: null,
+      down_payment: null,
+      maintenance_fee: null,
       period: [],
       from_date: null,
       to_date: null,
@@ -1172,6 +1206,31 @@ export default {
             });
           }
         }
+      }
+    },
+    trade_category(newVal) {
+      if (newVal === 2) {
+        this.monthly_fee = null;
+      }
+    },
+    security_deposit(newVal) {
+      if (newVal === "") {
+        this.security_deposit = null;
+      }
+    },
+    monthly_fee(newVal) {
+      if (newVal === "") {
+        this.monthly_fee = null;
+      }
+    },
+    maintenance_fee(newVal) {
+      if (newVal === "") {
+        this.maintenance_fee = null;
+      }
+    },
+    down_payment(newVal) {
+      if (newVal === "") {
+        this.down_payment = null;
       }
     }
   },
