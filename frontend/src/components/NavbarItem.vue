@@ -160,13 +160,13 @@ export default {
           icon: "account_box",
           route: { name: "profiles" }
         },
-        {
-          title: "ask_move_in",
-          title2: "ask",
-          icon: "description",
-          appbar_only: true,
-          route: { name: "asklistings" }
-        },
+        // {
+        //   title: "ask_move_in",
+        //   title2: "ask",
+        //   icon: "description",
+        //   appbar_only: true,
+        //   route: { name: "asklistings" }
+        // },
         {
           title: "mandate_paper",
           icon: "description",

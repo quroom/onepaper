@@ -1,20 +1,11 @@
 import os
 import uuid
 
-import phonenumbers
 from django.conf import settings
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    AbstractUser,
-    PermissionsMixin,
-    UserManager,
-)
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.core.mail import send_mail
 from django.db import models
-from django.db.models import Exists
-from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
