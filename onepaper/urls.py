@@ -14,12 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import debug_toolbar
-from allauth.account.views import SignupView
 from django.contrib import admin
 from django.urls import include, path, re_path
 
-from core.views import EmailConfirmedView, IndexTemplateView, IntroPageView
-from profiles.forms import CustomUserForm, ExpertCustomUserForm
+from core.views import IndexTemplateView, IntroPageView
 
 # https://django-registration.readthedocs.io/en/3.1/activation-workflow.html
 
